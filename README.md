@@ -21,10 +21,15 @@ on top of our client.
 
 #### Getting Started
 
-1. Head over to our release page and grab the tag that suits you best.
+1. Head over to our [release page](LINK TO RELEASE PAGE) and grab the tag
+that suits you best.
 2. Run `npm3 install`
 3. Run `npm start`
 4. Start building.
 
-_More to Follow_
+#### Documentation Shortcut
+
+* [FAQ](LINK TO FAQ)
+* [Example Projects](LINK TO EXAMPLE PROJECTS)
+* [Creating a New Component](LINK TO CREATING A NEW COMPONENT)
 
