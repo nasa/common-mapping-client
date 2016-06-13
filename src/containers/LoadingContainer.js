@@ -7,7 +7,14 @@ export class LoadingContainer extends Component {
     render() {
         return (
             <div id="loadingContainer" className={this.props.initialLoadComplete ? "close" : ""}>
-                <h1 id="loadingHeader">ಠ╭╮ಠ</h1>
+                {/*<h1 id="loadingHeader">ಠ╭╮ಠ</h1>*/}
+                <h1 id="loadingHeader">common mapping client</h1>
+                <h1 className="loadingIntro">The new<br />way to not<br />reinvent<br />the wheel</h1>
+                <h1 className="loadingAttribution">NASA/JPL</h1>
+                <div className="loadingSpinner spinnerAnimate">
+                    <div className="loadingSpinnerSq1"></div>
+                    <div className="loadingSpinnerSq2"></div>
+                </div>
             </div>
         );
     }

@@ -1,22 +1,110 @@
+$loading-spinner-size: 50;
 #loadingContainer {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0px;
-	left: 0px;
-	z-index: 5;
-	opacity: 1;
-	transition: top 0.75s ease-in 0.51s, opacity 0.5s ease-in 0s;
-	-webkit-transition: top 0.75s ease-in 0.51s, opacity 0.5s ease-in 0s;
-	background: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    padding: 5rem;
+    z-index: 5;
+    opacity: 1;
+    transition: top 0.75s ease-in 0.51s, opacity 0.5s ease-in 0s;
+    -webkit-transition: top 0.75s ease-in 0.51s, opacity 0.5s ease-in 0s;
+    background: black;
+    background-size: cover;
+    // background-image: url("http://localhost:3000/styles/resources/img/pia19358_smaller.jpg");
+    background-image: url(https://planetgallery.global.ssl.fastly.net/web/bahamas-oolites-web.jpg);
+    // background-image: url("http://mars.nasa.gov/mro/imgs/2016/03/Mars-MRO-orbiter-fresh-crater-sirenum-fossae-full.jpg");
+    // background-image: url("http://earthobservatory.nasa.gov/blogs/earthmatters/files/2014/01/Bahamas_amo_2014009_lrg.jpg");
+    background-size: cover;
+    text-transform: uppercase;
+    color: white;
 }
+
 #loadingContainer.close {
-	top: 100%;
-	opacity: 0;
+    top: 100%;
+    opacity: 0;
 }
+
 #loadingHeader {
-	position: absolute;
-    top: 33%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 5rem;
+    font-size: 4.8rem;
+    letter-spacing: -0.1rem;
+    font-weight: bolder;
+}
+
+.loadingIntro {
+    color: white;
+    font-weight: bolder;
+    top: 19rem;
+    position: relative;
+    line-height: 1.1;
+    border-top: 8px solid white;
+    width: 97px;
+    padding-top: 5px;
+    font-size: 2rem;
+}
+
+.loadingAttribution {
+    color: white;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 8rem;
+    line-height: 1.1;
+    border-bottom: 8px solid white;
+    width: 97px;
+    padding-bottom: 5px;
+    font-size: 2rem;
+}
+
+.loadingSpinner {
+    position: absolute;
+    bottom: 8rem;
+    right: 5rem;
+    width: $loading-spinner-size + px;
+    height: $loading-spinner-size + px;
+    .loadingSpinnerSq1,
+    .loadingSpinnerSq2 {
+        background: white;
+        width: $loading-spinner-size / 2 + px;
+        height: $loading-spinner-size / 2 + px;
+        border-radius: 2px;
+    }
+    .loadingSpinnerSq2 {
+        margin-left: $loading-spinner-size / 2 + px;
+    }
+}
+
+.spinnerAnimate {
+    -webkit-animation: spinnerAnimation 0.8s infinite cubic-bezier(0.7, 0.11, 0.67, 0.538);
+    -moz-animation: spinnerAnimation 0.8s infinite cubic-bezier(0.7, 0.11, 0.67, 0.538);
+    -o-animation: spinnerAnimation 0.8s infinite cubic-bezier(0.7, 0.11, 0.67, 0.538);
+}
+
+@-webkit-keyframes spinnerAnimation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spinnerAnimation {
+    from {
+        -moz-transform: rotate(0deg);
+    }
+    to {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes spinnerAnimation {
+    from {
+        -o-transform: rotate(0deg);
+    }
+    to {
+        -o-transform: rotate(360deg);
+    }
 }

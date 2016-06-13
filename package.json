@@ -22,6 +22,7 @@
   "dependencies": {
     "cesium": "1.21.0",
     "connect-history-api-fallback": "1.2.0",
+    "d3": "3.5.17",
     "es6-promise": "3.1.2",
     "flexboxgrid": "6.3.0",
     "isomorphic-fetch": "2.2.1",
