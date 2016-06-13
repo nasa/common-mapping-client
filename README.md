@@ -28,7 +28,8 @@ that suits you best.
 4. Start building.
 
 #### Documentation Shortcut
-[FAQ](LINK TO FAQ)
-[Example Projects](LINK TO EXAMPLE PROJECTS)
-[Creating a New Component](LINK TO CREATING A NEW COMPONENT)
+
+* [FAQ](LINK TO FAQ)
+* [Example Projects](LINK TO EXAMPLE PROJECTS)
+* [Creating a New Component](LINK TO CREATING A NEW COMPONENT)
 
