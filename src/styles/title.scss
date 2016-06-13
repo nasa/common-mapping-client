@@ -1,0 +1,28 @@
+.title-button {
+    margin-right: 0.3rem;
+    margin-left: 0.7rem;
+}
+.title-button:last-child {
+	margin-right: 0.7rem;
+}
+
+#titleContainer {
+    position: absolute;
+    top: 0px;
+    left: 0rem;
+    width: auto;
+    padding-top: 0px;
+    /*background: $light;
+    border-right: $medium-light-border;
+    @include light-shadow();
+    border-bottom-right-radius: 4px;*/
+}
+
+#appTitle {
+    padding: 0.7rem 0.7rem;
+    margin: 0px;
+    letter-spacing: 0.3rem;
+    font-weight: 500;
+    color: $light;
+    font-size: 4.5rem;
+}

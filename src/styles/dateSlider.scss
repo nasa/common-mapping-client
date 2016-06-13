@@ -1,0 +1,8 @@
+#dateSlider {
+	position: relative;
+	display: block;
+	height: 6rem;
+	width: 100%;
+	margin-top: -3px; /* stupid inline div stupidness */
+	background: $primary-active;
+}

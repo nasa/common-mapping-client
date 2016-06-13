@@ -1,0 +1,131 @@
+.map-dimension-toggle {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 11rem;
+}
+
+.map-zoom-in {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 6.6rem;
+}
+
+.map-zoom-out {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 3rem;
+}
+
+.map-orientation-reset {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 15.4rem;
+}
+
+.map-scale-container {
+    background: $light;
+    color: $dark;
+    width: 200px;
+    border-radius: 0px;
+    border-top-right-radius: 4px;
+    position: absolute;
+    left: 21.7rem;
+    bottom: 0px;
+    padding: 0.4rem 0px;
+    line-height: 1.1;
+    text-align: center;
+    @include light-shadow-right();
+    border-right: $medium-light-border;
+    border-top: $medium-light-border;
+}
+
+.map-scale-container-inner {
+    border: 1px solid $dark;
+    border-top: none;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    will-change: contents, width;
+}
+
+.mouse-position-container {
+    background: $light;
+    color: $dark;
+    width: 21rem;
+    border-radius: 0px;
+    font-size: 1.4rem;
+    border-top-left-radius: 4px;
+    position: absolute;
+    left: 0.7rem;
+    bottom: 0.3rem;
+    padding: 0.4rem 0px;
+    padding-left: 0.7rem;
+    line-height: 1;
+    @include light-shadow-left();
+    border-left: $medium-light-border;
+    border-top: $medium-light-border;
+}
+
+.mouse-position-container.isolate {
+    border-right: $medium-light-border;
+    border-top-right-radius: 4px;
+}
+
+.mouse-position-container.invalid {
+    font-style: italic;
+    font-size: 1.3rem;
+}
+
+.mouse-position-label {
+    font-weight: 500;
+    font-size: 1.4rem;
+    font-style: normal;
+    margin-right: 0.7rem;
+}
+
+.projection-string {
+    font-weight: 400;
+    letter-spacing: 0.02rem;
+}
+
+.mouse-position-string {
+    margin-left: 1rem;
+}
+.cesium-viewer-bottom {
+    display: none;
+}
+
+#mapContainer2D {
+    height: calc(100% - 6rem);
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+#map2D {
+    width: 100%;
+    height: 100%;
+}
+
+#mapContainer3D {
+    height: calc(100% - 6rem);
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+#map3D {
+    width: 100%;
+    height: 100%;
+}
+
+#mapControls {
+    position: absolute;
+}
+
+.cesium-viewer-bottom {
+    display: none;
+}

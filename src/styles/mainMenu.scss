@@ -1,0 +1,103 @@
+.menu-content-header-container {
+    width: 100%;
+    margin: 0px;
+    padding-top: 0.5rem;
+}
+
+.header-title-row {
+    position: relative;
+}
+
+.menu-content-header-label {
+    margin: 1rem 0px;
+}
+
+.header-close-button {
+    position: absolute;
+    right: 1.6rem;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.main-menu-panel {
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow: hidden;
+}
+
+.main-menu-panel.active {
+    display: block;
+}
+
+.menu-tab-wrapper {
+    @include flex();
+    @include flex-col();
+    height: 100%;
+    overflow: hidden;
+}
+
+.menu-tab-content-wrapper {
+    @include flex();
+    @include flex-col();
+    @include flex-grow(1);
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.main-menu-control {
+    padding: 0px 1rem;
+}
+.main-menu-control-icon,
+.main-menu-control > [data-react-toolbox="font-icon"] {
+    margin-right: 1rem;
+}
+
+#mainMenuContainer {
+    position: relative;
+    display: inline-block;
+    height: calc(100% - 6rem);
+    width: 350px;
+    margin-left: 0px;
+    background: $light;
+    -webkit-transition: margin 0.2s ease-out 0s;
+    transition: margin 0.2s ease-out 0s;
+}
+
+#mainMenuContainer.open {
+    margin-left: -350px;
+}
+
+#mainMenuControls {
+    width: 120px;
+    position: absolute;
+    top: 0px;
+    left: -38px;
+    z-index: 1;
+    background: $light;
+    border-left: $medium-light-border;
+    border-bottom: none;
+    @include light-shadow-left();
+    border-bottom-left-radius: 4px;
+    -webkit-transition: left 0.2s ease-out 0.75s;
+    transition: left 0.2s ease-out 0.75s;
+}
+
+#mainMenuControls:hover {
+    -webkit-transition: left 0.2s ease-out 0s;
+    transition: left 0.2s ease-out 0s;
+    left: -119px;
+}
+
+#mainMenuContainer.open #mainMenuControls {
+    -webkit-transition: none;
+    transition: none;
+    left: -119px;
+}
+
+#mainMenuContent {
+    width: 100%;
+    height: 100%;
+    @include light-shadow();
+    border-left: $medium-light-border;
+}

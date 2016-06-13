@@ -1,0 +1,56 @@
+{
+    "layers": [{
+        "id": "MODIS_Terra_Water_Vapor_5km_Day",
+        "title": "Water Vapor Infrared (Day, MODIS, Terra)",
+        "type": "data",
+        "handleAs": "GIBS"
+    }, {
+        "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+        "title": "Sea Surface Temperature",
+        "type": "data",
+        "handleAs": "GIBS",
+        "isDefault": true
+    }, {
+        "id": "Reference_Labels",
+        "title": "Reference Labels",
+        "type": "reference",
+        "refType": "labels",
+        "handleAs": "GIBS"
+    }, {
+        "id": "Reference_Features",
+        "title": "Reference Features",
+        "type": "reference",
+        "refType": "features",
+        "handleAs": "GIBS"
+    }, {
+        "id": "ESRI_World_Imagery",
+        "title": "ESRI World Imagery",
+        "type": "basemap",
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+        "isDefault": true,
+        "handleAs": "xyz",
+        "wmtsOptions": {
+            "projection": "EPSG:4326",
+            "layer": "ESRI_World_Imagery",
+            "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
+            "urlFunction": "ESRI_CUSTOM_512",
+            "tileGrid": {
+                "minZoom": 1,
+                "maxZoom": 16,
+                "tileSize": 512
+            }
+        }
+    }, {
+        "id": "BlueMarble_ShadedRelief_Bathymetry",
+        "title": "Blue Marble",
+        "type": "basemap",
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+        "handleAs": "GIBS"
+    }, {
+        "id": "OSM_Land_Water_Map",
+        "title": "Land/Water",
+        "type": "basemap",
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+        "handleAs": "GIBS"
+    }]
+}
