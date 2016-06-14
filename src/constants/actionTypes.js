@@ -1,7 +1,5 @@
 // View Actions
 export const COMPLETE_INITIAL_LOAD = 'COMPLETE_INITIAL_LOAD';
-export const OPEN_MAIN_MENU = 'OPEN_MAIN_MENU';
-export const CLOSE_MAIN_MENU = 'CLOSE_MAIN_MENU';
 export const TOGGLE_LAYER_MENU = 'TOGGLE_LAYER_MENU';
 export const OPEN_HELP = 'OPEN_HELP';
 export const CLOSE_HELP = 'CLOSE_HELP';

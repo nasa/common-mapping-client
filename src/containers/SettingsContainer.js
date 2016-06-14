@@ -9,7 +9,6 @@ import * as mapActions from '../actions/MapActions';
 import MiscUtil from '../utils/MiscUtil';
 import BaseMapPreview from '../components/BaseMapPreview';
 import MenuDropdown from '../components/MenuDropdown';
-import MainMenuContentHeaderContainer from './MainMenuContentHeaderContainer';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
