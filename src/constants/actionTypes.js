@@ -8,6 +8,8 @@ export const CLOSE_HELP = 'CLOSE_HELP';
 export const SELECT_HELP_PAGE = 'SELECT_HELP_PAGE';
 export const DISMISS_ALERT = "DISMISS_ALERT";
 export const TOGGLE_FULL_SCREEN = "TOGGLE_FULL_SCREEN";
+export const OPEN_SETTINGS = "OPEN_SETTINGS";
+export const CLOSE_SETTINGS = "CLOSE_SETTINGS";
 
 // Map Actions
 export const TOGGLE_LAYER = 'TOGGLE_LAYER';

@@ -18,3 +18,9 @@ export function dismissAlert(alert) {
 export function toggleFullScreen() {
 	return { type: types.TOGGLE_FULL_SCREEN };
 }
+export function openSettings() {
+	return { type: types.OPEN_SETTINGS };	
+}
+export function closeSettings() {
+	return { type: types.CLOSE_SETTINGS };	
+}

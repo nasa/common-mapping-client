@@ -23,12 +23,12 @@ export class SettingsTabContainer extends Component {
             thumbnailImage: ""
         });
 
-        let toolsPanelClasses = MiscUtil.generateStringFromSet({
+        let settingsPanelClasses = MiscUtil.generateStringFromSet({
             "main-menu-panel": true,
             "active": this.props.selectedTab === config.SETTINGS_LABEL
         });
         return (
-            <div id="settingsTab" className={toolsPanelClasses}>
+            <div id="settingsTab" className={settingsPanelClasses}>
                 <div className="menu-tab-wrapper">
                     <MainMenuContentHeaderContainer label={config.SETTINGS_LABEL} />
                     <div className="menu-tab-content-wrapper">

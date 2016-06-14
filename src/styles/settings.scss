@@ -1,0 +1,45 @@
+.settingsContainer {
+    color: red;
+    width: auto;
+    max-width: 50%;
+    h6 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        z-index: 2;
+        padding: 2rem;
+        position: relative;
+        background: $primary;
+        color: white;
+        @include medium-shadow();
+    }
+    section {
+        padding: 0px;
+        @include flex();
+        @include flex-col();
+        height: 100%;
+        overflow: hidden;
+    }
+    nav {
+        display: none;
+    }
+    .settings-close {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 2;
+        color: white;
+        margin-top: 1.2rem;
+        margin-right: 1.2rem;
+        [data-react-toolbox="font-icon"] {
+            font-size: 2.5rem;
+            line-height: 3.3rem;
+        }
+    }
+    .settings-content {
+        @include flex();
+        @include flex-col();
+        @include flex-grow(1);
+        overflow: hidden;
+        overflow-y: auto;
+    }
+}

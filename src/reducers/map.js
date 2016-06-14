@@ -410,7 +410,7 @@ const pixelHover = (state, action) => {
                     .set("lon", coords.lon)
                     .set("x", action.pixel[0])
                     .set("y", action.pixel[1])
-                    .set("isValid", coords.isValid)
+                    .set("isValid", coords.isValid);
                 return false;
             }
         }

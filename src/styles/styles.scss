@@ -33,7 +33,7 @@ body {
     font-size: 1.4rem;
     background-color: $medium-light;
     cursor: default;
-    overflow: hidden;
+    overflow: hidden !important;
     color: #212121;
     @include selectable(none);
 }
@@ -249,6 +249,7 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
 @import "loading.scss";
 @import "title.scss";
 @import "help.scss";
+@import "settings.scss";
 @import "mainMenu.scss";
 @import "layerMenu.scss";
 @import "map.scss";
