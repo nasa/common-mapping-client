@@ -57,7 +57,8 @@ hr.divider {
     height: 0.1rem;
     background-color: $medium-light;
     border: 0;
-    width: 90%
+    width: 90%;
+    margin: 0.3rem 0rem;
 }
 
 hr.divider.wide {
@@ -157,6 +158,20 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
     margin-left: 1px;
 }
 
+button.mini-xs-waysmall {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.7rem;
+}
+
+button.mini-xs-waysmall > [data-react-toolbox="font-icon"] {
+    font-size: 1.7rem;
+    line-height: 1.7rem;
+    margin-left: 1px;
+}
+.button-icon {
+    vertical-align: middle;
+}
 .rotate-90 {
     -ms-transform: rotate(90deg);
     /* IE 9 */

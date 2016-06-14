@@ -1,5 +1,5 @@
 .layer-control {
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0rem;
     width: 100%;
     margin: 0px;
 }
@@ -9,13 +9,32 @@
 }
 
 .layer-header {
-    padding: 0px 0px 0px 1rem;
-    margin: 0.5rem 0px 1rem 0px;
-    font-size: 1.5rem;
+    padding: 0px;
+    margin: 0.5rem 0px 0.5rem 0px;
+    font-size: 1.3rem;
 }
 
 .layer-toggle {
-    margin-bottom: 0px;
+    margin: 0px;
+    height: 2rem;
+    display: inline-block;
+}
+
+.layer-toggle > span {
+    width: 3rem;
+    height: 1rem;
+    margin-top: 0.5rem;
+}
+
+.layer-toggle span[role="thumb"] {
+    top: -0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 0rem;
+}
+
+.layer-toggle.active span[role="thumb"] {
+    left: 1.5rem;
 }
 
 .layer-pallete-icon {
@@ -24,15 +43,42 @@
 
 .colorbar-container {
     width: 100%;
-    height: auto;
+    line-height: 1rem;
+    margin-left: 1.3rem;
 }
+
 .colorbar-canvas {
     width: 255px;
     height: 12px;
 }
+.colorbar-label-container {
+    margin-left: 1.3rem;
+    height: 1rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    width: 255px;
+}
+.colorbar-label {
+    font-size: 1rem;
+    position: absolute;
+    top: 0px;
+}
+.colorbar-label.min {
+    font-size: 1rem;
+    left: 0px;
+}
+.colorbar-label.mid {
+    font-size: 1rem;
+    left: 50%;
+    transform: translate(-50%, 0px);
+}
+.colorbar-label.max {
+    font-size: 1rem;
+    right: 0px;
+}
 
 #layerMenu {
-    width: 380px;
+    width: 360px;
     max-height: 32px;
     position: absolute;
     bottom: 60px;
@@ -40,7 +86,7 @@
     z-index: 1;
     background: $light;
     overflow: hidden;
-    padding: 5px 8px;
+    padding: 0.5rem;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;

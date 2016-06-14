@@ -7,6 +7,10 @@ import Button from 'react-toolbox/lib/button';
 import MiscUtil from '../utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
+        // <div id="layer-subheader-row" className="row middle-xs">
+        //             <span className="col-xs-8 text-left menu-subheader">drag title to rearrange display order</span>
+        //             <span className="col-xs-4 text-right menu-subheader">value at cursor</span>
+        //         </div>
     render() {
         let totalNum = this.props.layers.get("data").size;
         let activeNum = this.props.layers.get("data").reduce((acc, el) => {
@@ -31,10 +35,6 @@ export class LayerMenuContainer extends Component {
                     <div className="col-xs-4 text-right">
                         <Button flat className="small" label={this.props.layerMenuOpen ? "close" : "open"} onClick={this.props.toggleLayerMenu} />
                     </div>
-                </div>
-                <div id="layer-subheader-row" className="row middle-xs">
-                    <span className="col-xs-8 text-left menu-subheader">drag title to rearrange display order</span>
-                    <span className="col-xs-4 text-right menu-subheader">value at cursor</span>
                 </div>
                 <hr className="divider medium wide no-margin" />
                 <div id="layerMenuContent">
