@@ -13,6 +13,7 @@ import AlertsContainer from './AlertsContainer';
 import DateSliderContainer from './DateSliderContainer';
 import MapControlsContainer from './MapControlsContainer';
 import TitleContainer from './TitleContainer';
+import LayerMenuContainer from './LayerMenuContainer';
 import '../styles/styles.scss';
 
 export class AppContainer extends Component {
@@ -42,6 +43,7 @@ export class AppContainer extends Component {
                 <MapControlsContainer />
                 <TitleContainer />
                 <SettingsContainer />
+                <LayerMenuContainer />
                 <DateSliderContainer />
                 <AlertsContainer />
                 <LoadingContainer />
