@@ -48,7 +48,7 @@ export class LayerControlContainer extends Component {
                         <div className="col-xs text-right">
                             <IconButton primary icon="vertical_align_center" className="no-padding rotate-90 mini-xs-waysmall"/>
                             <IconButton primary icon="palette" className="no-padding mini-xs-waysmall" onMouseUp={() => this.changePalette()}/>
-                            <IconButton flat primary className="no-padding mini-xs-waysmall" >
+                            <IconButton flat primary className="no-padding mini-xs-waysmall">
                                 <i className="button-icon ms ms-fw ms-opacity"></i>
                             </IconButton>
                         </div>

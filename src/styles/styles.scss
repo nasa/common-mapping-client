@@ -158,16 +158,21 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
     margin-left: 1px;
 }
 
-button.mini-xs-waysmall {
-    width: 2.2rem;
-    height: 2.2rem;
-    font-size: 1.7rem;
+button.mini-xs-waysmall, {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.9rem;
 }
 
 button.mini-xs-waysmall > [data-react-toolbox="font-icon"] {
-    font-size: 1.7rem;
-    line-height: 1.7rem;
-    margin-left: 1px;
+    font-size: 1.9rem;
+    line-height: 1.9rem;
+    width: 1.9rem;
+}
+button.mini-xs-waysmall i {
+    font-size: 1.5rem;
+    line-height: 1.9rem;
+    width: 1.9rem;
 }
 .button-icon {
     vertical-align: middle;
