@@ -324,6 +324,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let currIndex = mapLayerWithIndex.index;
                 mapLayers.removeAt(currIndex);
                 mapLayers.push(mapLayer);
+                return true;
             }
             return false;
         } catch (err) {

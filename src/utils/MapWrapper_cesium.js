@@ -433,6 +433,22 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
+    moveLayerToTop(layer) {
+        try {
+            let mapLayers = this.map.imageryLayers;
+            let mapLayer = this.findLayerInMapLayers(layer);
+            if (mapLayer) {
+                mapLayers.raiseToTop(mapLayer);
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not set cesium layer opacity.", err);
+            return false;
+        }
+    }
+
+
     /* methods for Cesium only */
     handleTileLoad(layer, mapLayer, x, y, level) {
         let ret = mapLayer.imageryProvider._my_origTileLoadFunc(x, y, level);

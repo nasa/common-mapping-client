@@ -100,6 +100,10 @@
     opacity: 1;
 }
 
+.opacity-slider-container-2 {
+    padding-left: 2rem;
+}
+
 .opacity-slider {
     display: block;
 }
@@ -107,6 +111,14 @@
 .opacity-label {
     margin-bottom: 1rem;
     text-align: center;
+}
+
+.opacity-label-2 {
+    font-size: 1.2rem;
+}
+
+.advanced-layer-controls {
+    margin-top: 1rem;
 }
 
 #layerMenu {
@@ -138,18 +150,8 @@
     max-height: 300px;
     display: block;
     width: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     box-sizing: content-box;
     padding-right: 25px;
-}
-
-#layer-header-row {
-    padding-bottom: 5px;
-    font-size: 1.5rem;
-}
-
-#layer-subheader-row {
-    padding-bottom: 5px;
-    font-size: 1.1rem;
-    letter-spacing: 0.04em;
 }
