@@ -12,6 +12,7 @@
     padding: 0px;
     margin: 0.5rem 0px 0.5rem 0px;
     font-size: 1.3rem;
+    cursor: move;
 }
 
 .layer-toggle {
@@ -78,13 +79,13 @@
 }
 
 .opacity-slider-container {
-    width: 6rem;
-    height: calc(100% - 5px);
+    width: 15rem;
+    height: auto;
     position: absolute;
-    top: 3px;
-    right: -10rem;
+    top: 0.5rem;
+    right: -50rem;
     z-index: 5;
-    padding: 0.8rem 0.5rem;
+    padding: 1rem 1.5rem;
     background: $light;
     opacity: 0;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
@@ -94,17 +95,20 @@
 }
 
 .opacity-slider-container.active {
-    right: 3.5rem;
+    right: 3rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
 }
 
 .opacity-slider {
-    display: inline-block;
+    display: block;
 }
+
 .opacity-label {
-    text-align: left;
+    margin-bottom: 1rem;
+    text-align: center;
 }
+
 #layerMenu {
     width: 360px;
     max-height: 32px;

@@ -5,12 +5,26 @@ import LayerControlContainer from './LayerControlContainer';
 import * as layerActions from '../actions/LayerActions';
 import Button from 'react-toolbox/lib/button';
 import MiscUtil from '../utils/MiscUtil';
+import SortableMixin from 'sortablejs';
 
 export class LayerMenuContainer extends Component {
-        // <div id="layer-subheader-row" className="row middle-xs">
-        //             <span className="col-xs-8 text-left menu-subheader">drag title to rearrange display order</span>
-        //             <span className="col-xs-4 text-right menu-subheader">value at cursor</span>
-        //         </div>
+    // <div id="layer-subheader-row" className="row middle-xs">
+    //             <span className="col-xs-8 text-left menu-subheader">drag title to rearrange display order</span>
+    //             <span className="col-xs-4 text-right menu-subheader">value at cursor</span>
+    //         </div>
+    componentDidMount() {
+        let menuContent = document.getElementById('layerMenuContent');
+        // Sortable.create(menuContent, {
+        //     draggable: ".layer-control",
+        //     handle: ".layer-header",
+        //     animation: 150,
+        //     onEnd: (evt) => {
+        //         let newIndex = evt.newIndex;
+        //         let listItem = evt.item;
+        //         console.log("HERE", evt);
+        //     }
+        // });
+    }
     render() {
         let totalNum = this.props.layers.get("data").size;
         let activeNum = this.props.layers.get("data").reduce((acc, el) => {

@@ -38,8 +38,6 @@ export class LayerControlContainer extends Component {
         });
         let sliderContainerClasses = MiscUtil.generateStringFromSet({
             "opacity-slider-container": true,
-            "row": true,
-            "middle-xs": true,
             "active": this.props.layer.get("isChangingOpacity")
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
@@ -83,11 +81,10 @@ export class LayerControlContainer extends Component {
                     </div>
                 </div>
                 <div className={sliderContainerClasses}>
-                    <div className="opacity-label col-xs-10 no-padding">
+                    <div className="opacity-label">
                         {currOpacity}%
                     </div>
                     <Slider
-                        vertical
                         tipTransitionName=""
                         tipFormatter={null}
                         step={1}
