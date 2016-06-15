@@ -233,6 +233,31 @@ const setLayerOpacity = (state, action) => {
     }
     return state;
 };
+
+const startChangingOpacity = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingOpacity", true);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const stopChangingOpacity = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingOpacity", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
 const setLayerPalette = (state, action) => {
     // TODO
     let layerList = state.getIn(["layers", action.layer.get("type")]);
@@ -402,9 +427,9 @@ const setMapDate = (state, action) => {
 const pixelHover = (state, action) => {
     let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
     state.get("maps").forEach((map) => {
-        if(map.isActive) {
+        if (map.isActive) {
             let coords = map.getLatLonFromPixelCoordinate(action.pixel);
-            if(coords) {
+            if (coords) {
                 pixelCoordinate = pixelCoordinate
                     .set("lat", coords.lat)
                     .set("lon", coords.lon)
@@ -464,6 +489,12 @@ export default function map(state = mapState, action) {
         case actionTypes.SET_LAYER_OPACITY:
             return setLayerOpacity(state, action);
 
+        case actionTypes.START_CHANGING_OPACITY:
+            return startChangingOpacity(state, action);
+
+        case actionTypes.STOP_CHANGING_OPACITY:
+            return stopChangingOpacity(state, action);
+
         case actionTypes.SET_LAYER_PALETTE:
             return setLayerPalette(state, action);
 
@@ -490,6 +521,7 @@ export default function map(state = mapState, action) {
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
 
         default:
             return state;

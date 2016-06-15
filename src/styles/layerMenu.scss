@@ -77,6 +77,34 @@
     right: 0px;
 }
 
+.opacity-slider-container {
+    width: 6rem;
+    height: calc(100% - 5px);
+    position: absolute;
+    top: 3px;
+    right: -10rem;
+    z-index: 5;
+    padding: 0.8rem 0.5rem;
+    background: $light;
+    opacity: 0;
+    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
+    @include medium-shadow();
+    border: $medium-light-border;
+    border-radius: 4px;
+}
+
+.opacity-slider-container.active {
+    right: 3.5rem;
+    transition: opacity 0s linear 0s, right 0s linear 0s;
+    opacity: 1;
+}
+
+.opacity-slider {
+    display: inline-block;
+}
+.opacity-label {
+    text-align: left;
+}
 #layerMenu {
     width: 360px;
     max-height: 32px;
@@ -106,7 +134,6 @@
     max-height: 300px;
     display: block;
     width: 100%;
-    overflow: hidden;
     overflow-y: auto;
     box-sizing: content-box;
     padding-right: 25px;

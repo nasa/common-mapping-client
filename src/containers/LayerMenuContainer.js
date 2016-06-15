@@ -36,7 +36,7 @@ export class LayerMenuContainer extends Component {
                         <Button flat className="small" label={this.props.layerMenuOpen ? "close" : "open"} onClick={this.props.toggleLayerMenu} />
                     </div>
                 </div>
-                <hr className="divider medium wide no-margin" />
+                <hr className="divider dark wide no-margin" />
                 <div id="layerMenuContent">
                     {this.props.layers.get("data").map((layer) =>
                         <LayerControlContainer
