@@ -229,14 +229,6 @@ button.mini-xs-waysmall i {
     cursor: pointer;
 }
 
-.slider-label {
-    position: absolute;
-    top: -0.6rem;
-    left: 2rem;
-    font-weight: 300;
-    font-size: 1.3rem;
-}
-
 .link-text {
     color: $primary;
     cursor: pointer;
@@ -244,6 +236,10 @@ button.mini-xs-waysmall i {
 
 .link-text:hover {
     color: $primary-active;
+}
+
+.sortable-ghost {
+    opacity: 0;
 }
 
 /* end classes */

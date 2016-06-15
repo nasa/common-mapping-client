@@ -14,6 +14,7 @@ export class LayerControlContainer extends Component {
         let opacity = value / 100.00;
         this.props.actions.changeLayerOpacity(this.props.layer, opacity);
     }
+
     toggleChangingOpacity() {
         if(this.props.layer.get("isChangingOpacity")) {
             this.stopChangingOpacity();
@@ -21,17 +22,26 @@ export class LayerControlContainer extends Component {
             this.startChangingOpacity();
         }
     }
+
     startChangingOpacity() {
         this.props.actions.startChangingLayerOpacity(this.props.layer);
     }
+
     stopChangingOpacity() {
         this.props.actions.stopChangingLayerOpacity(this.props.layer);
     }
+
     changePalette() {
         this.props.actions.changeLayerPalette(this.props.layer, {});
     }
 
+    moveToTop() {
+        this.props.actions.moveToTop(this.props.layer);
+    }
+
     render() {
+        // <IconButton primary icon="vertical_align_center" className="no-padding rotate-90 mini-xs-waysmall"/>
+        // <IconButton primary icon="palette" className="no-padding mini-xs-waysmall" onMouseUp={() => this.changePalette()}/>
         let switchClasses = MiscUtil.generateStringFromSet({
             "layer-toggle": true,
             "active": this.props.layer.get("isActive")
@@ -58,9 +68,20 @@ export class LayerControlContainer extends Component {
                         <ColorbarContainer palette={this.props.layer.get("palette")} />
                     </div>
                     <div className="col-xs text-right">
-                        <IconButton primary icon="vertical_align_center" className="no-padding rotate-90 mini-xs-waysmall"/>
-                        <IconButton primary icon="palette" className="no-padding mini-xs-waysmall" onMouseUp={() => this.changePalette()}/>
-                        <IconButton flat primary={!this.props.layer.get("isChangingOpacity")} accent={this.props.layer.get("isChangingOpacity")} className="no-padding mini-xs-waysmall" onMouseUp={() => this.toggleChangingOpacity()}>
+                        <IconButton
+                            flat
+                            primary={!this.props.layer.get("isTop")}
+                            accent={this.props.layer.get("isTop")}
+                            className="no-padding mini-xs-waysmall"
+                            onMouseUp={() => this.moveToTop()}>
+                            <i className="button-icon ms ms-fw ms-layers-overlay"></i>
+                        </IconButton>
+                        <IconButton
+                            flat
+                            primary={!this.props.layer.get("isChangingOpacity")}
+                            accent={this.props.layer.get("isChangingOpacity")}
+                            className="no-padding mini-xs-waysmall"
+                            onMouseUp={() => this.toggleChangingOpacity()}>
                             <i className="button-icon ms ms-fw ms-opacity"></i>
                         </IconButton>
                     </div>

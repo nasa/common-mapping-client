@@ -166,7 +166,6 @@ const zoomOut = (state, action) => {
     return state;
 };
 const resetOrientation = (state, action) => {
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.isActive) {
             if (map.resetOrientation()) {
@@ -272,7 +271,6 @@ const setLayerPalette = (state, action) => {
 };
 const setBasemap = (state, action) => {
     let alerts = state.get("alerts");
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.setBasemap(action.layer)) {
             return true;
@@ -305,7 +303,6 @@ const setBasemap = (state, action) => {
     return state.set("alerts", alerts);
 };
 const hideBasemap = (state, action) => {
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.hideBasemap()) {
             return true;
@@ -451,6 +448,59 @@ const dismissAlert = (state, action) => {
     }));
 };
 
+const moveLayerToTop = (state, action) => {
+    // let alerts = state.get("alerts");
+    // let anySucceed = state.get("maps").reduce((acc, map) => {
+    //     if (map.setBasemap(action.layer)) {
+    //         return true;
+    //     } else {
+    //         alerts = alerts.push(alert.merge({
+    //             title: "Basemap Update Failed",
+    //             body: "One of the maps failed to update its basemap. We don't know why, and neither do you.",
+    //             severity: 3,
+    //             time: new Date()
+    //         }));
+    //     }
+    //     return acc;
+    // }, false);
+
+    // if (anySucceed) {
+    //     let layerList = state.getIn(["layers", action.layer.get("type")]);
+    //     if (typeof layerList !== "undefined") {
+    //         layerList = layerList.map((layer) => {
+    //             if (layer.get("id") === action.layer.get("id")) {
+    //                 return layer.set("isActive", true);
+    //             }
+    //             return layer.set("isActive", false);
+    //         });
+    //         return state
+    //             .setIn(["layers", action.layer.get("type")], layerList)
+    //             .set("alerts", alerts);
+    //     }
+    //     return state.set("alerts", alerts);
+    // }
+    // return state.set("alerts", alerts);
+
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.moveLayerToTop(action.layer)) {
+            return true;
+        }
+        return acc;
+    }, false);
+
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        layerList = layerList.map((layer) => {
+            if (layer.get("id") === action.layer.get("id")) {
+                return layer.set("isTop", true);
+            }
+            return layer.set("isTop", false);
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList);
+    }
+    return state;
+};
+
 export default function map(state = mapState, action) {
     switch (action.type) {
         case actionTypes.INITIALIZE_MAP:
@@ -522,6 +572,8 @@ export default function map(state = mapState, action) {
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
 
+        case actionTypes.MOVE_TO_TOP:
+            return moveLayerToTop(state, action);
 
         default:
             return state;

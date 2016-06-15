@@ -23,6 +23,8 @@ export class SettingsContainer extends Component {
             thumbnailImage: ""
         });
 
+        let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
+
         return (
             <Dialog className={"settingsContainer no-padding display-flex-col-wrapper"} 
                     active={this.props.settingsOpen} 
@@ -33,7 +35,7 @@ export class SettingsContainer extends Component {
                 <List className="no-margin settings-content" selectable ripple>
                     <ListSubHeader className="list-sub-header" caption="Base Map Selection" />
                     <div id="baseMapPreviewContainer" className="text-wrap">
-                            {this.props.basemaps.map((layer) =>
+                            {basemapList.map((layer) =>
                                 <BaseMapPreview
                                     layer={layer}
                                     onClick={() => this.props.mapActions.setBasemap(layer)}

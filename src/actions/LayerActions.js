@@ -27,6 +27,10 @@ export function changeLayerPalette(layer, palette) {
     return { type: types.SET_LAYER_PALETTE, layer, palette };
 }
 
+export function moveToTop(layer) {
+    return { type: types.MOVE_TO_TOP, layer };
+}
+
 export function activateDefaultLayers() {
     return {type: types.ACTIVATE_DEFAULT_LAYERS };
 }
