@@ -42,18 +42,18 @@
         overflow: hidden;
         overflow-y: auto;
     }
-    .base-map-preview-row {
-        margin: 0px 1rem;
-    }
+
     .base-map-preview {
+        width: 150px;
+        height: 150px;
         overflow: hidden;
-        margin: 0px;
-        margin-bottom: 1rem;
+        margin: 0px 0.5rem 1rem 0.5rem;
         outline: $medium-light-border;
+        display: inline-block;
     }
     .img-wrapper {
         background-color: $primary;
-        height: 100px;
+        height: 110px;
         width: 100%;
         position: relative;
     }
@@ -91,5 +91,8 @@
     }
     #baseMapPreviewContainer {
         margin-bottom: 2rem;
+        padding: 0rem 1rem;
+        width: 100%;
+        height: auto;
     }
 }

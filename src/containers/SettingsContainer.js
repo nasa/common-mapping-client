@@ -32,17 +32,20 @@ export class SettingsContainer extends Component {
                 <IconButton icon="close" neutral={false} onClick={this.props.appActions.closeSettings} className="settings-close"/>
                 <List className="no-margin settings-content" selectable ripple>
                     <ListSubHeader className="list-sub-header" caption="Base Map Selection" />
-                    <div id="baseMapPreviewContainer">
-                        <div className="row top-xs base-map-preview-row">
+                    <div id="baseMapPreviewContainer" className="text-wrap">
                             {this.props.basemaps.map((layer) =>
-                                <div className="col-xs-4" key={layer.get("id") + "_basemap_button"}>
-                                    <BaseMapPreview layer={layer} onClick={() => this.props.mapActions.setBasemap(layer)} />
-                                </div>
+                                <BaseMapPreview
+                                    layer={layer}
+                                    onClick={() => this.props.mapActions.setBasemap(layer)}
+                                    key={layer.get("id") + "_basemap_button"}
+                                />
                             )}
-                            <div className="col-xs-4">
-                                <BaseMapPreview layer={dummyBasemap} onClick={() => this.props.mapActions.hideBasemap()} />
+                            <div>
+                                <BaseMapPreview
+                                    layer={dummyBasemap}
+                                    onClick={() => this.props.mapActions.hideBasemap()}
+                                />
                             </div>
-                        </div>
                     </div>
                     <ListSubHeader className="list-sub-header" caption="Map Scale Units" />
                     <MenuDropdown
