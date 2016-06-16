@@ -5,9 +5,10 @@ import * as layerActions from '../actions/LayerActions';
 import ColorbarContainer from './ColorbarContainer';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
-import Slider from 'rc-slider';
 import MiscUtil from '../utils/MiscUtil';
-import 'rc-slider/assets/index.css';
+import Slider from 'react-toolbox/lib/slider';
+// import Slider from 'rc-slider';
+// import 'rc-slider/assets/index.css';
 
 export class LayerControlContainer extends Component {
     changeOpacity(value) {
@@ -70,7 +71,7 @@ export class LayerControlContainer extends Component {
             "active": this.props.layer.get("isActive")
         });
         let sliderContainerClasses = MiscUtil.generateStringFromSet({
-            "opacity-slider-container": true,
+            "opacity-slider-container row middle-xs": true,
             "active": this.props.layer.get("isChangingOpacity")
         });
         let positionContainerClasses = MiscUtil.generateStringFromSet({
@@ -130,18 +131,10 @@ export class LayerControlContainer extends Component {
                     </div>
                 </div>
                 <div className={sliderContainerClasses}>
-                    <div className="opacity-label">
+                    <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
+                    <span className="opacity-label col-xs-3 no-padding">
                         {currOpacity}%
-                    </div>
-                    <Slider
-                        tipTransitionName=""
-                        tipFormatter={null}
-                        step={1}
-                        className="opacity-slider"
-                        value={currOpacity}
-                        onChange={(value) => this.changeOpacity(value)}
-                        // onAfterChange={() => this.stopChangingOpacity()}
-                    />
+                    </span>
                 </div>
                 <div className={positionContainerClasses}>
                     <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
@@ -149,11 +142,16 @@ export class LayerControlContainer extends Component {
                     <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
                     <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
-                <hr className="divider medium" />
             </div>
         );
     }
 }
+
+// ALTERNATE SLIDER
+// <div className="opacity-label">
+//     {currOpacity}%
+// </div>
+// <Slider tipTransitionName="" tipFormatter={null} step={1} className="opacity-slider" value={currOpacity} onChange={(value) => this.changeOpacity(value)} />
 
 LayerControlContainer.propTypes = {
     actions: PropTypes.object.isRequired,

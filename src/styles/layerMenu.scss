@@ -1,7 +1,8 @@
 .layer-control {
-    padding: 0.2rem 0rem;
+    padding: 0.5rem 0rem;
     width: 100%;
     margin: 0px;
+    border-bottom: $medium-border;
 }
 
 .layer-control:last-child {
@@ -10,8 +11,8 @@
 
 .layer-header {
     padding: 0px;
-    margin: 0.5rem 0px 0.5rem 0px;
-    font-size: 1.3rem;
+    margin: 0.5rem 0px;
+    font-size: 1.4rem;
     /*cursor: move;*/
 }
 
@@ -79,13 +80,15 @@
 }
 
 .opacity-slider-container {
-    width: 15rem;
+    width: 18rem;
     height: auto;
     position: absolute;
-    top: 0.5rem;
+    top: 50%;
     right: -50rem;
+    transform: translate(0px, -50%);
     z-index: 5;
-    padding: 1rem 1.5rem;
+    padding: 0.5rem;
+    padding-right: 1rem;
     background: $light;
     opacity: 0;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
@@ -95,18 +98,23 @@
 }
 
 .opacity-slider-container.active {
-    right: 5.5rem;
+    right: 5.8rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
+}
+
+.opacity-label {
+    text-align: right;
 }
 
 .position-controls-container {
     overflow: hidden;
     width: 12rem;
-    height: 6rem;
+    height: 5.5rem;
     position: absolute;
-    top: 0.5rem;
+    top: 50%;
     right: -50rem;
+    transform: translate(0px, -50%);
     z-index: 5;
     padding: 0px;
     background: $light;
@@ -130,14 +138,6 @@ button.position-control-button {
     min-width: initial;
 }
 
-.opacity-slider {
-    display: block;
-}
-
-.opacity-label {
-    margin-bottom: 1rem;
-    text-align: center;
-}
 
 #layerMenu {
     width: 360px;

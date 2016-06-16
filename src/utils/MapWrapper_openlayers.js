@@ -58,7 +58,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 let mapLayer = new ol.layer.Tile({
                     opacity: layer.get("opacity"),
-                    // crossOrigin: "anonymous",
+                    crossOrigin: "anonymous",
                     extent: [-36000, -90, 36000, 90],
                     source: layerSource
                 });
@@ -417,7 +417,20 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            return origFunc(tile, url, origFunc);
+            let ret = origFunc(tile, url);
+            // override getImage()
+            if(typeof tile._origGetImageFunc === "undefined") {
+                tile._origGetImageFunc = tile.getImage;
+
+                // fb() == getImage() in minified code
+                // do NOT use an arrow function
+                tile.getImage = tile.fb = function(optContext) {
+                    let node = this._origGetImageFunc(optContext);
+                    node.className = "map-image-tile";
+                    return node;
+                };
+            }
+            return ret;
         } catch (err) {
             console.log("could not handle openlayers layer tile load.", err);
             return false;
