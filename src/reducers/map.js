@@ -487,9 +487,15 @@ const moveLayerToBottom = (state, action) => {
     return state;
 };
 const moveLayerUp = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerUp(action.layer);
+    });
     return state;
 };
 const moveLayerDown = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerDown(action.layer);
+    });
     return state;
 };
 

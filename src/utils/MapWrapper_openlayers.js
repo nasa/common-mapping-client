@@ -63,7 +63,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     source: layerSource
                 });
                 mapLayer._layerId = layer.get("id");
-                mapLayer._isBasemap = false;
+                mapLayer._layerType = layer.get("type");
                 return mapLayer;
             }
             console.warn("could not create map layer");
@@ -146,7 +146,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     addLayer(mapLayer) {
         try {
-            this.map.addLayer(mapLayer);
+            let index = this.findTopInsertIndexForLayer(mapLayer);
+            this.map.getLayers().insertAt(index, mapLayer);
             return true;
         } catch (err) {
             console.log("could not add openlayers layer.", err);
@@ -174,6 +175,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.addLayer(mapLayer);
                 }
             } else {
+                this.moveLayerToTop(layer);
                 mapLayer.setVisible(!layer.get("isActive"));
             }
             return true;
@@ -203,11 +205,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             // create the new basemap layer
             let newBasemap = this.createLayer(layer);
-            newBasemap._isBasemap = true;
             if (newBasemap) {
                 // replace or insert new basemap (insert should happen only once)
                 let mapLayers = this.map.getLayers();
-                if (mapLayers.getLength() > 0 && mapLayers.item(0)._isBasemap) {
+                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === "basemap") {
                     mapLayers.setAt(0, newBasemap);
                 } else {
                     mapLayers.insertAt(0, newBasemap);
@@ -323,7 +324,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let mapLayer = mapLayerWithIndex.value;
                 let currIndex = mapLayerWithIndex.index;
                 mapLayers.removeAt(currIndex);
-                mapLayers.push(mapLayer);
+                let newIndex = this.findTopInsertIndexForLayer(mapLayer);
+                mapLayers.insertAt(newIndex, mapLayer);
                 return true;
             }
             return false;
@@ -342,6 +344,46 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let currIndex = mapLayerWithIndex.index;
                 mapLayers.removeAt(currIndex);
                 mapLayers.insertAt(1, mapLayer); // index 1 because we always have a basemap. TODO - verify
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move openlayers layer to top.", err);
+            return false;
+        }
+    }
+
+    moveLayerUp(layer) {
+        try {
+            let mapLayers = this.map.getLayers();
+            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            if (mapLayerWithIndex) {
+                let mapLayer = mapLayerWithIndex.value;
+                let currIndex = mapLayerWithIndex.index;
+                mapLayers.removeAt(currIndex);
+                let topIndex = this.findTopInsertIndexForLayer(mapLayer);
+                let newIndex = currIndex < topIndex ? currIndex + 1 : currIndex;
+                mapLayers.insertAt(newIndex, mapLayer);
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move openlayers layer to top.", err);
+            return false;
+        }
+    }
+
+    moveLayerDown(layer) {
+        try {
+            let mapLayers = this.map.getLayers();
+            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            if (mapLayerWithIndex) {
+                let mapLayer = mapLayerWithIndex.value;
+                let currIndex = mapLayerWithIndex.index;
+                if (currIndex > 1) {
+                    mapLayers.removeAt(currIndex);
+                    mapLayers.insertAt(currIndex - 1, mapLayer);
+                }
                 return true;
             }
             return false;
@@ -454,6 +496,26 @@ export default class MapWrapper_openlayers extends MapWrapper {
             tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
             wrapX: true
         });
+    }
+
+    findTopInsertIndexForLayer(mapLayer) {
+        let mapLayers = this.map.getLayers();
+        let index = mapLayers.getLength();
+
+        if (mapLayer._layerType === "reference") { // referece layers always on top
+            return index;
+        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+            return 0;
+        } else { // data layers in the middle
+            for (let i = index - 1; i >= 0; --i) {
+                let compareLayer = mapLayers.item(i);
+                if (compareLayer._layerType === "data" ||
+                    compareLayer._layerType === "basemap") {
+                    return i + 1;
+                }
+            }
+        }
+        return index;
     }
 
     static parseCapabilities(xmlString) {

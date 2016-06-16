@@ -52,7 +52,16 @@ export class LayerControlContainer extends Component {
     }
 
     moveToTop() {
-        this.props.actions.moveToTop(this.props.layer);
+        this.props.actions.moveLayerToTop(this.props.layer);
+    }
+    moveToBottom() {
+        this.props.actions.moveLayerToBottom(this.props.layer);
+    }
+    moveUp() {
+        this.props.actions.moveLayerUp(this.props.layer);
+    }
+    moveDown() {
+        this.props.actions.moveLayerDown(this.props.layer);
     }
 
     render() {
@@ -136,16 +145,16 @@ export class LayerControlContainer extends Component {
                 </div>
                 <div className={positionContainerClasses}>
                     <div className="col-xs-6 no-padding">
-                        <Button primary label="Bring to Front" className="mini-xs-waysmall small-text full-width"/>
+                        <Button primary label="Bring to Front" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveToTop()}/>
                     </div>
                     <div className="col-xs-6 no-padding">
-                        <Button primary label="Forward" className="mini-xs-waysmall small-text full-width"/>
+                        <Button primary label="Forward" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveUp()}/>
                     </div>
                     <div className="col-xs-6 no-padding">
-                        <Button primary label="Send to Back" className="mini-xs-waysmall small-text full-width"/>
+                        <Button primary label="Send to Back" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveToBottom()}/>
                     </div>
                     <div className="col-xs-6 no-padding">
-                        <Button primary label="Backward" className="mini-xs-waysmall small-text full-width"/>
+                        <Button primary label="Backward" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveDown()}/>
                     </div>
                 </div>
                 <hr className="divider medium" />

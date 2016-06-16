@@ -256,7 +256,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             // so that slider still works
             return true;
         } catch (err) {
-            console.log("could not set cesium layer opacity.", err);
+            console.log("could not update cesium layer.", err);
             return false;
         }
     }
@@ -417,7 +417,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     getLatLonFromPixelCoordinate(pixel) {
         try {
-            let cartesian = this.map.scene.camera.pickEllipsoid({x: pixel[0], y: pixel[1]}, this.map.scene.globe.ellipsoid);
+            let cartesian = this.map.scene.camera.pickEllipsoid({ x: pixel[0], y: pixel[1] }, this.map.scene.globe.ellipsoid);
             if (cartesian) {
                 let cartographic = this.map.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
                 return {
@@ -443,7 +443,57 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not set cesium layer opacity.", err);
+            console.log("could not move cesium layer to top.", err);
+            return false;
+        }
+    }
+
+    moveLayerToBottom(layer) {
+        try {
+            let mapLayers = this.map.imageryLayers;
+            let mapLayer = this.findLayerInMapLayers(layer);
+            if (mapLayer) {
+                mapLayers.lowerToBottom(mapLayer);
+                mapLayers.raise(mapLayer); // move to index 1 because we always have a basemap. TODO - verify
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move cesium layer to bottom.", err);
+            return false;
+        }
+    }
+
+    moveLayerUp(layer) {
+        try {
+            let mapLayers = this.map.imageryLayers;
+            let mapLayer = this.findLayerInMapLayers(layer);
+            if (mapLayer) {
+                // let index = mapLayers.indexOf(mapLayer);
+                mapLayers.raise(mapLayer);
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move cesium layer to bottom.", err);
+            return false;
+        }
+    }
+
+    moveLayerDown(layer) {
+        try {
+            let mapLayers = this.map.imageryLayers;
+            let mapLayer = this.findLayerInMapLayers(layer);
+            if (mapLayer) {
+                let index = mapLayers.indexOf(mapLayer);
+                if (index > 1) {
+                    mapLayers.lower(mapLayer);
+                }
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move cesium layer to bottom.", err);
             return false;
         }
     }

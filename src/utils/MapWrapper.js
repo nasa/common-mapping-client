@@ -118,4 +118,12 @@ export default class MapWrapper {
         console.warn("moveLayerToBottom not implemented in subclass");
         return false;
     }
+    moveLayerUp(layer) {
+        console.warn("moveLayerUp not implemented in subclass");
+        return false;
+    }
+    moveLayerDown(layer) {
+        console.warn("moveLayerDown not implemented in subclass");
+        return false;
+    }
 }
