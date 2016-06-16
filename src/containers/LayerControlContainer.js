@@ -144,18 +144,10 @@ export class LayerControlContainer extends Component {
                     />
                 </div>
                 <div className={positionContainerClasses}>
-                    <div className="col-xs-6 no-padding">
-                        <Button primary label="Bring to Front" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveToTop()}/>
-                    </div>
-                    <div className="col-xs-6 no-padding">
-                        <Button primary label="Forward" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveUp()}/>
-                    </div>
-                    <div className="col-xs-6 no-padding">
-                        <Button primary label="Send to Back" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveToBottom()}/>
-                    </div>
-                    <div className="col-xs-6 no-padding">
-                        <Button primary label="Backward" className="mini-xs-waysmall small-text full-width" onClick={() => this.moveDown()}/>
-                    </div>
+                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
+                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
+                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
+                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
                 <hr className="divider medium" />
             </div>

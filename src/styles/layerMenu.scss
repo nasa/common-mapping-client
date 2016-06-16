@@ -101,13 +101,14 @@
 }
 
 .position-controls-container {
-    width: 25rem;
+    overflow: hidden;
+    width: 12rem;
     height: 6rem;
     position: absolute;
     top: 0.5rem;
     right: -50rem;
     z-index: 5;
-    padding: 0rem 0.5rem;
+    padding: 0px;
     background: $light;
     opacity: 0;
     text-align: center;
@@ -121,6 +122,12 @@
     right: 8.5rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
+}
+
+button.position-control-button {
+    font-size: 1.2rem;
+    height: 50%;
+    min-width: initial;
 }
 
 .opacity-slider {
