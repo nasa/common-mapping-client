@@ -42,7 +42,7 @@ enhancements or otherwise improve the tool.
 *Contributing to the CMC Ecosystem*
 
 If you use CMC for your own project, please let us know so that we may list it
-under our [Example Projects](LINK TO EXAMPLE PROJECTS) for others to find
+under our [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) for others to find
 inspiration in.
 
 If you create a particularly useful or robust widget in your own CMC descendant,
