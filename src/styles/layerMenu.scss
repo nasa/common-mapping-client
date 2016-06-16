@@ -12,7 +12,7 @@
     padding: 0px;
     margin: 0.5rem 0px 0.5rem 0px;
     font-size: 1.3rem;
-    cursor: move;
+    /*cursor: move;*/
 }
 
 .layer-toggle {
@@ -95,13 +95,32 @@
 }
 
 .opacity-slider-container.active {
-    right: 3rem;
+    right: 5.5rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
 }
 
-.opacity-slider-container-2 {
-    padding-left: 2rem;
+.position-controls-container {
+    width: 25rem;
+    height: 6rem;
+    position: absolute;
+    top: 0.5rem;
+    right: -50rem;
+    z-index: 5;
+    padding: 0rem 0.5rem;
+    background: $light;
+    opacity: 0;
+    text-align: center;
+    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
+    @include medium-shadow();
+    border: $medium-light-border;
+    border-radius: 4px;
+}
+
+.position-controls-container.active {
+    right: 8.5rem;
+    transition: opacity 0s linear 0s, right 0s linear 0s;
+    opacity: 1;
 }
 
 .opacity-slider {
@@ -113,24 +132,16 @@
     text-align: center;
 }
 
-.opacity-label-2 {
-    font-size: 1.2rem;
-}
-
-.advanced-layer-controls {
-    margin-top: 1rem;
-}
-
 #layerMenu {
     width: 360px;
-    max-height: 32px;
+    max-height: 31px;
     position: absolute;
     bottom: 60px;
     right: 10px;
     z-index: 1;
     background: $light;
     overflow: hidden;
-    padding: 0.5rem;
+    padding: 0.3rem 0.5rem;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
@@ -144,6 +155,10 @@
 
 #layerMenu.open {
     max-height: 350px;
+}
+
+#layerHeaderRow {
+    margin-bottom: 0.3rem;
 }
 
 #layerMenuContent {

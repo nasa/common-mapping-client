@@ -333,6 +333,24 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    moveLayerToBottom(layer) {
+        try {
+            let mapLayers = this.map.getLayers();
+            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            if (mapLayerWithIndex) {
+                let mapLayer = mapLayerWithIndex.value;
+                let currIndex = mapLayerWithIndex.index;
+                mapLayers.removeAt(currIndex);
+                mapLayers.insertAt(1, mapLayer); // index 1 because we always have a basemap. TODO - verify
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.log("could not move openlayers layer to top.", err);
+            return false;
+        }
+    }
+
     /* functions for openlayers only */
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {

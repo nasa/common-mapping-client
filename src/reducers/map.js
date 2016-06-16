@@ -236,7 +236,7 @@ const setLayerOpacity = (state, action) => {
 const startChangingOpacity = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
-        let newLayer = action.layer.set("isChangingOpacity", true);
+        let newLayer = action.layer.set("isChangingOpacity", true).set("isChangingPosition", false);
         let index = layerList.findKey((layer) => {
             return layer.get("id") === action.layer.get("id");
         });
@@ -249,6 +249,30 @@ const stopChangingOpacity = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("isChangingOpacity", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const startChangingPosition = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingPosition", true).set("isChangingOpacity", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const stopChangingPosition = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingPosition", false);
         let index = layerList.findKey((layer) => {
             return layer.get("id") === action.layer.get("id");
         });
@@ -449,55 +473,23 @@ const dismissAlert = (state, action) => {
 };
 
 const moveLayerToTop = (state, action) => {
-    // let alerts = state.get("alerts");
-    // let anySucceed = state.get("maps").reduce((acc, map) => {
-    //     if (map.setBasemap(action.layer)) {
-    //         return true;
-    //     } else {
-    //         alerts = alerts.push(alert.merge({
-    //             title: "Basemap Update Failed",
-    //             body: "One of the maps failed to update its basemap. We don't know why, and neither do you.",
-    //             severity: 3,
-    //             time: new Date()
-    //         }));
-    //     }
-    //     return acc;
-    // }, false);
+    state.get("maps").map((map) => {
+        map.moveLayerToTop(action.layer);
+    });
+    return state;
+};
 
-    // if (anySucceed) {
-    //     let layerList = state.getIn(["layers", action.layer.get("type")]);
-    //     if (typeof layerList !== "undefined") {
-    //         layerList = layerList.map((layer) => {
-    //             if (layer.get("id") === action.layer.get("id")) {
-    //                 return layer.set("isActive", true);
-    //             }
-    //             return layer.set("isActive", false);
-    //         });
-    //         return state
-    //             .setIn(["layers", action.layer.get("type")], layerList)
-    //             .set("alerts", alerts);
-    //     }
-    //     return state.set("alerts", alerts);
-    // }
-    // return state.set("alerts", alerts);
 
-    let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.moveLayerToTop(action.layer)) {
-            return true;
-        }
-        return acc;
-    }, false);
-
-    let layerList = state.getIn(["layers", action.layer.get("type")]);
-    if (typeof layerList !== "undefined") {
-        layerList = layerList.map((layer) => {
-            if (layer.get("id") === action.layer.get("id")) {
-                return layer.set("isTop", true);
-            }
-            return layer.set("isTop", false);
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList);
-    }
+const moveLayerToBottom = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerToBottom(action.layer);
+    });
+    return state;
+};
+const moveLayerUp = (state, action) => {
+    return state;
+};
+const moveLayerDown = (state, action) => {
     return state;
 };
 
@@ -545,6 +537,12 @@ export default function map(state = mapState, action) {
         case actionTypes.STOP_CHANGING_OPACITY:
             return stopChangingOpacity(state, action);
 
+        case actionTypes.START_CHANGING_POSITION:
+            return startChangingPosition(state, action);
+
+        case actionTypes.STOP_CHANGING_POSITION:
+            return stopChangingPosition(state, action);
+
         case actionTypes.SET_LAYER_PALETTE:
             return setLayerPalette(state, action);
 
@@ -572,8 +570,17 @@ export default function map(state = mapState, action) {
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
 
-        case actionTypes.MOVE_TO_TOP:
+        case actionTypes.MOVE_LAYER_TO_TOP:
             return moveLayerToTop(state, action);
+
+        case actionTypes.MOVE_LAYER_TO_BOTTOM:
+            return moveLayerToBottom(state, action);
+
+        case actionTypes.MOVE_LAYER_UP:
+            return moveLayerUp(state, action);
+
+        case actionTypes.MOVE_LAYER_DOWN:
+            return moveLayerDown(state, action);
 
         default:
             return state;

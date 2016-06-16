@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LayerControlContainer from './LayerControlContainer';
 import * as layerActions from '../actions/LayerActions';
-import Button from 'react-toolbox/lib/button';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 import MiscUtil from '../utils/MiscUtil';
 import Sortable from 'sortablejs';
 
@@ -14,15 +14,15 @@ export class LayerMenuContainer extends Component {
     // </div>
     componentDidMount() {
         let menuContent = document.getElementById('layerMenuContent');
-        Sortable.create(menuContent, {
-            draggable: ".layer-control",
-            handle: ".layer-header",
-            animation: 150,
-            onEnd: (evt) => {
-                let newIndex = evt.newIndex;
-                let listItem = evt.item;
-            }
-        });
+        // Sortable.create(menuContent, {
+        //     draggable: ".layer-control",
+        //     handle: ".layer-header",
+        //     animation: 150,
+        //     onEnd: (evt) => {
+        //         let newIndex = evt.newIndex;
+        //         let listItem = evt.item;
+        //     }
+        // });
     }
     render() {
         // let layerList = this.props.layers.sortBy((layer) => { layer.get("displayIndex"); });
@@ -37,13 +37,18 @@ export class LayerMenuContainer extends Component {
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
-                <div id="layer-header-row" className="row middle-xs">
+                <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
                         <span className="menu-header">Layer Controls</span>
                         <span className="note">({activeNum} of {totalNum} active)</span>
                     </div>
                     <div className="col-xs-4 text-right">
-                        <Button flat className="small" label={this.props.layerMenuOpen ? "close" : "open"} onClick={this.props.toggleLayerMenu} />
+                        <IconButton
+                            primary
+                            icon={this.props.layerMenuOpen ? "keyboard_arrow_down" : "keyboard_arrow_up"}
+                            className="no-padding mini-xs-waysmall"
+                            onMouseUp={this.props.toggleLayerMenu}
+                        />
                     </div>
                 </div>
                 <hr className="divider dark wide no-margin" />

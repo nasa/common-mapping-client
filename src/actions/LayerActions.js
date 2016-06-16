@@ -23,12 +23,20 @@ export function stopChangingLayerOpacity(layer) {
     return { type: types.STOP_CHANGING_OPACITY, layer };
 }
 
+export function startChangingLayerPosition(layer) {
+    return { type: types.START_CHANGING_POSITION, layer };
+}
+
+export function stopChangingLayerPosition(layer) {
+    return { type: types.STOP_CHANGING_POSITION, layer };
+}
+
 export function changeLayerPalette(layer, palette) {
     return { type: types.SET_LAYER_PALETTE, layer, palette };
 }
 
 export function moveToTop(layer) {
-    return { type: types.MOVE_TO_TOP, layer };
+    return { type: types.MOVE_LAYER_TO_TOP, layer };
 }
 
 export function activateDefaultLayers() {

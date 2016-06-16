@@ -31,6 +31,22 @@ export class LayerControlContainer extends Component {
         this.props.actions.stopChangingLayerOpacity(this.props.layer);
     }
 
+    toggleChangingPosition() {
+        if(this.props.layer.get("isChangingPosition")) {
+            this.stopChangingPosition();
+        } else {
+            this.startChangingPosition();
+        }
+    }
+
+    startChangingPosition() {
+        this.props.actions.startChangingLayerPosition(this.props.layer);
+    }
+
+    stopChangingPosition() {
+        this.props.actions.stopChangingLayerPosition(this.props.layer);
+    }
+
     changePalette() {
         this.props.actions.changeLayerPalette(this.props.layer, {});
     }
@@ -40,44 +56,6 @@ export class LayerControlContainer extends Component {
     }
 
     render() {
-        // <IconButton primary icon="vertical_align_center" className="no-padding rotate-90 mini-xs-waysmall"/>
-        // <IconButton primary icon="palette" className="no-padding mini-xs-waysmall" onMouseUp={() => this.changePalette()}/>
-
-
-        // <div className="advanced-layer-controls">
-        //     <div className="row middle-xs">
-        //         <div className="col-xs-9 opacity-slider-container-2">
-        //             <Slider
-        //                 tipTransitionName=""
-        //                 tipFormatter={null}
-        //                 step={1}
-        //                 className="opacity-slider"
-        //                 value={currOpacity}
-        //                 onChange={(value) => this.changeOpacity(value)}
-        //                 // onAfterChange={() => this.stopChangingOpacity()}
-        //             />
-        //         </div>
-        //         <div className="col-xs-3 no-padding text-center">
-        //             <span className="opacity-label-2">
-        //                 {currOpacity}%
-        //             </span>
-        //         </div>
-        //     </div>
-        //     <div className="row middle-xs">
-        //         <div className="col-xs-3">
-        //             <Button
-        //                 flat
-        //                 primary={!this.props.layer.get("isChangingOpacity")}
-        //                 accent={this.props.layer.get("isChangingOpacity")}
-        //                 className=""
-        //                 onMouseUp={() => this.toggleChangingOpacity()}>
-        //                 <i className="button-icon ms ms-fw ms-opacity"></i>
-        //                 squash palette
-        //             </Button>
-        //         </div>
-        //     </div>
-        // </div>
-
         let switchClasses = MiscUtil.generateStringFromSet({
             "layer-toggle": true,
             "active": this.props.layer.get("isActive")
@@ -85,6 +63,10 @@ export class LayerControlContainer extends Component {
         let sliderContainerClasses = MiscUtil.generateStringFromSet({
             "opacity-slider-container": true,
             "active": this.props.layer.get("isChangingOpacity")
+        });
+        let positionContainerClasses = MiscUtil.generateStringFromSet({
+            "position-controls-container text-wrap row middle-xs": true,
+            "active": this.props.layer.get("isChangingPosition")
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
         return (
@@ -106,10 +88,10 @@ export class LayerControlContainer extends Component {
                     <div className="col-xs text-right">
                         <IconButton
                             flat
-                            primary={!this.props.layer.get("isTop")}
-                            accent={this.props.layer.get("isTop")}
+                            primary={!this.props.layer.get("isChangingPosition")}
+                            accent={this.props.layer.get("isChangingPosition")}
                             className="no-padding mini-xs-waysmall"
-                            onMouseUp={() => this.moveToTop()}>
+                            onClick={() => this.toggleChangingPosition()}>
                             <i className="button-icon ms ms-fw ms-layers-overlay"></i>
                         </IconButton>
                         <IconButton
@@ -117,9 +99,10 @@ export class LayerControlContainer extends Component {
                             primary={!this.props.layer.get("isChangingOpacity")}
                             accent={this.props.layer.get("isChangingOpacity")}
                             className="no-padding mini-xs-waysmall"
-                            onMouseUp={() => this.toggleChangingOpacity()}>
+                            onClick={() => this.toggleChangingOpacity()}>
                             <i className="button-icon ms ms-fw ms-opacity"></i>
                         </IconButton>
+                        <IconButton primary icon="info_outline" className="no-padding mini-xs-waysmall"/>
                     </div>
                 </div>
                 <div className="row middle-xs">
@@ -150,6 +133,20 @@ export class LayerControlContainer extends Component {
                         onChange={(value) => this.changeOpacity(value)}
                         // onAfterChange={() => this.stopChangingOpacity()}
                     />
+                </div>
+                <div className={positionContainerClasses}>
+                    <div className="col-xs-6 no-padding">
+                        <Button primary label="Bring to Front" className="mini-xs-waysmall small-text full-width"/>
+                    </div>
+                    <div className="col-xs-6 no-padding">
+                        <Button primary label="Forward" className="mini-xs-waysmall small-text full-width"/>
+                    </div>
+                    <div className="col-xs-6 no-padding">
+                        <Button primary label="Send to Back" className="mini-xs-waysmall small-text full-width"/>
+                    </div>
+                    <div className="col-xs-6 no-padding">
+                        <Button primary label="Backward" className="mini-xs-waysmall small-text full-width"/>
+                    </div>
                 </div>
                 <hr className="divider medium" />
             </div>
