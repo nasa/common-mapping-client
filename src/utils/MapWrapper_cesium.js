@@ -224,18 +224,21 @@ export default class MapWrapper_cesium extends MapWrapper {
             let mapLayers = this.map.imageryLayers;
             let mapLayer = this.findLayerInMapLayers(layer);
             if (mapLayer) {
-                mapLayer.show = !mapLayer.show;
+                mapLayer.show = !layer.get("isActive");
+                if(!layer.get("isActive")) {
+                    this.moveLayerToTop(layer);
+                }
+                return true;
             } else {
                 let mapLayer = this.createLayer(layer);
                 mapLayer.show = true;
                 if (mapLayer) {
-                    mapLayers.add(mapLayer);
-                } else {
-                    console.log("could not toggle cesium layer.");
-                    return false;
+                    let index = this.findTopInsertIndexForLayer(mapLayer);
+                    mapLayers.add(mapLayer, index);
+                    return true;
                 }
             }
-            return true;
+            return false;
         } catch (err) {
             console.log("could not toggle cesium layer.", err);
             return false;
@@ -266,11 +269,10 @@ export default class MapWrapper_cesium extends MapWrapper {
             let mapLayers = this.map.imageryLayers;
             let newBasemap = this.createLayer(layer);
             newBasemap.show = true;
-            newBasemap._isBasemap = true;
             if (newBasemap) {
                 // remove the current basemap
                 let currBasemap = mapLayers.get(0);
-                if (typeof currBasemap !== "undefined" && currBasemap._isBasemap) {
+                if (typeof currBasemap !== "undefined" && currBasemap._layerType === "basemap") {
                     mapLayers.remove(currBasemap);
                 }
                 mapLayers.add(newBasemap, 0);
@@ -308,7 +310,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                     alpha: layer.get("opacity"),
                     show: layer.get("isActive")
                 });
-                mapLayer._isBasemap = false;
+                mapLayer._layerId = layer.get("id");
+                mapLayer._layerType = layer.get("type");
 
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
@@ -438,7 +441,12 @@ export default class MapWrapper_cesium extends MapWrapper {
             let mapLayers = this.map.imageryLayers;
             let mapLayer = this.findLayerInMapLayers(layer);
             if (mapLayer) {
-                mapLayers.raiseToTop(mapLayer);
+                let currIndex = mapLayers.indexOf(mapLayer);
+                let index = this.findTopInsertIndexForLayer(mapLayer);
+                while (++currIndex < index) {
+                    // use raise so that we aren't re-requesting tiles every time
+                    mapLayers.raise(mapLayer);
+                }
                 return true;
             }
             return false;
@@ -469,13 +477,16 @@ export default class MapWrapper_cesium extends MapWrapper {
             let mapLayers = this.map.imageryLayers;
             let mapLayer = this.findLayerInMapLayers(layer);
             if (mapLayer) {
-                // let index = mapLayers.indexOf(mapLayer);
-                mapLayers.raise(mapLayer);
+                let currIndex = mapLayers.indexOf(mapLayer);
+                let index = this.findTopInsertIndexForLayer(mapLayer);
+                if (++currIndex < index) {
+                    mapLayers.raise(mapLayer);
+                }
                 return true;
             }
             return false;
         } catch (err) {
-            console.log("could not move cesium layer to bottom.", err);
+            console.log("could not move cesium layer up.", err);
             return false;
         }
     }
@@ -493,7 +504,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move cesium layer to bottom.", err);
+            console.log("could not move cesium layer down.", err);
             return false;
         }
     }
@@ -522,7 +533,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         let mapLayers = this.map.imageryLayers;
         for (let i = 0; i < mapLayers.length; ++i) {
             let mapLayer = mapLayers.get(i);
-            if (mapLayer.imageryProvider._layer === layerId) {
+            if (mapLayer._layerId === layerId) {
                 return mapLayer;
             }
         }
@@ -548,5 +559,25 @@ export default class MapWrapper_cesium extends MapWrapper {
             clockRange: this.cesium.ClockRange.LOOP_STOP,
             clockStep: 1
         });
+    }
+
+    findTopInsertIndexForLayer(mapLayer) {
+        let mapLayers = this.map.imageryLayers;
+        let index = mapLayers.length;
+
+        if (mapLayer._layerType === "reference") { // referece layers always on top
+            return index;
+        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+            return 0;
+        } else { // data layers in the middle
+            for (let i = index - 1; i >= 0; --i) {
+                let compareLayer = mapLayers.get(i);
+                if (compareLayer._layerType === "data" ||
+                    compareLayer._layerType === "basemap") {
+                    return i + 1;
+                }
+            }
+        }
+        return index;
     }
 }

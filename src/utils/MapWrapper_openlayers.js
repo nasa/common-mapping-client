@@ -175,8 +175,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.addLayer(mapLayer);
                 }
             } else {
-                this.moveLayerToTop(layer);
                 mapLayer.setVisible(!layer.get("isActive"));
+                if(!layer.get("isActive")) {
+                    this.moveLayerToTop(layer);
+                }
             }
             return true;
         } catch (err) {
@@ -348,7 +350,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer to top.", err);
+            console.log("could not move openlayers layer to bottom.", err);
             return false;
         }
     }
@@ -368,7 +370,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer to top.", err);
+            console.log("could not move openlayers layer up.", err);
             return false;
         }
     }
@@ -388,7 +390,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer to top.", err);
+            console.log("could not move openlayers layer down.", err);
             return false;
         }
     }
