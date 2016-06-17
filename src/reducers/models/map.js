@@ -9,6 +9,7 @@ export const mapState = Immutable.fromJS({
         partial: []
     },
     maps: {},
+    palettes: {},
     date: config.DEFAULT_DATE,
     view: {
         in3DMode: false,
@@ -45,11 +46,13 @@ export const layerModel = Immutable.fromJS({
     isChangingPosition: false,
     opacity: 1.0,
     palette: {
-        url: "",
+        name: "",
         handleAs: "image",
         min: 0,
         max: 0
     },
+    min: 0,
+    max: 0,
     time: config.DEFAULT_DATE.toISOString().split("T")[0],
     type: "",
     refType: "",
@@ -58,4 +61,10 @@ export const layerModel = Immutable.fromJS({
     thumbnailImage: "",
     fromJson: false,
     handleAs: "generic"
+});
+
+export const paletteModel = Immutable.fromJS({
+    id: "",
+    handleAs: "",
+    values: []
 });

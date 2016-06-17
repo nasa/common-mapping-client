@@ -20,7 +20,7 @@ export class MapContainer3D extends Component {
     }
 
     initializeMapListeners() {
-        let map = this.props.mapState.getIn(["maps", mapStrings.MAP_LIB_3D]);
+        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
             map.addEventListener("moveend", () => {
                 // Only fire move event if this map is active
@@ -43,7 +43,7 @@ export class MapContainer3D extends Component {
 
     render() {
         return (
-            <div id="mapContainer3D" className={this.props.mapState.getIn(["view", "in3DMode"]) ? "" : "hidden"}>
+            <div id="mapContainer3D" className={this.props.mapState.in3DMode ? "" : "hidden"}>
                 <div id="map3D"></div>
             </div>
         );
@@ -57,7 +57,10 @@ MapContainer3D.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        mapState: state.map
+        mapState: {
+            maps: state.map.get("maps"),
+            in3DMode: state.map.getIn(["view", "in3DMode"])
+        }
     };
 }
 

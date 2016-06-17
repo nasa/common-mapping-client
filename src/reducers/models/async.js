@@ -1,8 +1,11 @@
 import Immutable from 'immutable';
 
 export const asyncState = Immutable.fromJS({
-    loadingLayers: false,
-    layerLoadingAttempted: false,
-    loadingChart: {},
+	loadingInitialData: false,
+	initialLoadingAttempted: false,
+	loadingLayerSources: false,
+	layerLoadingAttempted: false,
+	loadingLayerPalettes: false,
+	paletteLoadingAttempted: false,
     alerts: []
 });

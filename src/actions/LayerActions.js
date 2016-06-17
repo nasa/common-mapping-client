@@ -52,52 +52,92 @@ export function moveLayerDown(layer) {
 }
 
 export function activateDefaultLayers() {
-    return {type: types.ACTIVATE_DEFAULT_LAYERS };
+    return { type: types.ACTIVATE_DEFAULT_LAYERS };
 }
 
-export function fetchLayers(callback = null) {
+export function fetchInitialData(callback = null) {
+    return (dispatch) => {
+        dispatch(loadInitialData());
+        return Promise.all([
+            dispatch(fetchLayers()),
+            dispatch(fetchLayerPalettes())
+        ]).then(() => {
+            dispatch(initialDataLoaded());
+            if (typeof callback === "function") {
+                callback.call(this);
+            }
+        }).catch((err) => {
+            console.warn("ERROR", err);
+        });
+    };
+}
+
+export function fetchLayerPalettes() {
+    return (dispatch) => {
+        let url = URLS.paletteConfig;
+        return fetch(url).then((response) => {
+            return response.json();
+        }).then((resp) => {
+            dispatch(ingestLayerPalettes(resp));
+        }).catch((err) => {
+            console.warn("ERROR LOADING PALETTES", err);
+        });
+    };
+}
+
+
+export function fetchLayers() {
     return (dispatch) => {
         dispatch(loadLayers());
-        Promise.all(URLS.layerConfig.map((el) => {
-                return dispatch(fetchSingleLayerSource(el));
-            }))
-            .then(() => {
-                dispatch(mergeLayers());
-                dispatch(layersLoaded());
-                if (typeof callback === "function") {
-                    callback.call(this);
-                }
-            })
-            .catch((err) => {
-                console.warn("ERROR", err);
-            });
+        return Promise.all(URLS.layerConfig.map((el) => {
+            return dispatch(fetchSingleLayerSource(el));
+        })).then(() => {
+            dispatch(mergeLayers());
+            dispatch(layersLoaded());
+        }).catch((err) => {
+            console.warn("ERROR", err);
+        });
     };
 }
 export function fetchSingleLayerSource(options) {
     return (dispatch) => {
         let url = options.url;
         let type = options.type;
-        return fetch(url)
-            .then((response) => {
-                if (type === mapStrings.LAYER_CONFIG_JSON) {
-                    return response.json();
-                } else if (type === mapStrings.LAYER_CONFIG_WMTS_XML) {
-                    return response.text();
-                } else {
-                    return response;
-                }
-            })
-            .then((resp) => {
-                dispatch(ingestLayerConfig(resp, options));
-            })
-            .catch((err) => {
-                console.warn("ERROR LOADING CONFIG", err);
-            });
+        return fetch(url).then((response) => {
+            if (type === mapStrings.LAYER_CONFIG_JSON) {
+                return response.json();
+            } else if (type === mapStrings.LAYER_CONFIG_WMTS_XML) {
+                return response.text();
+            } else {
+                return response;
+            }
+        }).then((resp) => {
+            dispatch(ingestLayerConfig(resp, options));
+        }).catch((err) => {
+            console.warn("ERROR LOADING CONFIG", err);
+        });
     };
 }
 
 
 // async action helpers
+
+function loadInitialData() {
+    return { type: types.LOAD_INITIAL_DATA };
+}
+
+function initialDataLoaded() {
+    return { type: types.INITIAL_DATA_LOADED };
+}
+
+function loadLayerPalettes() {
+    return { type: types.LOAD_LAYER_PALETTES };
+}
+
+function layerPalettesLoaded() {
+    return { type: types.LAYER_PALETTES_LOADED };
+}
+
 function loadLayers() {
     return { type: types.LOAD_LAYERS };
 }
@@ -112,4 +152,8 @@ function ingestLayerConfig(config, options) {
 
 function mergeLayers() {
     return { type: types.MERGE_LAYERS };
+}
+
+function ingestLayerPalettes(paletteConfig) {
+    return { type: types.INGEST_LAYER_PALETTES, paletteConfig };
 }

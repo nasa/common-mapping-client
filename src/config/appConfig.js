@@ -6,5 +6,6 @@ export const URLS = {
     }, {
         url: "default-data/layers.json",
         type: "json"
-    }]
+    }],
+    paletteConfig: "default-data/palettes.json"
 };

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import * as actionTypes from '../constants/actionTypes';
-import { mapState, layerModel } from './models/map';
+import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/view';
 import MapUtil from '../utils/MapUtil.js';
 import * as mapStrings from '../constants/mapStrings';
@@ -499,6 +499,17 @@ const moveLayerDown = (state, action) => {
     return state;
 };
 
+const ingestLayerPalettes = (state, action) => {
+    if (action.paletteConfig && action.paletteConfig.paletteArr) {
+        let palettesArr = action.paletteConfig.paletteArr;
+        for (let i = 0; i < palettesArr.length; ++i) {
+            let palette = readPalette(palettesArr[i]);
+            state = state.setIn(["palettes", palette.get("id")], palette);
+        }
+    }
+    return state;
+};
+
 export default function map(state = mapState, action) {
     switch (action.type) {
         case actionTypes.INITIALIZE_MAP:
@@ -588,6 +599,9 @@ export default function map(state = mapState, action) {
         case actionTypes.MOVE_LAYER_DOWN:
             return moveLayerDown(state, action);
 
+        case actionTypes.INGEST_LAYER_PALETTES:
+            return ingestLayerPalettes(state, action);
+
         default:
             return state;
     }
@@ -597,6 +611,44 @@ export default function map(state = mapState, action) {
 /****************/
 /*   helpers   */
 /****************/
+
+const readPalette = (palette) => {
+    switch (palette.handleAs) {
+        case mapStrings.COLORBAR_JSON_FIXED:
+            return readJsonFixedPalette(palette);
+        case mapStrings.COLORBAR_JSON_RELATIVE:
+            return readJsonRelativePalette(palette);
+        default:
+            return false
+    }
+};
+
+const readJsonFixedPalette = (palette) => {
+    return paletteModel.merge({
+        id: palette.name,
+        handleAs: palette.handleAs,
+        values: Immutable.List(palette.values.map((entry) => {
+            return Immutable.Map({
+                value: parseFloat(entry.value),
+                color: entry.color
+            });
+        }))
+    });
+};
+
+const readJsonRelativePalette = (palette) => {
+    return paletteModel.merge({
+        id: palette.name,
+        handleAs: palette.handleAs,
+        values: Immutable.List(palette.values.map((entry) => {
+            return Immutable.Map({
+                value: parseFloat(entry.scaleIndex),
+                color: entry.color
+            });
+        }))
+    });
+};
+
 const generatePartialsListFromJson = (config) => {
     return config.layers.map((layer) => {
         let newLayer = Immutable.fromJS(layer);
