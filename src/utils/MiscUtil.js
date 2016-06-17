@@ -26,6 +26,33 @@ export default class MiscUtil {
         return false;
     }
 
+    static findObjectWithIndexInArray(array, key, val) {
+        for (let i = 0; i < array.length; ++i) {
+            if (array[i][key] === val) {
+                return {
+                    value: array[i],
+                    index: i
+                };
+            }
+        }
+        return false;
+    }
+
+    static getImmutableObjectSort(field) {
+        return (objA, objB) => {
+            let fieldA = objA.get(field);
+            let fieldB = objB.get(field);
+
+            if (fieldA > fieldB) {
+                return 1;
+            }
+            if (fieldA < fieldB) {
+                return -1;
+            }
+            return 0;
+        };
+    }
+
     static enterFullScreen() {
         let element = document.documentElement;
         if (element.requestFullscreen) {

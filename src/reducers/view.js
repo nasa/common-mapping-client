@@ -11,33 +11,8 @@ const completeInitialLoad = (state, action) => {
     return state.set("initialLoadComplete", true);
 };
 
-const openMainMenu = (state, action) => {
-    return state
-        .set("mainMenuTab", action.param)
-        .set("mainMenuOpen", true);
-};
-
-const closeMainMenu = (state, action) => {
-    return state
-        .set("mainMenuTab", "")
-        .set("mainMenuOpen", false);
-
-};
-
 const toggleLayerMenu = (state, action) => {
     return state.set("layerMenuOpen", !state.get("layerMenuOpen"));
-};
-
-const openHelp = (state, action) => {
-    return state.set("helpOpen", true);
-};
-
-const closeHelp = (state, action) => {
-    return state.set("helpOpen", false);
-};
-
-const selectHelpPage = (state, action) => {
-    return state.set("helpPage", action.param);
 };
 
 const dismissAlert = (state, action) => {
@@ -62,23 +37,8 @@ export default function view(state = viewState, action) {
         case actionTypes.COMPLETE_INITIAL_LOAD:
             return completeInitialLoad(state, action);
 
-        case actionTypes.OPEN_MAIN_MENU:
-            return openMainMenu(state, action);
-
-        case actionTypes.CLOSE_MAIN_MENU:
-            return closeMainMenu(state, action);
-
         case actionTypes.TOGGLE_LAYER_MENU:
             return toggleLayerMenu(state, action);
-
-        case actionTypes.OPEN_HELP:
-            return openHelp(state, action);
-
-        case actionTypes.CLOSE_HELP:
-            return closeHelp(state, action);
-
-        case actionTypes.SELECT_HELP_PAGE:
-            return selectHelpPage(state, action);
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);

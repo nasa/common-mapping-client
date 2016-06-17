@@ -6,12 +6,8 @@ export const viewState = Immutable.fromJS({
     version: appStrings.APP_VERSION,
     initialLoadComplete: false,
     layerMenuOpen: true,
-    mainMenuOpen: false,
     isFullscreen: false,
     sharingOpen: false,
-    helpOpen: false,
-    helpPage: "",
-    mainMenuTab: "",
     alerts: []
 });
 

@@ -6,13 +6,14 @@ import * as layerActions from '../actions/LayerActions';
 import * as mapActions from '../actions/MapActions';
 import MapContainer from './MapContainer';
 import MapContainer3D from './MapContainer3D';
-import MainMenuContainer from './MainMenuContainer';
+import SettingsContainer from './SettingsContainer';
 import LoadingContainer from './LoadingContainer';
 import HelpContainer from './HelpContainer';
 import AlertsContainer from './AlertsContainer';
 import DateSliderContainer from './DateSliderContainer';
 import MapControlsContainer from './MapControlsContainer';
 import TitleContainer from './TitleContainer';
+import LayerMenuContainer from './LayerMenuContainer';
 import '../styles/styles.scss';
 
 export class AppContainer extends Component {
@@ -41,7 +42,8 @@ export class AppContainer extends Component {
                 <MapContainer3D />
                 <MapControlsContainer />
                 <TitleContainer />
-                <MainMenuContainer />
+                <SettingsContainer />
+                <LayerMenuContainer />
                 <DateSliderContainer />
                 <AlertsContainer />
                 <LoadingContainer />

@@ -15,8 +15,40 @@ export function changeLayerOpacity(layer, opacity) {
     return { type: types.SET_LAYER_OPACITY, layer, opacity };
 }
 
+export function startChangingLayerOpacity(layer) {
+    return { type: types.START_CHANGING_OPACITY, layer };
+}
+
+export function stopChangingLayerOpacity(layer) {
+    return { type: types.STOP_CHANGING_OPACITY, layer };
+}
+
+export function startChangingLayerPosition(layer) {
+    return { type: types.START_CHANGING_POSITION, layer };
+}
+
+export function stopChangingLayerPosition(layer) {
+    return { type: types.STOP_CHANGING_POSITION, layer };
+}
+
 export function changeLayerPalette(layer, palette) {
     return { type: types.SET_LAYER_PALETTE, layer, palette };
+}
+
+export function moveLayerToTop(layer) {
+    return { type: types.MOVE_LAYER_TO_TOP, layer };
+}
+
+export function moveLayerToBottom(layer) {
+    return { type: types.MOVE_LAYER_TO_BOTTOM, layer };
+}
+
+export function moveLayerUp(layer) {
+    return { type: types.MOVE_LAYER_UP, layer };
+}
+
+export function moveLayerDown(layer) {
+    return { type: types.MOVE_LAYER_DOWN, layer };
 }
 
 export function activateDefaultLayers() {

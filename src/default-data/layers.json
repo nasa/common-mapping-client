@@ -11,6 +11,11 @@
         "handleAs": "GIBS",
         "isDefault": true
     }, {
+        "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
+        "title": "Brightness Temperature",
+        "type": "data",
+        "handleAs": "GIBS"
+    }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",

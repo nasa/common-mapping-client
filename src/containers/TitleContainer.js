@@ -15,6 +15,7 @@ export class TitleContainer extends Component {
                         <Button floating neutral icon="" label="?" className="title-button mini-xs" onClick={this.props.actions.openHelp} />
                         <Button floating neutral icon="fullscreen" className="title-button mini-xs" onClick={this.props.actions.toggleFullScreen} />
                         <Button floating neutral icon="share" className="title-button mini-xs" onClick={() => console.log("clicked share")} />
+                        <Button floating neutral icon="settings" className="title-button mini-xs" onClick={this.props.actions.openSettings} />
                     </div>
                 </div>
             </div>

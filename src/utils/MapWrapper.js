@@ -108,4 +108,22 @@ export default class MapWrapper {
         console.warn("getLatLonFromPixelCoordinate not implemented in subclass");
         return false;
     }
+
+    moveLayerToTop(layer) {
+        console.warn("moveLayerToTop not implemented in subclass");
+        return false;
+    }
+
+    moveLayerToBottom(layer) {
+        console.warn("moveLayerToBottom not implemented in subclass");
+        return false;
+    }
+    moveLayerUp(layer) {
+        console.warn("moveLayerUp not implemented in subclass");
+        return false;
+    }
+    moveLayerDown(layer) {
+        console.warn("moveLayerDown not implemented in subclass");
+        return false;
+    }
 }

@@ -1,7 +1,8 @@
 .layer-control {
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem 0rem;
     width: 100%;
     margin: 0px;
+    border-bottom: $medium-border;
 }
 
 .layer-control:last-child {
@@ -9,13 +10,33 @@
 }
 
 .layer-header {
-    padding: 0px 0px 0px 1rem;
-    margin: 0.5rem 0px 1rem 0px;
-    font-size: 1.5rem;
+    padding: 0px;
+    margin: 0.5rem 0px;
+    font-size: 1.4rem;
+    /*cursor: move;*/
 }
 
 .layer-toggle {
-    margin-bottom: 0px;
+    margin: 0px;
+    height: 2rem;
+    display: inline-block;
+}
+
+.layer-toggle > span {
+    width: 3rem;
+    height: 1rem;
+    margin-top: 0.5rem;
+}
+
+.layer-toggle span[role="thumb"] {
+    top: -0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 0rem;
+}
+
+.layer-toggle.active span[role="thumb"] {
+    left: 1.5rem;
 }
 
 .layer-pallete-icon {
@@ -24,23 +45,110 @@
 
 .colorbar-container {
     width: 100%;
-    height: auto;
+    line-height: 1rem;
+    margin-left: 1.3rem;
 }
+
 .colorbar-canvas {
     width: 255px;
     height: 12px;
 }
+.colorbar-label-container {
+    margin-left: 1.3rem;
+    height: 1rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    width: 255px;
+}
+.colorbar-label {
+    font-size: 1rem;
+    position: absolute;
+    top: 0px;
+}
+.colorbar-label.min {
+    font-size: 1rem;
+    left: 0px;
+}
+.colorbar-label.mid {
+    font-size: 1rem;
+    left: 50%;
+    transform: translate(-50%, 0px);
+}
+.colorbar-label.max {
+    font-size: 1rem;
+    right: 0px;
+}
+
+.opacity-slider-container {
+    width: 18rem;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    right: -50rem;
+    transform: translate(0px, -50%);
+    z-index: 5;
+    padding: 0.5rem;
+    padding-right: 1rem;
+    background: $light;
+    opacity: 0;
+    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
+    @include medium-shadow();
+    border: $medium-light-border;
+    border-radius: 4px;
+}
+
+.opacity-slider-container.active {
+    right: 5.8rem;
+    transition: opacity 0s linear 0s, right 0s linear 0s;
+    opacity: 1;
+}
+
+.opacity-label {
+    text-align: right;
+}
+
+.position-controls-container {
+    overflow: hidden;
+    width: 12rem;
+    height: 5.5rem;
+    position: absolute;
+    top: 50%;
+    right: -50rem;
+    transform: translate(0px, -50%);
+    z-index: 5;
+    padding: 0px;
+    background: $light;
+    opacity: 0;
+    text-align: center;
+    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
+    @include medium-shadow();
+    border: $medium-light-border;
+    border-radius: 4px;
+}
+
+.position-controls-container.active {
+    right: 8.5rem;
+    transition: opacity 0s linear 0s, right 0s linear 0s;
+    opacity: 1;
+}
+
+button.position-control-button {
+    font-size: 1.2rem;
+    height: 50%;
+    min-width: initial;
+}
+
 
 #layerMenu {
-    width: 380px;
-    max-height: 32px;
+    width: 360px;
+    max-height: 31px;
     position: absolute;
-    bottom: 0px;
-    left: -387px;
+    bottom: 60px;
+    right: 10px;
     z-index: 1;
     background: $light;
     overflow: hidden;
-    padding: 5px 8px;
+    padding: 0.3rem 0.5rem;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
@@ -56,23 +164,16 @@
     max-height: 350px;
 }
 
+#layerHeaderRow {
+    margin-bottom: 0.3rem;
+}
+
 #layerMenuContent {
     max-height: 300px;
     display: block;
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
     overflow-y: auto;
     box-sizing: content-box;
     padding-right: 25px;
-}
-
-#layer-header-row {
-    padding-bottom: 5px;
-    font-size: 1.5rem;
-}
-
-#layer-subheader-row {
-    padding-bottom: 5px;
-    font-size: 1.1rem;
-    letter-spacing: 0.04em;
 }

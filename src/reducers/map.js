@@ -166,7 +166,6 @@ const zoomOut = (state, action) => {
     return state;
 };
 const resetOrientation = (state, action) => {
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.isActive) {
             if (map.resetOrientation()) {
@@ -233,6 +232,55 @@ const setLayerOpacity = (state, action) => {
     }
     return state;
 };
+
+const startChangingOpacity = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingOpacity", true).set("isChangingPosition", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const stopChangingOpacity = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingOpacity", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const startChangingPosition = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingPosition", true).set("isChangingOpacity", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
+const stopChangingPosition = (state, action) => {
+    let layerList = state.getIn(["layers", action.layer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = action.layer.set("isChangingPosition", false);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === action.layer.get("id");
+        });
+        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+    }
+    return state;
+};
+
 const setLayerPalette = (state, action) => {
     // TODO
     let layerList = state.getIn(["layers", action.layer.get("type")]);
@@ -247,7 +295,6 @@ const setLayerPalette = (state, action) => {
 };
 const setBasemap = (state, action) => {
     let alerts = state.get("alerts");
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.setBasemap(action.layer)) {
             return true;
@@ -280,7 +327,6 @@ const setBasemap = (state, action) => {
     return state.set("alerts", alerts);
 };
 const hideBasemap = (state, action) => {
-    // TODO
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.hideBasemap()) {
             return true;
@@ -402,15 +448,15 @@ const setMapDate = (state, action) => {
 const pixelHover = (state, action) => {
     let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
     state.get("maps").forEach((map) => {
-        if(map.isActive) {
+        if (map.isActive) {
             let coords = map.getLatLonFromPixelCoordinate(action.pixel);
-            if(coords) {
+            if (coords) {
                 pixelCoordinate = pixelCoordinate
                     .set("lat", coords.lat)
                     .set("lon", coords.lon)
                     .set("x", action.pixel[0])
                     .set("y", action.pixel[1])
-                    .set("isValid", coords.isValid)
+                    .set("isValid", coords.isValid);
                 return false;
             }
         }
@@ -424,6 +470,33 @@ const dismissAlert = (state, action) => {
     return state.set("alerts", state.get("alerts").filter((alert) => {
         return alert !== remAlert;
     }));
+};
+
+const moveLayerToTop = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerToTop(action.layer);
+    });
+    return state;
+};
+
+
+const moveLayerToBottom = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerToBottom(action.layer);
+    });
+    return state;
+};
+const moveLayerUp = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerUp(action.layer);
+    });
+    return state;
+};
+const moveLayerDown = (state, action) => {
+    state.get("maps").map((map) => {
+        map.moveLayerDown(action.layer);
+    });
+    return state;
 };
 
 export default function map(state = mapState, action) {
@@ -464,6 +537,18 @@ export default function map(state = mapState, action) {
         case actionTypes.SET_LAYER_OPACITY:
             return setLayerOpacity(state, action);
 
+        case actionTypes.START_CHANGING_OPACITY:
+            return startChangingOpacity(state, action);
+
+        case actionTypes.STOP_CHANGING_OPACITY:
+            return stopChangingOpacity(state, action);
+
+        case actionTypes.START_CHANGING_POSITION:
+            return startChangingPosition(state, action);
+
+        case actionTypes.STOP_CHANGING_POSITION:
+            return stopChangingPosition(state, action);
+
         case actionTypes.SET_LAYER_PALETTE:
             return setLayerPalette(state, action);
 
@@ -490,6 +575,18 @@ export default function map(state = mapState, action) {
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
+        case actionTypes.MOVE_LAYER_TO_TOP:
+            return moveLayerToTop(state, action);
+
+        case actionTypes.MOVE_LAYER_TO_BOTTOM:
+            return moveLayerToBottom(state, action);
+
+        case actionTypes.MOVE_LAYER_UP:
+            return moveLayerUp(state, action);
+
+        case actionTypes.MOVE_LAYER_DOWN:
+            return moveLayerDown(state, action);
 
         default:
             return state;

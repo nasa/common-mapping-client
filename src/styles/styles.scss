@@ -2,7 +2,6 @@
 @import "lib/flexboxgrid/flexboxgrid.min.css";
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-
 * {
     box-sizing: border-box;
 }
@@ -33,7 +32,7 @@ body {
     font-size: 1.4rem;
     background-color: $medium-light;
     cursor: default;
-    overflow: hidden;
+    overflow: hidden !important;
     color: #212121;
     @include selectable(none);
 }
@@ -57,7 +56,7 @@ hr.divider {
     height: 0.1rem;
     background-color: $medium-light;
     border: 0;
-    width: 90%
+    width: 90%;
 }
 
 hr.divider.wide {
@@ -83,12 +82,12 @@ hr.divider.dark {
 }
 
 .full-size {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .full-width {
-    width: 100%;
+    width: 100% !important;
 }
 
 .text-left {
@@ -157,12 +156,49 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
     margin-left: 1px;
 }
 
+button.mini-xs-waysmall {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 2.2rem;
+}
+
+button.mini-xs-waysmall > [data-react-toolbox="font-icon"] {
+    font-size: 2.2rem;
+    line-height: 2.2rem;
+    width: 2.2rem;
+}
+
+button.mini-xs-waysmall i {
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    width: 2.2rem;
+}
+
+button.mini-xs-waysmall.small-text {
+    font-size: 1.2rem;
+    min-width: initial;
+    width: auto;
+    height: 2rem;
+}
+
+.button-icon {
+    vertical-align: middle;
+}
+
 .rotate-90 {
     -ms-transform: rotate(90deg);
     /* IE 9 */
     -webkit-transform: rotate(90deg);
     /* Chrome, Safari, Opera */
     transform: rotate(90deg);
+}
+
+.rotate-270 {
+    -ms-transform: rotate(270deg);
+    /* IE 9 */
+    -webkit-transform: rotate(270deg);
+    /* Chrome, Safari, Opera */
+    transform: rotate(270deg);
 }
 
 .pos-rel {
@@ -210,14 +246,6 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
     cursor: pointer;
 }
 
-.slider-label {
-    position: absolute;
-    top: -0.6rem;
-    left: 2rem;
-    font-weight: 300;
-    font-size: 1.3rem;
-}
-
 .link-text {
     color: $primary;
     cursor: pointer;
@@ -226,6 +254,11 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
 .link-text:hover {
     color: $primary-active;
 }
+
+.sortable-ghost {
+    opacity: 0;
+}
+
 
 /* end classes */
 
@@ -249,12 +282,9 @@ button.mini-xs > [data-react-toolbox="font-icon"] {
 @import "loading.scss";
 @import "title.scss";
 @import "help.scss";
-@import "mainMenu.scss";
+@import "settings.scss";
 @import "layerMenu.scss";
 @import "map.scss";
 @import "dateSlider.scss";
-@import "datasetsTab.scss";
-@import "settingsTab.scss";
-@import "valueAtCursor.scss";
 
 /* end imports */

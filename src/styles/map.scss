@@ -1,3 +1,11 @@
+.map-image-tile {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: pixelated;
+}
+
 .map-dimension-toggle {
     position: absolute;
     left: 0.7rem;
@@ -92,6 +100,7 @@
 .mouse-position-string {
     margin-left: 1rem;
 }
+
 .cesium-viewer-bottom {
     display: none;
 }
