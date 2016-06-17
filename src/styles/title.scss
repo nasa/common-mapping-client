@@ -2,8 +2,9 @@
     margin-right: 0.3rem;
     margin-left: 0.7rem;
 }
+
 .title-button:last-child {
-	margin-right: 0.7rem;
+    margin-right: 0.7rem;
 }
 
 #titleContainer {
@@ -21,8 +22,12 @@
 #appTitle {
     padding: 0.7rem 0.7rem;
     margin: 0px;
-    letter-spacing: 0.3rem;
+    margin-left: 4px;
+    letter-spacing: 0rem;
     font-weight: 500;
     color: $light;
     font-size: 4.5rem;
+    text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+    top: 1px;
+    position: relative;
 }
