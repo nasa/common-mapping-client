@@ -7,8 +7,6 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import MiscUtil from '../utils/MiscUtil';
 import Slider from 'react-toolbox/lib/slider';
-// import Slider from 'rc-slider';
-// import 'rc-slider/assets/index.css';
 
 export class LayerControlContainer extends Component {
     changeOpacity(value) {
@@ -154,12 +152,6 @@ export class LayerControlContainer extends Component {
         );
     }
 }
-
-// ALTERNATE SLIDER
-// <div className="opacity-label">
-//     {currOpacity}%
-// </div>
-// <Slider tipTransitionName="" tipFormatter={null} step={1} className="opacity-slider" value={currOpacity} onChange={(value) => this.changeOpacity(value)} />
 
 LayerControlContainer.propTypes = {
     actions: PropTypes.object.isRequired,

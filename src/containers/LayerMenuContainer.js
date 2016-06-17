@@ -8,24 +8,10 @@ import MiscUtil from '../utils/MiscUtil';
 import Sortable from 'sortablejs';
 
 export class LayerMenuContainer extends Component {
-    // <div id="layer-subheader-row" className="row middle-xs">
-    //     <span className="col-xs-8 text-left menu-subheader">drag title to rearrange display order</span>
-    //     <span className="col-xs-4 text-right menu-subheader">value at cursor</span>
-    // </div>
     componentDidMount() {
         let menuContent = document.getElementById('layerMenuContent');
-        // Sortable.create(menuContent, {
-        //     draggable: ".layer-control",
-        //     handle: ".layer-header",
-        //     animation: 150,
-        //     onEnd: (evt) => {
-        //         let newIndex = evt.newIndex;
-        //         let listItem = evt.item;
-        //     }
-        // });
     }
     render() {
-        // let layerList = this.props.layers.sortBy((layer) => { layer.get("displayIndex"); });
         let layerList = this.props.layers.sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
         let activeNum = layerList.count((el) => { return el.get("isActive"); });
