@@ -47,12 +47,14 @@ export const layerModel = Immutable.fromJS({
     opacity: 1.0,
     palette: {
         name: "",
-        handleAs: "image",
+        url: "",
+        handleAs: "",
         min: 0,
         max: 0
     },
     min: 0,
     max: 0,
+    units: "",
     time: config.DEFAULT_DATE.toISOString().split("T")[0],
     type: "",
     refType: "",
@@ -65,6 +67,5 @@ export const layerModel = Immutable.fromJS({
 
 export const paletteModel = Immutable.fromJS({
     id: "",
-    handleAs: "",
     values: []
 });

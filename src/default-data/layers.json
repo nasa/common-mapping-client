@@ -3,18 +3,39 @@
         "id": "MODIS_Terra_Water_Vapor_5km_Day",
         "title": "Water Vapor Infrared (Day, MODIS, Terra)",
         "type": "data",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS",
+        "min": 0.1,
+        "max": 9.64,
+        "units": "cm",
+        "palette": {
+            "name": "MODIS_Terra_Water_Vapor_Day",
+            "handleAs": "json-relative"
+        }
     }, {
         "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
         "title": "Sea Surface Temperature",
         "type": "data",
         "handleAs": "GIBS",
+        "min": 2.0,
+        "max": 32.0,
+        "units": "˚C",
+        "palette": {
+            "name": "GHRSST_L4_Sea_Surface_Temperature",
+            "handleAs": "json-relative"
+        },
         "isDefault": true
     }, {
         "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
         "title": "Brightness Temperature",
         "type": "data",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS",
+        "min": 180.0,
+        "max": 340.0,
+        "units": "˚K",
+        "palette": {
+            "name": "purple_2",
+            "handleAs": "json-relative"
+        }
     }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",

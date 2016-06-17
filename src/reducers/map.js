@@ -383,12 +383,12 @@ const mergeLayers = (state, action) => {
         // merge the matching partials together
         mergedLayer = matchingPartials.reduce((acc, el) => {
             if (el.get("fromJson")) {
-                return acc.merge(el);
+                return acc.mergeDeep(el);
             }
-            return el.merge(acc);
+            return el.mergeDeep(acc);
         }, refPartial);
         // merge in the default values
-        mergedLayer = layerModel.merge(mergedLayer);
+        mergedLayer = layerModel.mergeDeep(mergedLayer);
         // put the newly minted layer into state storage
         newLayers = state.getIn(["layers", mergedLayer.get("type")]);
         if (typeof newLayers !== "undefined") {
@@ -614,37 +614,12 @@ export default function map(state = mapState, action) {
 /****************/
 
 const readPalette = (palette) => {
-    switch (palette.handleAs) {
-        case mapStrings.COLORBAR_JSON_FIXED:
-            return readJsonFixedPalette(palette);
-        case mapStrings.COLORBAR_JSON_RELATIVE:
-            return readJsonRelativePalette(palette);
-        default:
-            return false
-    }
-};
-
-const readJsonFixedPalette = (palette) => {
     return paletteModel.merge({
         id: palette.name,
-        handleAs: palette.handleAs,
         values: Immutable.List(palette.values.map((entry) => {
             return Immutable.Map({
-                value: parseFloat(entry.value),
-                color: MiscUtil.getHexFromColorString(entry.color)
-            });
-        }))
-    });
-};
-
-const readJsonRelativePalette = (palette) => {
-    return paletteModel.merge({
-        id: palette.name,
-        handleAs: palette.handleAs,
-        values: Immutable.List(palette.values.map((entry) => {
-            return Immutable.Map({
-                value: parseFloat(entry.scaleIndex),
-                color: MiscUtil.getHexFromColorString(entry.color)
+                value: parseFloat(entry[0]),
+                color: MiscUtil.getHexFromColorString(entry[1])
             });
         }))
     });
@@ -653,8 +628,7 @@ const readJsonRelativePalette = (palette) => {
 const generatePartialsListFromJson = (config) => {
     return config.layers.map((layer) => {
         let newLayer = Immutable.fromJS(layer);
-        return newLayer
-            .set("fromJson", true);
+        return newLayer.set("fromJson", true);
     });
 };
 

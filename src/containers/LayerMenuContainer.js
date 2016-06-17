@@ -57,6 +57,7 @@ export class LayerMenuContainer extends Component {
                         <LayerControlContainer
                             key={layer.get("id") + "_layer_listing"}
                             layer={layer}
+                            palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
                         />
                     )}
                 </div>

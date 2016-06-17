@@ -93,7 +93,15 @@ export class LayerControlContainer extends Component {
                 </div>
                 <div className="row middle-xs">
                     <div className="col-xs text-left no-padding">
-                        <ColorbarContainer palette={this.props.layer.get("palette")} />
+                        <ColorbarContainer
+                            palette={this.props.palette}
+                            min={this.props.layer.get("min")}
+                            max={this.props.layer.get("max")}
+                            displayMin={this.props.layer.getIn(["palette", "min"])}
+                            displayMax={this.props.layer.getIn(["palette", "max"])}
+                            handleAs={this.props.layer.getIn(["palette", "handleAs"])}
+                            url={this.props.layer.getIn(["palette", "url"])}
+                        />
                     </div>
                     <div className="col-xs text-right">
                         <IconButton
@@ -119,13 +127,13 @@ export class LayerControlContainer extends Component {
                     <div className="col-xs-12 no-padding">
                         <div className="colorbar-label-container pos-rel">
                             <span className="colorbar-label min">
-                                min
+                                {this.props.layer.get("min")}
                             </span>
                             <span className="colorbar-label mid">
-                                mid
+                                {this.props.layer.get("units")}
                             </span>
                             <span className="colorbar-label max">
-                                max
+                                {this.props.layer.get("max")}
                             </span>
                         </div>
                     </div>
@@ -155,7 +163,8 @@ export class LayerControlContainer extends Component {
 
 LayerControlContainer.propTypes = {
     actions: PropTypes.object.isRequired,
-    layer: PropTypes.object.isRequired
+    layer: PropTypes.object.isRequired,
+    palette: PropTypes.object
 };
 
 function mapDispatchToProps(dispatch) {
