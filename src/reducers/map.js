@@ -1,8 +1,9 @@
 import Immutable from 'immutable';
 import * as actionTypes from '../constants/actionTypes';
-import { mapState, layerModel } from './models/map';
+import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/view';
 import MapUtil from '../utils/MapUtil.js';
+import MiscUtil from '../utils/MiscUtil.js';
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../config/mapConfig';
 
@@ -382,12 +383,12 @@ const mergeLayers = (state, action) => {
         // merge the matching partials together
         mergedLayer = matchingPartials.reduce((acc, el) => {
             if (el.get("fromJson")) {
-                return acc.merge(el);
+                return acc.mergeDeep(el);
             }
-            return el.merge(acc);
+            return el.mergeDeep(acc);
         }, refPartial);
         // merge in the default values
-        mergedLayer = layerModel.merge(mergedLayer);
+        mergedLayer = layerModel.mergeDeep(mergedLayer);
         // put the newly minted layer into state storage
         newLayers = state.getIn(["layers", mergedLayer.get("type")]);
         if (typeof newLayers !== "undefined") {
@@ -499,6 +500,17 @@ const moveLayerDown = (state, action) => {
     return state;
 };
 
+const ingestLayerPalettes = (state, action) => {
+    if (action.paletteConfig && action.paletteConfig.paletteArray) {
+        let palettesArray = action.paletteConfig.paletteArray;
+        for (let i = 0; i < palettesArray.length; ++i) {
+            let palette = readPalette(palettesArray[i]);
+            state = state.setIn(["palettes", palette.get("id")], palette);
+        }
+    }
+    return state;
+};
+
 export default function map(state = mapState, action) {
     switch (action.type) {
         case actionTypes.INITIALIZE_MAP:
@@ -588,6 +600,9 @@ export default function map(state = mapState, action) {
         case actionTypes.MOVE_LAYER_DOWN:
             return moveLayerDown(state, action);
 
+        case actionTypes.INGEST_LAYER_PALETTES:
+            return ingestLayerPalettes(state, action);
+
         default:
             return state;
     }
@@ -597,11 +612,23 @@ export default function map(state = mapState, action) {
 /****************/
 /*   helpers   */
 /****************/
+
+const readPalette = (palette) => {
+    return paletteModel.merge({
+        id: palette.name,
+        values: Immutable.List(palette.values.map((entry) => {
+            return Immutable.Map({
+                value: parseFloat(entry[0]),
+                color: MiscUtil.getHexFromColorString(entry[1])
+            });
+        }))
+    });
+};
+
 const generatePartialsListFromJson = (config) => {
     return config.layers.map((layer) => {
         let newLayer = Immutable.fromJS(layer);
-        return newLayer
-            .set("fromJson", true);
+        return newLayer.set("fromJson", true);
     });
 };
 
