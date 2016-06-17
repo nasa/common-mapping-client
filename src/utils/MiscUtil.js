@@ -53,6 +53,41 @@ export default class MiscUtil {
         };
     }
 
+    static getHexFromColorString(colorStr) {
+        let rgbExp = /[0-9]{1,3}(,|, | )[0-9]{1,3}(,|, | )[0-9]{1,3}/;
+        let hexExp = /[0-9A-Fa-f]{6}/;
+
+        if(rgbExp.test(colorStr)) {
+            return this.convertRgbToHex(colorStr);
+        } else if (hexExp.test(colorStr)) {
+            return this.formatHex(colorStr);
+        }
+        return "";
+    }
+
+    static convertRgbToHex(colorStr) {
+        let rgbExp = /[0-9]{1,3}/g;
+        let rgbParts = colorStr.match(rgbExp);
+
+        if(rgbParts && rgbParts.length >= 3) {
+            let hexStr = ("0" + parseInt(rgbParts[0],10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgbParts[1],10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgbParts[2],10).toString(16)).slice(-2);
+            return this.formatHex(hexStr);
+        }
+        return "";
+    }
+
+    static formatHex(colorStr) {
+        let hexExp = /[0-9A-Fa-f]{6}/;
+        let hexParts = colorStr.match(hexExp);
+
+        if(hexParts) {
+            return "#" + hexParts[0];
+        }
+        return "";
+    }
+
     static enterFullScreen() {
         let element = document.documentElement;
         if (element.requestFullscreen) {

@@ -68,13 +68,15 @@ export class LayerMenuContainer extends Component {
 LayerMenuContainer.propTypes = {
     toggleLayerMenu: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
-    layers: PropTypes.object.isRequired
+    layers: PropTypes.object.isRequired,
+    palettes: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
-        layers: state.map.getIn(["layers", "data"])
+        layers: state.map.getIn(["layers", "data"]),
+        palettes: state.map.get("palettes")
     };
 }
 

@@ -3,6 +3,7 @@ import * as actionTypes from '../constants/actionTypes';
 import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/view';
 import MapUtil from '../utils/MapUtil.js';
+import MiscUtil from '../utils/MiscUtil.js';
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../config/mapConfig';
 
@@ -500,10 +501,10 @@ const moveLayerDown = (state, action) => {
 };
 
 const ingestLayerPalettes = (state, action) => {
-    if (action.paletteConfig && action.paletteConfig.paletteArr) {
-        let palettesArr = action.paletteConfig.paletteArr;
-        for (let i = 0; i < palettesArr.length; ++i) {
-            let palette = readPalette(palettesArr[i]);
+    if (action.paletteConfig && action.paletteConfig.paletteArray) {
+        let palettesArray = action.paletteConfig.paletteArray;
+        for (let i = 0; i < palettesArray.length; ++i) {
+            let palette = readPalette(palettesArray[i]);
             state = state.setIn(["palettes", palette.get("id")], palette);
         }
     }
@@ -630,7 +631,7 @@ const readJsonFixedPalette = (palette) => {
         values: Immutable.List(palette.values.map((entry) => {
             return Immutable.Map({
                 value: parseFloat(entry.value),
-                color: entry.color
+                color: MiscUtil.getHexFromColorString(entry.color)
             });
         }))
     });
@@ -643,7 +644,7 @@ const readJsonRelativePalette = (palette) => {
         values: Immutable.List(palette.values.map((entry) => {
             return Immutable.Map({
                 value: parseFloat(entry.scaleIndex),
-                color: entry.color
+                color: MiscUtil.getHexFromColorString(entry.color)
             });
         }))
     });
