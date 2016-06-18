@@ -26,6 +26,11 @@
     width: 3rem;
     height: 1rem;
     margin-top: 0.5rem;
+    /*background: rgba($color-accent, .5);*/
+}
+
+.layer-toggle.active > span {
+    background: rgba($color-accent, .5);
 }
 
 .layer-toggle span[role="thumb"] {
@@ -37,6 +42,7 @@
 
 .layer-toggle.active span[role="thumb"] {
     left: 1.5rem;
+    background: $color-accent;
 }
 
 .layer-pallete-icon {
@@ -53,6 +59,7 @@
     width: 255px;
     height: 12px;
 }
+
 .colorbar-label-container {
     margin-left: 1.3rem;
     height: 1rem;
@@ -60,20 +67,24 @@
     line-height: 1rem;
     width: 255px;
 }
+
 .colorbar-label {
     font-size: 1rem;
     position: absolute;
     top: 0px;
 }
+
 .colorbar-label.min {
     font-size: 1rem;
     left: 0px;
 }
+
 .colorbar-label.mid {
     font-size: 1rem;
     left: 50%;
     transform: translate(-50%, 0px);
 }
+
 .colorbar-label.max {
     font-size: 1rem;
     right: 0px;
@@ -89,7 +100,7 @@
     z-index: 5;
     padding: 0.5rem;
     padding-right: 1rem;
-    background: $light;
+    background: $color-light;
     opacity: 0;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
     @include medium-shadow();
@@ -117,7 +128,7 @@
     transform: translate(0px, -50%);
     z-index: 5;
     padding: 0px;
-    background: $light;
+    background: $color-light;
     opacity: 0;
     text-align: center;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
@@ -138,7 +149,6 @@ button.position-control-button {
     min-width: initial;
 }
 
-
 #layerMenu {
     width: 360px;
     max-height: 31px;
@@ -146,7 +156,7 @@ button.position-control-button {
     bottom: 60px;
     right: 10px;
     z-index: 1;
-    background: $light;
+    background: $color-light;
     overflow: hidden;
     padding: 0.3rem 0.5rem;
     display: block;

@@ -30,7 +30,7 @@ body {
     padding: 0px;
     font-size: 14px;
     font-size: 1.4rem;
-    background-color: $medium-light;
+    background-color: $color-medium-light;
     cursor: default;
     overflow: hidden !important;
     color: #212121;
@@ -54,7 +54,7 @@ p {
 
 hr.divider {
     height: 0.1rem;
-    background-color: $medium-light;
+    background-color: $color-medium-light;
     border: 0;
     width: 90%;
 }
@@ -64,11 +64,11 @@ hr.divider.wide {
 }
 
 hr.divider.medium {
-    background-color: $medium;
+    background-color: $color-medium;
 }
 
 hr.divider.dark {
-    background-color: $dark;
+    background-color: $color-dark;
 }
 
 
@@ -226,7 +226,7 @@ button.mini-xs-waysmall.small-text {
 .dropdown-item-label {
     font-size: 1.6rem;
     font-weight: normal;
-    color: $dark;
+    color: $color-dark;
     margin-right: 1rem;
 }
 
@@ -247,12 +247,12 @@ button.mini-xs-waysmall.small-text {
 }
 
 .link-text {
-    color: $primary;
+    color: $color-primary;
     cursor: pointer;
 }
 
 .link-text:hover {
-    color: $primary-active;
+    color: $color-primary;
 }
 
 .sortable-ghost {

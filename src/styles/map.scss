@@ -31,8 +31,8 @@
 }
 
 .map-scale-container {
-    background: $light;
-    color: $dark;
+    background: $color-light;
+    color: $color-dark;
     width: 200px;
     border-radius: 0px;
     border-top-right-radius: 4px;
@@ -48,7 +48,7 @@
 }
 
 .map-scale-container-inner {
-    border: 1px solid $dark;
+    border: 1px solid $color-dark;
     border-top: none;
     font-size: 1.2rem;
     text-align: center;
@@ -58,8 +58,8 @@
 }
 
 .mouse-position-container {
-    background: $light;
-    color: $dark;
+    background: $color-light;
+    color: $color-dark;
     width: 21rem;
     border-radius: 0px;
     font-size: 1.4rem;

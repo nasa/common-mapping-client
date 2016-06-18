@@ -104,21 +104,23 @@ export class LayerControlContainer extends Component {
                     <div className="col-xs text-right">
                         <IconButton
                             flat
-                            primary={!this.props.layer.get("isChangingPosition")}
+                            // primary={!this.props.layer.get("isChangingPosition")}
                             accent={this.props.layer.get("isChangingPosition")}
+                            disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
                             onClick={() => this.toggleChangingPosition()}>
                             <i className="button-icon ms ms-fw ms-layers-overlay"></i>
                         </IconButton>
                         <IconButton
                             flat
-                            primary={!this.props.layer.get("isChangingOpacity")}
+                            // primary={!this.props.layer.get("isChangingOpacity")}
                             accent={this.props.layer.get("isChangingOpacity")}
+                            disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
                             onClick={() => this.toggleChangingOpacity()}>
                             <i className="button-icon ms ms-fw ms-opacity"></i>
                         </IconButton>
-                        <IconButton primary icon="info_outline" className="no-padding mini-xs-waysmall"/>
+                        <IconButton icon="info_outline" className="no-padding mini-xs-waysmall"/>
                     </div>
                 </div>
                 <div className="row middle-xs">

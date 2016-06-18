@@ -8,7 +8,7 @@
         z-index: 1;
         padding: 2rem;
         position: relative;
-        background: $primary;
+        background: $color-accent;
         color: white;
         @include medium-shadow();
     }
@@ -52,7 +52,7 @@
         display: inline-block;
     }
     .img-wrapper {
-        background-color: $primary;
+        background-color: $color-primary;
         height: 110px;
         width: 100%;
         position: relative;
@@ -68,20 +68,20 @@
         height: 4rem;
         white-space: normal;
         overflow: hidden;
-        background: $light;
+        background: $color-light;
         padding: 0.2rem 0.3rem;
         letter-spacing: 0.02rem;
         text-align: center;
     }
     .base-map-preview.active .basemap-preview-label {
-        background-color: $primary;
-        color: $light;
+        background-color: $color-primary;
+        color: $color-light;
     }
     .base-map-preview.active {
         @include light-shadow();
     }
     .base-map-preview.active .img-wrapper {
-        background-color: $primary;
+        background-color: $color-primary;
     }
     .base-map-preview-img:hover {
         opacity: 0.85;

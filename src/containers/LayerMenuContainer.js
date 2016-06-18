@@ -29,7 +29,7 @@ export class LayerMenuContainer extends Component {
                     </div>
                     <div className="col-xs-4 text-right">
                         <IconButton
-                            primary
+                            neutral
                             icon={this.props.layerMenuOpen ? "keyboard_arrow_down" : "keyboard_arrow_up"}
                             className="no-padding mini-xs-waysmall"
                             onMouseUp={this.props.toggleLayerMenu}

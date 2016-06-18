@@ -1,25 +1,13 @@
-@import 'colors.scss';
-
-/* neutrals */
-
-$dark: $palette-grey-900;
-$medium: $palette-grey-500;
-$medium-light: $palette-grey-200;
-$light: $palette-grey-50;
-
-/* colors */
-
-$primary: $palette-indigo-500;
-$primary-active: $palette-indigo-700;
-$accent: $palette-pink-a200;
-$accent-active: $palette-pink-700;
+@import "~react-toolbox/lib/colors";
+@import "_theme.scss";
+@import "~react-toolbox/lib/globals";
 
 /* borders */
 
-$medium-light-border: 1px solid $medium-light;
-$medium-border: 1px solid $medium;
-$dark-border: 1px solid $dark;
-$light-border: 1px solid $light;
+$medium-light-border: 1px solid $color-medium-light;
+$medium-border: 1px solid $color-medium;
+$dark-border: 1px solid $color-dark;
+$light-border: 1px solid $color-light;
 
 /* shadows */
 

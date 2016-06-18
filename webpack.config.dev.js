@@ -40,5 +40,5 @@ export default {
             { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' }
         ]
     },
-    toolbox: { theme: path.join(__dirname, 'src/styles/material_ui_theme.scss') }
+    toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }
 };
