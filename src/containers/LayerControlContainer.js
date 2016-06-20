@@ -7,6 +7,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import MiscUtil from '../utils/MiscUtil';
 import Slider from 'react-toolbox/lib/slider';
+import ReactTooltip from 'react-tooltip';
 
 export class LayerControlContainer extends Component {
     changeOpacity(value) {
@@ -108,6 +109,8 @@ export class LayerControlContainer extends Component {
                             accent={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
+                            data-tip={!this.props.layer.get("isChangingPosition") ? "adjust layer positioning" : null}
+                            data-place="left"
                             onClick={() => this.toggleChangingPosition()}>
                             <i className="button-icon ms ms-fw ms-layers-overlay"></i>
                         </IconButton>
@@ -117,6 +120,8 @@ export class LayerControlContainer extends Component {
                             accent={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
+                            data-tip={!this.props.layer.get("isChangingOpacity") ? "adjust layer opacity" : null}
+                            data-place="left"
                             onClick={() => this.toggleChangingOpacity()}>
                             <i className="button-icon ms ms-fw ms-opacity"></i>
                         </IconButton>
@@ -150,6 +155,7 @@ export class LayerControlContainer extends Component {
                     <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
                     <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }

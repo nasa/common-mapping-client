@@ -69,6 +69,7 @@
     "openlayers": "3.15.1",
     "react-addons-test-utils": "15.0.1",
     "react-dom": "15.0.1",
+    "react-tooltip": "3.0.4",
     "rimraf": "2.5.2",
     "sass-loader": "3.2.0",
     "sinon": "1.17.3",
