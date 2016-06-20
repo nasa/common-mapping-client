@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/AppActions';
 import { Button } from 'react-toolbox/lib/button';
+import * as actions from '../../actions/AppActions';
 
 
 export class TitleContainer extends Component {

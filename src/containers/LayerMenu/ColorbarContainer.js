@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import MiscUtil from '../utils/MiscUtil';
-import * as actions from '../actions/LayerActions';
-import * as mapStrings from '../constants/mapStrings';
+import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '../../actions/LayerActions';
+import * as mapStrings from '../../constants/mapStrings';
 
 const CANVAS_WIDTH = 255;
 const CANVAS_HEIGHT = 12;

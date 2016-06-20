@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/AppActions';
 import * as layerActions from '../actions/LayerActions';
-import MapContainer from './MapContainer';
-import MapContainer3D from './MapContainer3D';
-import SettingsContainer from './SettingsContainer';
-import LoadingContainer from './LoadingContainer';
-import HelpContainer from './HelpContainer';
-import AlertsContainer from './AlertsContainer';
+import MapContainer from './Map/MapContainer';
+import MapContainer3D from './Map/MapContainer3D';
+import MapControlsContainer from './Map/MapControlsContainer';
+import SettingsContainer from './Settings/SettingsContainer';
+import LoadingContainer from './Loading/LoadingContainer';
+import HelpContainer from './Help/HelpContainer';
+import AlertsContainer from './Alerts/AlertsContainer';
 // import DateSliderContainer from './DateSlider';
-import MapControlsContainer from './MapControlsContainer';
-import TitleContainer from './TitleContainer';
-import LayerMenuContainer from './LayerMenuContainer';
+import TitleContainer from './Title/TitleContainer';
+import LayerMenuContainer from './LayerMenu/LayerMenuContainer';
 import '../styles/styles.scss';
 
 export class AppContainer extends Component {

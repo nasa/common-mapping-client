@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/MapActions';
-import MiscUtil from '../utils/MiscUtil';
 import Button from 'react-toolbox/lib/button';
+import * as actions from '../../actions/MapActions';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class MapControlsContainer extends Component {
     render() {

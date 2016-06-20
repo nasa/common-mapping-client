@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import LayerControlContainer from './LayerControlContainer';
-import * as layerActions from '../actions/LayerActions';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import MiscUtil from '../utils/MiscUtil';
+import LayerControlContainer from './LayerControlContainer';
+import * as layerActions from '../../actions/LayerActions';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     componentDidMount() {

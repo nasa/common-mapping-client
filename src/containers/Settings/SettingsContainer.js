@@ -2,16 +2,16 @@ import Immutable from 'immutable';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as config from '../config/MainMenuConfig';
-import { SCALE_OPTIONS } from '../config/mapConfig';
-import * as appActions from '../actions/AppActions';
-import * as mapActions from '../actions/MapActions';
-import MiscUtil from '../utils/MiscUtil';
-import BaseMapPreview from '../components/BaseMapPreview';
-import MenuDropdown from '../components/MenuDropdown';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
+import * as config from '../../config/MainMenuConfig';
+import { SCALE_OPTIONS } from '../../config/mapConfig';
+import * as appActions from '../../actions/AppActions';
+import * as mapActions from '../../actions/MapActions';
+import MiscUtil from '../../utils/MiscUtil';
+import BaseMapPreview from '../../components/BaseMapPreview';
+import MenuDropdown from '../../components/MenuDropdown';
 
 export class SettingsContainer extends Component {
     render() {

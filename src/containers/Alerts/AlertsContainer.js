@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/AppActions';
 import { Snackbar } from 'react-toolbox';
 import Dialog from 'react-toolbox/lib/dialog';
+import * as actions from '../../actions/AppActions';
 
 
 export class AlertsContainer extends Component {

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/AppActions';
-import Dialog from 'react-toolbox/lib/dialog';
-import { IconButton } from 'react-toolbox/lib/button';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
+import { IconButton } from 'react-toolbox/lib/button';
+import Dialog from 'react-toolbox/lib/dialog';
+import * as actions from '../../actions/AppActions';
 
 
 export class HelpContainer extends Component {

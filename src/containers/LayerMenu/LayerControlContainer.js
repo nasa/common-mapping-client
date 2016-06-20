@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as layerActions from '../actions/LayerActions';
-import ColorbarContainer from './ColorbarContainer';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
-import MiscUtil from '../utils/MiscUtil';
 import Slider from 'react-toolbox/lib/slider';
 import ReactTooltip from 'react-tooltip';
+import * as layerActions from '../../actions/LayerActions';
+import ColorbarContainer from './ColorbarContainer';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerControlContainer extends Component {
     changeOpacity(value) {
