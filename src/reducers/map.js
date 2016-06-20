@@ -200,7 +200,10 @@ const toggleLayer = (state, action) => {
     if (anySucceed) {
         let layerList = state.getIn(["layers", action.layer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("isActive", !action.layer.get("isActive"));
+            let newLayer = action.layer
+                .set("isActive", !action.layer.get("isActive"))
+                .set("isChangingOpacity", false)
+                .set("isChangingPosition", false);
             let index = layerList.findKey((layer) => {
                 return layer.get("id") === action.layer.get("id");
             });
