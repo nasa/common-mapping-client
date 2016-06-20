@@ -19,7 +19,7 @@ export class AppContainer extends Component {
     componentDidMount() {
         this.props.actions.fetchInitialData(() => {
             this.props.actions.activateDefaultLayers();
-            this.props.actions.initialLoad();
+            this.props.actions.completeInitialLoad();
         });
     }
     render() {
@@ -47,7 +47,7 @@ AppContainer.propTypes = {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            initialLoad: bindActionCreators(actions.initialLoad, dispatch),
+            completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
             fetchInitialData: bindActionCreators(layerActions.fetchInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch)
         }

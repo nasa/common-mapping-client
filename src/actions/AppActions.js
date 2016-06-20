@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 
-export function initialLoad() {
+export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
 }
 export function openHelp(param) {
