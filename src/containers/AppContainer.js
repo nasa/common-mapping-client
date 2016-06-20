@@ -9,7 +9,7 @@ import SettingsContainer from './SettingsContainer';
 import LoadingContainer from './LoadingContainer';
 import HelpContainer from './HelpContainer';
 import AlertsContainer from './AlertsContainer';
-import DateSliderContainer from './DateSliderContainer';
+// import DateSliderContainer from './DateSlider';
 import MapControlsContainer from './MapControlsContainer';
 import TitleContainer from './TitleContainer';
 import LayerMenuContainer from './LayerMenuContainer';
@@ -32,7 +32,7 @@ export class AppContainer extends Component {
                 <TitleContainer />
                 <SettingsContainer />
                 <LayerMenuContainer />
-                <DateSliderContainer />
+                {/*<DateSliderContainer />*/}
                 <AlertsContainer />
                 <LoadingContainer />
             </div>
