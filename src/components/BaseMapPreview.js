@@ -4,13 +4,13 @@ import MiscUtil from '../utils/MiscUtil';
 
 const BaseObj = (props) => {
     let wrapperClasses = MiscUtil.generateStringFromSet({
-        "base-map-preview": true,
+        "basemap-preview": true,
         "active": props.layer.get("isActive")
     });
     return (
         <div {...props} className={wrapperClasses}>
             <div className="img-wrapper">
-                <img src={props.layer.get("thumbnailImage") ? props.layer.get("thumbnailImage") : "/styles/resources/img/no_tile.png"} className="base-map-preview-img" alt="basemap preview image" />
+                <img src={props.layer.get("thumbnailImage") ? props.layer.get("thumbnailImage") : "/styles/resources/img/no_tile.png"} className="basemap-preview-img" alt="basemap preview image" />
                 {props.children}
             </div>
             <div className="basemap-preview-label">{props.layer.get("title")}</div>

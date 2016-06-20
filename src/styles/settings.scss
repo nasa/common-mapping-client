@@ -1,7 +1,6 @@
 .settingsContainer {
     color: red;
-    width: auto;
-    max-width: 50%;
+    max-width: 500px;
     h6 {
         margin-top: 0px;
         margin-bottom: 0px;
@@ -43,7 +42,7 @@
         overflow-y: auto;
     }
 
-    .base-map-preview {
+    .basemap-preview {
         width: 150px;
         height: 150px;
         overflow: hidden;
@@ -57,7 +56,7 @@
         width: 100%;
         position: relative;
     }
-    .base-map-preview-img {
+    .basemap-preview-img {
         min-width: 100%;
         height: 100%;
         cursor: pointer;
@@ -73,20 +72,20 @@
         letter-spacing: 0.02rem;
         text-align: center;
     }
-    .base-map-preview.active .basemap-preview-label {
+    .basemap-preview.active .basemap-preview-label {
         background-color: $color-accent;
         color: $color-light;
     }
-    .base-map-preview.active {
+    .basemap-preview.active {
         @include light-shadow();
     }
-    .base-map-preview.active .img-wrapper {
+    .basemap-preview.active .img-wrapper {
         background-color: $color-accent;
     }
-    .base-map-preview-img:hover {
+    .basemap-preview-img:hover {
         opacity: 0.85;
     }
-    .base-map-preview.active .base-map-preview-img {
+    .basemap-preview.active .basemap-preview-img {
         opacity: 0.7;
     }
     #baseMapPreviewContainer {

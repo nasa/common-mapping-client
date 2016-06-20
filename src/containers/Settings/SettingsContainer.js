@@ -26,7 +26,7 @@ export class SettingsContainer extends Component {
         let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
 
         return (
-            <Dialog className={"settingsContainer no-padding display-flex-col-wrapper"} 
+            <Dialog className="settingsContainer no-padding display-flex-col-wrapper"
                     active={this.props.settingsOpen} 
                     onEscKeyDown={this.props.appActions.closeSettings} 
                     onOverlayClick={this.props.appActions.closeSettings} 
@@ -42,12 +42,10 @@ export class SettingsContainer extends Component {
                                     key={layer.get("id") + "_basemap_button"}
                                 />
                             )}
-                            <div>
-                                <BaseMapPreview
-                                    layer={dummyBasemap}
-                                    onClick={() => this.props.mapActions.hideBasemap()}
-                                />
-                            </div>
+                            <BaseMapPreview
+                                layer={dummyBasemap}
+                                onClick={() => this.props.mapActions.hideBasemap()}
+                            />
                     </div>
                     <ListSubHeader className="list-sub-header" caption="Map Scale Units" />
                     <MenuDropdown
