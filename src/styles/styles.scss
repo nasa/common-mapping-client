@@ -124,16 +124,12 @@ hr.divider.dark {
     padding: 0px;
 }
 
-.main-menu-content-header {
-    margin-bottom: 0px;
+.color-light {
+    color: $color-light !important;
 }
 
-.note {
-    letter-spacing: 0.09em;
-    font-style: italic;
-    font-size: 0.7em;
-    margin: 0px 5px;
-    color: $color-text-secondary;
+.main-menu-content-header {
+    margin-bottom: 0px;
 }
 
 button.small {

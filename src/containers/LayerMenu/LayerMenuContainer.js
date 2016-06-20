@@ -24,19 +24,19 @@ export class LayerMenuContainer extends Component {
             <div id="layerMenu" className={layerMenuClasses}>
                 <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
-                        <span className="menu-header">Layer Controls</span>
-                        <span className="note">({activeNum} of {totalNum} active)</span>
+                        <span className="layer-menu-header">LAYER CONTROLS</span>
+                        <span className="layer-menu-note">({activeNum} of {totalNum} active)</span>
                     </div>
                     <div className="col-xs-4 text-right">
                         <IconButton
                             neutral
                             icon={this.props.layerMenuOpen ? "keyboard_arrow_down" : "keyboard_arrow_up"}
-                            className="no-padding mini-xs-waysmall"
+                            className="no-padding mini-xs-waysmall color-light"
                             onMouseUp={this.props.toggleLayerMenu}
                         />
                     </div>
                 </div>
-                <hr className="divider dark wide no-margin" />
+                {/*<hr className="divider dark wide no-margin" />*/}
                 <div id="layerMenuContent">
                     {layerList.map((layer) =>
                         <LayerControlContainer
