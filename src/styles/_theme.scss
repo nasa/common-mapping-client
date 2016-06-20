@@ -1,9 +1,10 @@
 /* colors */
 
-$color-primary: $palette-grey-800 !default;
-$color-primary-dark: $palette-grey-900 !default;
-$color-accent: $palette-indigo-500 !default;
-$color-accent-dark: $palette-indigo-700 !default;
+$color-primary: $palette-blue-grey-500 !default;
+$color-primary-dark: $palette-blue-grey-700 !default;
+$color-primary-light: $palette-blue-grey-100 !default;
+$color-accent: $palette-light-green-500 !default;
+$color-accent-dark: $palette-light-green-700 !default;
 $color-primary-contrast: $color-dark-contrast !default;
 $color-accent-contrast: $color-dark-contrast !default;
 
@@ -22,5 +23,5 @@ $color-text-secondary: $palette-grey-600 !default;
 /* misc */
 
 $color-background: $color-light !default;
-$color-divider: $palette-grey-200 !default;
+$color-divider: $palette-grey-300 !default;
 

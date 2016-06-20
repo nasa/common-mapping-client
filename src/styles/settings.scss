@@ -8,7 +8,7 @@
         z-index: 1;
         padding: 2rem;
         position: relative;
-        background: $color-accent;
+        background: $color-primary;
         color: white;
         @include medium-shadow();
     }
@@ -52,7 +52,7 @@
         display: inline-block;
     }
     .img-wrapper {
-        background-color: $color-primary;
+        background-color: $color-accent;
         height: 110px;
         width: 100%;
         position: relative;
@@ -74,14 +74,14 @@
         text-align: center;
     }
     .base-map-preview.active .basemap-preview-label {
-        background-color: $color-primary;
+        background-color: $color-accent;
         color: $color-light;
     }
     .base-map-preview.active {
         @include light-shadow();
     }
     .base-map-preview.active .img-wrapper {
-        background-color: $color-primary;
+        background-color: $color-accent;
     }
     .base-map-preview-img:hover {
         opacity: 0.85;
