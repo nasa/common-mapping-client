@@ -11,6 +11,21 @@ export function toggleLayer(layer) {
     return { type: types.TOGGLE_LAYER, layer };
 }
 
+export function activateLayer(layer) {
+    console.log(layer);
+    if(!layer.get("isActive")) {
+        return { type: types.TOGGLE_LAYER, layer };
+    }
+    return { type: types.NO_ACTION }
+}
+
+export function deactivateLayer(layer) {
+    if(layer.get("isActive")) {
+        return { type: types.TOGGLE_LAYER, layer };
+    }
+    return { type: types.NO_ACTION }
+}
+
 export function changeLayerOpacity(layer, opacity) {
     return { type: types.SET_LAYER_OPACITY, layer, opacity };
 }

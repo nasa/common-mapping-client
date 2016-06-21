@@ -183,35 +183,43 @@ const resetOrientation = (state, action) => {
 };
 const toggleLayer = (state, action) => {
     let alerts = state.get("alerts");
-    let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.toggleLayer(action.layer)) {
-            return true;
-        } else {
-            alerts = alerts.push(alert.merge({
-                title: "Toggle Layer Failed",
-                body: "One of the maps failed to toggle that layer. We don't know why, and neither do you.",
-                severity: 3,
-                time: new Date()
-            }));
-        }
-        return acc;
-    }, false);
+    let actionLayer = action.layer;
+    if(typeof actionLayer === "string") {
+        actionLayer = findLayerById(state, actionLayer);
+    }
 
-    if (anySucceed) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = action.layer
-                .set("isActive", !action.layer.get("isActive"))
-                .set("isChangingOpacity", false)
-                .set("isChangingPosition", false);
-            let index = layerList.findKey((layer) => {
-                return layer.get("id") === action.layer.get("id");
-            });
-            return state
-                .setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer))
-                .set("alerts", alerts);
+    console.log("HERE", actionLayer);
+    if(typeof actionLayer !== "undefined") {
+        let anySucceed = state.get("maps").reduce((acc, map) => {
+            if (map.toggleLayer(actionLayer)) {
+                return true;
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: "Toggle Layer Failed",
+                    body: "One of the maps failed to toggle that layer. We don't know why, and neither do you.",
+                    severity: 3,
+                    time: new Date()
+                }));
+            }
+            return acc;
+        }, false);
+
+        if (anySucceed) {
+            let layerList = state.getIn(["layers", actionLayer.get("type")]);
+            if (typeof layerList !== "undefined") {
+                let newLayer = actionLayer
+                    .set("isActive", !actionLayer.get("isActive"))
+                    .set("isChangingOpacity", false)
+                    .set("isChangingPosition", false);
+                let index = layerList.findKey((layer) => {
+                    return layer.get("id") === actionLayer.get("id");
+                });
+                return state
+                    .setIn(["layers", actionLayer.get("type")], layerList.set(index, newLayer))
+                    .set("alerts", alerts);
+            }
+            return state.set("alerts", alerts);
         }
-        return state.set("alerts", alerts);
     }
     return state.set("alerts", alerts);
 };
@@ -615,6 +623,17 @@ export default function map(state = mapState, action) {
 /****************/
 /*   helpers   */
 /****************/
+
+const findLayerById = (state, layerId) => {
+    return state.get("layers").reduce((acc, layerList) => {
+        if(!acc) {
+            return layerList.find((layer) => {
+                return layer.get("id") === layerId;
+            });
+        }
+        return acc;
+    }, false);
+};
 
 const readPalette = (palette) => {
     return paletteModel.merge({

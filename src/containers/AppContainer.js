@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/AppActions';
 import * as layerActions from '../actions/LayerActions';
+import MiscUtil from '../utils/MiscUtil';
 import MapContainer from './Map/MapContainer';
 import MapContainer3D from './Map/MapContainer3D';
 import MapControlsContainer from './Map/MapControlsContainer';
@@ -18,10 +19,23 @@ import '../styles/styles.scss';
 export class AppContainer extends Component {
     componentDidMount() {
         this.props.actions.fetchInitialData(() => {
-            this.props.actions.activateDefaultLayers();
+            let urlParams = MiscUtil.getUrlParams();
+            if(urlParams.length === 0) {
+                this.props.actions.activateDefaultLayers();
+            } else {
+                this.props.actions.runUrlConfig(urlParams);
+            }
             this.props.actions.completeInitialLoad();
         });
+        window.addEventListener('hashchange', () => {this.handleUrlHashChange();}, false);
     }
+
+    handleUrlHashChange() {
+        let urlParams = MiscUtil.getUrlParams();
+        this.props.actions.runUrlConfig(urlParams);
+        console.log("HASH CHANGE", urlParams);
+    }
+
     render() {
         return (
             <div id="appContainer">
@@ -49,7 +63,8 @@ function mapDispatchToProps(dispatch) {
         actions: {
             completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
             fetchInitialData: bindActionCreators(layerActions.fetchInitialData, dispatch),
-            activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch)
+            activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
+            runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch)
         }
     };
 }
