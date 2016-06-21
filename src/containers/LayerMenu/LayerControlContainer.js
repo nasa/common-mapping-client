@@ -12,7 +12,7 @@ import MiscUtil from '../../utils/MiscUtil';
 export class LayerControlContainer extends Component {
     changeOpacity(value) {
         let opacity = value / 100.00;
-        this.props.actions.changeLayerOpacity(this.props.layer, opacity);
+        this.props.actions.setLayerOpacity(this.props.layer, opacity);
     }
 
     toggleChangingOpacity() {
