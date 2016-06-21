@@ -4,8 +4,8 @@ export function initializeMap(mapType, container) {
 	return { type: types.INITIALIZE_MAP, mapType, container };
 }
 
-export function toggle2D3D() {
-	return { type: types.TOGGLE_2D_3D };
+export function setMapViewMode(mode) {
+	return { type: types.SET_MAP_VIEW_MODE, mode };
 }
 
 export function resetOrientation() {
@@ -20,16 +20,8 @@ export function setMapViewInfo(viewInfo) {
 	return { type: types.SET_MAP_VIEW_INFO, viewInfo };
 }
 
-export function toggleDisplayPoliticalBoundaries() {
-    return { type: types.TOGGLE_POLITICAL_BOUNDARIES };
-}
-
-export function toggleDisplayPlaceLabels() {
-    return { type: types.TOGGLE_PLACE_LABELS };
-}
-
-export function toggleEnableTerrain() {
-    return { type: types.TOGGLE_ENABLE_TERRAIN };
+export function setTerrainEnabled(enabled) {
+    return { type: types.SET_TERRAIN_ENABLED, enabled };
 }
 
 export function setScaleUnits(units) {

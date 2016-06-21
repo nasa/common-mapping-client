@@ -111,6 +111,10 @@ export default class MiscUtil {
         }
     }
 
+    static getIsInFullScreenMode() {
+        return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+    }
+
     static getUrlParams() {
         return window.location.hash.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
             let paramParts = param.split('=');

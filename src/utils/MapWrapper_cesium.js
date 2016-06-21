@@ -219,29 +219,62 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    toggleLayer(layer) {
+    addLayer(mapLayer) {
         try {
-            let mapLayers = this.map.imageryLayers;
+            let index = this.findTopInsertIndexForLayer(mapLayer);
+            this.map.imageryLayers.add(mapLayer, index);
+            return true;
+        } catch (err) {
+            console.log("could not add cesium layer.", err);
+            return false;
+        }
+    }
+
+    removeLayer(mapLayer) {
+        try {
+            this.map.imageryLayers.remove(mapLayer);
+            return true;
+        } catch (err) {
+            console.log("could not remove cesium layer.", err);
+            return false;
+        }
+    }
+
+    activateLayer(layer) {
+        try {
+            let mapLayer = this.findLayerInMapLayers(layer);
+            if (!mapLayer) {
+                mapLayer = this.createLayer(layer);
+                this.addLayer(mapLayer);
+            } else {
+                this.moveLayerToTop(layer);
+            }
+            mapLayer.show = true;
+            return true;
+        } catch (err) {
+            console.log("could not activate cesium layer.", err);
+            return false;
+        }
+    }
+
+    deactivateLayer(layer) {
+        try {
             let mapLayer = this.findLayerInMapLayers(layer);
             if (mapLayer) {
-                mapLayer.show = !layer.get("isActive");
-                if(!layer.get("isActive")) {
-                    this.moveLayerToTop(layer);
-                }
-                return true;
-            } else {
-                let mapLayer = this.createLayer(layer);
-                mapLayer.show = true;
-                if (mapLayer) {
-                    let index = this.findTopInsertIndexForLayer(mapLayer);
-                    mapLayers.add(mapLayer, index);
-                    return true;
-                }
+                mapLayer.show = false;
             }
-            return false;
+            return true;
         } catch (err) {
-            console.log("could not toggle cesium layer.", err);
+            console.log("could not deactivate cesium layer.", err);
             return false;
+        }
+    }
+
+    setLayerActive(layer, active) {
+        if (active) {
+            return this.activateLayer(layer);
+        } else {
+            return this.deactivateLayer(layer);
         }
     }
 

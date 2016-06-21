@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as config from '../../config/mapConfig';
+import * as config from '../../constants/mapConfig';
 
 export const mapState = Immutable.fromJS({
     layers: {
@@ -30,8 +30,6 @@ export const mapState = Immutable.fromJS({
         }
     },
     displaySettings: {
-        displayPoliticalBoundaries: false,
-        displayPlaceLabels: false,
         enableTerrain: true,
         selectedScaleUnits: "metric"
     },
@@ -57,7 +55,6 @@ export const layerModel = Immutable.fromJS({
     units: "",
     time: config.DEFAULT_DATE.toISOString().split("T")[0],
     type: "",
-    refType: "",
     isDefault: false,
     wmtsOptions: null,
     thumbnailImage: "",

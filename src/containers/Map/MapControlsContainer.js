@@ -3,9 +3,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
 import * as actions from '../../actions/MapActions';
+import * as mapStrings from '../../constants/mapStrings';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class MapControlsContainer extends Component {
+    setViewMode() {
+        if(this.props.in3DMode) {
+            this.props.actions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D);
+        } else {
+            this.props.actions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D);
+        }
+    }
+
     render() {
         let coordinateString = "coordinates of cursor";
         if(this.props.pixelCoordinate.get("isValid")) {
@@ -18,7 +27,7 @@ export class MapControlsContainer extends Component {
         });
         return (
             <div id="mapControls">
-                <Button floating neutral label={this.props.in3DMode ? "2D" : "3D"} className="map-dimension-toggle mini-xs" onClick={this.props.actions.toggle2D3D} />
+                <Button floating neutral label={this.props.in3DMode ? "2D" : "3D"} className="map-dimension-toggle mini-xs" onClick={() => this.setViewMode()} />
                 <Button floating neutral icon="navigation" className={this.props.in3DMode ? "map-orientation-reset mini-xs" : "hidden"} onClick={this.props.actions.resetOrientation} />
                 <Button floating neutral icon="add" className="map-zoom-in mini-xs" onClick={this.props.actions.zoomIn} />
                 <Button floating neutral icon="remove" className="map-zoom-out mini-xs" onClick={this.props.actions.zoomOut} />

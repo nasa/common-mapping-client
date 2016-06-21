@@ -18,8 +18,8 @@ export function selectHelpPage(param) {
 export function dismissAlert(alert) {
     return { type: types.DISMISS_ALERT, alert };
 }
-export function toggleFullScreen() {
-    return { type: types.TOGGLE_FULL_SCREEN };
+export function setFullScreenMode(enabled) {
+    return { type: types.SET_FULL_SCREEN, enabled };
 }
 export function openSettings() {
     return { type: types.OPEN_SETTINGS };
@@ -66,7 +66,7 @@ function activateLayers(idArr) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.activateLayer(idArr[i]));
+                dispatch(LayerActions.setLayerActive(idArr[i], true));
             }
         });
     };
@@ -76,7 +76,7 @@ function setLayerOpacities(opacitiesArr) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < opacitiesArr.length; ++i) {
-                dispatch(LayerActions.toggleLayer(opacitiesArr[i]));
+                dispatch(LayerActions.setLayerActive(opacitiesArr[i], false));
             }
         });
     };

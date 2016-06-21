@@ -40,13 +40,11 @@
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",
-        "refType": "labels",
         "handleAs": "GIBS"
     }, {
         "id": "Reference_Features",
         "title": "Reference Features",
         "type": "reference",
-        "refType": "features",
         "handleAs": "GIBS"
     }, {
         "id": "ESRI_World_Imagery",

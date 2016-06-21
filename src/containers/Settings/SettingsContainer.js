@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
-import * as config from '../../config/MainMenuConfig';
-import { SCALE_OPTIONS } from '../../config/mapConfig';
+import { SCALE_OPTIONS, REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID } from '../../constants/mapConfig';
 import * as appActions from '../../actions/AppActions';
 import * as mapActions from '../../actions/MapActions';
+import * as layerActions from '../../actions/LayerActions';
 import MiscUtil from '../../utils/MiscUtil';
 import BaseMapPreview from '../../components/BaseMapPreview';
 import MenuDropdown from '../../components/MenuDropdown';
@@ -24,6 +24,14 @@ export class SettingsContainer extends Component {
         });
 
         let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
+
+
+        let referenceLabelsLayer = this.props.referenceLayers.find((layer) => {
+            return layer.get("id") === REFERENCE_LABELS_LAYER_ID;
+        });
+        let politicalBoundariesLayer = this.props.referenceLayers.find((layer) => {
+            return layer.get("id") === POLITICAL_BOUNDARIES_LAYER_ID;
+        });
 
         return (
             <Dialog className="settingsContainer no-padding display-flex-col-wrapper"
@@ -59,16 +67,16 @@ export class SettingsContainer extends Component {
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Political Boundaries"
-                        checked={this.props.mapSettings.get("displayPoliticalBoundaries")}
+                        checked={politicalBoundariesLayer && politicalBoundariesLayer.get("isActive")}
                         legend="Display political boundaries on the map"
-                        onChange={() => this.props.mapActions.toggleDisplayPoliticalBoundaries()}
+                        onChange={(value) => this.props.layerActions.setLayerActive(POLITICAL_BOUNDARIES_LAYER_ID, value)}
                     />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Place Labels"
-                        checked={this.props.mapSettings.get("displayPlaceLabels")}
+                        checked={referenceLabelsLayer && referenceLabelsLayer.get("isActive")}
                         legend="Display place labels on the map"
-                        onChange={() => this.props.mapActions.toggleDisplayPlaceLabels()}
+                        onChange={(value) => this.props.layerActions.setLayerActive(REFERENCE_LABELS_LAYER_ID, value)}
                     />
                     <hr className="divider" />
                     <ListCheckbox
@@ -76,7 +84,7 @@ export class SettingsContainer extends Component {
                         caption="Enable 3D Terrain"
                         checked={this.props.mapSettings.get("enableTerrain")}
                         legend="Enable terrain on the 3D map"
-                        onChange={() => this.props.mapActions.toggleEnableTerrain()}
+                        onChange={(value) => this.props.mapActions.setTerrainEnabled(value)}
                     />
                     <hr className="divider" />
                     <ListItem
@@ -94,23 +102,27 @@ export class SettingsContainer extends Component {
 SettingsContainer.propTypes = {
     settingsOpen: PropTypes.bool.isRequired,
     basemaps: PropTypes.object.isRequired,
+    referenceLayers: PropTypes.object.isRequired,
     mapSettings: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired
+    mapActions: PropTypes.object.isRequired,
+    layerActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         settingsOpen: state.settingsContainer.get("isOpen"),
         mapSettings: state.map.get("displaySettings"),
-        basemaps: state.map.getIn(["layers", "basemap"])
+        basemaps: state.map.getIn(["layers", "basemap"]),
+        referenceLayers: state.map.getIn(["layers", "reference"])
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         appActions: bindActionCreators(appActions, dispatch),
-        mapActions: bindActionCreators(mapActions, dispatch)
+        mapActions: bindActionCreators(mapActions, dispatch),
+        layerActions: bindActionCreators(layerActions, dispatch)
     };
 }
 
