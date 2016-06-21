@@ -19,15 +19,19 @@ import '../styles/styles.scss';
 export class AppContainer extends Component {
     componentDidMount() {
         this.props.actions.fetchInitialData(() => {
-            let urlParams = MiscUtil.getUrlParams();
-            if(urlParams.length === 0) {
-                this.props.actions.activateDefaultLayers();
-            } else {
-                this.props.actions.runUrlConfig(urlParams);
-            }
+            this.props.actions.activateDefaultLayers();
             this.props.actions.completeInitialLoad();
         });
-        window.addEventListener('hashchange', () => {this.handleUrlHashChange();}, false);
+        // this.props.actions.fetchInitialData(() => {
+        //     let urlParams = MiscUtil.getUrlParams();
+        //     if(urlParams.length === 0) {
+        //         this.props.actions.activateDefaultLayers();
+        //     } else {
+        //         this.props.actions.runUrlConfig(urlParams);
+        //     }
+        //     this.props.actions.completeInitialLoad();
+        // });
+        // window.addEventListener('hashchange', () => {this.handleUrlHashChange();}, false);
     }
 
     handleUrlHashChange() {
