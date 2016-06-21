@@ -85,7 +85,7 @@ export class LayerControlContainer extends Component {
                         <Switch
                             className={switchClasses}
                             checked={this.props.layer.get("isActive")}
-                            onChange={() => this.props.actions.toggleLayer(this.props.layer)}
+                            onChange={(active) => this.props.actions.setLayerActive(this.props.layer, active)}
                         />
                     </div>
                     <span className="col-xs layer-header text-wrap">{this.props.layer.get("title")}</span>

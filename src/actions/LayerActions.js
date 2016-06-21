@@ -1,14 +1,14 @@
 import fetch from 'isomorphic-fetch';
-import { URLS } from '../config/appConfig';
+import { URLS } from '../constants/appConfig';
 import * as types from '../constants/actionTypes';
 import * as mapStrings from '../constants/mapStrings';
 
-export function toggleLayerMenu() {
-    return { type: types.TOGGLE_LAYER_MENU };
+export function setLayerMenuOpen(open) {
+    return { type: types.SET_LAYER_MENU_OPEN, open };
 }
 
-export function toggleLayer(layer) {
-    return { type: types.TOGGLE_LAYER, layer };
+export function setLayerActive(layer, active)  {
+    return { type: types.SET_LAYER_ACTIVE, layer, active };
 }
 
 export function changeLayerOpacity(layer, opacity) {

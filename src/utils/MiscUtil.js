@@ -57,7 +57,7 @@ export default class MiscUtil {
         let rgbExp = /[0-9]{1,3}(,|, | )[0-9]{1,3}(,|, | )[0-9]{1,3}/;
         let hexExp = /[0-9A-Fa-f]{6}/;
 
-        if(rgbExp.test(colorStr)) {
+        if (rgbExp.test(colorStr)) {
             return this.convertRgbToHex(colorStr);
         } else if (hexExp.test(colorStr)) {
             return this.formatHex(colorStr);
@@ -69,10 +69,10 @@ export default class MiscUtil {
         let rgbExp = /[0-9]{1,3}/g;
         let rgbParts = colorStr.match(rgbExp);
 
-        if(rgbParts && rgbParts.length >= 3) {
-            let hexStr = ("0" + parseInt(rgbParts[0],10).toString(16)).slice(-2) +
-                ("0" + parseInt(rgbParts[1],10).toString(16)).slice(-2) +
-                ("0" + parseInt(rgbParts[2],10).toString(16)).slice(-2);
+        if (rgbParts && rgbParts.length >= 3) {
+            let hexStr = ("0" + parseInt(rgbParts[0], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgbParts[1], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(rgbParts[2], 10).toString(16)).slice(-2);
             return this.formatHex(hexStr);
         }
         return "";
@@ -82,7 +82,7 @@ export default class MiscUtil {
         let hexExp = /[0-9A-Fa-f]{6}/;
         let hexParts = colorStr.match(hexExp);
 
-        if(hexParts) {
+        if (hexParts) {
             return "#" + hexParts[0];
         }
         return "";
@@ -111,4 +111,17 @@ export default class MiscUtil {
         }
     }
 
+    static getIsInFullScreenMode() {
+        return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+    }
+
+    static getUrlParams() {
+        return window.location.hash.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
+            let paramParts = param.split('=');
+            if (paramParts && paramParts.length === 2) {
+                acc.push({ key: paramParts[0], value: paramParts[1] });
+            }
+            return acc;
+        }, []);
+    }
 }

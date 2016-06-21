@@ -5,7 +5,7 @@ import { alert } from './models/view';
 import MapUtil from '../utils/MapUtil.js';
 import MiscUtil from '../utils/MiscUtil.js';
 import * as mapStrings from '../constants/mapStrings';
-import * as mapConfig from '../config/mapConfig';
+import * as mapConfig from '../constants/mapConfig';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -24,75 +24,35 @@ const initializeMap = (state, action) => {
     })));
 };
 
-const toggle2D3D = (state, action) => {
-    let newVal = !state.getIn(["view", "in3DMode"]);
+const setMapViewMode = (state, action) => {
+    let mode_3D = action.mode === mapStrings.MAP_VIEW_MODE_3D;
     state = state.set("maps", state.get("maps").map((map) => {
         if (map.is3D) {
-            map.isActive = newVal;
+            map.isActive = mode_3D;
         } else {
-            map.isActive = !newVal;
+            map.isActive = !mode_3D;
         }
         return map;
     }));
-    return state.setIn(["view", "in3DMode"], newVal);
+    return state.setIn(["view", "in3DMode"], mode_3D);
 };
 
-const togglePoliticalBoundaries = (state, action) => {
-    // get the political boundaries layer
-    let politicalBoundariesLayer = state.getIn(["layers", "reference"]).find((el) => {
-        return el.get("refType") === "features";
-    });
-    if (typeof politicalBoundariesLayer !== "undefined") {
-        // store is previous state
-        let prevState = politicalBoundariesLayer.get("isActive");
-        // toggle the layer
-        state = toggleLayer(state, { layer: politicalBoundariesLayer });
-        // retrieve the updated layer
-        politicalBoundariesLayer = state.getIn(["layers", "reference"]).find((el) => {
-            return el.get("refType") === "features";
-        });
-        // verify it was toggled
-        if (politicalBoundariesLayer.get("isActive") !== prevState) {
-            return state.setIn(["displaySettings", "displayPoliticalBoundaries"], !state.getIn(["displaySettings", "displayPoliticalBoundaries"]));
-        }
-    }
-    return state;
-};
-
-const togglePlaceLabels = (state, action) => {
-    // get the place labels layer
-    let placeLabelsLayer = state.getIn(["layers", "reference"]).find((el) => {
-        return el.get("refType") === "labels";
-    });
-    if (typeof placeLabelsLayer !== "undefined") {
-        // store is previous state
-        let prevState = placeLabelsLayer.get("isActive");
-        // toggle the layer
-        state = toggleLayer(state, { layer: placeLabelsLayer });
-        // retrieve the updated layer
-        placeLabelsLayer = state.getIn(["layers", "reference"]).find((el) => {
-            return el.get("refType") === "labels";
-        });
-        // verify it was toggled
-        if (placeLabelsLayer.get("isActive") !== prevState) {
-            return state.setIn(["displaySettings", "displayPlaceLabels"], !state.getIn(["displaySettings", "displayPlaceLabels"]));
-        }
-    }
-    return state;
-};
-const toggleEnableTerrain = (state, action) => {
+const setTerrainEnabled = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.enableTerrain(!state.getIn(["displaySettings", "enableTerrain"]))) {
-            return true;
+        if (map.is3D) {
+            if (map.enableTerrain(action.enabled)) {
+                return true;
+            }
         }
         return acc;
     }, false);
 
     if (anySucceed) {
-        return state.setIn(["displaySettings", "enableTerrain"], !state.getIn(["displaySettings", "enableTerrain"]));
+        return state.setIn(["displaySettings", "enableTerrain"], action.enabled);
     }
     return state;
 };
+
 const setScaleUnits = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.setScaleUnits(action.units)) {
@@ -181,40 +141,51 @@ const resetOrientation = (state, action) => {
     }
     return state;
 };
-const toggleLayer = (state, action) => {
-    let alerts = state.get("alerts");
-    let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.toggleLayer(action.layer)) {
-            return true;
-        } else {
-            alerts = alerts.push(alert.merge({
-                title: "Toggle Layer Failed",
-                body: "One of the maps failed to toggle that layer. We don't know why, and neither do you.",
-                severity: 3,
-                time: new Date()
-            }));
-        }
-        return acc;
-    }, false);
 
-    if (anySucceed) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = action.layer
-                .set("isActive", !action.layer.get("isActive"))
-                .set("isChangingOpacity", false)
-                .set("isChangingPosition", false);
-            let index = layerList.findKey((layer) => {
-                return layer.get("id") === action.layer.get("id");
-            });
-            return state
-                .setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer))
-                .set("alerts", alerts);
+const setLayerActive = (state, action) => {
+    let alerts = state.get("alerts");
+
+    // resolve layer from id if necessary
+    let actionLayer = action.layer;
+    if (typeof actionLayer === "string") {
+        actionLayer = findLayerById(state, actionLayer);
+    }
+
+    if (typeof actionLayer !== "undefined") {
+        let anySucceed = state.get("maps").reduce((acc, map) => {
+            if (map.setLayerActive(actionLayer, action.active)) {
+                return true;
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: "Activate Layer Failed",
+                    body: "One of the maps failed to activate that layer. We don't know why, and neither do you.",
+                    severity: 3,
+                    time: new Date()
+                }));
+            }
+            return acc;
+        }, false);
+
+        if (anySucceed) {
+            let layerList = state.getIn(["layers", actionLayer.get("type")]);
+            if (typeof layerList !== "undefined") {
+                let newLayer = actionLayer
+                    .set("isActive", action.active)
+                    .set("isChangingOpacity", false)
+                    .set("isChangingPosition", false);
+                let index = layerList.findKey((layer) => {
+                    return layer.get("id") === actionLayer.get("id");
+                });
+                return state
+                    .setIn(["layers", actionLayer.get("type"), index], newLayer)
+                    .set("alerts", alerts);
+            }
+            return state.set("alerts", alerts);
         }
-        return state.set("alerts", alerts);
     }
     return state.set("alerts", alerts);
 };
+
 const setLayerOpacity = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.setLayerOpacity(action.layer, action.opacity)) {
@@ -404,14 +375,14 @@ const mergeLayers = (state, action) => {
 const activateDefaultLayers = (state, action) => {
     return state.set("layers", state.get("layers").map((layerSet) => {
         return layerSet.map((layer) => {
-            if (layer.get("isDefault") && !layer.get("isActive")) {
+            if (layer.get("isDefault")) {
                 let anySucceed = state.get("maps").reduce((acc, map) => {
                     if (layer.get("type") === "basemap") {
                         if (map.setBasemap(layer)) {
                             return true;
                         }
                     } else {
-                        if (map.toggleLayer(layer)) {
+                        if (map.setLayerActive(layer, true)) {
                             return true;
                         }
                     }
@@ -519,17 +490,11 @@ export default function map(state = mapState, action) {
         case actionTypes.INITIALIZE_MAP:
             return initializeMap(state, action);
 
-        case actionTypes.TOGGLE_2D_3D:
-            return toggle2D3D(state, action);
+        case actionTypes.SET_MAP_VIEW_MODE:
+            return setMapViewMode(state, action);
 
-        case actionTypes.TOGGLE_POLITICAL_BOUNDARIES:
-            return togglePoliticalBoundaries(state, action);
-
-        case actionTypes.TOGGLE_PLACE_LABELS:
-            return togglePlaceLabels(state, action);
-
-        case actionTypes.TOGGLE_ENABLE_TERRAIN:
-            return toggleEnableTerrain(state, action);
+        case actionTypes.SET_TERRAIN_ENABLED:
+            return setTerrainEnabled(state, action);
 
         case actionTypes.SET_SCALE_UNITS:
             return setScaleUnits(state, action);
@@ -546,8 +511,8 @@ export default function map(state = mapState, action) {
         case actionTypes.RESET_ORIENTATION:
             return resetOrientation(state, action);
 
-        case actionTypes.TOGGLE_LAYER:
-            return toggleLayer(state, action);
+        case actionTypes.SET_LAYER_ACTIVE:
+            return setLayerActive(state, action);
 
         case actionTypes.SET_LAYER_OPACITY:
             return setLayerOpacity(state, action);
@@ -615,6 +580,17 @@ export default function map(state = mapState, action) {
 /****************/
 /*   helpers   */
 /****************/
+
+const findLayerById = (state, layerId) => {
+    return state.get("layers").reduce((acc, layerList) => {
+        if (!acc) {
+            return layerList.find((layer) => {
+                return layer.get("id") === layerId;
+            });
+        }
+        return acc;
+    }, false);
+};
 
 const readPalette = (palette) => {
     return paletteModel.merge({

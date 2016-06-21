@@ -74,8 +74,8 @@ export default class MapWrapper {
         return false;
     }
 
-    toggleLayer(layer) {
-        console.warn("toggleLayer not implemented in subclass");
+    setLayerActive(layer, active) {
+        console.warn("setLayerActive not implemented in subclass");
         return false;
     }
 

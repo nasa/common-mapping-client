@@ -11,8 +11,8 @@ const completeInitialLoad = (state, action) => {
     return state.set("initialLoadComplete", true);
 };
 
-const toggleLayerMenu = (state, action) => {
-    return state.set("layerMenuOpen", !state.get("layerMenuOpen"));
+const setLayerMenuOpen = (state, action) => {
+    return state.set("layerMenuOpen", action.open);
 };
 
 const dismissAlert = (state, action) => {
@@ -22,14 +22,13 @@ const dismissAlert = (state, action) => {
     }));
 };
 
-const toggleFullScreen = (state, action) => {
-    let isInFullscreenMode = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-    if(isInFullscreenMode) {
-        MiscUtil.exitFullscreen();
-    } else {
+const setFullScreen = (state, action) => {
+    if(action.enabled) {
         MiscUtil.enterFullScreen();
+    } else {
+        MiscUtil.exitFullscreen();
     }
-    return state.set("isFullscreen", !isInFullscreenMode);
+    return state.set("isFullscreen", action.enabled);
 };
 
 export default function view(state = viewState, action) {
@@ -37,14 +36,14 @@ export default function view(state = viewState, action) {
         case actionTypes.COMPLETE_INITIAL_LOAD:
             return completeInitialLoad(state, action);
 
-        case actionTypes.TOGGLE_LAYER_MENU:
-            return toggleLayerMenu(state, action);
+        case actionTypes.SET_LAYER_MENU_OPEN:
+            return setLayerMenuOpen(state, action);
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
 
-        case actionTypes.TOGGLE_FULL_SCREEN:
-            return toggleFullScreen(state, action);
+        case actionTypes.SET_FULL_SCREEN:
+            return setFullScreen(state, action);
 
         default:
             return state;

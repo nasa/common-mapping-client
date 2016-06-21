@@ -58,6 +58,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 let mapLayer = new ol.layer.Tile({
                     opacity: layer.get("opacity"),
+                    visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
                     extent: [-36000, -90, 36000, 90],
                     source: layerSource
@@ -165,25 +166,43 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    toggleLayer(layer) {
+    activateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (!mapLayer) {
                 mapLayer = this.createLayer(layer);
-                if (mapLayer) {
-                    return this.addLayer(mapLayer);
-                }
+                this.addLayer(mapLayer);
             } else {
-                mapLayer.setVisible(!layer.get("isActive"));
-                if(!layer.get("isActive")) {
-                    this.moveLayerToTop(layer);
-                }
+                this.moveLayerToTop(layer);
+            }
+            mapLayer.setVisible(true);
+            return true;
+        } catch (err) {
+            console.log("could not activate openlayers layer.", err);
+            return false;
+        }
+    }
+
+    deactivateLayer(layer) {
+        try {
+            let mapLayers = this.map.getLayers().getArray();
+            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            if (mapLayer) {
+                mapLayer.setVisible(false);
             }
             return true;
         } catch (err) {
-            console.log("could not toggle openlayers layer.", err);
+            console.log("could not deactivate openlayers layer.", err);
             return false;
+        }
+    }
+
+    setLayerActive(layer, active) {
+        if (active) {
+            return this.activateLayer(layer);
+        } else {
+            return this.deactivateLayer(layer);
         }
     }
 
@@ -215,6 +234,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 } else {
                     mapLayers.insertAt(0, newBasemap);
                 }
+                newBasemap.setVisible(true);
                 return true;
             }
             return false;
@@ -419,7 +439,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let ret = origFunc(tile, url);
             // override getImage()
-            if(typeof tile._origGetImageFunc === "undefined") {
+            if (typeof tile._origGetImageFunc === "undefined") {
                 tile._origGetImageFunc = tile.getImage;
 
                 // fb() == getImage() in minified code

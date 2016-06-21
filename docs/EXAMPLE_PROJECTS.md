@@ -7,5 +7,9 @@
 * (Removing?) Animation
 * Mobile interface example
 * Dark theme example
+* Display 3D model
+* Flying tour
+* Game controls
+* Custom Cesium ellipsoid
 
 # Projects that used CMC to get started

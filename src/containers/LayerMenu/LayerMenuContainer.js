@@ -30,13 +30,13 @@ export class LayerMenuContainer extends Component {
                     <div className="col-xs-4 text-right">
                         <IconButton
                             neutral
+                            inverse
                             icon={this.props.layerMenuOpen ? "keyboard_arrow_down" : "keyboard_arrow_up"}
-                            className="no-padding mini-xs-waysmall color-light"
-                            onMouseUp={this.props.toggleLayerMenu}
+                            className="no-padding mini-xs-waysmall"
+                            onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
                         />
                     </div>
                 </div>
-                {/*<hr className="divider dark wide no-margin" />*/}
                 <div id="layerMenuContent">
                     {layerList.map((layer) =>
                         <LayerControlContainer
@@ -52,7 +52,7 @@ export class LayerMenuContainer extends Component {
 }
 
 LayerMenuContainer.propTypes = {
-    toggleLayerMenu: PropTypes.func.isRequired,
+    setLayerMenuOpen: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     palettes: PropTypes.object.isRequired
@@ -68,7 +68,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        toggleLayerMenu: bindActionCreators(layerActions.toggleLayerMenu, dispatch)
+        setLayerMenuOpen: bindActionCreators(layerActions.setLayerMenuOpen, dispatch)
     };
 }
 
