@@ -136,7 +136,7 @@ const zoomIn = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        return state;
+        return state.setIn(["view", "zoom"], state.getIn(["view", "zoom"]) + 1);
     }
     return state;
 };
@@ -151,7 +151,7 @@ const zoomOut = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        return state;
+        return state.setIn(["view", "zoom"], state.getIn(["view", "zoom"]) - 1);
     }
     return state;
 };
