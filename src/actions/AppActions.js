@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes';
 import * as appStrings from '../constants/appStrings';
+import {REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID} from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 
@@ -40,33 +41,31 @@ export function runUrlConfig(params) {
 function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
         case appStrings.URL_KEYS.ACTIVE_LAYERS:
-            return activateLayers(param.value.split(","));
+            return setLayersActive(param.value.split(","), true);
         case appStrings.URL_KEYS.OPACITIES:
             return setLayerOpacities(param.value.split(","));
         case appStrings.URL_KEYS.VIEW_MODE:
-            return null;
+            return setViewMode(param.value);
         case appStrings.URL_KEYS.BASEMAP:
-            return null;
+            return setBasemap(param.value);
         case appStrings.URL_KEYS.VIEW_EXTENT:
-            return null;
-        case appStrings.URL_KEYS.VIEW_CENTER:
-            return null;
+            return setExtent(param.value.split(","));
         case appStrings.URL_KEYS.ENABLE_PLACE_LABLES:
-            return null;
+            return setLayersActive([REFERENCE_LABELS_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return null;
+            return setLayersActive([POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
-            return null;
+            return setTerrainEnabled(param.value === "true");
         default:
-            return null;
+            return { type: types.NO_ACTION };
     }
 }
 
-function activateLayers(idArr) {
+function setLayersActive(idArr, active) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(idArr[i], true));
+                dispatch(LayerActions.setLayerActive(idArr[i], active));
             }
         });
     };
@@ -75,9 +74,44 @@ function activateLayers(idArr) {
 function setLayerOpacities(opacitiesArr) {
     return (dispatch) => {
         return new Promise(() => {
-            for (let i = 0; i < opacitiesArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(opacitiesArr[i], false));
+            // array format is [id, opacity, id, opacity, ...]
+            for (let i = 0; i < opacitiesArr.length; i += 2) {
+                dispatch(LayerActions.setLayerOpacity(opacitiesArr[i], opacitiesArr[i + 1]));
             }
+        });
+    };
+}
+
+function setViewMode(viewMode) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setMapViewMode(viewMode));
+        });
+    };
+}
+
+function setBasemap(basemapId) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setBasemap(basemapId));
+        });
+    };
+}
+
+function setExtent(extent) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setMapView({
+                extent: extent.map((numStr) => {return parseFloat(numStr);})
+            }));
+        });
+    };
+}
+
+function setTerrainEnabled(enabled) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setTerrainEnabled(enabled));
         });
     };
 }

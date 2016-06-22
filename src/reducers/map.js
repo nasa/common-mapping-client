@@ -66,11 +66,40 @@ const setScaleUnits = (state, action) => {
     }
     return state;
 };
+const setMapView = (state, action) => {
+    let alerts = state.get("alerts");
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        // Only apply view to active map
+        if (map.isActive) {
+            if (map.setExtent(action.viewInfo.extent)) {
+                return true;
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: "View Synchronization Failed",
+                    body: "One of the maps failed to synchronize its view",
+                    severity: 3,
+                    time: new Date()
+                }));
+            }
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        return state
+            .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
+            .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
+            .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
+            .set("alerts", alerts);
+    }
+    return state;
+};
 const setViewInfo = (state, action) => {
     let alerts = state.get("alerts");
     // TODO split out projection changes?
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        // Only apply view to opposite mode map
+        // Only apply view to inactive map
         if (!map.isActive) {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
@@ -187,21 +216,28 @@ const setLayerActive = (state, action) => {
 };
 
 const setLayerOpacity = (state, action) => {
+
+    // resolve layer from id if necessary
+    let actionLayer = action.layer;
+    if (typeof actionLayer === "string") {
+        actionLayer = findLayerById(state, actionLayer);
+    }
+
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.setLayerOpacity(action.layer, action.opacity)) {
+        if (map.setLayerOpacity(actionLayer, action.opacity)) {
             return true;
         }
         return acc;
     }, false);
 
     if (anySucceed) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("opacity", action.opacity);
+            let newLayer = actionLayer.set("opacity", action.opacity);
             let index = layerList.findKey((layer) => {
-                return layer.get("id") === action.layer.get("id");
+                return layer.get("id") === actionLayer.get("id");
             });
-            return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+            return state.setIn(["layers", actionLayer.get("type")], layerList.set(index, newLayer));
         }
         return state;
     }
@@ -270,8 +306,15 @@ const setLayerPalette = (state, action) => {
 };
 const setBasemap = (state, action) => {
     let alerts = state.get("alerts");
+
+    // resolve layer from id if necessary
+    let actionLayer = action.layer;
+    if (typeof actionLayer === "string") {
+        actionLayer = findLayerById(state, actionLayer);
+    }
+
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.setBasemap(action.layer)) {
+        if (map.setBasemap(actionLayer)) {
             return true;
         } else {
             alerts = alerts.push(alert.merge({
@@ -285,16 +328,16 @@ const setBasemap = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             layerList = layerList.map((layer) => {
-                if (layer.get("id") === action.layer.get("id")) {
+                if (layer.get("id") === actionLayer.get("id")) {
                     return layer.set("isActive", true);
                 }
                 return layer.set("isActive", false);
             });
             return state
-                .setIn(["layers", action.layer.get("type")], layerList)
+                .setIn(["layers", actionLayer.get("type")], layerList)
                 .set("alerts", alerts);
         }
         return state.set("alerts", alerts);
@@ -498,6 +541,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.SET_SCALE_UNITS:
             return setScaleUnits(state, action);
+
+        case actionTypes.SET_MAP_VIEW:
+            return setMapView(state, action);
 
         case actionTypes.SET_MAP_VIEW_INFO:
             return setViewInfo(state, action);
