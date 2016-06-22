@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../actions/MapActions';
 import d3 from 'd3';
+import TimeAxis from './TimeAxis';
 
 export class DateSliderContainer extends Component {
     componentDidMount() {
@@ -18,18 +19,16 @@ export class DateSliderContainer extends Component {
     componentWillUnmount() {}
 
     render() {
-        var svgStyle = {
+        let svgStyle = {
             display: 'block',
             width: 1000,
             height: 100,
             left: 0
         };
-        let currentDate = (<SingleDate data={this.props.date}></SingleDate>);
-        let timeAxis = (<text>timeAxis</text>);
+        let timeAxis = (<TimeAxis date={this.props.date}/>);
         return (
             <svg style={svgStyle}>
-                <g className="dateSlider">
-                    {date}
+                <g id="dateSlider">
                     {timeAxis}
                 </g>
           </svg>
