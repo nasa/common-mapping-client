@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import * as DateSliderActions from '../../actions/DateSliderActions';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import d3 from 'd3';
 import SingleDate from './SingleDate';
 
 let TimeAxisD3 = {};
 
-let minDt = new Date("06/11/2016");
-let maxDt = new Date("06/15/2016");
+let minDt = new Date("06/11/2000");
+let maxDt = new Date("06/15/2019");
 
 let elementWidth = 1000;
 let elementHeight = 50;
@@ -35,8 +37,6 @@ let intervalMinWidth = 8;
 let textTruncateThreshold = 30;
 
 TimeAxisD3.enter = (selection) => {
-    console.log("enter", selection)
-
     let zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
@@ -55,7 +55,6 @@ TimeAxisD3.enter = (selection) => {
         };
     };
     let zoomed = function() {
-        // console.log("ZOOMED")
         if (self.onVizChangeFn && d3.event) {
             self.onVizChangeFn.call(self, {
                 scale: d3.event.scale,
@@ -67,9 +66,10 @@ TimeAxisD3.enter = (selection) => {
         selection.select('#x-axis')
             .call(xAxis);
 
-        // this.render();
-        // selection.selectAll('circle.dot')
-        //     .attr('cx', d => xFn(d.at));
+        selection.selectAll('.singleDate')
+            .attr('x', d => {
+                return xFn(d.date);
+            });
 
         // selection.selectAll('rect.interval')
         //     .attr('x', d => {
@@ -139,42 +139,46 @@ TimeAxisD3.enter = (selection) => {
     // Single date
     selection.select(".singleDate")
         .attr('clip-path', 'url(#chart-content)')
-        .attr('transform', (d, i) => `translate(0, ${0 * i})`)
-        .attr('x', (d) => xFn(d))
+        // .attr('transform', (d, i) => `translate(0, ${height * i})`)
+        .attr('width', 5)
+        .attr('height', height)
+        .attr('x', (d) => xFn(d.date))
+        .attr('y', 2)
 
     // Done entering, time to call update
     selection.call(TimeAxisD3.update)
 }
 
 TimeAxisD3.update = (selection) => {
-    selection
-    // .transition()
+    selection.select('#x-axis')
+        .call(xAxis);
+    selection.select(".singleDate")
+        .attr('x', (d) => xFn(d.date))
 }
 
 TimeAxisD3.exit = () => {
 
 }
 
-
 export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-        this.d3Node.datum(this.props.data)
-            .call(TimeAxisD3.enter);
+        // this.d3Node.datum(this.props.date)
+        this.d3Node.call(TimeAxisD3.enter);
     }
     shouldComponentUpdate(nextProps) {
         console.log("next props", nextProps);
         // if (stuff) {
-        //     this.d3Node.datum(nextProps.data)
+        //     this.d3Node.datum(nextProps.date)
         //         .call(TimeAxis.update)
         //     return false;
         // }
         return true;
     }
     componentDidUpdate() {
-        this.d3Node.datum(this.props.data)
-            .call(TimeAxisD3.update);
+        // this.d3Node.datum(this.props.date)
+        this.d3Node.call(TimeAxisD3.update);
     }
     componentWillUnmount() {
 
@@ -190,7 +194,15 @@ export class TimeAxis extends Component {
                 </defs>
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
-                <SingleDate date={this.props.date} />
+                <SingleDate 
+                    beforeDrag={() => {
+                        this.props.actions.beginDragging()
+                    }} 
+                    onDrag={() => {}} 
+                    afterDrag={(value) => {
+                        let newDate = xFn.invert(value);
+                        this.props.actions.dragEnd(newDate)
+                    }}/>
             </g>
         )
     }
@@ -199,6 +211,19 @@ TimeAxis.propTypes = {
     date: PropTypes.object.isRequired
 };
 
+function mapStateToProps(state) {
+    return {
+        date: state.map.get("date")
+    };
+}
 
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(DateSliderActions, dispatch)
+    };
+}
 
-export default connect()(TimeAxis);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TimeAxis);

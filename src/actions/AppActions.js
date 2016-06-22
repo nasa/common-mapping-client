@@ -3,6 +3,7 @@ import * as appStrings from '../constants/appStrings';
 import {REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID} from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
+import * as DateSliderActions from './DateSliderActions';
 
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };

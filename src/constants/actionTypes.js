@@ -47,5 +47,9 @@ export const LAYER_PALETTES_LOADED = 'LAYER_PALETTES_LOADED';
 export const LOAD_LAYERS = 'LOAD_LAYERS';
 export const LAYERS_LOADED = 'LAYERS_LOADED';
 
+// Date Slider Actions
+export const BEGIN_DRAGGING = 'BEGIN_DRAGGING';
+export const END_DRAGGING = 'END_DRAGGING';
+
 // Misc
 export const NO_ACTION = 'NO_ACTION';

@@ -4,6 +4,7 @@ import view from './view';
 import map from './map';
 import settingsContainer from './settingsContainer';
 import helpContainer from './helpContainer';
+import dateSlider from './dateSlider';
 import async from './async';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     map,
     settingsContainer,
     helpContainer,
+    dateSlider,
     async
 });
 
