@@ -5,6 +5,7 @@ import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
 
 export default class MapUtil {
+    
     // creates a new object that abstracts a mapping library
     static createMap(type, container, mapOptions) {
         switch (type) {
