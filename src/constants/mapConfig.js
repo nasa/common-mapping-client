@@ -4,7 +4,7 @@ export const DEFAULT_CENTER = [-98.5795, 39.8282];
 export const DEFAULT_EXTENT = [-180, -90, 180, 90];
 export const DEFAULT_ZOOM = 5;
 export const MIN_ZOOM = 2;
-export const MAX_ZOOM = 16;
+export const MAX_ZOOM = 10000;
 export const MAX_ZOOM_DISTANCE_3D = 26000000.0;
 export const MIN_ZOOM_DISTANCE_3D = 500.0;
 

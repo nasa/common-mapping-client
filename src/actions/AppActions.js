@@ -41,7 +41,7 @@ export function runUrlConfig(params) {
 function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
         case appStrings.URL_KEYS.ACTIVE_LAYERS:
-            return activateLayers(param.value.split(","));
+            return setLayersActive(param.value.split(","), true);
         case appStrings.URL_KEYS.OPACITIES:
             return setLayerOpacities(param.value.split(","));
         case appStrings.URL_KEYS.VIEW_MODE:
@@ -51,9 +51,9 @@ function translateUrlParamToActionDispatch(param) {
         case appStrings.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appStrings.URL_KEYS.ENABLE_PLACE_LABLES:
-            return param.value === "true" ? activateLayers([REFERENCE_LABELS_LAYER_ID]) : { type: types.NO_ACTION };
+            return setLayersActive([REFERENCE_LABELS_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return param.value === "true" ? activateLayers([POLITICAL_BOUNDARIES_LAYER_ID]) : { type: types.NO_ACTION };
+            return setLayersActive([POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         default:
@@ -61,11 +61,11 @@ function translateUrlParamToActionDispatch(param) {
     }
 }
 
-function activateLayers(idArr) {
+function setLayersActive(idArr, active) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(idArr[i], true));
+                dispatch(LayerActions.setLayerActive(idArr[i], active));
             }
         });
     };
