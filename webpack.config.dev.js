@@ -31,6 +31,7 @@ export default {
     },
     module: {
         unknownContextCritical: false,
+        noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
             { test: /Cesium\.js$/, loader: 'script' },
