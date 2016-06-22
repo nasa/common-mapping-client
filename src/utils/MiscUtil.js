@@ -83,7 +83,7 @@ export default class MiscUtil {
         let hexParts = colorStr.match(hexExp);
 
         if (hexParts) {
-            return "#" + hexParts[0];
+            return "#" + hexParts[0].toUpperCase();
         }
         return "";
     }
@@ -115,13 +115,17 @@ export default class MiscUtil {
         return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
     }
 
-    static getUrlParams() {
-        return window.location.hash.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
+    static parseUrlHashString(urlStr) {
+        return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
             let paramParts = param.split('=');
-            if (paramParts && paramParts.length === 2) {
+            if (paramParts && paramParts.length === 2 && paramParts[0] !== "" && paramParts[1] !== "") {
                 acc.push({ key: paramParts[0], value: paramParts[1] });
             }
             return acc;
         }, []);
+    }
+
+    static getUrlParams() {
+        return this.parseUrlHashString(window.location.hash);
     }
 }

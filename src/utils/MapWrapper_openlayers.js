@@ -84,11 +84,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return false;
         }
         this.map.getView().fit(extent, this.map.getSize());
-        // Weird synching step to work with global extent issue coming from 3D
-        if (Math.abs(extent[0]) + Math.abs(extent[2]) !== 180 &&
-            Math.abs(extent[1]) + Math.abs(extent[3]) !== 90) {
-            this.zoomIn(0);
-        }
         return true;
     }
 
