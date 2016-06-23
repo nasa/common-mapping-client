@@ -1,8 +1,7 @@
 .help-page {
-    color: initial;
-    padding: 0 1.6rem;
-    height: 412px;
-    overflow: auto;
+    color: $color-dark;
+    padding: 0px 1.6rem;
+    height: 400px;
     h1 {
         margin: 0;
         font-size: 2.4rem;
@@ -12,6 +11,6 @@
         margin: 24px 0 8px;
     }
     h3 {
-        color: grey;
+        color: $color-medium;
     }
 }
