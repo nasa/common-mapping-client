@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import * as appStrings from '../constants/appStrings';
-import {REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID} from '../constants/mapConfig';
+import { REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID } from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';
@@ -57,6 +57,8 @@ function translateUrlParamToActionDispatch(param) {
             return setLayersActive([POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
+        case appStrings.URL_KEYS.DATE:
+            return setDate(new Date(param.value));
         default:
             return { type: types.NO_ACTION };
     }
@@ -103,7 +105,8 @@ function setExtent(extent) {
     return (dispatch) => {
         return new Promise(() => {
             dispatch(MapActions.setMapView({
-                extent: extent.map((numStr) => {return parseFloat(numStr);})
+                extent: extent.map((numStr) => {
+                    return parseFloat(numStr); })
             }));
         });
     };
@@ -115,4 +118,12 @@ function setTerrainEnabled(enabled) {
             dispatch(MapActions.setTerrainEnabled(enabled));
         });
     };
+}
+
+function setDate(date) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setDate(date));
+        });
+    }
 }
