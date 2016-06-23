@@ -44,7 +44,7 @@ export class ShareContainer extends Component {
         let enable3DTerrain = appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.mapDisplay.get("enableTerrain");
         let date = appStrings.URL_KEYS.DATE + "=" + this.props.mapDate.toISOString().split("T")[0];
 
-        return window.location.host + "#" + [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
+        return "http://" + window.location.host + "#" + [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
     }
     render() {
         let shareUrl = this.generateShareUrl();
