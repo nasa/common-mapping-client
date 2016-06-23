@@ -126,4 +126,8 @@ export default class MapWrapper {
         console.warn("moveLayerDown not implemented in subclass");
         return false;
     }
+    getActiveLayerIds() {
+        console.warn("getActiveLayerIds not implemented in subclass");
+        return false;
+    }
 }

@@ -410,6 +410,22 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    getActiveLayerIds() {
+        try {
+            let retList = [];
+            let mapLayers = this.map.getLayers();
+            mapLayers.forEach((mapLayer) => {
+                if(mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                    retList.push(mapLayer._layerId);
+                }
+            });
+            return retList;
+        } catch (err) {
+            console.log("could not generate openlayers active layer list.", err);
+            return false;
+        }
+    }
+
     /* functions for openlayers only */
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {

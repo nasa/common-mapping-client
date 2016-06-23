@@ -9,7 +9,7 @@ import MiscUtil from '../../utils/MiscUtil';
 export class ModalMenuContainer extends Component {
     render() {
         let modalMenuClasses = MiscUtil.generateStringFromSet({
-            "modal-menu no-padding display-flex-col-wrapper": true,
+            "modal-menu no-padding": true,
             "modal-menu-subpage": this.props.back,
             "small": this.props.small
         });
