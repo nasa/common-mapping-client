@@ -8,23 +8,19 @@ import d3 from 'd3';
 let SingleDateD3 = {};
 
 SingleDateD3.enter = (selection) => {
-    selection
-        .attr();
-    // .attr()
-
     selection.call(SingleDateD3.update)
 }
 
 SingleDateD3.update = (selection) => {
     selection
         .attr('opacity', (d) => {
-            return d.isDragging ? 1 : .5;
+            return !d.isDragging ? 1 : .5;
         })
         .attr('width', (d) => {
-            return d.isDragging ? 10 : 5;
+            return !d.isDragging ? 10 : 5;
         })
         .attr('transform', (d) => {
-            return d.isDragging ? 'translate(' + -2.5 + ',' + 0 + ')' : ''
+            return !d.isDragging ? 'translate(' + -2.5 + ',' + 0 + ')' : ''
         });
 
 
@@ -73,7 +69,7 @@ export class SingleDate extends Component {
             .call(SingleDateD3.enter);
     }
     shouldComponentUpdate(nextProps) {
-        console.log("next props", nextProps);
+        // console.log("next props", nextProps);
         // if (stuff) {
         //     this.d3Node.datum(nextProps)
         //         .call(SingleDate.update)

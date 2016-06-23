@@ -40,20 +40,9 @@ TimeAxisD3.enter = (selection) => {
     let zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
-            // console.log("zoom");
             zoomed()
         });
-    let getTextPositionData = function(d) {
-        this.textSizeInPx = this.textSizeInPx || this.getComputedTextLength();
-        let from = xFn(d.from);
-        let to = xFn(d.to);
-        return {
-            xPosition: from,
-            upToPosition: to,
-            width: to - from,
-            textWidth: this.textSizeInPx
-        };
-    };
+
     let zoomed = function() {
         if (self.onVizChangeFn && d3.event) {
             self.onVizChangeFn.call(self, {
@@ -68,58 +57,11 @@ TimeAxisD3.enter = (selection) => {
 
         let singleDate = selection.select('.singleDate')
         if (!singleDate.attr().data()[0].isDragging) {
-        singleDate.attr('x', d => {
-            // if (!d.isDragging) {
+            singleDate.attr('x', d => {
                 return xFn(d.date);
-            // }
-        })
+            })
 
         }
-
-        // selection.selectAll('rect.interval')
-        //     .attr('x', d => {
-        //         console.log("ddddd", d)
-        //         return xFn(d.from) 
-        //     })
-        //     .attr('width', d => Math.max(intervalMinWidth, xFn(d.to) - xFn(d.from)));
-
-        // selection.selectAll('.interval-text')
-        //     .attr('x', function(d) {
-        //         let positionData = getTextPositionData.call(this, d);
-        //         if ((positionData.upToPosition - groupWidth - 10) < positionData.textWidth) {
-        //             return positionData.upToPosition;
-        //         } else if (positionData.xPosition < groupWidth && positionData.upToPosition > groupWidth) {
-        //             return groupWidth;
-        //         }
-        //         return positionData.xPosition;
-        //     })
-        //     .attr('text-anchor', function(d) {
-        //         let positionData = getTextPositionData.call(this, d);
-        //         if ((positionData.upToPosition - groupWidth - 10) < positionData.textWidth) {
-        //             return 'end';
-        //         }
-        //         return 'start';
-        //     })
-        //     .attr('dx', function(d) {
-        //         let positionData = getTextPositionData.call(this, d);
-        //         if ((positionData.upToPosition - groupWidth - 10) < positionData.textWidth) {
-        //             return '-0.5em';
-        //         }
-        //         return '0.5em';
-        //     })
-        //     .text(function(d) {
-        //         let positionData = getTextPositionData.call(this, d);
-        //         let percent = (positionData.width - textTruncateThreshold) / positionData.textWidth;
-        //         if (percent < 1) {
-        //             if (positionData.width > textTruncateThreshold) {
-        //                 return d.label.substr(0, Math.floor(d.label.length * percent)) + '...';
-        //             } else {
-        //                 return '';
-        //             }
-        //         }
-
-        //         return d.label;
-        //     })
     }
     selection
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
@@ -144,7 +86,7 @@ TimeAxisD3.enter = (selection) => {
     // Single date
     selection.select(".singleDate")
         .attr('clip-path', 'url(#chart-content)')
-        .attr('width', 5)
+        .attr('width', 10)
         .attr('height', height)
         .attr('x', (d) => xFn(d.date))
         .attr('y', 2)
@@ -171,7 +113,7 @@ export class TimeAxis extends Component {
         this.d3Node.call(TimeAxisD3.enter);
     }
     shouldComponentUpdate(nextProps) {
-        console.log("next props", nextProps);
+        // console.log("next props", nextProps);
         // if (stuff) {
         //     this.d3Node.datum(nextProps.date)
         //         .call(TimeAxis.update)

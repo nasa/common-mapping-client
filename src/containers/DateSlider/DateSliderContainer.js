@@ -19,15 +19,15 @@ export class DateSliderContainer extends Component {
     componentWillUnmount() {}
 
     render() {
-        let svgStyle = {
-            display: 'block',
-            width: 1000,
-            height: 100,
-            left: 0
-        };
+        // let svgStyle = {
+        //     display: 'block',
+        //     width: 1000,
+        //     height: 100,
+        //     left: 0
+        // };
         let timeAxis = (<TimeAxis />);
         return (
-            <svg style={svgStyle}>
+            <svg>
                 <g id="dateSlider">
                     {timeAxis}
                 </g>
