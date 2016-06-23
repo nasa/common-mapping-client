@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '../../actions/AppActions';
 import * as appStrings from '../../constants/appStrings';
@@ -75,6 +76,9 @@ export class ShareContainer extends Component {
     getDateString() {
         return appStrings.URL_KEYS.DATE + "=" + this.props.mapDate.toISOString().split("T")[0];
     }
+    openEmail(url) {
+        window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appStrings.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
+    }
     render() {
         let shareUrl = this.generateShareUrl();
         return (
@@ -91,6 +95,9 @@ export class ShareContainer extends Component {
                         Please copy and share it to your heart's content.
                     </p>
                     <input type="text" ref={(ref) => this.urlText = ref} readOnly="readonly" defaultValue={shareUrl} className="permalink-text" onClick={() => this.focusTextArea()}/>
+                    <div className="text-center">
+                        <Button primary raised label="Email this Link" onClick={() => this.openEmail(shareUrl)}/>
+                    </div>
                 </div>
             </ModalMenuContainer>
         );
@@ -101,6 +108,7 @@ ShareContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
+    maps: PropTypes.object.isRequired,
     mapView: PropTypes.object.isRequired,
     mapDisplay: PropTypes.object.isRequired,
     mapDate: PropTypes.object.isRequired
