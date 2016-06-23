@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
-import { settingsContainerState } from './models/settingsContainer';
+import { settingsState } from './models/settings';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -12,7 +12,7 @@ const closeSettings = (state, action) => {
     return state.set("isOpen", false);
 };
 
-export default function settingsContainer(state = settingsContainerState, action) {
+export default function settings(state = settingsState, action) {
     switch (action.type) {
         case actionTypes.OPEN_SETTINGS:
             return openSettings(state, action);

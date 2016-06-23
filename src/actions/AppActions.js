@@ -14,6 +14,12 @@ export function openHelp(param) {
 export function closeHelp() {
     return { type: types.CLOSE_HELP };
 }
+export function openShare() {
+    return { type: types.OPEN_SHARE };
+}
+export function closeShare() {
+    return { type: types.CLOSE_SHARE };
+}
 export function selectHelpPage(param) {
     return { type: types.SELECT_HELP_PAGE, param };
 }
@@ -125,5 +131,5 @@ function setDate(date) {
         return new Promise(() => {
             dispatch(MapActions.setDate(date));
         });
-    }
+    };
 }
