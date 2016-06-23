@@ -25,7 +25,7 @@ export class ShareContainer extends Component {
             acc.push(layer.get("opacity"));
             return acc;
         }, []).join(",") : "";
-        let viewMode = appStrings.URL_KEYS.VIEW_MODE + "=" + this.props.mapView.get("in3DMode") ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D;
+        let viewMode = appStrings.URL_KEYS.VIEW_MODE + "=" + (this.props.mapView.get("in3DMode") ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D);
         let basemap = appStrings.URL_KEYS.BASEMAP + "=" + this.props.layers.get("basemap").reduce((acc, layer) => {
             if(layer.get("isActive")) {
                 acc = layer.get("id");
