@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-export const helpContainerState = Immutable.fromJS({
+export const helpState = Immutable.fromJS({
     isOpen: false,
     helpPage: ""
 });

@@ -30,7 +30,7 @@ export class TitleContainer extends Component {
                     <div className="col-xs">
                         <Button floating neutral icon="" label="?" className="title-button mini-xs" onClick={this.props.actions.openHelp} />
                         <Button floating neutral icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} className="title-button mini-xs" onClick={() => this.props.actions.setFullScreenMode(!this.props.isFullscreen)} />
-                        <Button floating neutral icon="share" className="title-button mini-xs" onClick={() => console.log("clicked share")} />
+                        <Button floating neutral icon="share" className="title-button mini-xs" onClick={this.props.actions.openShare} />
                         <Button floating neutral icon="settings" className="title-button mini-xs" onClick={this.props.actions.openSettings} />
                     </div>
                 </div>

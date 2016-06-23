@@ -94,8 +94,8 @@ HelpContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        helpOpen: state.helpContainer.get("isOpen"),
-        helpPage: state.helpContainer.get("helpPage")
+        helpOpen: state.help.get("isOpen"),
+        helpPage: state.help.get("helpPage")
     };
 }
 

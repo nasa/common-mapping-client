@@ -5,8 +5,8 @@ import { expect } from 'chai';
 import rootReducer from '../reducers';
 import { mapState, layerModel, paletteModel } from '../reducers/models/map';
 import { asyncState } from '../reducers/models/async';
-import { helpContainerState } from '../reducers/models/helpContainer';
-import { settingsContainerState } from '../reducers/models/settingsContainer';
+import { helpState } from '../reducers/models/help';
+import { settingsState } from '../reducers/models/settings';
 import { viewState } from '../reducers/models/view';
 import MapUtil from '../utils/MapUtil.js';
 
@@ -15,8 +15,8 @@ const initialState = {
     map: mapState,
     view: viewState,
     async: asyncState,
-    helpContainer: helpContainerState,
-    settingsContainer: settingsContainerState
+    help: helpState,
+    settings: settingsState
 };
 
 
@@ -36,15 +36,15 @@ describe('Store', function() {
             map: mapState,
             view: viewState,
             async: asyncState,
-            helpContainer: helpContainerState.set("isOpen", true),
-            settingsContainer: settingsContainerState
+            help: helpState.set("isOpen", true),
+            settings: settingsState
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
-        expect(actual.helpContainer.toJS()).to.deep.equal(expected.helpContainer.toJS());
-        expect(actual.settingsContainer.toJS()).to.deep.equal(expected.settingsContainer.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
     it('initializes maps', function() {
         const store = createStore(rootReducer, initialState);
@@ -60,16 +60,16 @@ describe('Store', function() {
             map: mapState.remove("maps"),
             view: viewState,
             async: asyncState,
-            helpContainer: helpContainerState,
-            settingsContainer: settingsContainerState
+            help: helpState,
+            settings: settingsState
         };
 
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
-        expect(actual.helpContainer.toJS()).to.deep.equal(expected.helpContainer.toJS());
-        expect(actual.settingsContainer.toJS()).to.deep.equal(expected.settingsContainer.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
     it('can zoom maps and stuff', function() {
         const store = createStore(rootReducer, initialState);
@@ -90,15 +90,15 @@ describe('Store', function() {
             map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
             view: viewState,
             async: asyncState,
-            helpContainer: helpContainerState,
-            settingsContainer: settingsContainerState
+            help: helpState,
+            settings: settingsState
         };
 
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
-        expect(actual.helpContainer.toJS()).to.deep.equal(expected.helpContainer.toJS());
-        expect(actual.settingsContainer.toJS()).to.deep.equal(expected.settingsContainer.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
 });

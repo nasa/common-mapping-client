@@ -108,7 +108,7 @@ SettingsContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        settingsOpen: state.settingsContainer.get("isOpen"),
+        settingsOpen: state.settings.get("isOpen"),
         mapSettings: state.map.get("displaySettings"),
         basemaps: state.map.getIn(["layers", "basemap"]),
         referenceLayers: state.map.getIn(["layers", "reference"])

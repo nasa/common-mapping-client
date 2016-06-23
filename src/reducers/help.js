@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
-import { helpContainerState } from './models/helpContainer';
+import { helpState } from './models/help';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -17,7 +17,7 @@ const selectHelpPage = (state, action) => {
     return state.set("helpPage", action.param);
 };
 
-export default function helpContainer(state = helpContainerState, action) {
+export default function help(state = helpState, action) {
     switch (action.type) {
         case actionTypes.OPEN_HELP:
             return openHelp(state, action);
