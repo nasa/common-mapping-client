@@ -11,6 +11,9 @@ const beginDragging = (state, action) => {
 const endDragging = (state, action) => {
     return state.set("isDragging", false);
 };
+const resetApplicationState = (state, action) => {
+    return endDragging(state, action);
+};
 
 export default function settingsContainer(state = dateSliderState, action) {
     switch (action.type) {
@@ -19,6 +22,9 @@ export default function settingsContainer(state = dateSliderState, action) {
 
         case actionTypes.END_DRAGGING:
             return endDragging(state, action);
+
+        case actionTypes.RESET_APPLICATION_STATE:
+            return resetApplicationState(state, action);
 
         default:
             return state;

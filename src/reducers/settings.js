@@ -11,7 +11,9 @@ const openSettings = (state, action) => {
 const closeSettings = (state, action) => {
     return state.set("isOpen", false);
 };
-
+const resetApplicationState = (state, action) => {
+    return closeSettings(state, action);
+};
 export default function settings(state = settingsState, action) {
     switch (action.type) {
         case actionTypes.OPEN_SETTINGS:
@@ -19,6 +21,9 @@ export default function settings(state = settingsState, action) {
 
         case actionTypes.CLOSE_SETTINGS:
             return closeSettings(state, action);
+
+        case actionTypes.RESET_APPLICATION_STATE:
+            return resetApplicationState(state, action);
 
         default:
             return state;

@@ -54,4 +54,5 @@ export const BEGIN_DRAGGING = 'BEGIN_DRAGGING';
 export const END_DRAGGING = 'END_DRAGGING';
 
 // Misc
+export const RESET_APPLICATION_STATE = 'RESET_APPLICATION_STATE';
 export const NO_ACTION = 'NO_ACTION';
