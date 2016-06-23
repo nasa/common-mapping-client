@@ -15,5 +15,5 @@ export const DEFAULT_DATE = new Date("2015-05-20");
 export const SCALE_OPTIONS = [{ value: 'metric', label: 'Metric', abbrev: 'm/Km' },
     { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi' },
     { value: 'nautical', label: 'Nautical', abbrev: 'nm' },
-    { value: 'degrees', label: 'Degrees', abbrev: '°/\'/"' }
+    { value: 'degrees', label: 'Degrees', abbrev: '°' }
 ];
