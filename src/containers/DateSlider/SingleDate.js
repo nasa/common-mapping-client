@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import * as DateSliderActions from '../../actions/DateSliderActions';
 import d3 from 'd3';
 
+let defaultWidth = 12;
+let activeWidth = 7;
 let SingleDateD3 = {};
 
 SingleDateD3.enter = (selection) => {
@@ -13,23 +15,25 @@ SingleDateD3.enter = (selection) => {
 
 SingleDateD3.update = (selection) => {
     selection
-        .attr('opacity', (d) => {
-            return !d.isDragging ? 1 : .5;
-        })
+    // .attr('opacity', (d) => {
+    //     return !d.isDragging ? 1 : .5;
+    // })
         .attr('width', (d) => {
-            return !d.isDragging ? 10 : 5;
+            return !d.isDragging ? activeWidth : defaultWidth;
         })
         .attr('transform', (d) => {
-            return !d.isDragging ? 'translate(' + -2.5 + ',' + 0 + ')' : ''
-        });
-
-
+            return !d.isDragging ? 'translate(' + (-1 * activeWidth / 2) + ',' + 0 + ')' : ''
+        })
 }
 
 SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
     let drag = d3.behavior.drag()
         .on('dragstart', () => {
             d3.event.sourceEvent.stopPropagation();
+            selection.transition()
+                .duration(250)
+                .style('opacity', 0.5)
+                .style('width', activeWidth)
             beforeDrag();
         })
         .on('drag', () => {
@@ -37,6 +41,11 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
             selection.attr('x', (d) => d3.event.x);
         })
         .on('dragend', () => {
+            selection.transition()
+                .duration(250)
+                .style('opacity', 1)
+                .style('width', defaultWidth)
+            console.log('dragend');
             // let newDate = xFn.invert(selection.attr('x'));
             // selection.attr('x', (d) => {
             //     console.log(d, "dddd");
