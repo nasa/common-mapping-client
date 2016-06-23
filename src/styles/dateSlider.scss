@@ -1,4 +1,8 @@
 #dateSlider {
+    .timeAxis {
+        cursor: -webkit-grab;
+        cursor: grab;
+    }
     position: relative;
     display: block;
     height: 200px;
@@ -8,21 +12,22 @@
         fill: none;
         stroke: none;
     }
-    line {
-        stroke: black;
-    }
     rect,
-    rect.chart-bounds {
+    rect#chart-bounds {
         fill: transparent;
     }
-    rect.chart-bounds,
-    rect.interval {
-        &:hover {
-            cursor: -webkit-grab;
-            cursor: grab;
-        }
+    rect#chart-bounds,
+    #x-axis .tick {
         &:active {
             cursor: -webkit-grabbing;
+        }
+    }
+    .tick {
+        text {
+            fill: $color-text-secondary;
+        }
+        line {
+            stroke: $color-text-secondary;
         }
     }
     .singleDate {

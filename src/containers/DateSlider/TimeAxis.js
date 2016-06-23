@@ -66,10 +66,15 @@ TimeAxisD3.enter = (selection) => {
         selection.select('#x-axis')
             .call(xAxis);
 
-        selection.selectAll('.singleDate')
-            .attr('x', d => {
+        let singleDate = selection.select('.singleDate')
+        if (!singleDate.attr().data()[0].isDragging) {
+        singleDate.attr('x', d => {
+            // if (!d.isDragging) {
                 return xFn(d.date);
-            });
+            // }
+        })
+
+        }
 
         // selection.selectAll('rect.interval')
         //     .attr('x', d => {
@@ -139,7 +144,6 @@ TimeAxisD3.enter = (selection) => {
     // Single date
     selection.select(".singleDate")
         .attr('clip-path', 'url(#chart-content)')
-        // .attr('transform', (d, i) => `translate(0, ${height * i})`)
         .attr('width', 5)
         .attr('height', height)
         .attr('x', (d) => xFn(d.date))
@@ -164,7 +168,6 @@ export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-        // this.d3Node.datum(this.props.date)
         this.d3Node.call(TimeAxisD3.enter);
     }
     shouldComponentUpdate(nextProps) {
@@ -177,7 +180,6 @@ export class TimeAxis extends Component {
         return true;
     }
     componentDidUpdate() {
-        // this.d3Node.datum(this.props.date)
         this.d3Node.call(TimeAxisD3.update);
     }
     componentWillUnmount() {
