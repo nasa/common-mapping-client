@@ -3,8 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
-import {Button, IconButton} from 'react-toolbox/lib/button';
-import Dialog from 'react-toolbox/lib/dialog';
 import { SCALE_OPTIONS, REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID } from '../../constants/mapConfig';
 import * as appActions from '../../actions/AppActions';
 import * as mapActions from '../../actions/MapActions';
@@ -12,6 +10,7 @@ import * as layerActions from '../../actions/LayerActions';
 import MiscUtil from '../../utils/MiscUtil';
 import BaseMapPreview from '../../components/BaseMapPreview';
 import MenuDropdown from '../../components/MenuDropdown';
+import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 
 export class SettingsContainer extends Component {
     render() {
@@ -34,13 +33,11 @@ export class SettingsContainer extends Component {
         });
 
         return (
-            <Dialog className="settingsContainer no-padding display-flex-col-wrapper"
-                    active={this.props.settingsOpen} 
-                    onEscKeyDown={this.props.appActions.closeSettings} 
-                    onOverlayClick={this.props.appActions.closeSettings} 
-                    title="Settings">
-                <IconButton icon="close" neutral={false} onClick={this.props.appActions.closeSettings} className="settings-close"/>
-                <List className="no-margin settings-content" selectable ripple>
+            <ModalMenuContainer
+                title="Settings"
+                active={this.props.settingsOpen}
+                closeFunc={this.props.appActions.closeSettings} >
+                <List selectable ripple className="no-margin settings-content" >
                     <ListSubHeader className="list-sub-header" caption="Base Map Selection" />
                     <div id="baseMapPreviewContainer" className="text-wrap">
                             {basemapList.map((layer) =>
@@ -94,7 +91,7 @@ export class SettingsContainer extends Component {
                         leftIcon="settings_backup_restore"
                     />
                 </List>
-            </Dialog>
+            </ModalMenuContainer>
         );
     }
 }

@@ -1,78 +1,17 @@
-.helpContainer {
-    color: red;
-    width: 350px;
-    height: 472px;
-    h6 {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        z-index: 1;
-        padding: 2rem;
-        position: relative;
-        background: $color-primary;
-        color: white;
-        @include medium-shadow();
+.help-page {
+    color: initial;
+    padding: 0 1.6rem;
+    height: 412px;
+    overflow: auto;
+    h1 {
+        margin: 0;
+        font-size: 2.4rem;
     }
-    &.dialog-subpage {
-        h6 {
-            padding-left: 8rem;
-        }
-        .help-back {
-            display: block;
-        }
+    h2 {
+        font-size: 2rem;
+        margin: 24px 0 8px;
     }
-    .dialog-subpage-content {
-        color: initial;
-        padding: 0 1.6rem;
-        height: 412px;
-        overflow: auto;
-        h1 {
-            margin: 0;
-            font-size: 2.4rem;
-        }
-        h2 {
-            font-size: 2rem;
-            margin: 24px 0 8px;
-        }
-        h3 {
-            color: grey;
-        }
-    }
-    .help-close {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        z-index: 2;
-        color: white;
-        margin-top: 1.2rem;
-        margin-right: 1.2rem;
-        [data-react-toolbox="font-icon"] {
-            font-size: 2.5rem;
-            line-height: 3.3rem;
-        }
-    }
-    .help-back {
-        position: absolute;
-        top: 0px;
-        left: 1.2rem;
-        display: none;
-        z-index: 2;
-        color: white;
-        margin-top: 1.2rem;
-        margin-right: 1.2rem;
-        [data-react-toolbox="font-icon"] {
-            font-size: 2.5rem;
-            line-height: 3.3rem;
-        }
-    }
-    section {
-        padding: 0px;
-        overflow: hidden;
-    }
-    .help-list {
-        z-index: 1;
-        overflow: auto;
-    }
-    nav {
-        display: none;
+    h3 {
+        color: grey;
     }
 }

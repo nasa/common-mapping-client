@@ -6,7 +6,7 @@ import { helpContainerState } from './models/helpContainer';
 //create a copy of the state passed and set new values on the copy.
 
 const openHelp = (state, action) => {
-    return state.set("isOpen", true);
+    return state.set("isOpen", true).set("helpPage", "");
 };
 
 const closeHelp = (state, action) => {

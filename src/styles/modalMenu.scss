@@ -1,0 +1,67 @@
+.modal-menu {
+    max-width: 500px;
+    h6 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        z-index: 1;
+        padding: 2rem;
+        position: relative;
+        background: $color-primary;
+        color: white;
+        @include medium-shadow();
+    }
+    section {
+        padding: 0px;
+        @include flex();
+        @include flex-col();
+        height: 100%;
+        overflow: hidden;
+    }
+    nav {
+        display: none;
+    }
+    .modal-menu-close {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 2;
+        color: white;
+        margin-top: 1.2rem;
+        margin-right: 1.2rem;
+        [data-react-toolbox="font-icon"] {
+            font-size: 2.5rem;
+            line-height: 3.3rem;
+        }
+    }
+    .modal-menu-back {
+        position: absolute;
+        top: 0px;
+        left: 1.2rem;
+        z-index: 2;
+        color: white;
+        margin-top: 1.2rem;
+        margin-right: 1.2rem;
+        [data-react-toolbox="font-icon"] {
+            font-size: 2.5rem;
+            line-height: 3.3rem;
+        }
+    }
+    .modal-menu-content {
+        @include flex();
+        @include flex-col();
+        @include flex-grow(1);
+        overflow: hidden;
+        overflow-y: auto;
+    }
+    &.small {
+        max-width: 350px;
+    }
+    &.large {
+        max-width: 650px;
+    }
+    &.modal-menu-subpage {
+        h6 {
+            padding-left: 6rem;
+        }
+    }
+}

@@ -2,10 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
-import { IconButton } from 'react-toolbox/lib/button';
-import Dialog from 'react-toolbox/lib/dialog';
 import * as actions from '../../actions/AppActions';
-
+import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 
 export class HelpContainer extends Component {
     openLink(url) {
@@ -24,16 +22,15 @@ export class HelpContainer extends Component {
                 title: 'FAQ'
             }
         };
-
         return (
-            <Dialog className={"helpContainer no-padding" +  (!this.props.helpPage ? "" : " dialog-subpage")} 
-                    active={this.props.helpOpen} 
-                    onEscKeyDown={this.props.actions.closeHelp} 
-                    onOverlayClick={this.props.actions.closeHelp} 
-                    title={!this.props.helpPage ? "Help" : helpPages[this.props.helpPage].title}>
-                <IconButton icon="close" neutral={false} onClick={this.props.actions.closeHelp} className="help-close"/>
-                <IconButton icon="arrow_back" neutral={false} onClick={() => {this.props.actions.selectHelpPage("");}} className="help-back"/>
-                <List className={"no-margin help-list" + (!this.props.helpPage ? "" : " hidden")} selectable ripple>
+            <ModalMenuContainer
+                small
+                title={!this.props.helpPage ? "Help" : helpPages[this.props.helpPage].title}
+                active={this.props.helpOpen}
+                closeFunc={() => this.props.actions.closeHelp()}
+                back={this.props.helpPage !== ""}
+                backFunc={() => this.props.actions.selectHelpPage("")} >
+                <List selectable ripple className={"no-margin help-list" + (!this.props.helpPage ? "" : " hidden")}>
                     <ListSubHeader caption="General" />
                     <ListItem
                         caption="About"
@@ -66,7 +63,7 @@ export class HelpContainer extends Component {
                         onClick={() => {this.mailTo("test@test.test");}}
                     />
                 </List>
-                <div className={this.props.helpPage !== 'about' ? 'hidden' : 'dialog-subpage-content'}>
+                <div className={this.props.helpPage !== 'about' ? 'hidden' : 'help-page'}>
                     <br></br>
                     <h1>The common mapping client</h1>
                     <p>If you're reading this, you're most likely a developer.</p>
@@ -75,7 +72,7 @@ export class HelpContainer extends Component {
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ullamcorper nisi nec pulvinar. Donec nibh libero, elementum in iaculis non, elementum a nulla. Fusce a sem mollis, consequat elit a, accumsan odio. Integer pellentesque sem orci. In at cursus nisl, at elementum ex. Aenean varius arcu velit, sed facilisis est tincidunt eget. Nam consectetur velit et gravida interdum. Nam imperdiet consectetur diam, ac ultricies diam scelerisque a. Phasellus lobortis eget lacus sed sagittis. Sed sagittis eu felis non blandit. Sed suscipit magna elit, sed tristique mauris pulvinar eget. Integer ut tempus velit. Maecenas tempus enim et orci laoreet ornare. Phasellus placerat eu ligula non tincidunt. Nullam nec efficitur sapien.</p>
                     <h3>Version 0.2</h3>
                 </div>
-                <div className={this.props.helpPage !== 'faq' ? 'hidden' : 'dialog-subpage-content'}>
+                <div className={this.props.helpPage !== 'faq' ? 'hidden' : 'help-page'}>
                     <br></br>
                     <h1>Frequently asked questions</h1>
                     <ol>
@@ -84,7 +81,7 @@ export class HelpContainer extends Component {
                         <li>What is your favorite colour?</li>
                     </ol>
                 </div>
-            </Dialog>
+            </ModalMenuContainer>
         );
     }
 }
