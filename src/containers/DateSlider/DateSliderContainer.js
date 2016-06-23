@@ -25,11 +25,7 @@ export class DateSliderContainer extends Component {
             height: 100,
             left: 0
         };
-        let data = {
-            date: this.props.date,
-            isDragging: this.props.isDragging
-        }
-        let timeAxis = (<TimeAxis date={this.props.date}/>);
+        let timeAxis = (<TimeAxis />);
         return (
             <svg style={svgStyle}>
                 <g id="dateSlider">
@@ -41,16 +37,8 @@ export class DateSliderContainer extends Component {
 }
 
 DateSliderContainer.propTypes = {
-    // date: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 };
-
-// function mapStateToProps(state) {
-//     return {
-//         date: state.map.get("date"),
-//         isDragging: state.dateSlider.isDragging
-//     };
-// }
 
 function mapDispatchToProps(dispatch) {
     return {
