@@ -34,6 +34,7 @@ export class TitleContainer extends Component {
                         <Button floating neutral icon="settings" className="title-button mini-xs" onClick={this.props.actions.openSettings} />
                     </div>
                 </div>
+                <div id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>{this.props.subtitle}</div>
             </div>
         );
     }
@@ -42,12 +43,14 @@ export class TitleContainer extends Component {
 TitleContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         title: state.view.get("title"),
+        subtitle: state.view.get("subtitle"),
         isFullscreen: state.view.get("isFullscreen")
     };
 }
