@@ -8,6 +8,9 @@ import * as DateSliderActions from './DateSliderActions';
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
 }
+export function resetApplicationState() {
+    return { type: types.RESET_APPLICATION_STATE };
+}
 export function openHelp(param) {
     return { type: types.OPEN_HELP, param };
 }

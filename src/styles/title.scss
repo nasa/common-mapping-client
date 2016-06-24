@@ -10,17 +10,14 @@
 #titleContainer {
     position: absolute;
     top: 0px;
-    left: 0rem;
+    left: 0.7rem;
     width: auto;
     padding-top: 0px;
-    /*background: $color-light;
-    border-right: $medium-light-border;
-    @include light-shadow();
-    border-bottom-right-radius: 4px;*/
 }
 
 #appTitle {
-    padding: 0.7rem 0.7rem;
+    padding: 0px;
+    padding-bottom: 0px;
     margin: 0px;
     margin-left: 4px;
     color: $color-light;
@@ -30,4 +27,9 @@
     font-weight: 800;
     letter-spacing: -0.09rem;
     font-size: 4.1rem;
+}
+
+#appSubtitle {
+    color: $color-light;
+    font-size: 1.5rem;
 }

@@ -89,6 +89,7 @@ export class SettingsContainer extends Component {
                         caption="Reset Application"
                         legend="Restore the application to its default state"
                         leftIcon="settings_backup_restore"
+                        onClick={this.props.appActions.resetApplicationState}
                     />
                 </List>
             </ModalMenuContainer>

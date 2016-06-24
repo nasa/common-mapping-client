@@ -83,8 +83,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
         if (!extent) {
             return false;
         }
-        this.map.getView().fit(extent, this.map.getSize());
-        return true;
+        try {
+            this.map.getView().fit(extent, this.map.getSize());
+            return true;
+        } catch (err) {
+            console.log("could not set openlayers extent.", err);
+            return false;
+        }
     }
 
     getExtent() {
@@ -406,6 +411,22 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return false;
         } catch (err) {
             console.log("could not move openlayers layer down.", err);
+            return false;
+        }
+    }
+
+    getActiveLayerIds() {
+        try {
+            let retList = [];
+            let mapLayers = this.map.getLayers();
+            mapLayers.forEach((mapLayer) => {
+                if(mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                    retList.push(mapLayer._layerId);
+                }
+            });
+            return retList;
+        } catch (err) {
+            console.log("could not generate openlayers active layer list.", err);
             return false;
         }
     }

@@ -8,3 +8,5 @@ cp -r ./src/lib/cesium/* ./public
 rm -rf ./src/styles/lib && mkdir ./src/styles/lib
 mkdir ./src/styles/lib/flexboxgrid/
 cp ./node_modules/flexboxgrid/dist/flexboxgrid.min.css ./src/styles/lib/flexboxgrid/
+mkdir ./src/styles/lib/normalize/
+cp ./node_modules/normalize.css/normalize.css ./src/styles/lib/normalize/

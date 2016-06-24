@@ -531,6 +531,41 @@ const ingestLayerPalettes = (state, action) => {
     return state;
 };
 
+const resetApplicationState = (state, action) => {
+    let newState = state;
+
+    // set data/reference layers opacity to 1
+    newState.getIn(["layers", "data"]).forEach((layer) => {
+        newState = setLayerOpacity(newState, { layer, opacity: 1 });
+    });
+    newState.getIn(["layers", "reference"]).forEach((layer) => {
+        newState = setLayerOpacity(newState, { layer, opacity: 1 });
+    });
+
+    // turn off data/reference layers
+    newState.getIn(["layers", "data"]).forEach((layer) => {
+        newState = setLayerActive(newState, { layer, active: false });
+    });
+    newState.getIn(["layers", "reference"]).forEach((layer) => {
+        newState = setLayerActive(newState, { layer, active: false });
+    });
+
+    // set view to 2D
+    newState = setMapViewMode(newState, { mode: mapStrings.MAP_VIEW_MODE_2D });
+
+    // set view extent to global
+    newState = setMapView(newState, {
+        viewInfo: {
+            extent: [-180, -90, 180, 90]
+        }
+    });
+
+    // set date to today
+    newState = setMapDate(newState, {date: new Date()});
+
+    return newState;
+};
+
 export default function map(state = mapState, action) {
     switch (action.type) {
         case actionTypes.INITIALIZE_MAP:
@@ -619,6 +654,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.INGEST_LAYER_PALETTES:
             return ingestLayerPalettes(state, action);
+
+        case actionTypes.RESET_APPLICATION_STATE:
+            return resetApplicationState(state, action);
 
         default:
             return state;

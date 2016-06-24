@@ -126,6 +126,6 @@ export default class MiscUtil {
     }
 
     static getUrlParams() {
-        return this.parseUrlHashString(window.location.hash);
+        return this.parseUrlHashString(location.hash);
     }
 }
