@@ -9,7 +9,7 @@ import TimeAxis from './TimeAxis';
 export class DateSliderContainer extends Component {
     componentDidMount() {
         // wrap element in d3
-        this.d3Node = d3.select(ReactDOM.findDOMNode(this));
+        // this.d3Node = d3.select(ReactDOM.findDOMNode(this));
     }
 
     componentDidUpdate() {

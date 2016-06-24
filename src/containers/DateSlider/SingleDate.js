@@ -19,7 +19,7 @@ SingleDateD3.update = (selection) => {
     //     return !d.isDragging ? 1 : .5;
     // })
         .attr('width', (d) => {
-            return !d.isDragging ? activeWidth : defaultWidth;
+            return d.isDragging ? activeWidth : defaultWidth;
         })
         .attr('transform', (d) => {
             return !d.isDragging ? 'translate(' + (-1 * activeWidth / 2) + ',' + 0 + ')' : ''
@@ -31,27 +31,19 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
         .on('dragstart', () => {
             d3.event.sourceEvent.stopPropagation();
             selection.transition()
-                .duration(250)
+                .duration(150)
                 .style('opacity', 0.5)
-                .style('width', activeWidth)
             beforeDrag();
         })
         .on('drag', () => {
+            console.log(d3.event.x,"dx");
             onDrag(d3.event.x, d3.event.y);
             selection.attr('x', (d) => d3.event.x);
         })
         .on('dragend', () => {
             selection.transition()
-                .duration(250)
+                .duration(150)
                 .style('opacity', 1)
-                .style('width', defaultWidth)
-            console.log('dragend');
-            // let newDate = xFn.invert(selection.attr('x'));
-            // selection.attr('x', (d) => {
-            //     console.log(d, "dddd");
-            //     return d;
-            // });
-            // console.log(selection.attr('x'), "select", xAxis, xFn)
             afterDrag(selection.attr('x'));
         })
     selection.call(drag);

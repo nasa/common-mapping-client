@@ -41,21 +41,28 @@ TimeAxisD3.enter = (selection) => {
         .x(xFn)
         .on('zoom', () => {
             zoomed()
-        });
+        })
 
     let zoomed = function() {
-        if (self.onVizChangeFn && d3.event) {
-            self.onVizChangeFn.call(self, {
-                scale: d3.event.scale,
-                translate: d3.event.translate,
-                domain: xFn.domain()
-            });
+        // Check that the domain is not larger than bounds
+        if (xFn.domain()[1] - xFn.domain()[0] > maxDt - minDt) {
+            // Constrain scale to 1
+            zoom.scale(1);
+        }
+        if (xFn.domain()[0] < minDt) {
+            zoom.translate([zoom.translate()[0] - xFn(minDt) + xFn.range()[0], zoom.translate()[1]])
+        }
+        if (xFn.domain()[1] > maxDt) {
+            zoom.translate([zoom.translate()[0] - xFn(maxDt) + xFn.range()[1], zoom.translate()[1]]);
         }
 
         selection.select('#x-axis')
             .call(xAxis);
 
-        let singleDate = selection.select('.singleDate')
+        let singleDate = selection.select('.singleDate');
+        // If not isDragging, set x of singledate to new value
+        // If isDragging, do not set value so that single date can be
+        //  dragged while zoom is in progress
         if (!singleDate.attr().data()[0].isDragging) {
             singleDate.attr('x', d => {
                 return xFn(d.date);
@@ -65,7 +72,8 @@ TimeAxisD3.enter = (selection) => {
     }
     selection
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-        .call(zoom);
+        .call(zoom)
+        // .on("dblclick.zoom", null)
 
     selection.select('clippath rect')
         .attr('x', 0)
@@ -86,7 +94,7 @@ TimeAxisD3.enter = (selection) => {
     // Single date
     selection.select(".singleDate")
         .attr('clip-path', 'url(#chart-content)')
-        .attr('width', 10)
+        // .attr('width', 10)
         .attr('height', height)
         .attr('x', (d) => xFn(d.date))
         .attr('y', 2)
@@ -114,6 +122,9 @@ export class TimeAxis extends Component {
     }
     shouldComponentUpdate(nextProps) {
         // console.log("next props", nextProps);
+
+        // Maybe if date same, don't update or something.
+
         // if (stuff) {
         //     this.d3Node.datum(nextProps.date)
         //         .call(TimeAxis.update)
@@ -138,7 +149,7 @@ export class TimeAxis extends Component {
                 </defs>
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
-                <SingleDate 
+                <SingleDate
                     beforeDrag={() => {
                         this.props.actions.beginDragging()
                     }} 
