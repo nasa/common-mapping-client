@@ -36,7 +36,6 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
             beforeDrag();
         })
         .on('drag', () => {
-            console.log(d3.event.x,"dx");
             onDrag(d3.event.x, d3.event.y);
             selection.attr('x', (d) => d3.event.x);
         })
