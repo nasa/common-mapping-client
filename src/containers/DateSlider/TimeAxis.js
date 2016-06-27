@@ -36,12 +36,17 @@ let xAxis = d3.svg.axis()
 let intervalMinWidth = 8;
 let textTruncateThreshold = 30;
 
-TimeAxisD3.enter = (selection) => {
+TimeAxisD3.enter = (selection, handleDateChange) => {
     let zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
             zoomed()
         })
+
+    let drag = d3.behavior.drag()
+        .on('dragstart', () => {
+            d3.event.sourceEvent.stopPropagation();
+        });
 
     let zoomed = function() {
         // Check that the domain is not larger than bounds
@@ -73,7 +78,15 @@ TimeAxisD3.enter = (selection) => {
     selection
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
         .call(zoom)
-        // .on("dblclick.zoom", null)
+        .on("dblclick.zoom", null)
+        .call(drag)
+        .on("click", (v) => {
+            if (d3.event.defaultPrevented) {
+                return;
+            }
+            handleDateChange(d3.event.x);
+            console.log("click");
+        })
 
     selection.select('clippath rect')
         .attr('x', 0)
@@ -118,7 +131,7 @@ export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-        this.d3Node.call(TimeAxisD3.enter);
+        this.d3Node.call(TimeAxisD3.enter, (value) => {this.handleDateChange(value);});
     }
     shouldComponentUpdate(nextProps) {
         // console.log("next props", nextProps);
@@ -138,6 +151,11 @@ export class TimeAxis extends Component {
     componentWillUnmount() {
 
     }
+
+    handleDateChange(value) {
+        let newDate = xFn.invert(value);
+        this.props.actions.dragEnd(newDate);
+    }
     render() {
         return (
             <g className="timeAxis">
@@ -151,19 +169,20 @@ export class TimeAxis extends Component {
                 <g id="x-axis"></g>
                 <SingleDate
                     beforeDrag={() => {
-                        this.props.actions.beginDragging()
+                        this.props.actions.beginDragging();
                     }} 
                     onDrag={() => {}} 
                     afterDrag={(value) => {
-                        let newDate = xFn.invert(value);
-                        this.props.actions.dragEnd(newDate)
-                    }}/>
+                        this.handleDateChange(value);
+                    }}
+                />
             </g>
         )
     }
 }
 TimeAxis.propTypes = {
-    date: PropTypes.object.isRequired
+    date: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
