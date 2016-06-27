@@ -96,7 +96,11 @@ export class SingleDate extends Component {
 }
 SingleDate.propTypes = {
     date: PropTypes.object.isRequired,
-    isDragging: PropTypes.bool.isRequired
+    actions: PropTypes.object.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    onDrag: PropTypes.func.isRequired,
+    beforeDrag: PropTypes.func.isRequired,
+    afterDrag: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
