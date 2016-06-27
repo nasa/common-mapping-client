@@ -27,7 +27,7 @@ export class DateSliderContainer extends Component {
         // };
         let timeAxis = (<TimeAxis />);
         return (
-            <svg>
+            <svg className="dateSliderContainer">
                 <g id="dateSlider">
                     {timeAxis}
                 </g>

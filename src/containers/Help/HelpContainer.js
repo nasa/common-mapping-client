@@ -4,14 +4,15 @@ import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '../../actions/AppActions';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class HelpContainer extends Component {
-    openLink(url) {
-        window.open(url, "_blank");
-    }
-    mailTo(address) {
-        window.location.href = "mailto:" + address;
-    }
+    // openLink(url) {
+    //     window.open(url, "_blank");
+    // }
+    // mailTo(address) {
+    //     window.location.href = "mailto:" + address;
+    // }
     render() {
         let helpPages = {
             about: {
@@ -55,12 +56,12 @@ export class HelpContainer extends Component {
                     <ListItem
                         caption="Visit Help Forum"
                         leftIcon="link"
-                        onClick={() => {this.openLink("http://google.com");}}
+                        onClick={() => {MiscUtil.openLinkInNewTab("http://google.com");}}
                     />
                     <ListItem
                         caption="Contact"
                         leftIcon="email"
-                        onClick={() => {this.mailTo("test@test.test");}}
+                        onClick={() => {MiscUtil.mailTo("test@test.test");}}
                     />
                 </List>
                 <div className={this.props.helpPage !== 'about' ? 'hidden' : 'help-page'}>

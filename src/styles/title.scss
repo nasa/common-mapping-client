@@ -32,4 +32,6 @@
 #appSubtitle {
     color: $color-light;
     font-size: 1.5rem;
+    text-transform: lowercase;
+    font-feature-settings: "onum";
 }
