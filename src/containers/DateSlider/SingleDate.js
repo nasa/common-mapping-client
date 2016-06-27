@@ -18,15 +18,17 @@ SingleDateD3.update = (selection) => {
     // .attr('opacity', (d) => {
     //     return !d.isDragging ? 1 : .5;
     // })
-        .attr('width', (d) => {
-            return d.isDragging ? activeWidth : defaultWidth;
-        })
-        .attr('transform', (d) => {
-            return !d.isDragging ? 'translate(' + (-1 * activeWidth / 2) + ',' + 0 + ')' : ''
-        })
+    .attr('width', (d) => {
+        return d.isDragging ? activeWidth : defaultWidth;
+    })
+    .attr('transform', (d) => {
+        return !d.isDragging ? 'translate(' + (-1 * activeWidth / 2) + ',' + 0 + ')' : '';
+    });
 }
 
-SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
+SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag, maxX, minX) => {
+    maxX = maxX - (2 * activeWidth);
+    minX = minX + (2 * activeWidth);
     let drag = d3.behavior.drag()
         .on('dragstart', () => {
             d3.event.sourceEvent.stopPropagation();
@@ -37,7 +39,13 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag) => {
         })
         .on('drag', () => {
             onDrag(d3.event.x, d3.event.y);
-            selection.attr('x', (d) => d3.event.x);
+            if(d3.event.x > maxX) {
+                selection.attr('x', (d) => maxX);
+            } else if(d3.event.x < minX) {
+                selection.attr('x', (d) => minX);
+            } else {
+                selection.attr('x', (d) => d3.event.x);
+            }
         })
         .on('dragend', () => {
             selection.transition()
@@ -65,7 +73,9 @@ export class SingleDate extends Component {
             .call(SingleDateD3.drag,
                 this.props.beforeDrag,
                 this.props.onDrag,
-                this.props.afterDrag)
+                this.props.afterDrag,
+                this.props.maxX,
+                this.props.minX)
             .call(SingleDateD3.enter);
     }
     shouldComponentUpdate(nextProps) {
@@ -100,7 +110,9 @@ SingleDate.propTypes = {
     isDragging: PropTypes.bool.isRequired,
     onDrag: PropTypes.func.isRequired,
     beforeDrag: PropTypes.func.isRequired,
-    afterDrag: PropTypes.func.isRequired
+    afterDrag: PropTypes.func.isRequired,
+    maxX: PropTypes.number.isRequired,
+    minX: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {

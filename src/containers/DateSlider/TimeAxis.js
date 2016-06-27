@@ -11,22 +11,22 @@ let TimeAxisD3 = {};
 let minDt = new Date("06/11/2000");
 let maxDt = new Date("06/15/2019");
 
-let elementWidth = 1000;
+let elementWidth = window.innerWidth;
 let elementHeight = 50;
 
 let margin = {
     top: 0,
-    right: 0,
+    right: 300,
     bottom: 20,
-    left: 0
+    left: 300
 };
 
-let width = elementWidth - margin.left - margin.right;
-let height = elementHeight - margin.top - margin.bottom;
+let width = elementWidth - (margin.left + margin.right);
+let height = elementHeight - (margin.top + margin.bottom);
 
 let xFn = d3.time.scale()
     .domain([minDt, maxDt])
-    .range([0, width]);
+    .range([margin.left, margin.left + width]);
 
 let xAxis = d3.svg.axis()
     .scale(xFn)
@@ -36,7 +36,7 @@ let xAxis = d3.svg.axis()
 let intervalMinWidth = 8;
 let textTruncateThreshold = 30;
 
-TimeAxisD3.enter = (selection, handleDateChange) => {
+TimeAxisD3.enter = (selection, handleXChange) => {
     let zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
@@ -76,26 +76,24 @@ TimeAxisD3.enter = (selection, handleDateChange) => {
         }
     }
     selection
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        // .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
         .call(zoom)
         .on("dblclick.zoom", null)
         .call(drag)
         .on("click", (v) => {
-            if (d3.event.defaultPrevented) {
-                return;
+            if (!d3.event.defaultPrevented) {
+                handleXChange(d3.event.x);
             }
-            handleDateChange(d3.event.x);
-            console.log("click");
         })
 
-    selection.select('clippath rect')
-        .attr('x', 0)
+    selection.select('clipPath rect')
+        .attr('x', margin.left)
         .attr('y', 0)
         .attr('height', height)
         .attr('width', width);
 
     selection.select('rect#chart-bounds')
-        .attr('x', 0)
+        .attr('x', margin.left)
         .attr('y', 0)
         .attr('height', height)
         .attr('width', width);
@@ -106,11 +104,11 @@ TimeAxisD3.enter = (selection, handleDateChange) => {
 
     // Single date
     selection.select(".singleDate")
-        .attr('clip-path', 'url(#chart-content)')
-        // .attr('width', 10)
-        .attr('height', height)
         .attr('x', (d) => xFn(d.date))
         .attr('y', 2)
+        .attr('clip-path', "url(#chart-content)")
+        // .attr('width', 10)
+        .attr('height', height)
 
     // Done entering, time to call update
     selection.call(TimeAxisD3.update)
@@ -131,7 +129,7 @@ export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-        this.d3Node.call(TimeAxisD3.enter, (value) => {this.handleDateChange(value);});
+        this.d3Node.call(TimeAxisD3.enter, (value) => {this.handleXChange(value);});
     }
     shouldComponentUpdate(nextProps) {
         // console.log("next props", nextProps);
@@ -152,29 +150,29 @@ export class TimeAxis extends Component {
 
     }
 
-    handleDateChange(value) {
+    handleXChange(value) {
         let newDate = xFn.invert(value);
         this.props.actions.dragEnd(newDate);
     }
     render() {
         return (
             <g className="timeAxis">
-                <defs>
-                    <clippath id="chart-content">
-                        <rect></rect>
-                        <g></g>
-                    </clippath>
-                </defs>
+                <clipPath id="chart-content">
+                    <rect></rect>
+                    <g></g>
+                </clipPath>
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
                 <SingleDate
                     beforeDrag={() => {
                         this.props.actions.beginDragging();
                     }} 
-                    onDrag={() => {}} 
+                    onDrag={() => {}}
                     afterDrag={(value) => {
-                        this.handleDateChange(value);
+                        this.handleXChange(value);
                     }}
+                    maxX={margin.left + width}
+                    minX={margin.left}
                 />
             </g>
         )
