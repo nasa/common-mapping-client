@@ -128,4 +128,12 @@ export default class MiscUtil {
     static getUrlParams() {
         return this.parseUrlHashString(location.hash);
     }
+
+    static openLinkInNewTab(url) {
+        window.open(url, "_blank");
+    }
+
+    static mailTo(address) {
+        window.location.href = "mailto:" + address;
+    }
 }
