@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'react-toolbox/lib/button';
 import * as actions from '../../actions/AppActions';
 import MiscUtil from '../../utils/MiscUtil';
+import ReactTooltip from 'react-tooltip';
 
 
 export class TitleContainer extends Component {
@@ -28,13 +29,47 @@ export class TitleContainer extends Component {
                 <div className="row middle-xs">
                     <h1 id="appTitle" className="col-xs">{this.props.title}</h1>
                     <div className="col-xs">
-                        <Button floating neutral icon="" label="?" className="title-button mini-xs" onClick={this.props.actions.openHelp} />
-                        <Button floating neutral icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} className="title-button mini-xs" onClick={() => this.props.actions.setFullScreenMode(!this.props.isFullscreen)} />
-                        <Button floating neutral icon="share" className="title-button mini-xs" onClick={this.props.actions.openShare} />
-                        <Button floating neutral icon="settings" className="title-button mini-xs" onClick={this.props.actions.openSettings} />
+                        <Button
+                            floating
+                            neutral
+                            icon="" 
+                            label="?"
+                            className="title-button mini-xs" 
+                            onClick={this.props.actions.openHelp} 
+                            data-tip="Help"
+                            data-place="bottom"
+                        />
+                        <Button
+                            floating
+                            neutral
+                            icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} 
+                            className="title-button mini-xs" 
+                            onClick={() => this.props.actions.setFullScreenMode(!this.props.isFullscreen)} 
+                            data-tip={this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"} 
+                            data-place="bottom"
+                        />
+                        <Button
+                            floating
+                            neutral
+                            icon="share"
+                            className="title-button mini-xs"
+                            onClick={this.props.actions.openShare} 
+                            data-tip="Share"
+                            data-place="bottom"
+                        />
+                        <Button
+                            floating
+                            neutral
+                            icon="settings"
+                            className="title-button mini-xs"
+                            onClick={this.props.actions.openSettings} 
+                            data-tip="Settings"
+                            data-place="bottom"
+                        />
                     </div>
                 </div>
                 <div id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>{this.props.subtitle}</div>
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }

@@ -16,7 +16,7 @@ export class LayerControlContainer extends Component {
     }
 
     toggleChangingOpacity() {
-        if(this.props.layer.get("isChangingOpacity")) {
+        if (this.props.layer.get("isChangingOpacity")) {
             this.stopChangingOpacity();
         } else {
             this.startChangingOpacity();
@@ -32,7 +32,7 @@ export class LayerControlContainer extends Component {
     }
 
     toggleChangingPosition() {
-        if(this.props.layer.get("isChangingPosition")) {
+        if (this.props.layer.get("isChangingPosition")) {
             this.stopChangingPosition();
         } else {
             this.startChangingPosition();
@@ -82,11 +82,16 @@ export class LayerControlContainer extends Component {
             <div className="layer-control pos-rel">
                 <div className="row middle-xs">
                     <div className="col-xs-2 text-left">
-                        <Switch
-                            className={switchClasses}
-                            checked={this.props.layer.get("isActive")}
-                            onChange={(active) => this.props.actions.setLayerActive(this.props.layer, active)}
-                        />
+                        <div data-tip={this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"}
+                            data-place="right"
+                            style={{width:"3rem"}}
+                            >
+                            <Switch
+                                className={switchClasses}
+                                checked={this.props.layer.get("isActive")}
+                                onChange={(active) => this.props.actions.setLayerActive(this.props.layer, active)}
+                            />
+                        </div>
                     </div>
                     <span className="col-xs layer-header text-wrap">{this.props.layer.get("title")}</span>
                 </div>
@@ -109,7 +114,7 @@ export class LayerControlContainer extends Component {
                             accent={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
-                            data-tip={!this.props.layer.get("isChangingPosition") ? "adjust layer positioning" : null}
+                            data-tip={!this.props.layer.get("isChangingPosition") ? "Adjust layer positioning" : null}
                             data-place="left"
                             onClick={() => this.toggleChangingPosition()}>
                             <i className="button-icon ms ms-fw ms-layers-overlay"></i>
@@ -120,7 +125,7 @@ export class LayerControlContainer extends Component {
                             accent={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
-                            data-tip={!this.props.layer.get("isChangingOpacity") ? "adjust layer opacity" : null}
+                            data-tip={!this.props.layer.get("isChangingOpacity") ? "Adjust layer opacity" : null}
                             data-place="left"
                             onClick={() => this.toggleChangingOpacity()}>
                             <i className="button-icon ms ms-fw ms-opacity"></i>
@@ -130,6 +135,8 @@ export class LayerControlContainer extends Component {
                             primary
                             icon="info_outline"
                             className="no-padding mini-xs-waysmall"
+                            data-tip="Layer information"
+                            data-place="left"
                         />
                     </div>
                 </div>
