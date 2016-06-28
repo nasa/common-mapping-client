@@ -38,7 +38,6 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag, maxX, minX) => {
             beforeDrag();
         })
         .on('drag', () => {
-            onDrag(d3.event.x, d3.event.y);
             if(d3.event.x > maxX) {
                 selection.attr('x', (d) => maxX);
             } else if(d3.event.x < minX) {
@@ -46,6 +45,7 @@ SingleDateD3.drag = (selection, beforeDrag, onDrag, afterDrag, maxX, minX) => {
             } else {
                 selection.attr('x', (d) => d3.event.x);
             }
+            onDrag(d3.event.x, d3.event.y);
         })
         .on('dragend', () => {
             selection.transition()

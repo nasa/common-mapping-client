@@ -1,15 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import * as DateSliderActions from '../../actions/DateSliderActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import d3 from 'd3';
+import moment from 'moment';
+import * as DateSliderActions from '../../actions/DateSliderActions';
 import SingleDate from './SingleDate';
 
 let TimeAxisD3 = {};
 
-let minDt = new Date("06/11/2000");
-let maxDt = new Date("06/15/2019");
+let minDt = moment("06/11/2000", "MM/DD/YYYY").toDate();
+let maxDt = moment("06/15/2019", "MM/DD/YYYY").toDate();
 
 let elementWidth = window.innerWidth;
 let elementHeight = 50;
@@ -36,11 +37,11 @@ let xAxis = d3.svg.axis()
 let intervalMinWidth = 8;
 let textTruncateThreshold = 30;
 
-TimeAxisD3.enter = (selection, handleXChange) => {
-    let zoom = d3.behavior.zoom()
+TimeAxisD3.enter = (selection, handleSingleDateDragEnd) => {
+    selection.zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
-            zoomed()
+            selection.zoomed()
         })
 
     let drag = d3.behavior.drag()
@@ -48,17 +49,17 @@ TimeAxisD3.enter = (selection, handleXChange) => {
             d3.event.sourceEvent.stopPropagation();
         });
 
-    let zoomed = function() {
+    selection.zoomed = function() {
         // Check that the domain is not larger than bounds
         if (xFn.domain()[1] - xFn.domain()[0] > maxDt - minDt) {
             // Constrain scale to 1
-            zoom.scale(1);
+            selection.zoom.scale(1);
         }
         if (xFn.domain()[0] < minDt) {
-            zoom.translate([zoom.translate()[0] - xFn(minDt) + xFn.range()[0], zoom.translate()[1]])
+            selection.zoom.translate([selection.zoom.translate()[0] - xFn(minDt) + xFn.range()[0], selection.zoom.translate()[1]]);
         }
         if (xFn.domain()[1] > maxDt) {
-            zoom.translate([zoom.translate()[0] - xFn(maxDt) + xFn.range()[1], zoom.translate()[1]]);
+            selection.zoom.translate([selection.zoom.translate()[0] - xFn(maxDt) + xFn.range()[1], selection.zoom.translate()[1]]);
         }
 
         selection.select('#x-axis')
@@ -72,17 +73,15 @@ TimeAxisD3.enter = (selection, handleXChange) => {
             singleDate.attr('x', d => {
                 return xFn(d.date);
             })
-
         }
     }
     selection
-        // .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-        .call(zoom)
+        .call(selection.zoom)
         .on("dblclick.zoom", null)
         .call(drag)
         .on("click", (v) => {
             if (!d3.event.defaultPrevented) {
-                handleXChange(d3.event.x);
+                handleSingleDateDragEnd(d3.event.x);
             }
         })
 
@@ -129,7 +128,7 @@ export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
-        this.d3Node.call(TimeAxisD3.enter, (value) => {this.handleXChange(value);});
+        this.d3Node.call(TimeAxisD3.enter, (value) => { this.handleSingleDateDragEnd(value); });
     }
     shouldComponentUpdate(nextProps) {
         // console.log("next props", nextProps);
@@ -150,11 +149,36 @@ export class TimeAxis extends Component {
 
     }
 
-    handleXChange(value) {
+    handleSingleDateDragEnd(value) {
         let newDate = xFn.invert(value);
         this.props.actions.dragEnd(newDate);
     }
+    autoScroll(toLeft) {
+        // get current translation
+        let currTrans = this.d3Node.zoom.translate();
+
+        // determine autoscroll amount (one-half tick)
+        let currTicks = xFn.ticks();
+        let tickDiff = (xFn(currTicks[1]) - xFn(currTicks[0])) / 2;
+
+        // prep the timeline
+        this.d3Node.call(this.d3Node.zoom.translate(currTrans).event)
+
+        // shift the timeline
+        if (toLeft) {
+            this.d3Node.transition()
+                .duration(150)
+                .call(this.d3Node.zoom.translate([currTrans[0] - tickDiff, currTrans[1]]).event);
+        } else {
+            this.d3Node.transition()
+                .duration(150)
+                .call(this.d3Node.zoom.translate([currTrans[0] + tickDiff, currTrans[1]]).event);
+        }
+    }
     render() {
+        let autoScrollInterval = null;
+        let maxX = margin.left + width;
+        let minX = margin.left;
         return (
             <g className="timeAxis">
                 <clipPath id="chart-content">
@@ -165,14 +189,27 @@ export class TimeAxis extends Component {
                 <g id="x-axis"></g>
                 <SingleDate
                     beforeDrag={() => {
+                        clearInterval(autoScrollInterval);
                         this.props.actions.beginDragging();
                     }} 
-                    onDrag={() => {}}
-                    afterDrag={(value) => {
-                        this.handleXChange(value);
+                    onDrag={(x, y) => {
+                        clearInterval(autoScrollInterval);
+                        if(x > maxX) {
+                            autoScrollInterval = setInterval(() => {
+                                this.autoScroll(true);
+                            }, 350);
+                        } else if(x < minX) {
+                            autoScrollInterval = setInterval(() => {
+                                this.autoScroll(false);
+                            }, 350);
+                        }
                     }}
-                    maxX={margin.left + width}
-                    minX={margin.left}
+                    afterDrag={(value) => {
+                        clearInterval(autoScrollInterval);
+                        this.handleSingleDateDragEnd(value);
+                    }}
+                    maxX={maxX}
+                    minX={minX}
                 />
             </g>
         )
