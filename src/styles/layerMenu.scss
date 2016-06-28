@@ -147,6 +147,7 @@
     color: $color-light;
     font-weight: 500;
 }
+
 .layer-menu-note {
     letter-spacing: 0.09em;
     font-style: italic;
@@ -170,7 +171,7 @@ button.position-control-button {
     z-index: 1;
     background: $color-light;
     overflow: hidden;
-    padding: 0px 0.5rem 0.3rem 0.5rem;
+    padding: 0px 0.5rem 0.3rem 0rem;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
@@ -199,5 +200,6 @@ button.position-control-button {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: content-box;
+    padding-left: 0.5rem;
     padding-right: 25px;
 }
