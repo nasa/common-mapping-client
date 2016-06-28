@@ -33,17 +33,20 @@ export default class TimeAxisD3 {
     }
 
     enter() {
+        // configure the zoom
         this._selection.zoom = d3.behavior.zoom()
             .x(this._xFn)
             .on('zoom', () => {
                 this.zoomed();
             });
 
+        // configure the drag
         this._selection.drag = d3.behavior.drag()
             .on('dragstart', () => {
                 d3.event.sourceEvent.stopPropagation();
             });
 
+        // enable the zooming
         this._selection
             .call(this._selection.zoom)
             .on("dblclick.zoom", null)
@@ -54,23 +57,12 @@ export default class TimeAxisD3 {
                 }
             });
 
-        this._selection.select('clipPath rect')
-            .attr('x', this._margin.left)
-            .attr('y', 0)
-            .attr('height', this._height)
-            .attr('width', this._width);
-
-        this._selection.select('rect#chart-bounds')
-            .attr('x', this._margin.left)
-            .attr('y', 0)
-            .attr('height', this._height)
-            .attr('width', this._width);
-
+        // configure the axis
         this._selection.select("#x-axis")
             .attr('transform', 'translate(0,' + this._height + ')')
             .call(this._xAxis);
 
-        // Single date
+        // configure the single date bounds
         this._selection.select(".singleDate")
             .attr('x', (d) => this._xFn(d.date))
             .attr('y', 2)
@@ -81,8 +73,23 @@ export default class TimeAxisD3 {
     }
 
     update() {
+        // update sizes
+        this._selection.select('clipPath rect')
+            .attr('x', this._margin.left)
+            .attr('y', 0)
+            .attr('height', this._height)
+            .attr('width', this._width);
+        this._selection.select('rect#chart-bounds')
+            .attr('x', this._margin.left)
+            .attr('y', 0)
+            .attr('height', this._height)
+            .attr('width', this._width);
+
+        // configure the axis
         this._selection.select('#x-axis')
             .call(this._xAxis);
+
+        // do a thing?
         this._selection.select(".singleDate")
             .attr('x', (d) => this._xFn(d.date));
     }

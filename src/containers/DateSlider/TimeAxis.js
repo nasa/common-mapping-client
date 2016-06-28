@@ -9,32 +9,18 @@ import TimeAxisD3 from '../../utils/TimeAxisD3';
 import MiscUtil from '../../utils/MiscUtil';
 import SingleDate from './SingleDate';
 
-let minDt = appConfig.MIN_DATE;
-let maxDt = appConfig.MAX_DATE;
-
-let elementWidth = window.innerWidth;
-let elementHeight = 50;
-
-let margin = {
-    top: 0,
-    right: 300,
-    bottom: 20,
-    left: 300
-};
-
-let width = elementWidth - (margin.left + margin.right);
-let height = elementHeight - (margin.top + margin.bottom);
-
 export class TimeAxis extends Component {
     componentDidMount() {
-        // get TimeAxisD3 object
+        let sizes = this.getSizes();
+
+        // get D3 wrapper
         this.timeAxisD3 = new TimeAxisD3({
             selectNode: ReactDOM.findDOMNode(this),
-            minDt: minDt,
-            maxDt: maxDt,
-            elementWidth: elementWidth,
-            elementHeight: elementHeight,
-            margin: margin,
+            minDt: appConfig.MIN_DATE,
+            maxDt: appConfig.MAX_DATE,
+            elementWidth: sizes.elementWidth,
+            elementHeight: sizes.elementHeight,
+            margin: sizes.margin,
             onClick: (value) => { this.handleSingleDateDragEnd(value); }
         });
 
@@ -42,10 +28,7 @@ export class TimeAxis extends Component {
         this.timeAxisD3.enter();
 
         window.addEventListener("resize", () => {
-            this.timeAxisD3.resize({
-                elementWidth: window.innerWidth,
-                elementHeight: elementHeight
-            });
+            this.timeAxisD3.resize(this.getSizes());
         });
     }
     componentDidUpdate() {
@@ -59,11 +42,30 @@ export class TimeAxis extends Component {
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
     }
+    getSizes() {
+        let elementWidth = window.innerWidth;
+        let elementHeight = 50;
+        let margin = {
+            top: 0,
+            right: 50,
+            bottom: 20,
+            left: 50
+        };
+
+        let width = elementWidth - (margin.left + margin.right);
+        let height = elementHeight - (margin.top + margin.bottom);
+
+        return {
+            elementWidth,
+            elementHeight,
+            height,
+            width,
+            margin
+        };
+    }
     render() {
         let autoScrollInterval = null;
-        let maxX = margin.left + width;
-        let minX = margin.left;
-
+        let sizes = this.getSizes();
         let axisClassNames = MiscUtil.generateStringFromSet({
             timeAxis: true,
             dragging: this.props.isDragging
@@ -81,13 +83,13 @@ export class TimeAxis extends Component {
                         clearInterval(autoScrollInterval);
                         this.props.actions.beginDragging();
                     }} 
-                    onDrag={(x, y) => {
+                    onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
-                        if(x > maxX) {
+                        if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
                             }, 350);
-                        } else if(x < minX) {
+                        } else if(scrollFlag < 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(false);
                             }, 350);
@@ -97,8 +99,8 @@ export class TimeAxis extends Component {
                         clearInterval(autoScrollInterval);
                         this.handleSingleDateDragEnd(value);
                     }}
-                    maxX={maxX}
-                    minX={minX}
+                    maxX={sizes.margin.left + sizes.width}
+                    minX={sizes.margin.left}
                 />
             </g>
         );
