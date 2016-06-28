@@ -13,17 +13,16 @@ export class DateSliderContainer extends Component {
     componentWillUnmount() {}
 
     render() {
-        let timeAxis = (<TimeAxis />);
         return (
             <svg className="dateSliderContainer">
                 <g id="dateSlider">
-                    {timeAxis}
+                    <TimeAxis />
                 </g>
             </svg>
         );
     }
 }
 
-DateSliderContainer.propTypes = { };
+DateSliderContainer.propTypes = {};
 
 export default connect()(DateSliderContainer);
