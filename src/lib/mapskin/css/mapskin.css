@@ -8,11 +8,11 @@
 
 @font-face {
     font-family: 'mapskin';
-    src:url('../fonts/mapskin.eot');
-    src:url('../fonts/mapskin.eot') format('embedded-opentype'),
-        url('../fonts/mapskin.ttf') format('truetype'),
-        url('../fonts/mapskin.woff') format('woff'),
-        url('../fonts/mapskin.svg') format('svg');
+    src:url('mapskin.eot');
+    src:url('mapskin.eot') format('embedded-opentype'),
+        url('mapskin.ttf') format('truetype'),
+        url('mapskin.woff') format('woff'),
+        url('mapskin.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
