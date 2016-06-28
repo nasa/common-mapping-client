@@ -9,3 +9,5 @@ export const URLS = {
     }],
     paletteConfig: "default-data/palettes.json"
 };
+export const MIN_DATE = new Date("2000-06-11");
+export const MAX_DATE = new Date();

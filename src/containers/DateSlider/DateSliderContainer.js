@@ -19,7 +19,7 @@ export class DateSliderContainer extends Component {
                 <g id="dateSlider">
                     {timeAxis}
                 </g>
-          </svg>
+            </svg>
         );
     }
 }

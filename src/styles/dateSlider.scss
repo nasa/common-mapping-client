@@ -3,21 +3,18 @@
     display: block;
     background: darken($color-primary, 20%);
     width: 100%;
-    left: 0;
-    top: -3px;
+    height: 6rem;
     z-index: 1;
 }
 
 #dateSlider {
     .timeAxis {
-        cursor: -webkit-grab;
-        cursor: grab;
+        cursor: pointer;
+        &.dragging {
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+        }
     }
-    position: relative;
-    display: block;
-    height: 200px;
-    width: 100%;
-    margin-top: -3px;
     .domain {
         fill: none;
         stroke: none;
@@ -27,20 +24,23 @@
         fill: transparent;
     }
     rect#chart-bounds,
-    #x-axis .tick {
-        &:active {
-            cursor: -webkit-grabbing;
-        }
-    }
     .tick {
         text {
-            fill: darken(white, 30%);
+            fill: darken(white, 25%);
         }
         line {
-            stroke: darken(white, 30%);
+            stroke: darken(white, 25%);
         }
     }
     .singleDate {
+        height: 30px;
         fill: $color-accent;
+        cursor: -webkit-grab;
+        cursor: grab;
+        &.dragging {
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+            height: 50px;
+        }
     }
 }

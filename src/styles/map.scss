@@ -66,7 +66,7 @@
     border-top-left-radius: 4px;
     position: absolute;
     left: 0.7rem;
-    bottom: 0.3rem;
+    bottom: 0rem;
     padding: 0.4rem 0px;
     padding-left: 0.7rem;
     line-height: 1;
@@ -108,7 +108,7 @@
 #mapContainer2D {
     height: calc(100% - 6rem);
     width: 100%;
-    display: inline-block;
+    display: block;
     position: relative;
     overflow: hidden;
 }
@@ -121,7 +121,7 @@
 #mapContainer3D {
     height: calc(100% - 6rem);
     width: 100%;
-    display: inline-block;
+    display: block;
     position: relative;
     overflow: hidden;
 }

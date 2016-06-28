@@ -4,13 +4,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import d3 from 'd3';
 import moment from 'moment';
+import * as appConfig from '../../constants/appConfig';
 import * as DateSliderActions from '../../actions/DateSliderActions';
+import MiscUtil from '../../utils/MiscUtil';
 import SingleDate from './SingleDate';
 
 let TimeAxisD3 = {};
 
-let minDt = moment("06/11/2000", "MM/DD/YYYY").toDate();
-let maxDt = moment("06/15/2019", "MM/DD/YYYY").toDate();
+let minDt = appConfig.MIN_DATE;
+let maxDt = appConfig.MAX_DATE;
 
 let elementWidth = window.innerWidth;
 let elementHeight = 50;
@@ -41,10 +43,10 @@ TimeAxisD3.enter = (selection, handleSingleDateDragEnd) => {
     selection.zoom = d3.behavior.zoom()
         .x(xFn)
         .on('zoom', () => {
-            selection.zoomed()
-        })
+            selection.zoomed();
+        });
 
-    let drag = d3.behavior.drag()
+    selection.drag = d3.behavior.drag()
         .on('dragstart', () => {
             d3.event.sourceEvent.stopPropagation();
         });
@@ -72,18 +74,19 @@ TimeAxisD3.enter = (selection, handleSingleDateDragEnd) => {
         if (!singleDate.attr().data()[0].isDragging) {
             singleDate.attr('x', d => {
                 return xFn(d.date);
-            })
+            });
         }
-    }
+    };
+
     selection
         .call(selection.zoom)
         .on("dblclick.zoom", null)
-        .call(drag)
+        .call(selection.drag)
         .on("click", (v) => {
             if (!d3.event.defaultPrevented) {
                 handleSingleDateDragEnd(d3.event.x);
             }
-        })
+        });
 
     selection.select('clipPath rect')
         .attr('x', margin.left)
@@ -105,48 +108,34 @@ TimeAxisD3.enter = (selection, handleSingleDateDragEnd) => {
     selection.select(".singleDate")
         .attr('x', (d) => xFn(d.date))
         .attr('y', 2)
-        .attr('clip-path', "url(#chart-content)")
-        // .attr('width', 10)
-        .attr('height', height)
+        .attr('clip-path', "url(#chart-content)");
 
     // Done entering, time to call update
-    selection.call(TimeAxisD3.update)
-}
+    selection.call(TimeAxisD3.update);
+};
 
 TimeAxisD3.update = (selection) => {
     selection.select('#x-axis')
         .call(xAxis);
     selection.select(".singleDate")
-        .attr('x', (d) => xFn(d.date))
-}
+        .attr('x', (d) => xFn(d.date));
+};
 
 TimeAxisD3.exit = () => {
 
-}
+};
 
 export class TimeAxis extends Component {
     componentDidMount() {
         // wrap element in d3
         this.d3Node = d3.select(ReactDOM.findDOMNode(this));
         this.d3Node.call(TimeAxisD3.enter, (value) => { this.handleSingleDateDragEnd(value); });
-    }
-    shouldComponentUpdate(nextProps) {
-        // console.log("next props", nextProps);
-
-        // Maybe if date same, don't update or something.
-
-        // if (stuff) {
-        //     this.d3Node.datum(nextProps.date)
-        //         .call(TimeAxis.update)
-        //     return false;
-        // }
-        return true;
+        window.addEventListener("resize", () => {
+            this.d3Node.call(TimeAxisD3.update);
+        });
     }
     componentDidUpdate() {
         this.d3Node.call(TimeAxisD3.update);
-    }
-    componentWillUnmount() {
-
     }
 
     handleSingleDateDragEnd(value) {
@@ -162,7 +151,7 @@ export class TimeAxis extends Component {
         let tickDiff = (xFn(currTicks[1]) - xFn(currTicks[0])) / 2;
 
         // prep the timeline
-        this.d3Node.call(this.d3Node.zoom.translate(currTrans).event)
+        this.d3Node.call(this.d3Node.zoom.translate(currTrans).event);
 
         // shift the timeline
         if (toLeft) {
@@ -179,8 +168,13 @@ export class TimeAxis extends Component {
         let autoScrollInterval = null;
         let maxX = margin.left + width;
         let minX = margin.left;
+
+        let axisClassNames = MiscUtil.generateStringFromSet({
+            timeAxis: true,
+            dragging: this.props.isDragging
+        });
         return (
-            <g className="timeAxis">
+            <g className={axisClassNames}>
                 <clipPath id="chart-content">
                     <rect></rect>
                     <g></g>
@@ -212,17 +206,19 @@ export class TimeAxis extends Component {
                     minX={minX}
                 />
             </g>
-        )
+        );
     }
 }
 TimeAxis.propTypes = {
     date: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    isDragging: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        date: state.map.get("date")
+        date: state.map.get("date"),
+        isDragging: state.dateSlider.get("isDragging")
     };
 }
 
