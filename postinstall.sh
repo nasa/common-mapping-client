@@ -17,4 +17,4 @@ cp ./node_modules/normalize.css/normalize.css ./src/styles/lib/normalize/
 
 # Copy mapskin
 mkdir ./src/styles/lib/mapskin/
-cp -r ./src/lib/mapskin ./src/styles/lib/mapskin
+cp -r ./src/lib/mapskin ./src/styles/lib/
