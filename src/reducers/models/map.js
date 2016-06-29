@@ -57,7 +57,12 @@ export const layerModel = Immutable.fromJS({
     type: "",
     isDefault: false,
     wmtsOptions: null,
-    thumbnailImage: "",
+    // One of these should work...
+    thumbnailImage: "https://unsplash.it/700/400?image=1025",
+    // thumbnailImage: "https://unsplash.it/700/400?image=1002",
+    // thumbnailImage: "https://unsplash.it/700/400?image=966",
+    // thumbnailImage: "https://unsplash.it/700/400?image=967",
+    // thumbnailImage: "https://unsplash.it/700/400?image=1032",
     fromJson: false,
     handleAs: "generic"
 });

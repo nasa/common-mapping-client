@@ -11,6 +11,12 @@ export function completeInitialLoad() {
 export function resetApplicationState() {
     return { type: types.RESET_APPLICATION_STATE };
 }
+export function openLayerInfo(param) {
+    return { type: types.OPEN_LAYER_INFO, param };
+}
+export function closeLayerInfo() {
+    return { type: types.CLOSE_LAYER_INFO };
+}
 export function openHelp(param) {
     return { type: types.OPEN_HELP, param };
 }

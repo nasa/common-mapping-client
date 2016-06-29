@@ -126,10 +126,6 @@ hr.divider.dark {
     padding: 0px;
 }
 
-.main-menu-content-header {
-    margin-bottom: 0px;
-}
-
 button.small {
     font-size: 1.15rem;
     padding: 0.5rem 0.8rem;
@@ -249,9 +245,9 @@ button.mini-xs-waysmall.small-text {
     color: $color-primary;
 }
 
-.sortable-ghost {
-    opacity: 0;
-}
+// .sortable-ghost {
+//     opacity: 0;
+// }
 
 
 /* end classes */
@@ -279,6 +275,7 @@ button.mini-xs-waysmall.small-text {
 @import "settings.scss";
 @import "share.scss";
 @import "layerMenu.scss";
+@import "layerInfo.scss";
 @import "map.scss";
 @import "dateSlider.scss";
 @import "modalMenu.scss";

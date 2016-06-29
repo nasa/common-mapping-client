@@ -8,7 +8,6 @@ export const viewState = Immutable.fromJS({
     initialLoadComplete: false,
     layerMenuOpen: true,
     isFullscreen: false,
-    sharingOpen: false,
     alerts: []
 });
 

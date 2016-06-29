@@ -47,6 +47,10 @@ export class LayerControlContainer extends Component {
         this.props.actions.stopChangingLayerPosition(this.props.layer);
     }
 
+    openLayerInfo() {
+        this.props.actions.openLayerInfo(this.props.layer)
+    }
+
     changePalette() {
         this.props.actions.changeLayerPalette(this.props.layer, {});
     }
@@ -137,6 +141,7 @@ export class LayerControlContainer extends Component {
                             className="no-padding mini-xs-waysmall"
                             data-tip="Layer information"
                             data-place="left"
+                            onClick={() => this.openLayerInfo()}
                         />
                     </div>
                 </div>

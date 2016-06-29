@@ -3,11 +3,20 @@ import { URLS } from '../constants/appConfig';
 import * as types from '../constants/actionTypes';
 import * as mapStrings from '../constants/mapStrings';
 
+export function openLayerInfo(layer) {
+    console.log("open with", layer);
+    return { type: types.OPEN_LAYER_INFO, layer };
+}
+
+export function closeLayerInfo() {
+    return { type: types.CLOSE_LAYER_INFO };
+}
+
 export function setLayerMenuOpen(open) {
     return { type: types.SET_LAYER_MENU_OPEN, open };
 }
 
-export function setLayerActive(layer, active)  {
+export function setLayerActive(layer, active) {
     return { type: types.SET_LAYER_ACTIVE, layer, active };
 }
 

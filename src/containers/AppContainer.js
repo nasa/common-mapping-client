@@ -9,6 +9,7 @@ import MapContainer3D from './Map/MapContainer3D';
 import MapControlsContainer from './Map/MapControlsContainer';
 import SettingsContainer from './Settings/SettingsContainer';
 import ShareContainer from './Share/ShareContainer';
+import LayerInfoContainer from './LayerInfo/LayerInfoContainer';
 import LoadingContainer from './Loading/LoadingContainer';
 import HelpContainer from './Help/HelpContainer';
 import AlertsContainer from './Alerts/AlertsContainer';
@@ -40,6 +41,7 @@ export class AppContainer extends Component {
                 <TitleContainer />
                 <SettingsContainer />
                 <ShareContainer />
+                <LayerInfoContainer />
                 <LayerMenuContainer />
                 <DateSliderContainer />
                 <AlertsContainer />

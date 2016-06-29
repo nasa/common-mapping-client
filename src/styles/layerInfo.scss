@@ -1,0 +1,43 @@
+.layerInfo {
+    width: 350px;
+    h2 {
+        color: $color-text;
+    }
+    .thumbnail-image {
+        background-size: cover;
+        width: 100%;
+        height: 200px;
+        background-position: 50% 50%;
+    }
+    section {
+        padding: 0px;
+        @include flex();
+        @include flex-col();
+        height: 100%;
+        overflow: hidden;
+    }
+    nav {
+        display: none;
+    }
+    // .modal-menu-close {
+    //     position: absolute;
+    //     top: 0px;
+    //     right: 0px;
+    //     z-index: 2;
+    //     color: white;
+    //     margin-top: 1.2rem;
+    //     margin-right: 1.2rem;
+    //     [data-react-toolbox="font-icon"] {
+    //         font-size: 2.5rem;
+    //         line-height: 3.3rem;
+    //     }
+    // }
+    .layer-info-content {
+        padding: 1rem 1.6rem;
+        @include flex();
+        @include flex-col();
+        @include flex-grow(1);
+        overflow: hidden;
+        overflow-y: auto;
+    }
+}

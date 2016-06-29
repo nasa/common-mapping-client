@@ -1,6 +1,8 @@
 // View Actions
 export const COMPLETE_INITIAL_LOAD = 'COMPLETE_INITIAL_LOAD';
 export const SET_LAYER_MENU_OPEN = 'SET_LAYER_MENU_OPEN';
+export const OPEN_LAYER_INFO = 'OPEN_LAYER_INFO';
+export const CLOSE_LAYER_INFO = 'CLOSE_LAYER_INFO';
 export const OPEN_HELP = 'OPEN_HELP';
 export const CLOSE_HELP = 'CLOSE_HELP';
 export const OPEN_SHARE = 'OPEN_SHARE';

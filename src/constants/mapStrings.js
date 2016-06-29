@@ -10,7 +10,7 @@ export const MAP_VIEW_MODE_3D = 'MAP_VIEW_MODE_3D';
 // TODO - USE THESE
 export const LAYER_GROUP_TYPE_BASEMAP = "basemap";
 export const LAYER_GROUP_TYPE_DATA = "data";
-export const LAYER_GROUP_TYPE_REFERENCE = "referemce";
+export const LAYER_GROUP_TYPE_REFERENCE = "reference";
 
 // layer config formats
 export const LAYER_CONFIG_JSON = 'json';
