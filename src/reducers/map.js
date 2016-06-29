@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import moment from 'moment';
 import * as actionTypes from '../constants/actionTypes';
 import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/view';
@@ -444,7 +445,7 @@ const setMapDate = (state, action) => {
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {
-            return layer.set("time", action.date.toISOString().split("T")[0]);
+            return layer.set("time", moment(action.date).format("YYYY-MM-DD"));
         });
     }));
 
