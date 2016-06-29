@@ -8,12 +8,6 @@ import MiscUtil from '../../utils/MiscUtil';
 import TimeAxis from './TimeAxis';
 
 export class DateSliderContainer extends Component {
-    componentDidMount() {}
-
-    componentDidUpdate() {}
-
-    componentWillUnmount() {}
-
     render() {
         let hoverDateClasses = MiscUtil.generateStringFromSet({
             "hover-date-display": true,

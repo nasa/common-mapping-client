@@ -51,13 +51,15 @@ export class TimeAxis extends Component {
         this.timeAxisD3.autoScroll(toLeft);
     }
     getSizes() {
-        let elementWidth = window.innerWidth;
-        let elementHeight = 50;
+        // IMPORTANT: these sizes seem to have to be hardcoded
+        // cannot pull from CSS as components are not mounted yet
+        let elementWidth = window.innerWidth * 0.8;
+        let elementHeight = 60;
         let margin = {
             top: 0,
-            right: 50,
-            bottom: 20,
-            left: 50
+            right: 0,
+            bottom: 25,
+            left: 1 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
 
         let width = elementWidth - (margin.left + margin.right);
@@ -96,11 +98,11 @@ export class TimeAxis extends Component {
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
-                            }, 350);
+                            }, 50);
                         } else if(scrollFlag < 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(false);
-                            }, 350);
+                            }, 50);
                         }
                     }}
                     afterDrag={(value) => {

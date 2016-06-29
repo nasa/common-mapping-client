@@ -53,14 +53,15 @@ export default class TimeAxisD3 {
             .call(this._selection.zoom)
             .on("dblclick.zoom", null)
             .call(this._selection.drag)
-            .on("click", (v) => {
+            .on("click", () => {
                 if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
-                    this._onClick(d3.event.x);
+                    console.log(d3.event);
+                    this._onClick(d3.event.offsetX);
                 }
             })
             .on("mousemove", () => {
                 if(typeof this._onHover === "function") {
-                    this._onHover(d3.event.x);
+                    this._onHover(d3.event.offsetX);
                 }
             })
             .on("mouseleave", () => {
@@ -143,9 +144,9 @@ export default class TimeAxisD3 {
         // get current translation
         let currTrans = this._selection.zoom.translate();
 
-        // determine autoscroll amount (one-half tick)
+        // determine autoscroll amount (one-fifth tick)
         let currTicks = this._xFn.ticks();
-        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 2;
+        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
 
         // prep the timeline
         this._selection.call(this._selection.zoom.translate(currTrans).event);
@@ -153,11 +154,11 @@ export default class TimeAxisD3 {
         // shift the timeline
         if (toLeft) {
             this._selection.transition()
-                .duration(150)
+                .duration(50)
                 .call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
         } else {
             this._selection.transition()
-                .duration(150)
+                .duration(50)
                 .call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
     }
