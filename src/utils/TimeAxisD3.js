@@ -10,6 +10,7 @@ export default class TimeAxisD3 {
         this._selectNode = options.selectNode || this._selectNode;
         this._onClick = options.onClick || this._onClick;
         this._onHover = options.onHover || this._onHover;
+        this._onMouseOut = options.onMouseOut || this._onMouseOut;
         this._minDt = options.minDt || this._minDt;
         this._maxDt = options.maxDt || this._maxDt;
         this._elementWidth = options.elementWidth || this._elementWidth;
@@ -53,12 +54,19 @@ export default class TimeAxisD3 {
             .on("dblclick.zoom", null)
             .call(this._selection.drag)
             .on("click", (v) => {
-                if (!d3.event.defaultPrevented) {
+                if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
                     this._onClick(d3.event.x);
                 }
             })
             .on("mousemove", () => {
-                this._onHover(d3.event.x);
+                if(typeof this._onHover === "function") {
+                    this._onHover(d3.event.x);
+                }
+            })
+            .on("mouseleave", () => {
+                if(typeof this._onMouseOut === "function") {
+                    this._onMouseOut();
+                }
             });
 
         // configure the axis

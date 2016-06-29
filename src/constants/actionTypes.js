@@ -54,6 +54,8 @@ export const LAYERS_LOADED = 'LAYERS_LOADED';
 // Date Slider Actions
 export const BEGIN_DRAGGING = 'BEGIN_DRAGGING';
 export const END_DRAGGING = 'END_DRAGGING';
+export const HOVER_DATE = 'HOVER_DATE';
+export const TIMELINE_MOUSE_OUT = 'TIMELINE_MOUSE_OUT';
 
 // Misc
 export const RESET_APPLICATION_STATE = 'RESET_APPLICATION_STATE';

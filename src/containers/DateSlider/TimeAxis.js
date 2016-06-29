@@ -22,7 +22,8 @@ export class TimeAxis extends Component {
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
             onClick: (value) => { this.handleSingleDateDragEnd(value); },
-            onHover: (value) => { this.handleTimeLineHover(value); }
+            onHover: (value) => { this.handleTimelineHover(value); },
+            onMouseOut: () => { this.handleTimeLineMouseOut(); }
         });
 
         // get it going
@@ -35,8 +36,12 @@ export class TimeAxis extends Component {
     componentDidUpdate() {
         this.timeAxisD3.update();
     }
-    handleTimeLineHover(value) {
-        let date = this.timeAxisD3.invert(value);
+    handleTimeLineMouseOut() {
+        this.props.actions.timelineMouseOut();
+    }
+    handleTimelineHover(xValue) {
+        let date = this.timeAxisD3.invert(xValue);
+        this.props.actions.hoverDate(date, xValue);
     }
     handleSingleDateDragEnd(value) {
         let newDate = this.timeAxisD3.invert(value);

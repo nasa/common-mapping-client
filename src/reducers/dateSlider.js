@@ -11,6 +11,15 @@ const beginDragging = (state, action) => {
 const endDragging = (state, action) => {
     return state.set("isDragging", false);
 };
+const hoverDate = (state, action) => {
+    return state
+        .setIn(["hoverDate", "date"], action.date)
+        .setIn(["hoverDate", "x"], action.x)
+        .setIn(["hoverDate", "isValid"], true);
+};
+const timelineMouseOut = (state, action) => {
+    return state.setIn(["hoverDate", "isValid"], false);
+};
 const resetApplicationState = (state, action) => {
     return endDragging(state, action);
 };
@@ -22,6 +31,12 @@ export default function settingsContainer(state = dateSliderState, action) {
 
         case actionTypes.END_DRAGGING:
             return endDragging(state, action);
+
+        case actionTypes.HOVER_DATE:
+            return hoverDate(state, action);
+
+        case actionTypes.TIMELINE_MOUSE_OUT:
+            return timelineMouseOut(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);
