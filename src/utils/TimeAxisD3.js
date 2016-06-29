@@ -100,13 +100,15 @@ export default class TimeAxisD3 {
             // Constrain scale to 1
             this._selection.zoom.scale(1);
         }
-        if (this._xFn.domain()[0] < this._minDt) {
+
+        if (this._xFn.domain()[0] <= this._minDt) {
             this._selection.zoom.translate([this._selection.zoom.translate()[0] - this._xFn(this._minDt) + this._xFn.range()[0], this._selection.zoom.translate()[1]]);
         }
-        if (this._xFn.domain()[1] > this._maxDt) {
+        if (this._xFn.domain()[1] >= this._maxDt) {
             this._selection.zoom.translate([this._selection.zoom.translate()[0] - this._xFn(this._maxDt) + this._xFn.range()[1], this._selection.zoom.translate()[1]]);
         }
 
+        // configure the axis
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
@@ -131,7 +133,7 @@ export default class TimeAxisD3 {
 
         // determine autoscroll amount (one-half tick)
         let currTicks = this._xFn.ticks();
-        let tickDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 2;
+        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 2;
 
         // prep the timeline
         this._selection.call(this._selection.zoom.translate(currTrans).event);
@@ -140,19 +142,53 @@ export default class TimeAxisD3 {
         if (toLeft) {
             this._selection.transition()
                 .duration(150)
-                .call(this._selection.zoom.translate([currTrans[0] - tickDiff, currTrans[1]]).event);
+                .call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
         } else {
             this._selection.transition()
                 .duration(150)
-                .call(this._selection.zoom.translate([currTrans[0] + tickDiff, currTrans[1]]).event);
+                .call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
     }
 
     resize(options) {
         this.initValues(options);
 
+        // SEE: http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
+        // Cache scale
+        let cacheScale = this._selection.zoom.scale();
+
+        // Cache translate
+        let cacheTranslate = this._selection.zoom.translate();
+
+        // Cache translate values as percentages/ratio of the full width
+        let fullWidth = this.getFullWidth();
+        let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
+            return (v * -1) / fullWidth;
+        });
+
+        // Manually reset the zoom
+        this._selection.zoom.scale(1).translate([0, 0]);
+
+        // Update range values based on resized container dimensions
         this._xFn.range([this._margin.left, this._margin.left + this._width]);
 
+        // Apply the updated xFn to the zoom
+        this._selection.zoom.x(this._xFn);
+
+        // Revert the scale back to our cached value
+        this._selection.zoom.scale(cacheScale);
+
+        // Overwrite the x value of cacheTranslate based on our cached percentage
+        cacheTranslate[0] = -(this.getFullWidth() * cacheTranslatePerc[0]);
+
+        // Finally apply the updated translate
+        this._selection.zoom.translate(cacheTranslate);
+
+
         this.update();
+    }
+
+    getFullWidth() {
+        return this._xFn.range()[1] * this._selection.zoom.scale();
     }
 }

@@ -58,8 +58,8 @@ export class TimeAxis extends Component {
         return {
             elementWidth,
             elementHeight,
-            height,
             width,
+            height,
             margin
         };
     }
