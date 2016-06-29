@@ -53,13 +53,13 @@ export class TimeAxis extends Component {
     getSizes() {
         // IMPORTANT: these sizes seem to have to be hardcoded
         // cannot pull from CSS as components are not mounted yet
-        let elementWidth = window.innerWidth * 0.8;
+        let elementWidth = window.innerWidth;
         let elementHeight = 60;
         let margin = {
             top: 0,
-            right: 0,
+            right: 100,
             bottom: 25,
-            left: 1 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
+            left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
 
         let width = elementWidth - (margin.left + margin.right);

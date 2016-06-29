@@ -34,14 +34,14 @@
 }
 
 .hover-date-display:after {
-    border-color: rgba(136, 183, 213, 0);
+    border-color: rgba(0, 0, 0, 0);
     border-top-color: darken($color-primary, 20%);
     border-width: 10px;
     margin-left: -10px;
 }
 
 .hover-date-display:before {
-    border-color: rgba(194, 225, 245, 0);
+    border-color: rgba(0, 0, 0, 0);
     border-top-color: $color-primary;
     border-width: 13px;
     margin-left: -13px;
@@ -49,8 +49,7 @@
 
 #dateSliderContainer {
     position: relative;
-    width: 80%;
-    margin-left: 30px;
+    width: 100%;
 }
 
 #dateSlider {

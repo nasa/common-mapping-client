@@ -1,0 +1,15 @@
+.date-picker-selection {
+	position: relative;
+	text-align: center;
+}
+
+#datePickerContainer {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 1;
+	width: 200px;
+	height: 6rem;
+	background: $color-primary;
+	@include medium-shadow();
+}

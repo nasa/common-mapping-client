@@ -55,13 +55,12 @@ export default class TimeAxisD3 {
             .call(this._selection.drag)
             .on("click", () => {
                 if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
-                    console.log(d3.event);
-                    this._onClick(d3.event.offsetX);
+                    this._onClick(d3.event.x);
                 }
             })
             .on("mousemove", () => {
                 if(typeof this._onHover === "function") {
-                    this._onHover(d3.event.offsetX);
+                    this._onHover(d3.event.x);
                 }
             })
             .on("mouseleave", () => {

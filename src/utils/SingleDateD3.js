@@ -34,7 +34,8 @@ export default class TimeAxisD3 {
                 return d.isDragging ? this._activeWidth : this._defaultWidth;
             })
             .attr('transform', (d) => {
-                return !d.isDragging ? 'translate(' + (-1 * this._activeWidth / 2) + ',' + 0 + ')' : '';
+                let translate = !d.isDragging ? -(this._defaultWidth / 2) : -(this._activeWidth / 2);
+                return 'translate(' + translate + ',0)';
             });
     }
 

@@ -16,7 +16,7 @@ export class DateSliderContainer extends Component {
         let hoverDateStyles = {
             left: this.props.hoverDate.get("x") + "px"
         };
-        let hoverDate = moment(this.props.hoverDate.get("date")).format("MMM DD, YYYY");
+        let hoverDate = moment(this.props.hoverDate.get("date")).format("YYYY MMM DD");
         return (
             <div id="dateSliderContainer">
                 <div className={hoverDateClasses} style={hoverDateStyles}>
