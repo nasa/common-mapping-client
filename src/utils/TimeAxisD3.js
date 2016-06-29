@@ -9,6 +9,7 @@ export default class TimeAxisD3 {
         // extract values
         this._selectNode = options.selectNode || this._selectNode;
         this._onClick = options.onClick || this._onClick;
+        this._onHover = options.onHover || this._onHover;
         this._minDt = options.minDt || this._minDt;
         this._maxDt = options.maxDt || this._maxDt;
         this._elementWidth = options.elementWidth || this._elementWidth;
@@ -55,6 +56,9 @@ export default class TimeAxisD3 {
                 if (!d3.event.defaultPrevented) {
                     this._onClick(d3.event.x);
                 }
+            })
+            .on("mousemove", () => {
+                this._onHover(d3.event.x);
             });
 
         // configure the axis
