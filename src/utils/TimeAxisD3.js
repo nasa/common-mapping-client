@@ -155,9 +155,11 @@ export default class TimeAxisD3 {
     }
 
     resize(options) {
+        // Largely based on http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
+
+        // update the dimension values
         this.initValues(options);
 
-        // SEE: http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
         // Cache scale
         let cacheScale = this._selection.zoom.scale();
 
@@ -165,9 +167,8 @@ export default class TimeAxisD3 {
         let cacheTranslate = this._selection.zoom.translate();
 
         // Cache translate values as percentages/ratio of the full width
-        let fullWidth = this.getFullWidth();
         let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
-            return (v * -1) / fullWidth;
+            return -(v) / this.getScaledWidth();
         });
 
         // Manually reset the zoom
@@ -182,8 +183,10 @@ export default class TimeAxisD3 {
         // Revert the scale back to our cached value
         this._selection.zoom.scale(cacheScale);
 
-        // Overwrite the x value of cacheTranslate based on our cached percentage
-        cacheTranslate[0] = -(this.getFullWidth() * cacheTranslatePerc[0]);
+        // Overwrite the cacheTranslate based on our cached percentage
+        cacheTranslate = cacheTranslate.map((v, i, a) => {
+            return -(cacheTranslatePerc[i] * this.getScaledWidth());
+        });
 
         // Finally apply the updated translate
         this._selection.zoom.translate(cacheTranslate);
@@ -192,7 +195,7 @@ export default class TimeAxisD3 {
         this.update();
     }
 
-    getFullWidth() {
-        return this._xFn.range()[1] * this._selection.zoom.scale();
+    getScaledWidth() {
+        return (this._xFn.range()[1] - this._xFn.range()[0]) * this._selection.zoom.scale();
     }
 }

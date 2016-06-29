@@ -77,8 +77,4 @@ export default class TimeAxisD3 {
             });
         this._selection.call(drag);
     }
-
-    resize(options) {
-
-    }
 }
