@@ -8,5 +8,6 @@ export const dateSliderState = Immutable.fromJS({
 		x: 0,
 		isValid: false
 	},
-	resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS
+	resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS,
+	resolutionHack: false
 });

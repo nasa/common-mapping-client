@@ -21,7 +21,7 @@ export function timelineMouseOut() {
 }
 
 export function setDateResolution(resolution) {
-    return { type: types.SET_DATE_RESOLUTION, resolution }
+    return { type: types.SET_DATE_RESOLUTION, resolution };
 }
 
 export function dragEnd(newDate) {

@@ -21,12 +21,14 @@ const hoverDate = (state, action) => {
 const timelineMouseOut = (state, action) => {
     return state.setIn(["hoverDate", "isValid"], false);
 };
-const setDateResolution =(state, action) => {
-    return state.set("resolution", action.resolution);
+const setDateResolution = (state, action) => {
+    return state
+        .set("resolution", action.resolution)
+        .set("resolutionHack", !state.get("resolutionHack"));
 };
 const resetApplicationState = (state, action) => {
     let newState = endDragging(state, action);
-    newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS});
+    newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS });
     return newState;
 };
 
