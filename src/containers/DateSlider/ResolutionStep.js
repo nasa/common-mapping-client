@@ -36,7 +36,8 @@ export class ResolutionStep extends Component {
     }
 }
 ResolutionStep.propTypes = {
-    resolution: PropTypes.string.isRequired
+    resolution: PropTypes.string.isRequired,
+    actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import * as appConfig from '../../constants/appConfig';
+import * as appStrings from '../../constants/appStrings';
 import * as DateSliderActions from '../../actions/DateSliderActions';
 import TimeAxisD3 from '../../utils/TimeAxisD3';
 import MiscUtil from '../../utils/MiscUtil';
@@ -33,18 +34,35 @@ export class TimeAxis extends Component {
             this.timeAxisD3.resize(this.getSizes());
         });
     }
+    componentWillUpdate() {
+        // track the resolution changes because changing the date also triggers and update
+        // but we don't want to change the resolution for that
+        this.cachedResolutionHack = this.props.resolutionHack;
+    }
     componentDidUpdate() {
-        this.timeAxisD3.update({resolution: this.props.resolution});
+        let options = {date: this.props.date};
+        if(this.props.resolutionHack !== this.cachedResolutionHack) {
+            let scale = 1;
+            if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
+                scale = 256;
+            } else if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
+                scale = 16;
+            } else if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
+                scale = 1;
+            }
+            options.scale = scale;
+        }
+        this.timeAxisD3.update(options);
     }
     handleTimeLineMouseOut() {
         this.props.actions.timelineMouseOut();
     }
     handleTimelineHover(xValue) {
-        let date = this.timeAxisD3.invert(xValue);
+        let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.actions.hoverDate(date, xValue);
     }
     handleSingleDateDragEnd(value) {
-        let newDate = this.timeAxisD3.invert(value);
+        let newDate = this.timeAxisD3.getDateFromX(value);
         this.props.actions.dragEnd(newDate);
     }
     autoScroll(toLeft) {
@@ -120,14 +138,16 @@ TimeAxis.propTypes = {
     date: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    resolution: PropTypes.string.isRequired
+    resolution: PropTypes.string.isRequired,
+    resolutionHack: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         date: state.map.get("date"),
         isDragging: state.dateSlider.get("isDragging"),
-        resolution: state.dateSlider.get("resolution")
+        resolution: state.dateSlider.get("resolution"),
+        resolutionHack: state.dateSlider.get("resolutionHack")
     };
 }
 

@@ -1,5 +1,4 @@
 import d3 from 'd3';
-import * as appStrings from '../constants/appStrings';
 
 export default class TimeAxisD3 {
     constructor(options) {
@@ -28,19 +27,26 @@ export default class TimeAxisD3 {
         // time format function
         this._timeFormat = this._timeFormat || d3.time.format.multi([
             [".%L", (d) => {
-                return d.getMilliseconds(); }],
+                return d.getMilliseconds();
+            }],
             [":%S", (d) => {
-                return d.getSeconds(); }],
+                return d.getSeconds();
+            }],
             ["%I:%M %p", (d) => {
-                return d.getMinutes(); }],
+                return d.getMinutes();
+            }],
             ["%I %p", (d) => {
-                return d.getHours(); }],
+                return d.getHours();
+            }],
             ["%b %d", (d) => {
-                return d.getDate() != 1; }],
+                return d.getDate() != 1;
+            }],
             ["%B", (d) => {
-                return d.getMonth(); }],
+                return d.getMonth();
+            }],
             ["%Y", () => {
-                return true; }]
+                return true;
+            }]
         ]);
 
         // prep the axis functions if needed
@@ -105,17 +111,6 @@ export default class TimeAxisD3 {
     }
 
     update(options = false) {
-        // update the resolution
-        // if (options && options.resolution) {
-        //     if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
-        //         this._selection.zoom.scale(145);
-        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
-        //         this._selection.zoom.scale(14.5);
-        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
-        //         this._selection.zoom.scale(1);
-        //     }
-        // }
-
         // update sizes
         this._selection.select('clipPath rect')
             .attr('x', this._margin.left)
@@ -132,9 +127,49 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
-        // do a thing?
+        // update the single date display
         this._selection.select(".singleDate")
+            .transition()
+            .duration(100)
             .attr('x', (d) => this._xFn(d.date));
+
+        // update the resolution
+        this.setResolution(options);
+    }
+
+    setResolution(options) {
+        if (options && options.scale && options.date) {
+
+            // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
+            this._selection.call(this._selection.zoom.event);
+
+            // Record the coordinates (in data space) of the center( in screen space).
+            let center0 = [this._xFn(options.date), 0];
+            let translate0 = this._selection.zoom.translate();
+            let coordinates0 = this.coordinates(center0);
+            this._selection.zoom.scale(options.scale);
+
+            // Translate back to the center.
+            let center1 = this.point(coordinates0);
+            this._selection.zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
+            let translate1 = this._selection.zoom.translate();
+            let xOffset = ((this._xFn.range()[1] - (this._width / 2)) - this._xFn(options.date));
+            this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
+
+            this._selection.transition().duration(750).call(this._selection.zoom.event);
+        }
+    }
+
+    coordinates(point) {
+        let scale = this._selection.zoom.scale();
+        let translate = this._selection.zoom.translate();
+        return [(point[0] - translate[0]) / scale, (point[1] - translate[1]) / scale];
+    }
+
+    point(coordinates) {
+        let scale = this._selection.zoom.scale();
+        let translate = this._selection.zoom.translate();
+        return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
     }
 
     zoomed() {
@@ -166,8 +201,12 @@ export default class TimeAxisD3 {
         }
     }
 
-    invert(value) {
+    getDateFromX(value) {
         return this._xFn.invert(value);
+    }
+    
+    getXFromDate(value) {
+        return this._xFn(value);
     }
 
     autoScroll(toLeft) {
