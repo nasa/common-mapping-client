@@ -34,7 +34,7 @@ export class TimeAxis extends Component {
         });
     }
     componentDidUpdate() {
-        this.timeAxisD3.update();
+        this.timeAxisD3.update({resolution: this.props.resolution});
     }
     handleTimeLineMouseOut() {
         this.props.actions.timelineMouseOut();
@@ -119,13 +119,15 @@ export class TimeAxis extends Component {
 TimeAxis.propTypes = {
     date: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isDragging: PropTypes.bool.isRequired
+    isDragging: PropTypes.bool.isRequired,
+    resolution: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         date: state.map.get("date"),
-        isDragging: state.dateSlider.get("isDragging")
+        isDragging: state.dateSlider.get("isDragging"),
+        resolution: state.dateSlider.get("resolution")
     };
 }
 

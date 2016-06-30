@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import * as appStrings from '../constants/appStrings';
 
 export default class TimeAxisD3 {
     constructor(options) {
@@ -26,13 +27,20 @@ export default class TimeAxisD3 {
 
         // time format function
         this._timeFormat = this._timeFormat || d3.time.format.multi([
-            [".%L", (d) => { return d.getMilliseconds(); }],
-            [":%S", (d) => { return d.getSeconds(); }],
-            ["%I:%M %p", (d) => { return d.getMinutes(); }],
-            ["%I %p", (d) => { return d.getHours(); }],
-            ["%b %d", (d) => { return d.getDate() != 1; }],
-            ["%B", (d) => { return d.getMonth(); }],
-            ["%Y", () => { return true; }]
+            [".%L", (d) => {
+                return d.getMilliseconds(); }],
+            [":%S", (d) => {
+                return d.getSeconds(); }],
+            ["%I:%M %p", (d) => {
+                return d.getMinutes(); }],
+            ["%I %p", (d) => {
+                return d.getHours(); }],
+            ["%b %d", (d) => {
+                return d.getDate() != 1; }],
+            ["%B", (d) => {
+                return d.getMonth(); }],
+            ["%Y", () => {
+                return true; }]
         ]);
 
         // prep the axis functions if needed
@@ -96,7 +104,18 @@ export default class TimeAxisD3 {
         this.update();
     }
 
-    update() {
+    update(options = false) {
+        // update the resolution
+        // if (options && options.resolution) {
+        //     if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
+        //         this._selection.zoom.scale(145);
+        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
+        //         this._selection.zoom.scale(14.5);
+        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
+        //         this._selection.zoom.scale(1);
+        //     }
+        // }
+
         // update sizes
         this._selection.select('clipPath rect')
             .attr('x', this._margin.left)
