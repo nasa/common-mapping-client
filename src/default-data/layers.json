@@ -7,6 +7,12 @@
         "min": 0.1,
         "max": 9.64,
         "units": "cm",
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
         "palette": {
             "name": "MODIS_Terra_Water_Vapor_Day",
             "handleAs": "json-relative"
@@ -19,7 +25,13 @@
         "min": 0.1,
         "max": 9.64,
         "units": "cm",
-        "thumbnailImage":"http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_CorrectedReflectance_TrueColor&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_CorrectedReflectance_TrueColor&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
         "palette": {
             "name": "MODIS_Terra_Water_Vapor_Day",
             "handleAs": "json-relative"
@@ -32,6 +44,12 @@
         "min": 0.1,
         "max": 9.64,
         "units": "cm",
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
         "palette": {
             "name": "MODIS_Terra_Water_Vapor_Day",
             "handleAs": "json-relative"
@@ -44,6 +62,12 @@
         "min": 2.0,
         "max": 32.0,
         "units": "˚C",
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
         "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
         "palette": {
             "name": "GHRSST_L4_Sea_Surface_Temperature",
@@ -58,7 +82,13 @@
         "min": 180.0,
         "max": 340.0,
         "units": "˚K",
-        "thumbnailImage":"http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_Brightness_Temp_Band31_Day&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_Brightness_Temp_Band31_Day&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
         "palette": {
             "name": "purple_2",
             "handleAs": "json-relative"

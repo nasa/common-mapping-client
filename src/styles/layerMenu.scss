@@ -2,17 +2,19 @@
     padding: 0.5rem 0rem;
     width: 100%;
     margin: 0px;
-    border-bottom: $medium-border;
+    // border-bottom: $medium-border;
 }
 
 .layer-control:last-child {
     border-bottom: none;
+    padding-bottom: 0px;
 }
 
 .layer-header {
     padding: 0px;
     margin: 0.5rem 0px;
     font-size: 1.4rem;
+    padding-right: 1rem;
     /*cursor: move;*/
 }
 
@@ -109,9 +111,10 @@
 }
 
 .opacity-slider-container.active {
-    right: 5.8rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
+    right: 7.3rem;
+    border: none;
 }
 
 .opacity-label {
@@ -138,9 +141,11 @@
 }
 
 .position-controls-container.active {
-    right: 8.2rem;
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
+    right: 9.7rem;
+    border: none;
+    padding: 0px !important;
 }
 
 .layer-menu-header {
@@ -163,7 +168,7 @@ button.position-control-button {
 }
 
 #layerMenu {
-    width: 360px;
+    // width: 360px;
     max-height: 31px;
     position: absolute;
     bottom: 60px;
@@ -171,7 +176,8 @@ button.position-control-button {
     z-index: 1;
     background: $color-light;
     overflow: hidden;
-    padding: 0px 0.5rem 0.3rem 0rem;
+    // padding: 0px 0.5rem 0.3rem 0rem;
+    padding: 0px;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
@@ -187,10 +193,17 @@ button.position-control-button {
     max-height: 350px;
 }
 
+#layerMenu {
+    .row {
+        margin: 0px;
+    }
+}
+
 #layerHeaderRow {
     padding: 0.3rem;
     background: $color-primary;
     color: $color-light;
+    @include light-shadow();
 }
 
 #layerMenuContent {
@@ -200,6 +213,17 @@ button.position-control-button {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: content-box;
-    padding-left: 0.5rem;
+    // padding-left: 0.5rem;
     padding-right: 25px;
+    .toggle {
+        padding-left: 1rem;
+    }
+    .row {
+        margin-right: -3rem;
+        padding-right: 1rem;
+    }
+    .border {
+        border-bottom: $medium-light-border;
+        padding-bottom: 0.5rem;
+    }
 }

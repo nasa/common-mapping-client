@@ -1,7 +1,8 @@
 .dateSliderContainer {
     position: relative;
     display: block;
-    background: darken($color-primary, 20%);
+    // background: darken($color-primary, 20%);
+    background: darken($color-primary-dark,20%);
     width: 100%;
     height: 6rem;
     z-index: 1;

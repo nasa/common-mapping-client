@@ -8,6 +8,8 @@
         width: 100%;
         height: 200px;
         background-position: 50% 50%;
+        border-top-right-radius: 0.2rem;
+        border-top-left-radius: 0.2rem;
     }
     section {
         padding: 0px;
@@ -32,7 +34,7 @@
     //         line-height: 3.3rem;
     //     }
     // }
-    .layer-info-content {
+    .layerInfo-content {
         padding: 1rem 1.6rem;
         @include flex();
         @include flex-col();

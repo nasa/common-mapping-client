@@ -85,7 +85,7 @@ export class LayerControlContainer extends Component {
         return (
             <div className="layer-control pos-rel">
                 <div className="row middle-xs">
-                    <div className="col-xs-2 text-left">
+                    <div className="col-xs-2 text-left toggle">
                         <div data-tip={this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"}
                             data-place="right"
                             style={{width:"3rem"}}
@@ -111,10 +111,10 @@ export class LayerControlContainer extends Component {
                             url={this.props.layer.getIn(["palette", "url"])}
                         />
                     </div>
-                    <div className="col-xs text-right">
+                    <div className="col-xs text-center">
                         <IconButton
                             flat
-                            primary={!this.props.layer.get("isChangingPosition")}
+                            // primary={!this.props.layer.get("isChangingPosition")}
                             accent={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
@@ -125,7 +125,7 @@ export class LayerControlContainer extends Component {
                         </IconButton>
                         <IconButton
                             flat
-                            primary={!this.props.layer.get("isChangingOpacity")}
+                            // primary={!this.props.layer.get("isChangingOpacity")}
                             accent={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
@@ -136,7 +136,7 @@ export class LayerControlContainer extends Component {
                         </IconButton>
                         <IconButton
                             flat
-                            primary
+                            // primary
                             icon="info_outline"
                             className="no-padding mini-xs-waysmall"
                             data-tip="Layer information"
@@ -160,6 +160,7 @@ export class LayerControlContainer extends Component {
                         </div>
                     </div>
                 </div>
+                <div className="row middle-xs border"></div>
                 <div className={sliderContainerClasses}>
                     <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
                     <span className="opacity-label col-xs-3 no-padding">
