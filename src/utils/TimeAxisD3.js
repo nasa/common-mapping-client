@@ -132,6 +132,8 @@ export default class TimeAxisD3 {
 
         // do a thing?
         this._selection.select(".singleDate")
+            .transition()
+            .duration(100)
             .attr('x', (d) => this._xFn(d.date));
     }
 
