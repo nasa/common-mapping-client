@@ -45,6 +45,8 @@
     @include light-shadow-right();
     border-right: $medium-light-border;
     border-top: $medium-light-border;
+
+    display: none;
 }
 
 .map-scale-container-inner {
@@ -73,6 +75,8 @@
     @include light-shadow-left();
     border-left: $medium-light-border;
     border-top: $medium-light-border;
+
+    display: none;
 }
 
 .mouse-position-container.isolate {

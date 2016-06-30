@@ -1,15 +1,61 @@
 .date-picker-selection {
-	position: relative;
-	text-align: center;
+    position: relative;
+    text-align: center;
+    padding: 0px 0.3rem;
+    input {
+    	color: $color-light;
+    	text-align: center;
+    	padding: 0.2rem 0px;
+    }
+    [data-react-toolbox="input"] {
+    	padding: 0px;
+    }
+    [data-react-toolbox="input"]::after{
+    	display: none;
+    }
+    [data-react-toolbox="autocomplete"] {
+    	padding: 0px;
+    }
+    [data-react-toolbox="autocomplete"] ul {
+        color: $color-dark;
+        list-style-type: none;
+        padding: 0px;
+        margin-bottom: 2.5rem;
+    }
+}
+.date-picker-selection-increment {
+	opacity: 0;
+	transition: opacity 0.1s linear 0s;
+}
+.date-picker-selection-increment button {
+    font-size: 1.15rem;
+    padding: 0.3rem;
+    min-width: initial;
+    line-height: 1rem;
+    width: 4rem;
+    height: initial;
+    text-align: center;
+}
+
+.date-picker-selection-increment button > [data-react-toolbox="font-icon"] { 
+    margin: 0px;
+    height: auto;
+    font-size: 3rem;
+    line-height: 1rem;
 }
 
 #datePickerContainer {
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	z-index: 1;
-	width: 200px;
-	height: 6rem;
-	background: $color-primary;
-	@include medium-shadow();
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
+    width: 200px;
+    padding: 0px 0.5rem;
+    height: 6rem;
+    background: $color-primary;
+    @include medium-shadow();
+}
+
+#datePickerContainer:hover .date-picker-selection-increment {
+	opacity: 1;
 }
