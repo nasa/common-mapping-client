@@ -4,7 +4,6 @@ import * as types from '../constants/actionTypes';
 import * as mapStrings from '../constants/mapStrings';
 
 export function openLayerInfo(layer) {
-    console.log("open with", layer);
     return { type: types.OPEN_LAYER_INFO, layer };
 }
 

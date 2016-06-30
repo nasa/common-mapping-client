@@ -34,7 +34,8 @@ export default class TimeAxisD3 {
                 return d.isDragging ? this._activeWidth : this._defaultWidth;
             })
             .attr('transform', (d) => {
-                return !d.isDragging ? 'translate(' + (-1 * this._activeWidth / 2) + ',' + 0 + ')' : '';
+                let translate = !d.isDragging ? -(this._defaultWidth / 2) : -(this._activeWidth / 2);
+                return 'translate(' + translate + ',0)';
             });
     }
 
@@ -57,7 +58,7 @@ export default class TimeAxisD3 {
             .on('drag', () => {
                 let scrollFlag = 0;
                 let maxX = this._maxX - (2 * this._activeWidth);
-                let minX = this._minX + (2 * this._activeWidth);
+                let minX = this._minX + (this._activeWidth);
                 if (d3.event.x > maxX) {
                     this._selection.attr('x', (d) => maxX);
                     scrollFlag = 1;
@@ -76,9 +77,5 @@ export default class TimeAxisD3 {
                 this._afterDrag(this._selection.attr('x'));
             });
         this._selection.call(drag);
-    }
-
-    resize(options) {
-
     }
 }

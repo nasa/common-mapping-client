@@ -14,6 +14,7 @@ import LoadingContainer from './Loading/LoadingContainer';
 import HelpContainer from './Help/HelpContainer';
 import AlertsContainer from './Alerts/AlertsContainer';
 import DateSliderContainer from './DateSlider/DateSliderContainer';
+import DatePickerContainer from './DatePicker/DatePickerContainer';
 import TitleContainer from './Title/TitleContainer';
 import LayerMenuContainer from './LayerMenu/LayerMenuContainer';
 import '../styles/styles.scss';
@@ -44,6 +45,7 @@ export class AppContainer extends Component {
                 <LayerInfoContainer />
                 <LayerMenuContainer />
                 <DateSliderContainer />
+                <DatePickerContainer />
                 <AlertsContainer />
                 <LoadingContainer />
             </div>

@@ -2,6 +2,15 @@
     width: 350px;
     h2 {
         color: $color-text;
+        margin-bottom: 0px;
+    }
+    h3 {
+        color: $color-text;
+        margin-top: 0px;
+        margin-bottom: 1rem;
+    }
+    p {
+        color: $color-text-secondary;
     }
     .thumbnail-image {
         background-size: cover;
@@ -34,6 +43,12 @@
     //         line-height: 3.3rem;
     //     }
     // }
+    .layerInfo-list > li > span {
+        padding-left: 0.1rem;
+        & > span > span {
+            margin-right: 0rem;
+        }
+    }
     .layerInfo-content {
         padding: 1rem 1.6rem;
         @include flex();

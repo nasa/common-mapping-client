@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import * as appStrings from '../constants/appStrings';
 
 export default class TimeAxisD3 {
     constructor(options) {
@@ -10,6 +11,7 @@ export default class TimeAxisD3 {
         this._selectNode = options.selectNode || this._selectNode;
         this._onClick = options.onClick || this._onClick;
         this._onHover = options.onHover || this._onHover;
+        this._onMouseOut = options.onMouseOut || this._onMouseOut;
         this._minDt = options.minDt || this._minDt;
         this._maxDt = options.maxDt || this._maxDt;
         this._elementWidth = options.elementWidth || this._elementWidth;
@@ -23,6 +25,24 @@ export default class TimeAxisD3 {
         // grab d3 selection if needed
         this._selection = this._selection || d3.select(this._selectNode);
 
+        // time format function
+        this._timeFormat = this._timeFormat || d3.time.format.multi([
+            [".%L", (d) => {
+                return d.getMilliseconds(); }],
+            [":%S", (d) => {
+                return d.getSeconds(); }],
+            ["%I:%M %p", (d) => {
+                return d.getMinutes(); }],
+            ["%I %p", (d) => {
+                return d.getHours(); }],
+            ["%b %d", (d) => {
+                return d.getDate() != 1; }],
+            ["%B", (d) => {
+                return d.getMonth(); }],
+            ["%Y", () => {
+                return true; }]
+        ]);
+
         // prep the axis functions if needed
         this._xFn = this._xFn || d3.time.scale()
             .domain([this._minDt, this._maxDt])
@@ -30,7 +50,8 @@ export default class TimeAxisD3 {
         this._xAxis = this._xAxis || d3.svg.axis()
             .scale(this._xFn)
             .orient('bottom')
-            .tickSize(-this._height);
+            .tickSize(-this._height)
+            .tickFormat(this._timeFormat);
     }
 
     enter() {
@@ -52,13 +73,20 @@ export default class TimeAxisD3 {
             .call(this._selection.zoom)
             .on("dblclick.zoom", null)
             .call(this._selection.drag)
-            .on("click", (v) => {
-                if (!d3.event.defaultPrevented) {
+            .on("click", () => {
+                if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
                     this._onClick(d3.event.x);
                 }
             })
             .on("mousemove", () => {
-                this._onHover(d3.event.x);
+                if (typeof this._onHover === "function") {
+                    this._onHover(d3.event.x);
+                }
+            })
+            .on("mouseleave", () => {
+                if (typeof this._onMouseOut === "function") {
+                    this._onMouseOut();
+                }
             });
 
         // configure the axis
@@ -76,7 +104,18 @@ export default class TimeAxisD3 {
         this.update();
     }
 
-    update() {
+    update(options = false) {
+        // update the resolution
+        // if (options && options.resolution) {
+        //     if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
+        //         this._selection.zoom.scale(145);
+        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
+        //         this._selection.zoom.scale(14.5);
+        //     } else if (options.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
+        //         this._selection.zoom.scale(1);
+        //     }
+        // }
+
         // update sizes
         this._selection.select('clipPath rect')
             .attr('x', this._margin.left)
@@ -135,9 +174,9 @@ export default class TimeAxisD3 {
         // get current translation
         let currTrans = this._selection.zoom.translate();
 
-        // determine autoscroll amount (one-half tick)
+        // determine autoscroll amount (one-fifth tick)
         let currTicks = this._xFn.ticks();
-        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 2;
+        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
 
         // prep the timeline
         this._selection.call(this._selection.zoom.translate(currTrans).event);
@@ -145,19 +184,21 @@ export default class TimeAxisD3 {
         // shift the timeline
         if (toLeft) {
             this._selection.transition()
-                .duration(150)
+                .duration(50)
                 .call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
         } else {
             this._selection.transition()
-                .duration(150)
+                .duration(50)
                 .call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
     }
 
     resize(options) {
+        // Largely based on http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
+
+        // update the dimension values
         this.initValues(options);
 
-        // SEE: http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
         // Cache scale
         let cacheScale = this._selection.zoom.scale();
 
@@ -165,9 +206,8 @@ export default class TimeAxisD3 {
         let cacheTranslate = this._selection.zoom.translate();
 
         // Cache translate values as percentages/ratio of the full width
-        let fullWidth = this.getFullWidth();
         let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
-            return (v * -1) / fullWidth;
+            return -(v) / this.getScaledWidth();
         });
 
         // Manually reset the zoom
@@ -182,8 +222,10 @@ export default class TimeAxisD3 {
         // Revert the scale back to our cached value
         this._selection.zoom.scale(cacheScale);
 
-        // Overwrite the x value of cacheTranslate based on our cached percentage
-        cacheTranslate[0] = -(this.getFullWidth() * cacheTranslatePerc[0]);
+        // Overwrite the cacheTranslate based on our cached percentage
+        cacheTranslate = cacheTranslate.map((v, i, a) => {
+            return -(cacheTranslatePerc[i] * this.getScaledWidth());
+        });
 
         // Finally apply the updated translate
         this._selection.zoom.translate(cacheTranslate);
@@ -192,7 +234,7 @@ export default class TimeAxisD3 {
         this.update();
     }
 
-    getFullWidth() {
-        return this._xFn.range()[1] * this._selection.zoom.scale();
+    getScaledWidth() {
+        return (this._xFn.range()[1] - this._xFn.range()[0]) * this._selection.zoom.scale();
     }
 }

@@ -18,7 +18,7 @@ export class LayerInfoContainer extends Component {
                 <div className="thumbnail-image" style={{backgroundImage: "url("+this.props.layer.get("thumbnailImage")+")"}}></div>
                 <div className="layerInfo-content">
                     <div className={metadata ? "" : "hidden"}>
-                        <h2>{metadata ? metadata.get("title") : ""}</h2>
+                        <h2>{this.props.layer.get("title")}</h2>
                         <List className={"no-margin layerInfo-list"}>
                             <ListItem
                                 caption={metadata ? metadata.get("platform") : ""}

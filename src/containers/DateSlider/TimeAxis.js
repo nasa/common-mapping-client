@@ -22,7 +22,8 @@ export class TimeAxis extends Component {
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
             onClick: (value) => { this.handleSingleDateDragEnd(value); },
-            onHover: (value) => { this.handleTimeLineHover(value); }
+            onHover: (value) => { this.handleTimelineHover(value); },
+            onMouseOut: () => { this.handleTimeLineMouseOut(); }
         });
 
         // get it going
@@ -33,10 +34,14 @@ export class TimeAxis extends Component {
         });
     }
     componentDidUpdate() {
-        this.timeAxisD3.update();
+        this.timeAxisD3.update({resolution: this.props.resolution});
     }
-    handleTimeLineHover(value) {
-        let date = this.timeAxisD3.invert(value);
+    handleTimeLineMouseOut() {
+        this.props.actions.timelineMouseOut();
+    }
+    handleTimelineHover(xValue) {
+        let date = this.timeAxisD3.invert(xValue);
+        this.props.actions.hoverDate(date, xValue);
     }
     handleSingleDateDragEnd(value) {
         let newDate = this.timeAxisD3.invert(value);
@@ -46,13 +51,15 @@ export class TimeAxis extends Component {
         this.timeAxisD3.autoScroll(toLeft);
     }
     getSizes() {
+        // IMPORTANT: these sizes seem to have to be hardcoded
+        // cannot pull from CSS as components are not mounted yet
         let elementWidth = window.innerWidth;
-        let elementHeight = 50;
+        let elementHeight = 60;
         let margin = {
             top: 0,
-            right: 50,
-            bottom: 20,
-            left: 50
+            right: 100,
+            bottom: 25,
+            left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
 
         let width = elementWidth - (margin.left + margin.right);
@@ -91,11 +98,11 @@ export class TimeAxis extends Component {
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
-                            }, 350);
+                            }, 50);
                         } else if(scrollFlag < 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(false);
-                            }, 350);
+                            }, 50);
                         }
                     }}
                     afterDrag={(value) => {
@@ -112,13 +119,15 @@ export class TimeAxis extends Component {
 TimeAxis.propTypes = {
     date: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isDragging: PropTypes.bool.isRequired
+    isDragging: PropTypes.bool.isRequired,
+    resolution: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         date: state.map.get("date"),
-        isDragging: state.dateSlider.get("isDragging")
+        isDragging: state.dateSlider.get("isDragging"),
+        resolution: state.dateSlider.get("resolution")
     };
 }
 

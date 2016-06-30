@@ -126,7 +126,7 @@ export class ShareContainer extends Component {
                         Please copy and share it to your heart's content.
                     </p>
                     <input type="text" ref={(ref) => this.urlText = ref} readOnly="readonly" defaultValue={shareUrl} className="permalink-text" onClick={() => this.focusTextArea()}/>
-                    <div className="text-left row">
+                    <div className="text-center row">
                         <Button floating neutral className="emailIcon" style={{color: "white", background: "#505050"}} icon="email" onClick={() => this.shareEmail(shareUrl)} />
                         <Button floating neutral style={{background: "#3B5998"}} className="FacebookIcon" onClick={() => this.shareFacebook(shareUrl)}><FacebookIcon/></Button>
                         <Button floating neutral style={{background: "#55ACEE"}} onClick={() => this.shareTwitter(shareUrl)}><TwitterIcon/></Button>
