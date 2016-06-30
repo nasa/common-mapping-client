@@ -47,6 +47,10 @@
     margin-left: -13px;
 }
 
+.resolution-step {
+    width: 100%;
+}
+
 #dateSliderContainer {
     position: relative;
     width: 100%;
@@ -88,4 +92,15 @@
             height: 50px;
         }
     }
+}
+
+#dateSliderResolutionStepContainer {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 1;
+    width: 100px;
+    height: 6rem;
+    background: $color-primary;
+    @include medium-shadow();
 }

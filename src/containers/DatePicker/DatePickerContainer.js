@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import Autocomplete from 'react-toolbox/lib/autocomplete';
-import { Button, IconButton } from 'react-toolbox/lib/button';
+import { Button } from 'react-toolbox/lib/button';
 import * as actions from '../../actions/MapActions';
 import * as appConfig from '../../constants/appConfig';
 import MiscUtil from '../../utils/MiscUtil';

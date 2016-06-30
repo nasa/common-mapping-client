@@ -6,6 +6,7 @@ import d3 from 'd3';
 import moment from 'moment';
 import MiscUtil from '../../utils/MiscUtil';
 import TimeAxis from './TimeAxis';
+import ResolutionStep from './ResolutionStep';
 
 export class DateSliderContainer extends Component {
     render() {
@@ -27,6 +28,7 @@ export class DateSliderContainer extends Component {
                         <TimeAxis />
                     </g>
                 </svg>
+                <ResolutionStep />
             </div>
         );
     }
