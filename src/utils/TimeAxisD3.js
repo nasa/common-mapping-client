@@ -24,6 +24,17 @@ export default class TimeAxisD3 {
         // grab d3 selection if needed
         this._selection = this._selection || d3.select(this._selectNode);
 
+        // time format function
+        this._timeFormat = this._timeFormat || d3.time.format.multi([
+            [".%L", (d) => { return d.getMilliseconds(); }],
+            [":%S", (d) => { return d.getSeconds(); }],
+            ["%I:%M %p", (d) => { return d.getMinutes(); }],
+            ["%I %p", (d) => { return d.getHours(); }],
+            ["%b %d", (d) => { return d.getDate() != 1; }],
+            ["%B", (d) => { return d.getMonth(); }],
+            ["%Y", () => { return true; }]
+        ]);
+
         // prep the axis functions if needed
         this._xFn = this._xFn || d3.time.scale()
             .domain([this._minDt, this._maxDt])
@@ -31,7 +42,8 @@ export default class TimeAxisD3 {
         this._xAxis = this._xAxis || d3.svg.axis()
             .scale(this._xFn)
             .orient('bottom')
-            .tickSize(-this._height);
+            .tickSize(-this._height)
+            .tickFormat(this._timeFormat);
     }
 
     enter() {
@@ -59,12 +71,12 @@ export default class TimeAxisD3 {
                 }
             })
             .on("mousemove", () => {
-                if(typeof this._onHover === "function") {
+                if (typeof this._onHover === "function") {
                     this._onHover(d3.event.x);
                 }
             })
             .on("mouseleave", () => {
-                if(typeof this._onMouseOut === "function") {
+                if (typeof this._onMouseOut === "function") {
                     this._onMouseOut();
                 }
             });
