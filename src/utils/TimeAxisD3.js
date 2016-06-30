@@ -201,8 +201,12 @@ export default class TimeAxisD3 {
         }
     }
 
-    invert(value) {
+    getDateFromX(value) {
         return this._xFn.invert(value);
+    }
+    
+    getXFromDate(value) {
+        return this._xFn(value);
     }
 
     autoScroll(toLeft) {

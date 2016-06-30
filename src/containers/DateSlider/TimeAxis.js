@@ -58,11 +58,11 @@ export class TimeAxis extends Component {
         this.props.actions.timelineMouseOut();
     }
     handleTimelineHover(xValue) {
-        let date = this.timeAxisD3.invert(xValue);
+        let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.actions.hoverDate(date, xValue);
     }
     handleSingleDateDragEnd(value) {
-        let newDate = this.timeAxisD3.invert(value);
+        let newDate = this.timeAxisD3.getDateFromX(value);
         this.props.actions.dragEnd(newDate);
     }
     autoScroll(toLeft) {
