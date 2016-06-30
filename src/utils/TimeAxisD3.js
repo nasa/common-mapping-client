@@ -111,9 +111,6 @@ export default class TimeAxisD3 {
     }
 
     update(options = false) {
-        // update the resolution
-        this.setResolution(options);
-
         // update sizes
         this._selection.select('clipPath rect')
             .attr('x', this._margin.left)
@@ -135,6 +132,9 @@ export default class TimeAxisD3 {
             .transition()
             .duration(100)
             .attr('x', (d) => this._xFn(d.date));
+
+        // update the resolution
+        this.setResolution(options);
     }
 
     setResolution(options) {
