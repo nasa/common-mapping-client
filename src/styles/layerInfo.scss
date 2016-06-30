@@ -13,6 +13,7 @@
         color: $color-text-secondary;
     }
     .thumbnail-image {
+        opacity: 0;
         background-size: cover;
         width: 100%;
         height: 200px;

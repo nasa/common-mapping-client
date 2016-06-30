@@ -106,7 +106,7 @@
     opacity: 0;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
     @include medium-shadow();
-    border: $medium-light-border;
+    // border: $medium-light-border;
     border-radius: 4px;
 }
 
@@ -130,13 +130,13 @@
     right: -50rem;
     transform: translate(0px, -50%);
     z-index: 5;
-    padding: 0px;
+    padding: 0px !important;
     background: $color-light;
     opacity: 0;
     text-align: center;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
     @include medium-shadow();
-    border: $medium-light-border;
+    // border: $medium-light-border;
     border-radius: 4px;
 }
 
