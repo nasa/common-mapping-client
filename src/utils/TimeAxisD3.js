@@ -130,7 +130,7 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
-        // do a thing?
+        // update the single date display
         this._selection.select(".singleDate")
             .transition()
             .duration(100)
