@@ -87,9 +87,7 @@ export class LayerControlContainer extends Component {
                 <div className="row middle-xs">
                     <div className="col-xs-2 text-left toggle">
                         <div data-tip={this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"}
-                            data-place="right"
-                            style={{width:"3rem"}}
-                            >
+                            data-place="right">
                             <Switch
                                 className={switchClasses}
                                 checked={this.props.layer.get("isActive")}

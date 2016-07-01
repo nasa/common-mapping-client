@@ -1,7 +1,6 @@
 @import "variables.scss";
 @import "lib/normalize/normalize.css";
 @import "lib/flexboxgrid/flexboxgrid.min.css";
-@import "lib/mapskin/css/mapskin.min.css";
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 * {
@@ -176,19 +175,11 @@ button.mini-xs-waysmall.small-text {
 }
 
 .rotate-90 {
-    -ms-transform: rotate(90deg);
-    /* IE 9 */
-    -webkit-transform: rotate(90deg);
-    /* Chrome, Safari, Opera */
-    transform: rotate(90deg);
+    @include rotate(90deg)
 }
 
 .rotate-270 {
-    -ms-transform: rotate(270deg);
-    /* IE 9 */
-    -webkit-transform: rotate(270deg);
-    /* Chrome, Safari, Opera */
-    transform: rotate(270deg);
+    @include rotate(270deg)
 }
 
 .pos-rel {
