@@ -436,7 +436,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
             let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
-            let customFunction = MapUtil.getUrlFunction(options.urlFunction);
+            let customFunction = MapUtil.getUrlFunction(urlFunctionString);
             let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
             if (typeof customFunction === "function") {
                 return customFunction({
@@ -448,17 +448,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     projectionString
                 });
             }
-            if (typeof layer !== "undefined" &&
-                typeof tileCoord !== "undefined" &&
-                typeof pixelRatio !== "undefined" &&
-                typeof projectionString !== "undefined") {
-                let url = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
-                if (layer.get("time")) {
-                    url += "&TIME=" + layer.get("time");
-                }
-                return url;
-            }
-            return null;
+            return processedUrl;
         } catch (err) {
             console.log("could not generate openlayers layer tile url.", err);
             return false;

@@ -63,6 +63,8 @@ export default class MapUtil {
         switch (functionString) {
             case mapStrings.ESRI_CUSTOM_512:
                 return tileUrlFunctions.esriCustom512;
+            case mapStrings.KVP_TIME_PARAM:
+                return tileUrlFunctions.kvpTimeParam;
             default:
                 return undefined;
         }
