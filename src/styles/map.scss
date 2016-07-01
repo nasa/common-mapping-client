@@ -142,3 +142,12 @@
 .cesium-viewer-bottom {
     display: none;
 }
+.cesium-viewer-vrContainer {
+    // position: absolute;
+    bottom: 5%;
+    left: 8%;
+    // padding: 0;
+    width: 29px;
+    height: 29px;
+    // overflow: hidden;
+}

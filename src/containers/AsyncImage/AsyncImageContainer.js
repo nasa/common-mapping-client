@@ -12,7 +12,6 @@ export class AsyncImageContainer extends Component {
         let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
         imgDest.style.backgroundImage = "url(" + imgSrc + ")";
         imgDest.style.opacity = "1";
-        console.log("LOAD");
     }
     destroyLoader() {
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
@@ -20,7 +19,6 @@ export class AsyncImageContainer extends Component {
         imgLoader.onload = null;
         imgLoader.src = "";
         imgDest.style.backgroundImage = "";
-        console.log("DEST");
     }
     componentWillUnmount() {
         this.destroyLoader();

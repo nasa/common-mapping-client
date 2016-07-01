@@ -3,13 +3,14 @@ import MiscUtil from './MiscUtil';
 import CesiumTilingScheme_GIBS from './CesiumTilingScheme_GIBS';
 import * as mapStrings from '../constants/mapStrings';
 import '../lib/cesium/Cesium.js';
+// import '../lib/cesium/CesiumUnminified.js';
 import '../lib/cesium/Widgets/widgets.css';
 
 export default class MapWrapper_cesium extends MapWrapper {
 
     constructor(container, options) {
         super(container, options);
-        this.is3D = true;
+        this.is3D = true; 
         this.isActive = options.getIn(["view", "in3DMode"]);
 
         window.CESIUM_BASE_URL = './';
@@ -35,6 +36,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             selectionIndicator: false,
             timeline: false,
             navigationHelpButton: false,
+            vrButton:true,
             contextOptions: {
                 alpha: true
             },
