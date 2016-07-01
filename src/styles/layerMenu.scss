@@ -14,7 +14,7 @@
     padding: 0px;
     margin: 0.5rem 0px;
     font-size: 1.4rem;
-    padding-right: 1rem;
+    /*padding-right: 1rem;*/
     /*cursor: move;*/
 }
 
@@ -168,7 +168,7 @@ button.position-control-button {
 }
 
 #layerMenu {
-    // width: 360px;
+    width: 360px;
     max-height: 31px;
     position: absolute;
     bottom: 60px;
@@ -176,7 +176,6 @@ button.position-control-button {
     z-index: 1;
     background: $color-light;
     overflow: hidden;
-    // padding: 0px 0.5rem 0.3rem 0rem;
     padding: 0px;
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
@@ -213,14 +212,10 @@ button.position-control-button {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: content-box;
-    // padding-left: 0.5rem;
-    padding-right: 25px;
+    padding-right: 2.5rem;
     .toggle {
         padding-left: 1rem;
-    }
-    .row {
-        margin-right: -3rem;
-        padding-right: 1rem;
+        padding-right: 0px;
     }
     .border {
         border-bottom: $medium-light-border;
