@@ -420,7 +420,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach((mapLayer) => {
-                if(mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                if (mapLayer._layerType === "data" && mapLayer.getVisible()) {
                     retList.push(mapLayer._layerId);
                 }
             });
@@ -434,6 +434,20 @@ export default class MapWrapper_openlayers extends MapWrapper {
     /* functions for openlayers only */
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
+            let origUrl = layer.getIn(["wmtsOptions", "url"]);
+            let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
+            let customFunction = MapUtil.getUrlFunction(options.urlFunction);
+            let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
+            if (typeof customFunction === "function") {
+                return customFunction({
+                    layer,
+                    origUrl,
+                    processedUrl,
+                    tileCoord,
+                    pixelRatio,
+                    projectionString
+                });
+            }
             if (typeof layer !== "undefined" &&
                 typeof tileCoord !== "undefined" &&
                 typeof pixelRatio !== "undefined" &&
@@ -544,7 +558,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             maxZoom: options.tileGrid.maxZoom,
             minZoom: options.tileGrid.minZoom,
             tileSize: options.tileGrid.tileSize,
-            tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
+            // tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
             wrapX: true
         });
     }

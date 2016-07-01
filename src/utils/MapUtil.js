@@ -58,11 +58,11 @@ export default class MapUtil {
         return MapWrapper_openlayers.getWmtsOptions(options);
     }
 
-    // takes a function string and a url and returns the defined tile url function for it
+    // takes a function string and returns the tile url function associated with it or undefined
     static getUrlFunction(functionString = "", url = false) {
         switch (functionString) {
             case mapStrings.ESRI_CUSTOM_512:
-                return tileUrlFunctions.esriCustom512(url);
+                return tileUrlFunctions.esriCustom512;
             default:
                 return undefined;
         }
