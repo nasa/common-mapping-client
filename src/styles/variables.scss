@@ -76,3 +76,12 @@ $light-border: 1px solid $color-light;
     -ms-flex-positive: $amount;
     flex-grow: $amount;
 }
+
+/* rotate */
+@mixin rotate($amount) {
+    -ms-transform: rotate($amount);
+    /* IE 9 */
+    -webkit-transform: rotate($amount);
+    /* Chrome, Safari, Opera */
+    transform: rotate($amount);
+}

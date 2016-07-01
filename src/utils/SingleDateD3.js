@@ -31,7 +31,7 @@ export default class TimeAxisD3 {
 
         this._selection
             .attr('width', (d) => {
-                return d.isDragging ? this._activeWidth : this._defaultWidth;
+                return d.isDragging ? (this._activeWidth) : this._defaultWidth;
             })
             .attr('transform', (d) => {
                 let translate = !d.isDragging ? -(this._defaultWidth / 2) : -(this._activeWidth / 2);
@@ -50,9 +50,6 @@ export default class TimeAxisD3 {
         let drag = d3.behavior.drag()
             .on('dragstart', () => {
                 d3.event.sourceEvent.stopPropagation();
-                this._selection.transition()
-                    .duration(150)
-                    .style('opacity', 0.5);
                 this._beforeDrag();
             })
             .on('drag', () => {
@@ -71,9 +68,6 @@ export default class TimeAxisD3 {
                 this._onDrag(d3.event.x, scrollFlag);
             })
             .on('dragend', () => {
-                this._selection.transition()
-                    .duration(150)
-                    .style('opacity', 1);
                 this._afterDrag(this._selection.attr('x'));
             });
         this._selection.call(drag);
