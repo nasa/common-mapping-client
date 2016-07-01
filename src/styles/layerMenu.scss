@@ -2,7 +2,6 @@
     padding: 0.5rem 0rem;
     width: 100%;
     margin: 0px;
-    // border-bottom: $medium-border;
 }
 
 .layer-control:last-child {
@@ -14,8 +13,6 @@
     padding: 0px;
     margin: 0.5rem 0px;
     font-size: 1.4rem;
-    /*padding-right: 1rem;*/
-    /*cursor: move;*/
 }
 
 .layer-toggle {
@@ -28,7 +25,6 @@
     width: 3rem;
     height: 1rem;
     margin-top: 0.5rem;
-    /*background: rgba($color-accent, .5);*/
 }
 
 .layer-toggle.active > span {
@@ -96,56 +92,76 @@
     width: 18rem;
     height: auto;
     position: absolute;
-    top: 50%;
-    right: -50rem;
-    transform: translate(0px, -50%);
-    z-index: 5;
+    top: 2rem;
     padding: 0.5rem;
     padding-right: 1rem;
-    background: $color-light;
     opacity: 0;
+}
+
+.position-controls-container {
+    width: 12rem;
+    height: 5.5rem;
+    position: absolute;
+    top: 1.5rem;
+    padding: 0px !important;
+    opacity: 0;
+    text-align: center;
+}
+
+.position-controls-container,
+.opacity-slider-container {
+    z-index: 1;
+    right: -50rem;
+    border-radius: 4px;
+    background: $color-light;
+    border: 1px solid $color-primary;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
     @include medium-shadow();
-    // border: $medium-light-border;
-    border-radius: 4px;
 }
 
 .opacity-slider-container.active {
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
-    right: 7.3rem;
-    border: none;
+    right: 7rem;
+}
+.position-controls-container.active {
+    transition: opacity 0s linear 0s, right 0s linear 0s;
+    opacity: 1;
+    right: 9.3rem;
+    padding: 0px !important;
+}
+
+.opacity-slider-container:after,
+.opacity-slider-container:before,
+.position-controls-container:after,
+.position-controls-container:before {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.opacity-slider-container:after,
+.position-controls-container:after {
+    border-color: rgba(0, 0, 0, 0);
+    border-left-color: $color-light;
+    border-width: 10px;
+    margin-top: -10px;
+}
+.opacity-slider-container:before,
+.position-controls-container:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-left-color: $color-primary;
+    border-width: 11px;
+    margin-top: -11px;
 }
 
 .opacity-label {
     text-align: right;
-}
-
-.position-controls-container {
-    overflow: hidden;
-    width: 12rem;
-    height: 5.5rem;
-    position: absolute;
-    top: 50%;
-    right: -50rem;
-    transform: translate(0px, -50%);
-    z-index: 5;
-    padding: 0px !important;
-    background: $color-light;
-    opacity: 0;
-    text-align: center;
-    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
-    @include medium-shadow();
-    // border: $medium-light-border;
-    border-radius: 4px;
-}
-
-.position-controls-container.active {
-    transition: opacity 0s linear 0s, right 0s linear 0s;
-    opacity: 1;
-    right: 9.7rem;
-    border: none;
-    padding: 0px !important;
 }
 
 .layer-menu-header {
@@ -180,9 +196,6 @@ button.position-control-button {
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
-    /*border-right: $medium-light-border;*/
-    /*border-top: $medium-light-border;*/
-    /*border-left: $medium-light-border;*/
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     @include light-shadow();
