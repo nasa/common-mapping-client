@@ -15,12 +15,23 @@ export class LayerMenuContainer extends Component {
         let layerList = this.props.layers.sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
         let activeNum = layerList.count((el) => {
-            return el.get("isActive"); });
+            return el.get("isActive");
+        });
 
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
             "open": this.props.layerMenuOpen
         });
+
+        let renderThumb = ({ style, ...props }) => {
+            console.log("i am render")
+            return (
+                <div
+                style={{ ...style }}
+                className="scrollbar-thumb"
+                {...props}/>
+            );
+        }
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
@@ -46,6 +57,7 @@ export class LayerMenuContainer extends Component {
                         autoHeightMin={0}
                         autoHeightMax={300}
                         // autoHide={true}
+                       renderThumbVertical={renderThumb}
                         renderTrackHorizontal={(style, ...props) =>
                             <div style={{display:"none"}}/>
                           }>

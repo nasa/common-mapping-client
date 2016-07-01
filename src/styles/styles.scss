@@ -237,9 +237,16 @@ button.mini-xs-waysmall.small-text {
     color: $color-primary;
 }
 
-// .sortable-ghost {
-//     opacity: 0;
-// }
+
+/* SCROLLBAR STYLING */
+
+.scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: inherit;
+}
+
+
+/*  END */
 
 
 /* end classes */

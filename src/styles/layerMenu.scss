@@ -278,4 +278,12 @@ button.position-control-button {
         border-bottom: $medium-light-border;
         padding-bottom: 0.5rem;
     }
+    .__react_component_tooltip.place-left:before,
+    .__react_component_tooltip.place-left:after {
+        /* OVERRIDES FOR TOOLTIP IN SCROLL */
+        font-size: 0px;
+        left: 27px;
+        position: relative;
+        bottom: 4px;
+    }
 }
