@@ -115,7 +115,7 @@
     border-radius: 4px;
     background: $color-light;
     border: 1px solid $color-primary;
-    transition: opacity 0.2s linear 0s, right 0s linear 0.21s;
+    transition: opacity 0.2s linear 0s, right 0s linear 0.21s, z-index 0.21s linear 0s;
     @include medium-shadow();
 }
 
@@ -212,6 +212,27 @@ button.position-control-button {
     border-top-right-radius: 4px;
     @include light-shadow();
 }
+
+
+/* Chrome, Safari, Opera */
+
+// @-webkit-keyframes animateOpacity {
+//     0 {
+
+//     }
+// }
+
+
+// /* Standard syntax */
+
+// @keyframes mymove {
+//     from {
+//         top: 0px;
+//     }
+//     to {
+//         top: 200px;
+//     }
+// }
 
 #layerMenu.open {
     max-height: 350px;
