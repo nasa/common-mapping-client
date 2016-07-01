@@ -10,8 +10,8 @@ options: object containing the following...
 **/
 
 export function esriCustom512(options) {
-	let urlTemplate = options.origUrl;
-	let tileCoord = options.tileCoord
+    let urlTemplate = options.origUrl;
+    let tileCoord = options.tileCoord;
     if (urlTemplate) {
         return urlTemplate.replace('{z}', (tileCoord[0] - 1).toString())
             .replace('{x}', tileCoord[1].toString())
@@ -22,8 +22,8 @@ export function esriCustom512(options) {
 
 
 export function kvpTimeParam(options) {
-	let processedUrl = options.processedUrl;
-	let layer = options.layer;
+    let processedUrl = options.processedUrl;
+    let layer = options.layer;
 
     if (layer.get("time")) {
         return processedUrl + "&TIME=" + layer.get("time");

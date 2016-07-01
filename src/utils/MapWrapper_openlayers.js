@@ -457,20 +457,19 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            let ret = origFunc(tile, url);
-            // override getImage()
-            if (typeof tile._origGetImageFunc === "undefined") {
-                tile._origGetImageFunc = tile.getImage;
+            let tileFunctionString = layer.getIn(["wmtsOptions", "tileFunction"]);
+            let customFunction = MapUtil.getTileFunction(tileFunctionString);
+            let processedTile = origFunc(tile, url);
 
-                // fb() == getImage() in minified code
-                // do NOT use an arrow function
-                tile.getImage = tile.fb = function(optContext) {
-                    let node = this._origGetImageFunc(optContext);
-                    node.className = "map-image-tile";
-                    return node;
-                };
+            if (typeof customFunction === "function") {
+                return customFunction({
+                    layer,
+                    tile,
+                    url,
+                    processedTile
+                });
             }
-            return ret;
+            return processedTile;
         } catch (err) {
             console.log("could not handle openlayers layer tile load.", err);
             return false;

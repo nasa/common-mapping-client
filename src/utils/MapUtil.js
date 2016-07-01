@@ -1,5 +1,6 @@
 import * as mapStrings from '../constants/mapStrings';
 import * as tileUrlFunctions from './TileUrlFunctions';
+import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
@@ -59,12 +60,22 @@ export default class MapUtil {
     }
 
     // takes a function string and returns the tile url function associated with it or undefined
-    static getUrlFunction(functionString = "", url = false) {
+    static getUrlFunction(functionString = "") {
         switch (functionString) {
             case mapStrings.ESRI_CUSTOM_512:
                 return tileUrlFunctions.esriCustom512;
             case mapStrings.KVP_TIME_PARAM:
                 return tileUrlFunctions.kvpTimeParam;
+            default:
+                return undefined;
+        }
+    }
+
+    // takes a function string and returns the tile load function associated with it or undefined
+    static getTileFunction(functionString = "") {
+        switch (functionString) {
+            case mapStrings.BASIC_INTERCEPT:
+                return tileLoadFunctions.basicIntercept;
             default:
                 return undefined;
         }
