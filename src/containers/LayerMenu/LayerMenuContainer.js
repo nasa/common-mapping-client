@@ -5,6 +5,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import LayerControlContainer from './LayerControlContainer';
 import * as layerActions from '../../actions/LayerActions';
 import MiscUtil from '../../utils/MiscUtil';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export class LayerMenuContainer extends Component {
     componentDidMount() {
@@ -13,7 +14,8 @@ export class LayerMenuContainer extends Component {
     render() {
         let layerList = this.props.layers.sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
-        let activeNum = layerList.count((el) => { return el.get("isActive"); });
+        let activeNum = layerList.count((el) => {
+            return el.get("isActive"); });
 
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
@@ -38,13 +40,23 @@ export class LayerMenuContainer extends Component {
                     </div>
                 </div>
                 <div id="layerMenuContent">
-                    {layerList.map((layer) =>
-                        <LayerControlContainer
-                            key={layer.get("id") + "_layer_listing"}
-                            layer={layer}
-                            palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
-                        />
-                    )}
+                    <Scrollbars 
+                        // style={{height:300}}
+                        autoHeight
+                        autoHeightMin={0}
+                        autoHeightMax={300}
+                        // autoHide={true}
+                        renderTrackHorizontal={(style, ...props) =>
+                            <div style={{display:"none"}}/>
+                          }>
+                        {layerList.map((layer) =>
+                            <LayerControlContainer
+                                key={layer.get("id") + "_layer_listing"}
+                                layer={layer}
+                                palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
+                            />
+                        )}
+                    </Scrollbars>
                 </div>
             </div>
         );

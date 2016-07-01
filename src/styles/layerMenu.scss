@@ -110,8 +110,8 @@
 
 .position-controls-container,
 .opacity-slider-container {
-    z-index: 1;
-    right: -50rem;
+    z-index: -1;
+    // right: -50rem;
     border-radius: 4px;
     background: $color-light;
     border: 1px solid $color-primary;
@@ -119,15 +119,26 @@
     @include medium-shadow();
 }
 
+.opacity-slider-container {
+    right: 7.3rem;
+}
+
 .opacity-slider-container.active {
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
-    right: 7.3rem;
+    z-index: 1;
+    // right: 7.3rem;
 }
+
+.position-controls-container {
+    right: 9.8rem;
+}
+
 .position-controls-container.active {
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
-    right: 9.8rem;
+    z-index: 1;
+    // right: 9.8rem;
     padding: 0px !important;
 }
 
@@ -152,6 +163,7 @@
     border-width: 10px;
     margin-top: -10px;
 }
+
 .opacity-slider-container:before,
 .position-controls-container:before {
     border-color: rgba(194, 225, 245, 0);
@@ -222,8 +234,8 @@ button.position-control-button {
     max-height: 300px;
     display: block;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
     .toggle {
         padding-left: 1rem;
         padding-right: 0px;
