@@ -184,7 +184,7 @@ button.position-control-button {
 }
 
 #layerMenu {
-    width: 360px;
+    width: 370px;
     max-height: 31px;
     position: absolute;
     bottom: 60px;
@@ -224,8 +224,6 @@ button.position-control-button {
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    box-sizing: content-box;
-    padding-right: 2.5rem;
     .toggle {
         padding-left: 1rem;
         padding-right: 0px;
