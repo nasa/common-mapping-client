@@ -166,10 +166,10 @@ export class LayerControlContainer extends Component {
                     </span>
                 </div>
                 <div className={positionContainerClasses}>
-                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
-                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
-                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
-                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                    <Button accent label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
+                    <Button accent label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
+                    <Button accent label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
+                    <Button accent label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>

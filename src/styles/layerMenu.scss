@@ -96,6 +96,7 @@
     padding: 0.5rem;
     padding-right: 1rem;
     opacity: 0;
+    // & 
 }
 
 .position-controls-container {
@@ -114,7 +115,7 @@
     // right: -50rem;
     border-radius: 4px;
     background: $color-light;
-    border: 1px solid $color-primary;
+    border: 1px solid $color-accent;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s, z-index 0.21s linear 0s;
     @include medium-shadow();
 }
@@ -148,7 +149,7 @@
 .position-controls-container:before {
     left: 100%;
     top: 50%;
-    border: solid transparent;
+    border: solid red;
     content: " ";
     height: 0;
     width: 0;
@@ -167,9 +168,26 @@
 .opacity-slider-container:before,
 .position-controls-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-left-color: $color-primary;
+    border-left-color: $color-accent;
     border-width: 11px;
     margin-top: -11px;
+}
+
+// Gross Slider overrides
+.opacity-slider-container {
+    [data-react-toolbox="slider"] {
+        & div > div:first-child > div {
+            background: $color-accent;
+        }
+        & [data-react-toolbox="progress-bar"] {
+            [data-ref="buffer"] {
+                background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(to right, $color-accent, $color-accent);
+            }
+            [data-ref="value"] {
+                background-color: $color-accent;
+            }
+        }
+    }
 }
 
 .opacity-label {
@@ -218,13 +236,9 @@ button.position-control-button {
 
 // @-webkit-keyframes animateOpacity {
 //     0 {
-
 //     }
 // }
-
-
 // /* Standard syntax */
-
 // @keyframes mymove {
 //     from {
 //         top: 0px;
@@ -233,7 +247,6 @@ button.position-control-button {
 //         top: 200px;
 //     }
 // }
-
 #layerMenu.open {
     max-height: 350px;
 }
