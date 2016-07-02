@@ -24,7 +24,6 @@ export class LayerMenuContainer extends Component {
         });
 
         let renderThumb = ({ style, ...props }) => {
-            console.log("i am render")
             return (
                 <div
                 style={{ ...style }}
