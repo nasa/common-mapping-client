@@ -4,6 +4,7 @@ import * as mapStrings from '../constants/mapStrings';
 import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import MapUtil from './MapUtil';
+import Cache from './Cache';
 
 export default class MapWrapper_openlayers extends MapWrapper {
     constructor(container, options) {
@@ -11,7 +12,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
-        this.layerCache = Immutable.Map();
+        this.layerCache = new Cache(100); // TODO - move this number into a config?
     }
 
     createMap(container, options) {
@@ -46,7 +47,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // pull from cache if possible
                 let cacheHash = layer.get("id") + layer.get("time");
-                if(fromCache && typeof this.layerCache.get(cacheHash) !== "undefined") {
+                if(fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
                     cachedLayer.setVisible(layer.get("isActive"));
                     return cachedLayer;
@@ -161,7 +162,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let index = this.findTopInsertIndexForLayer(mapLayer);
             this.map.getLayers().insertAt(index, mapLayer);
-            this.layerCache = this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
             console.log("could not add openlayers layer.", err);
@@ -182,7 +183,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     replaceLayer(mapLayer, index) {
         try {
             this.map.getLayers().setAt(index, mapLayer);
-            this.layerCache = this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
             console.log("could not replace openlayers layer.", err);
