@@ -1,6 +1,7 @@
-import MapWrapper from './MapWrapper';
+import Immutable from 'immutable';
 import ol from 'openlayers';
 import * as mapStrings from '../constants/mapStrings';
+import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import MapUtil from './MapUtil';
 
@@ -10,6 +11,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
+        this.layerCache = Immutable.Map();
     }
 
     createMap(container, options) {
@@ -38,9 +40,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    createLayer(layer) {
+    createLayer(layer, fromCache = true) {
         try {
             if (layer && layer.get("wmtsOptions")) {
+
+                // pull from cache if possible
+                let cacheHash = layer.get("id") + layer.get("time");
+                if(fromCache && typeof this.layerCache.get(cacheHash) !== "undefined") {
+                    let cachedLayer = this.layerCache.get(cacheHash);
+                    cachedLayer.setVisible(layer.get("isActive"));
+                    return cachedLayer;
+                }
+
                 let options = layer.get("wmtsOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options);
 
@@ -64,6 +75,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     source: layerSource
                 });
                 mapLayer._layerId = layer.get("id");
+                mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
                 mapLayer._layerType = layer.get("type");
                 return mapLayer;
             }
@@ -149,6 +161,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let index = this.findTopInsertIndexForLayer(mapLayer);
             this.map.getLayers().insertAt(index, mapLayer);
+            this.layerCache = this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
             console.log("could not add openlayers layer.", err);
@@ -162,6 +175,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.log("could not remove openlayers layer.", err);
+            return false;
+        }
+    }
+
+    replaceLayer(mapLayer, index) {
+        try {
+            this.map.getLayers().setAt(index, mapLayer);
+            this.layerCache = this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            return true;
+        } catch (err) {
+            console.log("could not replace openlayers layer.", err);
             return false;
         }
     }
@@ -298,15 +322,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
     updateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
-            if (mapLayer) {
-                let layerSource = mapLayer.getSource();
-                layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                    return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
-                });
-                layerSource.setTileLoadFunction((tile, url) => {
-                    return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
-                });
+            // let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
+            if (mapLayerWithIndex) {
+                let mapLayer = this.createLayer(layer);
+                this.replaceLayer(mapLayer, mapLayerWithIndex.index);
+                // let layerSource = mapLayer.getSource();
+                // layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
+                //     return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
+                // });
+                // layerSource.setTileLoadFunction((tile, url) => {
+                //     return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
+                // });
             }
             // return true even if layer is not available
             // so that time slider still works
