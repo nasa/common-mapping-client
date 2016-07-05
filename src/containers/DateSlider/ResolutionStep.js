@@ -12,21 +12,21 @@ export class ResolutionStep extends Component {
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
                 <Button
                     neutral
-                    inverse
+                    // inverse
                     label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
                     className="no-padding resolution-step small"
                     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
                 />
                 <Button
                     neutral
-                    inverse
+                    // inverse
                     label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
                     className="no-padding resolution-step small"
                     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                 />
                 <Button
                     neutral
-                    inverse
+                    // inverse
                     label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
                     className="no-padding resolution-step small"
                     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}

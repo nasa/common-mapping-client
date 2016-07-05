@@ -37,7 +37,7 @@ export class LayerMenuContainer extends Component {
                 <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
                         <span className="layer-menu-header">LAYER CONTROLS</span>
-                        <span className="layer-menu-note">({activeNum} of {totalNum} active)</span>
+                        <span className="layer-menu-note"><span className="layer-menu-note-active">{activeNum}</span>/{totalNum}</span>
                     </div>
                     <div className="col-xs-4 text-right">
                         <IconButton

@@ -32,13 +32,13 @@ export default class TimeAxisD3 {
             [":%S", (d) => {
                 return d.getSeconds();
             }],
-            ["%I:%M %p", (d) => {
+            ["%-I:%M %p", (d) => {
                 return d.getMinutes();
             }],
-            ["%I %p", (d) => {
+            ["%-I %p", (d) => {
                 return d.getHours();
             }],
-            ["%b %d", (d) => {
+            ["%b %-d", (d) => {
                 return d.getDate() != 1;
             }],
             ["%B", (d) => {
@@ -133,6 +133,15 @@ export default class TimeAxisD3 {
             .duration(100)
             .attr('x', (d) => this._xFn(d.date));
 
+        let _context = this;
+        this._selection.selectAll(".tick")
+            .each(function(d, i) {
+                let tick = d3.select(this);
+                _context.formatTick(tick, d);
+            })
+
+
+
         // update the resolution
         this.setResolution(options);
     }
@@ -172,6 +181,77 @@ export default class TimeAxisD3 {
         return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
     }
 
+    formatTick(selection, d) {
+        let month = d.getMonth();
+        let day = d.getDate();
+        let hour = d.getHours();
+        let minutes = d.getMinutes();
+        let seconds = d.getSeconds();
+        let milliseconds = d.getMilliseconds();
+        let y1 = "0";
+        let y2 = "-35";
+        let className = "default";
+        // Year
+        if (month === 0 &&
+            day === 1 &&
+            hour === 0 &&
+            minutes === 0 &&
+            seconds === 0 &&
+            milliseconds === 0) {
+            className = "year";
+            y1 = "0";
+            y2 = "-35";
+        } // Month
+        else if (day === 1 &&
+            hour === 0 &&
+            minutes === 0 &&
+            seconds === 0 &&
+            milliseconds === 0) {
+            className = "month";
+            y1 = "-5";
+            y2 = "-30";
+        }
+        else if (hour === 0 &&
+            minutes === 0 &&
+            seconds === 0 &&
+            milliseconds === 0) {
+            className = "day";
+            y1 = "-10";
+            y2 = "-25";
+        }
+        else if (minutes === 0 &&
+            seconds === 0 &&
+            milliseconds === 0) {
+            className = "hour";
+            y1 = "-12";
+            y2 = "-23";
+        }
+        else if (seconds === 0 &&
+            milliseconds === 0) {
+            className = "minutes";
+            y1 = "-12";
+            y2 = "-23";
+        }
+        else if (milliseconds === 0) {
+            className = "milliseconds";
+            y1 = "-12";
+            y2 = "-23";
+        }
+        selection.select("text")
+            .classed("tick-text-" + className, true)
+            // .style("font-weight", (d) => {
+            //     return fontWeight;
+            // })
+            // .style("fill", (d) => {
+            //     return color;
+            // })
+        selection.select("line")
+            .attr("y1", y1)
+            .attr("y2", y2)
+            // .style("stroke", color)
+            .classed("tick-line-" + className, true)
+    }
+
     zoomed() {
         // Check that the domain is not larger than bounds
         if (this._xFn.domain()[1] - this._xFn.domain()[0] > this._maxDt - this._minDt) {
@@ -199,12 +279,19 @@ export default class TimeAxisD3 {
                 return this._xFn(d.date);
             });
         }
+
+        let _context = this;
+        this._selection.selectAll(".tick")
+            .each(function(d, i) {
+                let tick = d3.select(this);
+                _context.formatTick(tick, d);
+            })
     }
 
     getDateFromX(value) {
         return this._xFn.invert(value);
     }
-    
+
     getXFromDate(value) {
         return this._xFn(value);
     }

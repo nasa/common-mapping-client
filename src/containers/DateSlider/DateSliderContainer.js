@@ -9,13 +9,6 @@ import TimeAxis from './TimeAxis';
 import ResolutionStep from './ResolutionStep';
 
 export class DateSliderContainer extends Component {
-    test(event) {
-        console.log(event,"EVENT")
-        event.preventDefault();
-
-        // this.setState({ showMenu: !this.state.showMenu });
-    }
-
     render() {
         let hoverDateClasses = MiscUtil.generateStringFromSet({
             "hover-date-display": true,

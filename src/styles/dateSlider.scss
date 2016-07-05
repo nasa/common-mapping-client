@@ -1,7 +1,8 @@
 .date-slider-container {
     position: relative;
     display: block;
-    background: darken($color-primary-dark,20%);
+    // background: darken($color-primary-dark, 20%);
+    background: #e2e2e2;
     width: 100%;
     height: 6rem;
     width: 100%;
@@ -14,9 +15,12 @@
     left: 50%;
     font-size: 1.5rem;
     padding: 0.5rem 0.8rem;
-    background: darken($color-primary, 20%);
+    background: $color-accent;
+    font-family: "Roboto Mono";
+    border-radius: 2px;
     color: $color-light;
-    border: 2px solid $color-primary;
+    // border: 2px solid $color-accent;
+    border: none;
     transform: translate(-50%, 0px);
     @include medium-shadow();
     z-index: 3;
@@ -36,14 +40,14 @@
 
 .hover-date-display:after {
     border-color: rgba(0, 0, 0, 0);
-    border-top-color: darken($color-primary, 20%);
+    border-top-color: darken($color-accent, 20%);
     border-width: 10px;
     margin-left: -10px;
 }
 
 .hover-date-display:before {
     border-color: rgba(0, 0, 0, 0);
-    border-top-color: $color-primary;
+    // border-top-color: $color-accent;
     border-width: 13px;
     margin-left: -13px;
 }
@@ -58,6 +62,8 @@
 }
 
 #dateSlider {
+    font-family: "Roboto Mono";
+    font-size: 1.3rem;
     .timeAxis {
         cursor: pointer;
         &.dragging {
@@ -76,10 +82,42 @@
     rect#chart-bounds,
     .tick {
         text {
-            fill: darken(white, 25%);
+            fill: $color-text;
+            font-weight: 300;
+            &.tick-text-default {
+                // fill: $color-text-secondary;
+                font-weight: 300;
+            }
+            &.tick-text-year {
+                font-weight: 400;
+            }
+            &.tick-text-month {
+                font-weight: 300;
+            }
+            &.tick-text-day {
+                font-weight: 300;
+            }
+            &.tick-text-hour {
+                font-weight: 300;
+            }
         }
         line {
-            stroke: darken(white, 25%);
+            stroke: $color-text-secondary;
+            &.tick-line-default {
+                stroke: $color-text-secondary;
+            }
+            &.tick-line-year {
+                stroke: $color-text;
+            }
+            // &.tick-line-month {
+            //     stroke: $color-text-secondary;
+            // }
+            // &.tick-line-day {
+            //     stroke: $color-text-secondary;
+            // }
+            // &.tick-line-hour {
+            //     stroke: $color-text-secondary;
+            // }
         }
     }
     .singleDate {
@@ -99,10 +137,16 @@
 #dateSliderResolutionStepContainer {
     position: absolute;
     top: 0px;
+    font-family: "Roboto Mono";
+    font-weight: 300;
     right: 0px;
     z-index: 1;
     width: 100px;
     height: 6rem;
-    background: $color-primary;
+    background: white;
     @include medium-shadow();
+    button {
+        font-weight: 400;
+        font-family: "Roboto Mono";
+    }
 }
