@@ -134,6 +134,31 @@
     }
 }
 
+.resolution-picker-selection-increment {
+    opacity: 0;
+    transition: opacity 0.1s linear 0s;
+}
+.resolution-picker-selection-increment button {
+    font-size: 1.15rem;
+    padding: 0.3rem;
+    line-height: 1rem;
+    width: 100%;
+    height: initial;
+    text-align: center;
+    display: block;
+}
+
+.resolution-picker-selection-increment button > [data-react-toolbox="font-icon"] { 
+    margin: 0px;
+    height: auto;
+    font-size: 3rem;
+    line-height: 1.15rem;
+}
+
+#dateSliderResolutionStepContainer:hover .resolution-picker-selection-increment {
+    opacity: 1;
+}
+
 #dateSliderResolutionStepContainer {
     position: absolute;
     top: 0px;

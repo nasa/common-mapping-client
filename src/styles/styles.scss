@@ -193,16 +193,31 @@ button.mini-xs-waysmall.small-text {
 }
 
 .list-item-dropdown {
-    padding: 0px 1.6rem;
-}
+    padding: 0px 1.6rem 0.2rem 1.6rem;
 
-.list-item-dropdown div:nth-of-type(2) {
-    padding-top: 1rem;
-}
-
-.list-item-dropdown ul {
-    padding: 0px;
-    width: calc(100% - 3.2rem)
+    div:nth-of-type(2) {
+        padding-top: 1rem;
+    }
+    ul {
+        padding: 0px;
+        width: calc(100% - 3.2rem)
+    }
+    &.small {
+        .dropdown-item-label {
+            font-size: 1.3rem;
+        }
+        div:nth-of-type(2) {
+            padding: 0px;
+            div:nth-of-type(1) {
+                padding: 0px;
+                padding-bottom: 0.2rem;
+                min-height: auto;
+            }
+        }
+        ul {
+            margin: 0px;
+        }
+    }
 }
 
 .dropdown-item-label {
