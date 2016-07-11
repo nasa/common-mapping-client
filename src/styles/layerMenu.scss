@@ -1,5 +1,5 @@
 .layer-control {
-    padding: 0.5rem 0rem;
+    padding: 0.7rem 0rem;
     width: 100%;
     margin: 0px;
 }
@@ -64,6 +64,7 @@
     font-size: 1rem;
     line-height: 1rem;
     width: 255px;
+    font-family: "Roboto Mono";
 }
 
 .colorbar-label {
@@ -200,11 +201,23 @@
 }
 
 .layer-menu-note {
-    letter-spacing: 0.09em;
-    font-style: italic;
+    letter-spacing: 0.15em;
+    background: white;
+    // font-style: italic;
+    font-family: "Roboto Mono";
     font-size: 0.8em;
-    margin: 0px 5px;
-    color: $color-light;
+    margin: 0px 15px;
+    padding: 1px 4px;
+    text-transform: uppercase;
+    @include light-shadow();
+    position: relative;
+    top: -1px;
+    font-weight: 400;
+    border-radius: 2px;
+    color: $color-text-secondary;
+    .layer-menu-note-active {
+        color: $color-accent;
+    }
 }
 
 button.position-control-button {
@@ -271,11 +284,19 @@ button.position-control-button {
     // overflow-x: hidden;
     // overflow-y: auto;
     .toggle {
-        padding-left: 1rem;
+        padding-left: 1.3rem;
         padding-right: 0px;
     }
     .border {
         border-bottom: $medium-light-border;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.7rem;
+    }
+    .__react_component_tooltip.place-left:before,
+    .__react_component_tooltip.place-left:after {
+        /* OVERRIDES FOR TOOLTIP IN SCROLL */
+        font-size: 0px;
+        left: 27px;
+        position: relative;
+        bottom: 4px;
     }
 }

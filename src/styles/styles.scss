@@ -2,7 +2,7 @@
 @import "lib/normalize/normalize.css";
 @import "lib/flexboxgrid/flexboxgrid.min.css";
 @import "lib/mapskin/css/mapskin.min.css";
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500|Roboto+Mono:300,400);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 * {
     box-sizing: border-box;
@@ -237,9 +237,16 @@ button.mini-xs-waysmall.small-text {
     color: $color-primary;
 }
 
-// .sortable-ghost {
-//     opacity: 0;
-// }
+
+/* SCROLLBAR STYLING */
+
+.scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: inherit;
+}
+
+
+/*  END */
 
 
 /* end classes */
