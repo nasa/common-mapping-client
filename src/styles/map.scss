@@ -9,25 +9,25 @@
 .map-dimension-toggle {
     position: absolute;
     left: 0.7rem;
-    bottom: 11rem;
+    bottom: 9rem;
 }
 
 .map-zoom-in {
     position: absolute;
     left: 0.7rem;
-    bottom: 6.6rem;
+    bottom: 4.3rem;
 }
 
 .map-zoom-out {
     position: absolute;
     left: 0.7rem;
-    bottom: 3rem;
+    bottom: 0.7rem;
 }
 
 .map-orientation-reset {
     position: absolute;
     left: 0.7rem;
-    bottom: 15.4rem;
+    bottom: 13.4rem;
 }
 
 .map-scale-container {
@@ -45,7 +45,6 @@
     @include light-shadow-right();
     border-right: $medium-light-border;
     border-top: $medium-light-border;
-
     display: none;
 }
 
