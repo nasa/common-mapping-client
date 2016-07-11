@@ -26,11 +26,12 @@ export class LayerMenuContainer extends Component {
         let renderThumb = ({ style, ...props }) => {
             return (
                 <div
-                style={{ ...style }}
-                className="scrollbar-thumb"
-                {...props}/>
+                    style={{ ...style }}
+                    className="scrollbar-thumb"
+                    {...props}
+                />
             );
-        }
+        };
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>

@@ -17,7 +17,7 @@ export class LayerInfoContainer extends Component {
                 onEscKeyDown={() => this.props.actions.closeLayerInfo()} 
                 onOverlayClick={() => this.props.actions.closeLayerInfo()}>
                 {/*<div className="thumbnail-image" style={{backgroundImage: "url("+this.props.layer.get("thumbnailImage")+")"}}></div>*/}
-                <AsyncImageContainer className="thumbnail-image" src={this.props.layer.get("thumbnailImage")}></AsyncImageContainer>
+                <AsyncImageContainer className="thumbnail-image" src={this.props.layer.get("thumbnailImage")} />
                 <div className="layerInfo-content">
                     <div className={metadata ? "" : "hidden"}>
                         <h2>{this.props.layer.get("title")}</h2>

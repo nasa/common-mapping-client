@@ -138,7 +138,7 @@ export default class TimeAxisD3 {
             .each(function(d, i) {
                 let tick = d3.select(this);
                 _context.formatTick(tick, d);
-            })
+            });
 
 
 
@@ -238,7 +238,7 @@ export default class TimeAxisD3 {
             y2 = "-23";
         }
         selection.select("text")
-            .classed("tick-text-" + className, true)
+            .classed("tick-text-" + className, true);
             // .style("font-weight", (d) => {
             //     return fontWeight;
             // })
@@ -249,7 +249,7 @@ export default class TimeAxisD3 {
             .attr("y1", y1)
             .attr("y2", y2)
             // .style("stroke", color)
-            .classed("tick-line-" + className, true)
+            .classed("tick-line-" + className, true);
     }
 
     zoomed() {
@@ -285,7 +285,7 @@ export default class TimeAxisD3 {
             .each(function(d, i) {
                 let tick = d3.select(this);
                 _context.formatTick(tick, d);
-            })
+            });
     }
 
     getDateFromX(value) {

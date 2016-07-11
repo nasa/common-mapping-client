@@ -59,8 +59,8 @@ export class DatePickerContainer extends Component {
         let dayArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
         return (
             <div id="datePickerContainer" className="row middle-xs">
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",false) : this.incrementDate("days",false)}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",true) : this.incrementDate("days",true)}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",false) : this.incrementDate("days",false);}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",true) : this.incrementDate("days",true);}} />
                 <div className="date-picker-selection col-xs-5">
                     <div className="date-picker-selection-increment">
                         <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
