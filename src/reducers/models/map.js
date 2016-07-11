@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import moment from 'moment';
 import * as config from '../../constants/mapConfig';
 
 export const mapState = Immutable.fromJS({
@@ -53,7 +54,7 @@ export const layerModel = Immutable.fromJS({
     min: 0,
     max: 0,
     units: "",
-    time: config.DEFAULT_DATE.toISOString().split("T")[0],
+    time: moment(config.DEFAULT_DATE).format("YYYY-MM-DD"),
     type: "",
     isDefault: false,
     wmtsOptions: null,

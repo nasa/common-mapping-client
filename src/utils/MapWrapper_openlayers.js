@@ -1,8 +1,10 @@
-import MapWrapper from './MapWrapper';
+import Immutable from 'immutable';
 import ol from 'openlayers';
 import * as mapStrings from '../constants/mapStrings';
+import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import MapUtil from './MapUtil';
+import Cache from './Cache';
 
 export default class MapWrapper_openlayers extends MapWrapper {
     constructor(container, options) {
@@ -10,6 +12,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
+        this.layerCache = new Cache(100); // TODO - move this number into a config?
     }
 
     createMap(container, options) {
@@ -38,9 +41,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    createLayer(layer) {
+    createLayer(layer, fromCache = true) {
         try {
             if (layer && layer.get("wmtsOptions")) {
+
+                // pull from cache if possible
+                let cacheHash = layer.get("id") + layer.get("time");
+                if(fromCache && this.layerCache.get(cacheHash)) {
+                    let cachedLayer = this.layerCache.get(cacheHash);
+                    cachedLayer.setVisible(layer.get("isActive"));
+                    return cachedLayer;
+                }
+
                 let options = layer.get("wmtsOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options);
 
@@ -64,6 +76,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     source: layerSource
                 });
                 mapLayer._layerId = layer.get("id");
+                mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
                 mapLayer._layerType = layer.get("type");
                 return mapLayer;
             }
@@ -149,6 +162,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let index = this.findTopInsertIndexForLayer(mapLayer);
             this.map.getLayers().insertAt(index, mapLayer);
+            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
             console.log("could not add openlayers layer.", err);
@@ -162,6 +176,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.log("could not remove openlayers layer.", err);
+            return false;
+        }
+    }
+
+    replaceLayer(mapLayer, index) {
+        try {
+            this.map.getLayers().setAt(index, mapLayer);
+            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            return true;
+        } catch (err) {
+            console.log("could not replace openlayers layer.", err);
             return false;
         }
     }
@@ -298,15 +323,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
     updateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
-            if (mapLayer) {
-                let layerSource = mapLayer.getSource();
-                layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                    return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
-                });
-                layerSource.setTileLoadFunction((tile, url) => {
-                    return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
-                });
+            // let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
+            if (mapLayerWithIndex) {
+                let mapLayer = this.createLayer(layer);
+                this.replaceLayer(mapLayer, mapLayerWithIndex.index);
+                // let layerSource = mapLayer.getSource();
+                // layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
+                //     return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
+                // });
+                // layerSource.setTileLoadFunction((tile, url) => {
+                //     return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
+                // });
             }
             // return true even if layer is not available
             // so that time slider still works
@@ -420,7 +448,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach((mapLayer) => {
-                if(mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                if (mapLayer._layerType === "data" && mapLayer.getVisible()) {
                     retList.push(mapLayer._layerId);
                 }
             });
@@ -434,17 +462,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
     /* functions for openlayers only */
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
-            if (typeof layer !== "undefined" &&
-                typeof tileCoord !== "undefined" &&
-                typeof pixelRatio !== "undefined" &&
-                typeof projectionString !== "undefined") {
-                let url = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
-                if (layer.get("time")) {
-                    url += "&TIME=" + layer.get("time");
-                }
-                return url;
+            let origUrl = layer.getIn(["wmtsOptions", "url"]);
+            let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
+            let customFunction = MapUtil.getUrlFunction(urlFunctionString);
+            let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
+            if (typeof customFunction === "function") {
+                return customFunction({
+                    layer,
+                    origUrl,
+                    processedUrl,
+                    tileCoord,
+                    pixelRatio,
+                    projectionString
+                });
             }
-            return null;
+            return processedUrl;
         } catch (err) {
             console.log("could not generate openlayers layer tile url.", err);
             return false;
@@ -453,20 +485,19 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            let ret = origFunc(tile, url);
-            // override getImage()
-            if (typeof tile._origGetImageFunc === "undefined") {
-                tile._origGetImageFunc = tile.getImage;
+            let tileFunctionString = layer.getIn(["wmtsOptions", "tileFunction"]);
+            let customFunction = MapUtil.getTileFunction(tileFunctionString);
+            let processedTile = origFunc(tile, url);
 
-                // fb() == getImage() in minified code
-                // do NOT use an arrow function
-                tile.getImage = tile.fb = function(optContext) {
-                    let node = this._origGetImageFunc(optContext);
-                    node.className = "map-image-tile";
-                    return node;
-                };
+            if (typeof customFunction === "function") {
+                return customFunction({
+                    layer,
+                    tile,
+                    url,
+                    processedTile
+                });
             }
-            return ret;
+            return processedTile;
         } catch (err) {
             console.log("could not handle openlayers layer tile load.", err);
             return false;
@@ -544,7 +575,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             maxZoom: options.tileGrid.maxZoom,
             minZoom: options.tileGrid.minZoom,
             tileSize: options.tileGrid.tileSize,
-            tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
+            // tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
             wrapX: true
         });
     }

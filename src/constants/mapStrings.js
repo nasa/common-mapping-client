@@ -28,3 +28,7 @@ export const COLORBAR_JSON_RELATIVE = "json-relative";
 
 // tile URL function
 export const ESRI_CUSTOM_512 = "ESRI_CUSTOM_512";
+export const KVP_TIME_PARAM = "KVP_TIME_PARAM";
+
+// tile load function
+export const BASIC_INTERCEPT = 'BASIC_INTERCEPT';
