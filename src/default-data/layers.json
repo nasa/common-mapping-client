@@ -109,8 +109,8 @@
             "handleAs": "json-relative"
         }
     }, {
-        "id": "wacka_wacka_wacka",
-        "title": "VECTOR HOMIE",
+        "id": "us_state_outline_topojson",
+        "title": "US State Outline - TopoJSON",
         "type": "data",
         "handleAs": "vector_topojson",
         "url": "default-data/ne_10m_us_states.topojson"

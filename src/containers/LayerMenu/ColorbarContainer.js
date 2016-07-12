@@ -44,6 +44,10 @@ export class ColorbarContainer extends Component {
     }
 
     render() {
+        let containerClass = MiscUtil.generateStringFromSet({
+            "colorbar-container": true,
+            "no-colorbar": this.props.handleAs === ""
+        });
         let canvasClass = MiscUtil.generateStringFromSet({
             "colorbar": true,
             "hidden": this.props.handleAs !== mapStrings.COLORBAR_JSON_FIXED && this.props.handleAs !== mapStrings.COLORBAR_JSON_RELATIVE
@@ -52,11 +56,16 @@ export class ColorbarContainer extends Component {
             "colorbar": true,
             "hidden": this.props.handleAs !== mapStrings.COLORBAR_IMAGE
         });
+        let warningClass = MiscUtil.generateStringFromSet({
+            "colorbar-warning": true,
+            "hidden": this.props.handleAs !== ""
+        });
 
         return (
-            <div className="colorbar-container">
+            <div className={containerClass}>
                 <canvas ref="canvas" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className={canvasClass}></canvas>
                 <img src={this.props.url} className={imageClass} />
+                <span className={warningClass}>No Colorbar Available</span>
             </div>
         );
     }
