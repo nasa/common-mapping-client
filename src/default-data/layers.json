@@ -109,6 +109,12 @@
             "handleAs": "json-relative"
         }
     }, {
+        "id": "wacka_wacka_wacka",
+        "title": "VECTOR HOMIE",
+        "type": "data",
+        "handleAs": "vector_topojson",
+        "url": "default-data/ne_10m_us_states.topojson"
+    }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",

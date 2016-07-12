@@ -42,12 +42,43 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     createLayer(layer, fromCache = true) {
+        let mapLayer = false;
+        switch (layer.get("handleAs")) {
+            case mapStrings.LAYER_GIBS:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_WMTS:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_XYZ:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
+            default:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+        }
+
+        if (mapLayer) {
+            mapLayer._layerId = layer.get("id");
+            mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
+            mapLayer._layerType = layer.get("type");
+        }
+        return mapLayer;
+    }
+
+    createWMTSLayer(layer, fromCache = true) {
         try {
             if (layer && layer.get("wmtsOptions")) {
 
                 // pull from cache if possible
                 let cacheHash = layer.get("id") + layer.get("time");
-                if(fromCache && this.layerCache.get(cacheHash)) {
+                if (fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
                     cachedLayer.setVisible(layer.get("isActive"));
                     return cachedLayer;
@@ -68,20 +99,32 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.handleTileLoad(layer, tile, url, origTileLoadFunc);
                 });
 
-                let mapLayer = new ol.layer.Tile({
+                return new ol.layer.Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
                     extent: [-36000, -90, 36000, 90],
                     source: layerSource
                 });
-                mapLayer._layerId = layer.get("id");
-                mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
-                mapLayer._layerType = layer.get("type");
-                return mapLayer;
             }
             console.warn("could not create map layer");
             return false;
+        } catch (err) {
+            console.warn("could not create map layer", err);
+            return false;
+        }
+    }
+
+    createVectorLayer(layer, fromCache = true) {
+        try {
+            let layerSource = this.createLayerSource(layer, {
+                url: layer.get("url")
+            });
+            return new ol.layer.Vector({
+                source: layerSource,
+                opacity: layer.get("opacity"),
+                visible: layer.get("isActive")
+            });
         } catch (err) {
             console.warn("could not create map layer", err);
             return false;
@@ -323,18 +366,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
     updateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            // let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = this.createLayer(layer);
                 this.replaceLayer(mapLayer, mapLayerWithIndex.index);
-                // let layerSource = mapLayer.getSource();
-                // layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                //     return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
-                // });
-                // layerSource.setTileLoadFunction((tile, url) => {
-                //     return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
-                // });
             }
             // return true even if layer is not available
             // so that time slider still works
@@ -511,6 +546,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.createWMTSSource(options);
             case mapStrings.LAYER_XYZ:
                 return this.createXYZSource(options);
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                return this.createVectorGeojsonSource(options);
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.createVectorTopojsonSource(options);
             default:
                 return this.createXYZSource(options);
         }
@@ -575,8 +614,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
             maxZoom: options.tileGrid.maxZoom,
             minZoom: options.tileGrid.minZoom,
             tileSize: options.tileGrid.tileSize,
-            // tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
             wrapX: true
+        });
+    }
+
+    createVectorGeojsonSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.GeoJSON()
+        });
+    }
+
+    createVectorTopojsonSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.TopoJSON()
         });
     }
 
