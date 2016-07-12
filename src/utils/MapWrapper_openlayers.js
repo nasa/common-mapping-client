@@ -288,10 +288,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 mapLayer.setOpacity(opacity);
+                return true;
             }
-            // return true even if layer is not available
-            // so that slider still works
-            return true;
+            return false;
         } catch (err) {
             console.warn("could not set openlayers layer opacity.", err);
             return false;
@@ -379,8 +378,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let mapLayer = this.createLayer(layer);
                 this.replaceLayer(mapLayer, mapLayerWithIndex.index);
             }
-            // return true even if layer is not available
-            // so that time slider still works
             return true;
         } catch (err) {
             console.warn("could not update openlayers layer.", err);

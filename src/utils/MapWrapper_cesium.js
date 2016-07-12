@@ -210,12 +210,11 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
-            if (mapLayer) {
+            if (mapLayer && typeof mapLayer.alpha !== "undefined") {
                 mapLayer.alpha = opacity;
+                return true;
             }
-            // return true even if layer is not available
-            // so that slider still works
-            return true;
+            return false;
         } catch (err) {
             console.warn("could not set cesium layer opacity.", err);
             return false;
@@ -295,8 +294,6 @@ export default class MapWrapper_cesium extends MapWrapper {
                 mapLayers.remove(mapLayer);
                 mapLayers.add(updatedMapLayer, index);
             }
-            // return true even if layer is not available
-            // so that slider still works
             return true;
         } catch (err) {
             console.warn("could not update cesium layer.", err);
