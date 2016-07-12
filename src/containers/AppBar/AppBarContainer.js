@@ -30,7 +30,7 @@ export class TitleContainer extends Component {
                     <h1 id="appTitle" className="col-xs">{this.props.title}</h1>
                     <div className="col-xs">
                         <Button
-                            floating
+                            // floating
                             neutral
                             icon="" 
                             label="?"
@@ -40,7 +40,7 @@ export class TitleContainer extends Component {
                             data-place="bottom"
                         />
                         <Button
-                            floating
+                            // floating
                             neutral
                             icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} 
                             className="title-button mini-xs" 
@@ -49,7 +49,7 @@ export class TitleContainer extends Component {
                             data-place="bottom"
                         />
                         <Button
-                            floating
+                            // floating
                             neutral
                             icon="share"
                             className="title-button mini-xs"
@@ -58,7 +58,7 @@ export class TitleContainer extends Component {
                             data-place="bottom"
                         />
                         <Button
-                            floating
+                            // floating
                             neutral
                             icon="settings"
                             className="title-button mini-xs"
