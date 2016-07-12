@@ -6,6 +6,16 @@ import * as actions from '../../actions/AppActions';
 
 
 export class AsyncImageContainer extends Component {
+    componentDidMount() {
+        let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
+        let imgSrc = imgLoader.getAttribute('src');
+        // let img = new window.Image();
+        imgLoader.onload = () => { this.onImageLoad(); };
+        imgLoader.src = imgSrc;
+    }
+    componentWillUnmount() {
+        this.destroyLoader();
+    }
     onImageLoad() {
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
         let imgSrc = imgLoader.getAttribute('src');
@@ -20,16 +30,6 @@ export class AsyncImageContainer extends Component {
         imgLoader.src = "";
         imgDest.style.backgroundImage = "";
     }
-    componentWillUnmount() {
-        this.destroyLoader();
-    }
-    componentDidMount() {
-        let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
-        let imgSrc = imgLoader.getAttribute('src');
-        // let img = new window.Image();
-        imgLoader.onload = () => { this.onImageLoad() };
-        imgLoader.src = imgSrc;
-    }
     render() {
         return (
             <div>
@@ -41,15 +41,10 @@ export class AsyncImageContainer extends Component {
 }
 
 AsyncImageContainer.propTypes = {
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    src: PropTypes.string.isRequired,
+    className: PropTypes.string
 };
-
-function mapStateToProps(state) {
-    return {
-        // helpOpen: state.help.get("isOpen"),
-        // helpPage: state.help.get("helpPage")
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -58,6 +53,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(AsyncImageContainer);
