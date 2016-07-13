@@ -1,0 +1,62 @@
+#titleContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: $color-light;
+    @include light-shadow();
+    .row {
+        height: 42px;
+    }
+    .title-button {
+        margin-right: 0.3rem;
+        margin-left: 0.7rem;
+    }
+    .title-button:last-child {
+        margin-right: 0.7rem;
+    }
+    #appTitle {
+        // color: $color-light;
+        padding-left: 31px;
+        display: inline-block;
+        font-family: "Roboto Mono";
+        font-weight: 200;
+        letter-spacing: 0.6rem;
+        font-size: 1.8rem;
+        margin: 0px;
+    }
+    #appSubtitle {
+        // color: $color-light;
+        font-family: "Roboto Mono";
+        font-size: 1.2rem;
+        color: $color-medium;
+        margin-left: 3px;
+        text-transform: lowercase;
+        font-feature-settings: "onum";
+    }
+    .main-actions-container {
+        height: inherit;
+        .main-action-button {
+            @include light-shadow();
+            color: $color-dark;
+            padding: 0px 19px;
+            letter-spacing: 0.15rem;
+            font-size: 1.5rem;
+            height: calc(100% + 3px);
+            background: darken($color-light, 2);
+            border-left: 1px solid lighten($color-medium, 20);
+            border-radius: 0px;
+        }
+        .main-action-button:first-child {
+            border-bottom-left-radius: 2px;
+        }
+        .main-action-button:last-child {
+            border-bottom-right-radius: 2px;
+            border-right: 1px solid lighten($color-medium, 20);
+        }
+    }
+    .buttons-container {
+        text-align: right;
+        color: $color-medium;
+    }
+}

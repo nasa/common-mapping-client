@@ -1,5 +1,6 @@
 .date-slider-container {
-    position: relative;
+    position: absolute;
+    bottom: 0;
     display: block;
     // background: darken($color-primary-dark, 20%);
     background: #e2e2e2;
@@ -11,9 +12,9 @@
 
 .hover-date-display {
     position: absolute;
-    top: -4.3rem;
+    top: -9rem;
     left: 50%;
-    font-size: 1.5rem;
+    font-size: 1.51rem;
     padding: 0.5rem 0.8rem;
     background: $color-accent;
     font-family: "Roboto Mono";
@@ -22,7 +23,7 @@
     // border: 2px solid $color-accent;
     border: none;
     transform: translate(-50%, 0px);
-    @include medium-shadow();
+    /*@include medium-shadow();*/
     z-index: 3;
 }
 
@@ -166,7 +167,8 @@
 
 #dateSliderResolutionStepContainer {
     position: absolute;
-    top: 0px;
+    top: -6rem;
+    // top: 0px;
     font-family: "Roboto Mono";
     font-weight: 300;
     right: 0px;

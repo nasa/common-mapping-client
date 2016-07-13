@@ -12,6 +12,7 @@ export class SingleDate extends Component {
         // get D3 wrapper
         this.singleDateD3 = new SingleDateD3({
             selectNode: ReactDOM.findDOMNode(this),
+            symbolWidth: 20,
             defaultWidth: 12,
             activeWidth: 7,
             maxX: this.props.maxX,
@@ -42,7 +43,7 @@ export class SingleDate extends Component {
         });
         return (
             // <g><path d="M150 0 L75 200 L225 200 Z" /></g>
-            <path className={classNames} d="M 7.3151,0.7426 C 3.5507,0.7426 0.5,3.7926 0.5,7.5553 l 0,21.2724 14.6038,15.7112 14.6039,15.7111 14.6038,-15.7111 14.6037,-15.7112 0,-21.2724 c 0,-3.7627 -3.051,-6.8127 -6.8151,-6.8127 l -44.785,0 z"/>
+            <path className={classNames} d="M 0,0 h 20 l -10, 10 v 25 v -25 z" ></path>
             // <rect className={classNames}></rect>
         );
     }

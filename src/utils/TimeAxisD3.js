@@ -8,6 +8,7 @@ export default class TimeAxisD3 {
     initValues(options) {
         // extract values
         this._selectNode = options.selectNode || this._selectNode;
+        this._symbolWidth = options.symbolWidth || this._symbolWidth;
         this._onClick = options.onClick || this._onClick;
         this._onHover = options.onHover || this._onHover;
         this._onMouseOut = options.onMouseOut || this._onMouseOut;
@@ -105,9 +106,12 @@ export default class TimeAxisD3 {
         // configure the single date bounds
         this._selection.selectAll(".singleDate").each(function() {
             d3.select(this)
-                .attr('x', (d) => _context._xFn(d.date))
-                .attr('y', 2)
-                .attr('clip-path', "url(#chart-content)");
+                .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                // .attr('y', 2)
+                // .attr('clip-path', "url(#chart-content)");
+                .attr("transform", (d) => {
+                    return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                });
         });
 
         // done entering time to update
@@ -138,7 +142,10 @@ export default class TimeAxisD3 {
             d3.select(this)
                 .transition()
                 .duration(100)
-                .attr('x', (d) => _context._xFn(d.date));
+                .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                .attr("transform", (d) => {
+                    return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                });
         });
 
         this._selection.selectAll(".tick")
@@ -152,6 +159,7 @@ export default class TimeAxisD3 {
     }
 
     setResolution(options) {
+        let _context = this;
         if (options && options.scale && options.date) {
 
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
@@ -276,9 +284,13 @@ export default class TimeAxisD3 {
         // If isDragging, do not set value so that single date can be
         //  dragged while zoom is in progress
         if (!singleDate.attr().data()[0].isDragging) {
-            singleDate.attr('x', d => {
-                return this._xFn(d.date);
-            });
+            singleDate
+                .attr('x', d => {
+                    return this._xFn(d.date);
+                })
+                .attr("transform", (d) => {
+                    return 'translate(' + (this._xFn(d.date) - this._symbolWidth / 2) + ',0)';
+                });
         }
 
         let _context = this;

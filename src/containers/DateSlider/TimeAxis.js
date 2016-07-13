@@ -22,6 +22,7 @@ export class TimeAxis extends Component {
             elementWidth: sizes.elementWidth,
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
+            symbolWidth: 20,
             onClick: (value) => { this.handleSingleDateDragEnd(value); },
             onHover: (value) => { this.handleTimelineHover(value); },
             onMouseOut: () => { this.handleTimeLineMouseOut(); }

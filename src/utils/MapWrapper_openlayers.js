@@ -667,6 +667,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    static resizeFix() {
+        this.map.updateSize();
+    }
+
     static getWmtsOptions(options) {
         try {
             let parseOptions = ol.source.WMTS.optionsFromCapabilities(options.capabilities, options.options);

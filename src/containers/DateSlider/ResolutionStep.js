@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'react-toolbox/lib/button';
+import KeyHandler, { KEYPRESS, KEYUP } from 'react-key-handler';
 import * as appStrings from '../../constants/appStrings';
 import * as DateSliderActions from '../../actions/DateSliderActions';
 import MiscUtil from '../../utils/MiscUtil';
@@ -52,6 +53,8 @@ export class ResolutionStep extends Component {
         let selected = appStrings.DATE_SLIDER_RESOLUTIONS.DAYS;
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {this.handleIncremendClick(true);}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {this.handleIncremendClick(false);}} />
                 <div className="resolution-picker-selection-increment">
                     <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.handleIncremendClick(true)}/>
                 </div>
