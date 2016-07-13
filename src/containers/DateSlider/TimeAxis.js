@@ -102,7 +102,6 @@ export class TimeAxis extends Component {
             <g className={axisClassNames}>
                 <clipPath id="chart-content">
                     <rect></rect>
-                    <g></g>
                 </clipPath>
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
