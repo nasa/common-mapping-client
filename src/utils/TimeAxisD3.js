@@ -61,6 +61,8 @@ export default class TimeAxisD3 {
     }
 
     enter() {
+        let _context = this;
+
         // configure the zoom
         this._selection.zoom = d3.behavior.zoom()
             .x(this._xFn)
@@ -101,16 +103,20 @@ export default class TimeAxisD3 {
             .call(this._xAxis);
 
         // configure the single date bounds
-        this._selection.select(".singleDate")
-            .attr('x', (d) => this._xFn(d.date))
-            .attr('y', 2)
-            .attr('clip-path', "url(#chart-content)");
+        this._selection.selectAll(".singleDate").each(function() {
+            d3.select(this)
+                .attr('x', (d) => _context._xFn(d.date))
+                .attr('y', 2)
+                .attr('clip-path', "url(#chart-content)");
+        });
 
         // done entering time to update
         this.update();
     }
 
     update(options = false) {
+        let _context = this;
+
         // update sizes
         this._selection.select('clipPath rect')
             .attr('x', this._margin.left)
@@ -128,19 +134,18 @@ export default class TimeAxisD3 {
             .call(this._xAxis);
 
         // update the single date display
-        this._selection.select(".singleDate")
-            .transition()
-            .duration(100)
-            .attr('x', (d) => this._xFn(d.date));
+        this._selection.selectAll(".singleDate").each(function() {
+            d3.select(this)
+                .transition()
+                .duration(100)
+                .attr('x', (d) => _context._xFn(d.date));
+        });
 
-        let _context = this;
         this._selection.selectAll(".tick")
             .each(function(d, i) {
                 let tick = d3.select(this);
                 _context.formatTick(tick, d);
             });
-
-
 
         // update the resolution
         this.setResolution(options);
@@ -210,41 +215,37 @@ export default class TimeAxisD3 {
             className = "month";
             y1 = "-5";
             y2 = "-30";
-        }
-        else if (hour === 0 &&
+        } else if (hour === 0 &&
             minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "day";
             y1 = "-10";
             y2 = "-25";
-        }
-        else if (minutes === 0 &&
+        } else if (minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "hour";
             y1 = "-12";
             y2 = "-23";
-        }
-        else if (seconds === 0 &&
+        } else if (seconds === 0 &&
             milliseconds === 0) {
             className = "minutes";
             y1 = "-12";
             y2 = "-23";
-        }
-        else if (milliseconds === 0) {
+        } else if (milliseconds === 0) {
             className = "milliseconds";
             y1 = "-12";
             y2 = "-23";
         }
         selection.select("text")
             .classed("tick-text-" + className, true);
-            // .style("font-weight", (d) => {
-            //     return fontWeight;
-            // })
-            // .style("fill", (d) => {
-            //     return color;
-            // })
+        // .style("font-weight", (d) => {
+        //     return fontWeight;
+        // })
+        // .style("fill", (d) => {
+        //     return color;
+        // })
         selection.select("line")
             .attr("y1", y1)
             .attr("y2", y2)
