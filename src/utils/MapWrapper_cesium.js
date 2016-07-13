@@ -10,7 +10,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     constructor(container, options) {
         super(container, options);
-        this.is3D = true; 
+        this.is3D = true;
         this.isActive = options.getIn(["view", "in3DMode"]);
 
         window.CESIUM_BASE_URL = './';
@@ -36,7 +36,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             selectionIndicator: false,
             timeline: false,
             navigationHelpButton: false,
-            vrButton:true,
+            vrButton: true,
             contextOptions: {
                 alpha: true
             },
@@ -47,7 +47,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             imageryProvider: new this.cesium.WebMapServiceImageryProvider({ url: " ", layers: 0 })
         });
         // Depth testing
-        map.scene.globe.depthTestAgainstTerrain = true;
+        // Seems to be causing issues with vector rendering. Removing.
+        // map.scene.globe.depthTestAgainstTerrain = true;
 
         // Terrain
         let terrainProvider = new this.cesium.CesiumTerrainProvider({
@@ -148,7 +149,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.log("could not zoom cesium map", err);
+            console.warn("could not zoom cesium map", err);
             return false;
         }
     }
@@ -166,7 +167,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.log("could not zoom cesium map", err);
+            console.warn("could not zoom cesium map", err);
             return false;
         }
     }
@@ -179,7 +180,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.log("could not set north orientation in cesium map", err);
+            console.warn("could not set north orientation in cesium map", err);
             return false;
         }
     }
@@ -200,51 +201,53 @@ export default class MapWrapper_cesium extends MapWrapper {
                     return;
             }
         } catch (err) {
-            console.log("could not implement listener.", err);
+            console.warn("could not implement listener.", err);
             return false;
         }
     }
 
     setLayerOpacity(layer, opacity) {
         try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
-            if (mapLayer) {
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+            if (mapLayer && typeof mapLayer.alpha !== "undefined") {
                 mapLayer.alpha = opacity;
+                return true;
             }
-            // return true even if layer is not available
-            // so that slider still works
-            return true;
+            return false;
         } catch (err) {
-            console.log("could not set cesium layer opacity.", err);
+            console.warn("could not set cesium layer opacity.", err);
             return false;
         }
     }
 
     addLayer(mapLayer) {
         try {
-            let index = this.findTopInsertIndexForLayer(mapLayer);
-            this.map.imageryLayers.add(mapLayer, index);
+            let mapLayers = this.getMapLayers(mapLayer._layerHandleAs);
+            let index = this.findTopInsertIndexForLayer(mapLayers, mapLayer);
+            mapLayers.add(mapLayer, index);
             return true;
         } catch (err) {
-            console.log("could not add cesium layer.", err);
+            console.warn("could not add cesium layer.", err);
             return false;
         }
     }
 
     removeLayer(mapLayer) {
         try {
-            this.map.imageryLayers.remove(mapLayer);
+            let mapLayers = this.getMapLayers(mapLayer, mapLayer._layerHandleAs);
+            mapLayers.remove(mapLayer);
             return true;
         } catch (err) {
-            console.log("could not remove cesium layer.", err);
+            console.warn("could not remove cesium layer.", err);
             return false;
         }
     }
 
     activateLayer(layer) {
         try {
-            let mapLayer = this.findLayerInMapLayers(layer);
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
             if (!mapLayer) {
                 mapLayer = this.createLayer(layer);
                 this.addLayer(mapLayer);
@@ -254,20 +257,21 @@ export default class MapWrapper_cesium extends MapWrapper {
             mapLayer.show = true;
             return true;
         } catch (err) {
-            console.log("could not activate cesium layer.", err);
+            console.warn("could not activate cesium layer.", err);
             return false;
         }
     }
 
     deactivateLayer(layer) {
         try {
-            let mapLayer = this.findLayerInMapLayers(layer);
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
             if (mapLayer) {
                 mapLayer.show = false;
             }
             return true;
         } catch (err) {
-            console.log("could not deactivate cesium layer.", err);
+            console.warn("could not deactivate cesium layer.", err);
             return false;
         }
     }
@@ -282,26 +286,24 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     updateLayer(layer) {
         try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
             let updatedMapLayer = this.createLayer(layer);
             if (mapLayer) {
                 let index = mapLayers.indexOf(mapLayer);
                 mapLayers.remove(mapLayer);
                 mapLayers.add(updatedMapLayer, index);
             }
-            // return true even if layer is not available
-            // so that slider still works
             return true;
         } catch (err) {
-            console.log("could not update cesium layer.", err);
+            console.warn("could not update cesium layer.", err);
             return false;
         }
     }
 
     setBasemap(layer) {
         try {
-            let mapLayers = this.map.imageryLayers;
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let newBasemap = this.createLayer(layer);
             newBasemap.show = true;
             if (newBasemap) {
@@ -323,21 +325,38 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
     hideBasemap() {
         try {
-            let mapLayers = this.map.imageryLayers;
+            let mapLayers = this.getMapLayers();
             let currBasemap = mapLayers.get(0);
             if (typeof currBasemap !== "undefined") {
                 currBasemap.show = false;
                 return true;
             } else {
-                console.log("could not hide cesium basemap.");
+                console.warn("could not hide cesium basemap.");
                 return false;
             }
         } catch (err) {
-            console.log("could not hide cesium basemap.", err);
+            console.warn("could not hide cesium basemap.", err);
             return false;
         }
     }
     createLayer(layer) {
+        switch (layer.get("handleAs")) {
+            case mapStrings.LAYER_GIBS:
+                return this.createWMTSLayer(layer);
+            case mapStrings.LAYER_WMTS:
+                return this.createWMTSLayer(layer);
+            case mapStrings.LAYER_XYZ:
+                return this.createWMTSLayer(layer);
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                return this.createVectorLayer(layer);
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.createVectorLayer(layer);
+            default:
+                return this.createWMTSLayer(layer);
+        }
+    }
+
+    createWMTSLayer(layer) {
         try {
             let imageryProvider = this.createImageryProvider(layer);
             if (imageryProvider) {
@@ -347,6 +366,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 });
                 mapLayer._layerId = layer.get("id");
                 mapLayer._layerType = layer.get("type");
+                mapLayer._layerHandleAs = layer.get("handleAs");
 
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
@@ -356,16 +376,142 @@ export default class MapWrapper_cesium extends MapWrapper {
                 };
 
                 return mapLayer;
+            } else {
+                console.warn("could not create cesium layer");
+                return false;
             }
         } catch (err) {
-            console.log("could not create cesium layer", err);
+            console.warn("could not create cesium layer", err);
             return false;
         }
-        console.log("could not create cesium layer");
+    }
+
+    createVectorLayer(layer) {
+        let layerSource = this.createVectorSource(layer);
+        if (layerSource) {
+            // layer source is a promise that acts as a stand-in while the data loads
+            layerSource.then((mapLayer) => {
+                mapLayer._layerId = layer.get("id");
+                mapLayer._layerType = layer.get("type");
+                mapLayer._layerHandleAs = layer.get("handleAs");
+            });
+
+            // need to add custom metadata while data loads
+            layerSource._layerId = layer.get("id");
+            layerSource._layerType = layer.get("type");
+            layerSource._layerHandleAs = layer.get("handleAs");
+
+            return layerSource;
+        }
         return false;
     }
 
-    createGIBSWMTSLayer(layer) {
+    getLatLonFromPixelCoordinate(pixel) {
+        try {
+            let cartesian = this.map.scene.camera.pickEllipsoid({ x: pixel[0], y: pixel[1] }, this.map.scene.globe.ellipsoid);
+            if (cartesian) {
+                let cartographic = this.map.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
+                return {
+                    lat: this.cesium.Math.toDegrees(cartographic.longitude),
+                    lon: this.cesium.Math.toDegrees(cartographic.latitude),
+                    isValid: true
+                };
+            }
+            return false;
+        } catch (err) {
+            console.warn("could not get coordinate from pixel", err);
+            return false;
+        }
+    }
+
+    moveLayerToTop(layer) {
+        try {
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+            if (mapLayer) {
+                let currIndex = mapLayers.indexOf(mapLayer);
+                let index = this.findTopInsertIndexForLayer(mapLayers, mapLayer);
+                while (++currIndex < index) {
+                    // use raise so that we aren't re-requesting tiles every time
+                    mapLayers.raise(mapLayer);
+                }
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.warn("could not move cesium layer to top.", err);
+            return false;
+        }
+    }
+
+    moveLayerToBottom(layer) {
+        try {
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+            if (mapLayer) {
+                mapLayers.lowerToBottom(mapLayer);
+                mapLayers.raise(mapLayer); // move to index 1 because we always have a basemap. TODO - verify
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.warn("could not move cesium layer to bottom.", err);
+            return false;
+        }
+    }
+
+    moveLayerUp(layer) {
+        try {
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+            if (mapLayer) {
+                let currIndex = mapLayers.indexOf(mapLayer);
+                let index = this.findTopInsertIndexForLayer(mapLayers, mapLayer);
+                if (++currIndex < index) {
+                    mapLayers.raise(mapLayer);
+                }
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.warn("could not move cesium layer up.", err);
+            return false;
+        }
+    }
+
+    moveLayerDown(layer) {
+        try {
+            let mapLayers = this.getMapLayers(layer.get("handleAs"));
+            let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+            if (mapLayer) {
+                let index = mapLayers.indexOf(mapLayer);
+                if (index > 1) {
+                    mapLayers.lower(mapLayer);
+                }
+                return true;
+            }
+            return false;
+        } catch (err) {
+            console.warn("could not move cesium layer down.", err);
+            return false;
+        }
+    }
+
+
+    /* methods for Cesium only */
+    createImageryProvider(layer) {
+        switch (layer.get("handleAs")) {
+            case mapStrings.LAYER_GIBS:
+                return this.createGIBSWMTSProvider(layer);
+            case mapStrings.LAYER_WMTS:
+                return this.createGenericWMTSProvider(layer);
+            case mapStrings.LAYER_XYZ:
+                return this.createGenericXYZProvider(layer);
+            default:
+                return this.createGenericWMTSProvider(layer);
+        }
+    }
+    createGIBSWMTSProvider(layer) {
         try {
             let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
@@ -396,7 +542,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
     }
-    createGenericWMTSLayer(layer) {
+    createGenericWMTSProvider(layer) {
         try {
             let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
@@ -425,7 +571,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
     }
-    createGenericXYZLayer(layer) {
+    createGenericXYZProvider(layer) {
         try {
             let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
@@ -453,99 +599,24 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    getLatLonFromPixelCoordinate(pixel) {
-        try {
-            let cartesian = this.map.scene.camera.pickEllipsoid({ x: pixel[0], y: pixel[1] }, this.map.scene.globe.ellipsoid);
-            if (cartesian) {
-                let cartographic = this.map.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
-                return {
-                    lat: this.cesium.Math.toDegrees(cartographic.longitude),
-                    lon: this.cesium.Math.toDegrees(cartographic.latitude),
-                    isValid: true
-                };
-            }
-            return false;
-        } catch (err) {
-            console.warn("could not get coordinate from pixel", err);
-            return false;
+    createVectorSource(layer) {
+        switch (layer.get("handleAs")) {
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                return this.createGeoJsonSource(layer);
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.createGeoJsonSource(layer);
+            default:
+                return false;
         }
     }
-
-    moveLayerToTop(layer) {
-        try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
-            if (mapLayer) {
-                let currIndex = mapLayers.indexOf(mapLayer);
-                let index = this.findTopInsertIndexForLayer(mapLayer);
-                while (++currIndex < index) {
-                    // use raise so that we aren't re-requesting tiles every time
-                    mapLayers.raise(mapLayer);
-                }
-                return true;
-            }
-            return false;
-        } catch (err) {
-            console.log("could not move cesium layer to top.", err);
-            return false;
-        }
+    createGeoJsonSource(layer) {
+        return this.cesium.GeoJsonDataSource.load(layer.get("url"), {
+            stroke: this.cesium.Color.fromCssColorString("#1E90FF"),
+            fill: this.cesium.Color.fromCssColorString("#FEFEFE").withAlpha(0.5),
+            strokeWidth: 3,
+            show: layer.get("isActive")
+        });
     }
-
-    moveLayerToBottom(layer) {
-        try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
-            if (mapLayer) {
-                mapLayers.lowerToBottom(mapLayer);
-                mapLayers.raise(mapLayer); // move to index 1 because we always have a basemap. TODO - verify
-                return true;
-            }
-            return false;
-        } catch (err) {
-            console.log("could not move cesium layer to bottom.", err);
-            return false;
-        }
-    }
-
-    moveLayerUp(layer) {
-        try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
-            if (mapLayer) {
-                let currIndex = mapLayers.indexOf(mapLayer);
-                let index = this.findTopInsertIndexForLayer(mapLayer);
-                if (++currIndex < index) {
-                    mapLayers.raise(mapLayer);
-                }
-                return true;
-            }
-            return false;
-        } catch (err) {
-            console.log("could not move cesium layer up.", err);
-            return false;
-        }
-    }
-
-    moveLayerDown(layer) {
-        try {
-            let mapLayers = this.map.imageryLayers;
-            let mapLayer = this.findLayerInMapLayers(layer);
-            if (mapLayer) {
-                let index = mapLayers.indexOf(mapLayer);
-                if (index > 1) {
-                    mapLayers.lower(mapLayer);
-                }
-                return true;
-            }
-            return false;
-        } catch (err) {
-            console.log("could not move cesium layer down.", err);
-            return false;
-        }
-    }
-
-
-    /* methods for Cesium only */
     handleTileLoad(layer, mapLayer, x, y, level) {
         let ret = mapLayer.imageryProvider._my_origTileLoadFunc(x, y, level);
         if (typeof ret !== "undefined") {
@@ -563,9 +634,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
         return ret;
     }
-    findLayerInMapLayers(layer) {
+    findLayerInMapLayers(mapLayers, layer) {
         let layerId = layer.get("id");
-        let mapLayers = this.map.imageryLayers;
         for (let i = 0; i < mapLayers.length; ++i) {
             let mapLayer = mapLayers.get(i);
             if (mapLayer._layerId === layerId) {
@@ -573,18 +643,6 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
         }
         return false;
-    }
-    createImageryProvider(layer) {
-        switch (layer.get("handleAs")) {
-            case mapStrings.LAYER_GIBS:
-                return this.createGIBSWMTSLayer(layer);
-            case mapStrings.LAYER_WMTS:
-                return this.createGenericWMTSLayer(layer);
-            case mapStrings.LAYER_XYZ:
-                return this.createGenericXYZLayer(layer);
-            default:
-                return this.createGenericWMTSLayer(layer);
-        }
     }
     createClock() {
         return new this.cesium.Clock({
@@ -596,8 +654,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         });
     }
 
-    findTopInsertIndexForLayer(mapLayer) {
-        let mapLayers = this.map.imageryLayers;
+    findTopInsertIndexForLayer(mapLayers, mapLayer) {
         let index = mapLayers.length;
 
         if (mapLayer._layerType === "reference") { // referece layers always on top
@@ -614,5 +671,22 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
         }
         return index;
+    }
+
+    getMapLayers(type) {
+        switch (type) {
+            case mapStrings.LAYER_GIBS:
+                return this.map.imageryLayers;
+            case mapStrings.LAYER_WMTS:
+                return this.map.imageryLayers;
+            case mapStrings.LAYER_XYZ:
+                return this.map.imageryLayers;
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                return this.map.dataSources;
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.map.dataSources;
+            default:
+                return this.map.imageryLayers;
+        }
     }
 }

@@ -48,9 +48,29 @@
 }
 
 .colorbar-container {
-    width: 100%;
-    line-height: 1rem;
+    width: 255px;
+    line-height: 1.2rem;
     margin-left: 1.3rem;
+    height: 12px;
+    /*background-image: url("http://localhost:3000/styles/resources/img/lines.png");*/
+    background-repeat: repeat;
+    background-size: 50%;
+    position: relative;
+    background-color: $color-medium-light;
+    &.no-colorbar {
+        height: 16px;
+    }
+}
+.colorbar-warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    font-size: 1.2rem;
+    transform: translate(-50%, -50%);
+    background: $color-medium-light;
+    padding: 0px 0.8rem;
+    color: $color-dark;
 }
 
 .colorbar {

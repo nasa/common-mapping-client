@@ -50,7 +50,9 @@ export default class TimeAxisD3 {
         let drag = d3.behavior.drag()
             .on('dragstart', () => {
                 d3.event.sourceEvent.stopPropagation();
-                this._beforeDrag();
+                if (typeof this._beforeDrag === "function") {
+                    this._beforeDrag();
+                }
             })
             .on('drag', () => {
                 let scrollFlag = 0;
@@ -65,10 +67,14 @@ export default class TimeAxisD3 {
                 } else {
                     this._selection.attr('x', (d) => d3.event.x);
                 }
-                this._onDrag(d3.event.x, scrollFlag);
+                if (typeof this._onDrag === "function") {
+                    this._onDrag(d3.event.x, scrollFlag);
+                }
             })
             .on('dragend', () => {
-                this._afterDrag(this._selection.attr('x'));
+                if (typeof this._afterDrag === "function") {
+                    this._afterDrag(this._selection.attr('x'));
+                }
             });
         this._selection.call(drag);
     }

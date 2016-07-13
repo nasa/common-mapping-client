@@ -109,6 +109,12 @@
             "handleAs": "json-relative"
         }
     }, {
+        "id": "us_state_outline_topojson",
+        "title": "US State Outline - TopoJSON",
+        "type": "data",
+        "handleAs": "vector_topojson",
+        "url": "default-data/ne_10m_us_states.topojson"
+    }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",

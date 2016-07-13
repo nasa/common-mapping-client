@@ -48,20 +48,13 @@ export class SingleDate extends Component {
 SingleDate.propTypes = {
     date: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    onDrag: PropTypes.func.isRequired,
-    beforeDrag: PropTypes.func.isRequired,
-    afterDrag: PropTypes.func.isRequired,
-    maxX: PropTypes.number.isRequired,
-    minX: PropTypes.number.isRequired
+    isDragging: PropTypes.bool,
+    onDrag: PropTypes.func,
+    beforeDrag: PropTypes.func,
+    afterDrag: PropTypes.func,
+    maxX: PropTypes.number,
+    minX: PropTypes.number
 };
-
-function mapStateToProps(state) {
-    return {
-        date: state.map.get("date"),
-        isDragging: state.dateSlider.get("isDragging")
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -70,6 +63,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(SingleDate);

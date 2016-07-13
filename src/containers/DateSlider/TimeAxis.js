@@ -107,6 +107,8 @@ export class TimeAxis extends Component {
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
                 <SingleDate
+                    date={this.props.date}
+                    isDragging={this.props.isDragging}
                     beforeDrag={() => {
                         clearInterval(autoScrollInterval);
                         this.props.actions.beginDragging();

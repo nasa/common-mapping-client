@@ -42,12 +42,43 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     createLayer(layer, fromCache = true) {
+        let mapLayer = false;
+        switch (layer.get("handleAs")) {
+            case mapStrings.LAYER_GIBS:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_WMTS:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_XYZ:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
+            default:
+                mapLayer = this.createWMTSLayer(layer, fromCache);
+                break;
+        }
+
+        if (mapLayer) {
+            mapLayer._layerId = layer.get("id");
+            mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
+            mapLayer._layerType = layer.get("type");
+        }
+        return mapLayer;
+    }
+
+    createWMTSLayer(layer, fromCache = true) {
         try {
             if (layer && layer.get("wmtsOptions")) {
 
                 // pull from cache if possible
                 let cacheHash = layer.get("id") + layer.get("time");
-                if(fromCache && this.layerCache.get(cacheHash)) {
+                if (fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
                     cachedLayer.setVisible(layer.get("isActive"));
                     return cachedLayer;
@@ -68,20 +99,40 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.handleTileLoad(layer, tile, url, origTileLoadFunc);
                 });
 
-                let mapLayer = new ol.layer.Tile({
+                return new ol.layer.Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
                     extent: [-36000, -90, 36000, 90],
                     source: layerSource
                 });
-                mapLayer._layerId = layer.get("id");
-                mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
-                mapLayer._layerType = layer.get("type");
-                return mapLayer;
             }
             console.warn("could not create map layer");
             return false;
+        } catch (err) {
+            console.warn("could not create map layer", err);
+            return false;
+        }
+    }
+
+    createVectorLayer(layer, fromCache = true) {
+        try {
+            // pull from cache if possible
+            let cacheHash = layer.get("id") + layer.get("time");
+            if (fromCache && this.layerCache.get(cacheHash)) {
+                let cachedLayer = this.layerCache.get(cacheHash);
+                cachedLayer.setVisible(layer.get("isActive"));
+                return cachedLayer;
+            }
+
+            let layerSource = this.createLayerSource(layer, {
+                url: layer.get("url")
+            });
+            return new ol.layer.Vector({
+                source: layerSource,
+                opacity: layer.get("opacity"),
+                visible: layer.get("isActive")
+            });
         } catch (err) {
             console.warn("could not create map layer", err);
             return false;
@@ -100,7 +151,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.map.getView().fit(extent, this.map.getSize());
             return true;
         } catch (err) {
-            console.log("could not set openlayers extent.", err);
+            console.warn("could not set openlayers extent.", err);
             return false;
         }
     }
@@ -121,7 +172,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return true;
             }
         } catch (err) {
-            console.log("could not zoom openlayers map.", err);
+            console.warn("could not zoom openlayers map.", err);
             return false;
         }
     }
@@ -137,7 +188,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return true;
             }
         } catch (err) {
-            console.log("could not zoom openlayers map.", err);
+            console.warn("could not zoom openlayers map.", err);
             return false;
         }
     }
@@ -153,7 +204,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.log("could not set openlayers scale units.", err);
+            console.warn("could not set openlayers scale units.", err);
             return false;
         }
     }
@@ -165,7 +216,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
-            console.log("could not add openlayers layer.", err);
+            console.warn("could not add openlayers layer.", err);
             return false;
         }
     }
@@ -175,7 +226,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.map.removeLayer(mapLayer);
             return true;
         } catch (err) {
-            console.log("could not remove openlayers layer.", err);
+            console.warn("could not remove openlayers layer.", err);
             return false;
         }
     }
@@ -186,7 +237,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
             return true;
         } catch (err) {
-            console.log("could not replace openlayers layer.", err);
+            console.warn("could not replace openlayers layer.", err);
             return false;
         }
     }
@@ -204,7 +255,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             mapLayer.setVisible(true);
             return true;
         } catch (err) {
-            console.log("could not activate openlayers layer.", err);
+            console.warn("could not activate openlayers layer.", err);
             return false;
         }
     }
@@ -218,7 +269,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return true;
         } catch (err) {
-            console.log("could not deactivate openlayers layer.", err);
+            console.warn("could not deactivate openlayers layer.", err);
             return false;
         }
     }
@@ -237,12 +288,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 mapLayer.setOpacity(opacity);
+                return true;
             }
-            // return true even if layer is not available
-            // so that slider still works
-            return true;
+            return false;
         } catch (err) {
-            console.log("could not set openlayers layer opacity.", err);
+            console.warn("could not set openlayers layer opacity.", err);
             return false;
         }
     }
@@ -264,7 +314,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not set openlayers basemap.", err);
+            console.warn("could not set openlayers basemap.", err);
             return false;
         }
     }
@@ -278,7 +328,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not hide openlayers basemap.", err);
+            console.warn("could not hide openlayers basemap.", err);
             return false;
         }
     }
@@ -296,7 +346,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.map.addEventListener(eventStr, callback);
             }
         } catch (err) {
-            console.log("could not implement listener.", err);
+            console.warn("could not implement listener.", err);
             return false;
         }
     }
@@ -306,7 +356,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             return this.map.getView().getZoom();
         } catch (err) {
-            console.log("could not get openlayers zoom.", err);
+            console.warn("could not get openlayers zoom.", err);
             return false;
         }
     }
@@ -315,7 +365,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             return this.map.getView().getProjection().getCode();
         } catch (err) {
-            console.log("could not get openlayers projection.", err);
+            console.warn("could not get openlayers projection.", err);
             return false;
         }
     }
@@ -323,24 +373,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
     updateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            // let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = this.createLayer(layer);
                 this.replaceLayer(mapLayer, mapLayerWithIndex.index);
-                // let layerSource = mapLayer.getSource();
-                // layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                //     return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, layerSource._my_origTileUrlFunc);
-                // });
-                // layerSource.setTileLoadFunction((tile, url) => {
-                //     return this.handleTileLoad(layer, tile, url, layerSource._my_origTileLoadFunc);
-                // });
             }
-            // return true even if layer is not available
-            // so that time slider still works
             return true;
         } catch (err) {
-            console.log("could not update openlayers layer.", err);
+            console.warn("could not update openlayers layer.", err);
             return false;
         }
     }
@@ -380,7 +420,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer to top.", err);
+            console.warn("could not move openlayers layer to top.", err);
             return false;
         }
     }
@@ -398,7 +438,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer to bottom.", err);
+            console.warn("could not move openlayers layer to bottom.", err);
             return false;
         }
     }
@@ -418,7 +458,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer up.", err);
+            console.warn("could not move openlayers layer up.", err);
             return false;
         }
     }
@@ -438,7 +478,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.log("could not move openlayers layer down.", err);
+            console.warn("could not move openlayers layer down.", err);
             return false;
         }
     }
@@ -454,7 +494,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             return retList;
         } catch (err) {
-            console.log("could not generate openlayers active layer list.", err);
+            console.warn("could not generate openlayers active layer list.", err);
             return false;
         }
     }
@@ -478,7 +518,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return processedUrl;
         } catch (err) {
-            console.log("could not generate openlayers layer tile url.", err);
+            console.warn("could not generate openlayers layer tile url.", err);
             return false;
         }
     }
@@ -499,7 +539,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return processedTile;
         } catch (err) {
-            console.log("could not handle openlayers layer tile load.", err);
+            console.warn("could not handle openlayers layer tile load.", err);
             return false;
         }
     }
@@ -511,6 +551,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.createWMTSSource(options);
             case mapStrings.LAYER_XYZ:
                 return this.createXYZSource(options);
+            case mapStrings.LAYER_VECTOR_GEOJSON:
+                return this.createVectorGeojsonSource(options);
+            case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.createVectorTopojsonSource(options);
             default:
                 return this.createXYZSource(options);
         }
@@ -575,8 +619,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
             maxZoom: options.tileGrid.maxZoom,
             minZoom: options.tileGrid.minZoom,
             tileSize: options.tileGrid.tileSize,
-            // tileUrlFunction: MapUtil.getUrlFunction(options.urlFunction, options.url),
             wrapX: true
+        });
+    }
+
+    createVectorGeojsonSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.GeoJSON()
+        });
+    }
+
+    createVectorTopojsonSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.TopoJSON()
         });
     }
 
@@ -635,7 +692,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 }
             };
         } catch (err) {
-            console.log("could not generate openlayers wmts options.", err);
+            console.warn("could not generate openlayers wmts options.", err);
             return false;
         }
     }

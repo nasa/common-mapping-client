@@ -20,6 +20,8 @@ export const LAYER_CONFIG_WMTS_XML = 'wmts/xml';
 export const LAYER_GIBS = 'GIBS';
 export const LAYER_WMTS = 'wmts';
 export const LAYER_XYZ = 'xyz';
+export const LAYER_VECTOR_GEOJSON = 'vector_geojson';
+export const LAYER_VECTOR_TOPOJSON = 'vector_topojson';
 
 // layer colorbar formats
 export const COLORBAR_IMAGE = "image";

@@ -217,30 +217,26 @@ const setLayerActive = (state, action) => {
 };
 
 const setLayerOpacity = (state, action) => {
-
     // resolve layer from id if necessary
     let actionLayer = action.layer;
     if (typeof actionLayer === "string") {
         actionLayer = findLayerById(state, actionLayer);
     }
 
-    let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.setLayerOpacity(actionLayer, action.opacity)) {
+    let anyFail = state.get("maps").reduce((acc, map) => {
+        if (!map.setLayerOpacity(actionLayer, action.opacity)) {
             return true;
         }
         return acc;
     }, false);
 
-    if (anySucceed) {
-        let layerList = state.getIn(["layers", actionLayer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("opacity", action.opacity);
-            let index = layerList.findKey((layer) => {
-                return layer.get("id") === actionLayer.get("id");
-            });
-            return state.setIn(["layers", actionLayer.get("type")], layerList.set(index, newLayer));
-        }
-        return state;
+    let layerList = state.getIn(["layers", actionLayer.get("type")]);
+    if (typeof layerList !== "undefined") {
+        let newLayer = actionLayer.set("opacity", action.opacity);
+        let index = layerList.findKey((layer) => {
+            return layer.get("id") === actionLayer.get("id");
+        });
+        return state.setIn(["layers", actionLayer.get("type")], layerList.set(index, newLayer));
     }
     return state;
 };
@@ -450,16 +446,31 @@ const setMapDate = (state, action) => {
     }));
 
     // update the layers on the map
-    state.get("maps").map((map) => {
+    let anyFail = state.get("maps").reduce((acc1, map) => {
         // only updated data layers, should we update basemaps and reference layers too?
-        state.getIn(["layers", "data"]).map((layer) => {
+        let mapFail = state.getIn(["layers", "data"]).reduce((acc2, layer) => {
             if (!map.updateLayer(layer)) {
-                console.log("couldn't update layer, probably need alert here?");
+                return true;
             }
-            return layer;
-        });
-        return map;
-    });
+            return acc2;
+        }, false);
+
+        if (mapFail) {
+            return true;
+        }
+        return acc1;
+    }, false);
+
+    // set alert if any fail
+    if (anyFail) {
+        state = state.set("alerts", state.get("alerts").push(alert.merge({
+            title: "Layer Update Failed",
+            body: "One of the maps failed to update that layer. We don't know why, and neither do you.",
+            severity: 1,
+            time: new Date()
+        })));
+    }
+
     return state.set("date", action.date);
 };
 
@@ -562,7 +573,7 @@ const resetApplicationState = (state, action) => {
     });
 
     // set date to today
-    newState = setMapDate(newState, {date: new Date()});
+    newState = setMapDate(newState, { date: new Date() });
 
     return newState;
 };

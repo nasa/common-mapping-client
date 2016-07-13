@@ -81,6 +81,10 @@ export class LayerControlContainer extends Component {
             "position-controls-container text-wrap row middle-xs": true,
             "active": this.props.layer.get("isChangingPosition")
         });
+        let colorbarRangeClasses = MiscUtil.generateStringFromSet({
+            "row middle-xs": true,
+            "hidden": this.props.layer.getIn(["palette", "handleAs"]) === ""
+        });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
         return (
             <div className="layer-control pos-rel">
@@ -143,7 +147,7 @@ export class LayerControlContainer extends Component {
                         />
                     </div>
                 </div>
-                <div className="row middle-xs">
+                <div className={colorbarRangeClasses}>
                     <div className="col-xs-12 no-padding">
                         <div className="colorbar-label-container pos-rel">
                             <span className="colorbar-label min">
@@ -158,7 +162,6 @@ export class LayerControlContainer extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row middle-xs border"></div>
                 <div className={sliderContainerClasses}>
                     <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
                     <span className="opacity-label col-xs-3 no-padding">
