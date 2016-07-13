@@ -15,7 +15,7 @@ import HelpContainer from './Help/HelpContainer';
 import AlertsContainer from './Alerts/AlertsContainer';
 import DateSliderContainer from './DateSlider/DateSliderContainer';
 import DatePickerContainer from './DatePicker/DatePickerContainer';
-import AppBar from './AppBar/AppBarContainer';
+import AppBarContainer from './AppBar/AppBarContainer';
 import LayerMenuContainer from './LayerMenu/LayerMenuContainer';
 import '../styles/styles.scss';
 

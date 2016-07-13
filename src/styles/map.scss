@@ -74,7 +74,6 @@
     @include light-shadow-left();
     border-left: $medium-light-border;
     border-top: $medium-light-border;
-
     display: none;
 }
 
@@ -109,7 +108,8 @@
 }
 
 #mapContainer2D {
-    height: calc(100% - 6rem);
+    // height: calc(100% - 6rem);
+    height: 100%;
     width: 100%;
     display: block;
     position: relative;
@@ -122,7 +122,8 @@
 }
 
 #mapContainer3D {
-    height: calc(100% - 6rem);
+    // height: calc(100% - 6rem);
+    height: 100%;
     width: 100%;
     display: block;
     position: relative;
@@ -136,11 +137,13 @@
 
 #mapControls {
     position: absolute;
+    bottom: 65px;
 }
 
 .cesium-viewer-bottom {
     display: none;
 }
+
 .cesium-viewer-vrContainer {
     // position: absolute;
     bottom: 5%;

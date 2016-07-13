@@ -1,5 +1,6 @@
 .date-slider-container {
-    position: relative;
+    position: absolute;
+    bottom: 0;
     display: block;
     // background: darken($color-primary-dark, 20%);
     background: #e2e2e2;
@@ -11,7 +12,8 @@
 
 .hover-date-display {
     position: absolute;
-    top: -4.3rem;
+    // top: -4.3rem;
+    top: -10.1rem;
     left: 50%;
     font-size: 1.51rem;
     padding: 0.5rem 0.8rem;
@@ -138,6 +140,7 @@
     opacity: 0;
     transition: opacity 0.1s linear 0s;
 }
+
 .resolution-picker-selection-increment button {
     font-size: 1.15rem;
     padding: 0.3rem;
@@ -148,7 +151,7 @@
     display: block;
 }
 
-.resolution-picker-selection-increment button > [data-react-toolbox="font-icon"] { 
+.resolution-picker-selection-increment button > [data-react-toolbox="font-icon"] {
     margin: 0px;
     height: auto;
     font-size: 3rem;
@@ -161,7 +164,8 @@
 
 #dateSliderResolutionStepContainer {
     position: absolute;
-    top: 0px;
+    top: -6rem;
+    // top: 0px;
     font-family: "Roboto Mono";
     font-weight: 300;
     right: 0px;
