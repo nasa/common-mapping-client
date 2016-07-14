@@ -80,6 +80,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let cacheHash = layer.get("id") + layer.get("time");
                 if (fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
+                    cachedLayer.setOpacity(layer.get("opacity"));
                     cachedLayer.setVisible(layer.get("isActive"));
                     return cachedLayer;
                 }
@@ -121,6 +122,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let cacheHash = layer.get("id") + layer.get("time");
             if (fromCache && this.layerCache.get(cacheHash)) {
                 let cachedLayer = this.layerCache.get(cacheHash);
+                cachedLayer.setOpacity(layer.get("opacity"));
                 cachedLayer.setVisible(layer.get("isActive"));
                 return cachedLayer;
             }
