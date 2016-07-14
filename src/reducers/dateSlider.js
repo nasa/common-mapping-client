@@ -26,6 +26,9 @@ const setDateResolution = (state, action) => {
         .set("resolution", action.resolution)
         .set("resolutionHack", !state.get("resolutionHack"));
 };
+const setSliderCollapsed = (state, action) => {
+    return state.set("sliderCollapsed", action.collapsed);
+};
 const resetApplicationState = (state, action) => {
     let newState = endDragging(state, action);
     newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS });
@@ -48,6 +51,9 @@ export default function settingsContainer(state = dateSliderState, action) {
 
         case actionTypes.SET_DATE_RESOLUTION:
             return setDateResolution(state, action);
+
+        case actionTypes.SET_SLIDER_COLLAPSED:
+            return setSliderCollapsed(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);

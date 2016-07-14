@@ -104,13 +104,15 @@ export default class TimeAxisD3 {
             .call(this._xAxis);
 
         // configure the single date bounds
-        this._selection.selectAll(".singleDate").each(function() {
+        this._selection.selectAll(".single-date").each(function() {
             d3.select(this)
-                .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                .attr('x', (d) => _context._xFn(d.date))
                 // .attr('y', 2)
                 // .attr('clip-path', "url(#chart-content)");
                 .attr("transform", (d) => {
-                    return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    return 'translate(' + _context._xFn(d.date) + ',0)';
                 });
         });
 
@@ -138,13 +140,15 @@ export default class TimeAxisD3 {
             .call(this._xAxis);
 
         // update the single date display
-        this._selection.selectAll(".singleDate").each(function() {
+        this._selection.selectAll(".single-date").each(function() {
             d3.select(this)
                 .transition()
-                .duration(100)
-                .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                .duration(150)
+                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                .attr('x', (d) => (_context._xFn(d.date)))
                 .attr("transform", (d) => {
-                    return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    return 'translate(' + _context._xFn(d.date) + ',0)';
                 });
         });
 
@@ -202,7 +206,7 @@ export default class TimeAxisD3 {
         let seconds = d.getSeconds();
         let milliseconds = d.getMilliseconds();
         let y1 = "0";
-        let y2 = "-35";
+        let y2 = "-18";
         let className = "default";
         // Year
         if (month === 0 &&
@@ -212,8 +216,8 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "year";
-            y1 = "0";
-            y2 = "-35";
+            // y1 = "0";
+            // y2 = "-20";
         } // Month
         else if (day === 1 &&
             hour === 0 &&
@@ -221,30 +225,30 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "month";
-            y1 = "-5";
-            y2 = "-30";
+            // y1 = "-20";
+            // y2 = "-8";
         } else if (hour === 0 &&
             minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "day";
-            y1 = "-10";
-            y2 = "-25";
+            // y1 = "-20";
+            // y2 = "-16";
         } else if (minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "hour";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         } else if (seconds === 0 &&
             milliseconds === 0) {
             className = "minutes";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         } else if (milliseconds === 0) {
             className = "milliseconds";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         }
         selection.select("text")
             .classed("tick-text-" + className, true);
@@ -279,7 +283,7 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
-        let singleDate = this._selection.select('.singleDate');
+        let singleDate = this._selection.select('.single-date');
         // If not isDragging, set x of singledate to new value
         // If isDragging, do not set value so that single date can be
         //  dragged while zoom is in progress
@@ -289,7 +293,8 @@ export default class TimeAxisD3 {
                     return this._xFn(d.date);
                 })
                 .attr("transform", (d) => {
-                    return 'translate(' + (this._xFn(d.date) - this._symbolWidth / 2) + ',0)';
+                    // return 'translate(' + (this._xFn(d.date) - this._symbolWidth / 2) + ',0)';
+                    return 'translate(' + this._xFn(d.date) + ',0)';
                 });
         }
 

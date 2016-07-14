@@ -20,7 +20,8 @@ export class LayerMenuContainer extends Component {
 
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
-            "open": this.props.layerMenuOpen
+            "open": this.props.layerMenuOpen,
+            "bottom": this.props.sliderCollapsed
         });
 
         let renderThumb = ({ style, ...props }) => {
@@ -79,14 +80,16 @@ LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
-    palettes: PropTypes.object.isRequired
+    palettes: PropTypes.object.isRequired,
+    sliderCollapsed: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
         layers: state.map.getIn(["layers", "data"]),
-        palettes: state.map.get("palettes")
+        palettes: state.map.get("palettes"),
+        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };
 }
 

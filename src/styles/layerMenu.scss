@@ -250,7 +250,7 @@ button.position-control-button {
     width: 370px;
     max-height: 31px;
     position: absolute;
-    bottom: 60px;
+    bottom: 50px;
     right: 10px;
     z-index: 1;
     background: $color-light;
@@ -262,6 +262,9 @@ button.position-control-button {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     @include light-shadow();
+    &.bottom {
+        bottom: 0px;
+    }
 }
 
 

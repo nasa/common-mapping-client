@@ -22,7 +22,7 @@ export class TimeAxis extends Component {
             elementWidth: sizes.elementWidth,
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
-            symbolWidth: 20,
+            symbolWidth: 0,
             onClick: (value) => { this.handleSingleDateDragEnd(value); },
             onHover: (value) => { this.handleTimelineHover(value); },
             onMouseOut: () => { this.handleTimeLineMouseOut(); }
@@ -73,11 +73,11 @@ export class TimeAxis extends Component {
         // IMPORTANT: these sizes seem to have to be hardcoded
         // cannot pull from CSS as components are not mounted yet
         let elementWidth = window.innerWidth;
-        let elementHeight = 60;
+        let elementHeight = 50;
         let margin = {
             top: 0,
             right: 100,
-            bottom: 25,
+            bottom: 18,
             left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
 
@@ -106,6 +106,17 @@ export class TimeAxis extends Component {
                 </clipPath>
                 <rect id="chart-bounds"></rect>
                 <g id="x-axis"></g>
+                <defs>
+                    <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" />
+                        <feOffset dx="0" dy="1" />
+                        <feMerge>
+                            <feMergeNode />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path className="timeline-horiz-axis" d={"M " + sizes.margin.left + ", 15, h " + sizes.width + " Z"} />
                 <SingleDate
                     date={this.props.date}
                     isDragging={this.props.isDragging}

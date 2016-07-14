@@ -7,6 +7,7 @@ import { SCALE_OPTIONS, REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID
 import * as appActions from '../../actions/AppActions';
 import * as mapActions from '../../actions/MapActions';
 import * as layerActions from '../../actions/LayerActions';
+import * as dateSliderActions from '../../actions/DateSliderActions';
 import MiscUtil from '../../utils/MiscUtil';
 import BaseMapPreview from '../../components/BaseMapPreview';
 import MenuDropdown from '../../components/MenuDropdown';
@@ -84,6 +85,14 @@ export class SettingsContainer extends Component {
                         onChange={(value) => this.props.mapActions.setTerrainEnabled(value)}
                     />
                     <hr className="divider" />
+                    <ListCheckbox
+                        className="menu-check-box"
+                        caption="Collapsed Time Slider"
+                        checked={this.props.sliderCollapsed}
+                        legend="Collapse the time slider at the bottom of the screen"
+                        onChange={(value) => this.props.dateSliderActions.setSliderCollapsed(value)}
+                    />
+                    <hr className="divider" />
                     <ListItem
                         className="menu-check-box"
                         caption="Reset Application"
@@ -104,7 +113,9 @@ SettingsContainer.propTypes = {
     mapSettings: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
     mapActions: PropTypes.object.isRequired,
-    layerActions: PropTypes.object.isRequired
+    layerActions: PropTypes.object.isRequired,
+    dateSliderActions: PropTypes.object.isRequired,
+    sliderCollapsed: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -112,7 +123,8 @@ function mapStateToProps(state) {
         settingsOpen: state.settings.get("isOpen"),
         mapSettings: state.map.get("displaySettings"),
         basemaps: state.map.getIn(["layers", "basemap"]),
-        referenceLayers: state.map.getIn(["layers", "reference"])
+        referenceLayers: state.map.getIn(["layers", "reference"]),
+        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };
 }
 
@@ -120,7 +132,8 @@ function mapDispatchToProps(dispatch) {
     return {
         appActions: bindActionCreators(appActions, dispatch),
         mapActions: bindActionCreators(mapActions, dispatch),
-        layerActions: bindActionCreators(layerActions, dispatch)
+        layerActions: bindActionCreators(layerActions, dispatch),
+        dateSliderActions: bindActionCreators(dateSliderActions, dispatch)
     };
 }
 

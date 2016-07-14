@@ -24,6 +24,10 @@ export function setDateResolution(resolution) {
     return { type: types.SET_DATE_RESOLUTION, resolution };
 }
 
+export function setSliderCollapsed(collapsed) {
+    return { type: types.SET_SLIDER_COLLAPSED, collapsed };
+}
+
 export function dragEnd(newDate) {
     return (dispatch) => {
         return Promise.all([
