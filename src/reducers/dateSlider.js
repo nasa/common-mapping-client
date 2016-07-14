@@ -22,19 +22,24 @@ const timelineMouseOut = (state, action) => {
     return state.setIn(["hoverDate", "isValid"], false);
 };
 const setDateResolution = (state, action) => {
-    return state
+    let newState = state
         .set("resolution", action.resolution)
         .set("resolutionHack", !state.get("resolutionHack"));
+    newState = setChangingResolution(newState, { isSelectingResolution: false });
+    return newState;
 };
 const setSliderCollapsed = (state, action) => {
     return state.set("sliderCollapsed", action.collapsed);
 };
+const setChangingResolution = (state, action) => {
+    return state.set("isSelectingResolution", action.isSelectingResolution);
+};
 const resetApplicationState = (state, action) => {
     let newState = endDragging(state, action);
     newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS });
+    newState = setChangingResolution(newState, { isSelectingResolution: false });
     return newState;
 };
-
 export default function settingsContainer(state = dateSliderState, action) {
     switch (action.type) {
         case actionTypes.BEGIN_DRAGGING:
@@ -54,6 +59,9 @@ export default function settingsContainer(state = dateSliderState, action) {
 
         case actionTypes.SET_SLIDER_COLLAPSED:
             return setSliderCollapsed(state, action);
+
+        case actionTypes.SET_CHANGING_RESOLUTION:
+            return setChangingResolution(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);

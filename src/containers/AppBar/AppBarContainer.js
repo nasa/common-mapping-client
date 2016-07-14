@@ -4,8 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import * as actions from '../../actions/AppActions';
 import MiscUtil from '../../utils/MiscUtil';
-import ReactTooltip from 'react-tooltip';
-
 
 export class AppBarContainer extends Component {
     componentDidMount() {
@@ -91,7 +89,6 @@ export class AppBarContainer extends Component {
                         />
                     </div>
                 </div>
-                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }

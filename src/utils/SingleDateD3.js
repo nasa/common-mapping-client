@@ -51,8 +51,8 @@ export default class TimeAxisD3 {
             })
             .on('drag', () => {
                 let scrollFlag = 0;
-                let maxX = this._maxX - (2 * this._symbolWidth);
-                let minX = this._minX + (this._symbolWidth);
+                let maxX = this._maxX - (this._symbolWidth);
+                let minX = this._minX + (this._symbolWidth / 2);
                 if (d3.event.x >= maxX) {
                     this._selection
                         .attr('x', (d) => maxX)

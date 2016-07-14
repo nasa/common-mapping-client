@@ -168,7 +168,7 @@
     font-family: "Roboto Mono";
     font-weight: 300;
     z-index: 1;
-    width: 100px;
+    width: 80px;
     height: 5rem;
     background: white;
     @include light-shadow();
@@ -176,8 +176,55 @@
         font-weight: 400;
         font-family: "Roboto Mono";
     }
-    .resolution-picker {
+    .resolution-selector {
+        position: absolute;
+        width: 80%;
+        height: auto;
+        opacity: 0;
+        background: $color-light;
+        top: 200%;
+        left: 50%;
+        transform: translate(-50%, 0px);
+        border: 1px solid $color-accent;
+        border-radius: 4px;
+        transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
+        @include medium-shadow();
+
+        &:after,
+        &:before {
+            top: 100%;
+            left: 50%;
+            border: solid;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(0, 0, 0, 0);
+            border-top-color: $color-light;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+        &:before {
+            border-color: rgba(0, 0, 0, 0);
+            border-top-color: $color-accent;
+            border-width: 11px;
+            margin-left: -11px;
+        }
+        &.active {
+            top: calc(0px - (100% + 20px));
+            opacity: 1;
+            transition: opacity 0s linear 0s, top 0s linear 0s;
+        }
+    }
+    .timeline-zoom {
+        position: absolute;
         top: 50%;
-        transform: translate(0px, -50%);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
     }
 }

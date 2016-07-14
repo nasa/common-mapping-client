@@ -134,6 +134,9 @@ export default class TimeAxisD3 {
             .attr('y', 0)
             .attr('height', this._height)
             .attr('width', this._width);
+        // not sure why this is displaced by 5px, I'm assuming some padding somewhere...
+        this._selection.select(".timeline-horiz-axis")
+            .attr("d", "M " + (this._margin.left - 5) + ", 15, h " + (this._width + 5) + " Z");
 
         // configure the axis
         this._selection.select('#x-axis')

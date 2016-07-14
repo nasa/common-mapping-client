@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import Slider from 'react-toolbox/lib/slider';
-import ReactTooltip from 'react-tooltip';
 import * as layerActions from '../../actions/LayerActions';
 import ColorbarContainer from './ColorbarContainer';
 import MiscUtil from '../../utils/MiscUtil';
@@ -174,7 +173,6 @@ export class LayerControlContainer extends Component {
                     <Button accent label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
                     <Button accent label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
-                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }

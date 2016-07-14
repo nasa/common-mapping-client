@@ -33,6 +33,7 @@ export class TimeAxis extends Component {
 
         window.addEventListener("resize", () => {
             this.timeAxisD3.resize(this.getSizes());
+            this.render();
         });
     }
     componentWillUpdate() {
@@ -76,7 +77,7 @@ export class TimeAxis extends Component {
         let elementHeight = 50;
         let margin = {
             top: 0,
-            right: 100,
+            right: 80,
             bottom: 18,
             left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
@@ -116,7 +117,7 @@ export class TimeAxis extends Component {
                         </feMerge>
                     </filter>
                 </defs>
-                <path className="timeline-horiz-axis" d={"M " + sizes.margin.left + ", 15, h " + sizes.width + " Z"} />
+                <path className="timeline-horiz-axis" />
                 <SingleDate
                     date={this.props.date}
                     isDragging={this.props.isDragging}

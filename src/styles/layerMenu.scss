@@ -52,7 +52,6 @@
     line-height: 1.2rem;
     margin-left: 1.3rem;
     height: 12px;
-    /*background-image: url("http://localhost:3000/styles/resources/img/lines.png");*/
     background-repeat: repeat;
     background-size: 50%;
     position: relative;
@@ -113,18 +112,17 @@
     width: 18rem;
     height: auto;
     position: absolute;
-    top: 2rem;
+    top: 2.3rem;
     padding: 0.5rem;
     padding-right: 1rem;
     opacity: 0;
-    // & 
 }
 
 .position-controls-container {
     width: 12rem;
     height: 5.5rem;
     position: absolute;
-    top: 1.5rem;
+    top: 1.8rem;
     padding: 0px !important;
     opacity: 0;
     text-align: center;
@@ -133,7 +131,6 @@
 .position-controls-container,
 .opacity-slider-container {
     z-index: -1;
-    // right: -50rem;
     border-radius: 4px;
     background: $color-light;
     border: 1px solid $color-accent;
@@ -149,7 +146,6 @@
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
     z-index: 1;
-    // right: 7.3rem;
 }
 
 .position-controls-container {
@@ -160,7 +156,6 @@
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
     z-index: 1;
-    // right: 9.8rem;
     padding: 0px !important;
 }
 
@@ -250,7 +245,7 @@ button.position-control-button {
     width: 370px;
     max-height: 31px;
     position: absolute;
-    bottom: 50px;
+    top: 50px;
     right: 10px;
     z-index: 1;
     background: $color-light;
@@ -267,22 +262,6 @@ button.position-control-button {
     }
 }
 
-
-/* Chrome, Safari, Opera */
-
-// @-webkit-keyframes animateOpacity {
-//     0 {
-//     }
-// }
-// /* Standard syntax */
-// @keyframes mymove {
-//     from {
-//         top: 0px;
-//     }
-//     to {
-//         top: 200px;
-//     }
-// }
 #layerMenu.open {
     max-height: 350px;
 }
@@ -304,8 +283,6 @@ button.position-control-button {
     max-height: 300px;
     display: block;
     width: 100%;
-    // overflow-x: hidden;
-    // overflow-y: auto;
     .toggle {
         padding-left: 1.3rem;
         padding-right: 0px;

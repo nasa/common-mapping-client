@@ -28,6 +28,10 @@ export function setSliderCollapsed(collapsed) {
     return { type: types.SET_SLIDER_COLLAPSED, collapsed };
 }
 
+export function setIsSelectionResolution(isSelectingResolution) {
+    return { type: types.SET_CHANGING_RESOLUTION, isSelectingResolution };
+}
+
 export function dragEnd(newDate) {
     return (dispatch) => {
         return Promise.all([

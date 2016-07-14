@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ReactTooltip from 'react-tooltip';
 import * as actions from '../actions/AppActions';
 import * as layerActions from '../actions/LayerActions';
 import MiscUtil from '../utils/MiscUtil';
@@ -48,6 +49,7 @@ export class AppContainer extends Component {
                 <DatePickerContainer />
                 <AlertsContainer />
                 <LoadingContainer />
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }
