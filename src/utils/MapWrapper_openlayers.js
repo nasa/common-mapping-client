@@ -12,7 +12,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
-        this.layerCache = new Cache(100); // TODO - move this number into a config?
+        this.layerCache = new Cache(50); // TODO - move this number into a config?
     }
 
     createMap(container, options) {

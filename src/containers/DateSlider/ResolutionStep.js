@@ -65,7 +65,7 @@ export class ResolutionStep extends Component {
                     data-tip="Zoom the Slider"
                     data-place="left"
                 >
-                    <i className="button-icon ms ms-fw ms-zoom"></i>
+                    <i className="button-icon ms ms-fw ms-zoom-to-point"></i>
                 </IconButton>
             </div>
         );

@@ -32,8 +32,9 @@ export class TimeAxis extends Component {
         this.timeAxisD3.enter();
 
         window.addEventListener("resize", () => {
-            this.timeAxisD3.resize(this.getSizes());
-            this.render();
+            let options = this.getSizes();
+            options.date = this.props.date;
+            this.timeAxisD3.resize(options);
         });
     }
     componentWillUpdate() {
