@@ -351,6 +351,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return this.createVectorLayer(layer);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createVectorLayer(layer);
+            case mapStrings.LAYER_VECTOR_KML:
+                return this.createVectorLayer(layer);
             default:
                 return this.createWMTSLayer(layer);
         }
@@ -605,6 +607,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return this.createGeoJsonSource(layer);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createGeoJsonSource(layer);
+            case mapStrings.LAYER_VECTOR_KML:
+                return this.createKmlSource(layer);
             default:
                 return false;
         }
@@ -614,6 +618,15 @@ export default class MapWrapper_cesium extends MapWrapper {
             stroke: this.cesium.Color.fromCssColorString("#1E90FF"),
             fill: this.cesium.Color.fromCssColorString("#FEFEFE").withAlpha(0.5),
             strokeWidth: 3,
+            clampToGround: true,
+            show: layer.get("isActive")
+        });
+    }
+    createKmlSource(layer) {
+        return this.cesium.KmlDataSource.load(layer.get("url"), {
+            camera: this.map.scene.camera,
+            canvas: this.map.scene.canvas,
+            clampToGround: true,
             show: layer.get("isActive")
         });
     }
@@ -684,6 +697,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             case mapStrings.LAYER_VECTOR_GEOJSON:
                 return this.map.dataSources;
             case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.map.dataSources;
+            case mapStrings.LAYER_VECTOR_KML:
                 return this.map.dataSources;
             default:
                 return this.map.imageryLayers;

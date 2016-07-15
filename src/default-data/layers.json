@@ -115,6 +115,12 @@
         "handleAs": "vector_topojson",
         "url": "default-data/ne_10m_us_states.topojson"
     }, {
+        "id": "facilities",
+        "title": "Facilities",
+        "type": "data",
+        "handleAs": "vector_kml",
+        "url": "default-data/facilities.kml"
+    }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",

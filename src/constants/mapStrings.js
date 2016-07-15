@@ -22,6 +22,7 @@ export const LAYER_WMTS = 'wmts';
 export const LAYER_XYZ = 'xyz';
 export const LAYER_VECTOR_GEOJSON = 'vector_geojson';
 export const LAYER_VECTOR_TOPOJSON = 'vector_topojson';
+export const LAYER_VECTOR_KML = 'vector_kml';
 
 // layer colorbar formats
 export const COLORBAR_IMAGE = "image";

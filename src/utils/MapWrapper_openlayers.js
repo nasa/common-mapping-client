@@ -59,6 +59,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
+            case mapStrings.LAYER_VECTOR_KML:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
             default:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
@@ -130,6 +133,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let layerSource = this.createLayerSource(layer, {
                 url: layer.get("url")
             });
+            if(layer.get("clusterVector")) {
+                layerSource = new ol.source.Cluster({source: layerSource});
+            }
             return new ol.layer.Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
@@ -557,6 +563,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.createVectorGeojsonSource(options);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createVectorTopojsonSource(options);
+            case mapStrings.LAYER_VECTOR_KML:
+                return this.createVectorKMLSource(options);
             default:
                 return this.createXYZSource(options);
         }
@@ -636,6 +644,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return new ol.source.Vector({
             url: options.url,
             format: new ol.format.TopoJSON()
+        });
+    }
+
+    createVectorKMLSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.KML()
         });
     }
 

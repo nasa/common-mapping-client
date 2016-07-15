@@ -66,6 +66,7 @@ export const layerModel = Immutable.fromJS({
     // thumbnailImage: "https://unsplash.it/700/400?image=967",
     // thumbnailImage: "https://unsplash.it/700/400?image=1032",
     fromJson: false,
+    clusterVector: false,
     handleAs: "generic"
 });
 
