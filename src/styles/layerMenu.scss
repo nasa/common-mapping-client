@@ -2,11 +2,12 @@
     padding: 0.7rem 0rem;
     width: 100%;
     margin: 0px;
+    border-bottom: 1px solid $color-medium-light;
 }
 
 .layer-control:last-child {
     border-bottom: none;
-    padding-bottom: 0px;
+    /*padding-bottom: 0px;*/
 }
 
 .layer-header {
@@ -218,12 +219,11 @@
 .layer-menu-note {
     letter-spacing: 0.15em;
     background: white;
-    // font-style: italic;
     font-family: "Roboto Mono";
     font-size: 0.8em;
     margin: 0px 15px;
-    padding: 1px 4px;
-    text-transform: uppercase;
+    padding: 1px 10px;
+    /*text-transform: uppercase;*/
     @include light-shadow();
     position: relative;
     top: -1px;
@@ -241,47 +241,69 @@ button.position-control-button {
     min-width: initial;
 }
 
-#layerMenu {
-    width: 370px;
-    max-height: 31px;
+.layer-menu-toggle-container {
     position: absolute;
-    top: 42px;
-    right: 10px;
-    z-index: 1;
-    background: $color-light;
-    overflow: hidden;
-    padding: 0px;
-    display: block;
-    -webkit-transition: max-height 0.2s ease-out 0s;
-    transition: max-height 0.2s ease-out 0s;
-    /*border-top-left-radius: 4px;
-    border-top-right-radius: 4px;*/
+    top: 50%;
+    left: -36px;
+    transform: translate(0px, -50%);
+    border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+    background: $color-light;
     @include light-shadow();
 }
 
-#layerMenu.open {
-    max-height: 350px;
-}
-
 #layerMenu {
+    width: 370px;
+    /*max-height: 31px;*/
+    height: calc(100% - 92px);
+    position: absolute;
+    top: 42px;
+    /*top: 50%;*/
+    /*right: 10px;*/
+    right: -370px;
+    /*transform: translate(0px, -50%);*/
+    /*z-index: 1;*/
+    z-index: 0;
+    background: $color-light;
+    /*overflow: hidden;*/
+    overflow: visible;
+    padding: 0px;
+    display: block;
+    /*-webkit-transition: max-height 0.2s ease-out 0s;
+    transition: max-height 0.2s ease-out 0s;*/
+    -webkit-transition: right 0.2s ease-out 0s;
+    transition: right 0.2s ease-out 0s;
+    /*border-top-left-radius: 4px;
+    border-top-right-radius: 4px;*/
+    /*border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;*/
+    @include light-shadow();
+    @include flex();
+    @include flex-col();
     .row {
         margin: 0px;
     }
 }
 
+#layerMenu.open {
+    /*max-height: 350px;*/
+    right: 0px;
+}
+
 #layerHeaderRow {
-    padding: 0.3rem;
+    padding: 0.5rem 0.3rem;
     background: $color-primary;
     color: $color-light;
     @include light-shadow();
 }
 
 #layerMenuContent {
-    max-height: 300px;
+    height: 100%;
     display: block;
     width: 100%;
+    @include flex();
+    /*@include flex-col();*/
+    @include flex-grow(1);
     .toggle {
         padding-left: 1.3rem;
         padding-right: 0px;
