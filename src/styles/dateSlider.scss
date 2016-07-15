@@ -168,7 +168,7 @@
     font-family: "Roboto Mono";
     font-weight: 300;
     z-index: 1;
-    width: 80px;
+    width: 60px;
     height: 5rem;
     background: white;
     @include light-shadow();
@@ -178,7 +178,7 @@
     }
     .resolution-selector {
         position: absolute;
-        width: 80%;
+        width: 56px;
         height: auto;
         opacity: 0;
         background: $color-light;

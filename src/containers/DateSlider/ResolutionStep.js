@@ -61,11 +61,12 @@ export class ResolutionStep extends Component {
                 <IconButton
                     accent={this.props.isSelectingResolution}
                     onClick={() => this.toggleResolutionSelector()}
-                    className="timeline-zoom" 
+                    className="timeline-zoom"
+                    icon="filter_list"
                     data-tip="Zoom the Slider"
                     data-place="left"
                 >
-                    <i className="button-icon ms ms-fw ms-zoom-to-point"></i>
+                    {/*<i className="button-icon ms ms-fw ms-zoom-to-point"></i>*/}
                 </IconButton>
             </div>
         );

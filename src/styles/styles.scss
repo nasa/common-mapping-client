@@ -124,7 +124,9 @@ hr.divider.dark {
 .no-padding {
     padding: 0px;
 }
-
+button > .material-icons[data-react-toolbox="font-icon"] {
+    line-height: 1;
+}
 button.small {
     font-size: 1.15rem;
     padding: 0.5rem 0.8rem;

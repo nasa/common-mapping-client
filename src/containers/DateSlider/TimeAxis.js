@@ -78,7 +78,7 @@ export class TimeAxis extends Component {
         let elementHeight = 50;
         let margin = {
             top: 0,
-            right: 80,
+            right: 60,
             bottom: 18,
             left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
