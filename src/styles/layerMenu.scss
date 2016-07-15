@@ -241,57 +241,38 @@ button.position-control-button {
     min-width: initial;
 }
 
-.layer-menu-toggle-container {
-    position: absolute;
-    top: 50%;
-    left: -36px;
-    transform: translate(0px, -50%);
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    background: $color-light;
-    @include light-shadow();
-}
-
 #layerMenu {
     width: 370px;
-    /*max-height: 31px;*/
-    height: calc(100% - 92px);
+    max-height: 31px;
     position: absolute;
     top: 42px;
-    /*top: 50%;*/
-    /*right: 10px;*/
-    right: -370px;
-    /*transform: translate(0px, -50%);*/
-    /*z-index: 1;*/
+    right: 10px;
     z-index: 0;
     background: $color-light;
-    /*overflow: hidden;*/
-    overflow: visible;
+    overflow: hidden;
+    /*overflow: visible;*/
     padding: 0px;
-    display: block;
-    /*-webkit-transition: max-height 0.2s ease-out 0s;
-    transition: max-height 0.2s ease-out 0s;*/
-    -webkit-transition: right 0.2s ease-out 0s;
-    transition: right 0.2s ease-out 0s;
-    /*border-top-left-radius: 4px;
-    border-top-right-radius: 4px;*/
-    /*border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;*/
-    @include light-shadow();
+    /*display: block;*/
     @include flex();
     @include flex-col();
+    -webkit-transition: max-height 0.2s ease-out 0s;
+    transition: max-height 0.2s ease-out 0s;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    @include light-shadow();
     .row {
         margin: 0px;
     }
 }
 
 #layerMenu.open {
-    /*max-height: 350px;*/
-    right: 0px;
+    /*max-height: calc(75% - 96px);*/
+    max-height: 200px;
 }
 
 #layerHeaderRow {
-    padding: 0.5rem 0.3rem;
+    height: 31px;
+    padding: 0.3rem;
     background: $color-primary;
     color: $color-light;
     @include light-shadow();
@@ -302,7 +283,6 @@ button.position-control-button {
     display: block;
     width: 100%;
     @include flex();
-    /*@include flex-col();*/
     @include flex-grow(1);
     .toggle {
         padding-left: 1.3rem;

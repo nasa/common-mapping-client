@@ -33,30 +33,22 @@ export class LayerMenuContainer extends Component {
                 />
             );
         };
-        // <div className="col-xs-4 text-right">
-        //     <IconButton
-        //         neutral
-        //         inverse
-        //         icon={this.props.layerMenuOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}
-        //         className="no-padding mini-xs-waysmall"
-        //         onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
-        //     />
-        // </div>
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
-                <div className="layer-menu-toggle-container">
-                    <IconButton
-                        neutral
-                        icon={this.props.layerMenuOpen ? "keyboard_arrow_right" : "keyboard_arrow_left"}
-                        // className="no-padding mini-xs-waysmall"
-                        onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
-                    />
-                </div>
                 <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
                         <span className="layer-menu-header">LAYER CONTROLS</span>
                         <span className="layer-menu-note"><span className="layer-menu-note-active">{activeNum}</span>/{totalNum} Active</span>
+                    </div>
+                    <div className="col-xs-4 text-right">
+                        <IconButton
+                            neutral
+                            inverse
+                            icon={this.props.layerMenuOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}
+                            className="no-padding mini-xs-waysmall"
+                            onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
+                        />
                     </div>
                 </div>
                 <div id="layerMenuContent">
