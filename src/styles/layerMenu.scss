@@ -245,7 +245,7 @@ button.position-control-button {
     width: 370px;
     max-height: 31px;
     position: absolute;
-    top: 50px;
+    top: 42px;
     right: 10px;
     z-index: 1;
     background: $color-light;
@@ -254,8 +254,10 @@ button.position-control-button {
     display: block;
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    /*border-top-left-radius: 4px;
+    border-top-right-radius: 4px;*/
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     @include light-shadow();
 }
 
