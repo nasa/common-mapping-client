@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import LayerControlContainer from './LayerControlContainer';
-import * as layerActions from '../../actions/LayerActions';
-import MiscUtil from '../../utils/MiscUtil';
 import { Scrollbars } from 'react-custom-scrollbars';
+import * as mapStrings from '../../constants/mapStrings';
+import * as layerActions from '../../actions/LayerActions';
+import LayerControlContainer from './LayerControlContainer';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     componentDidMount() {
@@ -87,7 +88,7 @@ LayerMenuContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
-        layers: state.map.getIn(["layers", "data"]),
+        layers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]),
         palettes: state.map.get("palettes"),
         sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };

@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
-import { SCALE_OPTIONS, REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID } from '../../constants/mapConfig';
+import * as mapConfig from '../../constants/mapConfig';
+import * as mapStrings from '../../constants/mapStrings';
 import * as appActions from '../../actions/AppActions';
 import * as mapActions from '../../actions/MapActions';
 import * as layerActions from '../../actions/LayerActions';
@@ -27,10 +28,10 @@ export class SettingsContainer extends Component {
 
 
         let referenceLabelsLayer = this.props.referenceLayers.find((layer) => {
-            return layer.get("id") === REFERENCE_LABELS_LAYER_ID;
+            return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
         });
         let politicalBoundariesLayer = this.props.referenceLayers.find((layer) => {
-            return layer.get("id") === POLITICAL_BOUNDARIES_LAYER_ID;
+            return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
         });
 
         return (
@@ -58,7 +59,7 @@ export class SettingsContainer extends Component {
                         auto
                         className="list-item-dropdown"
                         onChange={(value) => this.props.mapActions.setScaleUnits(value)}
-                        source={SCALE_OPTIONS}
+                        source={mapConfig.SCALE_OPTIONS}
                         value={this.props.mapSettings.get("selectedScaleUnits")}
                     />
                     <ListSubHeader className="list-sub-header" caption="Display Configuration" />
@@ -67,14 +68,14 @@ export class SettingsContainer extends Component {
                         caption="Political Boundaries"
                         checked={politicalBoundariesLayer && politicalBoundariesLayer.get("isActive")}
                         legend="Display political boundaries on the map"
-                        onChange={(value) => this.props.layerActions.setLayerActive(POLITICAL_BOUNDARIES_LAYER_ID, value)}
+                        onChange={(value) => this.props.layerActions.setLayerActive(mapConfig.POLITICAL_BOUNDARIES_LAYER_ID, value)}
                     />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Place Labels"
                         checked={referenceLabelsLayer && referenceLabelsLayer.get("isActive")}
                         legend="Display place labels on the map"
-                        onChange={(value) => this.props.layerActions.setLayerActive(REFERENCE_LABELS_LAYER_ID, value)}
+                        onChange={(value) => this.props.layerActions.setLayerActive(mapConfig.REFERENCE_LABELS_LAYER_ID, value)}
                     />
                     <hr className="divider" />
                     <ListCheckbox
@@ -122,8 +123,8 @@ function mapStateToProps(state) {
     return {
         settingsOpen: state.settings.get("isOpen"),
         mapSettings: state.map.get("displaySettings"),
-        basemaps: state.map.getIn(["layers", "basemap"]),
-        referenceLayers: state.map.getIn(["layers", "reference"]),
+        basemaps: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]),
+        referenceLayers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]),
         sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };
 }

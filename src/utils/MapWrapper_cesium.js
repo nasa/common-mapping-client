@@ -288,8 +288,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
-            let updatedMapLayer = this.createLayer(layer);
             if (mapLayer) {
+                let updatedMapLayer = this.createLayer(layer);
                 let index = mapLayers.indexOf(mapLayer);
                 mapLayers.remove(mapLayer);
                 mapLayers.add(updatedMapLayer, index);
@@ -309,7 +309,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (newBasemap) {
                 // remove the current basemap
                 let currBasemap = mapLayers.get(0);
-                if (typeof currBasemap !== "undefined" && currBasemap._layerType === "basemap") {
+                if (typeof currBasemap !== "undefined" && currBasemap._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     mapLayers.remove(currBasemap);
                 }
                 mapLayers.add(newBasemap, 0);
@@ -670,15 +670,15 @@ export default class MapWrapper_cesium extends MapWrapper {
     findTopInsertIndexForLayer(mapLayers, mapLayer) {
         let index = mapLayers.length;
 
-        if (mapLayer._layerType === "reference") { // referece layers always on top
+        if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
             return index;
-        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+        } else if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
             return 0;
         } else { // data layers in the middle
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.get(i);
-                if (compareLayer._layerType === "data" ||
-                    compareLayer._layerType === "basemap") {
+                if (compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     return i + 1;
                 }
             }

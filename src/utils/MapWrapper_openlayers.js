@@ -273,7 +273,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
-                mapLayer.setVisible(false);
+                // mapLayer.setVisible(false);
+                this.removeLayer(mapLayer);
             }
             return true;
         } catch (err) {
@@ -312,7 +313,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (newBasemap) {
                 // replace or insert new basemap (insert should happen only once)
                 let mapLayers = this.map.getLayers();
-                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === "basemap") {
+                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     mapLayers.setAt(0, newBasemap);
                 } else {
                     mapLayers.insertAt(0, newBasemap);
@@ -496,7 +497,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach((mapLayer) => {
-                if (mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA && mapLayer.getVisible()) {
                     retList.push(mapLayer._layerId);
                 }
             });
@@ -658,15 +659,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
         let mapLayers = this.map.getLayers();
         let index = mapLayers.getLength();
 
-        if (mapLayer._layerType === "reference") { // referece layers always on top
+        if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
             return index;
-        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+        } else if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
             return 0;
         } else { // data layers in the middle
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.item(i);
-                if (compareLayer._layerType === "data" ||
-                    compareLayer._layerType === "basemap") {
+                if (compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     return i + 1;
                 }
             }

@@ -115,8 +115,8 @@
         "handleAs": "vector_topojson",
         "url": "default-data/ne_10m_us_states.topojson"
     }, {
-        "id": "facilities",
-        "title": "Facilities",
+        "id": "facilities_kml",
+        "title": "Facilities - KML",
         "type": "data",
         "handleAs": "vector_kml",
         "url": "default-data/facilities.kml"

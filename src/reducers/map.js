@@ -350,12 +350,12 @@ const hideBasemap = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        let layerList = state.getIn(["layers", "basemap"]);
+        let layerList = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]);
         if (typeof layerList !== "undefined") {
             layerList = layerList.map((layer) => {
                 return layer.set("isActive", false);
             });
-            return state.setIn(["layers", "basemap"], layerList);
+            return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP], layerList);
         }
         return state;
     }
@@ -363,20 +363,20 @@ const hideBasemap = (state, action) => {
 };
 const ingestLayerConfig = (state, action) => {
     if (action.options.type === mapStrings.LAYER_CONFIG_JSON) {
-        let currPartials = state.getIn(["layers", "partial"]);
+        let currPartials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let newPartials = generatePartialsListFromJson(action.config);
-        return state.setIn(["layers", "partial"], currPartials.concat(newPartials));
+        return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
     } else if (action.options.type === mapStrings.LAYER_CONFIG_WMTS_XML) {
-        let currPartials = state.getIn(["layers", "partial"]);
+        let currPartials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let newPartials = generatePartialsListFromWmtsXml(action.config);
-        return state.setIn(["layers", "partial"], currPartials.concat(newPartials));
+        return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
     } else {
         console.warn("could not ingest layer config");
     }
     return state;
 };
 const mergeLayers = (state, action) => {
-    let partials = state.getIn(["layers", "partial"]);
+    let partials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
     let refPartial = null;
     let matchingPartials = null;
     let mergedLayer = null;
@@ -403,13 +403,15 @@ const mergeLayers = (state, action) => {
         }, refPartial);
         // merge in the default values
         mergedLayer = layerModel.mergeDeep(mergedLayer);
+        // update layer time
+        mergedLayer = mergedLayer.set("time", moment(mapConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
         // put the newly minted layer into state storage
         newLayers = state.getIn(["layers", mergedLayer.get("type")]);
         if (typeof newLayers !== "undefined") {
             state = state.setIn(["layers", mergedLayer.get("type")], newLayers.push(mergedLayer));
         }
     }
-    return state.removeIn(["layers", "partial"]); // remove the partials list so that it doesn't intrude later
+    return state.removeIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
 };
 
 const activateDefaultLayers = (state, action) => {
@@ -417,7 +419,7 @@ const activateDefaultLayers = (state, action) => {
         return layerSet.map((layer) => {
             if (layer.get("isDefault")) {
                 let anySucceed = state.get("maps").reduce((acc, map) => {
-                    if (layer.get("type") === "basemap") {
+                    if (layer.get("type") === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                         if (map.setBasemap(layer)) {
                             return true;
                         }
@@ -441,14 +443,14 @@ const setMapDate = (state, action) => {
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {
-            return layer.set("time", moment(action.date).format("YYYY-MM-DD"));
+            return layer.set("time", moment(action.date).format(layer.get("timeFormat")));
         });
     }));
 
     // update the layers on the map
     let anyFail = state.get("maps").reduce((acc1, map) => {
         // only updated data layers, should we update basemaps and reference layers too?
-        let mapFail = state.getIn(["layers", "data"]).reduce((acc2, layer) => {
+        let mapFail = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
             if (!map.updateLayer(layer)) {
                 return true;
             }
@@ -465,7 +467,7 @@ const setMapDate = (state, action) => {
     if (anyFail) {
         state = state.set("alerts", state.get("alerts").push(alert.merge({
             title: "Layer Update Failed",
-            body: "One of the maps failed to update that layer. We don't know why, and neither do you.",
+            body: "One of the maps failed to update a layer. We don't know why, and neither do you.",
             severity: 1,
             time: new Date()
         })));
@@ -547,18 +549,18 @@ const resetApplicationState = (state, action) => {
     let newState = state;
 
     // set data/reference layers opacity to 1
-    newState.getIn(["layers", "data"]).forEach((layer) => {
+    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
         newState = setLayerOpacity(newState, { layer, opacity: 1 });
     });
-    newState.getIn(["layers", "reference"]).forEach((layer) => {
+    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
         newState = setLayerOpacity(newState, { layer, opacity: 1 });
     });
 
     // turn off data/reference layers
-    newState.getIn(["layers", "data"]).forEach((layer) => {
+    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
         newState = setLayerActive(newState, { layer, active: false });
     });
-    newState.getIn(["layers", "reference"]).forEach((layer) => {
+    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
         newState = setLayerActive(newState, { layer, active: false });
     });
 
