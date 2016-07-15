@@ -66,13 +66,15 @@
 #dateSliderContainer {
     position: absolute;
     width: 100%;
-    left: 0px;
     bottom: 0px;
-    transition: left 0.1s linear 0s;
+    left: 0px;
+    /*transition: left 0.1s linear 0s;*/
+    transition: bottom 0.1s linear 0s;
     height: 50px;
     @include medium-shadow();
     &.collapsed {
-        left: -100%;
+        /*left: -100%;*/
+        bottom: -50px;
     }
 }
 

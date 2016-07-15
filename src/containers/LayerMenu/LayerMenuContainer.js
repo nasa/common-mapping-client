@@ -21,8 +21,7 @@ export class LayerMenuContainer extends Component {
 
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
-            "open": this.props.layerMenuOpen,
-            "bottom": this.props.sliderCollapsed
+            "open": this.props.layerMenuOpen
         });
 
         let renderThumb = ({ style, ...props }) => {
