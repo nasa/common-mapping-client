@@ -68,7 +68,8 @@ export const layerModel = Immutable.fromJS({
     // thumbnailImage: "https://unsplash.it/700/400?image=1032",
     fromJson: false,
     clusterVector: false,
-    handleAs: "generic"
+    handleAs: "generic",
+    updateParameters: {"time": true}
 });
 
 export const paletteModel = Immutable.fromJS({

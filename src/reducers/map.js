@@ -451,8 +451,11 @@ const setMapDate = (state, action) => {
     let anyFail = state.get("maps").reduce((acc1, map) => {
         // only updated data layers, should we update basemaps and reference layers too?
         let mapFail = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
-            if (!map.updateLayer(layer)) {
-                return true;
+            if(layer.get("updateParameters").get("time")) {
+                if (!map.updateLayer(layer)) {
+                    return true;
+                }
+                return false;
             }
             return acc2;
         }, false);
