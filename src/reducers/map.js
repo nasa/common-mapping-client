@@ -578,7 +578,7 @@ const resetApplicationState = (state, action) => {
     });
 
     // set date to today
-    newState = setMapDate(newState, { date: new Date() });
+    newState = setMapDate(newState, { date: mapConfig.DEFAULT_DATE });
 
     return newState;
 };
