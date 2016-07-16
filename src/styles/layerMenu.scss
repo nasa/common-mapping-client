@@ -2,11 +2,12 @@
     padding: 0.7rem 0rem;
     width: 100%;
     margin: 0px;
+    border-bottom: 1px solid $color-medium-light;
 }
 
 .layer-control:last-child {
     border-bottom: none;
-    padding-bottom: 0px;
+    /*padding-bottom: 0px;*/
 }
 
 .layer-header {
@@ -52,7 +53,6 @@
     line-height: 1.2rem;
     margin-left: 1.3rem;
     height: 12px;
-    /*background-image: url("http://localhost:3000/styles/resources/img/lines.png");*/
     background-repeat: repeat;
     background-size: 50%;
     position: relative;
@@ -113,18 +113,17 @@
     width: 18rem;
     height: auto;
     position: absolute;
-    top: 2rem;
+    top: 2.3rem;
     padding: 0.5rem;
     padding-right: 1rem;
     opacity: 0;
-    // & 
 }
 
 .position-controls-container {
     width: 12rem;
     height: 5.5rem;
     position: absolute;
-    top: 1.5rem;
+    top: 1.8rem;
     padding: 0px !important;
     opacity: 0;
     text-align: center;
@@ -133,7 +132,6 @@
 .position-controls-container,
 .opacity-slider-container {
     z-index: -1;
-    // right: -50rem;
     border-radius: 4px;
     background: $color-light;
     border: 1px solid $color-accent;
@@ -149,7 +147,6 @@
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
     z-index: 1;
-    // right: 7.3rem;
 }
 
 .position-controls-container {
@@ -160,7 +157,6 @@
     transition: opacity 0s linear 0s, right 0s linear 0s;
     opacity: 1;
     z-index: 1;
-    // right: 9.8rem;
     padding: 0px !important;
 }
 
@@ -222,19 +218,19 @@
 
 .layer-menu-note {
     letter-spacing: 0.15em;
-    background: white;
-    // font-style: italic;
+    background: $color-light;
     font-family: "Roboto Mono";
     font-size: 0.8em;
+    line-height: 1rem;
     margin: 0px 15px;
-    padding: 1px 4px;
-    text-transform: uppercase;
+    padding: 0.2rem 1rem;
+    top: -1px;
+    /*text-transform: uppercase;*/
     @include light-shadow();
     position: relative;
-    top: -1px;
     font-weight: 400;
     border-radius: 2px;
-    color: $color-text-secondary;
+    color: $color-medium-dark;
     .layer-menu-note-active {
         color: $color-accent;
     }
@@ -250,59 +246,47 @@ button.position-control-button {
     width: 370px;
     max-height: 31px;
     position: absolute;
-    bottom: 60px;
+    top: 42px;
     right: 10px;
-    z-index: 1;
+    z-index: 0;
     background: $color-light;
     overflow: hidden;
+    /*overflow: visible;*/
     padding: 0px;
-    display: block;
+    /*display: block;*/
+    @include flex();
+    @include flex-col();
     -webkit-transition: max-height 0.2s ease-out 0s;
     transition: max-height 0.2s ease-out 0s;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     @include light-shadow();
-}
-
-
-/* Chrome, Safari, Opera */
-
-// @-webkit-keyframes animateOpacity {
-//     0 {
-//     }
-// }
-// /* Standard syntax */
-// @keyframes mymove {
-//     from {
-//         top: 0px;
-//     }
-//     to {
-//         top: 200px;
-//     }
-// }
-#layerMenu.open {
-    max-height: 350px;
-}
-
-#layerMenu {
     .row {
         margin: 0px;
     }
 }
 
+#layerMenu.open {
+    /*max-height: 200px;*/
+    max-height: calc(75% - 96px);
+}
+
 #layerHeaderRow {
+    min-height: 31px;
     padding: 0.3rem;
     background: $color-primary;
     color: $color-light;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     @include light-shadow();
 }
 
 #layerMenuContent {
-    max-height: 300px;
+    height: 100%;
     display: block;
     width: 100%;
-    // overflow-x: hidden;
-    // overflow-y: auto;
+    @include flex();
+    @include flex-grow(1);
     .toggle {
         padding-left: 1.3rem;
         padding-right: 0px;

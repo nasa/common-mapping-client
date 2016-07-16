@@ -58,14 +58,15 @@ export class ShareContainer extends Component {
         return "";
     }
     getOpacitiesString() {
-        return this.props.layers.get("data").size > 0 ? appStrings.URL_KEYS.OPACITIES + "=" + this.props.layers.get("data").reduce((acc, layer) => {
+        let dataLayers = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_DATA);
+        return dataLayers.size > 0 ? appStrings.URL_KEYS.OPACITIES + "=" + dataLayers.reduce((acc, layer) => {
             acc.push(layer.get("id"));
             acc.push(layer.get("opacity"));
             return acc;
         }, []).join(",") : "";
     }
     getBasemapString() {
-        return appStrings.URL_KEYS.BASEMAP + "=" + this.props.layers.get("basemap").reduce((acc, layer) => {
+        return appStrings.URL_KEYS.BASEMAP + "=" + this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_BASEMAP).reduce((acc, layer) => {
             if (layer.get("isActive")) {
                 acc = layer.get("id");
             }
@@ -73,13 +74,13 @@ export class ShareContainer extends Component {
         }, "");
     }
     getPlaceLabelsString() {
-        let placeLabelsLayer = this.props.layers.get("reference").find((layer) => {
+        let placeLabelsLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
             return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
         });
         return appStrings.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
     }
     getPoliticalBoundariesString() {
-        let politicalBoundariesLayer = this.props.layers.get("reference").find((layer) => {
+        let politicalBoundariesLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
             return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
         });
         return appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));

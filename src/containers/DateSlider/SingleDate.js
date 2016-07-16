@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import d3 from 'd3';
-import * as DateSliderActions from '../../actions/DateSliderActions';
 import SingleDateD3 from '../../utils/SingleDateD3';
 import MiscUtil from '../../utils/MiscUtil';
 
@@ -12,8 +11,8 @@ export class SingleDate extends Component {
         // get D3 wrapper
         this.singleDateD3 = new SingleDateD3({
             selectNode: ReactDOM.findDOMNode(this),
-            defaultWidth: 12,
-            activeWidth: 7,
+            symbolWidth: 16,
+            symbolWidthLarge: 26,
             maxX: this.props.maxX,
             minX: this.props.minX,
             beforeDrag: this.props.beforeDrag,
@@ -37,17 +36,18 @@ export class SingleDate extends Component {
     }
     render() {
         let classNames = MiscUtil.generateStringFromSet({
-            singleDate: true,
+            "single-date": true,
             dragging: this.props.isDragging
         });
         return (
-            <rect className={classNames}></rect>
+            <g className={classNames}>
+                <circle className="single-date-inner" cx="0" cy="15" r="8" filter="url(#dropshadowFilter)"/>
+            </g>
         );
     }
 }
 SingleDate.propTypes = {
     date: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
     isDragging: PropTypes.bool,
     onDrag: PropTypes.func,
     beforeDrag: PropTypes.func,
@@ -56,13 +56,4 @@ SingleDate.propTypes = {
     minX: PropTypes.number
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(DateSliderActions, dispatch)
-    };
-}
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(SingleDate);
+export default connect()(SingleDate);

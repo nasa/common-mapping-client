@@ -49,9 +49,6 @@
         }
     }
     .modal-menu-content {
-        @include flex();
-        @include flex-col();
-        @include flex-grow(1);
         overflow: hidden;
         overflow-y: auto;
     }

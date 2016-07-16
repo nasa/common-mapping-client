@@ -4,6 +4,7 @@
     left: 0px;
     width: 100%;
     background: $color-light;
+    z-index: 1;
     @include light-shadow();
     .row {
         height: 42px;

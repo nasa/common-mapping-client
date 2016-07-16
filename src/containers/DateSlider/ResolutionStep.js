@@ -1,34 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-toolbox/lib/button';
+import KeyHandler, { KEYPRESS, KEYUP } from 'react-key-handler';
+import {Button, IconButton} from 'react-toolbox/lib/button';
 import * as appStrings from '../../constants/appStrings';
 import * as DateSliderActions from '../../actions/DateSliderActions';
 import MiscUtil from '../../utils/MiscUtil';
-import MenuDropdown from '../../components/MenuDropdown';
 
 export class ResolutionStep extends Component {
-    // <Button
-    //     neutral
-    //     // inverse
-    //     label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
-    //     className="no-padding resolution-step small"
-    //     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
-    // />
-    // <Button
-    //     neutral
-    //     // inverse
-    //     label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
-    //     className="no-padding resolution-step small"
-    //     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
-    // />
-    // <Button
-    //     neutral
-    //     // inverse
-    //     label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
-    //     className="no-padding resolution-step small"
-    //     onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
-    // />
     handleIncremendClick(up) {
         if(up) {
             if(this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
@@ -44,39 +23,65 @@ export class ResolutionStep extends Component {
             }
         }
     }
+    toggleResolutionSelector() {
+        this.props.actions.setIsSelectionResolution(!this.props.isSelectingResolution);
+    }
     render() {
-        let options = [{ value: appStrings.DATE_SLIDER_RESOLUTIONS.DAYS, label: appStrings.DATE_SLIDER_RESOLUTIONS.DAYS, abbrev: '' },
-            { value: appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS, label: appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS, abbrev: '' },
-            { value: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS, label: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS, abbrev: '' }
-        ];
-        let selected = appStrings.DATE_SLIDER_RESOLUTIONS.DAYS;
+        let resolutionSelectorClasses = MiscUtil.generateStringFromSet({
+            "resolution-selector": true,
+            "active": this.props.isSelectingResolution
+        });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
-                <div className="resolution-picker-selection-increment">
-                    <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.handleIncremendClick(true)}/>
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.handleIncremendClick(true) : false;}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.handleIncremendClick(false) : false;}} />
+                <div className={resolutionSelectorClasses}>
+                    <Button
+                        neutral
+                        // inverse
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
+                    />
+                    <Button
+                        neutral
+                        // inverse
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
+                    />
+                    <Button
+                        neutral
+                        // inverse
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
+                    />
                 </div>
-                <MenuDropdown
-                    auto
-                    className="list-item-dropdown small"
-                    onChange={(value) => this.props.actions.setDateResolution(value)}
-                    source={options}
-                    value={this.props.resolution}
-                />
-                <div className="resolution-picker-selection-increment">
-                    <Button neutral accent icon="arrow_drop_down" className="no-padding" onClick={() => this.handleIncremendClick(false)}/>
-                </div>
+                <IconButton
+                    accent={this.props.isSelectingResolution}
+                    onClick={() => this.toggleResolutionSelector()}
+                    className="timeline-zoom"
+                    icon="filter_list"
+                    data-tip="Zoom the Slider"
+                    data-place="left"
+                >
+                    {/*<i className="button-icon ms ms-fw ms-zoom-to-point"></i>*/}
+                </IconButton>
             </div>
         );
     }
 }
 ResolutionStep.propTypes = {
     resolution: PropTypes.string.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    isSelectingResolution: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        resolution: state.dateSlider.get("resolution")
+        resolution: state.dateSlider.get("resolution"),
+        isSelectingResolution: state.dateSlider.get("isSelectingResolution")
     };
 }
 

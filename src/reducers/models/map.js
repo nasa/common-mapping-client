@@ -54,6 +54,7 @@ export const layerModel = Immutable.fromJS({
     min: 0,
     max: 0,
     units: "",
+    timeFormat: "YYYY-MM-DD",
     time: moment(config.DEFAULT_DATE).format("YYYY-MM-DD"),
     type: "",
     isDefault: false,
@@ -66,7 +67,9 @@ export const layerModel = Immutable.fromJS({
     // thumbnailImage: "https://unsplash.it/700/400?image=967",
     // thumbnailImage: "https://unsplash.it/700/400?image=1032",
     fromJson: false,
-    handleAs: "generic"
+    clusterVector: false,
+    handleAs: "generic",
+    updateParameters: {"time": true}
 });
 
 export const paletteModel = Immutable.fromJS({

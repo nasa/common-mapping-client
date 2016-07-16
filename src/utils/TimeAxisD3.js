@@ -8,6 +8,7 @@ export default class TimeAxisD3 {
     initValues(options) {
         // extract values
         this._selectNode = options.selectNode || this._selectNode;
+        this._symbolWidth = options.symbolWidth || this._symbolWidth;
         this._onClick = options.onClick || this._onClick;
         this._onHover = options.onHover || this._onHover;
         this._onMouseOut = options.onMouseOut || this._onMouseOut;
@@ -103,11 +104,16 @@ export default class TimeAxisD3 {
             .call(this._xAxis);
 
         // configure the single date bounds
-        this._selection.selectAll(".singleDate").each(function() {
+        this._selection.selectAll(".single-date").each(function() {
             d3.select(this)
+                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
                 .attr('x', (d) => _context._xFn(d.date))
-                .attr('y', 2)
-                .attr('clip-path', "url(#chart-content)");
+                // .attr('y', 2)
+                // .attr('clip-path', "url(#chart-content)");
+                .attr("transform", (d) => {
+                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    return 'translate(' + _context._xFn(d.date) + ',0)';
+                });
         });
 
         // done entering time to update
@@ -128,17 +134,25 @@ export default class TimeAxisD3 {
             .attr('y', 0)
             .attr('height', this._height)
             .attr('width', this._width);
+        // not sure why this is displaced by 5px, I'm assuming some padding somewhere...
+        this._selection.select(".timeline-horiz-axis")
+            .attr("d", "M " + (this._margin.left - 5) + ",14, h " + (this._width + 5) + " Z");
 
         // configure the axis
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
         // update the single date display
-        this._selection.selectAll(".singleDate").each(function() {
+        this._selection.selectAll(".single-date").each(function() {
             d3.select(this)
                 .transition()
-                .duration(100)
-                .attr('x', (d) => _context._xFn(d.date));
+                .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 150)
+                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
+                .attr('x', (d) => (_context._xFn(d.date)))
+                .attr("transform", (d) => {
+                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
+                    return 'translate(' + _context._xFn(d.date) + ',0)';
+                });
         });
 
         this._selection.selectAll(".tick")
@@ -152,26 +166,33 @@ export default class TimeAxisD3 {
     }
 
     setResolution(options) {
-        if (options && options.scale && options.date) {
+        let _context = this;
+        if (options && options.date && (options.scale || !this.dateInRange(options.date))) {
 
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
             this._selection.call(this._selection.zoom.event);
 
             // Record the coordinates (in data space) of the center( in screen space).
+            let scale = options.scale ? options.scale : this._selection.zoom.scale();
             let center0 = [this._xFn(options.date), 0];
             let translate0 = this._selection.zoom.translate();
             let coordinates0 = this.coordinates(center0);
-            this._selection.zoom.scale(options.scale);
+            this._selection.zoom.scale(scale);
 
             // Translate back to the center.
             let center1 = this.point(coordinates0);
             this._selection.zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
             let translate1 = this._selection.zoom.translate();
-            let xOffset = ((this._xFn.range()[1] - (this._width / 2)) - this._xFn(options.date));
+            let xOffset = ((this._xFn.range()[1] - (this._width / 4)) - this._xFn(options.date));
             this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
 
             this._selection.transition().duration(750).call(this._selection.zoom.event);
         }
+    }
+
+    dateInRange(date) {
+        let dateX = this._xFn(date);
+        return this._xFn.range()[0] < dateX && this._xFn.range()[1] > dateX;
     }
 
     coordinates(point) {
@@ -194,7 +215,7 @@ export default class TimeAxisD3 {
         let seconds = d.getSeconds();
         let milliseconds = d.getMilliseconds();
         let y1 = "0";
-        let y2 = "-35";
+        let y2 = "-18";
         let className = "default";
         // Year
         if (month === 0 &&
@@ -204,8 +225,8 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "year";
-            y1 = "0";
-            y2 = "-35";
+            // y1 = "0";
+            // y2 = "-20";
         } // Month
         else if (day === 1 &&
             hour === 0 &&
@@ -213,30 +234,30 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "month";
-            y1 = "-5";
-            y2 = "-30";
+            // y1 = "-20";
+            // y2 = "-8";
         } else if (hour === 0 &&
             minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "day";
-            y1 = "-10";
-            y2 = "-25";
+            // y1 = "-20";
+            // y2 = "-16";
         } else if (minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "hour";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         } else if (seconds === 0 &&
             milliseconds === 0) {
             className = "minutes";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         } else if (milliseconds === 0) {
             className = "milliseconds";
-            y1 = "-12";
-            y2 = "-23";
+            // y1 = "-20";
+            // y2 = "-20";
         }
         selection.select("text")
             .classed("tick-text-" + className, true);
@@ -271,14 +292,19 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
-        let singleDate = this._selection.select('.singleDate');
+        let singleDate = this._selection.select('.single-date');
         // If not isDragging, set x of singledate to new value
         // If isDragging, do not set value so that single date can be
         //  dragged while zoom is in progress
         if (!singleDate.attr().data()[0].isDragging) {
-            singleDate.attr('x', d => {
-                return this._xFn(d.date);
-            });
+            singleDate
+                .attr('x', d => {
+                    return this._xFn(d.date);
+                })
+                .attr("transform", (d) => {
+                    // return 'translate(' + (this._xFn(d.date) - this._symbolWidth / 2) + ',0)';
+                    return 'translate(' + this._xFn(d.date) + ',0)';
+                });
         }
 
         let _context = this;
@@ -327,15 +353,15 @@ export default class TimeAxisD3 {
         this.initValues(options);
 
         // Cache scale
-        let cacheScale = this._selection.zoom.scale();
+        // let cacheScale = this._selection.zoom.scale();
 
         // Cache translate
-        let cacheTranslate = this._selection.zoom.translate();
+        // let cacheTranslate = this._selection.zoom.translate();
 
         // Cache translate values as percentages/ratio of the full width
-        let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
-            return -(v) / this.getScaledWidth();
-        });
+        // let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
+        //     return -(v) / this.getScaledWidth();
+        // });
 
         // Manually reset the zoom
         this._selection.zoom.scale(1).translate([0, 0]);
@@ -347,18 +373,18 @@ export default class TimeAxisD3 {
         this._selection.zoom.x(this._xFn);
 
         // Revert the scale back to our cached value
-        this._selection.zoom.scale(cacheScale);
+        // this._selection.zoom.scale(cacheScale);
 
         // Overwrite the cacheTranslate based on our cached percentage
-        cacheTranslate = cacheTranslate.map((v, i, a) => {
-            return -(cacheTranslatePerc[i] * this.getScaledWidth());
-        });
+        // cacheTranslate = cacheTranslate.map((v, i, a) => {
+        //     return -(cacheTranslatePerc[i] * this.getScaledWidth());
+        // });
 
-        // Finally apply the updated translate
-        this._selection.zoom.translate(cacheTranslate);
+        // // Finally apply the updated translate
+        // this._selection.zoom.translate(cacheTranslate);
 
-
-        this.update();
+        options.dateDuration = 0;
+        this.update(options);
     }
 
     getScaledWidth() {

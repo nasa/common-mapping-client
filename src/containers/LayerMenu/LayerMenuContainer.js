@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import LayerControlContainer from './LayerControlContainer';
-import * as layerActions from '../../actions/LayerActions';
-import MiscUtil from '../../utils/MiscUtil';
 import { Scrollbars } from 'react-custom-scrollbars';
+import * as mapStrings from '../../constants/mapStrings';
+import * as layerActions from '../../actions/LayerActions';
+import LayerControlContainer from './LayerControlContainer';
+import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     componentDidMount() {
@@ -38,13 +39,13 @@ export class LayerMenuContainer extends Component {
                 <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
                         <span className="layer-menu-header">LAYER CONTROLS</span>
-                        <span className="layer-menu-note"><span className="layer-menu-note-active">{activeNum}</span>/{totalNum}</span>
+                        <span className="layer-menu-note"><span className="layer-menu-note-active">{activeNum}</span>/{totalNum} Active</span>
                     </div>
                     <div className="col-xs-4 text-right">
                         <IconButton
                             neutral
                             inverse
-                            icon={this.props.layerMenuOpen ? "keyboard_arrow_down" : "keyboard_arrow_up"}
+                            icon={this.props.layerMenuOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}
                             className="no-padding mini-xs-waysmall"
                             onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
                         />
@@ -54,8 +55,8 @@ export class LayerMenuContainer extends Component {
                     <Scrollbars 
                         // style={{height:300}}
                         autoHeight
-                        autoHeightMin={0}
-                        autoHeightMax={300}
+                        // autoHeightMin={0}
+                        autoHeightMax={"100%"}
                         // autoHide={true}
                        renderThumbVertical={renderThumb}
                         renderTrackHorizontal={(style, ...props) =>
@@ -79,14 +80,16 @@ LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
-    palettes: PropTypes.object.isRequired
+    palettes: PropTypes.object.isRequired,
+    sliderCollapsed: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
-        layers: state.map.getIn(["layers", "data"]),
-        palettes: state.map.get("palettes")
+        layers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]),
+        palettes: state.map.get("palettes"),
+        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };
 }
 

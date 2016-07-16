@@ -5,7 +5,6 @@ import Button from 'react-toolbox/lib/button';
 import * as actions from '../../actions/MapActions';
 import * as mapStrings from '../../constants/mapStrings';
 import MiscUtil from '../../utils/MiscUtil';
-import ReactTooltip from 'react-tooltip';
 
 export class MapControlsContainer extends Component {
     setViewMode() {
@@ -67,7 +66,6 @@ export class MapControlsContainer extends Component {
                 <div className={coordinateContainerClasses}>
                     <span className="mouse-position-label">Position:</span> {coordinateString}
                 </div>
-                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );
     }

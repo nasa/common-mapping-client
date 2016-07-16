@@ -12,7 +12,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
-        this.layerCache = new Cache(100); // TODO - move this number into a config?
+        this.layerCache = new Cache(50); // TODO - move this number into a config?
     }
 
     createMap(container, options) {
@@ -59,6 +59,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
+            case mapStrings.LAYER_VECTOR_KML:
+                mapLayer = this.createVectorLayer(layer, fromCache);
+                break;
             default:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
@@ -80,6 +83,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let cacheHash = layer.get("id") + layer.get("time");
                 if (fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
+                    cachedLayer.setOpacity(layer.get("opacity"));
                     cachedLayer.setVisible(layer.get("isActive"));
                     return cachedLayer;
                 }
@@ -121,6 +125,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let cacheHash = layer.get("id") + layer.get("time");
             if (fromCache && this.layerCache.get(cacheHash)) {
                 let cachedLayer = this.layerCache.get(cacheHash);
+                cachedLayer.setOpacity(layer.get("opacity"));
                 cachedLayer.setVisible(layer.get("isActive"));
                 return cachedLayer;
             }
@@ -128,6 +133,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let layerSource = this.createLayerSource(layer, {
                 url: layer.get("url")
             });
+            if(layer.get("clusterVector")) {
+                layerSource = new ol.source.Cluster({source: layerSource});
+            }
             return new ol.layer.Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
@@ -265,7 +273,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
-                mapLayer.setVisible(false);
+                // mapLayer.setVisible(false);
+                this.removeLayer(mapLayer);
             }
             return true;
         } catch (err) {
@@ -304,7 +313,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (newBasemap) {
                 // replace or insert new basemap (insert should happen only once)
                 let mapLayers = this.map.getLayers();
-                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === "basemap") {
+                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     mapLayers.setAt(0, newBasemap);
                 } else {
                     mapLayers.insertAt(0, newBasemap);
@@ -488,7 +497,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach((mapLayer) => {
-                if (mapLayer._layerType === "data" && mapLayer.getVisible()) {
+                if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA && mapLayer.getVisible()) {
                     retList.push(mapLayer._layerId);
                 }
             });
@@ -555,6 +564,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.createVectorGeojsonSource(options);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createVectorTopojsonSource(options);
+            case mapStrings.LAYER_VECTOR_KML:
+                return this.createVectorKMLSource(options);
             default:
                 return this.createXYZSource(options);
         }
@@ -637,19 +648,26 @@ export default class MapWrapper_openlayers extends MapWrapper {
         });
     }
 
+    createVectorKMLSource(options) {
+        return new ol.source.Vector({
+            url: options.url,
+            format: new ol.format.KML()
+        });
+    }
+
     findTopInsertIndexForLayer(mapLayer) {
         let mapLayers = this.map.getLayers();
         let index = mapLayers.getLength();
 
-        if (mapLayer._layerType === "reference") { // referece layers always on top
+        if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
             return index;
-        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+        } else if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
             return 0;
         } else { // data layers in the middle
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.item(i);
-                if (compareLayer._layerType === "data" ||
-                    compareLayer._layerType === "basemap") {
+                if (compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     return i + 1;
                 }
             }

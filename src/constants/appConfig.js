@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const APP_NAME = "RiPTIDE";
 export const URLS = {
     layerConfig: [{
@@ -9,5 +11,5 @@ export const URLS = {
     }],
     paletteConfig: "default-data/palettes.json"
 };
-export const MIN_DATE = new Date("2000-06-11");
-export const MAX_DATE = new Date();
+export const MIN_DATE = moment("2000-06-11", "YYYY-MM-DD").toDate();
+export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();

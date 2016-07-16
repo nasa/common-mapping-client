@@ -288,8 +288,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
-            let updatedMapLayer = this.createLayer(layer);
             if (mapLayer) {
+                let updatedMapLayer = this.createLayer(layer);
                 let index = mapLayers.indexOf(mapLayer);
                 mapLayers.remove(mapLayer);
                 mapLayers.add(updatedMapLayer, index);
@@ -309,7 +309,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (newBasemap) {
                 // remove the current basemap
                 let currBasemap = mapLayers.get(0);
-                if (typeof currBasemap !== "undefined" && currBasemap._layerType === "basemap") {
+                if (typeof currBasemap !== "undefined" && currBasemap._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     mapLayers.remove(currBasemap);
                 }
                 mapLayers.add(newBasemap, 0);
@@ -350,6 +350,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             case mapStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorLayer(layer);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.createVectorLayer(layer);
+            case mapStrings.LAYER_VECTOR_KML:
                 return this.createVectorLayer(layer);
             default:
                 return this.createWMTSLayer(layer);
@@ -605,6 +607,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return this.createGeoJsonSource(layer);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createGeoJsonSource(layer);
+            case mapStrings.LAYER_VECTOR_KML:
+                return this.createKmlSource(layer);
             default:
                 return false;
         }
@@ -614,6 +618,13 @@ export default class MapWrapper_cesium extends MapWrapper {
             stroke: this.cesium.Color.fromCssColorString("#1E90FF"),
             fill: this.cesium.Color.fromCssColorString("#FEFEFE").withAlpha(0.5),
             strokeWidth: 3,
+            show: layer.get("isActive")
+        });
+    }
+    createKmlSource(layer) {
+        return this.cesium.KmlDataSource.load(layer.get("url"), {
+            camera: this.map.scene.camera,
+            canvas: this.map.scene.canvas,
             show: layer.get("isActive")
         });
     }
@@ -657,15 +668,15 @@ export default class MapWrapper_cesium extends MapWrapper {
     findTopInsertIndexForLayer(mapLayers, mapLayer) {
         let index = mapLayers.length;
 
-        if (mapLayer._layerType === "reference") { // referece layers always on top
+        if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
             return index;
-        } else if (mapLayer._layerType === "basemap") { // basemaps always on bottom
+        } else if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
             return 0;
         } else { // data layers in the middle
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.get(i);
-                if (compareLayer._layerType === "data" ||
-                    compareLayer._layerType === "basemap") {
+                if (compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     return i + 1;
                 }
             }
@@ -684,6 +695,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             case mapStrings.LAYER_VECTOR_GEOJSON:
                 return this.map.dataSources;
             case mapStrings.LAYER_VECTOR_TOPOJSON:
+                return this.map.dataSources;
+            case mapStrings.LAYER_VECTOR_KML:
                 return this.map.dataSources;
             default:
                 return this.map.imageryLayers;

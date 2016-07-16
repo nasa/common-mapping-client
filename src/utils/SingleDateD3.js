@@ -8,8 +8,8 @@ export default class TimeAxisD3 {
     initValues(options) {
         // extract values
         this._selectNode = options.selectNode || this._selectNode;
-        this._defaultWidth = options.defaultWidth || this._defaultWidth;
-        this._activeWidth = options.activeWidth || this._activeWidth;
+        this._symbolWidth = options.symbolWidth || this._symbolWidth;
+        this._symbolWidthLarge = options.symbolWidthLarge || this._symbolWidthLarge;
         this._maxX = options.maxX || this._maxX;
         this._minX = options.minX || this._minX;
         this._beforeDrag = options.beforeDrag || this._beforeDrag;
@@ -28,15 +28,6 @@ export default class TimeAxisD3 {
     update(options) {
         this.setDatum(options);
         this.initValues(options);
-
-        this._selection
-            .attr('width', (d) => {
-                return d.isDragging ? (this._activeWidth) : this._defaultWidth;
-            })
-            .attr('transform', (d) => {
-                let translate = !d.isDragging ? -(this._defaultWidth / 2) : -(this._activeWidth / 2);
-                return 'translate(' + translate + ',0)';
-            });
     }
 
     setDatum(options) {
@@ -50,28 +41,51 @@ export default class TimeAxisD3 {
         let drag = d3.behavior.drag()
             .on('dragstart', () => {
                 d3.event.sourceEvent.stopPropagation();
+                this._selection.select(".single-date-inner")
+                    .transition()
+                    .duration(150)
+                    .attr("r", this._symbolWidthLarge / 2);
                 if (typeof this._beforeDrag === "function") {
                     this._beforeDrag();
                 }
             })
             .on('drag', () => {
                 let scrollFlag = 0;
-                let maxX = this._maxX - (2 * this._activeWidth);
-                let minX = this._minX + (this._activeWidth);
+                let maxX = this._maxX - (this._symbolWidth);
+                let minX = this._minX + (this._symbolWidth / 2);
                 if (d3.event.x >= maxX) {
-                    this._selection.attr('x', (d) => maxX);
+                    this._selection
+                        .attr('x', (d) => maxX)
+                        .attr("transform", (d) => {
+                            // return 'translate(' + (maxX - (this._symbolWidth / 2)) + ',0)';
+                            return 'translate(' + (maxX) + ',0)';
+                        });
                     scrollFlag = 1;
                 } else if (d3.event.x <= minX) {
-                    this._selection.attr('x', (d) => minX);
+                    this._selection
+                        .attr('x', (d) => minX)
+                        .attr("transform", (d) => {
+                            // return 'translate(' + (minX - (this._symbolWidth / 2)) + ',0)';
+                            return 'translate(' + (minX) + ',0)';
+                        });
                     scrollFlag = -1;
                 } else {
-                    this._selection.attr('x', (d) => d3.event.x);
+                    this._selection
+                        .attr('x', (d) => d3.event.x)
+                        .attr("transform", (d) => {
+                            // return 'translate(' + (d3.event.x - (this._symbolWidth / 2)) + ',0)';
+                            return 'translate(' + (d3.event.x) + ',0)';
+                        });
                 }
                 if (typeof this._onDrag === "function") {
                     this._onDrag(d3.event.x, scrollFlag);
                 }
             })
             .on('dragend', () => {
+                this._selection.select(".single-date-inner")
+                    .transition()
+                    .duration(150)
+                    .attr("r", this._symbolWidth / 2);
                 if (typeof this._afterDrag === "function") {
                     this._afterDrag(this._selection.attr('x'));
                 }

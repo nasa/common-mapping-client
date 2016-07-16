@@ -2,18 +2,16 @@
     position: absolute;
     bottom: 0;
     display: block;
-    // background: darken($color-primary-dark, 20%);
-    background: #e2e2e2;
+    background: $color-medium-light;
     width: 100%;
-    height: 6rem;
+    height: 5rem;
     width: 100%;
     z-index: 1;
 }
 
 .hover-date-display {
     position: absolute;
-    // top: -4.3rem;
-    top: -10.1rem;
+    top: -4.1rem;
     left: 50%;
     font-size: 1.51rem;
     padding: 0.5rem 0.8rem;
@@ -38,10 +36,12 @@
     width: 0;
     position: absolute;
     pointer-events: none;
+    /*opacity: 0.7;*/
 }
 
 .hover-date-display:after {
     border-color: rgba(0, 0, 0, 0);
+    /*border-top-color: darken($color-accent, 20%);*/
     border-top-color: darken($color-accent, 20%);
     border-width: 10px;
     margin-left: -10px;
@@ -49,9 +49,14 @@
 
 .hover-date-display:before {
     border-color: rgba(0, 0, 0, 0);
-    // border-top-color: $color-accent;
-    border-width: 13px;
-    margin-left: -13px;
+    height: 35px;
+    width: 2px;
+    margin-left: -1px;
+    border: none;
+    /*background: darken($color-accent, 20%);*/
+    /*border-top-color: $color-accent;*/
+    /*border-width: 13px;*/
+    /*margin-left: -13px;*/
 }
 
 .resolution-step {
@@ -59,8 +64,18 @@
 }
 
 #dateSliderContainer {
-    position: relative;
+    position: absolute;
     width: 100%;
+    bottom: 0px;
+    left: 0px;
+    /*transition: left 0.1s linear 0s;*/
+    transition: bottom 0.1s linear 0s;
+    height: 50px;
+    @include medium-shadow();
+    &.collapsed {
+        /*left: -100%;*/
+        bottom: -50px;
+    }
 }
 
 #dateSlider {
@@ -84,98 +99,134 @@
     rect#chart-bounds,
     .tick {
         text {
-            fill: $color-text;
-            font-weight: 300;
+            fill: $color-medium-dark;
+            font-weight: 400;
             &.tick-text-default {
-                // fill: $color-text-secondary;
-                font-weight: 300;
-            }
-            &.tick-text-year {
                 font-weight: 400;
             }
+            &.tick-text-year {
+                font-weight: 700;
+            }
             &.tick-text-month {
-                font-weight: 300;
+                font-weight: 500;
             }
             &.tick-text-day {
-                font-weight: 300;
+                font-weight: 400;
             }
             &.tick-text-hour {
-                font-weight: 300;
+                font-weight: 400;
             }
         }
         line {
-            stroke: $color-text-secondary;
+            stroke: $color-medium-dark;
             &.tick-line-default {
-                stroke: $color-text-secondary;
+                stroke: $color-medium-dark;
             }
-            &.tick-line-year {
-                stroke: $color-text;
+            /*&.tick-line-year {
+                stroke: $color-dark;
             }
-            // &.tick-line-month {
-            //     stroke: $color-text-secondary;
-            // }
-            // &.tick-line-day {
-            //     stroke: $color-text-secondary;
-            // }
-            // &.tick-line-hour {
-            //     stroke: $color-text-secondary;
-            // }
+            &.tick-line-month {
+                stroke: $color-medium-dark;
+            }
+            &.tick-line-day {
+                stroke: $color-medium;
+            }
+            &.tick-line-hour {
+                stroke: $color-medium-light;
+            }*/
         }
     }
-    .singleDate {
+    .single-date {
         position: absolute;
-        height: 30px;
         fill: $color-accent;
+        fill-opacity: 1;
+        stroke: $color-accent, 10%;
+        stroke-width: 1;
+        stroke-opacity: 1;
         cursor: -webkit-grab;
         cursor: grab;
         &.dragging {
             cursor: -webkit-grabbing;
             cursor: grabbing;
-            height: 50px;
         }
     }
-}
-
-.resolution-picker-selection-increment {
-    opacity: 0;
-    transition: opacity 0.1s linear 0s;
-}
-
-.resolution-picker-selection-increment button {
-    font-size: 1.15rem;
-    padding: 0.3rem;
-    line-height: 1rem;
-    width: 100%;
-    height: initial;
-    text-align: center;
-    display: block;
-}
-
-.resolution-picker-selection-increment button > [data-react-toolbox="font-icon"] {
-    margin: 0px;
-    height: auto;
-    font-size: 3rem;
-    line-height: 1.15rem;
-}
-
-#dateSliderResolutionStepContainer:hover .resolution-picker-selection-increment {
-    opacity: 1;
+    .single-date-inner {
+        /*stroke: darken($color-accent, 20%);*/
+    }
+    .timeline-horiz-axis {
+        position: absolute;
+        fill: $color-medium-dark;
+        fill-opacity: 1;
+        stroke: $color-medium-dark;
+        stroke-width: 1;
+        stroke-opacity: 1;
+    }
 }
 
 #dateSliderResolutionStepContainer {
     position: absolute;
-    top: -6rem;
-    // top: 0px;
+    top: 0px;
+    right: 0px;
     font-family: "Roboto Mono";
     font-weight: 300;
-    right: 0px;
     z-index: 1;
-    width: 100px;
-    height: 6rem;
+    width: 60px;
+    height: 5rem;
     background: white;
-    @include medium-shadow();
+    @include light-shadow();
     button {
         font-weight: 400;
         font-family: "Roboto Mono";
+    }
+    .resolution-selector {
+        position: absolute;
+        width: 56px;
+        height: auto;
+        opacity: 0;
+        background: $color-light;
+        top: 200%;
+        left: 50%;
+        transform: translate(-50%, 0px);
+        border: 1px solid $color-accent;
+        border-radius: 4px;
+        transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
+        @include medium-shadow();
+
+        &:after,
+        &:before {
+            top: 100%;
+            left: 50%;
+            border: solid;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(0, 0, 0, 0);
+            border-top-color: $color-light;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+        &:before {
+            border-color: rgba(0, 0, 0, 0);
+            border-top-color: $color-accent;
+            border-width: 11px;
+            margin-left: -11px;
+        }
+        &.active {
+            top: calc(0px - (100% + 20px));
+            opacity: 1;
+            transition: opacity 0s linear 0s, top 0s linear 0s;
+        }
+    }
+    .timeline-zoom {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
     }
 }

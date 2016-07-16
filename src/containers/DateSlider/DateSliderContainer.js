@@ -10,6 +10,9 @@ import ResolutionStep from './ResolutionStep';
 
 export class DateSliderContainer extends Component {
     render() {
+        let containerClasses = MiscUtil.generateStringFromSet({
+            "collapsed": this.props.sliderCollapsed
+        });
         let hoverDateClasses = MiscUtil.generateStringFromSet({
             "hover-date-display": true,
             "hidden": !this.props.hoverDate.get("isValid")
@@ -19,7 +22,7 @@ export class DateSliderContainer extends Component {
         };
         let hoverDate = moment(this.props.hoverDate.get("date")).format("YYYY MMM DD");
         return (
-            <div id="dateSliderContainer">
+            <div id="dateSliderContainer" className={containerClasses}>
                 <div className={hoverDateClasses} style={hoverDateStyles}>
                     {hoverDate}
                 </div>
@@ -35,12 +38,14 @@ export class DateSliderContainer extends Component {
 }
 
 DateSliderContainer.propTypes = {
-    hoverDate: PropTypes.object.isRequired
+    hoverDate: PropTypes.object.isRequired,
+    sliderCollapsed: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        hoverDate: state.dateSlider.get("hoverDate")
+        hoverDate: state.dateSlider.get("hoverDate"),
+        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };
 }
 
