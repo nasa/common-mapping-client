@@ -218,18 +218,19 @@
 
 .layer-menu-note {
     letter-spacing: 0.15em;
-    background: white;
+    background: $color-light;
     font-family: "Roboto Mono";
     font-size: 0.8em;
+    line-height: 1rem;
     margin: 0px 15px;
-    padding: 1px 10px;
+    padding: 0.2rem 1rem;
+    top: -1px;
     /*text-transform: uppercase;*/
     @include light-shadow();
     position: relative;
-    top: -1px;
     font-weight: 400;
     border-radius: 2px;
-    color: $color-text-secondary;
+    color: $color-medium-dark;
     .layer-menu-note-active {
         color: $color-accent;
     }
@@ -275,6 +276,8 @@ button.position-control-button {
     padding: 0.3rem;
     background: $color-primary;
     color: $color-light;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     @include light-shadow();
 }
 

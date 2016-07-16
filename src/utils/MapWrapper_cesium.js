@@ -618,7 +618,6 @@ export default class MapWrapper_cesium extends MapWrapper {
             stroke: this.cesium.Color.fromCssColorString("#1E90FF"),
             fill: this.cesium.Color.fromCssColorString("#FEFEFE").withAlpha(0.5),
             strokeWidth: 3,
-            clampToGround: true,
             show: layer.get("isActive")
         });
     }
@@ -626,7 +625,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         return this.cesium.KmlDataSource.load(layer.get("url"), {
             camera: this.map.scene.camera,
             canvas: this.map.scene.canvas,
-            clampToGround: true,
             show: layer.get("isActive")
         });
     }
