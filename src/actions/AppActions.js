@@ -17,6 +17,18 @@ export function openLayerInfo(param) {
 export function closeLayerInfo() {
     return { type: types.CLOSE_LAYER_INFO };
 }
+export function openTools() {
+    return { type: types.OPEN_TOOLS };
+}
+export function closeTools() {
+    return { type: types.CLOSE_TOOLS };
+}
+export function enable2DDrawing(shapeType) {
+    return { type: types.ENABLE_2D_DRAWING, shapeType };
+}
+export function disable2DDrawing() {
+    return { type: types.DISABLE_2D_DRAWING };
+}
 export function openHelp(param) {
     return { type: types.OPEN_HELP, param };
 }
@@ -121,7 +133,8 @@ function setExtent(extent) {
         return new Promise(() => {
             dispatch(MapActions.setMapView({
                 extent: extent.map((numStr) => {
-                    return parseFloat(numStr); })
+                    return parseFloat(numStr);
+                })
             }));
         });
     };

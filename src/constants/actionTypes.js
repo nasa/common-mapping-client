@@ -3,6 +3,8 @@ export const COMPLETE_INITIAL_LOAD = 'COMPLETE_INITIAL_LOAD';
 export const SET_LAYER_MENU_OPEN = 'SET_LAYER_MENU_OPEN';
 export const OPEN_LAYER_INFO = 'OPEN_LAYER_INFO';
 export const CLOSE_LAYER_INFO = 'CLOSE_LAYER_INFO';
+export const OPEN_TOOLS = 'OPEN_TOOLS';
+export const CLOSE_TOOLS = 'CLOSE_TOOLS';
 export const OPEN_HELP = 'OPEN_HELP';
 export const CLOSE_HELP = 'CLOSE_HELP';
 export const OPEN_SHARE = 'OPEN_SHARE';
@@ -12,6 +14,10 @@ export const DISMISS_ALERT = 'DISMISS_ALERT';
 export const SET_FULL_SCREEN = 'SET_FULL_SCREEN';
 export const OPEN_SETTINGS = 'OPEN_SETTINGS';
 export const CLOSE_SETTINGS = 'CLOSE_SETTINGS';
+
+// Tool Actions
+export const ENABLE_2D_DRAWING = 'ENABLE_2D_DRAWING';
+export const DISABLE_2D_DRAWING = 'DISABLE_2D_DRAWING';
 
 // Map Actions
 export const SET_LAYER_ACTIVE = 'SET_LAYER_ACTIVE';

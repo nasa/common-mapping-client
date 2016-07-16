@@ -32,23 +32,26 @@ export class AppBarContainer extends Component {
                         <span id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>{this.props.subtitle}</span>
                     </div>
                     <div className="main-actions-container col-xs">
-                        <Button 
+                        <Button
                             neutral
                             icon=""
-                            className="main-action-button"
+                            className="main-action-button main-action-button-inactive"
                             label="Datasets"
                         />
                         <Button 
                             neutral
                             icon=""
-                            className="main-action-button"
+                            className="main-action-button main-action-button-inactive"
                             label="Timeline"
                         />
                         <Button 
                             neutral
                             icon=""
-                            className="main-action-button"
+                            accent
+                            raised
+                            className={"main-action-button "+ (this.props.toolsOpen ? "main-action-button-inactive" : "")}
                             label="Tools"
+                            onClick={() => this.props.toolsOpen ? this.props.actions.closeTools() : this.props.actions.openTools()} 
                         />
                     </div>
                     <div className="buttons-container col-xs-2">
@@ -101,14 +104,16 @@ AppBarContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string.isRequired
+    subtitle: PropTypes.string.isRequired,
+    toolsOpen: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         title: state.view.get("title"),
         subtitle: state.view.get("subtitle"),
-        isFullscreen: state.view.get("isFullscreen")
+        isFullscreen: state.view.get("isFullscreen"),
+        toolsOpen: state.tools.get("isOpen")
     };
 }
 

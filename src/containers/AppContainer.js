@@ -16,6 +16,7 @@ import AlertsContainer from './Alerts/AlertsContainer';
 import DateSliderContainer from './DateSlider/DateSliderContainer';
 import DatePickerContainer from './DatePicker/DatePickerContainer';
 import AppBarContainer from './AppBar/AppBarContainer';
+import ToolsContainer from './Tools/ToolsContainer';
 import LayerMenuContainer from './LayerMenu/LayerMenuContainer';
 import '../styles/styles.scss';
 
@@ -39,6 +40,7 @@ export class AppContainer extends Component {
                 <MapContainer />
                 <MapContainer3D />
                 <MapControlsContainer />
+                <ToolsContainer />
                 <AppBarContainer />
                 <SettingsContainer />
                 <ShareContainer />

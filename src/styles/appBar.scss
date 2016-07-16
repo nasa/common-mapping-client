@@ -38,14 +38,16 @@
         height: inherit;
         .main-action-button {
             @include light-shadow();
-            color: $color-dark;
             padding: 0px 19px;
             letter-spacing: 0.15rem;
             font-size: 1.5rem;
             height: calc(100% + 3px);
-            background: darken($color-light, 2);
             border-left: 1px solid lighten($color-medium, 20);
             border-radius: 0px;
+        }
+        .main-action-button-inactive {
+            background: darken($color-light, 2);
+            color: $color-dark;
         }
         .main-action-button:first-child {
             border-bottom-left-radius: 2px;
