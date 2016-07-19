@@ -30,8 +30,11 @@ export const COLORBAR_JSON_FIXED = "json-fixed";
 export const COLORBAR_JSON_RELATIVE = "json-relative";
 
 // tile URL function
-export const ESRI_CUSTOM_512 = "ESRI_CUSTOM_512";
-export const KVP_TIME_PARAM = "KVP_TIME_PARAM";
+export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
+export const ESRI_CUSTOM_512 = "esriCustom512";
+export const KVP_TIME_PARAM = "kvpTimeParam";
+export const CATS_URL = 'catsUrl';
 
 // tile load function
-export const BASIC_INTERCEPT = 'BASIC_INTERCEPT';
+export const CATS_TILE_OL = 'catsTile_OL';
+export const CATS_TILE_CS = 'catsTile_CS';

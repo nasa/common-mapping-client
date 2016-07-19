@@ -44,6 +44,7 @@ export const layerModel = Immutable.fromJS({
     isChangingOpacity: false,
     isChangingPosition: false,
     opacity: 1.0,
+    url: "",
     palette: {
         name: "",
         url: "",
@@ -58,8 +59,31 @@ export const layerModel = Immutable.fromJS({
     time: moment(config.DEFAULT_DATE).format("YYYY-MM-DD"),
     type: "",
     isDefault: false,
-    wmtsOptions: null,
-    metadata: {},
+    wmtsOptions: {
+        urlFunction: "",
+        tileFunction: "",
+        urlFunctions: {},
+        tileFunctions: {},
+        url: "",
+        layer: "",
+        format: "",
+        requestEncoding: "",
+        matrixSet: "",
+        projection: "",
+        extents: [],
+        tileGrid: {
+            origin: [],
+            resolutions: [],
+            matrixIds: [],
+            tileSize: 256
+        }
+    },
+    metadata: {
+        platform: "",
+        spatialResolution: "",
+        dateRange: "",
+        description: ""
+    },
     // One of these should work well...
     thumbnailImage: "https://unsplash.it/700/400?image=1025",
     // thumbnailImage: "https://unsplash.it/700/400?image=1002",

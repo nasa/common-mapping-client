@@ -2,6 +2,7 @@ import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import CesiumTilingScheme_GIBS from './CesiumTilingScheme_GIBS';
 import * as mapStrings from '../constants/mapStrings';
+import MapUtil from './MapUtil';
 import '../lib/cesium/Cesium.js';
 // import '../lib/cesium/CesiumUnminified.js';
 import '../lib/cesium/Widgets/widgets.css';
@@ -40,6 +41,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             contextOptions: {
                 alpha: true
             },
+            terrainExaggeration: 1,
             navigationInstructionsInitiallyVisible: false,
             scene3DOnly: true,
             clock: this.createClock(),
@@ -360,6 +362,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     createWMTSLayer(layer) {
         try {
+            let _context = this;
             let imageryProvider = this.createImageryProvider(layer);
             if (imageryProvider) {
                 let mapLayer = new this.cesium.ImageryLayer(imageryProvider, {
@@ -373,8 +376,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
                 mapLayer.imageryProvider._my_origTileLoadFunc = origTileLoadFunc;
-                mapLayer.imageryProvider.requestImage = (x, y, level) => {
-                    return this.handleTileLoad(layer, mapLayer, x, y, level);
+                mapLayer.imageryProvider.requestImage = function(x, y, level) {
+                    return _context.handleTileLoad(layer, mapLayer, x, y, level, this);
                 };
 
                 return mapLayer;
@@ -628,22 +631,56 @@ export default class MapWrapper_cesium extends MapWrapper {
             show: layer.get("isActive")
         });
     }
-    handleTileLoad(layer, mapLayer, x, y, level) {
-        let ret = mapLayer.imageryProvider._my_origTileLoadFunc(x, y, level);
-        if (typeof ret !== "undefined") {
-            return new Promise((resolve, reject) => {
-                try {
-                    mapLayer.imageryProvider._my_origTileLoadFunc(x, y, level).then((tileNode) => {
-                        resolve(tileNode);
-                    }, (err) => {
-                        reject(err);
-                    });
-                } catch (err) {
-                    reject(err);
-                }
-            });
+    handleTileLoad(layer, mapLayer, x, y, level, context) {
+        let url = layer.getIn(["wmtsOptions", "url"]);
+        let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_3D]));
+        let customTileFunction = MapUtil.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", mapStrings.MAP_LIB_3D]));
+
+        // have to override url to override tile load
+        if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
+            customUrlFunction = MapUtil.getUrlFunction(mapStrings.DEFAULT_URL_FUNC);
         }
-        return ret;
+
+        if (typeof customUrlFunction === "function") {
+            let tileFunc = () => {
+                return new Promise((resolve, reject) => {
+                    // get the customized url
+                    let tileUrl = customUrlFunction({
+                        layer,
+                        origUrl: layer.getIn(["wmtsOptions", "url"]),
+                        tileCoord: [level, x, y]
+                    });
+
+                    // run the customized tile creator
+                    if(typeof customTileFunction === "function") {
+                        customTileFunction({
+                            layer: layer,
+                            url: tileUrl,
+                            success: resolve,
+                            fail: reject
+                        });
+                    } else {
+                        // create a standard image and return it
+                        let imgTile = new Image();
+                        imgTile.onload = () => {
+                            resolve(imgTile);
+                        };
+                        imgTile.onerror = (err) => {
+                            reject(err);
+                        };
+
+                        if (MiscUtil.urlIsCrossorigin(tileUrl)) {
+                            imgTile.crossOrigin = '';
+                        }
+                        imgTile.src = tileUrl;
+                    }
+                });
+            };
+            // use Cesium's throttling to play nice with the rest of the system
+            return this.cesium.throttleRequestByServer(url, tileFunc);
+        } else {
+            return mapLayer.imageryProvider._my_origTileLoadFunc(x, y, level);
+        }
     }
     findLayerInMapLayers(mapLayers, layer) {
         let layerId = layer.get("id");
@@ -703,3 +740,64 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 }
+
+
+// try {
+//                         ret.then((tileNode) => {
+//                             let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_3D]));
+//                             // let customTileFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "tileFunctions", mapStrings.MAP_LIB_3D]));
+
+//                             // console.log(customTileFunction, customUrlFunction);
+
+//                             // let origUrl = layer.getIn(["wmtsOptions", "url"]);
+//                             let processedUrl = tileNode.getAttribute("src");
+//                             // if (typeof customUrlFunction === "function") {
+//                             //     processedUrl = customUrlFunction({
+//                             //         layer,
+//                             //         origUrl,
+//                             //         processedUrl,
+//                             //         tileCoord: [x, y, level]
+//                             //     });
+//                             // }
+
+//                             // if(typeof customTileFunction === "function") {
+//                             //     tileNode = customTileFunction({
+//                             //         layer,
+//                             //         url: processedUrl,
+//                             //         processedTile: tileNode
+//                             //     });
+//                             // } else {
+//                             //     tileNode.setAttribute("src", processedUrl);
+//                             //     tileNode.src = processedUrl;
+//                             // }
+//                             // console.log(tileNode);
+//                             // tileNode.setAttribute("src", processedUrl);
+//                             // let newNode = document.createElement("img");
+//                             // newNode.setAttribute("src", processedUrl);
+//                             // newNode.setAttribute("crossorigin", true);
+//                             // console.log(newNode);
+//                             // resolve(newNode);
+//                             this.cesium.ImageryProvider.loadImage(context, processedUrl).then((thing) => {
+//                                 let newImg = document.createElement("img");
+//                                 newImg.onload = () => {
+//                                     //create a new canvas element, draw the image and store the pixel data
+//                                     let canvas = document.createElement("canvas");
+//                                     canvas.width = thing.width;
+//                                     canvas.height = thing.height;
+
+//                                     let context = canvas.getContext("2d");
+//                                     context.drawImage(thing, 0, 0);
+//                                     resolve(canvas);
+//                                 };
+//                                 newImg.setAttribute("src", processedUrl);
+//                                 // resolve(thing);
+//                             }, (err) => {
+//                                 reject(err);
+//                             });
+//                         }, (err) => {
+//                             reject(err);
+//                         });
+//                     } catch (err) {
+//                         reject(err);
+//                     }
+//                 });

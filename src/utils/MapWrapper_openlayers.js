@@ -512,11 +512,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
-            let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
-            let customFunction = MapUtil.getUrlFunction(urlFunctionString);
+
+            // let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
+            // let customUrlFunction = MapUtil.getUrlFunction(urlFunctionString);
+
+            let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_2D]));
+
             let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
-            if (typeof customFunction === "function") {
-                return customFunction({
+            if (typeof customUrlFunction === "function") {
+                return customUrlFunction({
                     layer,
                     origUrl,
                     processedUrl,
@@ -534,12 +538,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            let tileFunctionString = layer.getIn(["wmtsOptions", "tileFunction"]);
-            let customFunction = MapUtil.getTileFunction(tileFunctionString);
+            // let tileFunctionString = layer.getIn(["wmtsOptions", "tileFunction"]);
+            // let customTileFunction = MapUtil.getTileFunction(tileFunctionString);
+
+            let customTileFunction = MapUtil.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", mapStrings.MAP_LIB_2D]));
+
             let processedTile = origFunc(tile, url);
 
-            if (typeof customFunction === "function") {
-                return customFunction({
+            if (typeof customTileFunction === "function") {
+                return customTileFunction({
                     layer,
                     tile,
                     url,
@@ -569,20 +576,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
             default:
                 return this.createXYZSource(options);
         }
-    }
-    WMTSOptionsComplete(options) {
-        return typeof options.url !== "undefined" &&
-            typeof options.layer !== "undefined" &&
-            typeof options.format !== "undefined" &&
-            typeof options.requestEncoding !== "undefined" &&
-            typeof options.matrixSet !== "undefined" &&
-            typeof options.projection !== "undefined" &&
-            typeof options.extents !== "undefined" &&
-            typeof options.tileGrid !== "undefined" &&
-            typeof options.tileGrid.origin !== "undefined" &&
-            typeof options.tileGrid.resolutions !== "undefined" &&
-            typeof options.tileGrid.matrixIds !== "undefined" &&
-            typeof options.tileGrid.tileSize !== "undefined";
     }
 
     createWMTSSource(options) {

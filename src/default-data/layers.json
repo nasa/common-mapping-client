@@ -8,7 +8,10 @@
         "max": 9.64,
         "units": "cm",
         "wmtsOptions": {
-            "urlFunction": "KVP_TIME_PARAM"
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
         },
         "metadata": {
             "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
@@ -29,7 +32,10 @@
         "max": 9.64,
         "units": "cm",
         "wmtsOptions": {
-            "urlFunction": "KVP_TIME_PARAM"
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
         },
         "metadata": {
             "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
@@ -51,7 +57,10 @@
         "max": 9.64,
         "units": "cm",
         "wmtsOptions": {
-            "urlFunction": "KVP_TIME_PARAM"
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
         },
         "metadata": {
             "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
@@ -72,7 +81,10 @@
         "max": 32.0,
         "units": "˚C",
         "wmtsOptions": {
-            "urlFunction": "KVP_TIME_PARAM"
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
         },
         "metadata": {
             "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
@@ -95,7 +107,10 @@
         "max": 340.0,
         "units": "˚K",
         "wmtsOptions": {
-            "urlFunction": "KVP_TIME_PARAM"
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
         },
         "metadata": {
             "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
@@ -143,11 +158,16 @@
             "projection": "EPSG:4326",
             "layer": "ESRI_World_Imagery",
             "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
-            "urlFunction": "ESRI_CUSTOM_512",
             "tileGrid": {
                 "minZoom": 1,
                 "maxZoom": 16,
                 "tileSize": 512
+            },
+            "urlFunctions": {
+                "openlayers": "esriCustom512"
+            },
+            "tileFunctions": {
+                "openlayers": "catsTile"
             }
         }
     }, {

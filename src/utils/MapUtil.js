@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import * as mapStrings from '../constants/mapStrings';
 import * as tileUrlFunctions from './TileUrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
@@ -59,13 +60,60 @@ export default class MapUtil {
         return MapWrapper_openlayers.getWmtsOptions(options);
     }
 
+    // generates a WMTS tile url from the provided options
+    static buildTileUrl(options) {
+        let layerId = options.layerId;
+        let url = options.url;
+        let tileMatrixSet = options.tileMatrixSet;
+        let tileMatrixLabels = options.tileMatrixLabels;
+        let col = options.col;
+        let row = options.row;
+        let level = options.level;
+        let format = options.format;
+
+        let tileMatrix = typeof tileMatrixLabels !== "undefined" ? tileMatrixLabels[level] : level.toString();
+
+        if (url.indexOf('{') >= 0) {
+            // resolve tile-URL template
+            url = url
+                .replace('{TileMatrixSet}', tileMatrixSet)
+                .replace('{TileMatrix}', tileMatrix)
+                .replace('{TileRow}', row.toString())
+                .replace('{TileCol}', col.toString());
+        } else {
+            // build KVP request
+            let queryOptions = Immutable.Map({
+                service: 'WMTS',
+                version: '1.0.0',
+                request: 'GetTile',
+                tilematrix: tileMatrix,
+                layer: layerId,
+                tilerow: row,
+                tilecol: col,
+                tilematrixset: tileMatrixSet,
+                format: format
+            });
+
+            let queryStr = MiscUtil.objectToUrlParams(queryOptions);
+
+            url = url.replace("?", "");
+            url = url + "?" + queryStr;
+        }
+
+        return url;
+    }
+
     // takes a function string and returns the tile url function associated with it or undefined
     static getUrlFunction(functionString = "") {
         switch (functionString) {
+            case mapStrings.DEFAULT_URL_FUNC:
+                return tileUrlFunctions.defaultUrlFunc;
             case mapStrings.ESRI_CUSTOM_512:
                 return tileUrlFunctions.esriCustom512;
             case mapStrings.KVP_TIME_PARAM:
                 return tileUrlFunctions.kvpTimeParam;
+            case mapStrings.CATS_URL:
+                return tileUrlFunctions.catsIntercept;
             default:
                 return undefined;
         }
@@ -74,8 +122,10 @@ export default class MapUtil {
     // takes a function string and returns the tile load function associated with it or undefined
     static getTileFunction(functionString = "") {
         switch (functionString) {
-            case mapStrings.BASIC_INTERCEPT:
-                return tileLoadFunctions.basicIntercept;
+            case mapStrings.CATS_TILE_OL:
+                return tileLoadFunctions.catsIntercept_OL;
+            case mapStrings.CATS_TILE_CS:
+                return tileLoadFunctions.catsIntercept_CS;
             default:
                 return undefined;
         }
