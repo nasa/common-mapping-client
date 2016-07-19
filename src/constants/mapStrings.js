@@ -40,3 +40,4 @@ export const BASIC_INTERCEPT = 'BASIC_INTERCEPT';
 // drawing shape types
 export const SHAPE_POINT = 'Point';
 export const SHAPE_CIRCLE = 'Circle';
+export const SHAPE_LINE_STRING = 'LineString';

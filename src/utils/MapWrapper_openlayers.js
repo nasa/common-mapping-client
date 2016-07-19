@@ -17,7 +17,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createMap(container, options) {
         try {
-            let vectorSource = new ol.source.Vector({ wrapX: false });
+            let vectorSource = new ol.source.Vector({ wrapX: true });
             let vectorLayer = new ol.layer.Vector({
                 source: vectorSource,
                 style: new ol.style.Style({

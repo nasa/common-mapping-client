@@ -27,6 +27,13 @@ export class ToolsContainer extends Component {
                     data-place="right">
                     <CircleIcon/>
                 </IconButton>
+                <IconButton
+                    neutral
+                    onClick={() => this.props.actions.enableDrawing(mapStrings.SHAPE_LINE_STRING)}
+                    data-tip="Draw LineString"
+                    data-place="right">
+                    <i className="ms ms-line"/>
+                </IconButton>
             </div>
         );
     }

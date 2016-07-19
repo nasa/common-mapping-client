@@ -41,6 +41,22 @@ export class MapContainer extends Component {
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry)
             })
+            map.addDrawHandler(mapStrings.SHAPE_LINE_STRING, (event) => {
+                // Draw end
+                // Disable drawing
+                this.props.actions.disableDrawing();
+
+                // Recover geometry from event
+                let geometry = {
+                    type: mapStrings.SHAPE_LINE_STRING
+                    // center: event.feature.getGeometry().getCenter(),
+                    // radius: event.feature.getGeometry().getRadius()
+                }
+
+                // console.log(mapStrings.SHAPE_LINE_STRING, " = ", geometry);
+                // Add geometry to other maps
+                this.props.actions.addGeometryToMap(geometry)
+            })
         }
     }
 
