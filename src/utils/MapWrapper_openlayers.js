@@ -17,11 +17,31 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createMap(container, options) {
         try {
+            let vectorSource = new ol.source.Vector({ wrapX: true });
+            let vectorLayer = new ol.layer.Vector({
+                source: vectorSource,
+                style: new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc33',
+                        width: 2
+                    }),
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: '#ffcc33'
+                        })
+                    })
+                })
+            });
+            vectorLayer["_layerId"] = "_vector_drawings";
             let viewOptions = options.get("view").toJS();
             return new ol.Map({
                 target: container,
                 renderer: 'canvas',
-                layers: [],
+                layers: [vectorLayer],
                 view: new ol.View({
                     zoom: viewOptions.zoom,
                     maxZoom: viewOptions.maxZoom,
@@ -62,6 +82,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             case mapStrings.LAYER_VECTOR_KML:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
+                // case mapStrings.LAYER_VECTOR_DRAWING:
+                //     mapLayer = this.createVectorLayer(layer, false);
+                //     break;
             default:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
@@ -133,13 +156,33 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let layerSource = this.createLayerSource(layer, {
                 url: layer.get("url")
             });
-            if(layer.get("clusterVector")) {
-                layerSource = new ol.source.Cluster({source: layerSource});
+            if (layer.get("clusterVector")) {
+                layerSource = new ol.source.Cluster({ source: layerSource });
             }
+
+            // let style = {};
+            // if (layer.get("id") === "Vector_drawings") {
+            //     style = new ol.style.Style({
+            //         fill: new ol.style.Fill({
+            //             color: 'rgba(255, 255, 255, 0.2)'
+            //         }),
+            //         stroke: new ol.style.Stroke({
+            //             color: '#ffcc33',
+            //             width: 2
+            //         }),
+            //         image: new ol.style.Circle({
+            //             radius: 7,
+            //             fill: new ol.style.Fill({
+            //                 color: '#ffcc33'
+            //             })
+            //         })
+            //     })
+            // }
             return new ol.layer.Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
                 visible: layer.get("isActive")
+                    // style: style
             });
         } catch (err) {
             console.warn("could not create map layer", err);
@@ -201,6 +244,88 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    enableDrawing(geometryType) {
+        // Get drawHandler by geometryType
+        let interaction = this.findInteractionById("draw_" + geometryType);
+        if (!interaction) {
+            console.warn("could not enable openlayers drawing for:", geometryType);
+            return false;
+        }
+        // Call setActive(true) on handler to enable
+        interaction.setActive(true);
+        // Check that handler is active
+        return interaction.getActive();
+    }
+
+    disableDrawing() {
+        // Call setActive(false) on all handlers
+        let drawInteractions = this.findInteractionsWithKey("_drawInteraction");
+        drawInteractions.map((handler) => {
+            handler.setActive(false);
+            // Check that handler is not active
+            if (handler.getActive()) {
+                console.warn("could not disable openlayers draw handler:", handler.get("_id"));
+            }
+        })
+        return true;
+
+    }
+
+    addGeometry(geometry) {
+        console.log("add geometry not complete in openlayers")
+        return false;
+    }
+
+    findInteractionsWithKey(id) {
+        // TODO use MISCUTIL FN
+        let mapInteractions = this.map.getInteractions();
+        if (!mapInteractions) {
+            console.warn("could not get openlayers interactions");
+            return false;
+        }
+        return mapInteractions.getArray().filter((x) => x.get(id));
+    }
+
+    findInteractionById(id) {
+        // TODO use MISCUTIL FN
+        let mapInteractions = this.map.getInteractions();
+        if (!mapInteractions) {
+            console.warn("could not get openlayers interactions");
+            return false;
+        }
+        let interaction = mapInteractions.getArray().filter((x) => x.get("_id") === id);
+        if (!interaction || interaction.length !== 1) {
+            console.warn("could not find requested openlayers interaction");
+            return false;
+        }
+        return interaction[0];
+    }
+
+    addDrawHandler(geometryType, onDrawEnd) {
+        let mapLayers = this.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        if (!mapLayer) {
+            console.warn("could not enable drawing in openlayers map");
+            return false;
+        }
+        let draw = new ol.interaction.Draw({
+            source: mapLayer.getSource(),
+            type: geometryType
+        });
+        // Set callback
+        draw.on('drawend', onDrawEnd);
+        // Disable
+        draw.setActive(false);
+        // Set properties we'll need
+        draw.set('_id', "draw_" + geometryType);
+        draw.set('_drawInteraction', true);
+        // Add to map
+        this.map.addInteraction(draw);
+        return true;
+        // } catch (err) {
+        //     console.warn("could not enable drawing in openlayers map");
+        // }
+    }
 
     setScaleUnits(units) {
         try {
@@ -573,6 +698,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.createVectorTopojsonSource(options);
             case mapStrings.LAYER_VECTOR_KML:
                 return this.createVectorKMLSource(options);
+            case mapStrings.LAYER_VECTOR_DRAWING:
+                return this.createVectorDrawingSource(options);
             default:
                 return this.createXYZSource(options);
         }
@@ -646,6 +773,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
             url: options.url,
             format: new ol.format.KML()
         });
+    }
+
+    createVectorDrawingSource(options) {
+        return new ol.source.Vector({
+            wrapX: false
+        })
     }
 
     findTopInsertIndexForLayer(mapLayer) {

@@ -51,3 +51,15 @@ export function setDate(date) {
 export function pixelHover(pixel) {
     return { type: types.PIXEL_HOVER, pixel };
 }
+
+export function enableDrawing(geometryType) {
+    return { type: types.ENABLE_DRAWING, geometryType };
+}
+
+export function disableDrawing() {
+    return { type: types.DISABLE_DRAWING };
+}
+
+export function addGeometryToMap(geometry) {
+    return { type: types.ADD_GEOMETRY_TO_MAP, geometry };
+}

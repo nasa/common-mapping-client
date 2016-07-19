@@ -13,9 +13,6 @@ const closeTools = (state, action) => {
     return state.set("isOpen", false);
 };
 
-const enable2DDrawing = (state, action) => {
-    return state.set("is2DDrawingEnabled", true).set("drawingType2D", action.type);
-};
 export default function tools(state = toolsState, action) {
     switch (action.type) {
         case actionTypes.OPEN_TOOLS:
@@ -23,9 +20,6 @@ export default function tools(state = toolsState, action) {
 
         case actionTypes.CLOSE_TOOLS:
             return closeTools(state, action);
-
-        case actionTypes.ENABLE_2D_DRAWING:
-            return enable2DDrawing(state, action);
 
         default:
             return state;

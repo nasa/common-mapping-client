@@ -16,8 +16,8 @@ export const OPEN_SETTINGS = 'OPEN_SETTINGS';
 export const CLOSE_SETTINGS = 'CLOSE_SETTINGS';
 
 // Tool Actions
-export const ENABLE_2D_DRAWING = 'ENABLE_2D_DRAWING';
-export const DISABLE_2D_DRAWING = 'DISABLE_2D_DRAWING';
+export const ENABLE_DRAWING = 'ENABLE_DRAWING';
+export const DISABLE_DRAWING = 'DISABLE_DRAWING';
 
 // Map Actions
 export const SET_LAYER_ACTIVE = 'SET_LAYER_ACTIVE';
@@ -48,6 +48,7 @@ export const MOVE_LAYER_TO_BOTTOM = 'MOVE_LAYER_TO_BOTTOM';
 export const MOVE_LAYER_UP = 'MOVE_LAYER_UP';
 export const MOVE_LAYER_DOWN = 'MOVE_LAYER_DOWN';
 export const INGEST_LAYER_PALETTES = 'INGEST_LAYER_PALETTES';
+export const ADD_GEOMETRY_TO_MAP = 'ADD_GEOMETRY_TO_MAP';
 
 // Async Actions
 export const LOAD_INITIAL_DATA = 'LOAD_INITIAL_DATA';

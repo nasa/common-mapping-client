@@ -30,6 +30,10 @@ export const mapState = Immutable.fromJS({
             isValid: false
         }
     },
+    drawing: {
+        isDrawingEnabled: false,
+        geometryType: ""
+    },
     displaySettings: {
         enableTerrain: true,
         selectedScaleUnits: "metric"
@@ -93,7 +97,7 @@ export const layerModel = Immutable.fromJS({
     fromJson: false,
     clusterVector: false,
     handleAs: "generic",
-    updateParameters: {"time": true}
+    updateParameters: { "time": true }
 });
 
 export const paletteModel = Immutable.fromJS({

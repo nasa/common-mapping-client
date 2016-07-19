@@ -23,12 +23,6 @@ export function openTools() {
 export function closeTools() {
     return { type: types.CLOSE_TOOLS };
 }
-export function enable2DDrawing(shapeType) {
-    return { type: types.ENABLE_2D_DRAWING, shapeType };
-}
-export function disable2DDrawing() {
-    return { type: types.DISABLE_2D_DRAWING };
-}
 export function openHelp(param) {
     return { type: types.OPEN_HELP, param };
 }

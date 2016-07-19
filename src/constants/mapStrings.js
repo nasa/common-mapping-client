@@ -23,6 +23,7 @@ export const LAYER_XYZ = 'xyz';
 export const LAYER_VECTOR_GEOJSON = 'vector_geojson';
 export const LAYER_VECTOR_TOPOJSON = 'vector_topojson';
 export const LAYER_VECTOR_KML = 'vector_kml';
+export const LAYER_VECTOR_DRAWING = 'vector_drawing';
 
 // layer colorbar formats
 export const COLORBAR_IMAGE = "image";
@@ -38,3 +39,8 @@ export const CATS_URL = 'catsUrl';
 // tile load function
 export const CATS_TILE_OL = 'catsTile_OL';
 export const CATS_TILE_CS = 'catsTile_CS';
+
+// drawing shape types
+export const SHAPE_POINT = 'Point';
+export const SHAPE_CIRCLE = 'Circle';
+export const SHAPE_LINE_STRING = 'LineString';

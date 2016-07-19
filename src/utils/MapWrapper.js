@@ -15,6 +15,22 @@ export default class MapWrapper {
         return false;
     }
 
+    addDrawHandler(geometryType, onDrawEnd) {
+        console.warn("addDrawHandler not implemented in subclass");
+        return false;
+    }
+    enableDrawing(geometryType) {
+        console.warn("enableDrawing not implemented in subclass");
+        return false;
+    }
+    disableDrawing() {
+        console.warn("disableDrawing not implemented in subclass");
+        return false;
+    }
+    addGeometry(geometry) {
+        console.warn("addGeometry not implemented in subclass");
+        return false;
+    }
     getCenter() {
         console.warn("getCenter not implemented in subclass");
         return false;
