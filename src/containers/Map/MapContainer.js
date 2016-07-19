@@ -5,6 +5,7 @@ import { Button } from 'react-toolbox/lib/button';
 import * as actions from '../../actions/MapActions';
 import * as mapStrings from '../../constants/mapStrings';
 import MiscUtil from '../../utils/MiscUtil';
+import KeyHandler, { KEYUP } from 'react-key-handler';
 
 export class MapContainer extends Component {
 
@@ -16,8 +17,31 @@ export class MapContainer extends Component {
             setTimeout(() => {
                 this.props.actions.initializeMap(mapStrings.MAP_LIB_2D, "map2D");
                 this.initializeMapListeners();
+                this.initializeMapDrawHandlers();
             }, 0);
         });
+    }
+
+    initializeMapDrawHandlers() {
+        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_2D);
+        if (typeof map !== "undefined") {
+            map.addDrawHandler(mapStrings.SHAPE_CIRCLE, (event) => {
+                // Draw end
+                // Disable drawing
+                this.props.actions.disableDrawing();
+
+                // Recover geometry from event
+                let geometry = {
+                    type: mapStrings.SHAPE_CIRCLE,
+                    center: event.feature.getGeometry().getCenter(),
+                    radius: event.feature.getGeometry().getRadius()
+                }
+
+                // console.log(mapStrings.SHAPE_CIRCLE, " = ", geometry);
+                // Add geometry to other maps
+                this.props.actions.addGeometryToMap(geometry)
+            })
+        }
     }
 
     initializeMapListeners() {
@@ -49,6 +73,15 @@ export class MapContainer extends Component {
         return (
             <div id="mapContainer2D" className={this.props.mapState.in3DMode ? "hidden" : ""}>
                 <div id="map2D"></div>
+                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
+                    {
+                        // Only disable if drawing is enabled
+                        if (this.props.mapState.isDrawingEnabled) {
+                            // Add other dialog checks here?
+                            this.props.actions.disableDrawing()
+                        }
+                    }
+                } />
             </div>
         );
     }
@@ -63,7 +96,8 @@ function mapStateToProps(state) {
     return {
         mapState: {
             maps: state.map.get("maps"),
-            in3DMode: state.map.getIn(["view", "in3DMode"])
+            in3DMode: state.map.getIn(["view", "in3DMode"]),
+            isDrawingEnabled: state.map.getIn(["drawing", "isDrawingEnabled"])
         }
     };
 }

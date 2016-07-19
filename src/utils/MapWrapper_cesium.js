@@ -185,6 +185,11 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
+    addGeometry(geometry) {
+        console.log("add geometry not complete in cesium")
+        return false;
+    }
+
     addEventListener(eventStr, callback) {
         try {
             switch (eventStr) {
@@ -352,6 +357,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             case mapStrings.LAYER_VECTOR_TOPOJSON:
                 return this.createVectorLayer(layer);
             case mapStrings.LAYER_VECTOR_KML:
+                return this.createVectorLayer(layer);
+            case mapStrings.LAYER_VECTOR_DRAWING:
                 return this.createVectorLayer(layer);
             default:
                 return this.createWMTSLayer(layer);

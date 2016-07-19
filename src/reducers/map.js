@@ -451,7 +451,7 @@ const setMapDate = (state, action) => {
     let anyFail = state.get("maps").reduce((acc1, map) => {
         // only updated data layers, should we update basemaps and reference layers too?
         let mapFail = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
-            if(layer.get("updateParameters").get("time")) {
+            if (layer.get("updateParameters").get("time")) {
                 if (!map.updateLayer(layer)) {
                     return true;
                 }
@@ -547,6 +547,68 @@ const ingestLayerPalettes = (state, action) => {
     }
     return state;
 };
+
+const enableDrawing = (state, action) => {
+    // For each map, enable drawing
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.enableDrawing(action.geometryType)) {
+            return true;
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        return state.setIn(["drawing", "isDrawingEnabled"], true).setIn(["drawing", "geometryType"], action.geometryType)
+    }
+    return state;
+};
+
+const disableDrawing = (state, action) => {
+    // For each map, disable drawing
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.disableDrawing()) {
+            return true;
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        state.setIn(["drawing", "isDrawingEnabled"], false).setIn(["drawing", "geometryType"], "");
+        return state.setIn(["drawing", "isDrawingEnabled"], false).setIn(["drawing", "geometryType"], "");
+    }
+    return state;
+};
+
+const addGeometryToMap = (state, action) => {
+    let alerts = state.get("alerts");
+    // Add geometry to each inactive map
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        // Only add geometry to inactive maps
+        if (!map.isActive) {
+            if (map.addGeometry(action.geometry)) {
+                return true;
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: "Geometry Synchronization Failed",
+                    body: "One of the maps failed to synchronize its geometry",
+                    severity: 3,
+                    time: new Date()
+                }));
+            }
+        }
+        return acc;
+    }, false);
+
+    // if (anySucceed) {
+    //     return state
+    // .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
+    // .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
+    // .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
+    // .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
+    // .set("alerts", alerts);
+    // }
+    return state;
+}
 
 const resetApplicationState = (state, action) => {
     let newState = state;
@@ -671,6 +733,15 @@ export default function map(state = mapState, action) {
 
         case actionTypes.INGEST_LAYER_PALETTES:
             return ingestLayerPalettes(state, action);
+
+        case actionTypes.ENABLE_DRAWING:
+            return enableDrawing(state, action);
+
+        case actionTypes.DISABLE_DRAWING:
+            return disableDrawing(state, action);
+
+        case actionTypes.ADD_GEOMETRY_TO_MAP:
+            return addGeometryToMap(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);
