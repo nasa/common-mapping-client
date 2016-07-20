@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+// import raw from 'raw-loader';
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('development'),
@@ -27,7 +28,7 @@ export default {
         new webpack.NoErrorsPlugin()
     ],
     resolve: {
-        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json']
+        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
     },
     module: {
         unknownContextCritical: false,
@@ -38,7 +39,8 @@ export default {
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
-            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' }
+            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' },
+            { test: /\.md$/, loader: "raw-loader" }
         ]
     },
     toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }

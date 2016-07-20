@@ -266,13 +266,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (handler.getActive()) {
                 console.warn("could not disable openlayers draw handler:", handler.get("_id"));
             }
-        })
+        });
         return true;
 
     }
 
     addGeometry(geometry) {
-        console.log("add geometry not complete in openlayers")
+        console.log("add geometry not complete in openlayers");
         return false;
     }
 
@@ -778,7 +778,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorDrawingSource(options) {
         return new ol.source.Vector({
             wrapX: false
-        })
+        });
     }
 
     findTopInsertIndexForLayer(mapLayer) {

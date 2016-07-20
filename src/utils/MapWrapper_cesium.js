@@ -188,7 +188,7 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     addGeometry(geometry) {
-        console.log("add geometry not complete in cesium")
+        console.log("add geometry not complete in cesium");
         return false;
     }
 
