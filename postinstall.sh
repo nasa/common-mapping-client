@@ -4,6 +4,9 @@
 rm -rf public && mkdir public
 cp -r ./src/lib/cesium/* ./public
 
+# Copy Cesium-drawhelper
+cp -r ./src/lib/Cesium-drawhelper-master ./public
+
 # Remove styles lib
 rm -rf ./src/styles/lib && mkdir ./src/styles/lib
 

@@ -25,37 +25,38 @@ export class MapContainer extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.SHAPE_CIRCLE, (event) => {
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (event) => {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
 
                 // Recover geometry from event
+                let center = event.feature.getGeometry().getCenter();
                 let geometry = {
-                    type: mapStrings.SHAPE_CIRCLE,
-                    center: event.feature.getGeometry().getCenter(),
+                    type: mapStrings.GEOMETRY_CIRCLE,
+                    center: { lon: center[0], lat: center[1] },
                     radius: event.feature.getGeometry().getRadius()
                 }
 
-                // console.log(mapStrings.SHAPE_CIRCLE, " = ", geometry);
+                console.log(mapStrings.GEOMETRY_CIRCLE, " = ", geometry);
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry)
             })
-            map.addDrawHandler(mapStrings.SHAPE_LINE_STRING, (event) => {
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (event) => {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
 
                 // Recover geometry from event
                 let geometry = {
-                    type: mapStrings.SHAPE_LINE_STRING
-                    // center: event.feature.getGeometry().getCenter(),
-                    // radius: event.feature.getGeometry().getRadius()
+                    type: mapStrings.GEOMETRY_LINE_STRING
+                        // center: event.feature.getGeometry().getCenter(),
+                        // radius: event.feature.getGeometry().getRadius()
                 }
 
-                // console.log(mapStrings.SHAPE_LINE_STRING, " = ", geometry);
+                // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
                 // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry)
+                this.props.actions.addGeometryToMap(geometry);
             })
         }
     }

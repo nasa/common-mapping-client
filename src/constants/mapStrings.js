@@ -40,7 +40,7 @@ export const CATS_URL = 'catsUrl';
 export const CATS_TILE_OL = 'catsTile_OL';
 export const CATS_TILE_CS = 'catsTile_CS';
 
-// drawing shape types
-export const SHAPE_POINT = 'Point';
-export const SHAPE_CIRCLE = 'Circle';
-export const SHAPE_LINE_STRING = 'LineString';
+// drawing geometry types
+export const GEOMETRY_POINT = 'Point';
+export const GEOMETRY_CIRCLE = 'Circle';
+export const GEOMETRY_LINE_STRING = 'LineString';

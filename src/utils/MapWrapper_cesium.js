@@ -4,6 +4,7 @@ import CesiumTilingScheme_GIBS from './CesiumTilingScheme_GIBS';
 import * as mapStrings from '../constants/mapStrings';
 import MapUtil from './MapUtil';
 import '../lib/cesium/Cesium.js';
+import '../lib/cesium-drawhelper-master/DrawHelper.js';
 // import '../lib/cesium/CesiumUnminified.js';
 import '../lib/cesium/Widgets/widgets.css';
 
@@ -14,9 +15,14 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.is3D = true;
         this.isActive = options.getIn(["view", "in3DMode"]);
 
+        // Create cesium scene 
         window.CESIUM_BASE_URL = './';
         this.cesium = window.Cesium;
+        this.drawHelper = window.DrawHelper;
         this.map = this.createMap(container, options);
+
+        // Create cesium-draw-helper
+        this.drawHandler = new this.drawHelper(this.map);
 
         // store limits for zoom
         this.zoomLimits = {
@@ -187,9 +193,46 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
+    enableDrawing(geometryType) {
+        // Enable drawing for geometryType
+
+        // let interaction = this.findInteractionById("draw_" + geometryType);
+        // if (!interaction) {
+        //     console.warn("could not enable openlayers drawing for:", geometryType);
+        //     return false;
+        // }
+        // // Call setActive(true) on handler to enable
+        // interaction.setActive(true);
+        // // Check that handler is active
+        // return interaction.getActive();
+    }
+
     addGeometry(geometry) {
-        console.log("add geometry not complete in cesium")
-        return false;
+        let primitiveToAdd = null;
+        if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
+            console.log("ADDING GEOMETRY_CIRCLE", geometry);
+            // Calc radius by finding cartesian distance from 
+            //  center to radius point
+
+            let point = { lat: geometry.center.lat, lon: geometry.center.lon };
+            point.lon += geometry.radius;
+
+            let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
+            let cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
+            let cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint)
+
+            primitiveToAdd = new this.drawHelper.CirclePrimitive({
+                center: cesiumCenter,
+                radius: cesiumRadius,
+                material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            });
+            console.log(primitiveToAdd, geometry)
+            this.map.scene.primitives.add(primitiveToAdd);
+            // return;
+            // default:
+            // return;
+        }
+        // return false;
     }
 
     addEventListener(eventStr, callback) {
@@ -416,6 +459,12 @@ export default class MapWrapper_cesium extends MapWrapper {
             return layerSource;
         }
         return false;
+    }
+
+    latLonToCartesian(lat, lon) {
+        console.log(this.map, "?")
+        return new this.cesium.Cartesian3.fromDegrees(lon, lat);
+        // this.cesium.Cartesian3(-4467834.49972473, -2408349.889633406, 3849553.7725456078);
     }
 
     getLatLonFromPixelCoordinate(pixel) {
@@ -659,7 +708,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     });
 
                     // run the customized tile creator
-                    if(typeof customTileFunction === "function") {
+                    if (typeof customTileFunction === "function") {
                         customTileFunction({
                             layer: layer,
                             url: tileUrl,

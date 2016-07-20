@@ -22,14 +22,14 @@ export class ToolsContainer extends Component {
             <div className={toolsClasses}>
                 <IconButton
                     neutral
-                    onClick={() => this.props.actions.enableDrawing(mapStrings.SHAPE_CIRCLE)}
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}}
                     data-tip="Draw Circle"
                     data-place="right">
                     <CircleIcon/>
                 </IconButton>
                 <IconButton
                     neutral
-                    onClick={() => this.props.actions.enableDrawing(mapStrings.SHAPE_LINE_STRING)}
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}}
                     data-tip="Draw LineString"
                     data-place="right">
                     <i className="ms ms-line"/>
