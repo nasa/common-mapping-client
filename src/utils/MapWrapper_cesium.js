@@ -230,9 +230,11 @@ export default class MapWrapper_cesium extends MapWrapper {
             this.map.scene.primitives.add(primitiveToAdd);
             // return;
             // default:
-            // return;
+            return true;
         }
         // return false;
+        console.log("add geometry not complete in cesium");
+        return false;
     }
 
     addEventListener(eventStr, callback) {

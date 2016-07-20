@@ -11,5 +11,6 @@
 * Flying tour
 * Game controls
 * Custom Cesium ellipsoid
+* Disabling 2D or 3D map
 
 # Projects that used CMC to get started
