@@ -82,7 +82,8 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     resize() {
-        this.map.resize();
+        // this.map.resize();
+        return true;
     }
 
     enableTerrain(enable) {
@@ -223,14 +224,14 @@ export default class MapWrapper_cesium extends MapWrapper {
 
             let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
             let cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-            let cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint)
+            let cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
 
             primitiveToAdd = new this.drawHelper.CirclePrimitive({
                 center: cesiumCenter,
                 radius: cesiumRadius,
                 material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
             });
-            console.log(primitiveToAdd, geometry)
+            console.log(primitiveToAdd, geometry);
             this.map.scene.primitives.add(primitiveToAdd);
             // return;
             // default:
@@ -256,9 +257,9 @@ export default class MapWrapper_cesium extends MapWrapper {
                 case "click":
                     new this.cesium.ScreenSpaceEventHandler(this.map.scene.canvas)
                         .setInputAction((movement) => {
-                            callback({pixel: [movement.position.x, movement.position.y]});
+                            callback({ pixel: [movement.position.x, movement.position.y] });
                         }, this.cesium.ScreenSpaceEventType.LEFT_CLICK);
-                    return
+                    return;
                 default:
                     return;
             }
@@ -425,7 +426,8 @@ export default class MapWrapper_cesium extends MapWrapper {
     createWMTSLayer(layer) {
         try {
             let _context = this;
-            let imageryProvider = this.createImageryProvider(layer);
+            let options = layer.get("wmtsOptions").toJS();
+            let imageryProvider = this.createImageryProvider(layer, options);
             if (imageryProvider) {
                 let mapLayer = new this.cesium.ImageryLayer(imageryProvider, {
                     alpha: layer.get("opacity"),
@@ -454,7 +456,8 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     createVectorLayer(layer) {
-        let layerSource = this.createVectorSource(layer);
+        let options = { url: layer.get("url") };
+        let layerSource = this.createVectorSource(layer, options);
         if (layerSource) {
             // layer source is a promise that acts as a stand-in while the data loads
             layerSource.then((mapLayer) => {
@@ -474,7 +477,7 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     latLonToCartesian(lat, lon) {
-        console.log(this.map, "?")
+        console.log(this.map, "?");
         return new this.cesium.Cartesian3.fromDegrees(lon, lat);
         // this.cesium.Cartesian3(-4467834.49972473, -2408349.889633406, 3849553.7725456078);
     }
@@ -581,29 +584,27 @@ export default class MapWrapper_cesium extends MapWrapper {
 
 
     /* methods for Cesium only */
-    createImageryProvider(layer) {
+    createImageryProvider(layer, options) {
         switch (layer.get("handleAs")) {
             case mapStrings.LAYER_GIBS:
-                return this.createGIBSWMTSProvider(layer);
+                return this.createGIBSWMTSProvider(layer, options);
             case mapStrings.LAYER_WMTS:
-                return this.createGenericWMTSProvider(layer);
+                return this.createGenericWMTSProvider(layer, options);
             case mapStrings.LAYER_XYZ:
-                return this.createGenericXYZProvider(layer);
+                return this.createGenericXYZProvider(layer, options);
             default:
-                return this.createGenericWMTSProvider(layer);
+                return this.createGenericWMTSProvider(layer, options);
         }
     }
-    createGIBSWMTSProvider(layer) {
+    createGIBSWMTSProvider(layer, options) {
         try {
-            let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
-                options = options.toJS();
                 let west = this.cesium.Math.toRadians(-180);
                 let south = this.cesium.Math.toRadians(-90);
                 let east = this.cesium.Math.toRadians(180);
                 let north = this.cesium.Math.toRadians(90);
                 return new this.cesium.WebMapTileServiceImageryProvider({
-                    url: options.url + "?TIME=" + layer.get("time"),
+                    url: options.url,
                     layer: options.layer,
                     format: options.format,
                     style: '',
@@ -624,17 +625,15 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
     }
-    createGenericWMTSProvider(layer) {
+    createGenericWMTSProvider(layer, options) {
         try {
-            let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
-                options = options.toJS();
                 let west = this.cesium.Math.toRadians(-180);
                 let south = this.cesium.Math.toRadians(-90);
                 let east = this.cesium.Math.toRadians(180);
                 let north = this.cesium.Math.toRadians(90);
                 return new this.cesium.WebMapTileServiceImageryProvider({
-                    url: options.url + (layer.get("time") ? "?TIME=" + layer.get("time") : ""),
+                    url: options.url,
                     layer: options.layer,
                     format: options.format,
                     style: '',
@@ -653,17 +652,15 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
     }
-    createGenericXYZProvider(layer) {
+    createGenericXYZProvider(layer, options) {
         try {
-            let options = layer.get("wmtsOptions");
             if (typeof options !== "undefined") {
-                options = options.toJS();
                 let west = this.cesium.Math.toRadians(-180);
                 let south = this.cesium.Math.toRadians(-90);
                 let east = this.cesium.Math.toRadians(180);
                 let north = this.cesium.Math.toRadians(90);
                 return new this.cesium.UrlTemplateImageryProvider({
-                    url: options.url + (layer.get("time") ? "?TIME=" + layer.get("time") : ""),
+                    url: options.url,
                     minimumLevel: options.tileGrid.minZoom,
                     maximumLevel: options.tileGrid.maxZoom,
                     tileWidth: options.tileGrid.tileSize,
@@ -681,28 +678,37 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    createVectorSource(layer) {
+    createVectorSource(layer, options) {
+        // customize the layer url if needed
+        // if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_3D]) !== "undefined") {
+        //     let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_3D]));
+        //     options.url = urlFunction({
+        //         layer: layer,
+        //         url: options.url
+        //     });
+        // }
+
         switch (layer.get("handleAs")) {
             case mapStrings.LAYER_VECTOR_GEOJSON:
-                return this.createGeoJsonSource(layer);
+                return this.createGeoJsonSource(layer, options);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
-                return this.createGeoJsonSource(layer);
+                return this.createGeoJsonSource(layer, options);
             case mapStrings.LAYER_VECTOR_KML:
-                return this.createKmlSource(layer);
+                return this.createKmlSource(layer, options);
             default:
                 return false;
         }
     }
-    createGeoJsonSource(layer) {
-        return this.cesium.GeoJsonDataSource.load(layer.get("url"), {
+    createGeoJsonSource(layer, options) {
+        return this.cesium.GeoJsonDataSource.load(options.url, {
             stroke: this.cesium.Color.fromCssColorString("#1E90FF"),
             fill: this.cesium.Color.fromCssColorString("#FEFEFE").withAlpha(0.5),
             strokeWidth: 3,
             show: layer.get("isActive")
         });
     }
-    createKmlSource(layer) {
-        return this.cesium.KmlDataSource.load(layer.get("url"), {
+    createKmlSource(layer, options) {
+        return this.cesium.KmlDataSource.load(options.url, {
             camera: this.map.scene.camera,
             canvas: this.map.scene.canvas,
             show: layer.get("isActive")
@@ -817,64 +823,3 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 }
-
-
-// try {
-//                         ret.then((tileNode) => {
-//                             let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_3D]));
-//                             // let customTileFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "tileFunctions", mapStrings.MAP_LIB_3D]));
-
-//                             // console.log(customTileFunction, customUrlFunction);
-
-//                             // let origUrl = layer.getIn(["wmtsOptions", "url"]);
-//                             let processedUrl = tileNode.getAttribute("src");
-//                             // if (typeof customUrlFunction === "function") {
-//                             //     processedUrl = customUrlFunction({
-//                             //         layer,
-//                             //         origUrl,
-//                             //         processedUrl,
-//                             //         tileCoord: [x, y, level]
-//                             //     });
-//                             // }
-
-//                             // if(typeof customTileFunction === "function") {
-//                             //     tileNode = customTileFunction({
-//                             //         layer,
-//                             //         url: processedUrl,
-//                             //         processedTile: tileNode
-//                             //     });
-//                             // } else {
-//                             //     tileNode.setAttribute("src", processedUrl);
-//                             //     tileNode.src = processedUrl;
-//                             // }
-//                             // console.log(tileNode);
-//                             // tileNode.setAttribute("src", processedUrl);
-//                             // let newNode = document.createElement("img");
-//                             // newNode.setAttribute("src", processedUrl);
-//                             // newNode.setAttribute("crossorigin", true);
-//                             // console.log(newNode);
-//                             // resolve(newNode);
-//                             this.cesium.ImageryProvider.loadImage(context, processedUrl).then((thing) => {
-//                                 let newImg = document.createElement("img");
-//                                 newImg.onload = () => {
-//                                     //create a new canvas element, draw the image and store the pixel data
-//                                     let canvas = document.createElement("canvas");
-//                                     canvas.width = thing.width;
-//                                     canvas.height = thing.height;
-
-//                                     let context = canvas.getContext("2d");
-//                                     context.drawImage(thing, 0, 0);
-//                                     resolve(canvas);
-//                                 };
-//                                 newImg.setAttribute("src", processedUrl);
-//                                 // resolve(thing);
-//                             }, (err) => {
-//                                 reject(err);
-//                             });
-//                         }, (err) => {
-//                             reject(err);
-//                         });
-//                     } catch (err) {
-//                         reject(err);
-//                     }
-//                 });

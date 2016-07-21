@@ -89,6 +89,7 @@ export const layerModel = Immutable.fromJS({
             tileSize: 256
         }
     },
+    urlFunctions: {},
     metadata: {
         platform: "",
         spatialResolution: "",

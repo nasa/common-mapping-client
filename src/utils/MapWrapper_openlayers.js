@@ -164,29 +164,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 layerSource = new ol.source.Cluster({ source: layerSource });
             }
 
-            // let style = {};
-            // if (layer.get("id") === "Vector_drawings") {
-            //     style = new ol.style.Style({
-            //         fill: new ol.style.Fill({
-            //             color: 'rgba(255, 255, 255, 0.2)'
-            //         }),
-            //         stroke: new ol.style.Stroke({
-            //             color: '#ffcc33',
-            //             width: 2
-            //         }),
-            //         image: new ol.style.Circle({
-            //             radius: 7,
-            //             fill: new ol.style.Fill({
-            //                 color: '#ffcc33'
-            //             })
-            //         })
-            //     })
-            // }
             return new ol.layer.Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
                 visible: layer.get("isActive")
-                    // style: style
             });
         } catch (err) {
             console.warn("could not create map layer", err);
@@ -648,12 +629,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
-
-            // let urlFunctionString = layer.getIn(["wmtsOptions", "urlFunction"]);
-            // let customUrlFunction = MapUtil.getUrlFunction(urlFunctionString);
-
             let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_2D]));
-
             let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
             if (typeof customUrlFunction === "function") {
                 return customUrlFunction({
@@ -674,13 +650,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            // let tileFunctionString = layer.getIn(["wmtsOptions", "tileFunction"]);
-            // let customTileFunction = MapUtil.getTileFunction(tileFunctionString);
-
             let customTileFunction = MapUtil.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", mapStrings.MAP_LIB_2D]));
-
             let processedTile = origFunc(tile, url);
-
             if (typeof customTileFunction === "function") {
                 return customTileFunction({
                     layer,
@@ -698,25 +669,25 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createLayerSource(layer, options) {
         switch (layer.get("handleAs")) {
             case mapStrings.LAYER_GIBS:
-                return this.createGIBSWMTSSource(options);
+                return this.createGIBSWMTSSource(layer, options);
             case mapStrings.LAYER_WMTS:
-                return this.createWMTSSource(options);
+                return this.createWMTSSource(layer, options);
             case mapStrings.LAYER_XYZ:
-                return this.createXYZSource(options);
+                return this.createXYZSource(layer, options);
             case mapStrings.LAYER_VECTOR_GEOJSON:
-                return this.createVectorGeojsonSource(options);
+                return this.createVectorGeojsonSource(layer, options);
             case mapStrings.LAYER_VECTOR_TOPOJSON:
-                return this.createVectorTopojsonSource(options);
+                return this.createVectorTopojsonSource(layer, options);
             case mapStrings.LAYER_VECTOR_KML:
-                return this.createVectorKMLSource(options);
+                return this.createVectorKMLSource(layer, options);
             case mapStrings.LAYER_VECTOR_DRAWING:
-                return this.createVectorDrawingSource(options);
+                return this.createVectorDrawingSource(layer, options);
             default:
-                return this.createXYZSource(options);
+                return this.createXYZSource(layer, options);
         }
     }
 
-    createWMTSSource(options) {
+    createWMTSSource(layer, options) {
         return new ol.source.WMTS({
             url: options.url,
             layer: options.layer,
@@ -735,7 +706,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         });
     }
 
-    createGIBSWMTSSource(options) {
+    createGIBSWMTSSource(layer, options) {
         return new ol.source.WMTS({
             url: options.url,
             layer: options.layer,
@@ -754,7 +725,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         });
     }
 
-    createXYZSource(options) {
+    createXYZSource(layer, options) {
         return new ol.source.XYZ({
             url: options.url,
             projection: options.projection,
@@ -765,21 +736,49 @@ export default class MapWrapper_openlayers extends MapWrapper {
         });
     }
 
-    createVectorGeojsonSource(options) {
+    createVectorGeojsonSource(layer, options) {
+        // customize the layer url if needed
+        if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]) !== "undefined") {
+            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]));
+            options.url = urlFunction({
+                layer: layer,
+                url: options.url
+            });
+        }
+
         return new ol.source.Vector({
             url: options.url,
             format: new ol.format.GeoJSON()
         });
     }
 
-    createVectorTopojsonSource(options) {
+    createVectorTopojsonSource(layer, options) {
+        // customize the layer url if needed
+        if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]) !== "undefined") {
+            console.log
+            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]));
+            options.url = urlFunction({
+                layer: layer,
+                url: options.url
+            });
+        }
+
         return new ol.source.Vector({
             url: options.url,
             format: new ol.format.TopoJSON()
         });
     }
 
-    createVectorKMLSource(options) {
+    createVectorKMLSource(layer, options) {
+        // customize the layer url if needed
+        if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]) !== "undefined") {
+            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]));
+            options.url = urlFunction({
+                layer: layer,
+                url: options.url
+            });
+        }
+
         return new ol.source.Vector({
             url: options.url,
             format: new ol.format.KML()

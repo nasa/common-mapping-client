@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import * as mapStrings from '../constants/mapStrings';
-import * as tileUrlFunctions from './TileUrlFunctions';
+import * as urlFunctions from './UrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
@@ -107,13 +107,13 @@ export default class MapUtil {
     static getUrlFunction(functionString = "") {
         switch (functionString) {
             case mapStrings.DEFAULT_URL_FUNC:
-                return tileUrlFunctions.defaultUrlFunc;
+                return urlFunctions.defaultUrlFunc;
             case mapStrings.ESRI_CUSTOM_512:
-                return tileUrlFunctions.esriCustom512;
+                return urlFunctions.esriCustom512;
             case mapStrings.KVP_TIME_PARAM:
-                return tileUrlFunctions.kvpTimeParam;
+                return urlFunctions.kvpTimeParam;
             case mapStrings.CATS_URL:
-                return tileUrlFunctions.catsIntercept;
+                return urlFunctions.catsIntercept;
             default:
                 return undefined;
         }
