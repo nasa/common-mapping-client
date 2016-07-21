@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import * as appStrings from '../constants/appStrings';
-import { REFERENCE_LABELS_LAYER_ID, POLITICAL_BOUNDARIES_LAYER_ID } from '../constants/mapConfig';
+import * as mapConfig from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';
@@ -73,9 +73,9 @@ function translateUrlParamToActionDispatch(param) {
         case appStrings.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appStrings.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive([REFERENCE_LABELS_LAYER_ID], param.value === "true");
+            return setLayersActive([mapConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return setLayersActive([POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
+            return setLayersActive([mapConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         case appStrings.URL_KEYS.DATE:

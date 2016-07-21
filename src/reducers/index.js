@@ -9,6 +9,7 @@ import layerInfo from './layerInfo';
 import share from './share';
 import dateSlider from './dateSlider';
 import async from './async';
+import analytics from './analytics';
 
 const rootReducer = combineReducers({
     view,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     layerInfo,
     share,
     dateSlider,
-    async
+    async: async,
+    analytics
 });
 
 export default rootReducer;
