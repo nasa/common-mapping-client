@@ -55,26 +55,28 @@ const processAction = (state, action) => {
 
     // create and store the analytic
     let analytic = {
-        sessionId: state.get("sessionId"),
+        sessionId: appConfig.SESSION_ID,
         sequenceId: state.get("currBatchNum"),
         action: action
     };
     state = state.set("currentBatch", state.get("currentBatch").push(analytic));
-    console.log("Added analytic to batch.", analytic);
 
     // send batches every 5 seconds or whenever 10 actions are gathered
     let then = state.get("timeLastSent");
     let now = new Date();
-    if (now - then >= 5000 || state.get("currentBatch").size >= 10) {
+    if (now - then >= appConfig.ANALYTICS_BATCH_WAIT_TIME_MS ||
+        state.get("currentBatch").size >= appConfig.ANALYTICS_BATCH_SIZE) {
         // convert the current batch to a string
         let batch = JSON.stringify(state.get("currentBatch"));
 
         // post the batch
-        console.log("Sending analytic batch.", batch);
         fetch(appConfig.ANALYTICS_ENDPOINT, {
             method: 'POST',
             body: batch
         }).then(function(response) {
+            if(response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
             console.log("Stored analytic batch: SUCCESS.");
         }).catch((err) => {
             console.warn("Stored analytic batch: FAIL.", err);
