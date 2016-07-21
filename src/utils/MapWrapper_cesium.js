@@ -253,6 +253,12 @@ export default class MapWrapper_cesium extends MapWrapper {
                             callback([movement.endPosition.x, movement.endPosition.y]);
                         }, this.cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     return;
+                case "click":
+                    new this.cesium.ScreenSpaceEventHandler(this.map.scene.canvas)
+                        .setInputAction((movement) => {
+                            callback({pixel: [movement.position.x, movement.position.y]});
+                        }, this.cesium.ScreenSpaceEventType.LEFT_CLICK);
+                    return
                 default:
                     return;
             }
@@ -560,6 +566,15 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         } catch (err) {
             console.warn("could not move cesium layer down.", err);
+            return false;
+        }
+    }
+
+    getPixelFromClickEvent(clickEvt) {
+        try {
+            return clickEvt.pixel;
+        } catch (err) {
+            console.warn("could not retrieve pixel from cesium click event.", err);
             return false;
         }
     }

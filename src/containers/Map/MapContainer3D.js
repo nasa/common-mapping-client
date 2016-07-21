@@ -50,6 +50,11 @@ export class MapContainer3D extends Component {
                     this.props.actions.pixelHover(pixel);
                 }
             });
+            map.addEventListener("click", (pixel) => {
+                if (map.isActive) {
+                    this.props.actions.pixelClick(pixel);
+                }
+            });
         } else {
             console.error("MAP NOT AVAILABLE");
         }
