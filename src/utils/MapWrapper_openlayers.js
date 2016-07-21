@@ -759,7 +759,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorTopojsonSource(layer, options) {
         // customize the layer url if needed
         if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]) !== "undefined") {
-            console.log
             let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_2D]));
             options.url = urlFunction({
                 layer: layer,
