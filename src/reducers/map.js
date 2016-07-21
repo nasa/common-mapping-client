@@ -482,11 +482,6 @@ const setMapDate = (state, action) => {
     return state.set("date", action.date);
 };
 
-const endDragging = (state, action) => {
-    console.log("HERERERE");
-    return state.set("date", action.newDate);
-};
-
 const pixelHover = (state, action) => {
     let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
     state.get("maps").forEach((map) => {
