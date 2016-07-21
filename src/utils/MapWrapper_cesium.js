@@ -81,6 +81,10 @@ export default class MapWrapper_cesium extends MapWrapper {
         return map;
     }
 
+    resize() {
+        this.map.resize();
+    }
+
     enableTerrain(enable) {
         if (enable) {
             this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({

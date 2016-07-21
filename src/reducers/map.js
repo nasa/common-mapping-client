@@ -33,6 +33,9 @@ const setMapViewMode = (state, action) => {
         } else {
             map.isActive = !mode_3D;
         }
+        setTimeout(() => {
+            map.resize();
+        }, 0);
         return map;
     }));
     return state.setIn(["view", "in3DMode"], mode_3D);
@@ -471,7 +474,7 @@ const setMapDate = (state, action) => {
         state = state.set("alerts", state.get("alerts").push(alert.merge({
             title: "Layer Update Failed",
             body: "One of the maps failed to update a layer. We don't know why, and neither do you.",
-            severity: 1,
+            severity: 4,
             time: new Date()
         })));
     }
@@ -480,6 +483,7 @@ const setMapDate = (state, action) => {
 };
 
 const endDragging = (state, action) => {
+    console.log("HERERERE");
     return state.set("date", action.newDate);
 };
 
@@ -501,6 +505,29 @@ const pixelHover = (state, action) => {
         return true;
     });
     return state.setIn(["view", "pixelHoverCoordinate"], pixelCoordinate);
+};
+
+const pixelClick = (state, action) => {
+    let pixelCoordinate = state.getIn(["view", "pixelClickCoordinate"]).set("isValid", false);
+    state.get("maps").forEach((map) => {
+        if (map.isActive) {
+            let pixel = map.getPixelFromClickEvent(action.clickEvt);
+            if(pixel) {
+                let coords = map.getLatLonFromPixelCoordinate(pixel);
+                if (coords) {
+                    pixelCoordinate = pixelCoordinate
+                        .set("lat", coords.lat)
+                        .set("lon", coords.lon)
+                        .set("x", pixel[0])
+                        .set("y", pixel[1])
+                        .set("isValid", coords.isValid);
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
+    return state.setIn(["view", "pixelClickCoordinate"], pixelCoordinate);
 };
 
 const dismissAlert = (state, action) => {
@@ -608,7 +635,7 @@ const addGeometryToMap = (state, action) => {
     // .set("alerts", alerts);
     // }
     return state;
-}
+};
 
 const resetApplicationState = (state, action) => {
     let newState = state;
@@ -715,6 +742,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.PIXEL_HOVER:
             return pixelHover(state, action);
+
+        case actionTypes.PIXEL_CLICK:
+            return pixelClick(state, action);
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);

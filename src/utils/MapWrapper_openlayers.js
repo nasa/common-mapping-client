@@ -61,6 +61,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    resize() {
+        this.map.updateSize();
+    }
+
     createLayer(layer, fromCache = true) {
         let mapLayer = false;
         switch (layer.get("handleAs")) {
@@ -470,8 +474,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
     addEventListener(eventStr, callback) {
         try {
             switch (eventStr) {
-                case "moveend":
-                    return this.map.addEventListener("moveend", callback);
                 case "mousemove":
                     return this.map.addEventListener("pointermove", (position) => {
                         callback(position.pixel);
@@ -629,6 +631,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return retList;
         } catch (err) {
             console.warn("could not generate openlayers active layer list.", err);
+            return false;
+        }
+    }
+
+    getPixelFromClickEvent(clickEvt) {
+        try {
+            return clickEvt.pixel;
+        } catch (err) {
+            console.warn("could not retrieve pixel from openlayers click event.", err);
             return false;
         }
     }
@@ -811,9 +822,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    static resizeFix() {
-        this.map.updateSize();
-    }
 
     static getWmtsOptions(options) {
         try {

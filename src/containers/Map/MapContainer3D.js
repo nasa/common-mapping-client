@@ -7,16 +7,8 @@ import MiscUtil from '../../utils/MiscUtil';
 
 export class MapContainer3D extends Component {
 
-    componentDidMount() {
-        //initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
-        // wait for the DOM to complete rendering.
-        // see: http://stackoverflow.com/a/34999925
-        window.requestAnimationFrame(() => {
-            setTimeout(() => {
-                this.props.actions.initializeMap(mapStrings.MAP_LIB_3D, "map3D");
-                this.initializeMapListeners();
-            }, 0);
-        });
+    componentWillMount() {
+        this.listenersInitialized = false;
     }
 
     initializeMapDrawHandlers() {
@@ -64,6 +56,12 @@ export class MapContainer3D extends Component {
     }
 
     render() {
+        // need to get some sort of stored state value
+        if(this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
+            this.initializeMapListeners();
+            // this.initializeMapDrawHandlers();
+            this.listenersInitialized = true;
+        }
         return (
             <div id="mapContainer3D" className={this.props.mapState.in3DMode ? "" : "hidden"}>
                 <div id="map3D"></div>
@@ -74,6 +72,7 @@ export class MapContainer3D extends Component {
 
 MapContainer3D.propTypes = {
     mapState: PropTypes.object.isRequired,
+    viewState: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 };
 
@@ -82,6 +81,9 @@ function mapStateToProps(state) {
         mapState: {
             maps: state.map.get("maps"),
             in3DMode: state.map.getIn(["view", "in3DMode"])
+        },
+        viewState: {
+            initialLoadComplete: state.view.get("initialLoadComplete")
         }
     };
 }

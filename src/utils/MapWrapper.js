@@ -146,4 +146,12 @@ export default class MapWrapper {
         console.warn("getActiveLayerIds not implemented in subclass");
         return false;
     }
+    resize() {
+        console.warn("resize not implemented in subclass");
+        return false;
+    }
+    getPixelFromClickEvent(clickEvt) {
+        console.warn("getPixelFromClickEvent not implemented in subclass");
+        return false;
+    }
 }
