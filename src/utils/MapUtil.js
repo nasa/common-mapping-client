@@ -57,6 +57,7 @@ export default class MapUtil {
     // generates a set of wmts options for a layer
     // NOTE: uses openlayers to do the actual info gathering
     static getWmtsOptions(options) {
+        MapWrapper_openlayers.prepProjection();
         return MapWrapper_openlayers.getWmtsOptions(options);
     }
 

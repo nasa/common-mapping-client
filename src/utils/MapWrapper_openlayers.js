@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
-import proj4 from 'proj4';
+import proj4js from 'proj4';
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../constants/mapConfig';
 import MapWrapper from './MapWrapper';
@@ -11,7 +11,6 @@ import Cache from './Cache';
 export default class MapWrapper_openlayers extends MapWrapper {
     constructor(container, options) {
         super(container, options);
-        ol.proj.setProj4(proj4);
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.map = this.createMap(container, options);
@@ -43,14 +42,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             vectorLayer["_layerId"] = "_vector_drawings";
 
 
-
             // get the view options for the map
             let viewOptions = options.get("view").toJS();
 
-            // define the projection for this application and reproject defaults
-            let projection = ol.proj.get(viewOptions.projection.code);
+            let mapProjection = ol.proj.get(mapConfig.DEFAULT_PROJECTION.code);
+
             let center = viewOptions.center;
-            // center = ol.proj.transform(center, "EPSG:4326", projection);
+            // center = ol.proj.transform(center, "EPSG:4326", mapProjection);
 
             return new ol.Map({
                 target: container,
@@ -61,7 +59,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     maxZoom: viewOptions.maxZoom,
                     minZoom: viewOptions.minZoom,
                     center: center,
-                    projection: projection
+                    projection: mapProjection
                 }),
                 controls: [
                     new ol.control.ScaleLine({
@@ -145,20 +143,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 });
 
                 // set up wrap around extents
-                let extent = ol.proj.transformExtent([-36000, 90, 36000, -90], "EPSG:4326", options.projection.getCode());
                 let mapProjExtent = this.map.getView().getProjection().getExtent();
-                extent = [
-                    Math.min(extent[0], mapProjExtent[0]),
-                    Math.max(extent[1], mapProjExtent[1]),
-                    Math.max(extent[2], mapProjExtent[2]),
-                    Math.min(extent[3], mapProjExtent[3])
-                ];
-                console.log(extent, mapProjExtent);
                 return new ol.layer.Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
-                    // extent: mapProjExtent,
+                    extent: mapProjExtent,
                     source: layerSource
                 });
             }
@@ -838,6 +828,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return index;
     }
 
+    static prepProjection() {
+        // define the projection for this application and reproject defaults
+        ol.proj.setProj4(proj4js);
+        proj4js.defs(mapConfig.DEFAULT_PROJECTION.code, mapConfig.DEFAULT_PROJECTION.proj4Def);
+
+        let mapProjection = ol.proj.get(mapConfig.DEFAULT_PROJECTION.code);
+        mapProjection.setExtent(mapConfig.DEFAULT_PROJECTION.extent);
+
+        return mapProjection;
+    }
+
     static parseCapabilities(xmlString) {
         try {
             let parser = new ol.format.WMTSCapabilities();
@@ -851,13 +852,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     static getWmtsOptions(options) {
         try {
-
-            // prep projection definition
-            // TODO - fix
-            proj4.defs(mapConfig.DEFAULT_PROJECTION.code, mapConfig.DEFAULT_PROJECTION.proj4);
-            ol.proj.setProj4(proj4);
-            ol.proj.get(mapConfig.DEFAULT_PROJECTION.code).setExtent(mapConfig.DEFAULT_PROJECTION.extent);
-
             let parseOptions = ol.source.WMTS.optionsFromCapabilities(options.capabilities, options.options);
             return {
                 url: parseOptions.urls[0],
