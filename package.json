@@ -5,7 +5,7 @@
   "scripts": {
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message remove-dist lint:tools",
-    "start": "npm-run-all --parallel test:watch open:src",
+    "start": "npm-run-all --parallel test open:src",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint:tools": "eslint webpack.config.js tools",
@@ -80,6 +80,7 @@
     "npm-run-all": "1.7.0",
     "openlayers": "3.15.1",
     "phantomjs-prebuilt": "2.1.7",
+    "proj4": "2.3.14",
     "raw-loader": "0.5.1",
     "react-addons-test-utils": "15.0.1",
     "react-dom": "15.0.1",

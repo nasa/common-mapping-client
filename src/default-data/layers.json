@@ -1,186 +1,187 @@
 {
     "layers": [{
-        "id": "MODIS_Terra_Water_Vapor_5km_Day",
-        "title": "Water Vapor Infrared (Day, MODIS, Terra)",
-        "type": "data",
-        "handleAs": "GIBS",
-        "min": 0.1,
-        "max": 9.64,
-        "units": "cm",
-        "wmtsOptions": {
-            "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
-            }
-        },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
-        "palette": {
-            "name": "MODIS_Terra_Water_Vapor_Day",
-            "handleAs": "json-relative"
-        }
-    }, {
-        "id": "MODIS_Terra_CorrectedReflectance_TrueColor",
-        "title": "Corrected Reflectance (True Color, MODIS, Terra)",
-        "type": "data",
-        "handleAs": "GIBS",
-        "min": 0.1,
-        "max": 9.64,
-        "units": "cm",
-        "wmtsOptions": {
-            "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
-            }
-        },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_CorrectedReflectance_TrueColor&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
-        "palette": {
-            "name": "MODIS_Terra_Water_Vapor_Day",
-            "handleAs": "json-relative"
-        }
-    }, {
-        "id": "MODIS_Terra_Sea_Ice",
-        "title": "Sea Ice Extent (MODIS, Terra)",
-        "type": "data",
-        "handleAs": "GIBS",
-        "min": 0.1,
-        "max": 9.64,
-        "units": "cm",
-        "wmtsOptions": {
-            "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
-            }
-        },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
-        "palette": {
-            "name": "MODIS_Terra_Water_Vapor_Day",
-            "handleAs": "json-relative"
-        }
-    }, {
-        "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
-        "title": "Sea Surface Temperature",
-        "type": "data",
-        "handleAs": "GIBS",
-        "min": 2.0,
-        "max": 32.0,
-        "units": "˚C",
-        "wmtsOptions": {
-            "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
-            }
-        },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
-        "palette": {
-            "name": "GHRSST_L4_Sea_Surface_Temperature",
-            "handleAs": "json-relative"
-        },
-        "isDefault": true
-    }, {
-        "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
-        "title": "Brightness Temperature",
-        "type": "data",
-        "handleAs": "GIBS",
-        "min": 180.0,
-        "max": 340.0,
-        "units": "˚K",
-        "wmtsOptions": {
-            "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
-            }
-        },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_Brightness_Temp_Band31_Day&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
-        "palette": {
-            "name": "purple_2",
-            "handleAs": "json-relative"
-        }
-    }, {
-        "id": "us_state_outline_topojson",
-        "title": "US State Outline - TopoJSON",
-        "type": "data",
-        "handleAs": "vector_topojson",
-        "updateParameters": { "time": false },
-        "url": "default-data/ne_10m_us_states.topojson"
-    }, {
-        "id": "facilities_kml",
-        "title": "Facilities - KML",
-        "type": "data",
-        "handleAs": "vector_kml",
-        "updateParameters": { "time": false },
-        "url": "default-data/facilities.kml"
-    }, {
-        "id": "Reference_Labels",
-        "title": "Reference Labels",
-        "type": "reference",
-        "handleAs": "GIBS"
-    }, {
-        "id": "Reference_Features",
-        "title": "Reference Features",
-        "type": "reference",
-        "handleAs": "GIBS"
-    }, {
-        "id": "ESRI_World_Imagery",
-        "title": "ESRI World Imagery",
-        "type": "basemap",
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "isDefault": true,
-        "handleAs": "xyz",
-        "wmtsOptions": {
-            "projection": "EPSG:4326",
-            "layer": "ESRI_World_Imagery",
-            "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
-            "tileGrid": {
-                "minZoom": 1,
-                "maxZoom": 16,
-                "tileSize": 512
+            "id": "MODIS_Terra_Water_Vapor_5km_Day",
+            "title": "Water Vapor Infrared (Day, MODIS, Terra)",
+            "type": "data",
+            "handleAs": "GIBS",
+            "min": 0.1,
+            "max": 9.64,
+            "units": "cm",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
             },
-            "urlFunctions": {
-                "openlayers": "esriCustom512"
+            "metadata": {
+                "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+                "dateRange": "2012 – Present",
+                "platform": "MODIS, Terra",
+                "spatialResolution": "25km x 25km spatial resolution"
             },
-            "tileFunctions": {
-                "openlayers": "catsTile"
+            "palette": {
+                "name": "MODIS_Terra_Water_Vapor_Day",
+                "handleAs": "json-relative"
             }
+        }, {
+            "id": "MODIS_Terra_CorrectedReflectance_TrueColor",
+            "title": "Corrected Reflectance (True Color, MODIS, Terra)",
+            "type": "data",
+            "handleAs": "GIBS",
+            "min": 0.1,
+            "max": 9.64,
+            "units": "cm",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+                "dateRange": "2012 – Present",
+                "platform": "MODIS, Terra",
+                "spatialResolution": "25km x 25km spatial resolution"
+            },
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_CorrectedReflectance_TrueColor&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
+            "palette": {
+                "name": "MODIS_Terra_Water_Vapor_Day",
+                "handleAs": "json-relative"
+            }
+        }, {
+            "id": "MODIS_Terra_Sea_Ice",
+            "title": "Sea Ice Extent (MODIS, Terra)",
+            "type": "data",
+            "handleAs": "GIBS",
+            "min": 0.1,
+            "max": 9.64,
+            "units": "cm",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+                "dateRange": "2012 – Present",
+                "platform": "MODIS, Terra",
+                "spatialResolution": "25km x 25km spatial resolution"
+            },
+            "palette": {
+                "name": "MODIS_Terra_Water_Vapor_Day",
+                "handleAs": "json-relative"
+            }
+        }, {
+            "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+            "title": "Sea Surface Temperature",
+            "type": "data",
+            "handleAs": "GIBS",
+            "min": 2.0,
+            "max": 32.0,
+            "units": "˚C",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+                "dateRange": "2012 – Present",
+                "platform": "MODIS, Terra",
+                "spatialResolution": "25km x 25km spatial resolution"
+            },
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
+            "palette": {
+                "name": "GHRSST_L4_Sea_Surface_Temperature",
+                "handleAs": "json-relative"
+            },
+            "isDefault": false
+        }, {
+            "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
+            "title": "Brightness Temperature",
+            "type": "data",
+            "handleAs": "GIBS",
+            "min": 180.0,
+            "max": 340.0,
+            "units": "˚K",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+                "dateRange": "2012 – Present",
+                "platform": "MODIS, Terra",
+                "spatialResolution": "25km x 25km spatial resolution"
+            },
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=MODIS_Terra_Brightness_Temp_Band31_Day&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=3&TileCol=4&TileRow=3&TIME=2015-05-20",
+            "palette": {
+                "name": "purple_2",
+                "handleAs": "json-relative"
+            }
+        }, {
+            "id": "us_state_outline_topojson",
+            "title": "US State Outline - TopoJSON",
+            "type": "data",
+            "handleAs": "vector_topojson",
+            "updateParameters": { "time": false },
+            "url": "default-data/ne_10m_us_states.topojson"
+        }, {
+            "id": "facilities_kml",
+            "title": "Facilities - KML",
+            "type": "data",
+            "handleAs": "vector_kml",
+            "updateParameters": { "time": false },
+            "url": "default-data/facilities.kml"
+        }, {
+            "id": "Reference_Labels",
+            "title": "Reference Labels",
+            "type": "reference",
+            "handleAs": "GIBS"
+        }, {
+            "id": "Reference_Features",
+            "title": "Reference Features",
+            "type": "reference",
+            "handleAs": "GIBS"
+        }, {
+            "id": "ESRI_World_Imagery",
+            "title": "ESRI World Imagery",
+            "type": "basemap",
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+            "isDefault": false,
+            "handleAs": "xyz",
+            "wmtsOptions": {
+                "projection": "EPSG:4326",
+                "layer": "ESRI_World_Imagery",
+                "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
+                "tileGrid": {
+                    "minZoom": 1,
+                    "maxZoom": 16,
+                    "tileSize": 512
+                },
+                "urlFunctions": {
+                    "openlayers": "esriCustom512"
+                },
+                "tileFunctions": {
+                    "openlayers": "catsTile"
+                }
+            }
+        }, {
+            "id": "BlueMarble_ShadedRelief_Bathymetry",
+            "title": "Blue Marble",
+            "type": "basemap",
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+            "handleAs": "GIBS"
+        }, {
+            "id": "OSM_Land_Water_Map",
+            "title": "Land/Water",
+            "type": "basemap",
+            "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+            "handleAs": "GIBS"
         }
-    }, {
-        "id": "BlueMarble_ShadedRelief_Bathymetry",
-        "title": "Blue Marble",
-        "type": "basemap",
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS"
-    }, {
-        "id": "OSM_Land_Water_Map",
-        "title": "Land/Water",
-        "type": "basemap",
-        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS"
-    }]
+    ]
 }

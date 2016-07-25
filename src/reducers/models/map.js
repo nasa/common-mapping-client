@@ -20,8 +20,8 @@ export const mapState = Immutable.fromJS({
         maxZoomDistance3D: config.MAX_ZOOM_DISTANCE_3D,
         minZoomDistance3D: config.MIN_ZOOM_DISTANCE_3D,
         center: config.DEFAULT_CENTER,
-        extent: config.DEFAULT_EXTENT,
         projection: config.DEFAULT_PROJECTION,
+        extent: config.DEFAULT_PROJECTION.extent,
         pixelHoverCoordinate: {
             lat: 0.0,
             lon: 0.0,

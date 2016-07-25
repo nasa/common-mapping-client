@@ -820,7 +820,7 @@ const generatePartialsListFromWmtsXml = (config) => {
                 capabilities: capabilities,
                 options: {
                     layer: layer.Identifier,
-                    matrixSet: layer.matrixSet
+                    matrixSet: layer.TileMatrixSetLink[0].TileMatrixSet
                 }
             });
             return {
