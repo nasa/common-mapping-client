@@ -713,8 +713,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            // extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
+                extent: options.extents,
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions,
                 matrixIds: options.tileGrid.matrixIds,
@@ -732,11 +732,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            // extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
+                extent: options.extents,
                 origin: options.tileGrid.origin,
-                resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
-                matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
+                // resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
+                resolutions: options.tileGrid.resolutions,
+                // matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
+                matrixIds: options.tileGrid.matrixIds,
                 tileSize: options.tileGrid.tileSize
             }),
             wrapX: true
@@ -859,7 +861,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 format: parseOptions.format,
                 requestEncoding: parseOptions.requestEncoding,
                 matrixSet: parseOptions.matrixSet,
-                projection: parseOptions.projection,
+                projection: parseOptions.projection.getCode(),
                 extents: parseOptions.projection.getExtent(),
                 tileGrid: {
                     origin: [parseOptions.projection.getExtent()[0], parseOptions.projection.getExtent()[3]],

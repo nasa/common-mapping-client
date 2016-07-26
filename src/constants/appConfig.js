@@ -6,7 +6,7 @@ export const APP_NAME = "RiPTIDE";
 // Endpoints
 export const URLS = {
     layerConfig: [{
-        url: "default-data/capabilities_webmercator.xml",
+        url: "default-data/capabilities.xml",
         type: "wmts/xml"
     },{
         url: "default-data/layers.json",
