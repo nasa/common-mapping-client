@@ -597,14 +597,15 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
     createTilingScheme(options, tileSchemeOptions) {
-        switch (options.handleAs + options.projection) {
-            case mapStrings.LAYER_GIBS + mapStrings.PROJECTIONS.latLon.code:
+        if(options.projection === mapStrings.PROJECTIONS.latLon.code) {
+            if(options.handleAs === mapStrings.LAYER_GIBS) {
                 return new CesiumTilingScheme_GIBS({ numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1 }, tileSchemeOptions);
-            case mapStrings.LAYER_GIBS + mapStrings.PROJECTIONS.webmercator.code:
+            }
+            return new this.cesium.GeographicTilingScheme();
+        } else if (options.projection === mapStrings.PROJECTIONS.webmercator.code) {
                 return new this.cesium.WebMercatorTilingScheme();
-            default:
-                return false;
         }
+        return false;
     }
     createGIBSWMTSProvider(layer, options) {
         try {
@@ -652,8 +653,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                     tileMatrixSetID: options.matrixSet,
                     minimumLevel: options.tileGrid.minZoom,
                     maximumLevel: options.tileGrid.maxZoom,
-                    rectangle: new this.cesium.Rectangle(west, south, east, north),
-                    tilingScheme: new this.cesium.GeographicTilingScheme()
+                    tilingScheme: this.createTilingScheme({
+                        handleAs: layer.get("handleAs"),
+                        projection: options.projection
+                    }, options)
                 });
             } else {
                 console.warn("Could not create layer");
@@ -677,8 +680,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                     maximumLevel: options.tileGrid.maxZoom,
                     tileWidth: options.tileGrid.tileSize,
                     tileHeight: options.tileGrid.tileSize,
-                    rectangle: new this.cesium.Rectangle(west, south, east, north),
-                    tilingScheme: new this.cesium.GeographicTilingScheme()
+                    tilingScheme: this.createTilingScheme({
+                        handleAs: layer.get("handleAs"),
+                        projection: options.projection
+                    }, options)
                 });
             } else {
                 console.warn("Could not create layer");
