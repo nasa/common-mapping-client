@@ -148,7 +148,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
-                    extent: mapProjExtent,
+                    // extent: mapProjExtent,
                     source: layerSource
                 });
             }
@@ -713,7 +713,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            extents: options.extents,
+            // extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions,
@@ -732,7 +732,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            extents: options.extents,
+            // extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
