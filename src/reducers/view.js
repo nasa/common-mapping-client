@@ -22,6 +22,10 @@ const dismissAlert = (state, action) => {
     }));
 };
 
+const dismissAllAlerts = (state, action) => {
+    return state.set("alerts", state.get("alerts").clear());
+};
+
 const setFullScreen = (state, action) => {
     if(action.enabled) {
         MiscUtil.enterFullScreen();
@@ -45,6 +49,9 @@ export default function view(state = viewState, action) {
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
+        case actionTypes.DISMISS_ALL_ALERTS:
+            return dismissAllAlerts(state, action);
 
         case actionTypes.SET_FULL_SCREEN:
             return setFullScreen(state, action);

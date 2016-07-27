@@ -32,6 +32,11 @@ export class AlertsContainer extends Component {
         this.lastAlert = currAlert;
 
         let actions = [{
+            label: "Dismiss All",
+            onClick: () => {
+                this.props.actions.dismissAllAlerts();
+            }
+        }, {
             label: "Dismiss",
             onClick: () => {
                 this.props.actions.dismissAlert(currAlert);
@@ -41,6 +46,7 @@ export class AlertsContainer extends Component {
         return (
             <div className={alertPresent ? "" : "hidden"}>
                 <Snackbar
+                    className="alert-toast"
                     action="Dismiss"
                     active={alertPresent && currAlert.get("severity") <= 2}
                     icon="warning"
@@ -49,6 +55,7 @@ export class AlertsContainer extends Component {
                     type="warning"
                 />
                 <Dialog
+                    className="alert-dialogue"
                     actions={actions}
                     active={alertPresent && currAlert.get("severity") >= 3}
                     onEscKeyDown={() => this.props.actions.dismissAlert(currAlert)}
@@ -56,6 +63,7 @@ export class AlertsContainer extends Component {
                     title={currAlert ? currAlert.get("title") : ""}
                 >
                     <p>{currAlert ? currAlert.get("body") : ""}</p>
+                    <span className="alert-note"><span className="alert-note-active">{Math.max(alerts.size - 1, 0)}</span> more pending</span>
                 </Dialog>
             </div>
         );

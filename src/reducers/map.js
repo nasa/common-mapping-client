@@ -78,9 +78,10 @@ const setMapView = (state, action) => {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Synchronization Failed",
-                    body: "One of the maps failed to synchronize its view",
+                    title: "View Sync Failed",
+                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -108,9 +109,10 @@ const setViewInfo = (state, action) => {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Synchronization Failed",
-                    body: "One of the maps failed to synchronize its view",
+                    title: "View Sync Failed",
+                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -187,11 +189,13 @@ const setLayerActive = (state, action) => {
     if (typeof actionLayer !== "undefined") {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.setLayerActive(actionLayer, action.active)) {
+                let contextStr = map.is3D ? "3D" : "2D";
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Activate Layer Failed",
-                    body: "One of the maps failed to activate that layer. We don't know why, and neither do you.",
+                    title: "Layer Activation Failed",
+                    body: "Activating " + actionLayer.get("title") + " on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -317,9 +321,10 @@ const setBasemap = (state, action) => {
         if (map.setBasemap(actionLayer)) {
             return true;
         } else {
+            let contextStr = map.is3D ? "3D" : "2D";
             alerts = alerts.push(alert.merge({
                 title: "Basemap Update Failed",
-                body: "One of the maps failed to update its basemap. We don't know why, and neither do you.",
+                body: "Activating " + actionLayer.get("title") + " as the basemap on the " + contextStr + " map failed. This is currently being investigated.",
                 severity: 3,
                 time: new Date()
             }));
@@ -471,9 +476,10 @@ const setMapDate = (state, action) => {
 
     // set alert if any fail
     if (anyFail) {
+        let contextStr = map.is3D ? "3D" : "2D";
         state = state.set("alerts", state.get("alerts").push(alert.merge({
             title: "Layer Update Failed",
-            body: "One of the maps failed to update a layer. We don't know why, and neither do you.",
+            body: "Setting the date in the " + contextStr + " map failed. The issue has been logged and will be looked into.",
             severity: 4,
             time: new Date()
         })));
@@ -507,7 +513,7 @@ const pixelClick = (state, action) => {
     state.get("maps").forEach((map) => {
         if (map.isActive) {
             let pixel = map.getPixelFromClickEvent(action.clickEvt);
-            if(pixel) {
+            if (pixel) {
                 let coords = map.getLatLonFromPixelCoordinate(pixel);
                 if (coords) {
                     pixelCoordinate = pixelCoordinate
@@ -530,6 +536,10 @@ const dismissAlert = (state, action) => {
     return state.set("alerts", state.get("alerts").filter((alert) => {
         return alert !== remAlert;
     }));
+};
+
+const dismissAllAlerts = (state, action) => {
+    return state.set("alerts", state.get("alerts").clear());
 };
 
 const moveLayerToTop = (state, action) => {
@@ -610,9 +620,10 @@ const addGeometryToMap = (state, action) => {
             if (map.addGeometry(action.geometry)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Geometry Synchronization Failed",
-                    body: "One of the maps failed to synchronize its geometry",
+                    title: "Geometry Sync Failed",
+                    body: "Synchronizing geometry on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -743,6 +754,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
+        case actionTypes.DISMISS_ALL_ALERTS:
+            return dismissAllAlerts(state, action);
 
         case actionTypes.MOVE_LAYER_TO_TOP:
             return moveLayerToTop(state, action);

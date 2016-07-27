@@ -41,6 +41,9 @@ export function selectHelpPage(param) {
 export function dismissAlert(alert) {
     return { type: types.DISMISS_ALERT, alert };
 }
+export function dismissAllAlerts() {
+    return { type: types.DISMISS_ALL_ALERTS };
+}
 export function setFullScreenMode(enabled) {
     return { type: types.SET_FULL_SCREEN, enabled };
 }
