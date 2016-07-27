@@ -448,6 +448,11 @@ const activateDefaultLayers = (state, action) => {
 };
 
 const setMapDate = (state, action) => {
+    // shortcut non-updates
+    if(action.date === state.get("date")) {
+        return state;
+    }
+    
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {

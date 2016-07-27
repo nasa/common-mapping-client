@@ -68,6 +68,10 @@ export class TimeAxis extends Component {
         let newDate = this.timeAxisD3.getDateFromX(value);
         this.props.actions.dragEnd(newDate);
     }
+    handleSingleDateDragUpdate(value) {
+        let newDate = this.timeAxisD3.getDateFromX(value);
+        this.props.actions.setDate(newDate);   
+    }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
     }
@@ -128,6 +132,10 @@ export class TimeAxis extends Component {
                     }} 
                     onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
+
+                        let distFromBucket = (x - sizes.margin.left) % 12;
+                        this.handleSingleDateDragUpdate(x - distFromBucket);
+
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
