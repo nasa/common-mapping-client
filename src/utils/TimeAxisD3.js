@@ -148,10 +148,8 @@ export default class TimeAxisD3 {
                 singleDate
                     .transition()
                     .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 150)
-                    // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
                     .attr('x', (d) => (_context._xFn(d.date)))
                     .attr("transform", (d) => {
-                        // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
                         return 'translate(' + _context._xFn(d.date) + ',0)';
                     });
             }

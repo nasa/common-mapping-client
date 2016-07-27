@@ -43,8 +43,8 @@ export class TimeAxis extends Component {
         this.cachedResolutionHack = this.props.resolutionHack;
     }
     componentDidUpdate() {
-        let options = {date: this.props.date};
-        if(this.props.resolutionHack !== this.cachedResolutionHack) {
+        let options = { date: this.props.date };
+        if (this.props.resolutionHack !== this.cachedResolutionHack) {
             let scale = 1;
             if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
                 scale = 256;
@@ -64,13 +64,28 @@ export class TimeAxis extends Component {
         let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.actions.hoverDate(date, xValue);
     }
+    handleSingleDateDragStart() {
+        this.props.actions.beginDragging();
+
+        this.scrubUpdateInterval = setInterval(() => {
+            if (typeof this.lastDrag !== "undefined") {
+                let newDate = this.timeAxisD3.getDateFromX(this.lastDrag);
+                this.props.actions.setDate(newDate);
+            }
+        }, 250);
+    }
     handleSingleDateDragEnd(value) {
+        if(typeof this.scrubUpdateInterval !== "undefined") {
+            clearInterval(this.scrubUpdateInterval);
+        }
+
         let newDate = this.timeAxisD3.getDateFromX(value);
         this.props.actions.dragEnd(newDate);
     }
     handleSingleDateDragUpdate(value) {
-        let newDate = this.timeAxisD3.getDateFromX(value);
-        this.props.actions.setDate(newDate);   
+        // let newDate = this.timeAxisD3.getDateFromX(value);
+        // this.props.actions.setDate(newDate);
+        this.lastDrag = value;
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
@@ -128,13 +143,14 @@ export class TimeAxis extends Component {
                     isDragging={this.props.isDragging}
                     beforeDrag={() => {
                         clearInterval(autoScrollInterval);
-                        this.props.actions.beginDragging();
+                        this.handleSingleDateDragStart();
                     }} 
                     onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
 
-                        let distFromBucket = (x - sizes.margin.left) % 12;
-                        this.handleSingleDateDragUpdate(x - distFromBucket);
+                        // let distFromBucket = (x - sizes.margin.left) % 5;
+                        // this.handleSingleDateDragUpdate(x - distFromBucket);
+                        this.handleSingleDateDragUpdate(x);
 
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
