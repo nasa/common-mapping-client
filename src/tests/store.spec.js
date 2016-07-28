@@ -14,7 +14,7 @@ import MapUtil from '../utils/MapUtil.js';
 const initialState = {
     map: mapState,
     view: viewState,
-    async: asyncState,
+    asyncronous: asyncState,
     help: helpState,
     settings: settingsState
 };
@@ -35,14 +35,14 @@ describe('Store', function() {
         const expected = {
             map: mapState,
             view: viewState,
-            async: asyncState,
+            asyncronous: asyncState,
             help: helpState.set("isOpen", true),
             settings: settingsState
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
@@ -59,7 +59,7 @@ describe('Store', function() {
         const expected = {
             map: mapState.remove("maps"),
             view: viewState,
-            async: asyncState,
+            asyncronous: asyncState,
             help: helpState,
             settings: settingsState
         };
@@ -67,7 +67,7 @@ describe('Store', function() {
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
@@ -89,7 +89,7 @@ describe('Store', function() {
         const expected = {
             map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
             view: viewState,
-            async: asyncState,
+            asyncronous: asyncState,
             help: helpState,
             settings: settingsState
         };
@@ -97,7 +97,7 @@ describe('Store', function() {
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.async.toJS()).to.deep.equal(expected.async.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
