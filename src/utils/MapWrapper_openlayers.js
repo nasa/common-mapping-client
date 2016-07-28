@@ -257,7 +257,28 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addGeometry(geometry) {
-        console.log("add geometry not complete in openlayers");
+        console.log(ol, "ol", geometry, this)
+        let mapLayers = this.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        if (!mapLayer) {
+            console.warn("could not find drawing layer in openlayers map");
+            return false;
+        }
+        if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
+            let circleGeom = null;
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
+                // circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius);
+                circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius / ol.proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
+            } else {
+                circleGeom = null;
+                console.warn("uh oh.")
+            }
+            let circleFeature = new ol.Feature({
+                geometry: circleGeom
+            })
+            console.log(circleGeom, "cg");
+            mapLayer.getSource().addFeature(circleFeature);
+        }
         return false;
     }
 

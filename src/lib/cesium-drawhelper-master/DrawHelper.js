@@ -30,46 +30,54 @@ var DrawHelper = (function() {
         var _self = this;
         // scene events
         var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
         function callPrimitiveCallback(name, position) {
-            if(_self._handlersMuted == true) return;
+            if (_self._handlersMuted == true) return;
             var pickedObject = scene.pick(position);
-            if(pickedObject && pickedObject.primitive && pickedObject.primitive[name]) {
+            if (pickedObject && pickedObject.primitive && pickedObject.primitive[name]) {
                 pickedObject.primitive[name](position);
             }
         }
         handler.setInputAction(
-            function (movement) {
+            function(movement) {
                 callPrimitiveCallback('leftClick', movement.position);
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(
-            function (movement) {
+            function(movement) {
                 callPrimitiveCallback('leftDoubleClick', movement.position);
             }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
         var mouseOutObject;
         handler.setInputAction(
-            function (movement) {
-                if(_self._handlersMuted == true) return;
-                var pickedObject = scene.pick(movement.endPosition);
-                if(mouseOutObject && (!pickedObject || mouseOutObject != pickedObject.primitive)) {
+            function(movement) {
+                if (_self._handlersMuted == true) return;
+                if (scene.isDestroyed()) {
+                    return;
+                }
+                try {
+                    var pickedObject = scene.pick(movement.endPosition);
+                } catch (err) {
+                    return;
+                }
+                if (mouseOutObject && (!pickedObject || mouseOutObject != pickedObject.primitive)) {
                     !(mouseOutObject.isDestroyed && mouseOutObject.isDestroyed()) && mouseOutObject.mouseOut(movement.endPosition);
                     mouseOutObject = null;
                 }
-                if(pickedObject && pickedObject.primitive) {
+                if (pickedObject && pickedObject.primitive) {
                     pickedObject = pickedObject.primitive;
-                    if(pickedObject.mouseOut) {
+                    if (pickedObject.mouseOut) {
                         mouseOutObject = pickedObject;
                     }
-                    if(pickedObject.mouseMove) {
+                    if (pickedObject.mouseMove) {
                         pickedObject.mouseMove(movement.endPosition);
                     }
                 }
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
         handler.setInputAction(
-            function (movement) {
+            function(movement) {
                 callPrimitiveCallback('leftUp', movement.position);
             }, Cesium.ScreenSpaceEventType.LEFT_UP);
         handler.setInputAction(
-            function (movement) {
+            function(movement) {
                 callPrimitiveCallback('leftDown', movement.position);
             }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
     }
@@ -91,7 +99,7 @@ var DrawHelper = (function() {
         // highlight polygon when mouse is entering
         setListener(surface, 'mouseMove', function(position) {
             surface.setHighlighted(true);
-            if(!surface._editMode) {
+            if (!surface._editMode) {
                 _self._tooltip.showAt(position, "Click to edit this shape");
             }
         });
@@ -109,7 +117,7 @@ var DrawHelper = (function() {
         // undo any current edit of shapes
         this.disableAllEditMode();
         // check for cleanUp first
-        if(this.editCleanUp) {
+        if (this.editCleanUp) {
             this.editCleanUp();
         }
         this.editCleanUp = cleanUp;
@@ -118,7 +126,7 @@ var DrawHelper = (function() {
 
     _.prototype.stopDrawing = function() {
         // check for cleanUp first
-        if(this.editCleanUp) {
+        if (this.editCleanUp) {
             this.editCleanUp();
             this.editCleanUp = null;
         }
@@ -131,7 +139,7 @@ var DrawHelper = (function() {
     }
 
     _.prototype.setHighlighted = function(surface) {
-        if(this._highlightedSurface && !this._highlightedSurface.isDestroyed() && this._highlightedSurface != surface) {
+        if (this._highlightedSurface && !this._highlightedSurface.isDestroyed() && this._highlightedSurface != surface) {
             this._highlightedSurface.setHighlighted(false);
         }
         this._highlightedSurface = surface;
@@ -142,7 +150,7 @@ var DrawHelper = (function() {
     }
 
     _.prototype.setEdited = function(surface) {
-        if(this._editedSurface && !this._editedSurface.isDestroyed()) {
+        if (this._editedSurface && !this._editedSurface.isDestroyed()) {
             this._editedSurface.setEditMode(false);
         }
         this._editedSurface = surface;
@@ -162,35 +170,34 @@ var DrawHelper = (function() {
 
     var defaultSurfaceOptions = copyOptions(defaultShapeOptions, {
         appearance: new Cesium.EllipsoidSurfaceAppearance({
-            aboveGround : false
+            aboveGround: false
         }),
-    	material : material,
+        material: material,
         granularity: Math.PI / 180.0
     });
 
     var defaultPolygonOptions = copyOptions(defaultShapeOptions, {});
     var defaultExtentOptions = copyOptions(defaultShapeOptions, {});
     var defaultCircleOptions = copyOptions(defaultShapeOptions, {});
-    var defaultEllipseOptions = copyOptions(defaultSurfaceOptions, {rotation: 0});
+    var defaultEllipseOptions = copyOptions(defaultSurfaceOptions, { rotation: 0 });
 
     var defaultPolylineOptions = copyOptions(defaultShapeOptions, {
         width: 5,
         geodesic: true,
         granularity: 10000,
         appearance: new Cesium.PolylineMaterialAppearance({
-            aboveGround : false
+            aboveGround: false
         }),
-    	material : material
+        material: material
     });
 
-//    Cesium.Polygon.prototype.setStrokeStyle = setStrokeStyle;
-//    
-//    Cesium.Polygon.prototype.drawOutline = drawOutline;
-//
-    
+    //    Cesium.Polygon.prototype.setStrokeStyle = setStrokeStyle;
+    //    
+    //    Cesium.Polygon.prototype.drawOutline = drawOutline;
+    //
+
     var ChangeablePrimitive = (function() {
-        function _() {
-        }
+        function _() {}
 
         _.prototype.initialiseOptions = function(options) {
 
@@ -252,7 +259,7 @@ var DrawHelper = (function() {
                 (this._id !== this.id)) {
 
                 var geometry = this.getGeometry();
-                if(!geometry) {
+                if (!geometry) {
                     return;
                 }
 
@@ -266,32 +273,32 @@ var DrawHelper = (function() {
                 this._primitive = this._primitive && this._primitive.destroy();
 
                 this._primitive = new Cesium.Primitive({
-                    geometryInstances : new Cesium.GeometryInstance({
-                        geometry : geometry,
-                        id : this.id,
-                        pickPrimitive : this
+                    geometryInstances: new Cesium.GeometryInstance({
+                        geometry: geometry,
+                        id: this.id,
+                        pickPrimitive: this
                     }),
-                    appearance : this.appearance,
-                    asynchronous : this.asynchronous
+                    appearance: this.appearance,
+                    asynchronous: this.asynchronous
                 });
 
                 this._outlinePolygon = this._outlinePolygon && this._outlinePolygon.destroy();
-                if(this.strokeColor && this.getOutlineGeometry) {
+                if (this.strokeColor && this.getOutlineGeometry) {
                     // create the highlighting frame
                     this._outlinePolygon = new Cesium.Primitive({
-                        geometryInstances : new Cesium.GeometryInstance({
-                            geometry : this.getOutlineGeometry(),
-                            attributes : {
-                                color : Cesium.ColorGeometryInstanceAttribute.fromColor(this.strokeColor)
+                        geometryInstances: new Cesium.GeometryInstance({
+                            geometry: this.getOutlineGeometry(),
+                            attributes: {
+                                color: Cesium.ColorGeometryInstanceAttribute.fromColor(this.strokeColor)
                             }
                         }),
-                        appearance : new Cesium.PerInstanceColorAppearance({
-                            flat : true,
-                            renderState : {
-                                depthTest : {
-                                    enabled : true
+                        appearance: new Cesium.PerInstanceColorAppearance({
+                            flat: true,
+                            renderState: {
+                                depthTest: {
+                                    enabled: true
                                 },
-                                lineWidth : Math.min(this.strokeWidth || 4.0, context._aliasedLineWidthRange[1])
+                                lineWidth: Math.min(this.strokeWidth || 4.0, context._aliasedLineWidthRange[1])
                             }
                         })
                     });
@@ -316,7 +323,7 @@ var DrawHelper = (function() {
         };
 
         _.prototype.setStrokeStyle = function(strokeColor, strokeWidth) {
-            if(!this.strokeColor || !this.strokeColor.equals(strokeColor) || this.strokeWidth != strokeWidth) {
+            if (!this.strokeColor || !this.strokeColor.equals(strokeColor) || this.strokeWidth != strokeWidth) {
                 this._createPrimitive = true;
                 this.strokeColor = strokeColor;
                 this.strokeWidth = strokeWidth;
@@ -329,7 +336,7 @@ var DrawHelper = (function() {
     _.ExtentPrimitive = (function() {
         function _(options) {
 
-            if(!Cesium.defined(options.extent)) {
+            if (!Cesium.defined(options.extent)) {
                 throw new Cesium.DeveloperError('Extent is required');
             }
 
@@ -358,12 +365,12 @@ var DrawHelper = (function() {
             }
 
             return new Cesium.RectangleGeometry({
-                rectangle : this.extent,
-                height : this.height,
-                vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
-                stRotation : this.textureRotationAngle,
-                ellipsoid : this.ellipsoid,
-                granularity : this.granularity
+                rectangle: this.extent,
+                height: this.height,
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                stRotation: this.textureRotationAngle,
+                ellipsoid: this.ellipsoid,
+                granularity: this.granularity
             });
         };
 
@@ -377,7 +384,7 @@ var DrawHelper = (function() {
     })();
 
     _.PolygonPrimitive = (function() {
-    	
+
         function _(options) {
 
             options = copyOptions(options, defaultSurfaceOptions);
@@ -405,18 +412,18 @@ var DrawHelper = (function() {
             }
 
             return Cesium.PolygonGeometry.fromPositions({
-                positions : this.positions,
-                height : this.height,
-                vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
-                stRotation : this.textureRotationAngle,
-                ellipsoid : this.ellipsoid,
-                granularity : this.granularity
+                positions: this.positions,
+                height: this.height,
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                stRotation: this.textureRotationAngle,
+                ellipsoid: this.ellipsoid,
+                granularity: this.granularity
             });
         };
 
         _.prototype.getOutlineGeometry = function() {
             return Cesium.PolygonOutlineGeometry.fromPositions({
-                positions : this.getPositions()
+                positions: this.getPositions()
             });
         }
 
@@ -424,10 +431,10 @@ var DrawHelper = (function() {
     })();
 
     _.CirclePrimitive = (function() {
-    	
+
         function _(options) {
 
-            if(!(Cesium.defined(options.center) && Cesium.defined(options.radius))) {
+            if (!(Cesium.defined(options.center) && Cesium.defined(options.radius))) {
                 throw new Cesium.DeveloperError('Center and radius are required');
             }
 
@@ -464,13 +471,13 @@ var DrawHelper = (function() {
             }
 
             return new Cesium.CircleGeometry({
-                center : this.center,
-                radius : this.radius,
-                height : this.height,
-                vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
-                stRotation : this.textureRotationAngle,
-                ellipsoid : this.ellipsoid,
-                granularity : this.granularity
+                center: this.center,
+                radius: this.radius,
+                height: this.height,
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                stRotation: this.textureRotationAngle,
+                ellipsoid: this.ellipsoid,
+                granularity: this.granularity
             });
         };
 
@@ -487,7 +494,7 @@ var DrawHelper = (function() {
     _.EllipsePrimitive = (function() {
         function _(options) {
 
-            if(!(Cesium.defined(options.center) && Cesium.defined(options.semiMajorAxis) && Cesium.defined(options.semiMinorAxis))) {
+            if (!(Cesium.defined(options.center) && Cesium.defined(options.semiMajorAxis) && Cesium.defined(options.semiMinorAxis))) {
                 throw new Cesium.DeveloperError('Center and semi major and semi minor axis are required');
             }
 
@@ -504,12 +511,12 @@ var DrawHelper = (function() {
         };
 
         _.prototype.setSemiMajorAxis = function(semiMajorAxis) {
-            if(semiMajorAxis < this.getSemiMinorAxis()) return;
+            if (semiMajorAxis < this.getSemiMinorAxis()) return;
             this.setAttribute('semiMajorAxis', semiMajorAxis);
         };
 
         _.prototype.setSemiMinorAxis = function(semiMinorAxis) {
-            if(semiMinorAxis > this.getSemiMajorAxis()) return;
+            if (semiMinorAxis > this.getSemiMajorAxis()) return;
             this.setAttribute('semiMinorAxis', semiMinorAxis);
         };
 
@@ -535,22 +542,22 @@ var DrawHelper = (function() {
 
         _.prototype.getGeometry = function() {
 
-            if(!(Cesium.defined(this.center) && Cesium.defined(this.semiMajorAxis) && Cesium.defined(this.semiMinorAxis))) {
+            if (!(Cesium.defined(this.center) && Cesium.defined(this.semiMajorAxis) && Cesium.defined(this.semiMinorAxis))) {
                 return;
             }
 
             return new Cesium.EllipseGeometry({
-                        ellipsoid : this.ellipsoid,
-                        center : this.center,
-                        semiMajorAxis : this.semiMajorAxis,
-                        semiMinorAxis : this.semiMinorAxis,
-                        rotation : this.rotation,
-                        height : this.height,
-                        vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
-                        stRotation : this.textureRotationAngle,
-                        ellipsoid : this.ellipsoid,
-                        granularity : this.granularity
-                    });
+                ellipsoid: this.ellipsoid,
+                center: this.center,
+                semiMajorAxis: this.semiMajorAxis,
+                semiMinorAxis: this.semiMinorAxis,
+                rotation: this.rotation,
+                height: this.height,
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                stRotation: this.textureRotationAngle,
+                ellipsoid: this.ellipsoid,
+                granularity: this.granularity
+            });
         };
 
         _.prototype.getOutlineGeometry = function() {
@@ -566,7 +573,7 @@ var DrawHelper = (function() {
     })();
 
     _.PolylinePrimitive = (function() {
-    	
+
         function _(options) {
 
             options = copyOptions(options, defaultPolylineOptions);
@@ -602,20 +609,20 @@ var DrawHelper = (function() {
         };
 
         _.prototype.getGeometry = function() {
-        	
+
             if (!Cesium.defined(this.positions) || this.positions.length < 2) {
                 return;
             }
 
             return new Cesium.PolylineGeometry({
-                    positions: this.positions,
-                    height : this.height,
-                    width: this.width < 1 ? 1 : this.width,
-                    vertexFormat : Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
-                    ellipsoid : this.ellipsoid
-                });
+                positions: this.positions,
+                height: this.height,
+                width: this.width < 1 ? 1 : this.width,
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+                ellipsoid: this.ellipsoid
+            });
         }
-        
+
         return _;
     })();
 
@@ -661,30 +668,32 @@ var DrawHelper = (function() {
     _.BillboardGroup.prototype.createBillboard = function(position, callbacks) {
 
         var billboard = this._billboards.add({
-            show : true,
-            position : position,
-            pixelOffset : new Cesium.Cartesian2(this._options.shiftX, this._options.shiftY),
-            eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0),
-            horizontalOrigin : Cesium.HorizontalOrigin.CENTER,
-            verticalOrigin : Cesium.VerticalOrigin.CENTER,
-            scale : 1.0,
+            show: true,
+            position: position,
+            pixelOffset: new Cesium.Cartesian2(this._options.shiftX, this._options.shiftY),
+            eyeOffset: new Cesium.Cartesian3(0.0, 0.0, 0.0),
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            scale: 1.0,
             image: this._options.iconUrl,
-            color : new Cesium.Color(1.0, 1.0, 1.0, 1.0)
+            color: new Cesium.Color(1.0, 1.0, 1.0, 1.0)
         });
 
         // if editable
-        if(callbacks) {
+        if (callbacks) {
             var _self = this;
             var screenSpaceCameraController = this._scene.screenSpaceCameraController;
+
             function enableRotation(enable) {
                 screenSpaceCameraController.enableRotate = enable;
             }
+
             function getIndex() {
                 // find index
                 for (var i = 0, I = _self._orderedBillboards.length; i < I && _self._orderedBillboards[i] != billboard; ++i);
                 return i;
             }
-            if(callbacks.dragHandlers) {
+            if (callbacks.dragHandlers) {
                 var _self = this;
                 setListener(billboard, 'leftDown', function(position) {
                     // TODO - start the drag handlers here
@@ -695,6 +704,7 @@ var DrawHelper = (function() {
                         for (var i = 0, I = _self._orderedBillboards.length; i < I && _self._orderedBillboards[i] != billboard; ++i);
                         callbacks.dragHandlers.onDrag && callbacks.dragHandlers.onDrag(getIndex(), position);
                     }
+
                     function onDragEnd(position) {
                         handler.destroy();
                         enableRotation(true);
@@ -721,17 +731,17 @@ var DrawHelper = (function() {
                     callbacks.dragHandlers.onDragStart && callbacks.dragHandlers.onDragStart(getIndex(), _self._scene.camera.pickEllipsoid(position, ellipsoid));
                 });
             }
-            if(callbacks.onDoubleClick) {
+            if (callbacks.onDoubleClick) {
                 setListener(billboard, 'leftDoubleClick', function(position) {
                     callbacks.onDoubleClick(getIndex());
                 });
             }
-            if(callbacks.onClick) {
+            if (callbacks.onClick) {
                 setListener(billboard, 'leftClick', function(position) {
                     callbacks.onClick(getIndex());
                 });
             }
-            if(callbacks.tooltip) {
+            if (callbacks.tooltip) {
                 setListener(billboard, 'mouseMove', function(position) {
                     _self._drawHelper._tooltip.showAt(position, callbacks.tooltip());
                 });
@@ -753,15 +763,15 @@ var DrawHelper = (function() {
     }
 
     _.BillboardGroup.prototype.addBillboards = function(positions, callbacks) {
-        var index =  0;
-        for(; index < positions.length; index++) {
+        var index = 0;
+        for (; index < positions.length; index++) {
             this.addBillboard(positions[index], callbacks);
         }
     }
 
     _.BillboardGroup.prototype.updateBillboardsPositions = function(positions) {
-        var index =  0;
-        for(; index < positions.length; index++) {
+        var index = 0;
+        for (; index < positions.length; index++) {
             this.getBillboard(index).position = positions[index];
         }
     }
@@ -810,7 +820,7 @@ var DrawHelper = (function() {
 
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
-            if(movement.position != null) {
+            if (movement.position != null) {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
                     markers.addBillboard(cartesian);
@@ -822,7 +832,7 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
-            if(position != null) {
+            if (position != null) {
                 var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                 if (cartesian) {
                     tooltip.showAt(position, "<p>Click to add your marker. Position is: </p>" + getDisplayLatLngString(ellipsoid.cartesianToCartographic(cartesian)));
@@ -862,7 +872,7 @@ var DrawHelper = (function() {
 
         var minPoints = isPolygon ? 3 : 2;
         var poly;
-        if(isPolygon) {
+        if (isPolygon) {
             poly = new DrawHelper.PolygonPrimitive(options);
         } else {
             poly = new DrawHelper.PolylinePrimitive(options);
@@ -877,15 +887,15 @@ var DrawHelper = (function() {
 
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
-            if(movement.position != null) {
+            if (movement.position != null) {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
                     // first click
-                    if(positions.length == 0) {
+                    if (positions.length == 0) {
                         positions.push(cartesian.clone());
                         markers.addBillboard(positions[0]);
                     }
-                    if(positions.length >= minPoints) {
+                    if (positions.length >= minPoints) {
                         poly.positions = positions;
                         poly._createPrimitive = true;
                     }
@@ -900,8 +910,8 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
-            if(position != null) {
-                if(positions.length == 0) {
+            if (position != null) {
+                if (positions.length == 0) {
                     tooltip.showAt(position, "<p>Click to add first point</p>");
                 } else {
                     var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
@@ -910,7 +920,7 @@ var DrawHelper = (function() {
                         // make sure it is slightly different
                         cartesian.y += (1 + Math.random());
                         positions.push(cartesian);
-                        if(positions.length >= minPoints) {
+                        if (positions.length >= minPoints) {
                             poly.positions = positions;
                             poly._createPrimitive = true;
                         }
@@ -925,19 +935,19 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.position;
-            if(position != null) {
-                if(positions.length < minPoints + 2) {
+            if (position != null) {
+                if (positions.length < minPoints + 2) {
                     return;
                 } else {
                     var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                     if (cartesian) {
                         _self.stopDrawing();
-                        if(typeof options.callback == 'function') {
+                        if (typeof options.callback == 'function') {
                             // remove overlapping ones
                             var index = positions.length - 1;
                             // TODO - calculate some epsilon based on the zoom level
                             var epsilon = Cesium.Math.EPSILON3;
-                            for(; index > 0 && positions[index].equalsEpsilon(positions[index - 1], epsilon); index--) {}
+                            for (; index > 0 && positions[index].equalsEpsilon(positions[index - 1], epsilon); index--) {}
                             options.callback(positions.splice(0, index + 1));
                         }
                     }
@@ -957,7 +967,7 @@ var DrawHelper = (function() {
 
         this.startDrawing(
             function() {
-                if(extent != null) {
+                if (extent != null) {
                     primitives.remove(extent);
                 }
                 markers.remove();
@@ -978,7 +988,7 @@ var DrawHelper = (function() {
         var mouseHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         function updateExtent(value) {
-            if(extent == null) {
+            if (extent == null) {
                 extent = new Cesium.RectanglePrimitive();
                 extent.asynchronous = false;
                 primitives.add(extent);
@@ -987,27 +997,27 @@ var DrawHelper = (function() {
             // update the markers
             var corners = getExtentCorners(value);
             // create if they do not yet exist
-            if(markers == null) {
+            if (markers == null) {
                 markers = new _.BillboardGroup(_self, defaultBillboard);
                 markers.addBillboards(corners);
             } else {
                 markers.updateBillboardsPositions(corners);
             }
-         }
+        }
 
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
-            if(movement.position != null) {
+            if (movement.position != null) {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
-                    if(extent == null) {
+                    if (extent == null) {
                         // create the rectangle
                         firstPoint = ellipsoid.cartesianToCartographic(cartesian);
                         var value = getExtent(firstPoint, firstPoint);
                         updateExtent(value);
-                     } else {
+                    } else {
                         _self.stopDrawing();
-                        if(typeof options.callback == 'function') {
+                        if (typeof options.callback == 'function') {
                             options.callback(getExtent(firstPoint, ellipsoid.cartesianToCartographic(cartesian)));
                         }
                     }
@@ -1017,8 +1027,8 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
-            if(position != null) {
-                if(extent == null) {
+            if (position != null) {
+                if (extent == null) {
                     tooltip.showAt(position, "<p>Click to start drawing rectangle</p>");
                 } else {
                     var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
@@ -1039,7 +1049,7 @@ var DrawHelper = (function() {
 
         this.startDrawing(
             function cleanUp() {
-                if(circle != null) {
+                if (circle != null) {
                     primitives.remove(circle);
                 }
                 markers.remove();
@@ -1060,22 +1070,22 @@ var DrawHelper = (function() {
 
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
-            if(movement.position != null) {
+            if (movement.position != null) {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
-                    if(circle == null) {
+                    if (circle == null) {
                         // create the circle
                         circle = new _.CirclePrimitive({
                             center: cartesian,
                             radius: 0,
                             asynchronous: false,
-                            material : options.material
+                            material: options.material
                         });
                         primitives.add(circle);
                         markers = new _.BillboardGroup(_self, defaultBillboard);
                         markers.addBillboards([cartesian]);
                     } else {
-                        if(typeof options.callback == 'function') {
+                        if (typeof options.callback == 'function') {
                             options.callback(circle.getCenter(), circle.getRadius());
                         }
                         _self.stopDrawing();
@@ -1086,8 +1096,8 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
-            if(position != null) {
-                if(circle == null) {
+            if (position != null) {
+                if (circle == null) {
                     tooltip.showAt(position, "<p>Click to start drawing the circle</p>");
                 } else {
                     var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
@@ -1108,7 +1118,7 @@ var DrawHelper = (function() {
 
         Cesium.Billboard.prototype.setEditable = function() {
 
-            if(this._editable) {
+            if (this._editable) {
                 return;
             }
 
@@ -1127,12 +1137,13 @@ var DrawHelper = (function() {
                 // create handlers for mouseOut and leftUp for the billboard and a mouseMove
                 function onDrag(position) {
                     billboard.position = position;
-                    _self.executeListeners({name: 'drag', positions: position});
+                    _self.executeListeners({ name: 'drag', positions: position });
                 }
+
                 function onDragEnd(position) {
                     handler.destroy();
                     enableRotation(true);
-                    _self.executeListeners({name: 'dragEnd', positions: position});
+                    _self.executeListeners({ name: 'dragEnd', positions: position });
                 }
 
                 var handler = new Cesium.ScreenSpaceEventHandler(drawHelper._scene.canvas);
@@ -1157,29 +1168,29 @@ var DrawHelper = (function() {
             enhanceWithListeners(billboard);
 
         }
-        
+
         function setHighlighted(highlighted) {
 
             var scene = drawHelper._scene;
 
             // if no change
             // if already highlighted, the outline polygon will be available
-            if(this._highlighted && this._highlighted == highlighted) {
+            if (this._highlighted && this._highlighted == highlighted) {
                 return;
             }
             // disable if already in edit mode
-            if(this._editMode === true) {
+            if (this._editMode === true) {
                 return;
             }
-        	this._highlighted = highlighted;
+            this._highlighted = highlighted;
             // highlight by creating an outline polygon matching the polygon points
-            if(highlighted) {
+            if (highlighted) {
                 // make sure all other shapes are not highlighted
                 drawHelper.setHighlighted(this);
                 this._strokeColor = this.strokeColor;
                 this.setStrokeStyle(Cesium.Color.fromCssColorString('white'), this.strokeWidth);
             } else {
-                if(this._strokeColor) {
+                if (this._strokeColor) {
                     this.setStrokeStyle(this._strokeColor, this.strokeWidth);
                 } else {
                     this.setStrokeStyle(undefined, undefined);
@@ -1188,145 +1199,146 @@ var DrawHelper = (function() {
         }
 
         function setEditMode(editMode) {
-                // if no change
-                if(this._editMode == editMode) {
-                    return;
-                }
-                // make sure all other shapes are not in edit mode before starting the editing of this shape
-                drawHelper.disableAllHighlights();
-                // display markers
-                if(editMode) {
-                    drawHelper.setEdited(this);
-                    var scene = drawHelper._scene;
-                    var _self = this;
-                    // create the markers and handlers for the editing
-                    if(this._markers == null) {
-                        var markers = new _.BillboardGroup(drawHelper, dragBillboard);
-                        var editMarkers = new _.BillboardGroup(drawHelper, dragHalfBillboard);
-                        // function for updating the edit markers around a certain point
-                        function updateHalfMarkers(index, positions) {
-                            // update the half markers before and after the index
-                            var editIndex = index - 1 < 0 ? positions.length - 1 : index - 1;
-                            if(editIndex < editMarkers.countBillboards()) {
-                                editMarkers.getBillboard(editIndex).position = calculateHalfMarkerPosition(editIndex);
-                            }
-                            editIndex = index;
-                            if(editIndex < editMarkers.countBillboards()) {
-                                editMarkers.getBillboard(editIndex).position = calculateHalfMarkerPosition(editIndex);
-                            }
+            // if no change
+            if (this._editMode == editMode) {
+                return;
+            }
+            // make sure all other shapes are not in edit mode before starting the editing of this shape
+            drawHelper.disableAllHighlights();
+            // display markers
+            if (editMode) {
+                drawHelper.setEdited(this);
+                var scene = drawHelper._scene;
+                var _self = this;
+                // create the markers and handlers for the editing
+                if (this._markers == null) {
+                    var markers = new _.BillboardGroup(drawHelper, dragBillboard);
+                    var editMarkers = new _.BillboardGroup(drawHelper, dragHalfBillboard);
+                    // function for updating the edit markers around a certain point
+                    function updateHalfMarkers(index, positions) {
+                        // update the half markers before and after the index
+                        var editIndex = index - 1 < 0 ? positions.length - 1 : index - 1;
+                        if (editIndex < editMarkers.countBillboards()) {
+                            editMarkers.getBillboard(editIndex).position = calculateHalfMarkerPosition(editIndex);
                         }
-                        function onEdited() {
-                            _self.executeListeners({name: 'onEdited', positions: _self.positions});
+                        editIndex = index;
+                        if (editIndex < editMarkers.countBillboards()) {
+                            editMarkers.getBillboard(editIndex).position = calculateHalfMarkerPosition(editIndex);
                         }
-                        var handleMarkerChanges = {
-                            dragHandlers: {
-                                onDrag: function(index, position) {
-                                    _self.positions[index] = position;
-                                    updateHalfMarkers(index, _self.positions);
-                                    _self._createPrimitive = true;
-                                },
-                                onDragEnd: function(index, position) {
-                                    _self._createPrimitive = true;
-                                    onEdited();
-                                }
-                            },
-                            onDoubleClick: function(index) {
-                                if(_self.positions.length < 4) {
-                                    return;
-                                }
-                                // remove the point and the corresponding markers
-                                _self.positions.splice(index, 1);
-                                _self._createPrimitive = true;
-                                markers.removeBillboard(index);
-                                editMarkers.removeBillboard(index);
-                                updateHalfMarkers(index, _self.positions);
-                                onEdited();
-                            },
-                            tooltip: function() {
-                                if(_self.positions.length > 3) {
-                                    return "Double click to remove this point";
-                                }
-                            }
-                        };
-                        // add billboards and keep an ordered list of them for the polygon edges
-                        markers.addBillboards(_self.positions, handleMarkerChanges);
-                        this._markers = markers;
-                        function calculateHalfMarkerPosition(index) {
-                            var positions = _self.positions;
-                            return ellipsoid.cartographicToCartesian(
-                                new Cesium.EllipsoidGeodesic(ellipsoid.cartesianToCartographic(positions[index]),
-                                    ellipsoid.cartesianToCartographic(positions[index < positions.length - 1 ? index + 1 : 0])).
-                                    interpolateUsingFraction(0.5)
-                            );
-                        }
-                        var halfPositions = [];
-                        var index = 0;
-                        var length = _self.positions.length + (this.isPolygon ? 0 : -1);
-                        for(; index < length; index++) {
-                            halfPositions.push(calculateHalfMarkerPosition(index));
-                        }
-                        var handleEditMarkerChanges = {
-                            dragHandlers: {
-                                onDragStart: function(index, position) {
-                                    // add a new position to the polygon but not a new marker yet
-                                    this.index = index + 1;
-                                    _self.positions.splice(this.index, 0, position);
-                                    _self._createPrimitive = true;
-                                },
-                                onDrag: function(index, position) {
-                                    _self.positions[this.index] = position;
-                                    _self._createPrimitive = true;
-                                },
-                                onDragEnd: function(index, position) {
-                                    // create new sets of makers for editing
-                                    markers.insertBillboard(this.index, position, handleMarkerChanges);
-                                    editMarkers.getBillboard(this.index - 1).position = calculateHalfMarkerPosition(this.index - 1);
-                                    editMarkers.insertBillboard(this.index, calculateHalfMarkerPosition(this.index), handleEditMarkerChanges);
-                                    _self._createPrimitive = true;
-                                    onEdited();
-                                }
-                            },
-                            tooltip: function() {
-                                return "Drag to create a new point";
-                            }
-                        };
-                        editMarkers.addBillboards(halfPositions, handleEditMarkerChanges);
-                        this._editMarkers = editMarkers;
-                        // add a handler for clicking in the globe
-                        this._globeClickhandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-                        this._globeClickhandler.setInputAction(
-                            function (movement) {
-                                var pickedObject = scene.pick(movement.position);
-                                if(!(pickedObject && pickedObject.primitive)) {
-                                    _self.setEditMode(false);
-                                }
-                            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                    }
 
-                        // set on top of the polygon
-                        markers.setOnTop();
-                        editMarkers.setOnTop();
+                    function onEdited() {
+                        _self.executeListeners({ name: 'onEdited', positions: _self.positions });
                     }
-                    this._editMode = true;
-                } else {
-                    if(this._markers != null) {
-                        this._markers.remove();
-                        this._editMarkers.remove();
-                        this._markers = null;
-                        this._editMarkers = null;
-                        this._globeClickhandler.destroy();
+                    var handleMarkerChanges = {
+                        dragHandlers: {
+                            onDrag: function(index, position) {
+                                _self.positions[index] = position;
+                                updateHalfMarkers(index, _self.positions);
+                                _self._createPrimitive = true;
+                            },
+                            onDragEnd: function(index, position) {
+                                _self._createPrimitive = true;
+                                onEdited();
+                            }
+                        },
+                        onDoubleClick: function(index) {
+                            if (_self.positions.length < 4) {
+                                return;
+                            }
+                            // remove the point and the corresponding markers
+                            _self.positions.splice(index, 1);
+                            _self._createPrimitive = true;
+                            markers.removeBillboard(index);
+                            editMarkers.removeBillboard(index);
+                            updateHalfMarkers(index, _self.positions);
+                            onEdited();
+                        },
+                        tooltip: function() {
+                            if (_self.positions.length > 3) {
+                                return "Double click to remove this point";
+                            }
+                        }
+                    };
+                    // add billboards and keep an ordered list of them for the polygon edges
+                    markers.addBillboards(_self.positions, handleMarkerChanges);
+                    this._markers = markers;
+
+                    function calculateHalfMarkerPosition(index) {
+                        var positions = _self.positions;
+                        return ellipsoid.cartographicToCartesian(
+                            new Cesium.EllipsoidGeodesic(ellipsoid.cartesianToCartographic(positions[index]),
+                                ellipsoid.cartesianToCartographic(positions[index < positions.length - 1 ? index + 1 : 0])).interpolateUsingFraction(0.5)
+                        );
                     }
-                    this._editMode = false;
+                    var halfPositions = [];
+                    var index = 0;
+                    var length = _self.positions.length + (this.isPolygon ? 0 : -1);
+                    for (; index < length; index++) {
+                        halfPositions.push(calculateHalfMarkerPosition(index));
+                    }
+                    var handleEditMarkerChanges = {
+                        dragHandlers: {
+                            onDragStart: function(index, position) {
+                                // add a new position to the polygon but not a new marker yet
+                                this.index = index + 1;
+                                _self.positions.splice(this.index, 0, position);
+                                _self._createPrimitive = true;
+                            },
+                            onDrag: function(index, position) {
+                                _self.positions[this.index] = position;
+                                _self._createPrimitive = true;
+                            },
+                            onDragEnd: function(index, position) {
+                                // create new sets of makers for editing
+                                markers.insertBillboard(this.index, position, handleMarkerChanges);
+                                editMarkers.getBillboard(this.index - 1).position = calculateHalfMarkerPosition(this.index - 1);
+                                editMarkers.insertBillboard(this.index, calculateHalfMarkerPosition(this.index), handleEditMarkerChanges);
+                                _self._createPrimitive = true;
+                                onEdited();
+                            }
+                        },
+                        tooltip: function() {
+                            return "Drag to create a new point";
+                        }
+                    };
+                    editMarkers.addBillboards(halfPositions, handleEditMarkerChanges);
+                    this._editMarkers = editMarkers;
+                    // add a handler for clicking in the globe
+                    this._globeClickhandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                    this._globeClickhandler.setInputAction(
+                        function(movement) {
+                            var pickedObject = scene.pick(movement.position);
+                            if (!(pickedObject && pickedObject.primitive)) {
+                                _self.setEditMode(false);
+                            }
+                        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+                    // set on top of the polygon
+                    markers.setOnTop();
+                    editMarkers.setOnTop();
                 }
+                this._editMode = true;
+            } else {
+                if (this._markers != null) {
+                    this._markers.remove();
+                    this._editMarkers.remove();
+                    this._markers = null;
+                    this._editMarkers = null;
+                    this._globeClickhandler.destroy();
+                }
+                this._editMode = false;
+            }
 
         }
 
         DrawHelper.PolylinePrimitive.prototype.setEditable = function() {
 
-            if(this.setEditMode) {
+            if (this.setEditMode) {
                 return;
             }
 
-             var polyline = this;
+            var polyline = this;
             polyline.isPolygon = false;
             polyline.asynchronous = false;
 
@@ -1338,10 +1350,10 @@ var DrawHelper = (function() {
 
             polyline.setHighlighted = function(highlighted) {
                 // disable if already in edit mode
-                if(this._editMode === true) {
+                if (this._editMode === true) {
                     return;
                 }
-                if(highlighted) {
+                if (highlighted) {
                     drawHelper.setHighlighted(this);
                     this.setWidth(originalWidth * 2);
                 } else {
@@ -1380,7 +1392,7 @@ var DrawHelper = (function() {
 
         DrawHelper.ExtentPrimitive.prototype.setEditable = function() {
 
-            if(this.setEditMode) {
+            if (this.setEditMode) {
                 return;
             }
 
@@ -1392,19 +1404,20 @@ var DrawHelper = (function() {
 
             extent.setEditMode = function(editMode) {
                 // if no change
-                if(this._editMode == editMode) {
+                if (this._editMode == editMode) {
                     return;
                 }
                 drawHelper.disableAllHighlights();
                 // display markers
-                if(editMode) {
+                if (editMode) {
                     // make sure all other shapes are not in edit mode before starting the editing of this shape
                     drawHelper.setEdited(this);
                     // create the markers and handlers for the editing
-                    if(this._markers == null) {
+                    if (this._markers == null) {
                         var markers = new _.BillboardGroup(drawHelper, dragBillboard);
+
                         function onEdited() {
-                            extent.executeListeners({name: 'onEdited', extent: extent.extent});
+                            extent.executeListeners({ name: 'onEdited', extent: extent.extent });
                         }
                         var handleMarkerChanges = {
                             dragHandlers: {
@@ -1426,10 +1439,10 @@ var DrawHelper = (function() {
                         // add a handler for clicking in the globe
                         this._globeClickhandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
                         this._globeClickhandler.setInputAction(
-                            function (movement) {
+                            function(movement) {
                                 var pickedObject = scene.pick(movement.position);
                                 // disable edit if pickedobject is different or not an object
-                                if(!(pickedObject && !pickedObject.isDestroyed() && pickedObject.primitive)) {
+                                if (!(pickedObject && !pickedObject.isDestroyed() && pickedObject.primitive)) {
                                     extent.setEditMode(false);
                                 }
                             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -1439,7 +1452,7 @@ var DrawHelper = (function() {
                     }
                     this._editMode = true;
                 } else {
-                    if(this._markers != null) {
+                    if (this._markers != null) {
                         this._markers.remove();
                         this._markers = null;
                         this._globeClickhandler.destroy();
@@ -1458,7 +1471,7 @@ var DrawHelper = (function() {
 
         _.EllipsePrimitive.prototype.setEditable = function() {
 
-            if(this.setEditMode) {
+            if (this.setEditMode) {
                 return;
             }
 
@@ -1471,29 +1484,31 @@ var DrawHelper = (function() {
 
             ellipse.setEditMode = function(editMode) {
                 // if no change
-                if(this._editMode == editMode) {
+                if (this._editMode == editMode) {
                     return;
                 }
                 drawHelper.disableAllHighlights();
                 // display markers
-                if(editMode) {
+                if (editMode) {
                     // make sure all other shapes are not in edit mode before starting the editing of this shape
                     drawHelper.setEdited(this);
                     var _self = this;
                     // create the markers and handlers for the editing
-                    if(this._markers == null) {
+                    if (this._markers == null) {
                         var markers = new _.BillboardGroup(drawHelper, dragBillboard);
+
                         function getMarkerPositions() {
                             return Cesium.Shapes.computeEllipseBoundary(ellipsoid, ellipse.getCenter(), ellipse.getSemiMajorAxis(), ellipse.getSemiMinorAxis(), ellipse.getRotation() + Math.PI / 2, Math.PI / 2.0).splice(0, 4);
                         }
+
                         function onEdited() {
-                            ellipse.executeListeners({name: 'onEdited', center: ellipse.getCenter(), semiMajorAxis: ellipse.getSemiMajorAxis(), semiMinorAxis: ellipse.getSemiMinorAxis(), rotation: 0});
+                            ellipse.executeListeners({ name: 'onEdited', center: ellipse.getCenter(), semiMajorAxis: ellipse.getSemiMajorAxis(), semiMinorAxis: ellipse.getSemiMinorAxis(), rotation: 0 });
                         }
                         var handleMarkerChanges = {
                             dragHandlers: {
                                 onDrag: function(index, position) {
                                     var distance = Cesium.Cartesian3.distance(ellipse.getCenter(), position);
-                                    if(index%2 == 0) {
+                                    if (index % 2 == 0) {
                                         ellipse.setSemiMajorAxis(distance);
                                     } else {
                                         ellipse.setSemiMinorAxis(distance);
@@ -1513,9 +1528,9 @@ var DrawHelper = (function() {
                         // add a handler for clicking in the globe
                         this._globeClickhandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
                         this._globeClickhandler.setInputAction(
-                            function (movement) {
+                            function(movement) {
                                 var pickedObject = scene.pick(movement.position);
-                                if(!(pickedObject && pickedObject.primitive)) {
+                                if (!(pickedObject && pickedObject.primitive)) {
                                     _self.setEditMode(false);
                                 }
                             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -1525,7 +1540,7 @@ var DrawHelper = (function() {
                     }
                     this._editMode = true;
                 } else {
-                    if(this._markers != null) {
+                    if (this._markers != null) {
                         this._markers.remove();
                         this._markers = null;
                         this._globeClickhandler.destroy();
@@ -1541,10 +1556,11 @@ var DrawHelper = (function() {
             ellipse.setEditMode(false);
         }
 
-        _.CirclePrimitive.prototype.getCircleCartesianCoordinates = function (granularity) {
-            var geometry = Cesium.CircleOutlineGeometry.createGeometry(new Cesium.CircleOutlineGeometry({ellipsoid: ellipsoid, center: this.getCenter(), radius: this.getRadius(), granularity: granularity}));
-            var count = 0, value, values = [];
-            for(; count < geometry.attributes.position.values.length; count+=3) {
+        _.CirclePrimitive.prototype.getCircleCartesianCoordinates = function(granularity) {
+            var geometry = Cesium.CircleOutlineGeometry.createGeometry(new Cesium.CircleOutlineGeometry({ ellipsoid: ellipsoid, center: this.getCenter(), radius: this.getRadius(), granularity: granularity }));
+            var count = 0,
+                value, values = [];
+            for (; count < geometry.attributes.position.values.length; count += 3) {
                 value = geometry.attributes.position.values;
                 values.push(new Cesium.Cartesian3(value[count], value[count + 1], value[count + 2]));
             }
@@ -1553,7 +1569,7 @@ var DrawHelper = (function() {
 
         _.CirclePrimitive.prototype.setEditable = function() {
 
-            if(this.setEditMode) {
+            if (this.setEditMode) {
                 return;
             }
 
@@ -1566,23 +1582,25 @@ var DrawHelper = (function() {
 
             circle.setEditMode = function(editMode) {
                 // if no change
-                if(this._editMode == editMode) {
+                if (this._editMode == editMode) {
                     return;
                 }
                 drawHelper.disableAllHighlights();
                 // display markers
-                if(editMode) {
+                if (editMode) {
                     // make sure all other shapes are not in edit mode before starting the editing of this shape
                     drawHelper.setEdited(this);
                     var _self = this;
                     // create the markers and handlers for the editing
-                    if(this._markers == null) {
+                    if (this._markers == null) {
                         var markers = new _.BillboardGroup(drawHelper, dragBillboard);
+
                         function getMarkerPositions() {
                             return _self.getCircleCartesianCoordinates(Cesium.Math.PI_OVER_TWO);
                         }
+
                         function onEdited() {
-                            circle.executeListeners({name: 'onEdited', center: circle.getCenter(), radius: circle.getRadius()});
+                            circle.executeListeners({ name: 'onEdited', center: circle.getCenter(), radius: circle.getRadius() });
                         }
                         var handleMarkerChanges = {
                             dragHandlers: {
@@ -1603,9 +1621,9 @@ var DrawHelper = (function() {
                         // add a handler for clicking in the globe
                         this._globeClickhandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
                         this._globeClickhandler.setInputAction(
-                            function (movement) {
+                            function(movement) {
                                 var pickedObject = scene.pick(movement.position);
-                                if(!(pickedObject && pickedObject.primitive)) {
+                                if (!(pickedObject && pickedObject.primitive)) {
                                     _self.setEditMode(false);
                                 }
                             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -1615,7 +1633,7 @@ var DrawHelper = (function() {
                     }
                     this._editMode = true;
                 } else {
-                    if(this._markers != null) {
+                    if (this._markers != null) {
                         this._markers.remove();
                         this._markers = null;
                         this._globeClickhandler.destroy();
@@ -1639,7 +1657,7 @@ var DrawHelper = (function() {
         function _(drawHelper, options) {
 
             // container must be specified
-            if(!(Cesium.defined(options.container))) {
+            if (!(Cesium.defined(options.container))) {
                 throw new Cesium.DeveloperError('Container is required');
             }
 
@@ -1683,7 +1701,7 @@ var DrawHelper = (function() {
             addIcon('marker', options.markerIcon, 'Click to start drawing a 2D marker', function() {
                 drawHelper.startDrawingMarker({
                     callback: function(position) {
-                        _self.executeListeners({name: 'markerCreated', position: position});
+                        _self.executeListeners({ name: 'markerCreated', position: position });
                     }
                 });
             })
@@ -1691,7 +1709,7 @@ var DrawHelper = (function() {
             addIcon('polyline', options.polylineIcon, 'Click to start drawing a 2D polyline', function() {
                 drawHelper.startDrawingPolyline({
                     callback: function(positions) {
-                        _self.executeListeners({name: 'polylineCreated', positions: positions});
+                        _self.executeListeners({ name: 'polylineCreated', positions: positions });
                     }
                 });
             })
@@ -1699,7 +1717,7 @@ var DrawHelper = (function() {
             addIcon('polygon', options.polygonIcon, 'Click to start drawing a 2D polygon', function() {
                 drawHelper.startDrawingPolygon({
                     callback: function(positions) {
-                        _self.executeListeners({name: 'polygonCreated', positions: positions});
+                        _self.executeListeners({ name: 'polygonCreated', positions: positions });
                     }
                 });
             })
@@ -1707,7 +1725,7 @@ var DrawHelper = (function() {
             addIcon('extent', options.extentIcon, 'Click to start drawing an Extent', function() {
                 drawHelper.startDrawingExtent({
                     callback: function(extent) {
-                        _self.executeListeners({name: 'extentCreated', extent: extent});
+                        _self.executeListeners({ name: 'extentCreated', extent: extent });
                     }
                 });
             })
@@ -1715,7 +1733,7 @@ var DrawHelper = (function() {
             addIcon('circle', options.circleIcon, 'Click to start drawing a Circle', function() {
                 drawHelper.startDrawingCircle({
                     callback: function(center, radius) {
-                        _self.executeListeners({name: 'circleCreated', center: center, radius: radius});
+                        _self.executeListeners({ name: 'circleCreated', center: center, radius: radius });
                     }
                 });
             })
@@ -1738,7 +1756,7 @@ var DrawHelper = (function() {
     })();
 
     _.prototype.addToolbar = function(container, options) {
-        options = copyOptions(options, {container: container});
+        options = copyOptions(options, { container: container });
         return new _.DrawHelperWidget(this, options);
     }
 
@@ -1792,7 +1810,7 @@ var DrawHelper = (function() {
         }
 
         tooltip.prototype.showAt = function(position, message) {
-            if(position && message) {
+            if (position && message) {
                 this.setVisible(true);
                 this._title.innerHTML = message;
                 this._div.style.left = position.x + 10 + "px";
@@ -1822,12 +1840,12 @@ var DrawHelper = (function() {
 
         return to;
     }
-    
+
     function fillOptions(options, defaultOptions) {
         options = options || {};
         var option;
-        for(option in defaultOptions) {
-            if(options[option] === undefined) {
+        for (option in defaultOptions) {
+            if (options[option] === undefined) {
                 options[option] = clone(defaultOptions[option]);
             }
         }
@@ -1835,9 +1853,10 @@ var DrawHelper = (function() {
 
     // shallow copy
     function copyOptions(options, defaultOptions) {
-        var newOptions = clone(options), option;
-        for(option in defaultOptions) {
-            if(newOptions[option] === undefined) {
+        var newOptions = clone(options),
+            option;
+        for (option in defaultOptions) {
+            if (newOptions[option] === undefined) {
                 newOptions[option] = clone(defaultOptions[option]);
             }
         }
@@ -1859,13 +1878,13 @@ var DrawHelper = (function() {
         }
 
         element.executeListeners = function(event, defaultCallback) {
-            if(this._listeners[event.name] && this._listeners[event.name].length > 0) {
+            if (this._listeners[event.name] && this._listeners[event.name].length > 0) {
                 var index = 0;
-                for(;index < this._listeners[event.name].length; index++) {
+                for (; index < this._listeners[event.name].length; index++) {
                     this._listeners[event.name][index](event);
                 }
             } else {
-                if(defaultCallback) {
+                if (defaultCallback) {
                     defaultCallback(event);
                 }
             }
@@ -1875,4 +1894,3 @@ var DrawHelper = (function() {
 
     return _;
 })();
-

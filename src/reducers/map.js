@@ -601,8 +601,10 @@ const ingestLayerPalettes = (state, action) => {
 const enableDrawing = (state, action) => {
     // For each map, enable drawing
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.enableDrawing(action.geometryType)) {
-            return true;
+        if (map.isActive) {
+            if (map.enableDrawing(action.geometryType)) {
+                return true;
+            }
         }
         return acc;
     }, false);

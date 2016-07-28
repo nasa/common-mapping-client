@@ -24,6 +24,9 @@ export default class MapWrapper_cesium extends MapWrapper {
         // Create cesium-draw-helper
         this.drawHandler = new this.drawHelper(this.map);
 
+        // Initialize draw-helper interactions array
+        this.drawHandler._customInteractions = {};
+
         // store limits for zoom
         this.zoomLimits = {
             maxZoom: options.getIn(["view", "maxZoomDistance3D"]),
@@ -198,47 +201,72 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    enableDrawing(geometryType) {
-        // Enable drawing for geometryType
-
-        // let interaction = this.findInteractionById("draw_" + geometryType);
-        // if (!interaction) {
-        //     console.warn("could not enable openlayers drawing for:", geometryType);
-        //     return false;
-        // }
-        // // Call setActive(true) on handler to enable
-        // interaction.setActive(true);
-        // // Check that handler is active
-        // return interaction.getActive();
+    addDrawHandler(geometryType, onDrawEnd) {
+        if (geometryType === mapStrings.GEOMETRY_CIRCLE) {
+            this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_CIRCLE] = () => {
+                this.drawHandler.startDrawingCircle({
+                    callback: (center, radius) => {
+                        // Add geometry to cesium map since it's not done automatically
+                        this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN })
+                        onDrawEnd(center, radius);
+                    }
+                })
+            }
+        }
     }
 
+    enableDrawing(geometryType) {
+        // Enable drawing for geometryType
+        let interaction = this.drawHandler._customInteractions["_id" + geometryType];
+        if (interaction) {
+            interaction();
+            return true;
+        }
+        console.warn("could not enable cesium drawing for:", geometryType);
+        return false;
+    }
+
+    disableDrawing() {
+        // Stop drawing
+        this.drawHandler.stopDrawing();
+        return true;
+    }
+    cartesianToCartographic(center) {
+        console.warn("Cesium cartesianToCartographic should be moved into MapUtils");
+        let cartographicRadians = this.cesium.Ellipsoid.WGS84.cartesianToCartographic(center);
+        return {
+            lat: this.cesium.Math.toDegrees(cartographicRadians.latitude),
+            lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
+        }
+    }
     addGeometry(geometry) {
-        let primitiveToAdd = null;
         if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
-            console.log("ADDING GEOMETRY_CIRCLE", geometry);
-            // Calc radius by finding cartesian distance from 
-            //  center to radius point
+            console.log("ADDING GEOMETRY_CIRCLE", geometry.coordinateType);
+            let cesiumCenter = null;
+            let cesiumRadius = null;
+            // Check coordinate type
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                // Calc radius by finding cartesian distance from 
+                //  center to radius point
+                let point = { lat: geometry.center.lat, lon: geometry.center.lon };
+                point.lon += geometry.radius;
 
-            let point = { lat: geometry.center.lat, lon: geometry.center.lon };
-            point.lon += geometry.radius;
-
-            let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
-            let cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-            let cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
-
-            primitiveToAdd = new this.drawHelper.CirclePrimitive({
+                let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
+                cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
+                cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint)
+            } else {
+                cesiumCenter = geometry.center;
+                cesiumRadius = geometry.radius;
+            }
+            let primitiveToAdd = new this.drawHelper.CirclePrimitive({
                 center: cesiumCenter,
                 radius: cesiumRadius,
                 material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
             });
-            console.log(primitiveToAdd, geometry);
             this.map.scene.primitives.add(primitiveToAdd);
-            // return;
-            // default:
             return true;
         }
-        // return false;
-        console.log("add geometry not complete in cesium");
+        console.log("add geometry not complete in cesium", geometry, " is unsupported");
         return false;
     }
 
@@ -477,9 +505,8 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     latLonToCartesian(lat, lon) {
-        console.log(this.map, "?");
+        console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil and write tests");
         return new this.cesium.Cartesian3.fromDegrees(lon, lat);
-        // this.cesium.Cartesian3(-4467834.49972473, -2408349.889633406, 3849553.7725456078);
     }
 
     getLatLonFromPixelCoordinate(pixel) {
@@ -488,8 +515,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (cartesian) {
                 let cartographic = this.map.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
                 return {
-                    lat: this.cesium.Math.toDegrees(cartographic.longitude),
-                    lon: this.cesium.Math.toDegrees(cartographic.latitude),
+                    lat: this.cesium.Math.toDegrees(cartographic.latitude),
+                    lon: this.cesium.Math.toDegrees(cartographic.longitude),
                     isValid: true
                 };
             }

@@ -8,7 +8,6 @@ import MiscUtil from '../../utils/MiscUtil';
 import KeyHandler, { KEYUP } from 'react-key-handler';
 
 export class MapContainer extends Component {
-
     componentWillMount() {
         this.listenersInitialized = false;
     }
@@ -26,12 +25,12 @@ export class MapContainer extends Component {
                 let geometry = {
                     type: mapStrings.GEOMETRY_CIRCLE,
                     center: { lon: center[0], lat: center[1] },
-                    radius: event.feature.getGeometry().getRadius()
+                    radius: event.feature.getGeometry().getRadius(),
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 }
 
-                console.log(mapStrings.GEOMETRY_CIRCLE, " = ", geometry);
                 // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry)
+                this.props.actions.addGeometryToMap(geometry);
             })
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (event) => {
                 // Draw end
@@ -43,6 +42,7 @@ export class MapContainer extends Component {
                     type: mapStrings.GEOMETRY_LINE_STRING
                         // center: event.feature.getGeometry().getCenter(),
                         // radius: event.feature.getGeometry().getRadius()
+                        // coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 }
 
                 // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
@@ -85,7 +85,7 @@ export class MapContainer extends Component {
 
     render() {
         // need to get some sort of stored state value
-        if(this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
+        if (this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
             this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
@@ -96,6 +96,7 @@ export class MapContainer extends Component {
                 <div id="map2D"></div>
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
                     {
+                        console.log("hi")
                         // Only disable if drawing is enabled
                         if (this.props.mapState.isDrawingEnabled) {
                             // Add other dialog checks here?

@@ -6,7 +6,6 @@ import * as mapStrings from '../../constants/mapStrings';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class MapContainer3D extends Component {
-
     componentWillMount() {
         this.listenersInitialized = false;
     }
@@ -14,22 +13,24 @@ export class MapContainer3D extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            // map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (event) => {
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (center, radius) => {
+                console.log("DRAW END", center, radius);
                 // Draw end
                 // Disable drawing
-                // this.props.actions.disableDrawing();
+                this.props.actions.disableDrawing();
 
-                // // Recover geometry from event
-                // let geometry = {
-                //     type: mapStrings.GEOMETRY_CIRCLE,
-                //     center: event.feature.getGeometry().getCenter(),
-                //     radius: event.feature.getGeometry().getRadius()
-                // }
+                let cartesianCenter = map.cartesianToCartographic(center);
+                // Recover geometry from event in cartographic
+                let geometry = {
+                    type: mapStrings.GEOMETRY_CIRCLE,
+                    center: cartesianCenter,
+                    radius: radius,
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN
+                }
 
-                // console.log(mapStrings.GEOMETRY_CIRCLE, " = ", geometry);
                 // Add geometry to other maps
-                // this.props.actions.addGeometryToMap(geometry)
-            // })
+                this.props.actions.addGeometryToMap(geometry)
+            })
         }
     }
 
@@ -62,7 +63,7 @@ export class MapContainer3D extends Component {
 
     render() {
         // need to get some sort of stored state value
-        if(this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
+        if (this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
             // this.initializeMapDrawHandlers();
             this.listenersInitialized = true;

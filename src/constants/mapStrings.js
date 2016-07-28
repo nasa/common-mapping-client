@@ -44,3 +44,8 @@ export const CATS_TILE_CS = 'catsTile_CS';
 export const GEOMETRY_POINT = 'Point';
 export const GEOMETRY_CIRCLE = 'Circle';
 export const GEOMETRY_LINE_STRING = 'LineString';
+
+// coordinate types
+export const COORDINATE_TYPE_CARTESIAN = 'Cartesian';
+export const COORDINATE_TYPE_CARTOGRAPHIC = 'Cartographic';
+
