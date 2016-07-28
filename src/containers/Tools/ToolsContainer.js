@@ -16,7 +16,7 @@ export class ToolsContainer extends Component {
     render() {
         let toolsClasses = MiscUtil.generateStringFromSet({
             "tools-container": true,
-            "hidden": this.props.toolsOpen
+            "hidden": !this.props.toolsOpen
         });
         return (
             <div className={toolsClasses}>

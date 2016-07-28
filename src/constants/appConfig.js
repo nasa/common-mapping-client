@@ -8,7 +8,7 @@ export const URLS = {
     layerConfig: [{
         url: "default-data/capabilities.xml",
         type: "wmts/xml"
-    }, {
+    },{
         url: "default-data/layers.json",
         type: "json"
     }],

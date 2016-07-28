@@ -32,22 +32,19 @@ export class AppBarContainer extends Component {
                     <div className="main-actions-container col-xs">
                         <Button
                             neutral
-                            icon=""
                             className="main-action-button main-action-button-inactive"
                             label="Datasets"
                         />
                         <Button 
                             neutral
-                            icon=""
                             className="main-action-button main-action-button-inactive"
                             label="Timeline"
                         />
                         <Button 
                             neutral
-                            icon=""
                             accent
                             raised
-                            className={"main-action-button "+ (this.props.toolsOpen ? "main-action-button-inactive" : "")}
+                            className={"main-action-button "+ (!this.props.toolsOpen ? "main-action-button-inactive" : "")}
                             label="Tools"
                             onClick={() => this.props.toolsOpen ? this.props.actions.closeTools() : this.props.actions.openTools()} 
                         />

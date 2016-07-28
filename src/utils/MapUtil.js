@@ -57,6 +57,7 @@ export default class MapUtil {
     // generates a set of wmts options for a layer
     // NOTE: uses openlayers to do the actual info gathering
     static getWmtsOptions(options) {
+        MapWrapper_openlayers.prepProjection();
         return MapWrapper_openlayers.getWmtsOptions(options);
     }
 
@@ -107,7 +108,7 @@ export default class MapUtil {
     static getUrlFunction(functionString = "") {
         switch (functionString) {
             case mapStrings.DEFAULT_URL_FUNC:
-                return urlFunctions.defaultUrlFunc;
+                return urlFunctions.defaultKVPUrlFunc;
             case mapStrings.ESRI_CUSTOM_512:
                 return urlFunctions.esriCustom512;
             case mapStrings.KVP_TIME_PARAM:
