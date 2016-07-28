@@ -29,6 +29,7 @@ const setDateResolution = (state, action) => {
     return newState;
 };
 const setSliderCollapsed = (state, action) => {
+    state = setChangingResolution(state, {isSelectingResolution: false});
     return state.set("sliderCollapsed", action.collapsed);
 };
 const setChangingResolution = (state, action) => {

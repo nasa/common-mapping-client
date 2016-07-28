@@ -52,6 +52,10 @@ export function pixelHover(pixel) {
     return { type: types.PIXEL_HOVER, pixel };
 }
 
+export function pixelClick(clickEvt) {
+    return { type: types.PIXEL_CLICK, clickEvt };
+}
+
 export function enableDrawing(geometryType) {
     return { type: types.ENABLE_DRAWING, geometryType };
 }

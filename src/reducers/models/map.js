@@ -28,6 +28,13 @@ export const mapState = Immutable.fromJS({
             x: 0,
             y: 0,
             isValid: false
+        },
+        pixelClickCoordinate: {
+            lat: 0.0,
+            lon: 0.0,
+            x: 0,
+            y: 0,
+            isValid: false
         }
     },
     drawing: {
@@ -82,6 +89,7 @@ export const layerModel = Immutable.fromJS({
             tileSize: 256
         }
     },
+    urlFunctions: {},
     metadata: {
         platform: "",
         spatialResolution: "",

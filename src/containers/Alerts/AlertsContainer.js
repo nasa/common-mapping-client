@@ -26,35 +26,44 @@ export class AlertsContainer extends Component {
             }
             return ret;
         });
+        let alertPresent = alerts.size > 0;
 
-        let topAlert = alerts.last();
-        let alertPresent = typeof topAlert !== "undefined";
+        let currAlert = alertPresent ? alerts.last() : this.lastAlert;
+        this.lastAlert = currAlert;
 
         let actions = [{
+            label: "Dismiss All",
+            onClick: () => {
+                this.props.actions.dismissAllAlerts();
+            }
+        }, {
             label: "Dismiss",
             onClick: () => {
-                this.props.actions.dismissAlert(topAlert);
+                this.props.actions.dismissAlert(currAlert);
             }
         }];
 
         return (
             <div className={alertPresent ? "" : "hidden"}>
                 <Snackbar
+                    className="alert-toast"
                     action="Dismiss"
-                    active={alertPresent && topAlert.get("severity") <= 2}
+                    active={alertPresent && currAlert.get("severity") <= 2}
                     icon="warning"
-                    label={alertPresent ? topAlert.get("body") : ""}
-                    onClick={() => this.props.actions.dismissAlert(topAlert)}
+                    label={currAlert ? currAlert.get("body") : ""}
+                    onClick={() => this.props.actions.dismissAlert(currAlert)}
                     type="warning"
                 />
                 <Dialog
+                    className="alert-dialogue"
                     actions={actions}
-                    active={alertPresent && topAlert.get("severity") >= 3}
-                    onEscKeyDown={() => this.props.actions.dismissAlert(topAlert)}
-                    onOverlayClick={() => this.props.actions.dismissAlert(topAlert)}
-                    title={alertPresent ? topAlert.get("title") : ""}
+                    active={alertPresent && currAlert.get("severity") >= 3}
+                    onEscKeyDown={() => this.props.actions.dismissAlert(currAlert)}
+                    onOverlayClick={() => this.props.actions.dismissAlert(currAlert)}
+                    title={currAlert ? currAlert.get("title") : ""}
                 >
-                    <p>{alertPresent ? topAlert.get("body") : ""}</p>
+                    <p>{currAlert ? currAlert.get("body") : ""}</p>
+                    <span className="alert-note"><span className="alert-note-active">{Math.max(alerts.size - 1, 0)}</span> more pending</span>
                 </Dialog>
             </div>
         );

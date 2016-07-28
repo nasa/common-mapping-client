@@ -41,7 +41,11 @@ const dismissAlert = (state, action) => {
     }));
 };
 
-export default function async(state = asyncState, action) {
+const dismissAllAlerts = (state, action) => {
+    return state.set("alerts", state.get("alerts").clear());
+};
+
+export default function asyncronous(state = asyncState, action) {
     switch (action.type) {
         case actionTypes.LOAD_INITIAL_DATA:
             return loadInitialData(state, action);
@@ -63,6 +67,9 @@ export default function async(state = asyncState, action) {
 
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
+        case actionTypes.DISMISS_ALL_ALERTS:
+            return dismissAllAlerts(state, action);
 
         default:
             return state;

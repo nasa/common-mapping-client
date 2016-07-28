@@ -12,5 +12,8 @@
 * Game controls
 * Custom Cesium ellipsoid
 * Disabling 2D or 3D map
+* Drop a pin on map and have pin display pixel colors at location for all layers.
+* Draggable, expandable, hideable scalebar?
+* Storing, retrieving, displaying, querying, etc. analytics
 
 # Projects that used CMC to get started

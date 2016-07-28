@@ -33,6 +33,9 @@ const setMapViewMode = (state, action) => {
         } else {
             map.isActive = !mode_3D;
         }
+        setTimeout(() => {
+            map.resize();
+        }, 0);
         return map;
     }));
     return state.setIn(["view", "in3DMode"], mode_3D);
@@ -75,9 +78,10 @@ const setMapView = (state, action) => {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Synchronization Failed",
-                    body: "One of the maps failed to synchronize its view",
+                    title: "View Sync Failed",
+                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -105,9 +109,10 @@ const setViewInfo = (state, action) => {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Synchronization Failed",
-                    body: "One of the maps failed to synchronize its view",
+                    title: "View Sync Failed",
+                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -184,11 +189,13 @@ const setLayerActive = (state, action) => {
     if (typeof actionLayer !== "undefined") {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.setLayerActive(actionLayer, action.active)) {
+                let contextStr = map.is3D ? "3D" : "2D";
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Activate Layer Failed",
-                    body: "One of the maps failed to activate that layer. We don't know why, and neither do you.",
+                    title: "Layer Activation Failed",
+                    body: "Activating " + actionLayer.get("title") + " on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -314,9 +321,10 @@ const setBasemap = (state, action) => {
         if (map.setBasemap(actionLayer)) {
             return true;
         } else {
+            let contextStr = map.is3D ? "3D" : "2D";
             alerts = alerts.push(alert.merge({
                 title: "Basemap Update Failed",
-                body: "One of the maps failed to update its basemap. We don't know why, and neither do you.",
+                body: "Activating " + actionLayer.get("title") + " as the basemap on the " + contextStr + " map failed. This is currently being investigated.",
                 severity: 3,
                 time: new Date()
             }));
@@ -440,6 +448,11 @@ const activateDefaultLayers = (state, action) => {
 };
 
 const setMapDate = (state, action) => {
+    // shortcut non-updates
+    if(action.date === state.get("date")) {
+        return state;
+    }
+    
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {
@@ -468,19 +481,16 @@ const setMapDate = (state, action) => {
 
     // set alert if any fail
     if (anyFail) {
+        let contextStr = map.is3D ? "3D" : "2D";
         state = state.set("alerts", state.get("alerts").push(alert.merge({
             title: "Layer Update Failed",
-            body: "One of the maps failed to update a layer. We don't know why, and neither do you.",
-            severity: 1,
+            body: "Setting the date in the " + contextStr + " map failed. The issue has been logged and will be looked into.",
+            severity: 4,
             time: new Date()
         })));
     }
 
     return state.set("date", action.date);
-};
-
-const endDragging = (state, action) => {
-    return state.set("date", action.newDate);
 };
 
 const pixelHover = (state, action) => {
@@ -503,11 +513,38 @@ const pixelHover = (state, action) => {
     return state.setIn(["view", "pixelHoverCoordinate"], pixelCoordinate);
 };
 
+const pixelClick = (state, action) => {
+    let pixelCoordinate = state.getIn(["view", "pixelClickCoordinate"]).set("isValid", false);
+    state.get("maps").forEach((map) => {
+        if (map.isActive) {
+            let pixel = map.getPixelFromClickEvent(action.clickEvt);
+            if (pixel) {
+                let coords = map.getLatLonFromPixelCoordinate(pixel);
+                if (coords) {
+                    pixelCoordinate = pixelCoordinate
+                        .set("lat", coords.lat)
+                        .set("lon", coords.lon)
+                        .set("x", pixel[0])
+                        .set("y", pixel[1])
+                        .set("isValid", coords.isValid);
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
+    return state.setIn(["view", "pixelClickCoordinate"], pixelCoordinate);
+};
+
 const dismissAlert = (state, action) => {
     let remAlert = action.alert;
     return state.set("alerts", state.get("alerts").filter((alert) => {
         return alert !== remAlert;
     }));
+};
+
+const dismissAllAlerts = (state, action) => {
+    return state.set("alerts", state.get("alerts").clear());
 };
 
 const moveLayerToTop = (state, action) => {
@@ -590,9 +627,10 @@ const addGeometryToMap = (state, action) => {
             if (map.addGeometry(action.geometry)) {
                 return true;
             } else {
+                let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Geometry Synchronization Failed",
-                    body: "One of the maps failed to synchronize its geometry",
+                    title: "Geometry Sync Failed",
+                    body: "Synchronizing geometry on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
                     severity: 3,
                     time: new Date()
                 }));
@@ -610,7 +648,7 @@ const addGeometryToMap = (state, action) => {
     // .set("alerts", alerts);
     // }
     return state;
-}
+};
 
 const resetApplicationState = (state, action) => {
     let newState = state;
@@ -718,8 +756,14 @@ export default function map(state = mapState, action) {
         case actionTypes.PIXEL_HOVER:
             return pixelHover(state, action);
 
+        case actionTypes.PIXEL_CLICK:
+            return pixelClick(state, action);
+
         case actionTypes.DISMISS_ALERT:
             return dismissAlert(state, action);
+
+        case actionTypes.DISMISS_ALL_ALERTS:
+            return dismissAllAlerts(state, action);
 
         case actionTypes.MOVE_LAYER_TO_TOP:
             return moveLayerToTop(state, action);

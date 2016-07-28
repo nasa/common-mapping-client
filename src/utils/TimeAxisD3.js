@@ -105,15 +105,14 @@ export default class TimeAxisD3 {
 
         // configure the single date bounds
         this._selection.selectAll(".single-date").each(function() {
-            d3.select(this)
-                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
-                .attr('x', (d) => _context._xFn(d.date))
-                // .attr('y', 2)
-                // .attr('clip-path', "url(#chart-content)");
-                .attr("transform", (d) => {
-                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
-                    return 'translate(' + _context._xFn(d.date) + ',0)';
-                });
+            let singleDate = d3.select(this);
+            if (!singleDate.attr().data()[0].isDragging) {
+                singleDate
+                    .attr('x', (d) => _context._xFn(d.date))
+                    .attr("transform", (d) => {
+                        return 'translate(' + _context._xFn(d.date) + ',0)';
+                    });
+            }
         });
 
         // done entering time to update
@@ -144,15 +143,16 @@ export default class TimeAxisD3 {
 
         // update the single date display
         this._selection.selectAll(".single-date").each(function() {
-            d3.select(this)
-                .transition()
-                .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 150)
-                // .attr('x', (d) => (_context._xFn(d.date) - _context._symbolWidth / 2))
-                .attr('x', (d) => (_context._xFn(d.date)))
-                .attr("transform", (d) => {
-                    // return 'translate(' + (_context._xFn(d.date) - _context._symbolWidth / 2) + ',0)';
-                    return 'translate(' + _context._xFn(d.date) + ',0)';
-                });
+            let singleDate = d3.select(this);
+            if (!singleDate.attr().data()[0].isDragging) {
+                singleDate
+                    .transition()
+                    .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 150)
+                    .attr('x', (d) => (_context._xFn(d.date)))
+                    .attr("transform", (d) => {
+                        return 'translate(' + _context._xFn(d.date) + ',0)';
+                    });
+            }
         });
 
         this._selection.selectAll(".tick")

@@ -4,10 +4,18 @@
     height: 400px;
     h1, h2 {
         margin: 0;
-        margin: 0;
+    }
+    h1 {
+        font-size: 2.4rem;
+    }
+    h2 {
+        font-size: 2rem;
     }
     h3 em {
         color: $color-medium;
+    }
+    p {
+        font-size: 1.2rem;
     }
     hr {
         height: 0.1rem;

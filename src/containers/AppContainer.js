@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactTooltip from 'react-tooltip';
 import * as actions from '../actions/AppActions';
+import * as mapActions from '../actions/MapActions';
 import * as layerActions from '../actions/LayerActions';
+import * as mapStrings from '../constants/mapStrings';
 import MiscUtil from '../utils/MiscUtil';
 import MapContainer from './Map/MapContainer';
 import MapContainer3D from './Map/MapContainer3D';
@@ -25,12 +27,27 @@ export class AppContainer extends Component {
     componentDidMount() {
         this.props.actions.fetchInitialData(() => {
             let urlParams = MiscUtil.getUrlParams();
-            if (urlParams.length === 0) {
-                this.props.actions.activateDefaultLayers();
-            } else {
-                this.props.actions.runUrlConfig(urlParams);
-            }
-            this.props.actions.completeInitialLoad();
+
+            //initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
+            // wait for the DOM to complete rendering.
+            // see: http://stackoverflow.com/a/34999925
+            window.requestAnimationFrame(() => {
+                setTimeout(() => {
+                    // initialize the maps
+                    this.props.actions.initializeMap(mapStrings.MAP_LIB_2D, "map2D");
+                    this.props.actions.initializeMap(mapStrings.MAP_LIB_3D, "map3D");
+
+                    // activate default/url params
+                    if (urlParams.length === 0) {
+                        this.props.actions.activateDefaultLayers();
+                    } else {
+                        this.props.actions.runUrlConfig(urlParams);
+                    }
+
+                    // signal complete
+                    this.props.actions.completeInitialLoad();
+                }, 0);
+            });
         });
     }
 
@@ -67,7 +84,8 @@ function mapDispatchToProps(dispatch) {
             completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
             fetchInitialData: bindActionCreators(layerActions.fetchInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
-            runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch)
+            runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),
+            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch)
         }
     };
 }

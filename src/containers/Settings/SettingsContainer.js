@@ -9,6 +9,7 @@ import * as appActions from '../../actions/AppActions';
 import * as mapActions from '../../actions/MapActions';
 import * as layerActions from '../../actions/LayerActions';
 import * as dateSliderActions from '../../actions/DateSliderActions';
+import * as analyticsActions from '../../actions/AnalyticsActions';
 import MiscUtil from '../../utils/MiscUtil';
 import BaseMapPreview from '../../components/BaseMapPreview';
 import MenuDropdown from '../../components/MenuDropdown';
@@ -94,6 +95,14 @@ export class SettingsContainer extends Component {
                         onChange={(value) => this.props.dateSliderActions.setSliderCollapsed(value)}
                     />
                     <hr className="divider" />
+                    <ListCheckbox
+                        className="menu-check-box"
+                        caption="User Feedback Program"
+                        checked={this.props.analyticsEnabled}
+                        legend="Help us improve this tool by sending anonymous usage information"
+                        onChange={(value) => this.props.analyticsActions.setAnalyticsEnabled(value)}
+                    />
+                    <hr className="divider" />
                     <ListItem
                         className="menu-check-box"
                         caption="Reset Application"
@@ -109,6 +118,8 @@ export class SettingsContainer extends Component {
 
 SettingsContainer.propTypes = {
     settingsOpen: PropTypes.bool.isRequired,
+    sliderCollapsed: PropTypes.bool.isRequired,
+    analyticsEnabled: PropTypes.bool.isRequired,
     basemaps: PropTypes.object.isRequired,
     referenceLayers: PropTypes.object.isRequired,
     mapSettings: PropTypes.object.isRequired,
@@ -116,7 +127,7 @@ SettingsContainer.propTypes = {
     mapActions: PropTypes.object.isRequired,
     layerActions: PropTypes.object.isRequired,
     dateSliderActions: PropTypes.object.isRequired,
-    sliderCollapsed: PropTypes.bool.isRequired
+    analyticsActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -125,7 +136,8 @@ function mapStateToProps(state) {
         mapSettings: state.map.get("displaySettings"),
         basemaps: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]),
         referenceLayers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]),
-        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
+        sliderCollapsed: state.dateSlider.get("sliderCollapsed"),
+        analyticsEnabled: state.analytics.get("isEnabled")
     };
 }
 
@@ -134,7 +146,8 @@ function mapDispatchToProps(dispatch) {
         appActions: bindActionCreators(appActions, dispatch),
         mapActions: bindActionCreators(mapActions, dispatch),
         layerActions: bindActionCreators(layerActions, dispatch),
-        dateSliderActions: bindActionCreators(dateSliderActions, dispatch)
+        dateSliderActions: bindActionCreators(dateSliderActions, dispatch),
+        analyticsActions: bindActionCreators(analyticsActions, dispatch)
     };
 }
 
