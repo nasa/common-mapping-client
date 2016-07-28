@@ -114,7 +114,11 @@ export class ShareContainer extends Component {
     render() {
         let shareQuery = this.generateShareQuery();
         let shareUrl = "http://" + window.location.host + "#" + shareQuery;
-        window.history.replaceState(undefined, undefined, "#" + shareQuery);
+        if(this.props.autoUpdateUrl) {
+            window.history.replaceState(undefined, undefined, "#" + shareQuery);
+        } else {
+            window.history.replaceState(undefined, undefined, "#");
+        }
         return (
             <ModalMenuContainer
                 small
@@ -144,6 +148,7 @@ export class ShareContainer extends Component {
 ShareContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    autoUpdateUrl: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     maps: PropTypes.object.isRequired,
     mapView: PropTypes.object.isRequired,
@@ -154,6 +159,7 @@ ShareContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isOpen: state.share.get("isOpen"),
+        autoUpdateUrl: state.share.get("autoUpdateUrl"),
         maps: state.map.get("maps"),
         layers: state.map.get("layers"),
         mapView: state.map.get("view"),

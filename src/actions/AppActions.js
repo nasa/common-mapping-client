@@ -53,6 +53,9 @@ export function openSettings() {
 export function closeSettings() {
     return { type: types.CLOSE_SETTINGS };
 }
+export function setAutoUpdateUrl(autoUpdateUrl) {
+    return { type: types.SET_AUTO_UPDATE_URL, autoUpdateUrl }
+}
 export function runUrlConfig(params) {
     return (dispatch) => {
         return Promise.all(params.map((param) => {
