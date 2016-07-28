@@ -302,7 +302,6 @@ export default class TimeAxisD3 {
                     return this._xFn(d.date);
                 })
                 .attr("transform", (d) => {
-                    // return 'translate(' + (this._xFn(d.date) - this._symbolWidth / 2) + ',0)';
                     return 'translate(' + this._xFn(d.date) + ',0)';
                 });
         }

@@ -19,3 +19,11 @@ export const DATE_SLIDER_RESOLUTIONS = {
 	MONTHS: "Months",
 	YEARS: "Years"
 };
+
+export const ALERTS = {
+	LAYER_ACTIVATION_FAILED: {
+		title: "Layer Activation Failed",
+		formatString: "Activating {LAYER} on the {MAP} map failed.",
+		severity: 3
+	}
+};

@@ -23,7 +23,7 @@ export class TimeAxis extends Component {
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
             symbolWidth: 0,
-            onClick: (value) => { this.handleSingleDateDragEnd(value); },
+            onClick: (value) => { this.handleSingleDateDragUpdate(value); },
             onHover: (value) => { this.handleTimelineHover(value); },
             onMouseOut: () => { this.handleTimeLineMouseOut(); }
         });
@@ -40,7 +40,15 @@ export class TimeAxis extends Component {
     componentWillUpdate() {
         // track the resolution changes because changing the date also triggers and update
         // but we don't want to change the resolution for that
+        this.cachedProps = this.props;
         this.cachedResolutionHack = this.props.resolutionHack;
+    }
+    shouldComponentUpdate(nextProps) {
+        return (nextProps.date !== this.props.date &&
+                !nextProps.isDragging) ||
+            nextProps.isDragging !== this.props.isDragging ||
+            (nextProps.resolution !== this.props.resolution &&
+                nextProps.resolutionHack !== this.props.resolutionHack);
     }
     componentDidUpdate() {
         let options = { date: this.props.date };
@@ -66,26 +74,14 @@ export class TimeAxis extends Component {
     }
     handleSingleDateDragStart() {
         this.props.actions.beginDragging();
-
-        this.scrubUpdateInterval = setInterval(() => {
-            if (typeof this.lastDrag !== "undefined") {
-                let newDate = this.timeAxisD3.getDateFromX(this.lastDrag);
-                this.props.actions.setDate(newDate);
-            }
-        }, 250);
     }
     handleSingleDateDragEnd(value) {
-        if(typeof this.scrubUpdateInterval !== "undefined") {
-            clearInterval(this.scrubUpdateInterval);
-        }
-
         let newDate = this.timeAxisD3.getDateFromX(value);
         this.props.actions.dragEnd(newDate);
     }
     handleSingleDateDragUpdate(value) {
-        // let newDate = this.timeAxisD3.getDateFromX(value);
-        // this.props.actions.setDate(newDate);
-        this.lastDrag = value;
+        let newDate = this.timeAxisD3.getDateFromX(value);
+        this.props.actions.setDate(newDate);
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
@@ -147,11 +143,6 @@ export class TimeAxis extends Component {
                     }} 
                     onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
-
-                        // let distFromBucket = (x - sizes.margin.left) % 5;
-                        // this.handleSingleDateDragUpdate(x - distFromBucket);
-                        this.handleSingleDateDragUpdate(x);
-
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);

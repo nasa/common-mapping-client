@@ -5,6 +5,7 @@ import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/view';
 import MapUtil from '../utils/MapUtil.js';
 import MiscUtil from '../utils/MiscUtil.js';
+import * as appStrings from '../constants/appStrings';
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../constants/mapConfig';
 
@@ -190,13 +191,25 @@ const setLayerActive = (state, action) => {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.setLayerActive(actionLayer, action.active)) {
                 let contextStr = map.is3D ? "3D" : "2D";
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
+                    time: new Date()
+                }));
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
+                    time: new Date()
+                }));
                 return true;
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Layer Activation Failed",
-                    body: "Activating " + actionLayer.get("title") + " on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
-                    severity: 3,
+                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
                     time: new Date()
                 }));
             }

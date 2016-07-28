@@ -53,32 +53,31 @@ export default class TimeAxisD3 {
                 let scrollFlag = 0;
                 let maxX = this._maxX - (this._symbolWidth);
                 let minX = this._minX + (this._symbolWidth / 2);
-                if (d3.event.x >= maxX) {
+                let distFromBucket = (d3.event.x - minX) % 2;
+                let x = d3.event.x - distFromBucket;
+                if (x >= maxX) {
                     this._selection
                         .attr('x', (d) => maxX)
                         .attr("transform", (d) => {
-                            // return 'translate(' + (maxX - (this._symbolWidth / 2)) + ',0)';
                             return 'translate(' + (maxX) + ',0)';
                         });
                     scrollFlag = 1;
-                } else if (d3.event.x <= minX) {
+                } else if (x <= minX) {
                     this._selection
                         .attr('x', (d) => minX)
                         .attr("transform", (d) => {
-                            // return 'translate(' + (minX - (this._symbolWidth / 2)) + ',0)';
                             return 'translate(' + (minX) + ',0)';
                         });
                     scrollFlag = -1;
                 } else {
                     this._selection
-                        .attr('x', (d) => d3.event.x)
+                        .attr('x', (d) => x)
                         .attr("transform", (d) => {
-                            // return 'translate(' + (d3.event.x - (this._symbolWidth / 2)) + ',0)';
-                            return 'translate(' + (d3.event.x) + ',0)';
+                            return 'translate(' + (x) + ',0)';
                         });
                 }
                 if (typeof this._onDrag === "function") {
-                    this._onDrag(d3.event.x, scrollFlag);
+                    this._onDrag(x, scrollFlag);
                 }
             })
             .on('dragend', () => {

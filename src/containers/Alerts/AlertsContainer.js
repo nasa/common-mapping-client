@@ -8,28 +8,52 @@ import * as actions from '../../actions/AppActions';
 
 export class AlertsContainer extends Component {
     render() {
-        // reverst sort them according to severity and time of entry
+        // reverst sort them according to severity, title, and time of entry
         // we want the oldest, highest severity on bottom to appear first
         let alerts = this.props.alerts.sort((a, b) => {
+            let aTitle = a.get("title");
+            let bTitle = b.get("title");
             let aSeverity = a.get("severity");
             let bSeverity = b.get("severity");
             let aTime = a.get("time");
             let bTime = b.get("time");
 
             let ret = 0;
+
             if (aSeverity > bSeverity) {
                 ret = 1;
             } else if (aSeverity < bSeverity) {
                 ret = -1;
-            } else if (aTime < bTime) {
-                ret = 1;
+            } else {
+                if (aTitle < bTitle) {
+                    ret = 1;
+                } else if (aTitle > bTitle) {
+                    ret = -1;
+                } else if (aTime < bTime) {
+                    ret = 1;
+                }
             }
+
             return ret;
         });
+
+        let l3Alerts = alerts.filter((alert) => {
+            return alert.get("severity") === 3;
+        });
+        let l2Alerts = alerts.filter((alert) => {
+            return alert.get("severity") === 2;
+        });
+        let l1Alerts = alerts.filter((alert) => {
+            return alert.get("severity") === 1;
+        });
+
         let alertPresent = alerts.size > 0;
 
         let currAlert = alertPresent ? alerts.last() : this.lastAlert;
         this.lastAlert = currAlert;
+
+        let numPending = Math.max(alerts.size - 1, 0);
+        let dismissLabel = numPending === 0 ? "Dismiss" : "Next";
 
         let actions = [{
             label: "Dismiss All",
@@ -37,7 +61,7 @@ export class AlertsContainer extends Component {
                 this.props.actions.dismissAllAlerts();
             }
         }, {
-            label: "Dismiss",
+            label: dismissLabel,
             onClick: () => {
                 this.props.actions.dismissAlert(currAlert);
             }
@@ -45,15 +69,6 @@ export class AlertsContainer extends Component {
 
         return (
             <div className={alertPresent ? "" : "hidden"}>
-                <Snackbar
-                    className="alert-toast"
-                    action="Dismiss"
-                    active={alertPresent && currAlert.get("severity") <= 2}
-                    icon="warning"
-                    label={currAlert ? currAlert.get("body") : ""}
-                    onClick={() => this.props.actions.dismissAlert(currAlert)}
-                    type="warning"
-                />
                 <Dialog
                     className="alert-dialogue"
                     actions={actions}
@@ -63,7 +78,7 @@ export class AlertsContainer extends Component {
                     title={currAlert ? currAlert.get("title") : ""}
                 >
                     <p>{currAlert ? currAlert.get("body") : ""}</p>
-                    <span className="alert-note"><span className="alert-note-active">{Math.max(alerts.size - 1, 0)}</span> more pending</span>
+                    <span className="alert-note"><span className="alert-note-active">{numPending}</span> more pending</span>
                 </Dialog>
             </div>
         );
