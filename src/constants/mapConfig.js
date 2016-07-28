@@ -1,7 +1,7 @@
 import * as mapStrings from './mapStrings';
 
 // Map View Config
-export const DEFAULT_PROJECTION = mapStrings.PROJECTIONS.latLon;
+export const DEFAULT_PROJECTION = mapStrings.PROJECTIONS.latlon;
 export const DEFAULT_CENTER = [0, 0];
 export const DEFAULT_ZOOM = 3;
 export const MIN_ZOOM = 2;

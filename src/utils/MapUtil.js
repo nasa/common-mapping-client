@@ -108,7 +108,7 @@ export default class MapUtil {
     static getUrlFunction(functionString = "") {
         switch (functionString) {
             case mapStrings.DEFAULT_URL_FUNC:
-                return urlFunctions.defaultUrlFunc;
+                return urlFunctions.defaultKVPUrlFunc;
             case mapStrings.ESRI_CUSTOM_512:
                 return urlFunctions.esriCustom512;
             case mapStrings.KVP_TIME_PARAM:

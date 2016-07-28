@@ -97,7 +97,7 @@
                 "name": "GHRSST_L4_Sea_Surface_Temperature",
                 "handleAs": "json-relative"
             },
-            "isDefault": false
+            "isDefault": true
         }, {
             "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
             "title": "Brightness Temperature",
@@ -152,7 +152,7 @@
             "title": "ESRI World Imagery",
             "type": "basemap",
             "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-            "isDefault": false,
+            "isDefault": true,
             "handleAs": "xyz",
             "wmtsOptions": {
                 "projection": "EPSG:4326",

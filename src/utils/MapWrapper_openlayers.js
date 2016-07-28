@@ -48,7 +48,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapProjection = ol.proj.get(mapConfig.DEFAULT_PROJECTION.code);
 
             let center = viewOptions.center;
-            // center = ol.proj.transform(center, "EPSG:4326", mapProjection);
 
             return new ol.Map({
                 target: container,
@@ -735,10 +734,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
             tileGrid: new ol.tilegrid.WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
-                // resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
-                resolutions: options.tileGrid.resolutions,
-                // matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
-                matrixIds: options.tileGrid.matrixIds,
+                resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
+                // resolutions: options.tileGrid.resolutions,
+                matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
+                // matrixIds: options.tileGrid.matrixIds,
                 tileSize: options.tileGrid.tileSize
             }),
             wrapX: true
