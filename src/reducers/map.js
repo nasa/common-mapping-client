@@ -192,17 +192,41 @@ const setLayerActive = (state, action) => {
             if (map.setLayerActive(actionLayer, action.active)) {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L3",
                     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
                     severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
                     time: new Date()
                 }));
-                alerts = alerts.push(alert.merge({
-                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
-                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
-                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
-                    time: new Date()
-                }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 D",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 B",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 C",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L1",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 1,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 A",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
                 return true;
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
