@@ -18,6 +18,7 @@ export const URLS = {
 // Time slider
 export const MIN_DATE = moment("2000-06-11", "YYYY-MM-DD").toDate();
 export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();
+export const SCRUBBING_UPDATE = false;
 
 // Analytics
 export const ANALYTICS_ENDPOINT = "http://localhost:3000";

@@ -143,6 +143,13 @@ export class TimeAxis extends Component {
                     }} 
                     onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
+
+                        // update if configured
+                        if(appConfig.SCRUBBING_UPDATE) {
+                            this.handleSingleDateDragUpdate(x);
+                        }
+
+                        // handle auto-scrolling
                         if(scrollFlag > 0) {
                             autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
