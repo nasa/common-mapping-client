@@ -36,13 +36,12 @@ export class MapContainer extends Component {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
-
+                console.log("OL EVENT LINESTIRNG", event);
                 // Recover geometry from event
                 let geometry = {
-                    type: mapStrings.GEOMETRY_LINE_STRING
-                        // center: event.feature.getGeometry().getCenter(),
-                        // radius: event.feature.getGeometry().getRadius()
-                        // coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                    type: mapStrings.GEOMETRY_LINE_STRING,
+                    coordinates: event.feature.getGeometry().getCoordinates(),
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 }
 
                 // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
