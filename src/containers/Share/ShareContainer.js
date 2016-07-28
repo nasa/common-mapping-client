@@ -34,7 +34,7 @@ export class ShareContainer extends Component {
         this.urlText.focus();
         this.urlText.select();
     }
-    generateShareUrl() {
+    generateShareQuery() {
         let activeLayers = this.getActiveLayerString();
         let opacities = this.getOpacitiesString();
         let viewMode = this.getViewModeString();
@@ -45,7 +45,7 @@ export class ShareContainer extends Component {
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
 
-        return "http://" + window.location.host + "#" + [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
+        return [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
@@ -112,7 +112,9 @@ export class ShareContainer extends Component {
     }
 
     render() {
-        let shareUrl = this.generateShareUrl();
+        let shareQuery = this.generateShareQuery();
+        let shareUrl = "http://" + window.location.host + "#" + shareQuery;
+        window.history.replaceState(undefined, undefined, "#" + shareQuery);
         return (
             <ModalMenuContainer
                 small

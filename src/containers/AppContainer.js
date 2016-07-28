@@ -24,10 +24,11 @@ import LayerMenuContainer from './LayerMenu/LayerMenuContainer';
 import '../styles/styles.scss';
 
 export class AppContainer extends Component {
+    componentWillMount() {
+        this.urlParams = MiscUtil.getUrlParams();
+    }
     componentDidMount() {
         this.props.actions.fetchInitialData(() => {
-            let urlParams = MiscUtil.getUrlParams();
-
             //initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
             // wait for the DOM to complete rendering.
             // see: http://stackoverflow.com/a/34999925
@@ -38,10 +39,10 @@ export class AppContainer extends Component {
                     this.props.actions.initializeMap(mapStrings.MAP_LIB_3D, "map3D");
 
                     // activate default/url params
-                    if (urlParams.length === 0) {
+                    if (this.urlParams.length === 0) {
                         this.props.actions.activateDefaultLayers();
                     } else {
-                        this.props.actions.runUrlConfig(urlParams);
+                        this.props.actions.runUrlConfig(this.urlParams);
                     }
 
                     // signal complete
