@@ -624,7 +624,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
     createTilingScheme(options, tileSchemeOptions) {
-        if(options.projection === mapStrings.PROJECTIONS.latLon.code) {
+        if(options.projection === mapStrings.PROJECTIONS.latlon.code) {
             if(options.handleAs === mapStrings.LAYER_GIBS) {
                 return new CesiumTilingScheme_GIBS({ numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1 }, tileSchemeOptions);
             }
