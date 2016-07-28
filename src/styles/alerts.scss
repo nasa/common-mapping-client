@@ -1,23 +1,26 @@
-.alert-dialogue {
-    width: 600px;
-    h6 {
-        margin-top: 0px;
-        margin-bottom: 3rem;
-        position: relative;
+.alert-group {
+    padding: 1rem 0px 3rem 1.5rem;
+    &.severity-1 {
+        border-left: 1rem solid $palette-yellow-400;
+        border-right: 1rem solid $palette-yellow-400;
     }
-    section {
-        padding: 2rem 2rem 1rem 2rem;
-        .alert-note {
-            letter-spacing: 0.15em;
-            font-size: 0.8em;
-            line-height: 1rem;
-            position: relative;
-            font-weight: 400;
-            position: absolute;
-            bottom: 2rem;
-            .alert-note-active {
-                color: $color-accent;
-            }
-        }
+    &.severity-2 {
+        border-left: 1rem solid $palette-orange-400;
+        border-right: 1rem solid $palette-orange-400;
     }
+    &.severity-3 {
+        border-left: 1rem solid $palette-red-400;
+        border-right: 1rem solid $palette-red-400;
+    }
+}
+
+.alert-group-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: $color-dark;
+}
+
+.alert-listing {
+    margin: 0.3rem 0px 0px 1.5rem;
 }

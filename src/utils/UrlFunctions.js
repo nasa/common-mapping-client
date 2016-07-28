@@ -18,7 +18,7 @@ options: object containing the following...
     tileCoord: the coordinates of the tile currently requested [z,x,y]
 **/
 
-export function defaultUrlFunc(options) {
+export function defaultKVPUrlFunc(options) {
     let layer = options.layer;
 
     let url = typeof options.processedUrl !== "undefined" ?
@@ -49,7 +49,7 @@ export function esriCustom512(options) {
 
 export function kvpTimeParam(options) {
     let layer = options.layer;
-    let url = defaultUrlFunc(options);
+    let url = defaultKVPUrlFunc(options);
 
     if (layer.get("time")) {
         return url + "&TIME=" + layer.get("time");

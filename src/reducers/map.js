@@ -81,9 +81,9 @@ const setMapView = (state, action) => {
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Sync Failed",
-                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
-                    severity: 3,
+                    title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
+                    body: appStrings.ALERTS.VIEW_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
                     time: new Date()
                 }));
             }
@@ -112,9 +112,9 @@ const setViewInfo = (state, action) => {
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "View Sync Failed",
-                    body: "Synchronizing the view on the " + contextStr + " map failed. This is being investigated.",
-                    severity: 3,
+                    title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
+                    body: appStrings.ALERTS.VIEW_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
                     time: new Date()
                 }));
             }
@@ -191,24 +191,48 @@ const setLayerActive = (state, action) => {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.setLayerActive(actionLayer, action.active)) {
                 let contextStr = map.is3D ? "3D" : "2D";
-                alerts = alerts.push(alert.merge({
-                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
-                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
-                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
-                    time: new Date()
-                }));
-                alerts = alerts.push(alert.merge({
-                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
-                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
-                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
-                    time: new Date()
-                }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                //     body: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 D",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 B",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 C",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L1",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 1,
+                //     time: new Date()
+                // }));
+                // alerts = alerts.push(alert.merge({
+                //     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title + " L2 A",
+                //     body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                //     severity: 2,
+                //     time: new Date()
+                // }));
                 return true;
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
                     title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
-                    body:  appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                    body: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
                     severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
                     time: new Date()
                 }));
@@ -336,9 +360,9 @@ const setBasemap = (state, action) => {
         } else {
             let contextStr = map.is3D ? "3D" : "2D";
             alerts = alerts.push(alert.merge({
-                title: "Basemap Update Failed",
-                body: "Activating " + actionLayer.get("title") + " as the basemap on the " + contextStr + " map failed. This is currently being investigated.",
-                severity: 3,
+                title: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.title,
+                body: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.formatString.replace("{LAYER}", actionLayer.get("title")).replace("{MAP}", contextStr),
+                severity: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.severity,
                 time: new Date()
             }));
         }
@@ -462,10 +486,10 @@ const activateDefaultLayers = (state, action) => {
 
 const setMapDate = (state, action) => {
     // shortcut non-updates
-    if(action.date === state.get("date")) {
+    if (action.date === state.get("date")) {
         return state;
     }
-    
+
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {
@@ -642,9 +666,9 @@ const addGeometryToMap = (state, action) => {
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(alert.merge({
-                    title: "Geometry Sync Failed",
-                    body: "Synchronizing geometry on the " + contextStr + " map failed. Rest assured this issue will be investigated.",
-                    severity: 3,
+                    title: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.title,
+                    body: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
                     time: new Date()
                 }));
             }
@@ -854,7 +878,7 @@ const generatePartialsListFromWmtsXml = (config) => {
                 capabilities: capabilities,
                 options: {
                     layer: layer.Identifier,
-                    matrixSet: layer.matrixSet
+                    matrixSet: layer.TileMatrixSetLink[0].TileMatrixSet
                 }
             });
             return {

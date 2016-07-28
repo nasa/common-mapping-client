@@ -1,6 +1,8 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
+import proj4js from 'proj4';
 import * as mapStrings from '../constants/mapStrings';
+import * as mapConfig from '../constants/mapConfig';
 import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import MapUtil from './MapUtil';
@@ -17,6 +19,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createMap(container, options) {
         try {
+            // create default draw layer
             let vectorSource = new ol.source.Vector({ wrapX: true });
             let vectorLayer = new ol.layer.Vector({
                 source: vectorSource,
@@ -37,17 +40,25 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 })
             });
             vectorLayer["_layerId"] = "_vector_drawings";
+
+
+            // get the view options for the map
             let viewOptions = options.get("view").toJS();
+
+            let mapProjection = ol.proj.get(mapConfig.DEFAULT_PROJECTION.code);
+
+            let center = viewOptions.center;
+
             return new ol.Map({
                 target: container,
-                renderer: 'canvas',
+                renderer: ['canvas', 'dom'],
                 layers: [vectorLayer],
                 view: new ol.View({
                     zoom: viewOptions.zoom,
                     maxZoom: viewOptions.maxZoom,
                     minZoom: viewOptions.minZoom,
-                    center: viewOptions.center,
-                    projection: viewOptions.projection
+                    center: center,
+                    projection: mapProjection
                 }),
                 controls: [
                     new ol.control.ScaleLine({
@@ -130,11 +141,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.handleTileLoad(layer, tile, url, origTileLoadFunc);
                 });
 
+                // set up wrap around extents
+                let mapProjExtent = this.map.getView().getProjection().getExtent();
                 return new ol.layer.Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
-                    extent: [-36000, -90, 36000, 90],
+                    // extent: mapProjExtent,
                     source: layerSource
                 });
             }
@@ -734,8 +747,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
+                extent: options.extents,
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions,
                 matrixIds: options.tileGrid.matrixIds,
@@ -753,11 +766,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            extents: options.extents,
             tileGrid: new ol.tilegrid.WMTS({
+                extent: options.extents,
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions.slice(2, options.tileGrid.resolutions.length),
+                // resolutions: options.tileGrid.resolutions,
                 matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
+                // matrixIds: options.tileGrid.matrixIds,
                 tileSize: options.tileGrid.tileSize
             }),
             wrapX: true
@@ -849,6 +864,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return index;
     }
 
+    static prepProjection() {
+        // define the projection for this application and reproject defaults
+        ol.proj.setProj4(proj4js);
+        proj4js.defs(mapConfig.DEFAULT_PROJECTION.code, mapConfig.DEFAULT_PROJECTION.proj4Def);
+
+        let mapProjection = ol.proj.get(mapConfig.DEFAULT_PROJECTION.code);
+        mapProjection.setExtent(mapConfig.DEFAULT_PROJECTION.extent);
+
+        return mapProjection;
+    }
+
     static parseCapabilities(xmlString) {
         try {
             let parser = new ol.format.WMTSCapabilities();
@@ -869,7 +895,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 format: parseOptions.format,
                 requestEncoding: parseOptions.requestEncoding,
                 matrixSet: parseOptions.matrixSet,
-                projection: parseOptions.projection,
+                projection: parseOptions.projection.getCode(),
                 extents: parseOptions.projection.getExtent(),
                 tileGrid: {
                     origin: [parseOptions.projection.getExtent()[0], parseOptions.projection.getExtent()[3]],
