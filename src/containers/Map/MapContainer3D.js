@@ -6,6 +6,7 @@ import * as mapStrings from '../../constants/mapStrings';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class MapContainer3D extends Component {
+
     componentWillMount() {
         this.listenersInitialized = false;
     }
@@ -14,18 +15,36 @@ export class MapContainer3D extends Component {
         let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
             map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (center, radius) => {
-                console.log("DRAW END", center, radius);
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
 
-                let cartesianCenter = map.cartesianToCartographic(center);
+                let cartographicCenter = map.cartesianToCartographic(center);
                 // Recover geometry from event in cartographic
                 let geometry = {
                     type: mapStrings.GEOMETRY_CIRCLE,
-                    center: cartesianCenter,
+                    center: cartographicCenter,
                     radius: radius,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                }
+
+                // Add geometry to other maps
+                this.props.actions.addGeometryToMap(geometry)
+            })
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (coordinates) => {
+                // Draw end
+                // Disable drawing
+                this.props.actions.disableDrawing();
+
+                let cartesianCoordinates = coordinates.map((pos) => {
+                    return map.cartesianToCartographic(pos);
+                });
+
+                // Recover geometry from event in cartographic
+                let geometry = {
+                    type: mapStrings.GEOMETRY_LINE_STRING,
+                    coordinates: cartesianCoordinates,
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 }
 
                 // Add geometry to other maps
@@ -65,7 +84,7 @@ export class MapContainer3D extends Component {
         // need to get some sort of stored state value
         if (this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
-            // this.initializeMapDrawHandlers();
+            this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
         }
         return (

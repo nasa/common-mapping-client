@@ -266,18 +266,32 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
-            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius);
                 circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius / ol.proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
             } else {
-                circleGeom = null;
-                console.warn("uh oh.")
+                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers circle");
+                return false;
             }
             let circleFeature = new ol.Feature({
                 geometry: circleGeom
             })
-            console.log(circleGeom, "cg");
             mapLayer.getSource().addFeature(circleFeature);
+        }
+        if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+            let lineStringGeom = null;
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                lineStringGeom = new ol.geom.LineString(geometry.coordinates.map((x) => {
+                    return [x.lon, x.lat]
+                }));
+            } else {
+                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers lineString");
+                return false;
+            }
+            let lineStringFeature = new ol.Feature({
+                geometry: lineStringGeom
+            })
+            mapLayer.getSource().addFeature(lineStringFeature);
         }
         return false;
     }
@@ -482,7 +496,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     });
                 case "click":
                     return this.map.addEventListener("click", (clickEvt) => {
-                        callback({pixel: clickEvt.pixel});
+                        callback({ pixel: clickEvt.pixel });
                     });
                 default:
                     return this.map.addEventListener(eventStr, callback);
