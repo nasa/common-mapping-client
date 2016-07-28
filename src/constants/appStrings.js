@@ -20,10 +20,26 @@ export const DATE_SLIDER_RESOLUTIONS = {
     YEARS: "Years"
 };
 
+// alert templates
 export const ALERTS = {
     LAYER_ACTIVATION_FAILED: {
         title: "Layer Activation Failed",
         formatString: "Activating {LAYER} on the {MAP} map failed.",
+        severity: 3
+    },
+    BASEMAP_UPDATE_FAILED: {
+        title: "Basemap Update Failed",
+        formatString: "Activating {LAYER} as the basemap on the {MAP} map failed.",
+        severity: 3
+    },
+    GEOMETRY_SYNC_FAILED: {
+        title: "Geometry Sync Failed",
+        body: "Synchronizing geometry on the {MAP} map failed.",
+        severity: 3
+    },
+    VIEW_SYNC_FAILED: {
+        title: "View Sync Failed",
+        body: "Synchronizing the view on the {MAP} map failed.",
         severity: 3
     }
 };
