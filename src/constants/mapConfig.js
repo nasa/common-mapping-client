@@ -19,3 +19,6 @@ export const SCALE_OPTIONS = [
     { value: 'nautical', label: 'Nautical', abbrev: 'nm' },
     { value: 'degrees', label: 'Degrees', abbrev: '°' }
 ];
+export const GEOMETRY_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
+export const GEOMETRY_STROKE_COLOR = "rgba(255, 204, 0, 1)";
+export const GEOMETRY_STROKE_WEIGHT = 3;

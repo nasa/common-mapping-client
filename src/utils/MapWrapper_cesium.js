@@ -2,6 +2,7 @@ import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import CesiumTilingScheme_GIBS from './CesiumTilingScheme_GIBS';
 import * as mapStrings from '../constants/mapStrings';
+import * as mapConfig from '../constants/mapConfig';
 import MapUtil from './MapUtil';
 import '../lib/cesium/Cesium.js';
 import '../lib/cesium-drawhelper-master/DrawHelper.js';
@@ -242,7 +243,6 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     enableDrawing(geometryType) {
         // Enable drawing for geometryType
-        console.log(geometryType, this.drawHandler._customInteractions, "?")
         let interaction = this.drawHandler._customInteractions["_id" + geometryType];
         if (interaction) {
             interaction();
@@ -283,12 +283,16 @@ export default class MapWrapper_cesium extends MapWrapper {
                 cesiumCenter = geometry.center;
                 cesiumRadius = geometry.radius;
             }
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
+            material.uniforms.rimColor = new this.cesium.Color(1.0, 1.0, 1.0, 1.0);
             let primitiveToAdd = new this.drawHelper.CirclePrimitive({
                 center: cesiumCenter,
                 radius: cesiumRadius,
-                material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+                material: material
             });
             this.map.scene.primitives.add(primitiveToAdd);
+            primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
             return true;
         } else if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
             let cartesianCoords = null;
@@ -304,19 +308,19 @@ export default class MapWrapper_cesium extends MapWrapper {
                 console.warn("Unhandled coordinate type when trying to draw cesium line string:", geometry.type);
                 return false;
             }
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR);
             let primitiveToAdd = new this.drawHelper.PolylinePrimitive({
                 positions: cartesianCoords,
-                width: 5,
-                material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType),
+                width: mapConfig.GEOMETRY_STROKE_WEIGHT,
+                material: material,
                 geodesic: true
             });
             this.map.scene.primitives.add(primitiveToAdd);
             return true;
         } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-            console.log("CESIUM POLYGON", geometry)
             let cartesianCoords = null;
             // // Check coordinate type
-            console.log("COORDS 1", geometry.coordinates)
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Transform coordinates from cartographic to cartesian
                 cartesianCoords = geometry.coordinates.map((x) => {
@@ -328,17 +332,18 @@ export default class MapWrapper_cesium extends MapWrapper {
                 console.warn("Unhandled coordinate type when trying to draw cesium polygon string:", geometry.type);
                 return false;
             }
-            console.log("COORDS", cartesianCoords)
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
+            material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
             let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
                 positions: cartesianCoords,
-                material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+                material: material
             });
             this.map.scene.primitives.add(primitiveToAdd);
-            console.log(primitiveToAdd, "pta")
-            console.log(this.map.scene, "map scene")
+            primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
             return true;
         }
-        console.log("add geometry not complete in cesium", geometry, " is unsupported");
+        console.warn("add geometry not complete in cesium", geometry, " is unsupported");
         return false;
     }
 

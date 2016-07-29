@@ -54,7 +54,6 @@ export class MapContainer3D extends Component {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
-                console.log("COOOORDINATES", coordinates);
                 let cartesianCoordinates = coordinates.map((pos) => {
                     return map.cartesianToCartographic(pos);
                 });
