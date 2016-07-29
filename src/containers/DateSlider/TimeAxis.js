@@ -37,18 +37,18 @@ export class TimeAxis extends Component {
             this.timeAxisD3.resize(options);
         });
     }
-    componentWillUpdate() {
-        // track the resolution changes because changing the date also triggers and update
-        // but we don't want to change the resolution for that
-        this.cachedProps = this.props;
-        this.cachedResolutionHack = this.props.resolutionHack;
-    }
     shouldComponentUpdate(nextProps) {
         return (nextProps.date !== this.props.date &&
                 !nextProps.isDragging) ||
             nextProps.isDragging !== this.props.isDragging ||
             (nextProps.resolution !== this.props.resolution &&
                 nextProps.resolutionHack !== this.props.resolutionHack);
+    }
+    componentWillUpdate() {
+        // track the resolution changes because changing the date also triggers and update
+        // but we don't want to change the resolution for that
+        this.cachedProps = this.props;
+        this.cachedResolutionHack = this.props.resolutionHack;
     }
     componentDidUpdate() {
         let options = { date: this.props.date };
