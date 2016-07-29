@@ -7,13 +7,6 @@ import SingleDateD3 from '../../utils/SingleDateD3';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class SingleDate extends Component {
-    shouldComponentUpdate(nextProps) {
-        return (nextProps.date !== this.props.date &&
-                !nextProps.isDragging) ||
-            nextProps.isDragging !== this.props.isDragging ||
-            nextProps.maxX !== this.props.maxX ||
-            nextProps.minX !== this.props.minX;
-    }
     componentDidMount() {
         // get D3 wrapper
         this.singleDateD3 = new SingleDateD3({
@@ -32,6 +25,13 @@ export class SingleDate extends Component {
             date: this.props.date,
             isDragging: this.props.isDragging
         });
+    }
+    shouldComponentUpdate(nextProps) {
+        return (nextProps.date !== this.props.date &&
+                !nextProps.isDragging) ||
+            nextProps.isDragging !== this.props.isDragging ||
+            nextProps.maxX !== this.props.maxX ||
+            nextProps.minX !== this.props.minX;
     }
     componentDidUpdate() {
         this.singleDateD3.update({

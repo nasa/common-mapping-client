@@ -32,7 +32,8 @@ export function catsIntercept_OL(options) {
         // do NOT use an arrow function (loses context)
         let tileSize = catSizes[Math.floor(Math.random() * (catSizes.length - 1)) + 1];
         let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
-        tile.getImage = tile.fb = function(optContext) {
+        console.log(tile);
+        tile.getImage = tile.$a = function(optContext) {
             let node = this._origGetImageFunc(optContext);
             node.src = url;
             return node;

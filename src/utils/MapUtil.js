@@ -71,6 +71,12 @@ export default class MapUtil {
         let row = options.row;
         let level = options.level;
         let format = options.format;
+        let context = options.context;
+
+        // adjust tileRow
+        if(context === mapStrings.MAP_LIB_2D) {
+            row = -options.row - 1;
+        }
 
         let tileMatrix = typeof tileMatrixLabels !== "undefined" ? tileMatrixLabels[level] : level.toString();
 

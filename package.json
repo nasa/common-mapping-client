@@ -78,7 +78,7 @@
     "moment": "2.13.0",
     "node-sass": "3.4.2",
     "npm-run-all": "1.7.0",
-    "openlayers": "3.15.1",
+    "openlayers": "3.17.1",
     "phantomjs-prebuilt": "2.1.7",
     "proj4": "2.3.14",
     "raw-loader": "0.5.1",

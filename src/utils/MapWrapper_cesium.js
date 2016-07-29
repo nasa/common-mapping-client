@@ -852,7 +852,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                     let tileUrl = customUrlFunction({
                         layer,
                         origUrl: layer.getIn(["wmtsOptions", "url"]),
-                        tileCoord: [level, x, y]
+                        tileCoord: [level, x, y],
+                        context: mapStrings.MAP_LIB_3D
                     });
 
                     // run the customized tile creator
