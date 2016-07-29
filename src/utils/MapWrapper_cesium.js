@@ -207,21 +207,36 @@ export default class MapWrapper_cesium extends MapWrapper {
                 this.drawHandler.startDrawingCircle({
                     callback: (center, radius) => {
                         // Add geometry to cesium map since it's not done automatically
-                        this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN })
+                        this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
                         onDrawEnd(center, radius);
                     }
-                })
+                });
             }
+            return true;
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
             this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_LINE_STRING] = () => {
                 this.drawHandler.startDrawingPolyline({
                     callback: (coordinates) => {
                         // Add geometry to cesium map since it's not done automatically
-                        this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN })
+                        this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
                         onDrawEnd(coordinates);
                     }
-                })
+                });
             }
+            return true;
+        } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
+            this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_POLYGON] = () => {
+                this.drawHandler.startDrawingPolygon({
+                    callback: (coordinates) => {
+                        // Add geometry to cesium map since it's not done automatically
+                        this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
+                        onDrawEnd(coordinates);
+                    }
+                });
+            }
+            return true;
+        } else {
+            console.warn("could not add draw handler for cesium of type", geometryType);
         }
     }
 
@@ -275,8 +290,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             this.map.scene.primitives.add(primitiveToAdd);
             return true;
-        }
-        if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+        } else if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
             let cartesianCoords = null;
             // // Check coordinate type
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
@@ -290,13 +304,38 @@ export default class MapWrapper_cesium extends MapWrapper {
                 console.warn("Unhandled coordinate type when trying to draw cesium line string:", geometry.type);
                 return false;
             }
-            var primitiveToAdd = new this.drawHelper.PolylinePrimitive({
+            let primitiveToAdd = new this.drawHelper.PolylinePrimitive({
                 positions: cartesianCoords,
                 width: 5,
                 material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType),
                 geodesic: true
             });
             this.map.scene.primitives.add(primitiveToAdd);
+            return true;
+        } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+            console.log("CESIUM POLYGON", geometry)
+            let cartesianCoords = null;
+            // // Check coordinate type
+            console.log("COORDS 1", geometry.coordinates)
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                // Transform coordinates from cartographic to cartesian
+                cartesianCoords = geometry.coordinates.map((x) => {
+                    return this.latLonToCartesian(x[1], x[0]);
+                });
+            } else if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
+                cartesianCoords = geometry.coordinates;
+            } else {
+                console.warn("Unhandled coordinate type when trying to draw cesium polygon string:", geometry.type);
+                return false;
+            }
+            console.log("COORDS", cartesianCoords)
+            let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
+                positions: cartesianCoords,
+                material: this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            });
+            this.map.scene.primitives.add(primitiveToAdd);
+            console.log(primitiveToAdd, "pta")
+            console.log(this.map.scene, "map scene")
             return true;
         }
         console.log("add geometry not complete in cesium", geometry, " is unsupported");
@@ -657,13 +696,13 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
     createTilingScheme(options, tileSchemeOptions) {
-        if(options.projection === mapStrings.PROJECTIONS.latlon.code) {
-            if(options.handleAs === mapStrings.LAYER_GIBS) {
+        if (options.projection === mapStrings.PROJECTIONS.latlon.code) {
+            if (options.handleAs === mapStrings.LAYER_GIBS) {
                 return new CesiumTilingScheme_GIBS({ numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1 }, tileSchemeOptions);
             }
             return new this.cesium.GeographicTilingScheme();
         } else if (options.projection === mapStrings.PROJECTIONS.webmercator.code) {
-                return new this.cesium.WebMercatorTilingScheme();
+            return new this.cesium.WebMercatorTilingScheme();
         }
         return false;
     }

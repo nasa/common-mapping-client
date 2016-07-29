@@ -307,6 +307,27 @@ export default class MapWrapper_openlayers extends MapWrapper {
             mapLayer.getSource().addFeature(lineStringFeature);
             return true;
         }
+        if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+            let polygonGeom = null;
+            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                    // Map obj to array
+                let newCoords = geometry.coordinates.map((x) => {
+                    return [x.lon, x.lat]
+                });
+                // Push the first point to close the ring
+                newCoords.push([geometry.coordinates[0].lon, geometry.coordinates[0].lat]);
+                // Put these coordinates into a ring by adding to array
+                polygonGeom = new ol.geom.Polygon([newCoords]);
+            } else {
+                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers polygon");
+                return false;
+            }
+            let polygonFeature = new ol.Feature({
+                geometry: polygonGeom
+            })
+            mapLayer.getSource().addFeature(polygonFeature);
+            return true;
+        }
         return false;
     }
 
