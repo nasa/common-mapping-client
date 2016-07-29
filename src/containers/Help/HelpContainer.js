@@ -9,6 +9,7 @@ import MiscUtil from '../../utils/MiscUtil';
 
 export class HelpContainer extends Component {
     componentWillMount() {
+        // TODO - move these to a config or something
         this.pageKeys = {
             ABOUT: "about",
             FAQ: "faq",

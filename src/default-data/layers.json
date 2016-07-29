@@ -149,7 +149,7 @@
             "handleAs": "GIBS"
         }, {
             "id": "ESRI_World_Imagery",
-            "title": "ESRI World Imagery",
+            "title": "ESRI High Resolution World Imagery",
             "type": "basemap",
             "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
             "isDefault": true,
@@ -172,13 +172,13 @@
             }
         }, {
             "id": "BlueMarble_ShadedRelief_Bathymetry",
-            "title": "Blue Marble",
+            "title": "GIBS Blue Marble, Shaded Relief w/Bathymetry",
             "type": "basemap",
             "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
             "handleAs": "GIBS"
         }, {
             "id": "OSM_Land_Water_Map",
-            "title": "Land/Water",
+            "title": "GIBS Land/Water Map (data from OSM)",
             "type": "basemap",
             "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
             "handleAs": "GIBS"

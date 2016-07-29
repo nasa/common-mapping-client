@@ -25,6 +25,7 @@ import '../styles/styles.scss';
 
 export class AppContainer extends Component {
     componentWillMount() {
+        // Don't do this!
         this.urlParams = MiscUtil.getUrlParams();
     }
     componentDidMount() {
