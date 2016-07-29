@@ -33,7 +33,11 @@ var DrawHelper = (function() {
 
         function callPrimitiveCallback(name, position) {
             if (_self._handlersMuted == true) return;
-            var pickedObject = scene.pick(position);
+            try {
+                var pickedObject = scene.pick(position);
+            } catch (err) {
+                return;
+            }
             if (pickedObject && pickedObject.primitive && pickedObject.primitive[name]) {
                 pickedObject.primitive[name](position);
             }

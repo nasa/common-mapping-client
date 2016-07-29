@@ -270,7 +270,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addGeometry(geometry) {
-        console.log(ol, "ol", geometry, this)
+        // console.log(ol, "ol", geometry, this, mapStrings.GEOMETRY_CIRCLE)
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
@@ -280,7 +280,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
         if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                // circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius);
                 circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius / ol.proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
             } else {
                 console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers circle");
@@ -290,6 +289,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 geometry: circleGeom
             })
             mapLayer.getSource().addFeature(circleFeature);
+            return true;
         }
         if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
             let lineStringGeom = null;
@@ -305,6 +305,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 geometry: lineStringGeom
             })
             mapLayer.getSource().addFeature(lineStringFeature);
+            return true;
         }
         return false;
     }

@@ -682,9 +682,8 @@ const addGeometryToMap = (state, action) => {
     // .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
     // .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
     // .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
-    // .set("alerts", alerts);
     // }
-    return state;
+    return state.set("alerts", alerts);
 };
 
 const resetApplicationState = (state, action) => {

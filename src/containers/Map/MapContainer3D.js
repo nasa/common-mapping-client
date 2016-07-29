@@ -29,7 +29,9 @@ export class MapContainer3D extends Component {
                 }
 
                 // Add geometry to other maps
+                console.log(" 1 ?")
                 this.props.actions.addGeometryToMap(geometry)
+                console.log(" 2 ?")
             })
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (coordinates) => {
                 // Draw end
