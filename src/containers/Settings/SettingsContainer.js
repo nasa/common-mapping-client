@@ -11,23 +11,42 @@ import * as layerActions from '../../actions/LayerActions';
 import * as dateSliderActions from '../../actions/DateSliderActions';
 import * as analyticsActions from '../../actions/AnalyticsActions';
 import MiscUtil from '../../utils/MiscUtil';
-import BaseMapPreview from '../../components/BaseMapPreview';
 import MenuDropdown from '../../components/MenuDropdown';
+import BaseMapDropdown from '../../components/BaseMapDropdown';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 
 export class SettingsContainer extends Component {
+    setBasemap(layerId) {
+        if(layerId && layerId !== "") {
+            this.props.mapActions.setBasemap(layerId);
+        } else {
+            this.props.mapActions.hideBasemap();   
+        }
+    }
     render() {
-        let dummyBasemap = Immutable.fromJS({
-            title: "None",
-            isActive: !this.props.basemaps.some((layer) => {
-                return layer.get("isActive");
-            }),
+        // sort and gather the basemaps into a set of dropdown options
+        let activeBasemapId = "";
+        let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
+        let basemapOptions = basemapList.reduce((acc, layer) => {
+            if(layer.get("isActive")) {
+                activeBasemapId = layer.get("id");
+            }
+
+            acc.push({
+                value: layer.get("id"),
+                label: layer.get("title"),
+                thumbnailImage: layer.get("thumbnailImage")
+            });
+            return acc;
+        }, []);
+        basemapOptions.push({
+            value: "",
+            label: "None",
             thumbnailImage: ""
         });
 
-        let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
 
-
+        // check the reference and boundary layers
         let referenceLabelsLayer = this.props.referenceLayers.find((layer) => {
             return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
         });
@@ -41,29 +60,24 @@ export class SettingsContainer extends Component {
                 active={this.props.settingsOpen}
                 closeFunc={this.props.appActions.closeSettings} >
                 <List selectable ripple className="no-margin settings-content" >
-                    <ListSubHeader className="list-sub-header" caption="Base Map Selection" />
-                    <div id="baseMapPreviewContainer" className="text-wrap">
-                            {basemapList.map((layer) =>
-                                <BaseMapPreview
-                                    layer={layer}
-                                    onClick={() => this.props.mapActions.setBasemap(layer)}
-                                    key={layer.get("id") + "_basemap_button"}
-                                />
-                            )}
-                            <BaseMapPreview
-                                layer={dummyBasemap}
-                                onClick={() => this.props.mapActions.hideBasemap()}
-                            />
-                    </div>
-                    <ListSubHeader className="list-sub-header" caption="Map Scale Units" />
+                    <ListSubHeader className="list-sub-header" caption="Map Display" />
+                    <BaseMapDropdown
+                        auto
+                        label="Base map selection"
+                        selected="news"
+                        className="list-item-dropdown"
+                        source={basemapOptions}
+                        value={activeBasemapId}
+                        onChange={(value) => this.setBasemap(value)}
+                    />
                     <MenuDropdown
                         auto
+                        label="Scale line units"
                         className="list-item-dropdown"
                         onChange={(value) => this.props.mapActions.setScaleUnits(value)}
                         source={mapConfig.SCALE_OPTIONS}
                         value={this.props.mapSettings.get("selectedScaleUnits")}
                     />
-                    <ListSubHeader className="list-sub-header" caption="Display Configuration" />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Political Boundaries"
@@ -78,7 +92,6 @@ export class SettingsContainer extends Component {
                         legend="Display place labels on the map"
                         onChange={(value) => this.props.layerActions.setLayerActive(mapConfig.REFERENCE_LABELS_LAYER_ID, value)}
                     />
-                    <hr className="divider" />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Enable 3D Terrain"
@@ -86,7 +99,7 @@ export class SettingsContainer extends Component {
                         legend="Enable terrain on the 3D map"
                         onChange={(value) => this.props.mapActions.setTerrainEnabled(value)}
                     />
-                    <hr className="divider" />
+                    <ListSubHeader className="list-sub-header" caption="Application Display" />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Collapsed Time Slider"
@@ -94,7 +107,7 @@ export class SettingsContainer extends Component {
                         legend="Collapse the time slider at the bottom of the screen"
                         onChange={(value) => this.props.dateSliderActions.setSliderCollapsed(value)}
                     />
-                    <hr className="divider" />
+                    <ListSubHeader className="list-sub-header" caption="Application Configuration" />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="User Feedback Program"
@@ -102,7 +115,6 @@ export class SettingsContainer extends Component {
                         legend="Help us improve this tool by sending anonymous usage information"
                         onChange={(value) => this.props.analyticsActions.setAnalyticsEnabled(value)}
                     />
-                    <hr className="divider" />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Auto-Update Url"
@@ -110,7 +122,6 @@ export class SettingsContainer extends Component {
                         legend="Automatically update the url in this window to be shareable."
                         onChange={(value) => this.props.appActions.setAutoUpdateUrl(value)}
                     />
-                    <hr className="divider" />
                     <ListItem
                         className="menu-check-box"
                         caption="Reset Application"
