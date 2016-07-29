@@ -135,7 +135,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 layerSource._my_origTileUrlFunc = origTileUrlFunc;
                 layerSource._my_origTileLoadFunc = origTileLoadFunc;
                 layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                    return this.generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origTileUrlFunc);
+                    return this.generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origTileUrlFunc);
                 });
                 layerSource.setTileLoadFunction((tile, url) => {
                     return this.handleTileLoad(layer, tile, url, origTileLoadFunc);
@@ -310,7 +310,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
             let polygonGeom = null;
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                    // Map obj to array
+                // Map obj to array
                 let newCoords = geometry.coordinates.map((x) => {
                     return [x.lon, x.lat]
                 });
@@ -700,22 +700,24 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     /* functions for openlayers only */
-    generateTileUrl(layer, tileCoord, pixelRatio, projectionString, origFunc) {
+    generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
             let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", mapStrings.MAP_LIB_2D]));
-            let processedUrl = decodeURIComponent(origFunc(tileCoord, pixelRatio, projectionString));
+            let tileMatrixIds = typeof layerSource.getTileGrid === "function" &&
+                typeof layerSource.getTileGrid().getMatrixIds === "function" ? layerSource.getTileGrid().getMatrixIds() : [];
             if (typeof customUrlFunction === "function") {
                 return customUrlFunction({
                     layer,
                     origUrl,
-                    processedUrl,
                     tileCoord,
+                    tileMatrixIds,
                     pixelRatio,
-                    projectionString
+                    projectionString,
+                    context: mapStrings.MAP_LIB_2D
                 });
             }
-            return processedUrl;
+            return origFunc(tileCoord, pixelRatio, projectionString);
         } catch (err) {
             console.warn("could not generate openlayers layer tile url.", err);
             return false;
