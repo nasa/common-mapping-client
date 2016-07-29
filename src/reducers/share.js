@@ -13,6 +13,10 @@ const closeShare = (state, action) => {
     return state.set("isOpen", false);
 };
 
+const setAutoUpdateUrl = (state, action) => {
+    return state.set("autoUpdateUrl", action.autoUpdateUrl);
+};
+
 export default function help(state = shareState, action) {
     switch (action.type) {
         case actionTypes.OPEN_SHARE:
@@ -20,6 +24,9 @@ export default function help(state = shareState, action) {
 
         case actionTypes.CLOSE_SHARE:
             return closeShare(state, action);
+
+        case actionTypes.SET_AUTO_UPDATE_URL:
+            return setAutoUpdateUrl(state, action);
 
         default:
             return state;

@@ -103,6 +103,14 @@ export class SettingsContainer extends Component {
                         onChange={(value) => this.props.analyticsActions.setAnalyticsEnabled(value)}
                     />
                     <hr className="divider" />
+                    <ListCheckbox
+                        className="menu-check-box"
+                        caption="Auto-Update Url"
+                        checked={this.props.autoUpdateUrlEnabled}
+                        legend="Automatically update the url in this window to be shareable."
+                        onChange={(value) => this.props.appActions.setAutoUpdateUrl(value)}
+                    />
+                    <hr className="divider" />
                     <ListItem
                         className="menu-check-box"
                         caption="Reset Application"
@@ -120,6 +128,7 @@ SettingsContainer.propTypes = {
     settingsOpen: PropTypes.bool.isRequired,
     sliderCollapsed: PropTypes.bool.isRequired,
     analyticsEnabled: PropTypes.bool.isRequired,
+    autoUpdateUrlEnabled: PropTypes.bool.isRequired,
     basemaps: PropTypes.object.isRequired,
     referenceLayers: PropTypes.object.isRequired,
     mapSettings: PropTypes.object.isRequired,
@@ -137,7 +146,8 @@ function mapStateToProps(state) {
         basemaps: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]),
         referenceLayers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]),
         sliderCollapsed: state.dateSlider.get("sliderCollapsed"),
-        analyticsEnabled: state.analytics.get("isEnabled")
+        analyticsEnabled: state.analytics.get("isEnabled"),
+        autoUpdateUrlEnabled: state.share.get("autoUpdateUrl")
     };
 }
 

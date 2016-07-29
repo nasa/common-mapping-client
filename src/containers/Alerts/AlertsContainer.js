@@ -39,10 +39,18 @@ export class AlertsContainer extends Component {
     groupAlerts(alerts) {
         // break the alerts into groups based on title
         return alerts.reduce((acc, alert, i, arr) => {
-            if (acc[acc.length - 1] && acc[acc.length - 1][0].get("title") === alert.get("title")) {
-                acc[acc.length - 1].push(alert);
+            let severityGroup = acc[acc.length - 1];
+            if (severityGroup && severityGroup[0][0].get("severity") === alert.get("severity")) {
+                let alertGroup = severityGroup[severityGroup.length - 1];
+                if (alertGroup && alertGroup[0].get("title") === alert.get("title")) {
+                    alertGroup.push(alert);
+                } else {
+                    severityGroup.push([alert]);
+                }
             } else {
-                acc.push([alert]);
+                acc.push([
+                    [alert]
+                ]);
             }
             return acc;
         }, []);
@@ -65,14 +73,18 @@ export class AlertsContainer extends Component {
                 title="Errors Occured"
                 active={alerstPresent}
                 closeFunc={() => {this.props.actions.dismissAllAlerts(this.props.alerts);}}>
-                    {alertGroups.map((alertGroup, groupIndex) =>
-                        <div key={"alert-group" + groupIndex} className={"alert-group severity-" + alertGroup[0].get("severity")}>
-                            <span className="alert-group-title">{alertGroup[0].get("title")}</span>
-                            {alertGroup.map((alert, alertIndex) =>
-                                <div key={"alert-" + groupIndex + "-" + alertIndex} className="alert-listing">
-                                    {alert.get("body")}
-                                </div>
-                            )}
+                    {alertGroups.map((severityGroup, severityIndex) =>
+                        <div key={"severity-group" + severityIndex} className={"alert-severity-group severity-" + severityGroup[0][0].get("severity")}>
+                        {severityGroup.map((alertGroup, groupIndex) =>
+                            <div key={"alert-group" + groupIndex} className="alert-group">
+                                <span className="alert-group-title">{alertGroup[0].get("title")}</span>
+                                {alertGroup.map((alert, alertIndex) =>
+                                    <div key={"alert-" + groupIndex + "-" + alertIndex} className="alert-listing">
+                                        {alert.get("body")}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         </div>
                     )}
             </ModalMenuContainer>

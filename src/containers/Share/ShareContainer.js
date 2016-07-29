@@ -34,7 +34,7 @@ export class ShareContainer extends Component {
         this.urlText.focus();
         this.urlText.select();
     }
-    generateShareUrl() {
+    generateShareQuery() {
         let activeLayers = this.getActiveLayerString();
         let opacities = this.getOpacitiesString();
         let viewMode = this.getViewModeString();
@@ -45,7 +45,7 @@ export class ShareContainer extends Component {
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
 
-        return "http://" + window.location.host + "#" + [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
+        return [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
@@ -112,7 +112,13 @@ export class ShareContainer extends Component {
     }
 
     render() {
-        let shareUrl = this.generateShareUrl();
+        let shareQuery = this.generateShareQuery();
+        let shareUrl = "http://" + window.location.host + "#" + shareQuery;
+        if(this.props.autoUpdateUrl) {
+            window.history.replaceState(undefined, undefined, "#" + shareQuery);
+        } else {
+            window.history.replaceState(undefined, undefined, "#");
+        }
         return (
             <ModalMenuContainer
                 small
@@ -142,6 +148,7 @@ export class ShareContainer extends Component {
 ShareContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    autoUpdateUrl: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     maps: PropTypes.object.isRequired,
     mapView: PropTypes.object.isRequired,
@@ -152,6 +159,7 @@ ShareContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isOpen: state.share.get("isOpen"),
+        autoUpdateUrl: state.share.get("autoUpdateUrl"),
         maps: state.map.get("maps"),
         layers: state.map.get("layers"),
         mapView: state.map.get("view"),

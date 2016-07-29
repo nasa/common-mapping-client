@@ -1,17 +1,19 @@
-.alert-group {
-    padding: 1rem 0px 3rem 1.5rem;
+.alert-severity-group  {
+    border-bottom: 1px solid $color-medium-dark;
     &.severity-1 {
-        border-left: 1rem solid $palette-yellow-400;
-        border-right: 1rem solid $palette-yellow-400;
+        border-left: 3rem solid $palette-yellow-400;
     }
     &.severity-2 {
-        border-left: 1rem solid $palette-orange-400;
-        border-right: 1rem solid $palette-orange-400;
+        border-left: 3rem solid $palette-orange-400;
     }
     &.severity-3 {
-        border-left: 1rem solid $palette-red-400;
-        border-right: 1rem solid $palette-red-400;
+        border-left: 3rem solid $palette-red-400;
     }
+}
+
+.alert-group {
+    margin: 0px 1.5rem 3rem 1.5rem;
+    padding-top: 1rem;
 }
 
 .alert-group-title {
