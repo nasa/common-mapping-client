@@ -91,8 +91,6 @@ export class DatePickerContainer extends Component {
         let yearArr = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"];
         let monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let dayArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
-                //<KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",false) : this.incrementDate("days",false);}} />
-                //<KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={(evt) => {evt.shiftKey ? this.incrementDate("months",true) : this.incrementDate("days",true);}} />
         return (
             <div id="datePickerContainer" className="row middle-xs">
                 <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => {this.beginAutoIncrement(false);}} />
