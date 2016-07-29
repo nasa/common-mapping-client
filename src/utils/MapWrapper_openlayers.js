@@ -28,7 +28,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         color: 'rgba(255, 255, 255, 0.2)'
                     }),
                     stroke: new ol.style.Stroke({
-                        color: '#ffcc33',
+                        color: 'rgba(255, 204, 0, 1)',
                         width: 2
                     }),
                     image: new ol.style.Circle({
