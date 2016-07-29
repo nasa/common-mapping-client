@@ -41,9 +41,9 @@ export const CATS_TILE_OL = 'catsTile_OL';
 export const CATS_TILE_CS = 'catsTile_CS';
 
 // drawing geometry types
-export const GEOMETRY_POINT = 'Point';
 export const GEOMETRY_CIRCLE = 'Circle';
 export const GEOMETRY_LINE_STRING = 'LineString';
+export const GEOMETRY_POLYGON = 'Polygon';
 
 // coordinate types
 export const COORDINATE_TYPE_CARTESIAN = 'Cartesian';

@@ -34,6 +34,13 @@ export class ToolsContainer extends Component {
                     data-place="right">
                     <i className="ms ms-line"/>
                 </IconButton>
+                <IconButton
+                    neutral
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}}
+                    data-tip="Draw Polygon"
+                    data-place="right">
+                    <i className="ms ms-polygon"/>
+                </IconButton>
             </div>
         );
     }
