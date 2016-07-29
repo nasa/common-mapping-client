@@ -14,6 +14,7 @@ const closeShare = (state, action) => {
 };
 
 const setAutoUpdateUrl = (state, action) => {
+    window.localStorage.setItem("autoUpdateUrl", action.autoUpdateUrl);
     return state.set("autoUpdateUrl", action.autoUpdateUrl);
 };
 

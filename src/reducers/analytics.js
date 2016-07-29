@@ -92,6 +92,7 @@ const processAction = (state, action) => {
 };
 
 const setAnalyticsEnabled = (state, action) => {
+    window.localStorage.setItem("analyticsEnabled", action.isEnabled);
     return state.set("isEnabled", action.isEnabled);
 };
 
