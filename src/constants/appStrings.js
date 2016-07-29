@@ -34,12 +34,12 @@ export const ALERTS = {
     },
     GEOMETRY_SYNC_FAILED: {
         title: "Geometry Sync Failed",
-        body: "Synchronizing geometry on the {MAP} map failed.",
+        formatString: "Synchronizing geometry on the {MAP} map failed.",
         severity: 3
     },
     VIEW_SYNC_FAILED: {
         title: "View Sync Failed",
-        body: "Synchronizing the view on the {MAP} map failed.",
+        formatString: "Synchronizing the view on the {MAP} map failed.",
         severity: 3
     }
 };
