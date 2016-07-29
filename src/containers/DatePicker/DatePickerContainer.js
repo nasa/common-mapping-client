@@ -48,7 +48,6 @@ export class DatePickerContainer extends Component {
         let minDate = moment(appConfig.MIN_DATE);
         let maxDate = moment(appConfig.MAX_DATE);
 
-
         if (newDate.isBetween(minDate, maxDate)) {
             this.props.actions.setDate(newDate.toDate());
         } else {
@@ -86,11 +85,6 @@ export class DatePickerContainer extends Component {
         let year = date.format("YYYY");
         let month = date.format("MMM");
         let day = date.format("DD");
-
-        // TODO - get this into a config or something somewhere
-        let yearArr = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"];
-        let monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let dayArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
         return (
             <div id="datePickerContainer" className="row middle-xs">
                 <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => {this.beginAutoIncrement(false);}} />
@@ -113,7 +107,7 @@ export class DatePickerContainer extends Component {
                       onChange={(value) => this.updateDate("years", value)}
                       label=""
                       multiple={false}
-                      source={yearArr}
+                      source={appConfig.YEAR_ARRAY}
                       value={year}
                     />
                     <div className="date-picker-selection-increment">
@@ -129,7 +123,7 @@ export class DatePickerContainer extends Component {
                       onChange={(value) => this.updateDate("months", value)}
                       label=""
                       multiple={false}
-                      source={monthArr}
+                      source={appConfig.MONTH_ARRAY}
                       value={month}
                     />
                     <div className="date-picker-selection-increment">
@@ -145,7 +139,7 @@ export class DatePickerContainer extends Component {
                       onChange={(value) => this.updateDate("days", value)}
                       label=""
                       multiple={false}
-                      source={dayArr}
+                      source={appConfig.DAY_ARRAY}
                       value={day}
                     />
                     <div className="date-picker-selection-increment">

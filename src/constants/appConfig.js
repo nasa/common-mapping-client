@@ -16,9 +16,16 @@ export const URLS = {
 };
 
 // Time slider
-export const MIN_DATE = moment("2000-06-11", "YYYY-MM-DD").toDate();
-export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();
 export const SCRUBBING_UPDATE = false;
+export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD").toDate();
+export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();
+
+// Date Picker
+let yearArr = [];
+for(let tmpYr = moment(MIN_DATE).format("YYYY"); tmpYr <= moment(MAX_DATE).format("YYYY"); ++tmpYr) { yearArr.push("" + tmpYr); }
+export const YEAR_ARRAY = yearArr;
+export const MONTH_ARRAY = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const DAY_ARRAY = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 
 // Analytics
 export const ANALYTICS_ENDPOINT = "http://localhost:3000";
