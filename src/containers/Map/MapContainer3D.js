@@ -29,9 +29,7 @@ export class MapContainer3D extends Component {
                 }
 
                 // Add geometry to other maps
-                console.log(" 1 ?")
                 this.props.actions.addGeometryToMap(geometry)
-                console.log(" 2 ?")
             })
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (coordinates) => {
                 // Draw end
@@ -45,6 +43,25 @@ export class MapContainer3D extends Component {
                 // Recover geometry from event in cartographic
                 let geometry = {
                     type: mapStrings.GEOMETRY_LINE_STRING,
+                    coordinates: cartesianCoordinates,
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                }
+
+                // Add geometry to other maps
+                this.props.actions.addGeometryToMap(geometry)
+            })
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (coordinates) => {
+                // Draw end
+                // Disable drawing
+                this.props.actions.disableDrawing();
+                console.log("COOOORDINATES", coordinates);
+                let cartesianCoordinates = coordinates.map((pos) => {
+                    return map.cartesianToCartographic(pos);
+                });
+
+                // Recover geometry from event in cartographic
+                let geometry = {
+                    type: mapStrings.GEOMETRY_POLYGON,
                     coordinates: cartesianCoordinates,
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 }

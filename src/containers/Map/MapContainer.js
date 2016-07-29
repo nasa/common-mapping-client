@@ -36,7 +36,6 @@ export class MapContainer extends Component {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
-                console.log("OL EVENT LINESTIRNG", event);
                 // Recover geometry from event
                 let geometry = {
                     type: mapStrings.GEOMETRY_LINE_STRING,
@@ -45,6 +44,20 @@ export class MapContainer extends Component {
                 }
 
                 // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
+                // Add geometry to other maps
+                this.props.actions.addGeometryToMap(geometry);
+            })
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (event) => {
+                // Draw end
+                // Disable drawing
+                this.props.actions.disableDrawing();
+                // Recover geometry from event
+                let geometry = {
+                    type: mapStrings.GEOMETRY_POLYGON,
+                    coordinates: event.feature.getGeometry().getCoordinates()[0],
+                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                }
+
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry);
             })
