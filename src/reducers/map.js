@@ -34,9 +34,11 @@ const setMapViewMode = (state, action) => {
         } else {
             map.isActive = !mode_3D;
         }
-        setTimeout(() => {
-            map.resize();
-        }, 0);
+        if (map.isActive) {
+            setTimeout(() => {
+                map.resize();
+            }, 0);
+        }
         return map;
     }));
     return state.setIn(["view", "in3DMode"], mode_3D);
