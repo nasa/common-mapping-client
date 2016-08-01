@@ -19,7 +19,8 @@ export default class MiscUtil {
 
     static findObjectInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
-            if (array[i][key] === val) {
+            if (array[i][key] === val ||
+                (typeof array[i].get === "function" && array[i].get(key) === val)) {
                 return array[i];
             }
         }
@@ -28,7 +29,8 @@ export default class MiscUtil {
 
     static findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
-            if (array[i][key] === val) {
+            if (array[i][key] === val ||
+                (typeof array[i].get === "function" && array[i].get(key) === val)) {
                 return {
                     value: array[i],
                     index: i

@@ -106,9 +106,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
 
         if (mapLayer) {
-            mapLayer._layerId = layer.get("id");
-            mapLayer._layerCacheHash = layer.get("id") + layer.get("time");
-            mapLayer._layerType = layer.get("type");
+            mapLayer.set("_layerId", layer.get("id"));
+            mapLayer.set("_layerCacheHash", layer.get("id") + layer.get("time"));
+            mapLayer.set("_layerType", layer.get("type"));
         }
         return mapLayer;
     }
@@ -401,7 +401,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let index = this.findTopInsertIndexForLayer(mapLayer);
             this.map.getLayers().insertAt(index, mapLayer);
-            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            this.layerCache.set(mapLayer.get("_layerCacheHash"), mapLayer);
             return true;
         } catch (err) {
             console.warn("could not add openlayers layer.", err);
@@ -422,7 +422,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     replaceLayer(mapLayer, index) {
         try {
             this.map.getLayers().setAt(index, mapLayer);
-            this.layerCache.set(mapLayer._layerCacheHash, mapLayer);
+            this.layerCache.set(mapLayer.get("_layerCacheHash"), mapLayer);
             return true;
         } catch (err) {
             console.warn("could not replace openlayers layer.", err);
@@ -679,8 +679,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach((mapLayer) => {
-                if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA && mapLayer.getVisible()) {
-                    retList.push(mapLayer._layerId);
+                if (mapLayer.get("_layerType") === mapStrings.LAYER_GROUP_TYPE_DATA && mapLayer.getVisible()) {
+                    retList.push(mapLayer.get("_layerId"));
                 }
             });
             return retList;
@@ -872,15 +872,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
         let mapLayers = this.map.getLayers();
         let index = mapLayers.getLength();
 
-        if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
+        if (mapLayer.get("_layerType") === mapStrings.LAYER_GROUP_TYPE_REFERENCE) { // referece layers always on top
             return index;
-        } else if (mapLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
+        } else if (mapLayer.get("_layerType") === mapStrings.LAYER_GROUP_TYPE_BASEMAP) { // basemaps always on bottom
             return 0;
         } else { // data layers in the middle
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.item(i);
-                if (compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_DATA ||
-                    compareLayer._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
+                if (compareLayer.get("_layerType") === mapStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer.get("_layerType") === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     return i + 1;
                 }
             }
