@@ -96,8 +96,8 @@ const setMapView = (state, action) => {
     if (anySucceed) {
         return state
             .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-            .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
-            .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
+            .setIn(["view", "center"], Immutable.List(action.viewInfo.center) || state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], Immutable.List(action.viewInfo.extent) || state.getIn(["view", "extent"]))
             .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
@@ -127,8 +127,8 @@ const setViewInfo = (state, action) => {
     if (anySucceed) {
         return state
             .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-            .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
-            .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
+            .setIn(["view", "center"], Immutable.List(action.viewInfo.center) || state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], Immutable.List(action.viewInfo.extent) || state.getIn(["view", "extent"]))
             .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }

@@ -16,7 +16,6 @@
         padding: 0px;
         @include flex();
         @include flex-col();
-        height: 100%;
         overflow: hidden;
     }
     nav {

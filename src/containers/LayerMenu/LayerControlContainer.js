@@ -101,7 +101,7 @@ export class LayerControlContainer extends Component {
                     <span className="col-xs layer-header text-wrap">{this.props.layer.get("title")}</span>
                 </div>
                 <div className="row middle-xs">
-                    <div className="col-xs text-left no-padding">
+                    <div className="col-xs-9 text-left no-padding">
                         <ColorbarContainer
                             palette={this.props.palette}
                             min={this.props.layer.get("min")}
@@ -112,7 +112,7 @@ export class LayerControlContainer extends Component {
                             url={this.props.layer.getIn(["palette", "url"])}
                         />
                     </div>
-                    <div className="col-xs text-center">
+                    <div className="col-xs-3 text-center">
                         <IconButton
                             flat
                             // primary={!this.props.layer.get("isChangingPosition")}

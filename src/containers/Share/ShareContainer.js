@@ -30,6 +30,9 @@ const GooglePlusIcon = () => (
 );
 
 export class ShareContainer extends Component {
+    componentWillMount() {
+        this.numRenders = 1;
+    }
     focusTextArea() {
         this.urlText.focus();
         this.urlText.select();
@@ -86,13 +89,13 @@ export class ShareContainer extends Component {
         return appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
     }
     getViewModeString() {
-        return appStrings.URL_KEYS.VIEW_MODE + "=" + (this.props.mapView.get("in3DMode") ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D);
+        return appStrings.URL_KEYS.VIEW_MODE + "=" + (this.props.in3DMode ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D);
     }
     getExtentString() {
-        return appStrings.URL_KEYS.VIEW_EXTENT + "=" + this.props.mapView.get("extent");
+        return appStrings.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent;
     }
     getTerrainString() {
-        return appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.mapDisplay.get("enableTerrain");
+        return appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
     }
     getDateString() {
         return appStrings.URL_KEYS.DATE + "=" + this.props.mapDate.toISOString().split("T")[0];
@@ -151,8 +154,9 @@ ShareContainer.propTypes = {
     autoUpdateUrl: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     maps: PropTypes.object.isRequired,
-    mapView: PropTypes.object.isRequired,
-    mapDisplay: PropTypes.object.isRequired,
+    in3DMode: PropTypes.bool.isRequired,
+    extent: PropTypes.object.isRequired,
+    enableTerrain: PropTypes.bool.isRequired,
     mapDate: PropTypes.object.isRequired
 };
 
@@ -162,8 +166,9 @@ function mapStateToProps(state) {
         autoUpdateUrl: state.share.get("autoUpdateUrl"),
         maps: state.map.get("maps"),
         layers: state.map.get("layers"),
-        mapView: state.map.get("view"),
-        mapDisplay: state.map.get("displaySettings"),
+        in3DMode: state.map.getIn(["view", "in3DMode"]),
+        extent: state.map.getIn(["view", "extent"]),
+        enableTerrain: state.map.getIn(["displaySettings", "enableTerrain"]),
         mapDate: state.map.get("date")
     };
 }
