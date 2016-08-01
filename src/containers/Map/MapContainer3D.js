@@ -12,7 +12,7 @@ export class MapContainer3D extends Component {
     }
 
     initializeMapDrawHandlers() {
-        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_3D);
+        let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
             map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (center, radius) => {
                 // Draw end
@@ -26,11 +26,11 @@ export class MapContainer3D extends Component {
                     center: cartographicCenter,
                     radius: radius,
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry)
-            })
+                this.props.actions.addGeometryToMap(geometry);
+            });
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (coordinates) => {
                 // Draw end
                 // Disable drawing
@@ -45,11 +45,11 @@ export class MapContainer3D extends Component {
                     type: mapStrings.GEOMETRY_LINE_STRING,
                     coordinates: cartesianCoordinates,
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry)
-            })
+                this.props.actions.addGeometryToMap(geometry);
+            });
             map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (coordinates) => {
                 // Draw end
                 // Disable drawing
@@ -63,16 +63,16 @@ export class MapContainer3D extends Component {
                     type: mapStrings.GEOMETRY_POLYGON,
                     coordinates: cartesianCoordinates,
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry)
-            })
+                this.props.actions.addGeometryToMap(geometry);
+            });
         }
     }
 
     initializeMapListeners() {
-        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_3D);
+        let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
             map.addEventListener("moveend", () => {
                 // Only fire move event if this map is active
@@ -100,13 +100,13 @@ export class MapContainer3D extends Component {
 
     render() {
         // need to get some sort of stored state value
-        if (this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
+        if (this.props.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
             this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
         }
         return (
-            <div id="mapContainer3D" className={this.props.mapState.in3DMode ? "" : "hidden"}>
+            <div id="mapContainer3D" className={this.props.in3DMode ? "" : "hidden"}>
                 <div id="map3D"></div>
             </div>
         );
@@ -114,20 +114,17 @@ export class MapContainer3D extends Component {
 }
 
 MapContainer3D.propTypes = {
-    mapState: PropTypes.object.isRequired,
-    viewState: PropTypes.object.isRequired,
+    maps: PropTypes.object.isRequired,
+    in3DMode: PropTypes.bool.isRequired,
+    initialLoadComplete: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        mapState: {
-            maps: state.map.get("maps"),
-            in3DMode: state.map.getIn(["view", "in3DMode"])
-        },
-        viewState: {
-            initialLoadComplete: state.view.get("initialLoadComplete")
-        }
+        maps: state.map.get("maps"),
+        in3DMode: state.map.getIn(["view", "in3DMode"]),
+        initialLoadComplete: state.view.get("initialLoadComplete")
     };
 }
 

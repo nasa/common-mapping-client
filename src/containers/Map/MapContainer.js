@@ -13,7 +13,7 @@ export class MapContainer extends Component {
     }
 
     initializeMapDrawHandlers() {
-        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_2D);
+        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
             map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (event) => {
                 // Draw end
@@ -27,11 +27,11 @@ export class MapContainer extends Component {
                     center: { lon: center[0], lat: center[1] },
                     radius: event.feature.getGeometry().getRadius(),
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry);
-            })
+            });
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (event) => {
                 // Draw end
                 // Disable drawing
@@ -41,12 +41,12 @@ export class MapContainer extends Component {
                     type: mapStrings.GEOMETRY_LINE_STRING,
                     coordinates: event.feature.getGeometry().getCoordinates(),
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry);
-            })
+            });
             map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (event) => {
                 // Draw end
                 // Disable drawing
@@ -56,16 +56,16 @@ export class MapContainer extends Component {
                     type: mapStrings.GEOMETRY_POLYGON,
                     coordinates: event.feature.getGeometry().getCoordinates()[0],
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
+                };
 
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry);
-            })
+            });
         }
     }
 
     initializeMapListeners() {
-        let map = this.props.mapState.maps.get(mapStrings.MAP_LIB_2D);
+        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
             map.addEventListener("moveend", () => {
                 // Only fire move event if this map is active
@@ -96,23 +96,25 @@ export class MapContainer extends Component {
     }
 
     render() {
+        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
+
         // need to get some sort of stored state value
-        if (this.props.viewState.initialLoadComplete && !this.listenersInitialized) {
+        if (this.props.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
             this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
         }
 
         return (
-            <div id="mapContainer2D" className={this.props.mapState.in3DMode ? "hidden" : ""}>
+            <div id="mapContainer2D" className={this.props.in3DMode ? "hidden" : ""}>
                 <div id="map2D"></div>
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
                     {
-                        console.log("hi")
+                        console.log("hi");
                         // Only disable if drawing is enabled
-                        if (this.props.mapState.isDrawingEnabled) {
+                        if (this.props.isDrawingEnabled) {
                             // Add other dialog checks here?
-                            this.props.actions.disableDrawing()
+                            this.props.actions.disableDrawing();
                         }
                     }
                 } />
@@ -122,21 +124,19 @@ export class MapContainer extends Component {
 }
 
 MapContainer.propTypes = {
-    mapState: PropTypes.object.isRequired,
-    viewState: PropTypes.object.isRequired,
+    maps: PropTypes.object.isRequired,
+    in3DMode: PropTypes.bool.isRequired,
+    isDrawingEnabled: PropTypes.bool.isRequired,
+    initialLoadComplete: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        mapState: {
-            maps: state.map.get("maps"),
-            in3DMode: state.map.getIn(["view", "in3DMode"]),
-            isDrawingEnabled: state.map.getIn(["drawing", "isDrawingEnabled"])
-        },
-        viewState: {
-            initialLoadComplete: state.view.get("initialLoadComplete")
-        }
+        maps: state.map.get("maps"),
+        in3DMode: state.map.getIn(["view", "in3DMode"]),
+        isDrawingEnabled: state.map.getIn(["drawing", "isDrawingEnabled"]),
+        initialLoadComplete: state.view.get("initialLoadComplete")
     };
 }
 
