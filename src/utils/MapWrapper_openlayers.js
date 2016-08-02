@@ -132,8 +132,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 // override tile url and load functions
                 let origTileUrlFunc = layerSource.getTileUrlFunction();
                 let origTileLoadFunc = layerSource.getTileLoadFunction();
-                layerSource._my_origTileUrlFunc = origTileUrlFunc;
-                layerSource._my_origTileLoadFunc = origTileLoadFunc;
                 layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
                     return this.generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origTileUrlFunc);
                 });
@@ -493,7 +491,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (newBasemap) {
                 // replace or insert new basemap (insert should happen only once)
                 let mapLayers = this.map.getLayers();
-                if (mapLayers.getLength() > 0 && mapLayers.item(0)._layerType === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
+                if (mapLayers.getLength() > 0 && mapLayers.item(0).get("_layerType") === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
                     mapLayers.setAt(0, newBasemap);
                 } else {
                     mapLayers.insertAt(0, newBasemap);

@@ -285,6 +285,7 @@ button.position-control-button {
     /*height: 100%;*/
     display: block;
     width: 100%;
+    min-height: 0px;
     @include flex();
     @include flex-grow(1);
     .toggle {

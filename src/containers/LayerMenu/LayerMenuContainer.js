@@ -9,9 +9,6 @@ import LayerControlContainer from './LayerControlContainer';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
-    componentDidMount() {
-        let menuContent = document.getElementById('layerMenuContent');
-    }
     render() {
         let layerList = this.props.layers.sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
@@ -34,6 +31,14 @@ export class LayerMenuContainer extends Component {
             );
         };
 
+        let renderHorizTrack = ({style, ...props}) => {
+            return (
+                <div
+                    style={{display:"none"}}
+                />
+            );
+        }
+
         return (
             <div id="layerMenu" className={layerMenuClasses}>
                 <div id="layerHeaderRow" className="row middle-xs">
@@ -53,15 +58,12 @@ export class LayerMenuContainer extends Component {
                 </div>
                 <div id="layerMenuContent">
                     <Scrollbars 
-                        // style={{height:300}}
+                        style={{height:"100%"}}
                         autoHeight
-                        // autoHeightMin={0}
+                        autoHeightMin={0}
                         autoHeightMax={"100%"}
-                        // autoHide={true}
-                       renderThumbVertical={renderThumb}
-                        renderTrackHorizontal={(style, ...props) =>
-                            <div style={{display:"none"}}/>
-                          }>
+                        renderThumbVertical={renderThumb}
+                        renderTrackHorizontal={renderHorizTrack}>
                         {layerList.map((layer) =>
                             <LayerControlContainer
                                 key={layer.get("id") + "_layer_listing"}
@@ -75,6 +77,36 @@ export class LayerMenuContainer extends Component {
         );
     }
 }
+
+/*
+position: relative;
+overflow: hidden;
+width: 100%;
+height: auto;
+min-height: 0px;
+
+position: relative;
+overflow: scroll;
+margin-right: 0px;
+margin-bottom: 0px;
+min-height: 0px;
+
+---
+
+position: relative;
+overflow: hidden;
+width: 100%;
+height: auto;
+min-height: 0px;
+max-height: 100%;
+
+position: relative;
+overflow: scroll;
+margin-right: 0px;
+margin-bottom: 0px;
+min-height: 0px;
+max-height: calc(100% + 0px);
+*/
 
 LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,
