@@ -48,7 +48,7 @@ export class ShareContainer extends Component {
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
 
-        return [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&");
+        return [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
@@ -92,7 +92,7 @@ export class ShareContainer extends Component {
         return appStrings.URL_KEYS.VIEW_MODE + "=" + (this.props.in3DMode ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D);
     }
     getExtentString() {
-        return appStrings.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent;
+        return appStrings.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent.join(",");
     }
     getTerrainString() {
         return appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
