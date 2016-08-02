@@ -80,7 +80,7 @@
 
 #dateSlider {
     font-family: "Roboto Mono";
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     .timeAxis {
         cursor: pointer;
         &.dragging {
@@ -150,15 +150,12 @@
             cursor: grabbing;
         }
     }
-    .single-date-inner {
-        /*stroke: darken($color-accent, 20%);*/
-    }
     .timeline-horiz-axis {
         position: absolute;
         fill: $color-medium-dark;
         fill-opacity: 1;
         stroke: $color-medium-dark;
-        stroke-width: 1;
+        stroke-width: 2;
         stroke-opacity: 1;
     }
 }
