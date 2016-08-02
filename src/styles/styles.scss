@@ -32,7 +32,7 @@ body {
     padding: 0px;
     font-size: 14px;
     font-size: 1.4rem;
-    background-color: darken($color-medium-light, 10%);
+    background-color: $color-dark;
     cursor: default;
     overflow: hidden !important;
     color: #212121;

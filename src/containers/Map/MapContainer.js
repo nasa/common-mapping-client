@@ -106,7 +106,7 @@ export class MapContainer extends Component {
         }
 
         return (
-            <div id="mapContainer2D" className={this.props.in3DMode ? "hidden" : ""}>
+            <div id="mapContainer2D" className={this.props.in3DMode ? "inactive" : ""}>
                 <div id="map2D"></div>
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
                     {

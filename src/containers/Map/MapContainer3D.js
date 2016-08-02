@@ -106,7 +106,7 @@ export class MapContainer3D extends Component {
             this.listenersInitialized = true;
         }
         return (
-            <div id="mapContainer3D" className={this.props.in3DMode ? "" : "hidden"}>
+            <div id="mapContainer3D" className={this.props.in3DMode ? "" : "inactive"}>
                 <div id="map3D"></div>
             </div>
         );
