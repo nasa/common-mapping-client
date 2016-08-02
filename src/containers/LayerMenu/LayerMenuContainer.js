@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { Scrollbars } from 'react-custom-scrollbars';
+import * as appConfig from '../../constants/appConfig';
 import * as mapStrings from '../../constants/mapStrings';
 import * as layerActions from '../../actions/LayerActions';
 import LayerControlContainer from './LayerControlContainer';
@@ -21,6 +22,7 @@ export class LayerMenuContainer extends Component {
             "open": this.props.layerMenuOpen
         });
 
+        // scrollbar rendering
         let renderThumb = ({ style, ...props }) => {
             return (
                 <div
@@ -30,7 +32,6 @@ export class LayerMenuContainer extends Component {
                 />
             );
         };
-
         let renderHorizTrack = ({style, ...props}) => {
             return (
                 <div
@@ -38,6 +39,9 @@ export class LayerMenuContainer extends Component {
                 />
             );
         }
+
+        // scrollbar hack
+        let scrollStyle = appConfig.BROWSER_ID.isFirefox || appConfig.BROWSER_ID.isSafari  ? {"height":"100%"} : {};
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
@@ -58,7 +62,7 @@ export class LayerMenuContainer extends Component {
                 </div>
                 <div id="layerMenuContent">
                     <Scrollbars 
-                        style={{height:"100%"}}
+                        style={scrollStyle}
                         autoHeight
                         autoHeightMin={0}
                         autoHeightMax={"100%"}
@@ -77,36 +81,6 @@ export class LayerMenuContainer extends Component {
         );
     }
 }
-
-/*
-position: relative;
-overflow: hidden;
-width: 100%;
-height: auto;
-min-height: 0px;
-
-position: relative;
-overflow: scroll;
-margin-right: 0px;
-margin-bottom: 0px;
-min-height: 0px;
-
----
-
-position: relative;
-overflow: hidden;
-width: 100%;
-height: auto;
-min-height: 0px;
-max-height: 100%;
-
-position: relative;
-overflow: scroll;
-margin-right: 0px;
-margin-bottom: 0px;
-min-height: 0px;
-max-height: calc(100% + 0px);
-*/
 
 LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,

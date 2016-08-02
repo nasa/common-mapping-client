@@ -2,13 +2,39 @@ import moment from 'moment';
 
 // General
 export const APP_NAME = "RiPTIDE";
+export const BROWSER_ID = (() => {
+    // Opera 8.0+
+    let isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    // Firefox 1.0+
+    let isFirefox = typeof InstallTrigger !== 'undefined';
+    // At least Safari 3+: "[object HTMLElementConstructor]"
+    let isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+    // Internet Explorer 6-11
+    let isIE = /*@cc_on!@*/ false || !!document.documentMode;
+    // Edge 20+
+    let isEdge = !isIE && !!window.StyleMedia;
+    // Chrome 1+
+    let isChrome = !!window.chrome && !!window.chrome.webstore;
+    // Blink engine detection
+    let isBlink = (isChrome || isOpera) && !!window.CSS;
+
+    return {
+        isOpera,
+        isFirefox,
+        isSafari,
+        isIE,
+        isEdge,
+        isChrome,
+        isBlink
+    };
+})();
 
 // Endpoints
 export const URLS = {
     layerConfig: [{
         url: "default-data/capabilities.xml",
         type: "wmts/xml"
-    },{
+    }, {
         url: "default-data/layers.json",
         type: "json"
     }],
@@ -22,7 +48,7 @@ export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();
 
 // Date Picker
 let yearArr = [];
-for(let tmpYr = moment(MIN_DATE).format("YYYY"); tmpYr <= moment(MAX_DATE).format("YYYY"); ++tmpYr) { yearArr.push("" + tmpYr); }
+for (let tmpYr = moment(MIN_DATE).format("YYYY"); tmpYr <= moment(MAX_DATE).format("YYYY"); ++tmpYr) { yearArr.push("" + tmpYr); }
 export const YEAR_ARRAY = yearArr;
 export const MONTH_ARRAY = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const DAY_ARRAY = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
