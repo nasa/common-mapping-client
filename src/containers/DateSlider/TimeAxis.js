@@ -123,7 +123,7 @@ export class TimeAxis extends Component {
                 <g id="x-axis"></g>
                 <defs>
                     <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" />
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="1" />
                         <feOffset dx="0" dy="1" />
                         <feMerge>
                             <feMergeNode />
@@ -131,7 +131,7 @@ export class TimeAxis extends Component {
                         </feMerge>
                     </filter>
                 </defs>
-                <path className="timeline-horiz-axis" />
+                <line className="timeline-horiz-axis" y1="14" y2="14" />
                 <SingleDate
                     date={this.props.date}
                     isDragging={this.props.isDragging}

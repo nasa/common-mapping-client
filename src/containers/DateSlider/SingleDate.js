@@ -11,7 +11,7 @@ export class SingleDate extends Component {
         // get D3 wrapper
         this.singleDateD3 = new SingleDateD3({
             selectNode: ReactDOM.findDOMNode(this),
-            symbolWidth: 16,
+            symbolWidth: 20,
             symbolWidthLarge: 26,
             maxX: this.props.maxX,
             minX: this.props.minX,
@@ -48,7 +48,7 @@ export class SingleDate extends Component {
         });
         return (
             <g className={classNames}>
-                <circle className="single-date-inner" cx="0" cy="15" r="8" filter="url(#dropshadowFilter)"/>
+                <circle className="single-date-inner" cx="0" cy="15" r="10" filter="url(#dropshadowFilter)"/>
             </g>
         );
     }
