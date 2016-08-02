@@ -110,7 +110,6 @@ export class MapContainer extends Component {
                 <div id="map2D"></div>
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
                     {
-                        console.log("hi");
                         // Only disable if drawing is enabled
                         if (this.props.isDrawingEnabled) {
                             // Add other dialog checks here?
