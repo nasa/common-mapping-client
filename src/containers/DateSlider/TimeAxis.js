@@ -131,7 +131,7 @@ export class TimeAxis extends Component {
                         </feMerge>
                     </filter>
                 </defs>
-                <path className="timeline-horiz-axis" />
+                <line className="timeline-horiz-axis" y1="14" y2="14" />
                 <SingleDate
                     date={this.props.date}
                     isDragging={this.props.isDragging}

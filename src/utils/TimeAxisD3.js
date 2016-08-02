@@ -84,12 +84,12 @@ export default class TimeAxisD3 {
             .call(this._selection.drag)
             .on("click", () => {
                 if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
-                    this._onClick(d3.event.x);
+                    this._onClick(d3.event.clientX);
                 }
             })
             .on("mousemove", () => {
                 if (typeof this._onHover === "function") {
-                    this._onHover(d3.event.x);
+                    this._onHover(d3.event.clientX);
                 }
             })
             .on("mouseleave", () => {
@@ -136,7 +136,8 @@ export default class TimeAxisD3 {
             .attr('width', this._width);
         // not sure why this is displaced by 5px, I'm assuming some padding somewhere...
         this._selection.select(".timeline-horiz-axis")
-            .attr("d", "M " + (this._margin.left - 5) + ",14, h " + (this._width + 5) + " Z");
+            .attr("x1", this._margin.left - 5)
+            .attr("x2", this._margin.left + this._width);
 
         // configure the axis
         this._selection.select('#x-axis')
