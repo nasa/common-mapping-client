@@ -116,10 +116,11 @@ export default class TimeAxisD3 {
         });
 
         // done entering time to update
+        this.updateAxis();
         this.update();
     }
 
-    update(options = false) {
+    updateAxis() {
         let _context = this;
 
         // update sizes
@@ -141,6 +142,16 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
+        this._selection.selectAll(".tick")
+            .each(function(d, i) {
+                let tick = d3.select(this);
+                _context.formatTick(tick, d);
+            });
+    }
+
+    update(options = false) {
+        let _context = this;
+
         // update the single date display
         this._selection.selectAll(".single-date").each(function() {
             let singleDate = d3.select(this);
@@ -154,12 +165,6 @@ export default class TimeAxisD3 {
                     });
             }
         });
-
-        this._selection.selectAll(".tick")
-            .each(function(d, i) {
-                let tick = d3.select(this);
-                _context.formatTick(tick, d);
-            });
 
         // update the resolution
         this.setResolution(options);
@@ -383,6 +388,7 @@ export default class TimeAxisD3 {
         // this._selection.zoom.translate(cacheTranslate);
 
         options.dateDuration = 0;
+        this.updateAxis();
         this.update(options);
     }
 
