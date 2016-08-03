@@ -53,8 +53,7 @@ export default class TimeAxisD3 {
                 let scrollFlag = 0;
                 let maxX = this._maxX - (this._symbolWidth);
                 let minX = this._minX + (this._symbolWidth / 2);
-                let distFromBucket = (d3.event.x - minX) % 2;
-                let x = d3.event.x - distFromBucket;
+                let x = d3.event.x;
                 if (x >= maxX) {
                     this._selection
                         .attr('x', (d) => maxX)

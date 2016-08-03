@@ -19,7 +19,6 @@
     font-family: "Roboto Mono";
     border-radius: 2px;
     color: $color-light;
-    // border: 2px solid $color-accent;
     border: none;
     transform: translate(-50%, 0px);
     @include medium-shadow();
@@ -36,12 +35,10 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    /*opacity: 0.7;*/
 }
 
 .hover-date-display:after {
     border-color: rgba(0, 0, 0, 0);
-    /*border-top-color: darken($color-accent, 20%);*/
     border-top-color: darken($color-accent, 20%);
     border-width: 10px;
     margin-left: -10px;
@@ -53,10 +50,6 @@
     width: 2px;
     margin-left: -1px;
     border: none;
-    /*background: darken($color-accent, 20%);*/
-    /*border-top-color: $color-accent;*/
-    /*border-width: 13px;*/
-    /*margin-left: -13px;*/
 }
 
 .resolution-step {
@@ -68,12 +61,10 @@
     width: 100%;
     bottom: 0px;
     left: 0px;
-    /*transition: left 0.1s linear 0s;*/
     transition: bottom 0.1s linear 0s;
     height: 50px;
     @include medium-shadow();
     &.collapsed {
-        /*left: -100%;*/
         bottom: -50px;
     }
 }
@@ -119,21 +110,6 @@
         }
         line {
             stroke: $color-medium-dark;
-            &.tick-line-default {
-                stroke: $color-medium-dark;
-            }
-            /*&.tick-line-year {
-                stroke: $color-dark;
-            }
-            &.tick-line-month {
-                stroke: $color-medium-dark;
-            }
-            &.tick-line-day {
-                stroke: $color-medium;
-            }
-            &.tick-line-hour {
-                stroke: $color-medium-light;
-            }*/
         }
     }
     .single-date {

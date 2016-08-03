@@ -231,8 +231,6 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "year";
-            // y1 = "0";
-            // y2 = "-20";
         } // Month
         else if (day === 1 &&
             hour === 0 &&
@@ -240,43 +238,27 @@ export default class TimeAxisD3 {
             seconds === 0 &&
             milliseconds === 0) {
             className = "month";
-            // y1 = "-20";
-            // y2 = "-8";
         } else if (hour === 0 &&
             minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "day";
-            // y1 = "-20";
-            // y2 = "-16";
         } else if (minutes === 0 &&
             seconds === 0 &&
             milliseconds === 0) {
             className = "hour";
-            // y1 = "-20";
-            // y2 = "-20";
         } else if (seconds === 0 &&
             milliseconds === 0) {
             className = "minutes";
-            // y1 = "-20";
-            // y2 = "-20";
         } else if (milliseconds === 0) {
             className = "milliseconds";
-            // y1 = "-20";
-            // y2 = "-20";
         }
         selection.select("text")
             .classed("tick-text-" + className, true);
-        // .style("font-weight", (d) => {
-        //     return fontWeight;
-        // })
-        // .style("fill", (d) => {
-        //     return color;
-        // })
+
         selection.select("line")
             .attr("y1", y1)
             .attr("y2", y2)
-            // .style("stroke", color)
             .classed("tick-line-" + className, true);
     }
 
@@ -352,21 +334,9 @@ export default class TimeAxisD3 {
     }
 
     resize(options) {
-        // Largely based on http://stackoverflow.com/questions/25875316/d3-preserve-scale-translate-after-resetting-range
 
         // update the dimension values
         this.initValues(options);
-
-        // Cache scale
-        // let cacheScale = this._selection.zoom.scale();
-
-        // Cache translate
-        // let cacheTranslate = this._selection.zoom.translate();
-
-        // Cache translate values as percentages/ratio of the full width
-        // let cacheTranslatePerc = this._selection.zoom.translate().map((v, i, a) => {
-        //     return -(v) / this.getScaledWidth();
-        // });
 
         // Manually reset the zoom
         this._selection.zoom.scale(1).translate([0, 0]);
@@ -376,17 +346,6 @@ export default class TimeAxisD3 {
 
         // Apply the updated xFn to the zoom
         this._selection.zoom.x(this._xFn);
-
-        // Revert the scale back to our cached value
-        // this._selection.zoom.scale(cacheScale);
-
-        // Overwrite the cacheTranslate based on our cached percentage
-        // cacheTranslate = cacheTranslate.map((v, i, a) => {
-        //     return -(cacheTranslatePerc[i] * this.getScaledWidth());
-        // });
-
-        // // Finally apply the updated translate
-        // this._selection.zoom.translate(cacheTranslate);
 
         options.dateDuration = 0;
         this.updateAxis();

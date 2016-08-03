@@ -9,6 +9,20 @@ import ColorbarContainer from './ColorbarContainer';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerControlContainer extends Component {
+    shouldComponentUpdate(nextProps) {
+        let nextLayer = nextProps.layer;
+        let currLayer = this.props.layer;
+        return (nextProps.palette !== this.props.palette ||
+            nextLayer.get("title") !== currLayer.get("title") ||
+            nextLayer.get("opacity") !== currLayer.get("opacity") ||
+            nextLayer.get("isActive") !== currLayer.get("isActive") ||
+            nextLayer.get("isChangingPosition") !== currLayer.get("isChangingPosition") ||
+            nextLayer.get("isChangingOpacity") !== currLayer.get("isChangingOpacity") ||
+            nextLayer.get("palette") !== currLayer.get("palette") ||
+            nextLayer.get("min") !== currLayer.get("min") ||
+            nextLayer.get("max") !== currLayer.get("max") ||
+            nextLayer.get("units") !== currLayer.get("units"));
+    }
     changeOpacity(value) {
         let opacity = value / 100.00;
         this.props.actions.setLayerOpacity(this.props.layer, opacity);

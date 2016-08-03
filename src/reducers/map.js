@@ -36,15 +36,15 @@ const setMapViewMode = (state, action) => {
             map.isActive = !mode_3D;
         }
         if (map.isActive) {
-            setTimeout(() => {
-                let prevMapSize = map.getMapSize();
-                if (prevMapSize && (prevMapSize.width === 0 && prevMapSize.height === 0)) {
-                    console.log("HERERERERE");
+            // delay for next animation frame
+            window.requestAnimationFrame(() => {
+                let mapSize = map.getMapSize();
+                if (mapSize && (mapSize.width === 0 && mapSize.height === 0)) {
                     // If map size is 0,0 we resize and then set extent
                     map.resize();
                     map.setExtent(state.getIn(["view", "extent"]).toJS());
                 }
-            }, 0);
+            });
         }
         return map;
     }));

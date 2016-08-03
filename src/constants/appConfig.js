@@ -16,7 +16,7 @@ export const URLS = {
 };
 
 // Time slider
-export const SCRUBBING_UPDATE = false;
+export const SCRUBBING_UPDATE = true;
 export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD").toDate();
 export const MAX_DATE = moment(new Date()).add(3, 'd').toDate();
 
