@@ -105,8 +105,12 @@ export class MapContainer3D extends Component {
             this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
         }
+
+        let containerClass = MiscUtil.generateStringFromSet({
+            "inactive": !this.props.in3DMode
+        });
         return (
-            <div id="mapContainer3D" className={this.props.in3DMode ? "" : "inactive"}>
+            <div id="mapContainer3D" className={containerClass}>
                 <div id="map3D"></div>
             </div>
         );

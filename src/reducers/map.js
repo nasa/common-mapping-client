@@ -38,12 +38,11 @@ const setMapViewMode = (state, action) => {
         if (map.isActive) {
             setTimeout(() => {
                 let prevMapSize = map.getMapSize();
-                map.resize();
-                if (prevMapSize) {
+                if (prevMapSize && (prevMapSize.width === 0 && prevMapSize.height === 0)) {
+                    console.log("HERERERERE");
                     // If map size is 0,0 we resize and then set extent
-                    if (prevMapSize.width === 0 && prevMapSize.height === 0) {
-                        map.setExtent(state.getIn(["view", "extent"]).toJS());
-                    }
+                    map.resize();
+                    map.setExtent(state.getIn(["view", "extent"]).toJS());
                 }
             }, 0);
         }

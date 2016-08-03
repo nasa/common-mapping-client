@@ -96,8 +96,6 @@ export class MapContainer extends Component {
     }
 
     render() {
-        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
-
         // need to get some sort of stored state value
         if (this.props.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
@@ -105,8 +103,12 @@ export class MapContainer extends Component {
             this.listenersInitialized = true;
         }
 
+        let containerClass = MiscUtil.generateStringFromSet({
+            "inactive": this.props.in3DMode
+        });
+
         return (
-            <div id="mapContainer2D" className={this.props.in3DMode ? "inactive" : ""}>
+            <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D"></div>
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
                     {
