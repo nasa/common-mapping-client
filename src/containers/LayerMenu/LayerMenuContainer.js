@@ -41,7 +41,7 @@ export class LayerMenuContainer extends Component {
         }
 
         // scrollbar hack
-        let scrollStyle = appConfig.BROWSER_ID.isFirefox || appConfig.BROWSER_ID.isSafari  ? {"height":"100%"} : {};
+        let scrollStyle = appConfig.BROWSER_ID.isFirefox ? {"height":"100%"} : {};
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
@@ -61,25 +61,32 @@ export class LayerMenuContainer extends Component {
                     </div>
                 </div>
                 <div id="layerMenuContent">
-                    <Scrollbars 
-                        style={scrollStyle}
-                        autoHeight
-                        autoHeightMin={0}
-                        autoHeightMax={"100%"}
-                        renderThumbVertical={renderThumb}
-                        renderTrackHorizontal={renderHorizTrack}>
-                        {layerList.map((layer) =>
-                            <LayerControlContainer
-                                key={layer.get("id") + "_layer_listing"}
-                                layer={layer}
-                                palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
-                            />
-                        )}
-                    </Scrollbars>
+                    {layerList.map((layer) =>
+                        <LayerControlContainer
+                            key={layer.get("id") + "_layer_listing"}
+                            layer={layer}
+                            palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
+                        />
+                    )}
                 </div>
             </div>
         );
     }
+// <Scrollbars 
+//             style={scrollStyle}
+//             autoHeight
+//             autoHeightMin={0}
+//             autoHeightMax={"100%"}
+//             renderThumbVertical={renderThumb}
+//             renderTrackHorizontal={renderHorizTrack}>
+//             {layerList.map((layer) =>
+//                 <LayerControlContainer
+//                     key={layer.get("id") + "_layer_listing"}
+//                     layer={layer}
+//                     palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
+//                 />
+//             )}
+//         </Scrollbars>
 }
 
 LayerMenuContainer.propTypes = {
