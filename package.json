@@ -30,7 +30,6 @@
     "object-assign": "4.0.1",
     "react": "15.0.1",
     "react-addons-css-transition-group": "15.0.2",
-    "react-custom-scrollbars": "4.0.0-beta.2",
     "react-dom": "15.0.1",
     "react-key-handler": "0.2.0",
     "react-redux": "4.4.0",

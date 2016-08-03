@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import { Scrollbars } from 'react-custom-scrollbars';
 import * as appConfig from '../../constants/appConfig';
 import * as mapStrings from '../../constants/mapStrings';
 import * as layerActions from '../../actions/LayerActions';
@@ -21,27 +20,6 @@ export class LayerMenuContainer extends Component {
         let layerMenuClasses = MiscUtil.generateStringFromSet({
             "open": this.props.layerMenuOpen
         });
-
-        // scrollbar rendering
-        let renderThumb = ({ style, ...props }) => {
-            return (
-                <div
-                    style={{ ...style }}
-                    className="scrollbar-thumb"
-                    {...props}
-                />
-            );
-        };
-        let renderHorizTrack = ({style, ...props}) => {
-            return (
-                <div
-                    style={{display:"none"}}
-                />
-            );
-        }
-
-        // scrollbar hack
-        let scrollStyle = appConfig.BROWSER_ID.isFirefox ? {"height":"100%"} : {};
 
         return (
             <div id="layerMenu" className={layerMenuClasses}>
@@ -72,21 +50,6 @@ export class LayerMenuContainer extends Component {
             </div>
         );
     }
-// <Scrollbars 
-//             style={scrollStyle}
-//             autoHeight
-//             autoHeightMin={0}
-//             autoHeightMax={"100%"}
-//             renderThumbVertical={renderThumb}
-//             renderTrackHorizontal={renderHorizTrack}>
-//             {layerList.map((layer) =>
-//                 <LayerControlContainer
-//                     key={layer.get("id") + "_layer_listing"}
-//                     layer={layer}
-//                     palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
-//                 />
-//             )}
-//         </Scrollbars>
 }
 
 LayerMenuContainer.propTypes = {
