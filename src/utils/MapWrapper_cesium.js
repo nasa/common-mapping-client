@@ -85,6 +85,10 @@ export default class MapWrapper_cesium extends MapWrapper {
         return map;
     }
 
+    getMapSize() {
+        return false;
+    }
+
     resize() {
         // this.map.resize();
         return true;

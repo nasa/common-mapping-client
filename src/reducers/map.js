@@ -36,7 +36,14 @@ const setMapViewMode = (state, action) => {
         }
         if (map.isActive) {
             setTimeout(() => {
+                let prevMapSize = map.getMapSize();
                 map.resize();
+                if (prevMapSize) {
+                    // If map size is 0,0 we resize and then set extent
+                    if (prevMapSize.width === 0 && prevMapSize.height === 0) {
+                        map.setExtent(state.getIn(["view", "extent"]).toJS());
+                    }
+                }
             }, 0);
         }
         return map;
@@ -124,6 +131,7 @@ const setViewInfo = (state, action) => {
         return acc;
     }, false);
 
+    // if (anySucceed) {
     if (anySucceed) {
         return state
             .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
@@ -132,7 +140,7 @@ const setViewInfo = (state, action) => {
             .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
-    return state;
+    // return state;
 };
 const zoomIn = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {

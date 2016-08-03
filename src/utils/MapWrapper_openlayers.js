@@ -72,6 +72,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    getMapSize() {
+        var size = this.map.getSize();
+        return { width: size[0], height: size[1] };
+    }
+
     resize() {
         this.map.updateSize();
     }

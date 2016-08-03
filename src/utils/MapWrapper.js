@@ -41,6 +41,11 @@ export default class MapWrapper {
         return false;
     }
 
+    getMapSize() {
+        console.warn("getMapSize not implemented in subclass");
+        return false;
+    }
+
     setExtent() {
         console.warn("setExtent not implemented in subclass");
         return false;
