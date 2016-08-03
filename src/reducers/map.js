@@ -7,6 +7,7 @@ import MapUtil from '../utils/MapUtil.js';
 import MiscUtil from '../utils/MiscUtil.js';
 import * as appStrings from '../constants/appStrings';
 import * as mapStrings from '../constants/mapStrings';
+import * as appConfig from '../constants/appConfig';
 import * as mapConfig from '../constants/mapConfig';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -458,15 +459,24 @@ const activateDefaultLayers = (state, action) => {
 };
 
 const setMapDate = (state, action) => {
+    let date = action.date;
+
     // shortcut non-updates
-    if (action.date === state.get("date")) {
+    if (date === state.get("date")) {
         return state;
+    }
+
+    // make sure we are in bounds
+    if (moment(date).isBefore(moment(appConfig.MIN_DATE))) {
+        date = appConfig.MIN_DATE;
+    } else if(moment(date).isAfter(moment(appConfig.MAX_DATE))) {
+        date = appConfig.MAX_DATE;
     }
 
     // update the layer objects
     state = state.set("layers", state.get("layers").map((layerSection) => {
         return layerSection.map((layer) => {
-            return layer.set("time", moment(action.date).format(layer.get("timeFormat")));
+            return layer.set("time", moment(date).format(layer.get("timeFormat")));
         });
     }));
 
@@ -500,7 +510,7 @@ const setMapDate = (state, action) => {
         })));
     }
 
-    return state.set("date", action.date);
+    return state.set("date", date);
 };
 
 const pixelHover = (state, action) => {

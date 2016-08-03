@@ -2,32 +2,6 @@ import moment from 'moment';
 
 // General
 export const APP_NAME = "RiPTIDE";
-export const BROWSER_ID = (() => {
-    // Opera 8.0+
-    let isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
-    // Firefox 1.0+
-    let isFirefox = typeof InstallTrigger !== 'undefined';
-    // At least Safari 3+: "[object HTMLElementConstructor]"
-    let isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
-    // Internet Explorer 6-11
-    let isIE = /*@cc_on!@*/ false || !!document.documentMode;
-    // Edge 20+
-    let isEdge = !isIE && !!window.StyleMedia;
-    // Chrome 1+
-    let isChrome = !!window.chrome && !!window.chrome.webstore;
-    // Blink engine detection
-    let isBlink = (isChrome || isOpera) && !!window.CSS;
-
-    return {
-        isOpera,
-        isFirefox,
-        isSafari,
-        isIE,
-        isEdge,
-        isChrome,
-        isBlink
-    };
-})();
 
 // Endpoints
 export const URLS = {
