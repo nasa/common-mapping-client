@@ -1,3 +1,5 @@
+# FAQ
+
 ### Quick Installation
 * `npm3 install`
 * `npm start`
