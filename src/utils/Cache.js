@@ -15,8 +15,8 @@ export default class Cache {
 	}
 
 	get(key) {
-		let value = this.activeMap.get(key) || false;
-		if(value) {
+		let value = this.activeMap.get(key);
+		if(typeof value !== "undefined") {
 			return value;
 		}
 		return false;
