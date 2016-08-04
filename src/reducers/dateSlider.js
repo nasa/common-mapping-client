@@ -10,7 +10,9 @@ const beginDragging = (state, action) => {
     return state.set("isDragging", true);
 };
 const endDragging = (state, action) => {
-    return state.set("isDragging", false);
+    return state
+        .set("isDragging", false)
+        .setIn(["hoverDate", "isValid"], false);
 };
 const hoverDate = (state, action) => {
     return state

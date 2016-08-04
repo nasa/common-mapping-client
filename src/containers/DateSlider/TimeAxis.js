@@ -67,19 +67,26 @@ export class TimeAxis extends Component {
         this.props.actions.timelineMouseOut();
     }
     handleTimelineHover(xValue) {
-        let date = this.timeAxisD3.getDateFromX(xValue);
-        this.props.actions.hoverDate(date, xValue);
+        if(!this.props.isDragging) {
+            let date = this.timeAxisD3.getDateFromX(xValue);
+            this.props.actions.hoverDate(date, xValue);
+        }
     }
     handleSingleDateDragStart() {
         this.props.actions.beginDragging();
     }
-    handleSingleDateDragEnd(value) {
-        let newDate = this.timeAxisD3.getDateFromX(value);
-        this.props.actions.dragEnd(newDate);
+    handleSingleDateDragEnd(xValue) {
+        let date = this.timeAxisD3.getDateFromX(xValue);
+        this.props.actions.dragEnd(date);
     }
-    handleSingleDateDragUpdate(value) {
-        let newDate = this.timeAxisD3.getDateFromX(value);
-        this.props.actions.setDate(newDate);
+    handleSingleDateDragUpdate(xValue) {
+        // update if configured
+        let date = this.timeAxisD3.getDateFromX(xValue);
+        this.props.actions.hoverDate(date, xValue);
+        if(appConfig.SCRUBBING_UPDATE) {
+            this.props.actions.setDate(date);
+        }
+
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
@@ -142,10 +149,7 @@ export class TimeAxis extends Component {
                     onDrag={(x, scrollFlag) => {
                         clearInterval(autoScrollInterval);
 
-                        // update if configured
-                        if(appConfig.SCRUBBING_UPDATE) {
-                            this.handleSingleDateDragUpdate(x);
-                        }
+                        this.handleSingleDateDragUpdate(x);
 
                         // handle auto-scrolling
                         if(scrollFlag > 0) {
