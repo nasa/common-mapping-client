@@ -233,6 +233,29 @@ const setLayerActive = (state, action) => {
     return state.set("alerts", alerts);
 };
 
+const setLayerDisabled = (state, action) => {
+    // resolve layer from id if necessary
+    let actionLayer = action.layer;
+    if (typeof actionLayer === "string") {
+        actionLayer = findLayerById(state, actionLayer);
+    }
+
+    if (typeof actionLayer !== "undefined") {
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
+        if (typeof layerList !== "undefined") {
+            let newLayer = actionLayer
+                .set("isDisabled", action.disabled)
+                .set("isChangingOpacity", false)
+                .set("isChangingPosition", false);
+            let index = layerList.findKey((layer) => {
+                return layer.get("id") === actionLayer.get("id");
+            });
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+        }
+    }
+    return state;
+};
+
 const setLayerOpacity = (state, action) => {
     // resolve layer from id if necessary
     let actionLayer = action.layer;
@@ -763,6 +786,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.SET_LAYER_ACTIVE:
             return setLayerActive(state, action);
+
+        case actionTypes.SET_LAYER_DISABLED:
+            return setLayerDisabled(state, action);
 
         case actionTypes.SET_LAYER_OPACITY:
             return setLayerOpacity(state, action);

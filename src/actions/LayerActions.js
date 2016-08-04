@@ -19,6 +19,10 @@ export function setLayerActive(layer, active) {
     return { type: types.SET_LAYER_ACTIVE, layer, active };
 }
 
+export function setLayerDisabled(layer, disabled) {
+    return { type: types.SET_LAYER_DISABLED, layer, disabled };
+}
+
 export function setLayerOpacity(layer, opacity) {
     return { type: types.SET_LAYER_OPACITY, layer, opacity };
 }
