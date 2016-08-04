@@ -141,14 +141,14 @@ export class LayerControlContainer extends Component {
                         <IconButton
                             flat
                             // primary={!this.props.layer.get("isChangingOpacity")}
+                            icon="opacity"
                             accent={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
                             data-tip={!this.props.layer.get("isChangingOpacity") ? "Adjust layer opacity" : null}
                             data-place="left"
-                            onClick={() => this.toggleChangingOpacity()}>
-                            <i className="button-icon ms ms-fw ms-opacity"></i>
-                        </IconButton>
+                            onClick={() => this.toggleChangingOpacity()}
+                        />
                         <IconButton
                             flat
                             // primary
