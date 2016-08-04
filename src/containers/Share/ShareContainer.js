@@ -48,7 +48,7 @@ export class ShareContainer extends Component {
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
 
-        return [activeLayers, opacities, viewMode, basemap, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
+        return [basemap, activeLayers, opacities, viewMode, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
