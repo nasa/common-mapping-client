@@ -7,7 +7,7 @@ import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
 
 export default class MapUtil {
-    
+
     // creates a new object that abstracts a mapping library
     static createMap(type, container, mapOptions) {
         switch (type) {
@@ -22,21 +22,35 @@ export default class MapUtil {
 
     // constrains coordinates to [+-180, +-90]
     static constrainCoordinates(coords) {
+        // check for array of numbers
+        if ((typeof coords !== "object") ||
+            (coords.length !== 2) ||
+            (typeof coords[0] !== "number") ||
+            (typeof coords[1] !== "number")) {
+            return false;
+        }
+
+
         let newCoords = [0, 0];
+
         // constrain x
-        let scale = Math.floor(coords[0] / 180);
-        if (coords[0] < 0) {
-            if (scale % 2 !== 0) {
-                newCoords[0] = coords[0] % 180;
+        if (Math.abs(coords[0]) > 180) {
+            let scale = Math.floor(coords[0] / 180);
+            if (coords[0] < 0) {
+                if (scale % 2 !== 0) {
+                    newCoords[0] = coords[0] % 180;
+                } else {
+                    newCoords[0] = 180 - Math.abs(coords[0] % 180);
+                }
             } else {
-                newCoords[0] = 180 - Math.abs(coords[0] % 180);
+                if (scale % 2 !== 0) {
+                    newCoords[0] = 0 - (180 - Math.abs(coords[0] % 180));
+                } else {
+                    newCoords[0] = coords[0] % 180;
+                }
             }
         } else {
-            if (scale % 2 !== 0) {
-                newCoords[0] = 0 - (180 - Math.abs(coords[0] % 180));
-            } else {
-                newCoords[0] = coords[0] % 180;
-            }
+            newCoords[0] = coords[0];
         }
 
         // constrain y
@@ -74,7 +88,7 @@ export default class MapUtil {
         let context = options.context;
 
         // adjust tileRow
-        if(context === mapStrings.MAP_LIB_2D) {
+        if (context === mapStrings.MAP_LIB_2D) {
             row = -options.row - 1;
         }
 
