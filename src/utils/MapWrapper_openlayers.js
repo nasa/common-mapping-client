@@ -39,7 +39,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     })
                 })
             });
-            vectorLayer["_layerId"] = "_vector_drawings";
+            vectorLayer.set("_layerId", "_vector_drawings");
+            vectorLayer.set("_layerType", mapStrings.LAYER_GROUP_TYPE_REFERENCE);
 
 
             // get the view options for the map

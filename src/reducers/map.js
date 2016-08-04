@@ -433,28 +433,57 @@ const mergeLayers = (state, action) => {
 };
 
 const activateDefaultLayers = (state, action) => {
-    return state.set("layers", state.get("layers").map((layerSet) => {
-        return layerSet.map((layer) => {
-            if (layer.get("isDefault")) {
-                let anySucceed = state.get("maps").reduce((acc, map) => {
-                    if (layer.get("type") === mapStrings.LAYER_GROUP_TYPE_BASEMAP) {
-                        if (map.setBasemap(layer)) {
-                            return true;
-                        }
-                    } else {
-                        if (map.setLayerActive(layer, true)) {
-                            return true;
-                        }
-                    }
-                    return acc;
-                }, false);
-                if (anySucceed) {
-                    return layer.set("isActive", true);
+    // we use an explicit group order to avoid issues with draw initialization
+
+    // activate basemap
+    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]).map((layer) => {
+        if (layer.get("isDefault")) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.setBasemap(layer)) {
+                    return true;
                 }
+                return acc;
+            }, false);
+            if (anySucceed) {
+                return layer.set("isActive", true);
             }
-            return layer;
-        });
+        }
+        return layer;
     }));
+
+    // activate data layers
+    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).map((layer) => {
+        if (layer.get("isDefault")) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.setLayerActive(layer, true)) {
+                    return true;
+                }
+                return acc;
+            }, false);
+            if (anySucceed) {
+                return layer.set("isActive", true);
+            }
+        }
+        return layer;
+    }));
+
+    // activate reference layers
+    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).map((layer) => {
+        if (layer.get("isDefault")) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.setLayerActive(layer, true)) {
+                    return true;
+                }
+                return acc;
+            }, false);
+            if (anySucceed) {
+                return layer.set("isActive", true);
+            }
+        }
+        return layer;
+    }));
+
+    return state;
 };
 
 const setMapDate = (state, action) => {
@@ -468,7 +497,7 @@ const setMapDate = (state, action) => {
     // make sure we are in bounds
     if (moment(date).isBefore(moment(appConfig.MIN_DATE))) {
         date = appConfig.MIN_DATE;
-    } else if(moment(date).isAfter(moment(appConfig.MAX_DATE))) {
+    } else if (moment(date).isAfter(moment(appConfig.MAX_DATE))) {
         date = appConfig.MAX_DATE;
     }
 
