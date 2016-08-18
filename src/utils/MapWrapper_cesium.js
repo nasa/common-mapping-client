@@ -25,8 +25,11 @@ export default class MapWrapper_cesium extends MapWrapper {
         // Create cesium-draw-helper
         this.drawHandler = new this.drawHelper(this.map);
 
-        // Initialize draw-helper interactions array
+        // Initialize custom draw-helper interactions array
         this.drawHandler._customInteractions = {};
+        
+        // Set drawhandler inactive
+        this.drawHandler._isActive = false;
 
         // store limits for zoom
         this.zoomLimits = {
@@ -259,8 +262,17 @@ export default class MapWrapper_cesium extends MapWrapper {
     disableDrawing() {
         // Stop drawing
         this.drawHandler.stopDrawing();
+
+        // Mute draw handlers
+        // this.drawHandler.muteHandlers(true);
         return true;
     }
+
+    enableActiveListeners(active) {
+        this.drawHandler._isActive = active;
+        return true;
+    }
+
     cartesianToCartographic(point) {
         console.warn("Cesium cartesianToCartographic should be moved into MapUtils");
         let cartographicRadians = this.cesium.Ellipsoid.WGS84.cartesianToCartographic(point);
@@ -269,6 +281,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
         }
     }
+
     addGeometry(geometry) {
         if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
             let cesiumCenter = null;

@@ -39,12 +39,15 @@ const setMapViewMode = (state, action) => {
             // delay for next animation frame
             window.requestAnimationFrame(() => {
                 let mapSize = map.getMapSize();
+                map.enableActiveListeners(true);
                 if (mapSize && (mapSize.width === 0 && mapSize.height === 0)) {
                     // If map size is 0,0 we resize and then set extent
                     map.resize();
                     map.setExtent(state.getIn(["view", "extent"]).toJS());
                 }
             });
+        } else {
+            map.enableActiveListeners(false);
         }
         return map;
     }));

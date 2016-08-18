@@ -23,6 +23,10 @@ export default class MapWrapper {
         console.warn("enableDrawing not implemented in subclass");
         return false;
     }
+    enableActiveListeners(active){
+        console.warn("enableActiveListeners not implemented in subclass");
+        return false;
+    }
     disableDrawing() {
         console.warn("disableDrawing not implemented in subclass");
         return false;

@@ -18,6 +18,7 @@ var DrawHelper = (function() {
         this._scene = cesiumWidget.scene;
         this._tooltip = createTooltip(cesiumWidget.container);
         this._surfaces = [];
+        this._isActive = false;
 
         this.initialiseHandlers();
 
@@ -32,7 +33,7 @@ var DrawHelper = (function() {
         var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         function callPrimitiveCallback(name, position) {
-            if (_self._handlersMuted == true) return;
+            if (_self._handlersMuted == true || !_self._isActive) return;
             try {
                 var pickedObject = scene.pick(position);
             } catch (err) {
@@ -53,7 +54,7 @@ var DrawHelper = (function() {
         var mouseOutObject;
         handler.setInputAction(
             function(movement) {
-                if (_self._handlersMuted == true) return;
+                if (_self._handlersMuted == true || !_self._isActive) return;
                 if (scene.isDestroyed()) {
                     return;
                 }

@@ -270,7 +270,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
         });
         return true;
+    }
 
+    enableActiveListeners(active) {
+        return false;
     }
 
     addGeometry(geometry) {

@@ -36,6 +36,7 @@ export class MapContainer3D extends Component {
                 // Disable drawing
                 this.props.actions.disableDrawing();
 
+
                 let cartesianCoordinates = coordinates.map((pos) => {
                     return map.cartesianToCartographic(pos);
                 });
@@ -54,6 +55,8 @@ export class MapContainer3D extends Component {
                 // Draw end
                 // Disable drawing
                 this.props.actions.disableDrawing();
+
+
                 let cartesianCoordinates = coordinates.map((pos) => {
                     return map.cartesianToCartographic(pos);
                 });
@@ -105,6 +108,8 @@ export class MapContainer3D extends Component {
             this.initializeMapDrawHandlers();
             this.listenersInitialized = true;
         }
+
+        this.pauseDrawHandlers
 
         let containerClass = MiscUtil.generateStringFromSet({
             "inactive": !this.props.in3DMode
