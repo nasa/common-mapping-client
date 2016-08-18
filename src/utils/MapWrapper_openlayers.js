@@ -25,11 +25,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 source: vectorSource,
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.2)'
+                        color: mapConfig.GEOMETRY_FILL_COLOR
                     }),
                     stroke: new ol.style.Stroke({
-                        color: 'rgba(255, 204, 0, 1)',
-                        width: 2
+                        color: mapConfig.GEOMETRY_STROKE_COLOR,
+                        width: mapConfig.GEOMETRY_STROKE_WEIGHT
                     }),
                     image: new ol.style.Circle({
                         radius: 7,
