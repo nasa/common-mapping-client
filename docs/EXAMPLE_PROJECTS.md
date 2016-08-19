@@ -8,7 +8,7 @@
 * Mobile interface example
 * Dark theme example
 * Display 3D model
-* Flying tour
+* Flying tour + Cesium VR
 * Game controls
 * Custom Cesium ellipsoid
 * Disabling 2D or 3D map
