@@ -723,6 +723,34 @@ const addGeometryToMap = (state, action) => {
     return state.set("alerts", alerts);
 };
 
+const removeAllGeometries = (state, action) => {
+    let alerts = state.get("alerts");
+    // Add geometry to each inactive map
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.removeAllGeometries()) {
+            return true;
+        } else {
+            let contextStr = map.is3D ? "3D" : "2D";
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.title,
+                body: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.formatString.replace("{MAP}", contextStr),
+                severity: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.severity,
+                time: new Date()
+            }));
+        }
+        return acc;
+    }, false);
+
+    // if (anySucceed) {
+    //     return state
+    // .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
+    // .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
+    // .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
+    // .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
+    // }
+    return state.set("alerts", alerts);
+};
+
 const resetApplicationState = (state, action) => {
     let newState = state;
 
@@ -864,6 +892,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.ADD_GEOMETRY_TO_MAP:
             return addGeometryToMap(state, action);
+
+        case actionTypes.REMOVE_ALL_GEOMETRIES:
+            return removeAllGeometries(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);

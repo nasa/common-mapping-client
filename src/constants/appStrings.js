@@ -37,6 +37,11 @@ export const ALERTS = {
         formatString: "Synchronizing geometry on the {MAP} map failed.",
         severity: 3
     },
+    GEOMETRY_REMOVAL_FAILED: {
+        title: "Shape Removal Failed",
+        formatString: "Removal of all shapes from the {MAP} map failed.",
+        severity: 3
+    },
     VIEW_SYNC_FAILED: {
         title: "View Sync Failed",
         formatString: "Synchronizing the view on the {MAP} map failed.",

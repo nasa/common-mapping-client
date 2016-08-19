@@ -67,3 +67,6 @@ export function disableDrawing() {
 export function addGeometryToMap(geometry) {
     return { type: types.ADD_GEOMETRY_TO_MAP, geometry };
 }
+export function removeAllGeometries() {
+    return { type: types.REMOVE_ALL_GEOMETRIES };
+}

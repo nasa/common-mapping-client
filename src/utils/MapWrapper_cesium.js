@@ -364,6 +364,11 @@ export default class MapWrapper_cesium extends MapWrapper {
         return false;
     }
 
+    removeAllGeometries() {
+        this.drawHandler._scene.primitives.removeAll();
+        return this.drawHandler._scene.primitives.length === 0;
+    }
+
     addEventListener(eventStr, callback) {
         try {
             switch (eventStr) {

@@ -41,6 +41,13 @@ export class ToolsContainer extends Component {
                     data-place="right">
                     <i className="ms ms-polygon"/>
                 </IconButton>
+                <IconButton
+                    neutral
+                    onClick={() => {this.props.actions.removeAllGeometries()}}
+                    data-tip="Delete All Shapes"
+                    data-place="right"
+                    icon="delete">
+                </IconButton>
             </div>
         );
     }

@@ -35,6 +35,10 @@ export default class MapWrapper {
         console.warn("addGeometry not implemented in subclass");
         return false;
     }
+    removeAllGeometries(){
+        console.warn("removeAllGeometries not implemented in subclass");
+        return false;
+    }
     getCenter() {
         console.warn("getCenter not implemented in subclass");
         return false;

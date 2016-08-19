@@ -338,6 +338,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
+    removeAllGeometries() {
+        let mapLayers = this.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        if (!mapLayer) {
+            console.warn("could not remove all geometries in openlayers map");
+
+            return false;
+        }
+        mapLayer.getSource().clear();
+        return mapLayer.getSource().getFeatures().length === 0;
+    }
+
     findInteractionsWithKey(id) {
         // TODO use MISCUTIL FN
         let mapInteractions = this.map.getInteractions();
