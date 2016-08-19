@@ -783,6 +783,9 @@ const resetApplicationState = (state, action) => {
     // set date to today
     newState = setMapDate(newState, { date: mapConfig.DEFAULT_DATE });
 
+    // Remove all user vector geometries
+    newState = removeAllGeometries(newState, {})
+
     return newState;
 };
 
