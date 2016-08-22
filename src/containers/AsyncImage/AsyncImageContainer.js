@@ -7,11 +7,25 @@ import * as actions from '../../actions/AppActions';
 
 export class AsyncImageContainer extends Component {
     componentDidMount() {
+        console.log("did mount")
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
+        let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
+        imgLoader.onload = null;
+        // imgLoader.src = "";
+        imgDest.style.backgroundImage = "";
+
+
+        // let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
         let imgSrc = imgLoader.getAttribute('src');
-        // let img = new window.Image();
         imgLoader.onload = () => { this.onImageLoad(); };
         imgLoader.src = imgSrc;
+
+    }
+    componentWillUpdate(nextProps, nextState) {
+        // Here we can catch props that are changing when component doesn't actually unmount
+        console.log(this.className,"????", nextProps, nextState)
+        let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
+        imgDest.style.backgroundImage = "";
     }
     componentWillUnmount() {
         this.destroyLoader();
@@ -29,6 +43,7 @@ export class AsyncImageContainer extends Component {
         imgLoader.onload = null;
         imgLoader.src = "";
         imgDest.style.backgroundImage = "";
+        console.log("loader destroyed", imgDest)
     }
     render() {
         return (
