@@ -72,9 +72,16 @@ export default class MiscUtil {
         let rgbParts = colorStr.match(rgbExp);
 
         if (rgbParts && rgbParts.length >= 3) {
-            let hexStr = ("0" + parseInt(rgbParts[0], 10).toString(16)).slice(-2) +
-                ("0" + parseInt(rgbParts[1], 10).toString(16)).slice(-2) +
-                ("0" + parseInt(rgbParts[2], 10).toString(16)).slice(-2);
+            // Parse string array to int array
+            let rgbPartsInt = rgbParts.map(x => parseInt(x, 10));
+
+            // Validate rgb components are [0-255]
+            if (rgbPartsInt.some(x => x < 0 && x > 255)) {
+                return "";
+            }
+            let hexStr = ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
+                ("0" + rgbPartsInt[1].toString(16)).slice(-2) +
+                ("0" + rgbPartsInt[2].toString(16)).slice(-2);
             return this.formatHex(hexStr);
         }
         return "";

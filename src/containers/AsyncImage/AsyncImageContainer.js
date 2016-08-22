@@ -23,7 +23,6 @@ export class AsyncImageContainer extends Component {
     }
     componentWillUpdate(nextProps, nextState) {
         // Here we can catch props that are changing when component doesn't actually unmount
-        console.log(this.className,"????", nextProps, nextState)
         let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
         imgDest.style.backgroundImage = "";
     }

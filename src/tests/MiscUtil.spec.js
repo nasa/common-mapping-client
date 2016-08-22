@@ -206,6 +206,62 @@ describe('Misc Utils', () => {
             //assert
             expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
+        it('returns empty string with empty input', () => {
+            // DEFINE VARS
+            let varIn = "";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with null input', () => {
+            // DEFINE VARS
+            let varIn = null;
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with bad input rgb characters', () => {
+            // DEFINE VARS
+            let varIn = "rgb(a,2,3)";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with input of two numbers', () => {
+            // DEFINE VARS
+            let varIn = "1,2";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with input of one character', () => {
+            // DEFINE VARS
+            let varIn = "a";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with input of bad hex string', () => {
+            // DEFINE VARS
+            let varIn = "#10012";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
+        it('returns empty string with input of out of range rgb string', () => {
+            // DEFINE VARS
+            let varIn = "rgb(0,-1,400)";
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+        });
     });
     describe('parseUrlHashString', () => {
         it('returns an array of objects representing the key/value pairs in a url format hash string', () => {

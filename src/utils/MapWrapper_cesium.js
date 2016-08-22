@@ -93,7 +93,6 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     resize() {
-        // this.map.resize();
         return true;
     }
 
@@ -262,24 +261,12 @@ export default class MapWrapper_cesium extends MapWrapper {
     disableDrawing() {
         // Stop drawing
         this.drawHandler.stopDrawing();
-
-        // Mute draw handlers
-        // this.drawHandler.muteHandlers(true);
         return true;
     }
 
     enableActiveListeners(active) {
         this.drawHandler._isActive = active;
         return true;
-    }
-
-    cartesianToCartographic(point) {
-        console.warn("Cesium cartesianToCartographic should be moved into MapUtils");
-        let cartographicRadians = this.cesium.Ellipsoid.WGS84.cartesianToCartographic(point);
-        return {
-            lat: this.cesium.Math.toDegrees(cartographicRadians.latitude),
-            lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
-        }
     }
 
     addGeometry(geometry) {
@@ -603,10 +590,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         return false;
     }
 
-    latLonToCartesian(lat, lon) {
-        console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil and write tests");
-        return new this.cesium.Cartesian3.fromDegrees(lon, lat);
-    }
+    
 
     getLatLonFromPixelCoordinate(pixel) {
         try {
@@ -710,6 +694,20 @@ export default class MapWrapper_cesium extends MapWrapper {
 
 
     /* methods for Cesium only */
+    cartesianToCartographic(point) {
+        console.warn("Cesium cartesianToCartographic should be moved into MapUtils");
+        let cartographicRadians = this.cesium.Ellipsoid.WGS84.cartesianToCartographic(point);
+        return {
+            lat: this.cesium.Math.toDegrees(cartographicRadians.latitude),
+            lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
+        }
+    }
+    
+    latLonToCartesian(lat, lon) {
+        console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil?");
+        return new this.cesium.Cartesian3.fromDegrees(lon, lat);
+    }
+
     createImageryProvider(layer, options) {
         switch (layer.get("handleAs")) {
             case mapStrings.LAYER_GIBS:
