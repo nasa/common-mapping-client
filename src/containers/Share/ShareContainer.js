@@ -30,9 +30,6 @@ const GooglePlusIcon = () => (
 );
 
 export class ShareContainer extends Component {
-    componentWillMount() {
-        this.numRenders = 1;
-    }
     focusTextArea() {
         this.urlText.focus();
         this.urlText.select();
