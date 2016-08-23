@@ -713,13 +713,6 @@ const addGeometryToMap = (state, action) => {
         return acc;
     }, false);
 
-    // if (anySucceed) {
-    //     return state
-    // .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-    // .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
-    // .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
-    // .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
-    // }
     return state.set("alerts", alerts);
 };
 
@@ -741,13 +734,6 @@ const removeAllGeometries = (state, action) => {
         return acc;
     }, false);
 
-    // if (anySucceed) {
-    //     return state
-    // .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-    // .setIn(["view", "center"], action.viewInfo.center || state.getIn(["view", "center"]))
-    // .setIn(["view", "extent"], action.viewInfo.extent || state.getIn(["view", "extent"]))
-    // .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
-    // }
     return state.set("alerts", alerts);
 };
 
