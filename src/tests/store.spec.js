@@ -8,6 +8,7 @@ import rootReducer from '../reducers';
 import { mapState, layerModel, paletteModel } from '../reducers/models/map';
 import { asyncState } from '../reducers/models/async';
 import { helpState } from '../reducers/models/help';
+import { shareState } from '../reducers/models/share';
 import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { viewState } from '../reducers/models/view';
@@ -20,6 +21,7 @@ const initialState = {
     asyncronous: asyncState,
     help: helpState,
     settings: settingsState,
+    share: shareState,
     dateSlider: dateSliderState
 };
 
@@ -75,6 +77,33 @@ describe('Store', function() {
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
+    it('open -> close -> open share.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.OPEN_SHARE },
+            { type: actionTypes.CLOSE_SHARE },
+            { type: actionTypes.OPEN_SHARE }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            share: shareState.set("isOpen", true),
+            settings: settingsState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
     it('resets application state correctly', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -120,8 +149,8 @@ describe('Store', function() {
             dateSlider: dateSliderState.set("resolution", appStrings.DATE_SLIDER_RESOLUTIONS.YEARS).set("isSelectingResolution", false)
         };
 
-        console.log("ACTUAL\n", JSON.stringify(actual.map.remove("maps").toJS()));
-        console.log("EXPECTED\n", JSON.stringify(expected.map.toJS()));
+        // console.log("ACTUAL\n", JSON.stringify(actual.map.remove("maps").toJS()));
+        // console.log("EXPECTED\n", JSON.stringify(expected.map.toJS()));
 
         // console.log("ACTUAL\n",JSON.stringify(actual.dateSlider.toJS()));
         // console.log("EXPECTED\n",JSON.stringify(expected.dateSlider.toJS()));
