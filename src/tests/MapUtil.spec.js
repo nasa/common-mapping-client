@@ -93,13 +93,13 @@ describe('Map Utils', () => {
             let varIn = {
                 url: "http://fakeTile.com/getTile/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}",
                 layerId: "layerId",
-                tileMatrixSet: "tileMatrixSet",
+                tileMatrixSet: "tileMatrixSetStr",
                 col: 0,
                 row: 0,
                 level: 0,
                 format: "format"
             };
-            let varOut = 'http://fakeTile.com/getTile/tileMatrixSet/0/0/0';
+            let varOut = 'http://fakeTile.com/getTile/tileMatrixSetStr/0/0/0';
 
             //assert
             expect(MapUtil.buildTileUrl(varIn)).to.equal(varOut);

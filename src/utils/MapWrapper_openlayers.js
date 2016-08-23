@@ -290,7 +290,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius / ol.proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
             } else {
-                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers circle");
+                console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers circle");
                 return false;
             }
             let circleFeature = new ol.Feature({
@@ -306,7 +306,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return [x.lon, x.lat]
                 }));
             } else {
-                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers lineString");
+                console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers lineString");
                 return false;
             }
             let lineStringFeature = new ol.Feature({
@@ -327,7 +327,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 // Put these coordinates into a ring by adding to array
                 polygonGeom = new ol.geom.Polygon([newCoords]);
             } else {
-                console.warn("Unsupported geometry coordinateType", geometry.coordinateType, "for openlayers polygon");
+                console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers polygon");
                 return false;
             }
             let polygonFeature = new ol.Feature({
