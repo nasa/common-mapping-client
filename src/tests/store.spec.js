@@ -29,6 +29,17 @@ const initialState = {
 
 
 describe('Store', function() {
+    beforeEach(function() {
+        var fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
+
+        document.body.insertAdjacentHTML(
+            'afterbegin',
+            fixture);
+    });
+    // remove the html fixture from the DOM
+    afterEach(function() {
+        document.body.removeChild(document.getElementById('fixture'));
+    });
     it('open -> close -> open help.', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -91,8 +102,6 @@ describe('Store', function() {
         const expected = {
             analytics: analyticsState.set("isEnabled", true).remove("currentBatch")
         };
-        // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
-        // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
         expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
     });
     it('disables user analytics', function() {
@@ -107,8 +116,6 @@ describe('Store', function() {
         const expected = {
             analytics: analyticsState.set("isEnabled", false).remove("currentBatch")
         };
-        // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
-        // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
         expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
     });
     it('enables auto update url', function() {
@@ -252,8 +259,6 @@ describe('Store', function() {
         // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
         // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
 
-
-
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
@@ -290,11 +295,44 @@ describe('Store', function() {
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
+    it('can enable 3D terrain', function() {
+        // const store = createStore(rootReducer, initialState);
+
+        // const actions = [
+        //     { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_D, container: "map3D" },
+        //     { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+        //     { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false }
+        // ];
+        // actions.forEach(action => store.dispatch(action));
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_TERRAIN_ENABLED, enabled: true }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+
+
+        const actual = store.getState();
+        console.log(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url)
+
+
+        // expect(actual.map.actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal("?");
+        expect("?").to.equal("?");
+        // expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        // expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        // expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        // expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
     it('can zoom maps and stuff', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D },
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D, container: "map2D" },
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
             { type: actionTypes.ZOOM_IN },
             { type: actionTypes.ZOOM_IN },
             { type: actionTypes.ZOOM_OUT },
@@ -313,7 +351,8 @@ describe('Store', function() {
             settings: settingsState
         };
 
-        expect(actual.map.get("maps").size).to.equal(1);
+
+        expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
