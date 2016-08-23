@@ -36,7 +36,7 @@ const setFullScreen = (state, action) => {
 };
 
 const resetApplicationState = (state, action) => {
-    return setLayerMenuOpen(state, {open: false});
+    return setLayerMenuOpen(state, {open: true});
 };
 
 export default function view(state = viewState, action) {
