@@ -106,8 +106,8 @@ const setMapView = (state, action) => {
     if (anySucceed) {
         return state
             .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-            .setIn(["view", "center"], Immutable.List(action.viewInfo.center) || state.getIn(["view", "center"]))
-            .setIn(["view", "extent"], Immutable.List(action.viewInfo.extent) || state.getIn(["view", "extent"]))
+            .setIn(["view", "center"], action.viewInfo.center ? Immutable.List(action.viewInfo.center) : state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], action.viewInfo.extent ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
             .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
@@ -782,6 +782,9 @@ const resetApplicationState = (state, action) => {
 
     // set date to today
     newState = setMapDate(newState, { date: mapConfig.DEFAULT_DATE });
+
+    // set scale units
+    newState = setScaleUnits(newState, { units: mapConfig.DEFAULT_SCALE_UNITS });
 
     // Remove all user vector geometries
     newState = removeAllGeometries(newState, {})
