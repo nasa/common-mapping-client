@@ -263,6 +263,40 @@ describe('Misc Utils', () => {
             expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
     });
+    describe('objectToUrlParams', () => {
+        it('returns a string representing the key/value pairs in an object - strings', () => {
+            // DEFINE VARS
+            let varIn = Immutable.Map({
+                service: 'A',
+                version: 'BB',
+                request: 'CCC'
+            });
+            let varOut = "service=A&version=BB&request=CCC";
+
+            //assert
+            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+        });
+        it('returns a string representing the key/value string pairs in an object - arrays', () => {
+            // DEFINE VARS
+            let varIn = Immutable.Map({
+                service: [12,3],
+                version: ["A","B"],
+                request: []
+            });
+            let varOut = "service=12,3&version=A,B&request=";
+
+            //assert
+            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+        });
+        it('returns a string representing the key/value string pairs in an object - empty', () => {
+            // DEFINE VARS
+            let varIn = Immutable.Map({});
+            let varOut = "";
+
+            //assert
+            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+        });
+    })
     describe('parseUrlHashString', () => {
         it('returns an array of objects representing the key/value pairs in a url format hash string', () => {
             // DEFINE VARS
