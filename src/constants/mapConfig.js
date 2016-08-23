@@ -4,6 +4,7 @@ import * as mapStrings from './mapStrings';
 export const DEFAULT_PROJECTION = mapStrings.PROJECTIONS.latlon;
 export const DEFAULT_CENTER = [0, 0];
 export const DEFAULT_ZOOM = 3;
+export const DEFAULT_SCALE_UNITS = 'metric';
 export const MIN_ZOOM = 2;
 export const MAX_ZOOM = 10000;
 export const MAX_ZOOM_DISTANCE_3D = 26000000.0;

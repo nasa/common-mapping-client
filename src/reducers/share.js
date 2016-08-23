@@ -18,7 +18,7 @@ const setAutoUpdateUrl = (state, action) => {
     return state.set("autoUpdateUrl", action.autoUpdateUrl);
 };
 
-export default function help(state = shareState, action) {
+export default function share(state = shareState, action) {
     switch (action.type) {
         case actionTypes.OPEN_SHARE:
             return openShare(state, action);
