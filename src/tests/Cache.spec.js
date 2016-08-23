@@ -6,7 +6,8 @@ describe('Cache', () => {
         it('Set adds an arbitrary key/value mapped entry to the cache.' +
             'Get takes a key and retrieves the mapped value if it hasn\'t ' +
             'been ejected, false otherwise', () => {
-            let cache = new Cache(3);
+            let limit = 3;
+            let cache = new Cache(limit);
             cache.set("a", 1);
             cache.set(3, [1]);
             cache.set("c", {a: 1});
@@ -16,11 +17,13 @@ describe('Cache', () => {
             expect(cache.get(3)).to.deep.equal([1]);
             expect(cache.get("c")).to.deep.equal({a:1});
             expect(cache.get("d")).to.deep.equal(false);
+            expect(cache.getSize()).to.equal(limit);
         });
     });
     describe('Ejection', () => {
         it('Adds key/value pairs up the specified limit then ejects entries in FIFO order', () => {
-            let cache = new Cache(3);
+            let limit = 3;
+            let cache = new Cache(limit);
             cache.set("a", 1);
             cache.set(3, [1]);
             cache.set("c", {a: 1});
@@ -35,9 +38,10 @@ describe('Cache', () => {
             expect(cache.get("d")).to.deep.equal({a:2});
             expect(cache.get("e")).to.equal(44);
             expect(cache.get("f")).to.equal("power pack");
+            expect(cache.getSize()).to.equal(limit);
         });
     });
-    describe('Limit', () => {
+    describe('Limit and Size', () => {
         it('Allows for arbitrary limit', () => {
             let limit = 4321;
             let cache = new Cache(limit);
@@ -48,6 +52,43 @@ describe('Cache', () => {
             for(let i = 0; i < limit; ++i){
                 expect(cache.get(i)).to.equal(-i);
             }
+            expect(cache.getLimit()).to.equal(limit);
+            expect(cache.getSize()).to.equal(limit);
+        });
+        it('defaults to a limit of 0 if given a non-number or negative limit', () => {
+            let cacheA = new Cache(-1);
+            let cacheB = new Cache("aa");
+
+            let limit = 10;
+            for(let i = 0; i < limit; ++i){
+                cacheA.set(i, -i);
+                cacheB.set(i, -i);
+            }
+
+            for(let i = 0; i < limit; ++i){
+                expect(cacheA.get(i)).to.equal(false);
+                expect(cacheB.get(i)).to.equal(false);
+            }
+            expect(cacheA.getLimit()).to.equal(0);
+            expect(cacheB.getSize()).to.equal(0);
+        });
+        it('size reflects current usage, limit is max usage', () => {
+            let limit = 10;
+            let cache = new Cache(limit);
+
+            // fill half the cache
+            for(let i = 0; i < limit / 2; ++i){
+                cache.set(i, -i);
+            }
+
+            // check the filled half
+            for(let i = 0; i < limit / 2; ++i){
+                expect(cache.get(i)).to.equal(-i);
+            }
+
+            // check limit and size
+            expect(cache.getLimit()).to.equal(limit);
+            expect(cache.getSize()).to.equal(limit / 2);
         });
     });
 });
