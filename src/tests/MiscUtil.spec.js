@@ -279,8 +279,8 @@ describe('Misc Utils', () => {
         it('returns a string representing the key/value string pairs in an object - arrays', () => {
             // DEFINE VARS
             let varIn = Immutable.Map({
-                service: [12,3],
-                version: ["A","B"],
+                service: [12, 3],
+                version: ["A", "B"],
                 request: []
             });
             let varOut = "service=12,3&version=A,B&request=";
@@ -296,7 +296,7 @@ describe('Misc Utils', () => {
             //assert
             expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
         });
-    })
+    });
     describe('parseUrlHashString', () => {
         it('returns an array of objects representing the key/value pairs in a url format hash string', () => {
             // DEFINE VARS
