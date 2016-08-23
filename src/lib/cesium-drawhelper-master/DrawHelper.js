@@ -1907,3 +1907,4 @@ var DrawHelper = (function() {
 
     return _;
 })();
+window.DrawHelper = DrawHelper;
