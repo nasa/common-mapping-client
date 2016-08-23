@@ -11,6 +11,7 @@ import { helpState } from '../reducers/models/help';
 import { shareState } from '../reducers/models/share';
 import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
+import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import MapUtil from '../utils/MapUtil.js';
 
@@ -22,7 +23,8 @@ const initialState = {
     help: helpState,
     settings: settingsState,
     share: shareState,
-    dateSlider: dateSliderState
+    dateSlider: dateSliderState,
+    analytics: analyticsState
 };
 
 
@@ -77,6 +79,93 @@ describe('Store', function() {
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
+    it('enables user analytics', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_ANALYTICS_ENABLED, isEnabled: true }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            analytics: analyticsState.set("isEnabled", true).remove("currentBatch")
+        };
+        // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
+        // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
+        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
+    });
+    it('disables user analytics', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_ANALYTICS_ENABLED, isEnabled: false }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            analytics: analyticsState.set("isEnabled", false).remove("currentBatch")
+        };
+        // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
+        // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
+        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
+    });
+    it('enables auto update url', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_AUTO_UPDATE_URL, autoUpdateUrl: true }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            share: shareState.set("autoUpdateUrl", true)
+        };
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+    });
+    it('disables auto update url', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_AUTO_UPDATE_URL, autoUpdateUrl: false }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            share: shareState.set("autoUpdateUrl", false)
+        };
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+    });
+    // it('should auto update url if setting enabled.', function() {
+    //     const store = createStore(rootReducer, initialState);
+
+    //     const targetDate = new Date("2015-05-20");
+    //     const actions = [
+    //         { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D },
+    //         { type: actionTypes.OPEN_SHARE },
+    //         { type: actionTypes.CLOSE_SHARE },
+    //         { type: actionTypes.SET_AUTO_UPDATE_URL, autoUpdateUrl: true },
+    //         { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false },
+    //         { type: actionTypes.SET_MAP_DATE, date: targetDate }
+    //     ];
+    //     actions.forEach(action => store.dispatch(action));
+
+    //     const actual = store.getState();
+    //     const expected = {
+    //         view: viewState,
+    //         asyncronous: asyncState,
+    //         share: shareState
+    //     };
+    //     console.log(window.location.href);
+
+    //     // expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+    //     expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+    //     expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+    //     expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+    // });
     it('open -> close -> open share.', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -146,6 +235,8 @@ describe('Store', function() {
             asyncronous: asyncState,
             help: helpState,
             settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
             dateSlider: dateSliderState.set("resolution", appStrings.DATE_SLIDER_RESOLUTIONS.YEARS).set("isSelectingResolution", false)
         };
 
@@ -158,16 +249,21 @@ describe('Store', function() {
         // console.log("ACTUAL\n",JSON.stringify(actual.view.toJS()));
         // console.log("EXPECTED\n",JSON.stringify(expected.view.toJS()));
 
+        // console.log("ACTUAL\n",JSON.stringify(actual.analytics.remove("currentBatch").toJS()));
+        // console.log("EXPECTED\n",JSON.stringify(expected.analytics.remove("currentBatch").toJS()));
+
 
 
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        // expect(JSON.stringify(actual.map.remove("maps").toJS())).to.deep.equal(JSON.stringify(expected.map.toJS()));
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
     });
+
     it('initializes maps', function() {
         const store = createStore(rootReducer, initialState);
 

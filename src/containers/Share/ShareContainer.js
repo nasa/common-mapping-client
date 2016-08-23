@@ -112,6 +112,7 @@ export class ShareContainer extends Component {
     }
 
     render() {
+        console.log("render");
         let shareQuery = this.generateShareQuery();
         let shareUrl = "http://" + window.location.host + "#" + shareQuery;
         if(this.props.autoUpdateUrl) {
