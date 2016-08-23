@@ -1,3 +1,4 @@
+
 // Karma configuration
 // Generated on Wed Jun 22 2016 10:25:33 GMT-0700 (PDT)
 var webpack = require('webpack');
@@ -85,7 +86,8 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['PhantomJS'],
+        // browsers: ['PhantomJS','Chrome'],
+        browsers: ['Chrome'],
 
 
         // Continuous Integration mode
