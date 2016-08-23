@@ -2,23 +2,36 @@ import Immutable from 'immutable';
 
 export default class Cache {
 	constructor(limit) {
-		this.limit = limit;
-		this.activeMap = Immutable.OrderedMap();
+		// type and range checks on limit
+		if(typeof limit !== "number" || limit < 0) {
+			limit = 0;
+		}
+
+		this._limit = Math.floor(limit);
+		this._activeMap = Immutable.OrderedMap();
 	}
 
 	set(key, value) {
-		this.activeMap = this.activeMap.set(key, value);
-		if(this.activeMap.size > this.limit) {
-			let firstAdded = this.activeMap.keySeq().first();
-			this.activeMap = this.activeMap.delete(firstAdded);
+		this._activeMap = this._activeMap.set(key, value);
+		if(this._activeMap.size > this._limit) {
+			let firstAdded = this._activeMap.keySeq().first();
+			this._activeMap = this._activeMap.delete(firstAdded);
 		}
 	}
 
 	get(key) {
-		let value = this.activeMap.get(key);
+		let value = this._activeMap.get(key);
 		if(typeof value !== "undefined") {
 			return value;
 		}
 		return false;
+	}
+
+	getSize() {
+		return this._activeMap.size;
+	}
+
+	getLimit() {
+		return this._limit;
 	}
 }

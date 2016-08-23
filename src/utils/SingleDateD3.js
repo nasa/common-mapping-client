@@ -7,17 +7,17 @@ export default class TimeAxisD3 {
 
     initValues(options) {
         // extract values
-        this._selectNode = options.selectNode || this._selectNode;
-        this._symbolWidth = options.symbolWidth || this._symbolWidth;
-        this._symbolWidthLarge = options.symbolWidthLarge || this._symbolWidthLarge;
-        this._maxX = options.maxX || this._maxX;
-        this._minX = options.minX || this._minX;
-        this._beforeDrag = options.beforeDrag || this._beforeDrag;
-        this._onDrag = options.onDrag || this._onDrag;
-        this._afterDrag = options.afterDrag || this._afterDrag;
+        this._selectNode = typeof options.selectNode !== "undefined" ?  options.selectNode : this._selectNode;
+        this._symbolWidth = typeof options.symbolWidth !== "undefined" ?  options.symbolWidth : this._symbolWidth;
+        this._symbolWidthLarge = typeof options.symbolWidthLarge !== "undefined" ?  options.symbolWidthLarge : this._symbolWidthLarge;
+        this._maxX = typeof options.maxX !== "undefined" ?  options.maxX : this._maxX;
+        this._minX = typeof options.minX !== "undefined" ?  options.minX : this._minX;
+        this._beforeDrag = typeof options.beforeDrag !== "undefined" ?  options.beforeDrag : this._beforeDrag;
+        this._onDrag = typeof options.onDrag !== "undefined" ?  options.onDrag : this._onDrag;
+        this._afterDrag = typeof options.afterDrag !== "undefined" ?  options.afterDrag : this._afterDrag;
 
         // grab d3 selection if needed
-        this._selection = this._selection || d3.select(this._selectNode);
+        this._selection = typeof this._selection !== "undefined" ?  this._selection : d3.select(this._selectNode);
     }
 
     enter(options) {

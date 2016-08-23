@@ -7,26 +7,26 @@ export default class TimeAxisD3 {
 
     initValues(options) {
         // extract values
-        this._selectNode = options.selectNode || this._selectNode;
-        this._symbolWidth = options.symbolWidth || this._symbolWidth;
-        this._onClick = options.onClick || this._onClick;
-        this._onHover = options.onHover || this._onHover;
-        this._onMouseOut = options.onMouseOut || this._onMouseOut;
-        this._minDt = options.minDt || this._minDt;
-        this._maxDt = options.maxDt || this._maxDt;
-        this._elementWidth = options.elementWidth || this._elementWidth;
-        this._elementHeight = options.elementHeight || this._elementHeight;
-        this._margin = options.margin || this._margin;
+        this._selectNode = typeof options.selectNode !== "undefined" ? options.selectNode : this._selectNode;
+        this._symbolWidth = typeof options.symbolWidth !== "undefined" ? options.symbolWidth : this._symbolWidth;
+        this._onClick = typeof options.onClick !== "undefined" ? options.onClick : this._onClick;
+        this._onHover = typeof options.onHover !== "undefined" ? options.onHover : this._onHover;
+        this._onMouseOut = typeof options.onMouseOut !== "undefined" ? options.onMouseOut : this._onMouseOut;
+        this._minDt = typeof options.minDt !== "undefined" ? options.minDt : this._minDt;
+        this._maxDt = typeof options.maxDt !== "undefined" ? options.maxDt : this._maxDt;
+        this._elementWidth = typeof options.elementWidth !== "undefined" ? options.elementWidth : this._elementWidth;
+        this._elementHeight = typeof options.elementHeight !== "undefined" ? options.elementHeight : this._elementHeight;
+        this._margin = typeof options.margin !== "undefined" ? options.margin : this._margin;
 
         // derive values
         this._width = this._elementWidth - (this._margin.left + this._margin.right);
         this._height = this._elementHeight - (this._margin.top + this._margin.bottom);
 
         // grab d3 selection if needed
-        this._selection = this._selection || d3.select(this._selectNode);
+        this._selection = typeof this._selection !== "undefined" ? this._selection : d3.select(this._selectNode);
 
         // time format function
-        this._timeFormat = this._timeFormat || d3.time.format.multi([
+        this._timeFormat = typeof this._timeFormat !== "undefined" ? this._timeFormat : d3.time.format.multi([
             [".%L", (d) => {
                 return d.getMilliseconds();
             }],
@@ -51,10 +51,10 @@ export default class TimeAxisD3 {
         ]);
 
         // prep the axis functions if needed
-        this._xFn = this._xFn || d3.time.scale()
+        this._xFn = typeof this._xFn !== "undefined" ? this._xFn : d3.time.scale()
             .domain([this._minDt, this._maxDt])
             .range([this._margin.left, this._margin.left + this._width]);
-        this._xAxis = this._xAxis || d3.svg.axis()
+        this._xAxis = typeof this._xAxis !== "undefined" ? this._xAxis : d3.svg.axis()
             .scale(this._xFn)
             .orient('bottom')
             .tickSize(-this._height)
