@@ -105,10 +105,10 @@ const setMapView = (state, action) => {
 
     if (anySucceed) {
         return state
-            .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-            .setIn(["view", "center"], action.viewInfo.center ? Immutable.List(action.viewInfo.center) : state.getIn(["view", "center"]))
-            .setIn(["view", "extent"], action.viewInfo.extent ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
-            .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
+            .setIn(["view", "zoom"], typeof action.viewInfo.zoom !== "undefined" ? action.viewInfo.zoom : state.getIn(["view", "zoom"]))
+            .setIn(["view", "center"], typeof action.viewInfo.center !== "undefined" ? Immutable.List(action.viewInfo.center) : state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], typeof action.viewInfo.extent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
+            .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
     return state;
@@ -137,10 +137,10 @@ const setViewInfo = (state, action) => {
     // if (anySucceed) {
     if (anySucceed) {
         return state
-            .setIn(["view", "zoom"], action.viewInfo.zoom || state.getIn(["view", "zoom"]))
-            .setIn(["view", "center"], Immutable.List(action.viewInfo.center) || state.getIn(["view", "center"]))
-            .setIn(["view", "extent"], Immutable.List(action.viewInfo.extent) || state.getIn(["view", "extent"]))
-            .setIn(["view", "projection"], action.viewInfo.projection || state.getIn(["view", "projection"]))
+            .setIn(["view", "zoom"], typeof action.viewInfo.zoom !== "undefined" ? action.viewInfo.zoom : state.getIn(["view", "zoom"]))
+            .setIn(["view", "center"], typeof action.viewInfo.center !== "undefined" ? Immutable.List(action.viewInfo.center) : state.getIn(["view", "center"]))
+            .setIn(["view", "extent"], typeof action.viewInfo.extent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
+            .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
     // return state;
