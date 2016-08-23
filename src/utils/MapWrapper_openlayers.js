@@ -201,7 +201,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return false;
         }
         try {
-            this.map.getView().fit(extent, this.map.getSize());
+            let mapSize = this.map.getSize() || [];
+            this.map.getView().fit(extent, mapSize);
             return true;
         } catch (err) {
             console.warn("could not set openlayers extent.", err);
