@@ -10,9 +10,7 @@ export class AsyncImageContainer extends Component {
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
         let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
         imgLoader.onload = null;
-        // imgLoader.src = "";
         imgDest.style.backgroundImage = "";
-
 
         // let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
         let imgSrc = imgLoader.getAttribute('src');

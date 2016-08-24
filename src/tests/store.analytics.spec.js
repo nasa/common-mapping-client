@@ -13,7 +13,6 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
-import MapUtil from '../utils/MapUtil.js';
 
 const initialState = {
     map: mapState,
@@ -26,7 +25,7 @@ const initialState = {
     analytics: analyticsState
 };
 
-describe('Store', function() {
+describe('Store - Analytics', function() {
     it('enables user analytics', function() {
         const store = createStore(rootReducer, initialState);
 
