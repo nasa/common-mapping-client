@@ -13,7 +13,6 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
-import MapUtil from '../utils/MapUtil.js';
 
 const initialState = {
     map: mapState,
@@ -71,7 +70,7 @@ describe('Store', function() {
             settings: settingsState,
             share: shareState,
             analytics: analyticsState,
-            dateSlider: dateSliderState.set("resolution", appStrings.DATE_SLIDER_RESOLUTIONS.YEARS).set("isSelectingResolution", false)
+            dateSlider: dateSliderState
         };
 
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());

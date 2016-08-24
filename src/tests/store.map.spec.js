@@ -13,7 +13,6 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
-import MapUtil from '../utils/MapUtil.js';
 
 const initialState = {
     map: mapState,
@@ -26,7 +25,7 @@ const initialState = {
     analytics: analyticsState
 };
 
-describe('Store', function() {
+describe('Store - Map', function() {
     beforeEach(function() {
         let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
 
