@@ -1,6 +1,5 @@
 import webpack from 'webpack';
 import path from 'path';
-import DashboardPlugin from 'webpack-dashboard/plugin';
 // import raw from 'raw-loader';
 
 const GLOBALS = {
@@ -27,8 +26,7 @@ export default {
     plugins: [
         new webpack.DefinePlugin(GLOBALS), //Tells React to build in prod mode. https://facebook.github.io/react/downloads.htmlnew webpack.HotModuleReplacementPlugin());
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new DashboardPlugin()
+        new webpack.NoErrorsPlugin()
     ],
     resolve: {
         extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
