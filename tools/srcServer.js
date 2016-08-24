@@ -23,8 +23,16 @@ browserSync({
                 // Dev middleware can't access config, so we provide publicPath
                 publicPath: config.output.publicPath,
 
-                // pretty colored output
-                stats: { colors: true },
+                quiet: false,
+                stats: {
+                    assets: true,
+                    colors: true,
+                    version: false,
+                    hash: false,
+                    timings: false,
+                    chunks: false,
+                    chunkModules: false
+                },
 
                 // Set to false to display a list of each file that is being bundled.
                 noInfo: true
