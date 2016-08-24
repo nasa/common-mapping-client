@@ -7,7 +7,6 @@ import * as actions from '../../actions/AppActions';
 
 export class AsyncImageContainer extends Component {
     componentDidMount() {
-        console.log("did mount")
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
         let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
         imgLoader.onload = null;
@@ -42,7 +41,6 @@ export class AsyncImageContainer extends Component {
         imgLoader.onload = null;
         imgLoader.src = "";
         imgDest.style.backgroundImage = "";
-        console.log("loader destroyed", imgDest)
     }
     render() {
         return (
