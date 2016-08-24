@@ -1,4 +1,5 @@
 import * as mapStrings from './mapStrings';
+import moment from "moment";
 
 // Map View Config
 export const DEFAULT_PROJECTION = mapStrings.PROJECTIONS.latlon;
@@ -14,7 +15,7 @@ export const MIN_ZOOM_DISTANCE_3D = 500.0;
 // misc.
 export const REFERENCE_LABELS_LAYER_ID = "Reference_Labels";
 export const POLITICAL_BOUNDARIES_LAYER_ID = "Reference_Features";
-export const DEFAULT_DATE = new Date("2015-05-20");
+export const DEFAULT_DATE = moment("2015-05-20", "YYYY-MM-DD").toDate();
 export const SCALE_OPTIONS = [
     { value: 'metric', label: 'Metric', abbrev: 'm/Km' },
     { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi' },

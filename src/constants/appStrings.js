@@ -25,7 +25,7 @@ export const ALERTS = {
     LAYER_ACTIVATION_FAILED: {
         title: "Layer Activation Failed",
         formatString: "Activating {LAYER} on the {MAP} map failed.",
-        severity: 3
+        severity: 5
     },
     BASEMAP_UPDATE_FAILED: {
         title: "Basemap Update Failed",
@@ -35,7 +35,7 @@ export const ALERTS = {
     GEOMETRY_SYNC_FAILED: {
         title: "Geometry Sync Failed",
         formatString: "Synchronizing geometry on the {MAP} map failed.",
-        severity: 3
+        severity: 2
     },
     GEOMETRY_REMOVAL_FAILED: {
         title: "Shape Removal Failed",
@@ -45,6 +45,16 @@ export const ALERTS = {
     VIEW_SYNC_FAILED: {
         title: "View Sync Failed",
         formatString: "Synchronizing the view on the {MAP} map failed.",
-        severity: 3
+        severity: 2
+    },
+    SET_DATE_FAILED: {
+        title: "Date Update Failed",
+        formatString: "Setting the date in the {MAP} map failed.",
+        severity: 4
+    },
+    CREATE_MAP_FAILED: {
+        title: "Map Creation Failed",
+        formatString: "The {MAP} map failed to initialize.",
+        severity: 5
     }
 };
