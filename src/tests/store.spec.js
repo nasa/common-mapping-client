@@ -295,15 +295,8 @@ describe('Store', function() {
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
+    
     it('can enable 3D terrain', function() {
-        // const store = createStore(rootReducer, initialState);
-
-        // const actions = [
-        //     { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_D, container: "map3D" },
-        //     { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
-        //     { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false }
-        // ];
-        // actions.forEach(action => store.dispatch(action));
         const store = createStore(rootReducer, initialState);
 
         const actions = [
@@ -312,19 +305,24 @@ describe('Store', function() {
 
         ];
         actions.forEach(action => store.dispatch(action));
-
-
-
         const actual = store.getState();
-        console.log(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url)
+        // console.log(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url)
 
+        expect(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
+    });
 
-        // expect(actual.map.actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal("?");
-        expect("?").to.equal("?");
-        // expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        // expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        // expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        // expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    it('can disable 3D terrain', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+
+        expect(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal(undefined);
     });
 
     it('can zoom maps and stuff', function() {
@@ -341,7 +339,6 @@ describe('Store', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-
         const actual = store.getState();
         const expected = {
             map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
@@ -350,8 +347,7 @@ describe('Store', function() {
             help: helpState,
             settings: settingsState
         };
-
-
+        
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());

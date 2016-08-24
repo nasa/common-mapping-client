@@ -100,7 +100,7 @@ export default class MapWrapper_cesium extends MapWrapper {
     enableTerrain(enable) {
         if (enable) {
             this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({
-                url: '//assets.agi.com/stk-terrain/world'
+                url: mapConfig.DEFAULT_TERRAIN_ENDPOINT
             });
         } else {
             this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
