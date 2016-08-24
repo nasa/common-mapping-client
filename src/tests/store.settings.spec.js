@@ -26,12 +26,10 @@ const initialState = {
 };
 
 describe('Store - Settings', function() {
-    it('open -> close -> open settings.', function() {
+    it('opens settings.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SETTINGS },
-            { type: actionTypes.CLOSE_SETTINGS },
             { type: actionTypes.OPEN_SETTINGS }
         ];
         actions.forEach(action => store.dispatch(action));
@@ -43,6 +41,30 @@ describe('Store - Settings', function() {
             asyncronous: asyncState,
             help: helpState,
             settings: settingsState.set("isOpen", true)
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+    it('closes settings.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.OPEN_SETTINGS },
+            { type: actionTypes.CLOSE_SETTINGS }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState.set("isOpen", false)
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());

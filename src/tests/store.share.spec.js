@@ -54,12 +54,10 @@ describe('Store - Share', function() {
         };
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
     });
-    it('open -> close -> open share.', function() {
+    it('can open the share container.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SHARE },
-            { type: actionTypes.CLOSE_SHARE },
             { type: actionTypes.OPEN_SHARE }
         ];
         actions.forEach(action => store.dispatch(action));
@@ -71,6 +69,32 @@ describe('Store - Share', function() {
             asyncronous: asyncState,
             help: helpState,
             share: shareState.set("isOpen", true),
+            settings: settingsState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+    it('can close the share container.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.OPEN_SHARE },
+            { type: actionTypes.CLOSE_SHARE }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            share: shareState.set("isOpen", false),
             settings: settingsState
         };
 
