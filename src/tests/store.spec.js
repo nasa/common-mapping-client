@@ -82,4 +82,33 @@ describe('Store', function() {
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
     });
+    it('does nothing on a NO_ACTION', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.NO_ACTION }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState
+        };
+
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+    });
 });
