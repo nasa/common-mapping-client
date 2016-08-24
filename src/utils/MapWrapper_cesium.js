@@ -219,7 +219,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         onDrawEnd(center, radius);
                     }
                 });
-            }
+            };
             return true;
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
             this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_LINE_STRING] = () => {
@@ -230,7 +230,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         onDrawEnd(coordinates);
                     }
                 });
-            }
+            };
             return true;
         } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
             this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_POLYGON] = () => {
@@ -241,7 +241,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         onDrawEnd(coordinates);
                     }
                 });
-            }
+            };
             return true;
         } else {
             console.warn("could not add draw handler for cesium of type", geometryType);
@@ -283,12 +283,12 @@ export default class MapWrapper_cesium extends MapWrapper {
 
                 let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
                 cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-                cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint)
+                cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
             } else {
                 cesiumCenter = geometry.center;
                 cesiumRadius = geometry.radius;
             }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
             material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
             material.uniforms.rimColor = new this.cesium.Color(1.0, 1.0, 1.0, 1.0);
             let primitiveToAdd = new this.drawHelper.CirclePrimitive({
@@ -313,7 +313,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 console.warn("Unhandled coordinate type when trying to draw cesium line string:", geometry.type);
                 return false;
             }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
             material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR);
             let primitiveToAdd = new this.drawHelper.PolylinePrimitive({
                 positions: cartesianCoords,
@@ -337,7 +337,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 console.warn("Unhandled coordinate type when trying to draw cesium polygon string:", geometry.type);
                 return false;
             }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType)
+            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
             material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
             material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
             let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
@@ -701,7 +701,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         return {
             lat: this.cesium.Math.toDegrees(cartographicRadians.latitude),
             lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
-        }
+        };
     }
     
     latLonToCartesian(lat, lon) {

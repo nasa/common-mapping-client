@@ -671,7 +671,7 @@ const enableDrawing = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        return state.setIn(["drawing", "isDrawingEnabled"], true).setIn(["drawing", "geometryType"], action.geometryType)
+        return state.setIn(["drawing", "isDrawingEnabled"], true).setIn(["drawing", "geometryType"], action.geometryType);
     }
     return state;
 };
@@ -773,7 +773,7 @@ const resetApplicationState = (state, action) => {
     newState = setScaleUnits(newState, { units: mapConfig.DEFAULT_SCALE_UNITS });
 
     // Remove all user vector geometries
-    newState = removeAllGeometries(newState, {})
+    newState = removeAllGeometries(newState, {});
 
     return newState;
 };

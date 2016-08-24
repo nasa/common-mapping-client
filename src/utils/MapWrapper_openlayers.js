@@ -295,7 +295,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             let circleFeature = new ol.Feature({
                 geometry: circleGeom
-            })
+            });
             mapLayer.getSource().addFeature(circleFeature);
             return true;
         }
@@ -303,7 +303,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let lineStringGeom = null;
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 lineStringGeom = new ol.geom.LineString(geometry.coordinates.map((x) => {
-                    return [x.lon, x.lat]
+                    return [x.lon, x.lat];
                 }));
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers lineString");
@@ -311,7 +311,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             let lineStringFeature = new ol.Feature({
                 geometry: lineStringGeom
-            })
+            });
             mapLayer.getSource().addFeature(lineStringFeature);
             return true;
         }
@@ -320,7 +320,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Map obj to array
                 let newCoords = geometry.coordinates.map((x) => {
-                    return [x.lon, x.lat]
+                    return [x.lon, x.lat];
                 });
                 // Push the first point to close the ring
                 newCoords.push([geometry.coordinates[0].lon, geometry.coordinates[0].lat]);
@@ -332,7 +332,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             let polygonFeature = new ol.Feature({
                 geometry: polygonGeom
-            })
+            });
             mapLayer.getSource().addFeature(polygonFeature);
             return true;
         }
