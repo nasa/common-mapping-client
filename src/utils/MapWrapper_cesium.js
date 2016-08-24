@@ -51,7 +51,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             selectionIndicator: false,
             timeline: false,
             navigationHelpButton: false,
-            vrButton: true,
+            vrButton: false,
             contextOptions: {
                 alpha: true
             },

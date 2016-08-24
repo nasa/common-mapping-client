@@ -19,10 +19,12 @@ const initializeMap = (state, action) => {
     if (map) {
         return state.setIn(["maps", action.mapType], map);
     }
+
+    let contextStr = action.mapType === mapStrings.MAP_LIB_3D ? "3D" : "2D";
     return state.set("alerts", state.get("alerts").push(alert.merge({
-        title: "Map Creation Failed",
-        body: "One of the maps failed to initialize",
-        severity: 5,
+        title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
+        body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", contextStr),
+        severity: appStrings.ALERTS.CREATE_MAP_FAILED.severity,
         time: new Date()
     })));
 };
@@ -557,9 +559,9 @@ const setMapDate = (state, action) => {
     if (anyFail) {
         let contextStr = map.is3D ? "3D" : "2D";
         state = state.set("alerts", state.get("alerts").push(alert.merge({
-            title: "Layer Update Failed",
-            body: "Setting the date in the " + contextStr + " map failed. The issue has been logged and will be looked into.",
-            severity: 4,
+            title: appStrings.ALERTS.SET_DATE_FAILED.title,
+            body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
+            severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
             time: new Date()
         })));
     }
