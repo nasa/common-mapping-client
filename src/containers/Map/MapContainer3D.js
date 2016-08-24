@@ -109,8 +109,6 @@ export class MapContainer3D extends Component {
             this.listenersInitialized = true;
         }
 
-        this.pauseDrawHandlers
-
         let containerClass = MiscUtil.generateStringFromSet({
             "inactive": !this.props.in3DMode
         });

@@ -22,32 +22,31 @@ export class ToolsContainer extends Component {
             <div className={toolsClasses}>
                 <IconButton
                     neutral
-                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}}
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE);}}
                     data-tip="Draw Circle"
                     data-place="right">
                     <CircleIcon/>
                 </IconButton>
                 <IconButton
                     neutral
-                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}}
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING);}}
                     data-tip="Draw LineString"
                     data-place="right">
                     <i className="ms ms-line"/>
                 </IconButton>
                 <IconButton
                     neutral
-                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}}
+                    onClick={() => {this.props.actions.disableDrawing(); this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON);}}
                     data-tip="Draw Polygon"
                     data-place="right">
                     <i className="ms ms-polygon"/>
                 </IconButton>
                 <IconButton
                     neutral
-                    onClick={() => {this.props.actions.removeAllGeometries()}}
+                    onClick={() => {this.props.actions.removeAllGeometries();}}
                     data-tip="Delete All Shapes"
                     data-place="right"
-                    icon="delete">
-                </IconButton>
+                    icon="delete" />
             </div>
         );
     }
