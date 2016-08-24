@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import config from '../webpack.config.prod';
 import colors from 'colors';
 
-process.env.NODE_ENV = 'production'; // this assures React is built in prod mode and that the Babel dev config doesn't apply.
+process.env.NODE_ENV = JSON.stringify('production'); // this assures React is built in prod mode and that the Babel dev config doesn't apply.
 
 console.log('Generating minified bundle for production via Webpack. This will take a moment...'.blue);
 

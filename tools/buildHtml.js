@@ -11,7 +11,7 @@ import fs from 'fs';
 import colors from 'colors';
 import cheerio from 'cheerio';
 
-const useTrackJs = true; // If you choose not to use TrackJS, just set this to false and the build warning will go away.
+const useTrackJs = false; // If you choose not to use TrackJS, just set this to false and the build warning will go away.
 const trackJsToken = ''; // If you choose to use TrackJS, insert your unique token here. To get a token, go to https://trackjs.com
 
 fs.readFile('src/index.html', 'utf8', (err, markup) => {
