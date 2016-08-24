@@ -128,7 +128,6 @@ export class LayerControlContainer extends Component {
                     </div>
                     <div className="col-xs-3 text-center">
                         <IconButton
-                            flat
                             // primary={!this.props.layer.get("isChangingPosition")}
                             accent={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
@@ -139,7 +138,6 @@ export class LayerControlContainer extends Component {
                             <i className="button-icon ms ms-fw ms-layers-overlay"></i>
                         </IconButton>
                         <IconButton
-                            flat
                             // primary={!this.props.layer.get("isChangingOpacity")}
                             icon="opacity"
                             accent={this.props.layer.get("isChangingOpacity")}
@@ -150,7 +148,6 @@ export class LayerControlContainer extends Component {
                             onClick={() => this.toggleChangingOpacity()}
                         />
                         <IconButton
-                            flat
                             // primary
                             icon="info_outline"
                             className="no-padding mini-xs-waysmall"

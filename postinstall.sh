@@ -2,6 +2,7 @@
 
 # Copy Cesium
 rm -rf public && mkdir public
+cp -r ./node_modules/cesium/Build/Cesium/* ./src/lib/cesium/
 cp -r ./src/lib/cesium/* ./public
 
 # Copy Cesium-drawhelper
