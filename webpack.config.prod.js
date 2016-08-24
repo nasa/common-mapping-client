@@ -26,23 +26,19 @@ export default {
         new webpack.optimize.UglifyJsPlugin()
     ],
     resolve: {
-        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json']
+        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
     },
     module: {
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
             { test: /Cesium\.js$/, loader: 'script' },
-            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' }, {
-                test: /(\.css|\.scss)$/,
-                include: path.join(__dirname, 'src'),
-                loader: ExtractTextPlugin.extract("css?sourceMap!sass?sourceMap")
-            }, {
-                test: /(\.css|\.scss)$/,
-                include: path.join(__dirname, 'node_modules/react-toolbox'),
-                loader: ExtractTextPlugin.extract('css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox')
-            }
+            { test: /DrawHelper\.js$/, loader: 'script' },
+            { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
+            { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
+            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' },
+            { test: /\.md$/, loader: "raw-loader" }
         ]
     },
-    toolbox: { theme: path.join(__dirname, 'src/styles/material_ui_theme.scss') }
+    toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }
 }
