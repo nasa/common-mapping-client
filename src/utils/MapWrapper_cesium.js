@@ -21,7 +21,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.cesium = window.Cesium;
         this.drawHelper = window.DrawHelper;
         this.map = this.createMap(container, options);
-        console.log(this.map, "map")
 
         // Create cesium-draw-helper
         // console.log(this.drawHelper, window.DrawHelper)
@@ -29,7 +28,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         // Initialize custom draw-helper interactions array
         this.drawHandler._customInteractions = {};
-
+        
         // Set drawhandler inactive
         this.drawHandler._isActive = false;
 
@@ -69,10 +68,9 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         // Terrain
         let terrainProvider = new this.cesium.CesiumTerrainProvider({
-            url: '//assets.agi.com/stk-terrain/world',
-            requestVertexNormals: true
+            url: '//assets.agi.com/stk-terrain/world'
         });
-        // let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+        let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
         map.terrainProvider = terrainProvider;
 
         // remove sun and moon
@@ -105,7 +103,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 url: mapConfig.DEFAULT_TERRAIN_ENDPOINT
             });
         } else {
-            // this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
         }
         return true;
     }
@@ -593,7 +591,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         return false;
     }
 
-
+    
 
     getLatLonFromPixelCoordinate(pixel) {
         try {
@@ -705,7 +703,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
         };
     }
-
+    
     latLonToCartesian(lat, lon) {
         console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil?");
         return new this.cesium.Cartesian3.fromDegrees(lon, lat);
