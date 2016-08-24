@@ -23,6 +23,7 @@ browserSync({
                 // Dev middleware can't access config, so we provide publicPath
                 publicPath: config.output.publicPath,
 
+                noInfo: true,
                 quiet: false,
                 stats: {
                     assets: true,
@@ -32,10 +33,7 @@ browserSync({
                     timings: false,
                     chunks: false,
                     chunkModules: false
-                },
-
-                // Set to false to display a list of each file that is being bundled.
-                noInfo: true
+                }
 
                 // for other settings see
                 // http://webpack.github.io/docs/webpack-dev-middleware.html
