@@ -13,6 +13,7 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
+import { layerInfoState } from '../reducers/models/layerInfo';
 
 const initialState = {
     map: mapState,
@@ -22,7 +23,8 @@ const initialState = {
     settings: settingsState,
     share: shareState,
     dateSlider: dateSliderState,
-    analytics: analyticsState
+    analytics: analyticsState,
+    layerInfo: layerInfoState
 };
 
 describe('Store - Settings', function() {
@@ -40,7 +42,8 @@ describe('Store - Settings', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState.set("isOpen", true)
+            settings: settingsState.set("isOpen", true),
+            layerInfo: layerInfoState
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
@@ -48,6 +51,7 @@ describe('Store - Settings', function() {
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
     it('closes settings.', function() {
         const store = createStore(rootReducer, initialState);
@@ -64,7 +68,8 @@ describe('Store - Settings', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState.set("isOpen", false)
+            settings: settingsState.set("isOpen", false),
+            layerInfo: layerInfoState
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
@@ -72,5 +77,6 @@ describe('Store - Settings', function() {
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });

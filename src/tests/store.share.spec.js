@@ -23,8 +23,8 @@ const initialState = {
     settings: settingsState,
     share: shareState,
     dateSlider: dateSliderState,
-    layerInfo: layerInfoState,
-    analytics: analyticsState
+    analytics: analyticsState,
+    layerInfo: layerInfoState
 };
 
 describe('Store - Share', function() {
