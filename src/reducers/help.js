@@ -10,7 +10,7 @@ const openHelp = (state, action) => {
 };
 
 const closeHelp = (state, action) => {
-    return state.set("isOpen", false);
+    return state.set("isOpen", false).set("helpPage", "");
 };
 
 const selectHelpPage = (state, action) => {

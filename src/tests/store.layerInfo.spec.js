@@ -27,56 +27,66 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-// describe('Store - Layer Info', function() {
-//     it('opens layer info.', function() {
-//         const store = createStore(rootReducer, initialState);
+describe('Store - Layer Info', function() {
+    it('opens layer info and sets the correct layer object.', function() {
+        const store = createStore(rootReducer, initialState);
 
-//         const actions = [
-// 			{ type: actionTypes.OPEN_LAYER_INFO, layer }
-//         ];
-//         actions.forEach(action => store.dispatch(action));
+        let layer = layerModel.merge({
+            id: "TEST_LAYER_1"
+        });
 
-//         const actual = store.getState();
-//         const expected = {
-//             map: mapState,
-//             view: viewState,
-//             asyncronous: asyncState,
-//             help: helpState,
-//             settings: settingsState.set("isOpen", true),
-//             layerInfo: layerInfoState
-//         };
+        const actions = [
+            { type: actionTypes.OPEN_LAYER_INFO, layer }
+        ];
+        actions.forEach(action => store.dispatch(action));
 
-//         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-//         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-//         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-//         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-//         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-//         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-//     });
-//     it('closes layer info.', function() {
-//         const store = createStore(rootReducer, initialState);
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            layerInfo: layerInfoState.set("isOpen", true).set("layer", layer)
+        };
 
-//         const actions = [
-//             { type: actionTypes.OPEN_LAYER_INFO, layer },
-//             { type: actionTypes.CLOSE_LAYER_INFO }
-//         ];
-//         actions.forEach(action => store.dispatch(action));
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+    
+    it('closes layer info and maintains the layer object reference.', function() {
+        const store = createStore(rootReducer, initialState);
 
-//         const actual = store.getState();
-//         const expected = {
-//             map: mapState,
-//             view: viewState,
-//             asyncronous: asyncState,
-//             help: helpState,
-//             settings: settingsState.set("isOpen", false),
-//             layerInfo: layerInfoState
-//         };
+        let layer = layerModel.merge({
+            id: "TEST_LAYER_1"
+        });
 
-//         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-//         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-//         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-//         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-//         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-//         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-//     });
-// });
+        const actions = [
+            { type: actionTypes.OPEN_LAYER_INFO, layer },
+            { type: actionTypes.CLOSE_LAYER_INFO }
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            layerInfo: layerInfoState.set("isOpen", false).set("layer", layer)
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+});

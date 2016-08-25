@@ -79,4 +79,60 @@ describe('Store - Help', function() {
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+    it('selects a help page', function() {
+        const store = createStore(rootReducer, initialState);
+
+        let helpPage = "screaming eagles";
+
+        const actions = [
+            { type: actionTypes.SELECT_HELP_PAGE, param: helpPage }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState.set("helpPage", helpPage),
+            settings: settingsState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+    it('closing help resets the selected page', function() {
+        const store = createStore(rootReducer, initialState);
+
+        let helpPage = "screaming eagles";
+        
+        const actions = [
+            { type: actionTypes.OPEN_HELP },
+            { type: actionTypes.SELECT_HELP_PAGE, param: helpPage },
+            { type: actionTypes.CLOSE_HELP }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState.set("isOpen", false).set("helpPage", ""),
+            settings: settingsState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
 });

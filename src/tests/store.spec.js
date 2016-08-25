@@ -96,7 +96,7 @@ describe('Store', function() {
 
         const actual = store.getState();
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -113,7 +113,7 @@ describe('Store', function() {
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
         expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
