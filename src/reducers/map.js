@@ -119,7 +119,7 @@ const setViewInfo = (state, action) => {
     let alerts = state.get("alerts");
     // TODO split out projection changes?
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        // Only apply view to inactive map
+        // Only apply view to inactive maps
         if (!map.isActive) {
             if (map.setExtent(action.viewInfo.extent)) {
                 return true;
@@ -145,7 +145,7 @@ const setViewInfo = (state, action) => {
             .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
-    // return state;
+    return state;
 };
 const zoomIn = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
