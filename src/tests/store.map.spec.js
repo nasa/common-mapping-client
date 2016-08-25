@@ -655,6 +655,84 @@ describe('Store - Map', function() {
         expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
     });
 
+    it('can zoom out', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.zoomOut()
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) - 1),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        // CHANGE
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+
+    it('can zoom in', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.zoomIn()
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        // CHANGE
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+    
     it('can zoom in and out', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -662,16 +740,14 @@ describe('Store - Map', function() {
             mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
             mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
             mapActions.zoomIn(),
-            mapActions.zoomIn(),
-            mapActions.zoomOut(),
-            mapActions.zoomIn(),
             mapActions.zoomOut()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
+            map: mapState.remove("maps"),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
