@@ -36,5 +36,56 @@ describe('Store - View', function() {
         expect(state.view.get("subtitle")).to.equal(appStrings.APP_SUBTITLE);
         expect(state.view.get("version")).to.equal(appStrings.APP_VERSION);
     });
-    
+
+    it('can set layer menu open', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_LAYER_MENU_OPEN, open: true }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState.set("layerMenuOpen", true),
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+    it('can set layer menu closed', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.SET_LAYER_MENU_OPEN, open: true },
+            { type: actionTypes.SET_LAYER_MENU_OPEN, open: false }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState.set("layerMenuOpen", false),
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
 });
