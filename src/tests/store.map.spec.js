@@ -234,7 +234,7 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState.remove("maps").setIn(["displaySettings", "enableTerrain"], true),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -247,7 +247,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actualMap3D.map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
-        expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -274,7 +274,7 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState.remove("maps").setIn(["displaySettings", "enableTerrain"], false),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -287,7 +287,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actualMap3D.map.terrainProvider._url).to.equal(undefined);
-        expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -757,6 +757,45 @@ describe('Store - Map', function() {
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+
+        // NO CHANGE
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+
+    it('can set scale units', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setScaleUnits(mapConfig.SCALE_OPTIONS[1].value)
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps").setIn(["displaySettings", "selectedScaleUnits"], mapConfig.SCALE_OPTIONS[1].value),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        // CHANGE
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
