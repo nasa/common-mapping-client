@@ -198,7 +198,6 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     resetOrientation(duration) {
         try {
-            console.log(duration,"d")
             this.map.camera.flyTo({
                 destination: this.map.camera.positionWC,
                 orientation: {},

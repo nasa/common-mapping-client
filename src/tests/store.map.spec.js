@@ -235,7 +235,7 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -265,7 +265,7 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -294,7 +294,7 @@ describe('Store - Map', function() {
         const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], false),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -324,7 +324,7 @@ describe('Store - Map', function() {
         const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], false),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -334,6 +334,41 @@ describe('Store - Map', function() {
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actualMap2D.isActive).to.equal(true);
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
+    it('can reset 3D map orientation', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D },
+            { type: actionTypes.RESET_ORIENTATION, duration: 0 }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        // CHANGE
+        expect(actual.map.get("maps").size).to.equal(1);
+        expect(actualMap3D.map.camera.heading).to.equal(6.283185307179586);
+        expect(actualMap3D.map.camera.roll).to.equal(0);
+        expect(actualMap3D.map.camera.pitch).to.equal(-1.5707963267948966);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
