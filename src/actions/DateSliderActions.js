@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import { setDate } from './MapActions';
 
 export function beginDragging() {
     return { type: types.BEGIN_DRAGGING };
@@ -6,10 +7,6 @@ export function beginDragging() {
 
 export function endDragging() {
     return { type: types.END_DRAGGING };
-}
-
-export function setDate(date) {
-    return { type: types.SET_MAP_DATE, date };
 }
 
 export function hoverDate(date, x) {

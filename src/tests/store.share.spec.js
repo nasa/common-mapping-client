@@ -1,7 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as AppActions from '../actions/AppActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -32,83 +29,178 @@ describe('Store - Share', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.SET_AUTO_UPDATE_URL, autoUpdateUrl: true }
+            AppActions.setAutoUpdateUrl(true)
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            share: shareState.set("autoUpdateUrl", true)
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState,
+            help: helpState,
+            view: viewState,
+            asyncronous: asyncState,
+            settings: settingsState,
+            share: shareState.set("autoUpdateUrl", true),
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
+
+        // CHANGE
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
+
     it('disables auto update url', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.SET_AUTO_UPDATE_URL, autoUpdateUrl: false }
+            AppActions.setAutoUpdateUrl(false)
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            share: shareState.set("autoUpdateUrl", false)
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState,
+            help: helpState,
+            view: viewState,
+            asyncronous: asyncState,
+            settings: settingsState,
+            share: shareState.set("autoUpdateUrl", false),
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
+        // CHANGE
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
     it('can open the share container.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SHARE }
+            AppActions.openShare()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState,
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
-            share: shareState.set("isOpen", true),
             settings: settingsState,
-            layerInfo: layerInfoState
+            share: shareState.set("isOpen", true),
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
     it('can close the share container.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SHARE },
-            { type: actionTypes.CLOSE_SHARE }
+            AppActions.closeShare()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState,
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
-            share: shareState.set("isOpen", false),
             settings: settingsState,
-            layerInfo: layerInfoState
+            share: shareState.set("isOpen", false),
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+    });
+
+    it('can open and close the share container.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            AppActions.openShare(),
+            AppActions.closeShare()
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState,
+            help: helpState,
+            view: viewState,
+            asyncronous: asyncState,
+            settings: settingsState,
+            share: shareState.set("isOpen", false),
+            analytics: analyticsState,
+            dateSlider: dateSliderState
+        };
+
+        // CHANGE
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
 });

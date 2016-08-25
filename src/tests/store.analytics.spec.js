@@ -1,7 +1,5 @@
 import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as analyticsActions from '../actions/AnalyticsActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -32,8 +30,9 @@ describe('Store - Analytics', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.SET_ANALYTICS_ENABLED, isEnabled: true }
+            analyticsActions.setAnalyticsEnabled(true)
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
@@ -63,7 +62,7 @@ describe('Store - Analytics', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.SET_ANALYTICS_ENABLED, isEnabled: false }
+            analyticsActions.setAnalyticsEnabled(false)
         ];
         actions.forEach(action => store.dispatch(action));
 

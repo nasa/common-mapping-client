@@ -6,6 +6,7 @@ import moment from 'moment';
 import * as appConfig from '../../constants/appConfig';
 import * as appStrings from '../../constants/appStrings';
 import * as DateSliderActions from '../../actions/DateSliderActions';
+import * as MapActions from '../../actions/MapActions';
 import TimeAxisD3 from '../../utils/TimeAxisD3';
 import MiscUtil from '../../utils/MiscUtil';
 import SingleDate from './SingleDate';
@@ -64,27 +65,27 @@ export class TimeAxis extends Component {
         this.timeAxisD3.update(options);
     }
     handleTimeLineMouseOut() {
-        this.props.actions.timelineMouseOut();
+        this.props.dateSliderActions.timelineMouseOut();
     }
     handleTimelineHover(xValue) {
         if(!this.props.isDragging) {
             let date = this.timeAxisD3.getDateFromX(xValue);
-            this.props.actions.hoverDate(date, xValue);
+            this.props.dateSliderActions.hoverDate(date, xValue);
         }
     }
     handleSingleDateDragStart() {
-        this.props.actions.beginDragging();
+        this.props.dateSliderActions.beginDragging();
     }
     handleSingleDateDragEnd(xValue) {
         let date = this.timeAxisD3.getDateFromX(xValue);
-        this.props.actions.dragEnd(date);
+        this.props.dateSliderActions.dragEnd(date);
     }
     handleSingleDateDragUpdate(xValue) {
         // update if configured
         let date = this.timeAxisD3.getDateFromX(xValue);
-        this.props.actions.hoverDate(date, xValue);
+        this.props.dateSliderActions.hoverDate(date, xValue);
         if(appConfig.SCRUBBING_UPDATE) {
-            this.props.actions.setDate(date);
+            this.props.mapActions.setDate(date);
         }
 
     }
@@ -175,7 +176,8 @@ export class TimeAxis extends Component {
 }
 TimeAxis.propTypes = {
     date: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    mapActions: PropTypes.object.isRequired,
+    dateSliderActions: PropTypes.object.isRequired,
     isDragging: PropTypes.bool.isRequired,
     resolution: PropTypes.string.isRequired,
     resolutionHack: PropTypes.bool.isRequired
@@ -192,7 +194,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(DateSliderActions, dispatch)
+        mapActions: bindActionCreators(MapActions, dispatch),
+        dateSliderActions: bindActionCreators(DateSliderActions, dispatch)
     };
 }
 

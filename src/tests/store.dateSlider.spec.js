@@ -28,42 +28,4 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Date Slider', function() {
-    it('sets the map date', function() {
-        const store = createStore(rootReducer, initialState);
-
-        const initial = store.getState();
-        expect(initial.map.get("date")).to.equal(mapConfig.DEFAULT_DATE);
-
-        let dateFormat = "YYYY-MM-DD";
-        let newDate = moment("2003-01-01", dateFormat).toDate();
-
-        const actions = [
-            { type: actionTypes.SET_MAP_DATE, date: newDate }
-        ];
-        actions.forEach(action => store.dispatch(action));
-
-        const actual = store.getState();
-        const expected = {
-            map: mapState.remove("maps").set("date", newDate),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
-
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-    });
-});
+describe('Store - Date Slider', function() {});

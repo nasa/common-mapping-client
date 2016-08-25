@@ -1,3 +1,6 @@
+import * as AppActions from '../actions/AppActions';
+import * as MapActions from '../actions/MapActions';
+import * as DateSliderActions from '../actions/DateSliderActions';
 import * as actionTypes from '../constants/actionTypes';
 import * as mapStrings from '../constants/mapStrings';
 import * as appStrings from '../constants/appStrings';
@@ -32,35 +35,33 @@ describe('Store', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D },
-            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D }, {
-                type: actionTypes.ZOOM_IN,
-                geometry: {
-                    type: mapStrings.GEOMETRY_CIRCLE,
-                    center: { lon: 0, lat: 0 },
-                    radius: 500,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
-            },
-            { type: actionTypes.REMOVE_ALL_GEOMETRIES },
-            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D }, {
-                type: actionTypes.ZOOM_IN,
-                geometry: {
-                    type: mapStrings.GEOMETRY_CIRCLE,
-                    center: { lon: 10, lat: -20 },
-                    radius: 52200,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                }
-            },
-            { type: actionTypes.ZOOM_IN },
-            { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false },
-            { type: actionTypes.SET_SCALE_UNITS, units: mapConfig.SCALE_OPTIONS[1].value },
-            { type: actionTypes.ZOOM_OUT },
-            { type: actionTypes.RESET_ORIENTATION, duration: 0},
-            { type: actionTypes.SET_SLIDER_COLLAPSED, collapsed: true },
-            { type: actionTypes.SET_DATE_RESOLUTION, resolution: appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS },
-            { type: actionTypes.RESET_APPLICATION_STATE }
+            MapActions.initializeMap(mapStrings.MAP_LIB_2D),
+            MapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D),
+            MapActions.zoomIn(),
+            MapActions.addGeometryToMap({
+                type: mapStrings.GEOMETRY_CIRCLE,
+                center: { lon: 0, lat: 0 },
+                radius: 500,
+                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+            }),
+            MapActions.removeAllGeometries(),
+            MapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
+            MapActions.addGeometryToMap({
+                type: mapStrings.GEOMETRY_CIRCLE,
+                center: { lon: 10, lat: -20 },
+                radius: 52200,
+                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+            }),
+            MapActions.zoomIn(),
+            MapActions.setTerrainEnabled(false),
+            MapActions.setScaleUnits(mapConfig.SCALE_OPTIONS[1].value),
+            MapActions.zoomOut(),
+            MapActions.resetOrientation(0),
+            DateSliderActions.setSliderCollapsed(),
+            DateSliderActions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS),
+            AppActions.resetApplicationState()
         ];
+        
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
@@ -86,6 +87,7 @@ describe('Store', function() {
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+
     it('does nothing on a NO_ACTION', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -96,7 +98,7 @@ describe('Store', function() {
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -113,7 +115,7 @@ describe('Store', function() {
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
         expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });

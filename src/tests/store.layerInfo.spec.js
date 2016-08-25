@@ -1,7 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as LayerActions from '../actions/LayerActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -34,28 +31,37 @@ describe('Store - Layer Info', function() {
         let layer = layerModel.merge({
             id: "TEST_LAYER_1"
         });
-
         const actions = [
-            { type: actionTypes.OPEN_LAYER_INFO, layer }
+            LayerActions.openLayerInfo(layer)
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState.set("isOpen", true).set("layer", layer),
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
             settings: settingsState,
-            layerInfo: layerInfoState.set("isOpen", true).set("layer", layer)
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
     
     it('closes layer info and maintains the layer object reference.', function() {
@@ -66,27 +72,36 @@ describe('Store - Layer Info', function() {
         });
 
         const actions = [
-            { type: actionTypes.OPEN_LAYER_INFO, layer },
-            { type: actionTypes.CLOSE_LAYER_INFO }
+            LayerActions.openLayerInfo(layer),
+            LayerActions.closeLayerInfo()
         ];
 
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            layerInfo: layerInfoState.set("isOpen", false).set("layer", layer),
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
             settings: settingsState,
-            layerInfo: layerInfoState.set("isOpen", false).set("layer", layer)
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
 });
