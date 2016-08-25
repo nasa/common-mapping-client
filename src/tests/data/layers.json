@@ -1,0 +1,77 @@
+{
+    "layers": [{
+        "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+        "title": "Sea Surface Temperature",
+        "type": "data",
+        "handleAs": "GIBS",
+        "min": 2.0,
+        "max": 32.0,
+        "units": "˚C",
+        "wmtsOptions": {
+            "urlFunctions": {
+                "openlayers": "kvpTimeParam",
+                "cesium": "kvpTimeParam"
+            }
+        },
+        "metadata": {
+            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
+            "dateRange": "2012 – Present",
+            "platform": "MODIS, Terra",
+            "spatialResolution": "25km x 25km spatial resolution"
+        },
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
+        "palette": {
+            "name": "GHRSST_L4_Sea_Surface_Temperature",
+            "handleAs": "json-relative"
+        },
+        "isDefault": true
+    }, {
+        "id": "us_state_outline_topojson",
+        "title": "US State Outline - TopoJSON",
+        "type": "data",
+        "handleAs": "vector_topojson",
+        "updateParameters": { "time": false },
+        "url": "default-data/ne_10m_us_states.topojson"
+    }, {
+        "id": "facilities_kml",
+        "title": "Facilities - KML",
+        "type": "data",
+        "handleAs": "vector_kml",
+        "updateParameters": { "time": false },
+        "url": "default-data/facilities.kml"
+    }, {
+        "id": "Reference_Labels",
+        "title": "Reference Labels",
+        "type": "reference",
+        "handleAs": "GIBS"
+    }, {
+        "id": "ESRI_World_Imagery",
+        "title": "ESRI High Resolution World Imagery",
+        "type": "basemap",
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+        "isDefault": true,
+        "handleAs": "xyz",
+        "wmtsOptions": {
+            "projection": "EPSG:4326",
+            "layer": "ESRI_World_Imagery",
+            "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
+            "tileGrid": {
+                "minZoom": 1,
+                "maxZoom": 16,
+                "tileSize": 512
+            },
+            "urlFunctions": {
+                "openlayers": "esriCustom512"
+            },
+            "tileFunctions": {
+                "openlayers": "catsTile"
+            }
+        }
+    }, {
+        "id": "BlueMarble_ShadedRelief_Bathymetry",
+        "title": "GIBS Blue Marble, Shaded Relief w/Bathymetry",
+        "type": "basemap",
+        "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
+        "handleAs": "GIBS"
+    }]
+}

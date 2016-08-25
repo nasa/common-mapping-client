@@ -3,7 +3,10 @@ import * as mapStrings from '../constants/mapStrings';
 import * as appStrings from '../constants/appStrings';
 import * as mapConfig from '../constants/mapConfig';
 import * as mapActions from '../actions/MapActions';
-import { createStore } from 'redux';
+import * as layerActions from '../actions/LayerActions';
+import * as expectedOutput from './data/expectedOutput.js';
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
 import { mapState, layerModel, paletteModel } from '../reducers/models/map';
@@ -327,7 +330,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actualMap3D.isActive).to.equal(true);
 
         // NO CHANGE
@@ -369,7 +372,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actualMap3D.isActive).to.equal(true);
 
         // NO CHANGE
@@ -410,7 +413,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actualMap2D.isActive).to.equal(true);
 
         // NO CHANGE
@@ -452,7 +455,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actualMap2D.isActive).to.equal(true);
 
         // NO CHANGE
@@ -497,7 +500,7 @@ describe('Store - Map', function() {
         expect(actualMap3D.map.camera.heading).to.equal(6.283185307179586);
         expect(actualMap3D.map.camera.roll).to.equal(0);
         expect(actualMap3D.map.camera.pitch).to.equal(-1.5707963267948966);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -678,7 +681,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -717,7 +720,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -729,6 +732,7 @@ describe('Store - Map', function() {
         expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+
     it('can zoom in and out', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -756,7 +760,7 @@ describe('Store - Map', function() {
 
         // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
 
         // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -806,5 +810,58 @@ describe('Store - Map', function() {
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
         expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    })
+
+    it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
+        // adjsut default timeout
+        this.timeout(2000);
+
+        // create store with async action support
+        const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+
+        const actions = [
+            layerActions.fetchInitialData()
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        setTimeout(() => {
+            const actual = store.getState();
+            const expected = {
+                map: mapState
+                    .remove("maps")
+                    .set("palettes", mapState.get("palettes").merge(expectedOutput.INGESTED_PALETTES))
+                    .set("layers", mapState.get("layers").merge(expectedOutput.INGESTED_LAYERS))
+                    .removeIn(["layers", "partial"]),
+                view: viewState,
+                asyncronous: asyncState
+                    .set("loadingInitialData", false)
+                    .set("initialLoadingAttempted", true)
+                    .set("loadingLayerSources", false)
+                    .set("layerLoadingAttempted", true)
+                    .set("loadingLayerPalettes", false)
+                    .set("paletteLoadingAttempted", false),
+                help: helpState,
+                settings: settingsState,
+                share: shareState,
+                dateSlider: dateSliderState,
+                analytics: analyticsState,
+                layerInfo: layerInfoState
+            };
+
+            // CHANGE
+            expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+            expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+
+            // NO CHANGE
+            expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+            expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+            expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+            expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+            expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+            expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+            expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+
+            done();
+        }, 1000);
     });
 });
