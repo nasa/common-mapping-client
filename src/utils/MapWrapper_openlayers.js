@@ -376,6 +376,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return interaction[0];
     }
 
+    resetOrientation(duration) {
+        return true;
+    }
+
     addDrawHandler(geometryType, onDrawEnd) {
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");

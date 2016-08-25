@@ -1,7 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as AppActions from '../actions/AppActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -32,51 +29,107 @@ describe('Store - Settings', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SETTINGS }
+            AppActions.openSettings()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            settings: settingsState.set("isOpen", true),
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState.set("isOpen", true),
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+
+        // NO CHANGE
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
     it('closes settings.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SETTINGS },
-            { type: actionTypes.CLOSE_SETTINGS }
+            AppActions.closeSettings()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            settings: settingsState.set("isOpen", false),
+            help: helpState,
             view: viewState,
             asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState.set("isOpen", false),
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+
+        // NO CHANGE
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+    });
+
+    it('opens and closes settings.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            AppActions.openSettings(),
+            AppActions.closeSettings()
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            settings: settingsState.set("isOpen", false),
+            help: helpState,
+            view: viewState,
+            asyncronous: asyncState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+
+        // CHANGE
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+
+        // NO CHANGE
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
     });
 });

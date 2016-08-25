@@ -1,7 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as appActions from '../actions/AppActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -32,107 +29,184 @@ describe('Store - Help', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_HELP }
+            appActions.openHelp()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
             view: viewState,
             asyncronous: asyncState,
             help: helpState.set("isOpen", true),
             settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+
     it('closes help', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_HELP },
-            { type: actionTypes.CLOSE_HELP }
+            appActions.closeHelp()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
             view: viewState,
             asyncronous: asyncState,
             help: helpState.set("isOpen", false),
             settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+        
+        // CHANGE
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+
+    it('opens and closes help', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            appActions.openHelp(),
+            appActions.closeHelp()
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState.set("isOpen", false),
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+
     it('selects a help page', function() {
         const store = createStore(rootReducer, initialState);
 
         let helpPage = "screaming eagles";
-
         const actions = [
-            { type: actionTypes.SELECT_HELP_PAGE, param: helpPage }
+            appActions.selectHelpPage(helpPage)
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            help: helpState.set("helpPage", helpPage),
             view: viewState,
             asyncronous: asyncState,
-            help: helpState.set("helpPage", helpPage),
             settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
+
     it('closing help resets the selected page', function() {
         const store = createStore(rootReducer, initialState);
 
         let helpPage = "screaming eagles";
-        
         const actions = [
-            { type: actionTypes.OPEN_HELP },
-            { type: actionTypes.SELECT_HELP_PAGE, param: helpPage },
-            { type: actionTypes.CLOSE_HELP }
+            appActions.openHelp(),
+            appActions.selectHelpPage(helpPage),
+            appActions.closeHelp()
         ];
+
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
         const expected = {
-            map: mapState,
+            map: mapState.remove("maps"),
+            help: helpState.set("isOpen", false).set("helpPage", ""),
             view: viewState,
             asyncronous: asyncState,
-            help: helpState.set("isOpen", false).set("helpPage", ""),
             settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
 
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        // CHANGE
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+
+        // NO CHANGE
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });

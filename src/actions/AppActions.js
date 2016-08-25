@@ -23,8 +23,8 @@ export function openTools() {
 export function closeTools() {
     return { type: types.CLOSE_TOOLS };
 }
-export function openHelp(param) {
-    return { type: types.OPEN_HELP, param };
+export function openHelp() {
+    return { type: types.OPEN_HELP };
 }
 export function closeHelp() {
     return { type: types.CLOSE_HELP };
