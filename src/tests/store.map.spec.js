@@ -134,6 +134,38 @@ describe('Store - Map', function() {
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
 
+    it('initializes 3D and 2D maps', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D, container: "map2D" }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+
+        const actual = store.getState();
+        const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const expected = {
+            map: mapState.remove("maps"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actualMap2D).to.not.equal(undefined);
+        expect(actualMap3D).to.not.equal(undefined);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
     it('can enable 3D terrain', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -144,8 +176,22 @@ describe('Store - Map', function() {
         ];
         actions.forEach(action => store.dispatch(action));
         const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
-        expect(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
+        const expected = {
+            map: mapState.remove("maps"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actualMap3D.map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
+        expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
 
     it('can disable 3D terrain', function() {
@@ -158,8 +204,140 @@ describe('Store - Map', function() {
         ];
         actions.forEach(action => store.dispatch(action));
         const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
-        expect(actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D].map.terrainProvider._url).to.equal(undefined);
+        const expected = {
+            map: mapState.remove("maps"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actualMap3D.map.terrainProvider._url).to.equal(undefined);
+        expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
+    it('can set map view mode to 3D without 2D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actual.map.get("maps").size).to.equal(1);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actualMap3D.isActive).to.equal(true);
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
+    it('can set map view mode to 3D with 2D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D, container: "map2D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actualMap3D.isActive).to.equal(true);
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
+    it('can set map view mode to 2D without 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D, container: "map2D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_2D }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actual.map.get("maps").size).to.equal(1);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actualMap2D.isActive).to.equal(true);
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+    });
+
+    it('can set map view mode to 2D with 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_2D, container: "map2D" },
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_2D }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState
+        };
+
+        expect(actual.map.get("maps").size).to.equal(2);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+        expect(actualMap2D.isActive).to.equal(true);
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
     });
 
     it('can zoom maps and stuff', function() {
@@ -186,7 +364,7 @@ describe('Store - Map', function() {
         };
 
         expect(actual.map.get("maps").size).to.equal(2);
-        expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
