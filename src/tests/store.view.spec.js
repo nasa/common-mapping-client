@@ -13,6 +13,7 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
+import { layerInfoState } from '../reducers/models/layerInfo';
 
 const initialState = {
     map: mapState,
@@ -22,7 +23,8 @@ const initialState = {
     settings: settingsState,
     share: shareState,
     dateSlider: dateSliderState,
-    analytics: analyticsState
+    analytics: analyticsState,
+    layerInfo: layerInfoState
 };
 
 describe('Store - View', function() {
