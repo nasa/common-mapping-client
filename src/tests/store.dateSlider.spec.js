@@ -13,6 +13,7 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
+import { layerInfoState } from '../reducers/models/layerInfo';
 import moment from 'moment';
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     settings: settingsState,
     share: shareState,
     dateSlider: dateSliderState,
-    analytics: analyticsState
+    analytics: analyticsState,
+    layerInfo: layerInfoState
 };
 
 describe('Store - Date Slider', function() {
@@ -50,7 +52,8 @@ describe('Store - Date Slider', function() {
             settings: settingsState,
             share: shareState,
             analytics: analyticsState,
-            dateSlider: dateSliderState
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
         };
 
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -61,5 +64,6 @@ describe('Store - Date Slider', function() {
         expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });

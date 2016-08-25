@@ -13,6 +13,7 @@ import { settingsState } from '../reducers/models/settings';
 import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
+import { layerInfoState } from '../reducers/models/layerInfo';
 
 const initialState = {
     map: mapState,
@@ -22,16 +23,15 @@ const initialState = {
     settings: settingsState,
     share: shareState,
     dateSlider: dateSliderState,
-    analytics: analyticsState
+    analytics: analyticsState,
+    layerInfo: layerInfoState
 };
 
 describe('Store - Settings', function() {
-    it('open -> close -> open settings.', function() {
+    it('opens settings.', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.OPEN_SETTINGS },
-            { type: actionTypes.CLOSE_SETTINGS },
             { type: actionTypes.OPEN_SETTINGS }
         ];
         actions.forEach(action => store.dispatch(action));
@@ -42,7 +42,8 @@ describe('Store - Settings', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState.set("isOpen", true)
+            settings: settingsState.set("isOpen", true),
+            layerInfo: layerInfoState
         };
 
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
@@ -50,5 +51,32 @@ describe('Store - Settings', function() {
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+    it('closes settings.', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.OPEN_SETTINGS },
+            { type: actionTypes.CLOSE_SETTINGS }
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState,
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState.set("isOpen", false),
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });
