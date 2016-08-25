@@ -60,17 +60,28 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actualMap2D).to.not.equal(undefined);
         expect(actualMap3D).to.equal(undefined);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('initializes 3D map', function() {
@@ -91,17 +102,28 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actualMap2D).to.equal(undefined);
         expect(actualMap3D).to.not.equal(undefined);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('initializes 2D and 3D maps', function() {
@@ -123,17 +145,28 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actualMap2D).to.not.equal(undefined);
         expect(actualMap3D).to.not.equal(undefined);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('initializes 3D and 2D maps', function() {
@@ -155,17 +188,28 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actualMap2D).to.not.equal(undefined);
         expect(actualMap3D).to.not.equal(undefined);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can enable 3D terrain', function() {
@@ -185,15 +229,26 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actualMap3D.map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can disable 3D terrain', function() {
@@ -213,15 +268,26 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actualMap3D.map.terrainProvider._url).to.equal(undefined);
         expect(actual.map.remove("maps").get("view").toJS()).to.deep.equal(expected.map.remove("maps").get("view").toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can set map view mode to 3D without 2D map', function() {
@@ -237,20 +303,31 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actualMap3D.isActive).to.equal(true);
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can set map view mode to 3D with 2D map', function() {
@@ -267,20 +344,31 @@ describe('Store - Map', function() {
         const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],true),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actualMap3D.isActive).to.equal(true);
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can set map view mode to 2D without 3D map', function() {
@@ -296,20 +384,31 @@ describe('Store - Map', function() {
         const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], false),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(1);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actualMap2D.isActive).to.equal(true);
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can set map view mode to 2D with 3D map', function() {
@@ -326,20 +425,74 @@ describe('Store - Map', function() {
         const actualMap2D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         const expected = {
-            map: mapState.remove("maps").setIn(["view", "in3DMode"],false),
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], false),
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
         expect(actualMap2D.isActive).to.equal(true);
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+
+    it('can reset 3D map orientation', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            { type: actionTypes.INITIALIZE_MAP, mapType: mapStrings.MAP_LIB_3D, container: "map3D" },
+            { type: actionTypes.SET_MAP_VIEW_MODE, mode: mapStrings.MAP_VIEW_MODE_3D },
+            { type: actionTypes.RESET_ORIENTATION, duration: 0 }
+
+        ];
+        actions.forEach(action => store.dispatch(action));
+        const actual = store.getState();
+        const actualMap3D = actual.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const expected = {
+            map: mapState.remove("maps").setIn(["view", "in3DMode"], true),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        // CHANGE
+        expect(actual.map.get("maps").size).to.equal(1);
+        expect(actualMap3D.map.camera.heading).to.equal(6.283185307179586);
+        expect(actualMap3D.map.camera.roll).to.equal(0);
+        expect(actualMap3D.map.camera.pitch).to.equal(-1.5707963267948966);
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+
+        // NO CHANGE
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 
     it('can zoom maps and stuff', function() {
@@ -362,14 +515,25 @@ describe('Store - Map', function() {
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
-            settings: settingsState
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
         };
 
+        // CHANGE
         expect(actual.map.get("maps").size).to.equal(2);
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.remove("maps").toJS());
+
+        // NO CHANGE
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });
