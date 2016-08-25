@@ -136,7 +136,6 @@ const setViewInfo = (state, action) => {
         return acc;
     }, false);
 
-    // if (anySucceed) {
     if (anySucceed) {
         return state
             .setIn(["view", "zoom"], typeof action.viewInfo.zoom !== "undefined" ? action.viewInfo.zoom : state.getIn(["view", "zoom"]))
