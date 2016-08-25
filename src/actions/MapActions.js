@@ -8,8 +8,8 @@ export function setMapViewMode(mode) {
     return { type: types.SET_MAP_VIEW_MODE, mode };
 }
 
-export function resetOrientation() {
-    return { type: types.RESET_ORIENTATION };
+export function resetOrientation(duration) {
+    return { type: types.RESET_ORIENTATION, duration };
 }
 
 export function setMapView(viewInfo) {

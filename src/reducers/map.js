@@ -180,7 +180,8 @@ const zoomOut = (state, action) => {
 const resetOrientation = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.isActive) {
-            if (map.resetOrientation()) {
+            console.log("???", action.duration)
+            if (map.resetOrientation(action.duration)) {
                 return true;
             }
         }

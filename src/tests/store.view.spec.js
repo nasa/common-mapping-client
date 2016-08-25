@@ -34,4 +34,5 @@ describe('Store - View', function() {
         expect(state.view.get("subtitle")).to.equal(appStrings.APP_SUBTITLE);
         expect(state.view.get("version")).to.equal(appStrings.APP_VERSION);
     });
+    
 });

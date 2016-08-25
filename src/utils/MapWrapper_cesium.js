@@ -196,11 +196,13 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    resetOrientation() {
+    resetOrientation(duration) {
         try {
+            console.log(duration,"d")
             this.map.camera.flyTo({
                 destination: this.map.camera.positionWC,
-                orientation: {}
+                orientation: {},
+                duration: typeof(duration) === "number" ? duration : 1
             });
             return true;
         } catch (err) {

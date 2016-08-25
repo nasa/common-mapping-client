@@ -54,7 +54,7 @@ describe('Store', function() {
             { type: actionTypes.SET_TERRAIN_ENABLED, enabled: false },
             { type: actionTypes.SET_SCALE_UNITS, units: mapConfig.SCALE_OPTIONS[1].value },
             { type: actionTypes.ZOOM_OUT },
-            { type: actionTypes.RESET_ORIENTATION },
+            { type: actionTypes.RESET_ORIENTATION, duration: 0},
             { type: actionTypes.SET_SLIDER_COLLAPSED, collapsed: true },
             { type: actionTypes.SET_DATE_RESOLUTION, resolution: appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS },
             { type: actionTypes.RESET_APPLICATION_STATE }
