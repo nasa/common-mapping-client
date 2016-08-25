@@ -103,7 +103,8 @@ describe('Store', function() {
             settings: settingsState,
             share: shareState,
             analytics: analyticsState,
-            dateSlider: dateSliderState
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
         };
 
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
@@ -114,5 +115,6 @@ describe('Store', function() {
         expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
         expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
     });
 });
