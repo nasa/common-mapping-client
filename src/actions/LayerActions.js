@@ -91,6 +91,7 @@ export function fetchLayerPalettes() {
             return response.json();
         }).then((resp) => {
             dispatch(ingestLayerPalettes(resp));
+            dispatch(layerPalettesLoaded());
         }).catch((err) => {
             console.warn("ERROR LOADING PALETTES", err);
         });

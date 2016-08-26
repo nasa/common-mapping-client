@@ -810,7 +810,7 @@ describe('Store - Map', function() {
         expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
         expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-    })
+    });
 
     it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
         // adjust default timeout
@@ -839,7 +839,7 @@ describe('Store - Map', function() {
                     .set("loadingLayerSources", false)
                     .set("layerLoadingAttempted", true)
                     .set("loadingLayerPalettes", false)
-                    .set("paletteLoadingAttempted", false),
+                    .set("paletteLoadingAttempted", true),
                 help: helpState,
                 settings: settingsState,
                 share: shareState,

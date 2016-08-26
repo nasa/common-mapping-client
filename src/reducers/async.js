@@ -29,7 +29,7 @@ const loadPalettes = (state, action) => {
 };
 
 const palettesLoaded = (state, action) => {
-    return this.state
+    return state
         .set("loadingLayerPalettes", false)
         .set("paletteLoadingAttempted", true);
 };
