@@ -4,7 +4,8 @@ import * as appStrings from '../constants/appStrings';
 import * as mapConfig from '../constants/mapConfig';
 import * as mapActions from '../actions/MapActions';
 import * as layerActions from '../actions/LayerActions';
-import * as expectedOutput from './data/expectedOutput.js';
+import * as initialIngest from './data/expectedOutputs/initialIngest';
+import * as activateDeactivateLayers from './data/expectedOutputs/activateDeactivateLayers';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { expect } from 'chai';
@@ -37,10 +38,7 @@ describe('Store - Map', function() {
     // add the html fixture from the DOM to give maps a place to render during tests
     beforeEach(function() {
         let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
-
-        document.body.insertAdjacentHTML(
-            'afterbegin',
-            fixture);
+        document.body.insertAdjacentHTML('afterbegin', fixture);
     });
 
     // remove the html fixture from the DOM
@@ -1296,8 +1294,132 @@ describe('Store - Map', function() {
             const expected = {
                 map: mapState
                     .remove("maps")
-                    .set("palettes", mapState.get("palettes").merge(expectedOutput.INGESTED_PALETTES))
-                    .set("layers", mapState.get("layers").merge(expectedOutput.INGESTED_LAYERS))
+                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
+                    .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+                    .removeIn(["layers", "partial"]),
+                asyncronous: asyncState
+                    .set("loadingInitialData", false)
+                    .set("initialLoadingAttempted", true)
+                    .set("loadingLayerSources", false)
+                    .set("layerLoadingAttempted", true)
+                    .set("loadingLayerPalettes", false)
+                    .set("paletteLoadingAttempted", true),
+                view: viewState,
+                help: helpState,
+                settings: settingsState,
+                share: shareState,
+                dateSlider: dateSliderState,
+                analytics: analyticsState,
+                layerInfo: layerInfoState
+            };
+
+            TestUtil.compareFullStates(actual, expected);
+            done();
+        }, 1000);
+    });
+
+    it('can activate layers', function(done) {
+        // adjust default timeout
+        this.timeout(2000);
+
+        // create store with async action support
+        const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+
+        const initialActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            layerActions.fetchInitialData()
+        ];
+        initialActions.forEach(action => store.dispatch(action));
+
+        setTimeout(() => {
+            const finalActions = [
+                layerActions.setLayerActive("facilities_kml", true),
+                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
+            ];
+            finalActions.forEach(action => store.dispatch(action));
+
+            const state = store.getState();
+            const actual = {
+                map: state.map.remove("maps"),
+                view: state.view,
+                asyncronous: state.asyncronous,
+                help: state.help,
+                settings: state.settings,
+                share: state.share,
+                dateSlider: state.dateSlider,
+                analytics: state.analytics,
+                layerInfo: state.layerInfo
+            };
+
+            const expected = {
+                map: mapState
+                    .remove("maps")
+                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
+                    .set("layers", mapState.get("layers").merge(activateDeactivateLayers.ACTIVE_LAYERS))
+                    .removeIn(["layers", "partial"]),
+                asyncronous: asyncState
+                    .set("loadingInitialData", false)
+                    .set("initialLoadingAttempted", true)
+                    .set("loadingLayerSources", false)
+                    .set("layerLoadingAttempted", true)
+                    .set("loadingLayerPalettes", false)
+                    .set("paletteLoadingAttempted", true),
+                view: viewState,
+                help: helpState,
+                settings: settingsState,
+                share: shareState,
+                dateSlider: dateSliderState,
+                analytics: analyticsState,
+                layerInfo: layerInfoState
+            };
+
+            TestUtil.compareFullStates(actual, expected);
+            done();
+        }, 1000);
+    });
+
+    it('can deactivate layers', function(done) {
+        // adjust default timeout
+        this.timeout(2000);
+
+        // create store with async action support
+        const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+
+        const initialActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            layerActions.fetchInitialData()
+        ];
+        initialActions.forEach(action => store.dispatch(action));
+
+        setTimeout(() => {
+            const finalActions = [
+                layerActions.setLayerActive("facilities_kml", true),
+                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                layerActions.setLayerActive("facilities_kml", false),
+                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false)
+            ];
+            finalActions.forEach(action => store.dispatch(action));
+
+            const state = store.getState();
+            const actual = {
+                map: state.map.remove("maps"),
+                view: state.view,
+                asyncronous: state.asyncronous,
+                help: state.help,
+                settings: state.settings,
+                share: state.share,
+                dateSlider: state.dateSlider,
+                analytics: state.analytics,
+                layerInfo: state.layerInfo
+            };
+
+            const expected = {
+                map: mapState
+                    .remove("maps")
+                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
+                    .set("layers", mapState.get("layers").merge(activateDeactivateLayers.DEACTIVE_LAYERS))
                     .removeIn(["layers", "partial"]),
                 asyncronous: asyncState
                     .set("loadingInitialData", false)

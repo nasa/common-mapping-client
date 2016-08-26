@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+    <Style id="GroundStation">
+        <BalloonStyle>
+            <text>
+                <![CDATA[
+                <table style='color:white'>
+	                <tr>
+	                    <td>
+	                        <b>Type</b>
+	                    </td>
+	                    <td>$[Role]</td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <b>Status</b>
+	                    </td>
+	                    <td>$[Status]</td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <b>Country</b>
+	                    </td>
+	                    <td>$[Country]</td>
+	                </tr>
+	            </table>
+	            <div style='position:absolute; right:0; bottom:0;'>
+	            	<a href="http://www.agi.com">
+	                	<img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	            	</a>
+        		</div>]]>
+	    </text>
+	    <bgColor>#ff673005</bgColor>
+	    <textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/GroundStation.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Style id="RadarStation">
+	    <BalloonStyle>
+	        <text>
+	            <![CDATA[<table style='color:white'>
+	            <tr>
+	                <td>
+	                    <b>Type</b>
+	                </td>
+	                <td>$[Role]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Status</b>
+	                </td>
+	                <td>$[Status]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Country</b>
+	                </td>
+	                <td>$[Country]</td>
+	            </tr>
+	        </table>
+	        <div style='position:absolute; right:0; bottom:0;'>
+	            <a href="http://www.agi.com">
+	            <img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	        </a>
+	    </div>]]>
+	</text>
+	<bgColor>#ff673005</bgColor>
+	<textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/RadarStation.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Style id="LaunchPad">
+	    <BalloonStyle>
+	        <text>
+	            <![CDATA[<table style='color:white'>
+	            <tr>
+	                <td>
+	                    <b>Type</b>
+	                </td>
+	                <td>$[Role]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Status</b>
+	                </td>
+	                <td>$[Status]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Country</b>
+	                </td>
+	                <td>$[Country]</td>
+	            </tr>
+	        </table>
+	        <div style='position:absolute; right:0; bottom:0;'>
+	            <a href="http://www.agi.com">
+	            <img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	        </a>
+	    </div>]]>
+	</text>
+	<bgColor>#ff673005</bgColor>
+	<textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/LaunchPad.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Style id="OpticalTrackingStation">
+	    <BalloonStyle>
+	        <text>
+	            <![CDATA[<table style='color:white'>
+	            <tr>
+	                <td>
+	                    <b>Type</b>
+	                </td>
+	                <td>$[Role]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Status</b>
+	                </td>
+	                <td>$[Status]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Country</b>
+	                </td>
+	                <td>$[Country]</td>
+	            </tr>
+	        </table>
+	        <div style='position:absolute; right:0; bottom:0;'>
+	            <a href="http://www.agi.com">
+	            <img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	        </a>
+	    </div>]]>
+	</text>
+	<bgColor>#ff673005</bgColor>
+	<textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/OpticalTrackingStation.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Style id="LaunchSite">
+	    <BalloonStyle>
+	        <text>
+	            <![CDATA[<table style='color:white'>
+	            <tr>
+	                <td>
+	                    <b>Type</b>
+	                </td>
+	                <td>$[Role]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Status</b>
+	                </td>
+	                <td>$[Status]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Country</b>
+	                </td>
+	                <td>$[Country]</td>
+	            </tr>
+	        </table>
+	        <div style='position:absolute; right:0; bottom:0;'>
+	            <a href="http://www.agi.com">
+	            <img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	        </a>
+	    </div>]]>
+	</text>
+	<bgColor>#ff673005</bgColor>
+	<textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/LaunchSite.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Style id="LaserStation">
+	    <BalloonStyle>
+	        <text>
+	            <![CDATA[<table style='color:white'>
+	            <tr>
+	                <td>
+	                    <b>Type</b>
+	                </td>
+	                <td>$[Role]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Status</b>
+	                </td>
+	                <td>$[Status]</td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <b>Country</b>
+	                </td>
+	                <td>$[Country]</td>
+	            </tr>
+	        </table>
+	        <div style='position:absolute; right:0; bottom:0;'>
+	            <a href="http://www.agi.com">
+	            <img style='height:24px;' src='http://www.agi.com/images/layout/agi-logo-top2.gif'/>
+	        </a>
+	    </div>]]>
+	</text>
+	<bgColor>#ff673005</bgColor>
+	<textColor>#ffffffff</textColor>
+	</BalloonStyle>
+	<IconStyle>
+	    <Icon>
+	        <href>/styles/resources/img/LaserStation.png</href>
+	    </Icon>
+	</IconStyle>
+	</Style>
+	<Placemark>
+	    <name>MACRES Ground Receiving Station</name>
+	    <styleUrl>#GroundStation</styleUrl>
+	    <Point>
+	        <coordinates>102.339,3.463</coordinates>
+	    </Point>
+	    <ExtendedData>
+	        <Data name="Role">
+	            <value>Ground Station</value>
+	        </Data>
+	        <Data name="Status">
+	            <value>Active</value>
+	        </Data>
+	        <Data name="Country">
+	            <value>Malaysia</value>
+	        </Data>
+	    </ExtendedData>
+	</Placemark>
+	<Placemark>
+	    <name>ALCOR STDN KMRQ</name>
+	    <styleUrl>#RadarStation</styleUrl>
+	    <Point>
+	        <coordinates>167.48284936,9.39859958</coordinates>
+	    </Point>
+	    <ExtendedData>
+	        <Data name="Role">
+	            <value>Radar Station</value>
+	        </Data>
+	        <Data name="Status">
+	            <value>Active</value>
+	        </Data>
+	        <Data name="Country">
+	            <value>Marshall Islands</value>
+	        </Data>
+	    </ExtendedData>
+	</Placemark>
+</Document>
+</kml>

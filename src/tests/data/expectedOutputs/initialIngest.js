@@ -1,4 +1,4 @@
-export const INGESTED_LAYERS = {
+export const LAYERS = {
     "data": [{
         "isChangingPosition": false,
         "timeFormat": "YYYY-MM-DD",
@@ -154,7 +154,7 @@ export const INGESTED_LAYERS = {
     }]
 };
 
-export const INGESTED_PALETTES = {
+export const PALETTES = {
     "medspiration": {
         "id": "medspiration",
         "values": [
