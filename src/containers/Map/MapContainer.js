@@ -15,51 +15,9 @@ export class MapContainer extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (event) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-
-                // Recover geometry from event
-                let center = event.feature.getGeometry().getCenter();
-                let geometry = {
-                    type: mapStrings.GEOMETRY_CIRCLE,
-                    center: { lon: center[0], lat: center[1] },
-                    radius: event.feature.getGeometry().getRadius(),
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (event) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-                // Recover geometry from event
-                let geometry = {
-                    type: mapStrings.GEOMETRY_LINE_STRING,
-                    coordinates: event.feature.getGeometry().getCoordinates(),
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (event) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-                // Recover geometry from event
-                let geometry = {
-                    type: mapStrings.GEOMETRY_POLYGON,
-                    coordinates: event.feature.getGeometry().getCoordinates()[0],
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry));
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry));
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry));
         }
     }
 
@@ -92,6 +50,13 @@ export class MapContainer extends Component {
         } else {
             console.error("MAP NOT AVAILABLE");
         }
+    }
+
+    handleDrawEnd(geometry) {
+        // Disable drawing
+        this.props.actions.disableDrawing();
+        // Add geometry to other maps
+        this.props.actions.addGeometryToMap(geometry);
     }
 
     render() {

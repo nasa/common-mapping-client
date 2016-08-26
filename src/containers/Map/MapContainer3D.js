@@ -14,63 +14,9 @@ export class MapContainer3D extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (center, radius) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-
-                let cartographicCenter = map.cartesianToCartographic(center);
-                // Recover geometry from event in cartographic
-                let geometry = {
-                    type: mapStrings.GEOMETRY_CIRCLE,
-                    center: cartographicCenter,
-                    radius: radius,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (coordinates) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-
-
-                let cartesianCoordinates = coordinates.map((pos) => {
-                    return map.cartesianToCartographic(pos);
-                });
-
-                // Recover geometry from event in cartographic
-                let geometry = {
-                    type: mapStrings.GEOMETRY_LINE_STRING,
-                    coordinates: cartesianCoordinates,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (coordinates) => {
-                // Draw end
-                // Disable drawing
-                this.props.actions.disableDrawing();
-
-
-                let cartesianCoordinates = coordinates.map((pos) => {
-                    return map.cartesianToCartographic(pos);
-                });
-
-                // Recover geometry from event in cartographic
-                let geometry = {
-                    type: mapStrings.GEOMETRY_POLYGON,
-                    coordinates: cartesianCoordinates,
-                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                };
-
-                // Add geometry to other maps
-                this.props.actions.addGeometryToMap(geometry);
-            });
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry));
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry));
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry));
         }
     }
 
@@ -99,6 +45,13 @@ export class MapContainer3D extends Component {
         } else {
             console.error("MAP NOT AVAILABLE");
         }
+    }
+
+    handleDrawEnd(geometry) {
+        // Disable drawing
+        this.props.actions.disableDrawing();
+        // Add geometry to other maps
+        this.props.actions.addGeometryToMap(geometry);
     }
 
     render() {

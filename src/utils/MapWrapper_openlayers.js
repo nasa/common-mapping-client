@@ -395,23 +395,28 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
             if (mapLayer) {
-                let draw = new ol.interaction.Draw({
+                let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
                     type: geometryType
                 });
 
                 // Set callback
-                draw.on('drawend', onDrawEnd);
+                drawInteraction.on('drawend', (event) => {
+                    if (typeof onDrawEnd === "function") {
+                        let geometry = this.retrieveGeometryFromEvent(event, geometryType);
+                        onDrawEnd(geometry);
+                    }
+                });
 
                 // Disable
-                draw.setActive(false);
+                drawInteraction.setActive(false);
 
                 // Set properties we'll need
-                draw.set('_id', "draw_" + geometryType);
-                draw.set('_drawInteraction', true);
+                drawInteraction.set('_id', "draw_" + geometryType);
+                drawInteraction.set('_drawInteraction', true);
 
                 // Add to map
-                this.map.addInteraction(draw);
+                this.map.addInteraction(drawInteraction);
                 return true;
             } else {
                 console.warn("could not enable drawing in openlayers map");
@@ -421,6 +426,32 @@ export default class MapWrapper_openlayers extends MapWrapper {
             console.warn("could not enable drawing in openlayers map");
             return false;
         }
+    }
+
+    retrieveGeometryFromEvent(event, geometryType) {
+        if (geometryType === mapStrings.GEOMETRY_CIRCLE) {
+            let center = event.feature.getGeometry().getCenter();
+            return {
+                type: mapStrings.GEOMETRY_CIRCLE,
+                center: { lon: center[0], lat: center[1] },
+                radius: event.feature.getGeometry().getRadius(),
+                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+            };
+        } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
+            return {
+                type: mapStrings.GEOMETRY_LINE_STRING,
+                coordinates: event.feature.getGeometry().getCoordinates(),
+                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+            };
+        } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
+            return {
+                type: mapStrings.GEOMETRY_POLYGON,
+                coordinates: event.feature.getGeometry().getCoordinates()[0],
+                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+            };
+        }
+
+        return false;
     }
 
     setScaleUnits(units) {

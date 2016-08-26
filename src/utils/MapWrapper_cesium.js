@@ -28,7 +28,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         // Initialize custom draw-helper interactions array
         this.drawHandler._customInteractions = {};
-        
+
         // Set drawhandler inactive
         this.drawHandler._isActive = false;
 
@@ -217,7 +217,17 @@ export default class MapWrapper_cesium extends MapWrapper {
                     callback: (center, radius) => {
                         // Add geometry to cesium map since it's not done automatically
                         this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        onDrawEnd(center, radius);
+                        if (typeof onDrawEnd === "function") {
+                            // Recover geometry from event in cartographic
+                            let cartographicCenter = this.cartesianToCartographic(center);
+                            let geometry = {
+                                type: mapStrings.GEOMETRY_CIRCLE,
+                                center: cartographicCenter,
+                                radius: radius,
+                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                            };
+                            onDrawEnd(geometry);
+                        }
                     }
                 });
             };
@@ -228,7 +238,18 @@ export default class MapWrapper_cesium extends MapWrapper {
                     callback: (coordinates) => {
                         // Add geometry to cesium map since it's not done automatically
                         this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        onDrawEnd(coordinates);
+                        if (typeof onDrawEnd === "function") {
+                            // Recover geometry from event in cartographic
+                            let cartesianCoordinates = coordinates.map((pos) => {
+                                return this.cartesianToCartographic(pos);
+                            });
+                            let geometry = {
+                                type: mapStrings.GEOMETRY_LINE_STRING,
+                                coordinates: cartesianCoordinates,
+                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                            };
+                            onDrawEnd(geometry);
+                        }
                     }
                 });
             };
@@ -239,7 +260,18 @@ export default class MapWrapper_cesium extends MapWrapper {
                     callback: (coordinates) => {
                         // Add geometry to cesium map since it's not done automatically
                         this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        onDrawEnd(coordinates);
+                        if (typeof onDrawEnd === "function") {
+                            // Recover geometry from event in cartographic
+                            let cartesianCoordinates = coordinates.map((pos) => {
+                                return this.cartesianToCartographic(pos);
+                            });
+                            let geometry = {
+                                type: mapStrings.GEOMETRY_POLYGON,
+                                coordinates: cartesianCoordinates,
+                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                            };
+                            onDrawEnd(geometry);
+                        }
                     }
                 });
             };
@@ -592,7 +624,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         return false;
     }
 
-    
+
 
     getLatLonFromPixelCoordinate(pixel) {
         try {
@@ -704,7 +736,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             lon: this.cesium.Math.toDegrees(cartographicRadians.longitude)
         };
     }
-    
+
     latLonToCartesian(lat, lon) {
         console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil?");
         return new this.cesium.Cartesian3.fromDegrees(lon, lat);
