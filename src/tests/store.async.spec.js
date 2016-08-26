@@ -30,22 +30,15 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.LOAD_INITIAL_DATA}
+            { type: actionTypes.LOAD_INITIAL_DATA }
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState.set("loadingInitialData", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous.set("loadingInitialData", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -54,25 +47,18 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.INITIAL_DATA_LOADED}
+            { type: actionTypes.INITIAL_DATA_LOADED }
         ];
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState
-                .set("loadingInitialData", false)
-                .set("initialLoadingAttempted", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous
+            .set("loadingInitialData", false)
+            .set("initialLoadingAttempted", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -81,23 +67,16 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.LOAD_LAYER_PALETTES}
+            { type: actionTypes.LOAD_LAYER_PALETTES }
         ];
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState.set("loadingLayerPalettes", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous.set("loadingLayerPalettes", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -106,25 +85,18 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.LAYER_PALETTES_LOADED}
+            { type: actionTypes.LAYER_PALETTES_LOADED }
         ];
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState
-                .set("loadingLayerPalettes", false)
-                .set("paletteLoadingAttempted", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous
+            .set("loadingLayerPalettes", false)
+            .set("paletteLoadingAttempted", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -133,23 +105,16 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.LOAD_LAYERS}
+            { type: actionTypes.LOAD_LAYERS }
         ];
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState.set("loadingLayerSources", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous.set("loadingLayerSources", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -158,25 +123,18 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            {type: actionTypes.LAYERS_LOADED}
+            { type: actionTypes.LAYERS_LOADED }
         ];
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState
-                .set("loadingLayerSources", false)
-                .set("layerLoadingAttempted", true),
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const state = store.getState();
+        const actual = {...state };
+
+        const expected = {...initialState };
+        expected.asyncronous = expected.asyncronous
+            .set("loadingLayerSources", false)
+            .set("layerLoadingAttempted", true);
 
         TestUtil.compareFullStates(actual, expected);
     });

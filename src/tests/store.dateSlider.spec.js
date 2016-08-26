@@ -35,19 +35,11 @@ describe('Store - Date Slider', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            dateSlider: dateSliderState.set("isDragging", true),
-            analytics: analyticsState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.dateSlider = expected.dateSlider.set("isDragging", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -61,21 +53,13 @@ describe('Store - Date Slider', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            dateSlider: dateSliderState
-                .set("isDragging", false)
-                .setIn(["hoverDate", "isValid"], false),
-            analytics: analyticsState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.dateSlider = expected.dateSlider
+            .set("isDragging", false)
+            .setIn(["hoverDate", "isValid"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });

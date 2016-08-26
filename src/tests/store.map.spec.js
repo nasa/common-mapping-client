@@ -58,29 +58,12 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         expect(actualNumMaps).to.equal(1);
         expect(actualMap2D).to.not.equal(undefined);
@@ -100,29 +83,12 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         expect(actualNumMaps).to.equal(1);
         expect(actualMap2D).to.equal(undefined);
@@ -143,29 +109,12 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         expect(actualNumMaps).to.equal(2);
         expect(actualMap2D).to.not.equal(undefined);
@@ -186,29 +135,12 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         expect(actualNumMaps).to.equal(2);
         expect(actualMap2D).to.not.equal(undefined);
@@ -227,31 +159,14 @@ describe('Store - Map', function() {
 
         const state = store.getState();
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["displaySettings", "enableTerrain"], true),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["displaySettings", "enableTerrain"], true);
 
         expect(actualMap3D.map.terrainProvider._url).to.equal(mapConfig.DEFAULT_TERRAIN_ENDPOINT);
         TestUtil.compareFullStates(actual, expected);
@@ -269,31 +184,14 @@ describe('Store - Map', function() {
 
         const state = store.getState();
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["displaySettings", "enableTerrain"], false),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["displaySettings", "enableTerrain"], false);
 
         expect(actualMap3D.map.terrainProvider._url).to.equal(undefined);
         TestUtil.compareFullStates(actual, expected);
@@ -311,31 +209,14 @@ describe('Store - Map', function() {
         const state = store.getState();
         const actualNumMaps = state.map.get("maps").size;
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true);
 
         expect(actualNumMaps).to.equal(1);
         expect(actualMap3D.isActive).to.equal(true);
@@ -355,31 +236,14 @@ describe('Store - Map', function() {
         const state = store.getState();
         const actualNumMaps = state.map.get("maps").size;
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true);
 
         expect(actualNumMaps).to.equal(2);
         expect(actualMap3D.isActive).to.equal(true);
@@ -398,31 +262,14 @@ describe('Store - Map', function() {
         const state = store.getState();
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false);
 
         expect(actualNumMaps).to.equal(1);
         expect(actualMap2D.isActive).to.equal(true);
@@ -435,6 +282,7 @@ describe('Store - Map', function() {
         const actions = [
             mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
             mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D),
             mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
         ];
         actions.forEach(action => store.dispatch(action));
@@ -442,31 +290,14 @@ describe('Store - Map', function() {
         const state = store.getState();
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false);
 
         expect(actualNumMaps).to.equal(2);
         expect(actualMap2D.isActive).to.equal(true);
@@ -486,31 +317,14 @@ describe('Store - Map', function() {
         const state = store.getState();
         const actualNumMaps = state.map.get("maps").size;
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true);
 
         expect(actualNumMaps).to.equal(1);
         expect(actualMap3D.map.camera.heading).to.equal(6.283185307179586);
@@ -539,34 +353,18 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps")
-                .setIn(["view", "in3DMode"], true)
-                .setIn(["view", "center"], [0, 0])
-                .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752])
-                .setIn(["view", "projection"], mapConfig.DEFAULT_PROJECTION)
-                .setIn(["view", "zoom"], 8),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["view", "center"], [0, 0])
+            .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752])
+            .setIn(["view", "projection"], mapConfig.DEFAULT_PROJECTION)
+            .setIn(["view", "zoom"], 8);
 
         expect(actualNumMaps).to.equal(2);
         TestUtil.compareFullStates(actual, expected);
@@ -590,32 +388,16 @@ describe('Store - Map', function() {
         const actualNumMaps = state.map.get("maps").size;
         const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps")
-                .setIn(["view", "in3DMode"], false)
-                .setIn(["view", "center"], [0, 0])
-                .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["view", "center"], [0, 0])
+            .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]);
 
         expect(actualNumMaps).to.equal(2);
         TestUtil.compareFullStates(actual, expected);
@@ -632,19 +414,11 @@ describe('Store - Map', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState.set("date", newDate),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.map = expected.map.set("date", newDate);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -660,31 +434,14 @@ describe('Store - Map', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) - 1),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) - 1);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -700,31 +457,14 @@ describe('Store - Map', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -741,29 +481,12 @@ describe('Store - Map', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -778,31 +501,14 @@ describe('Store - Map', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["displaySettings", "selectedScaleUnits"], mapConfig.SCALE_OPTIONS[1].value),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["displaySettings", "selectedScaleUnits"], mapConfig.SCALE_OPTIONS[1].value);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -833,33 +539,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -890,33 +579,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -947,33 +619,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1004,33 +659,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1061,33 +699,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1118,33 +739,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true)
-                .setIn(["drawing", "isDrawingEnabled"], true)
-                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1176,33 +780,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], false)
-                .setIn(["drawing", "isDrawingEnabled"], false)
-                .setIn(["drawing", "geometryType"], ""),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "isDrawingEnabled"], false)
+            .setIn(["drawing", "geometryType"], "");
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1234,33 +821,16 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            analytics: state.analytics,
-            layerInfo: state.layerInfo
-        };
 
-        const expected = {
-            map: mapState
-                .remove("maps")
-                .setIn(["view", "in3DMode"], true)
-                .setIn(["drawing", "isDrawingEnabled"], false)
-                .setIn(["drawing", "geometryType"], ""),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["drawing", "isDrawingEnabled"], false)
+            .setIn(["drawing", "geometryType"], "");
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -1291,154 +861,95 @@ describe('Store - Map', function() {
                 layerInfo: state.layerInfo
             };
 
-            const expected = {
-                map: mapState
-                    .remove("maps")
-                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
-                    .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
-                    .removeIn(["layers", "partial"]),
-                asyncronous: asyncState
-                    .set("loadingInitialData", false)
-                    .set("initialLoadingAttempted", true)
-                    .set("loadingLayerSources", false)
-                    .set("layerLoadingAttempted", true)
-                    .set("loadingLayerPalettes", false)
-                    .set("paletteLoadingAttempted", true),
-                view: viewState,
-                help: helpState,
-                settings: settingsState,
-                share: shareState,
-                dateSlider: dateSliderState,
-                analytics: analyticsState,
-                layerInfo: layerInfoState
-            };
+            const expected = {...initialState };
+            expected.map = expected.map
+                .remove("maps")
+                .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
+                .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+                .removeIn(["layers", "partial"]);
+            expected.asyncronous = expected.asyncronous
+                .set("loadingInitialData", false)
+                .set("initialLoadingAttempted", true)
+                .set("loadingLayerSources", false)
+                .set("layerLoadingAttempted", true)
+                .set("loadingLayerPalettes", false)
+                .set("paletteLoadingAttempted", true);
 
             TestUtil.compareFullStates(actual, expected);
             done();
         }, 1000);
     });
 
-    it('can activate layers', function(done) {
-        // adjust default timeout
-        this.timeout(2000);
+    it('can activate layers', function() {
+        // create modified state to account for layer ingest
+        const modifiedState = {
+            map: mapState
+                .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+                .removeIn(["layers", "partial"]),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
 
-        // create store with async action support
-        const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+        const store = createStore(rootReducer, modifiedState);
 
-        const initialActions = [
+        const actions = [
             mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
             mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
-            layerActions.fetchInitialData()
+            layerActions.setLayerActive("facilities_kml", true),
+            layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
         ];
-        initialActions.forEach(action => store.dispatch(action));
+        actions.forEach(action => store.dispatch(action));
 
-        setTimeout(() => {
-            const finalActions = [
-                layerActions.setLayerActive("facilities_kml", true),
-                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
-            ];
-            finalActions.forEach(action => store.dispatch(action));
+        const state = store.getState();
 
-            const state = store.getState();
-            const actual = {
-                map: state.map.remove("maps"),
-                view: state.view,
-                asyncronous: state.asyncronous,
-                help: state.help,
-                settings: state.settings,
-                share: state.share,
-                dateSlider: state.dateSlider,
-                analytics: state.analytics,
-                layerInfo: state.layerInfo
-            };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
 
-            const expected = {
-                map: mapState
-                    .remove("maps")
-                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
-                    .set("layers", mapState.get("layers").merge(activateDeactivateLayers.ACTIVE_LAYERS))
-                    .removeIn(["layers", "partial"]),
-                asyncronous: asyncState
-                    .set("loadingInitialData", false)
-                    .set("initialLoadingAttempted", true)
-                    .set("loadingLayerSources", false)
-                    .set("layerLoadingAttempted", true)
-                    .set("loadingLayerPalettes", false)
-                    .set("paletteLoadingAttempted", true),
-                view: viewState,
-                help: helpState,
-                settings: settingsState,
-                share: shareState,
-                dateSlider: dateSliderState,
-                analytics: analyticsState,
-                layerInfo: layerInfoState
-            };
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .set("layers", mapState.get("layers").merge(activateDeactivateLayers.ACTIVE_LAYERS))
+            .removeIn(["layers", "partial"]);
 
-            TestUtil.compareFullStates(actual, expected);
-            done();
-        }, 1000);
+        TestUtil.compareFullStates(actual, expected);
     });
 
-    it('can deactivate layers', function(done) {
-        // adjust default timeout
-        this.timeout(2000);
+    it('can deactivate layers', function() {
+        // create modified state to account for layer ingest
+        const modifiedState = {...initialState };
+        modifiedState.map = modifiedState.map
+            .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+            .removeIn(["layers", "partial"]);
 
-        // create store with async action support
-        const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+        const store = createStore(rootReducer, modifiedState);
 
-        const initialActions = [
+        const actions = [
             mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
             mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
-            layerActions.fetchInitialData()
+            layerActions.setLayerActive("facilities_kml", true),
+            layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+            layerActions.setLayerActive("facilities_kml", false),
+            layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false)
         ];
-        initialActions.forEach(action => store.dispatch(action));
+        actions.forEach(action => store.dispatch(action));
 
-        setTimeout(() => {
-            const finalActions = [
-                layerActions.setLayerActive("facilities_kml", true),
-                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
-                layerActions.setLayerActive("facilities_kml", false),
-                layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false)
-            ];
-            finalActions.forEach(action => store.dispatch(action));
+        const state = store.getState();
 
-            const state = store.getState();
-            const actual = {
-                map: state.map.remove("maps"),
-                view: state.view,
-                asyncronous: state.asyncronous,
-                help: state.help,
-                settings: state.settings,
-                share: state.share,
-                dateSlider: state.dateSlider,
-                analytics: state.analytics,
-                layerInfo: state.layerInfo
-            };
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
 
-            const expected = {
-                map: mapState
-                    .remove("maps")
-                    .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
-                    .set("layers", mapState.get("layers").merge(activateDeactivateLayers.DEACTIVE_LAYERS))
-                    .removeIn(["layers", "partial"]),
-                asyncronous: asyncState
-                    .set("loadingInitialData", false)
-                    .set("initialLoadingAttempted", true)
-                    .set("loadingLayerSources", false)
-                    .set("layerLoadingAttempted", true)
-                    .set("loadingLayerPalettes", false)
-                    .set("paletteLoadingAttempted", true),
-                view: viewState,
-                help: helpState,
-                settings: settingsState,
-                share: shareState,
-                dateSlider: dateSliderState,
-                analytics: analyticsState,
-                layerInfo: layerInfoState
-            };
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .set("layers", mapState.get("layers").merge(activateDeactivateLayers.DEACTIVE_LAYERS))
+            .removeIn(["layers", "partial"]);
 
-            TestUtil.compareFullStates(actual, expected);
-            done();
-        }, 1000);
+        TestUtil.compareFullStates(actual, expected);
     });
 });

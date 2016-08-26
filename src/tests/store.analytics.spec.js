@@ -36,30 +36,13 @@ describe('Store - Analytics', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            analytics: state.analytics.remove("currentBatch"),
-            map: state.map,
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            layerInfo: state.layerInfo
-        };
-        const expected = {
-            analytics: analyticsState
-                .set("isEnabled", true)
-                .remove("currentBatch"),
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.analytics = actual.analytics.remove("currentBatch");
+
+        const expected = {...initialState };
+        expected.analytics = expected.analytics
+            .set("isEnabled", true)
+            .remove("currentBatch");
 
         TestUtil.compareFullStates(actual, expected, true);
     });
@@ -74,30 +57,13 @@ describe('Store - Analytics', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
-        const actual = {
-            analytics: state.analytics.remove("currentBatch"),
-            map: state.map,
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            dateSlider: state.dateSlider,
-            layerInfo: state.layerInfo
-        };
-        const expected = {
-            analytics: analyticsState
-                .set("isEnabled", false)
-                .remove("currentBatch"),
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const actual = {...state };
+        actual.analytics = actual.analytics.remove("currentBatch");
+
+        const expected = {...initialState };
+        expected.analytics = expected.analytics
+            .set("isEnabled", false)
+            .remove("currentBatch");
 
         TestUtil.compareFullStates(actual, expected, true);
     });

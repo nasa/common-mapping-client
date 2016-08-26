@@ -35,19 +35,11 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState.set("isOpen", true),
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help.set("isOpen", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -61,19 +53,11 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState.set("isOpen", false),
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -88,19 +72,11 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState.set("isOpen", false),
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -115,19 +91,11 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            help: helpState.set("helpPage", helpPage),
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help.set("helpPage", helpPage);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -143,21 +111,13 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            help: helpState
-                .set("isOpen", true)
-                .set("helpPage", helpPage),
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help
+            .set("isOpen", true)
+            .set("helpPage", helpPage);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -174,21 +134,13 @@ describe('Store - Help', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            help: helpState
-                .set("isOpen", false)
-                .set("helpPage", ""),
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.help = expected.help
+            .set("isOpen", false)
+            .set("helpPage", "");
 
         TestUtil.compareFullStates(actual, expected);
     });
