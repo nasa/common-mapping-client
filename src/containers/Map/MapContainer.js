@@ -43,7 +43,6 @@ export class MapContainer extends Component {
                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                 };
 
-                // console.log(mapStrings.GEOMETRY_LINE_STRING, " = ", geometry);
                 // Add geometry to other maps
                 this.props.actions.addGeometryToMap(geometry);
             });

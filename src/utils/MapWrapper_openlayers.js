@@ -248,29 +248,40 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     enableDrawing(geometryType) {
-        // Get drawHandler by geometryType
-        let interaction = this.findInteractionById("draw_" + geometryType);
-        if (!interaction) {
+        try {
+            // Get drawHandler by geometryType
+            let interaction = this.findInteractionById("draw_" + geometryType);
+            if (interaction) {
+                // Call setActive(true) on handler to enable
+                interaction.setActive(true);
+                // Check that handler is active
+                return interaction.getActive();
+            }
             console.warn("could not enable openlayers drawing for:", geometryType);
             return false;
+        } catch (err) {
+            console.warn("could not enable drawing on openlayers map.", err);
+            return false;
         }
-        // Call setActive(true) on handler to enable
-        interaction.setActive(true);
-        // Check that handler is active
-        return interaction.getActive();
     }
 
     disableDrawing() {
-        // Call setActive(false) on all handlers
-        let drawInteractions = this.findInteractionsWithKey("_drawInteraction");
-        drawInteractions.map((handler) => {
-            handler.setActive(false);
-            // Check that handler is not active
-            if (handler.getActive()) {
-                console.warn("could not disable openlayers draw handler:", handler.get("_id"));
-            }
-        });
-        return true;
+        try {
+            // Call setActive(false) on all handlers
+            let drawInteractions = this.findInteractionsWithKey("_drawInteraction");
+            drawInteractions.map((handler) => {
+                handler.setActive(false);
+
+                // Check that handler is not active
+                if (handler.getActive()) {
+                    console.warn("could not disable openlayers draw handler:", handler.get("_id"));
+                }
+            });
+            return true;
+        } catch (err) {
+            console.warn("could not disable drawing on openlayers map.", err);
+            return false;
+        }
     }
 
     enableActiveListeners(active) {
@@ -278,7 +289,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addGeometry(geometry) {
-        // console.log(ol, "ol", geometry, this, mapStrings.GEOMETRY_CIRCLE)
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
@@ -381,29 +391,36 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addDrawHandler(geometryType, onDrawEnd) {
-        let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
-        if (!mapLayer) {
+        try {
+            let mapLayers = this.map.getLayers().getArray();
+            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+            if (mapLayer) {
+                let draw = new ol.interaction.Draw({
+                    source: mapLayer.getSource(),
+                    type: geometryType
+                });
+
+                // Set callback
+                draw.on('drawend', onDrawEnd);
+
+                // Disable
+                draw.setActive(false);
+
+                // Set properties we'll need
+                draw.set('_id', "draw_" + geometryType);
+                draw.set('_drawInteraction', true);
+
+                // Add to map
+                this.map.addInteraction(draw);
+                return true;
+            } else {
+                console.warn("could not enable drawing in openlayers map");
+                return false;
+            }
+        } catch (err) {
             console.warn("could not enable drawing in openlayers map");
             return false;
         }
-        let draw = new ol.interaction.Draw({
-            source: mapLayer.getSource(),
-            type: geometryType
-        });
-        // Set callback
-        draw.on('drawend', onDrawEnd);
-        // Disable
-        draw.setActive(false);
-        // Set properties we'll need
-        draw.set('_id', "draw_" + geometryType);
-        draw.set('_drawInteraction', true);
-        // Add to map
-        this.map.addInteraction(draw);
-        return true;
-        // } catch (err) {
-        //     console.warn("could not enable drawing in openlayers map");
-        // }
     }
 
     setScaleUnits(units) {
