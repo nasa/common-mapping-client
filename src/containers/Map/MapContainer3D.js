@@ -77,7 +77,7 @@ export class MapContainer3D extends Component {
     initializeMapListeners() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addEventListener("moveend", () => {
+            map.addEventListener(mapStrings.EVENT_MOVE_END, () => {
                 // Only fire move event if this map is active
                 if (map.isActive) {
                     this.props.actions.setMapViewInfo({
@@ -86,12 +86,12 @@ export class MapContainer3D extends Component {
                     });
                 }
             });
-            map.addEventListener("mousemove", (pixel) => {
+            map.addEventListener(mapStrings.EVENT_MOUSE_HOVER, (pixel) => {
                 if (map.isActive) {
                     this.props.actions.pixelHover(pixel);
                 }
             });
-            map.addEventListener("click", (pixel) => {
+            map.addEventListener(mapStrings.EVENT_MOUSE_CLICK, (pixel) => {
                 if (map.isActive) {
                     this.props.actions.pixelClick(pixel);
                 }

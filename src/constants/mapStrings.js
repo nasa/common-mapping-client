@@ -45,6 +45,11 @@ export const GEOMETRY_CIRCLE = 'Circle';
 export const GEOMETRY_LINE_STRING = 'LineString';
 export const GEOMETRY_POLYGON = 'Polygon';
 
+// event types
+export const EVENT_MOUSE_HOVER = 'mousemove';
+export const EVENT_MOVE_END = 'moveend';
+export const EVENT_MOUSE_CLICK = 'click';
+
 // coordinate types
 export const COORDINATE_TYPE_CARTESIAN = 'Cartesian';
 export const COORDINATE_TYPE_CARTOGRAPHIC = 'Cartographic';

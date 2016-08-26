@@ -566,14 +566,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
     addEventListener(eventStr, callback) {
         try {
             switch (eventStr) {
-                case "mousemove":
+                case mapStrings.EVENT_MOUSE_HOVER:
                     return this.map.addEventListener("pointermove", (position) => {
                         callback(position.pixel);
                     });
-                case "click":
+                case mapStrings.EVENT_MOUSE_CLICK:
                     return this.map.addEventListener("click", (clickEvt) => {
                         callback({ pixel: clickEvt.pixel });
                     });
+                case mapStrings.EVENT_MOVE_END:
+                    return this.map.addEventListener("moveend", callback);
                 default:
                     return this.map.addEventListener(eventStr, callback);
             }

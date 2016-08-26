@@ -361,16 +361,16 @@ export default class MapWrapper_cesium extends MapWrapper {
     addEventListener(eventStr, callback) {
         try {
             switch (eventStr) {
-                case "moveend":
+                case mapStrings.EVENT_MOVE_END:
                     this.map.camera.moveEnd.addEventListener(callback);
                     return;
-                case "mousemove":
+                case mapStrings.EVENT_MOUSE_HOVER:
                     new this.cesium.ScreenSpaceEventHandler(this.map.scene.canvas)
                         .setInputAction((movement) => {
                             callback([movement.endPosition.x, movement.endPosition.y]);
                         }, this.cesium.ScreenSpaceEventType.MOUSE_MOVE);
                     return;
-                case "click":
+                case mapStrings.EVENT_MOUSE_CLICK:
                     new this.cesium.ScreenSpaceEventHandler(this.map.scene.canvas)
                         .setInputAction((movement) => {
                             callback({ pixel: [movement.position.x, movement.position.y] });
