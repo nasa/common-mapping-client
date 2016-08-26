@@ -76,6 +76,60 @@ describe('Misc Utils', () => {
             expect(MiscUtil.findObjectInArray(varIn, "indexD", true)).to.equal(varOut);
         });
     });
+    describe('findAllMatchingObjectsInArray', () => {
+        it('returns all the objects in an array that have a matching key/value pair', () => {
+            // DEFINE VARS
+            let varIn = [{
+                testkey: "testvalueA",
+                indexA: true
+            }, {
+                testkey: "testvalueA",
+                indexB: true
+            }, {
+                testkey: "testvalueA",
+                indexC: true
+            }, {
+                testkey: "testvalueB",
+                indexD: true
+            }, {
+                testkey: "testvalueB",
+                indexE: true
+            }, {
+                testkey: "testvalueB",
+                indexF: true
+            }];
+            let varOut = [{
+                testkey: "testvalueA",
+                indexA: true
+            }, {
+                testkey: "testvalueA",
+                indexB: true
+            }, {
+                testkey: "testvalueA",
+                indexC: true
+            }];
+
+            //assert
+            expect(MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
+        });
+        it('returns an empty array if matching objects are not found', () => {
+            // DEFINE VARS
+            let varIn = [{
+                testkey: "testvalue",
+                indexA: true
+            }, {
+                testkey: "testvalue",
+                indexB: true
+            }, {
+                testkey: "testvalue",
+                indexC: true
+            }];
+            let varOut = [];
+
+            //assert
+            expect(MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
+        });
+    });
     describe('findObjectWithIndexInArray', () => {
         it('returns an object containing the first object in an array that has a matching key/value pair and its index in the array', () => {
             // DEFINE VARS
