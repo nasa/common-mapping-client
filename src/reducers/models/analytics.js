@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 let localStorageAnalyticsEnabled = window.localStorage.getItem("analyticsEnabled");
 let analyticsEnabled = localStorageAnalyticsEnabled !== null ? localStorageAnalyticsEnabled === "true" : false;
 
+// analyticsEnabled = true;
 export const analyticsState = Immutable.fromJS({
     isEnabled: analyticsEnabled,
     currentBatch: [],

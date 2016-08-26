@@ -11,6 +11,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -35,8 +36,9 @@ describe('Store - Help', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState.set("isOpen", true),
@@ -47,18 +49,7 @@ describe('Store - Help', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('closes help', function() {
@@ -71,8 +62,9 @@ describe('Store - Help', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState.set("isOpen", false),
@@ -82,19 +74,8 @@ describe('Store - Help', function() {
             dateSlider: dateSliderState,
             layerInfo: layerInfoState
         };
-        
-        // CHANGE
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
 
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('opens and closes help', function() {
@@ -108,8 +89,9 @@ describe('Store - Help', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState.set("isOpen", false),
@@ -120,18 +102,7 @@ describe('Store - Help', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('selects a help page', function() {
@@ -145,8 +116,9 @@ describe('Store - Help', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             help: helpState.set("helpPage", helpPage),
             view: viewState,
             asyncronous: asyncState,
@@ -157,18 +129,37 @@ describe('Store - Help', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        TestUtil.compareFullStates(actual, expected);
+    });
 
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    it('opens and selects a help page', function() {
+        const store = createStore(rootReducer, initialState);
+
+        let helpPage = "screaming eagles";
+        const actions = [
+            appActions.openHelp(),
+            appActions.selectHelpPage(helpPage)
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+
+        const expected = {
+            map: mapState,
+            help: helpState
+                .set("isOpen", true)
+                .set("helpPage", helpPage),
+            view: viewState,
+            asyncronous: asyncState,
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('closing help resets the selected page', function() {
@@ -184,9 +175,12 @@ describe('Store - Help', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
-            help: helpState.set("isOpen", false).set("helpPage", ""),
+            map: mapState,
+            help: helpState
+                .set("isOpen", false)
+                .set("helpPage", ""),
             view: viewState,
             asyncronous: asyncState,
             settings: settingsState,
@@ -196,17 +190,6 @@ describe('Store - Help', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

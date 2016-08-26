@@ -11,6 +11,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -31,7 +32,6 @@ describe('Store - Async', function() {
         const actions = [
             {type: actionTypes.LOAD_INITIAL_DATA}
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
@@ -47,19 +47,7 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('completes initial data loading', function() {
@@ -86,19 +74,7 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('kicks off loading palettes', function() {
@@ -123,19 +99,7 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('completes loading palettes', function() {
@@ -162,19 +126,7 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('kicks off loading layer configs', function() {
@@ -199,19 +151,7 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('completes loading layer configs', function() {
@@ -238,18 +178,6 @@ describe('Store - Async', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-
-        // NO CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

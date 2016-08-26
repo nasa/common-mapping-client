@@ -11,6 +11,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -31,13 +32,12 @@ describe('Store - Share', function() {
         const actions = [
             AppActions.setAutoUpdateUrl(true)
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
 
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             layerInfo: layerInfoState,
             help: helpState,
             view: viewState,
@@ -48,18 +48,7 @@ describe('Store - Share', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('disables auto update url', function() {
@@ -68,12 +57,12 @@ describe('Store - Share', function() {
         const actions = [
             AppActions.setAutoUpdateUrl(false)
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             layerInfo: layerInfoState,
             help: helpState,
             view: viewState,
@@ -83,18 +72,8 @@ describe('Store - Share', function() {
             analytics: analyticsState,
             dateSlider: dateSliderState
         };
-        // CHANGE
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
 
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
     it('can open the share container.', function() {
         const store = createStore(rootReducer, initialState);
@@ -102,12 +81,12 @@ describe('Store - Share', function() {
         const actions = [
             AppActions.openShare()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             layerInfo: layerInfoState,
             help: helpState,
             view: viewState,
@@ -118,18 +97,7 @@ describe('Store - Share', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
     it('can close the share container.', function() {
         const store = createStore(rootReducer, initialState);
@@ -137,12 +105,12 @@ describe('Store - Share', function() {
         const actions = [
             AppActions.closeShare()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             layerInfo: layerInfoState,
             help: helpState,
             view: viewState,
@@ -153,18 +121,7 @@ describe('Store - Share', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('can open and close the share container.', function() {
@@ -174,12 +131,12 @@ describe('Store - Share', function() {
             AppActions.openShare(),
             AppActions.closeShare()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             layerInfo: layerInfoState,
             help: helpState,
             view: viewState,
@@ -190,17 +147,6 @@ describe('Store - Share', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

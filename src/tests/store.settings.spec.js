@@ -11,6 +11,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -35,8 +36,9 @@ describe('Store - Settings', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             settings: settingsState.set("isOpen", true),
             help: helpState,
             view: viewState,
@@ -47,18 +49,7 @@ describe('Store - Settings', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-
-        // NO CHANGE
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
     it('closes settings.', function() {
         const store = createStore(rootReducer, initialState);
@@ -70,8 +61,9 @@ describe('Store - Settings', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             settings: settingsState.set("isOpen", false),
             help: helpState,
             view: viewState,
@@ -82,18 +74,7 @@ describe('Store - Settings', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-
-        // NO CHANGE
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('opens and closes settings.', function() {
@@ -107,8 +88,9 @@ describe('Store - Settings', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             settings: settingsState.set("isOpen", false),
             help: helpState,
             view: viewState,
@@ -119,17 +101,6 @@ describe('Store - Settings', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-
-        // NO CHANGE
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

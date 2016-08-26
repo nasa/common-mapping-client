@@ -11,6 +11,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -28,19 +29,22 @@ describe('Store - Layer Info', function() {
     it('opens layer info and sets the correct layer object.', function() {
         const store = createStore(rootReducer, initialState);
 
-        let layer = layerModel.merge({
+        const layer = layerModel.merge({
             id: "TEST_LAYER_1"
         });
+
         const actions = [
             LayerActions.openLayerInfo(layer)
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
-            layerInfo: layerInfoState.set("isOpen", true).set("layer", layer),
+            map: mapState,
+            layerInfo: layerInfoState
+                .set("isOpen", true)
+                .set("layer", layer),
             help: helpState,
             view: viewState,
             asyncronous: asyncState,
@@ -50,24 +54,13 @@ describe('Store - Layer Info', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+       TestUtil.compareFullStates(actual, expected);
     });
     
     it('closes layer info and maintains the layer object reference.', function() {
         const store = createStore(rootReducer, initialState);
 
-        let layer = layerModel.merge({
+        const layer = layerModel.merge({
             id: "TEST_LAYER_1"
         });
 
@@ -79,9 +72,12 @@ describe('Store - Layer Info', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
-            layerInfo: layerInfoState.set("isOpen", false).set("layer", layer),
+            map: mapState,
+            layerInfo: layerInfoState
+                .set("isOpen", false)
+                .set("layer", layer),
             help: helpState,
             view: viewState,
             asyncronous: asyncState,
@@ -91,17 +87,6 @@ describe('Store - Layer Info', function() {
             dateSlider: dateSliderState
         };
 
-        // CHANGE
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
+       TestUtil.compareFullStates(actual, expected);
     });
 });

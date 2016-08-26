@@ -1,3 +1,4 @@
+import * as AppActions from '../actions/AppActions';
 import * as LayerActions from '../actions/LayerActions';
 import * as appStrings from '../constants/appStrings';
 import { createStore } from 'redux';
@@ -12,6 +13,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -28,11 +30,88 @@ const initialState = {
 describe('Store - View', function() {
     it('sets the app title, version, and subtitle from config', function() {
         const store = createStore(rootReducer, initialState);
-        let state = store.getState();
+        const actual = store.getState();
 
-        expect(state.view.get("title")).to.equal(appStrings.APP_TITLE);
-        expect(state.view.get("subtitle")).to.equal(appStrings.APP_SUBTITLE);
-        expect(state.view.get("version")).to.equal(appStrings.APP_VERSION);
+        expect(actual.view.get("title")).to.equal(appStrings.APP_TITLE);
+        expect(actual.view.get("subtitle")).to.equal(appStrings.APP_SUBTITLE);
+        expect(actual.view.get("version")).to.equal(appStrings.APP_VERSION);
+    });
+
+    it('can complete initial load', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            AppActions.completeInitialLoad()
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+
+        const expected = {
+            map: mapState,
+            view: viewState.set("initialLoadComplete", true),
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can set full screen enabled', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            AppActions.setFullScreenMode(true)
+        ];
+
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+
+        const expected = {
+            map: mapState,
+            view: viewState.set("isFullscreen", true),
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can set full screen disabled', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            AppActions.setFullScreenMode(true),
+            AppActions.setFullScreenMode(false)
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+
+        const expected = {
+            map: mapState,
+            view: viewState.set("isFullscreen", false),
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            analytics: analyticsState,
+            dateSlider: dateSliderState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('can set layer menu open', function() {
@@ -45,8 +124,9 @@ describe('Store - View', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState.set("layerMenuOpen", true),
             asyncronous: asyncState,
             help: helpState,
@@ -57,20 +137,9 @@ describe('Store - View', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
+
     it('can set layer menu closed', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -81,8 +150,9 @@ describe('Store - View', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState.set("layerMenuOpen", false),
             asyncronous: asyncState,
             help: helpState,
@@ -93,19 +163,7 @@ describe('Store - View', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('can set layer menu open and closed', function() {
@@ -115,12 +173,12 @@ describe('Store - View', function() {
             LayerActions.setLayerMenuOpen(true),
             LayerActions.setLayerMenuOpen(false)
         ];
-
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState.set("layerMenuOpen", false),
             asyncronous: asyncState,
             help: helpState,
@@ -131,18 +189,6 @@ describe('Store - View', function() {
             layerInfo: layerInfoState
         };
 
-        // CHANGE
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-
-        // NO CHANGE
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

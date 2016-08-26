@@ -17,6 +17,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -64,7 +65,20 @@ describe('Store', function() {
         
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            analytics: state.analytics,
+            dateSlider: state.dateSlider,
+            layerInfo: state.layerInfo
+        };
+
         const expected = {
             map: mapState.remove("maps"),
             view: viewState,
@@ -77,15 +91,7 @@ describe('Store', function() {
             layerInfo: layerInfoState
         };
 
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 
     it('does nothing on a NO_ACTION', function() {
@@ -97,8 +103,9 @@ describe('Store', function() {
         actions.forEach(action => store.dispatch(action));
 
         const actual = store.getState();
+
         const expected = {
-            map: mapState.remove("maps"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -109,14 +116,6 @@ describe('Store', function() {
             layerInfo: layerInfoState
         };
 
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.analytics.remove("currentBatch").remove("timeLastSent").toJS()).to.deep.equal(expected.analytics.remove("currentBatch").remove("timeLastSent").toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected);
     });
 });

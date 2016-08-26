@@ -12,6 +12,7 @@ import { dateSliderState } from '../reducers/models/dateSlider';
 import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
+import TestUtil from './TestUtil';
 
 const initialState = {
     map: mapState,
@@ -32,13 +33,25 @@ describe('Store - Analytics', function() {
         const actions = [
             analyticsActions.setAnalyticsEnabled(true)
         ];
-
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {
+            analytics: state.analytics.remove("currentBatch"),
+            map: state.map,
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            layerInfo: state.layerInfo
+        };
         const expected = {
-            analytics: analyticsState.set("isEnabled", true).remove("currentBatch"),
-            map: mapState.remove("maps"),
+            analytics: analyticsState
+                .set("isEnabled", true)
+                .remove("currentBatch"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -48,28 +61,35 @@ describe('Store - Analytics', function() {
             layerInfo: layerInfoState
         };
 
-        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected, true);
     });
+
     it('disables user analytics', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
+            analyticsActions.setAnalyticsEnabled(true),
             analyticsActions.setAnalyticsEnabled(false)
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {
+            analytics: state.analytics.remove("currentBatch"),
+            map: state.map,
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            layerInfo: state.layerInfo
+        };
         const expected = {
-            analytics: analyticsState.set("isEnabled", false).remove("currentBatch"),
-            map: mapState.remove("maps"),
+            analytics: analyticsState
+                .set("isEnabled", false)
+                .remove("currentBatch"),
+            map: mapState,
             view: viewState,
             asyncronous: asyncState,
             help: helpState,
@@ -79,14 +99,6 @@ describe('Store - Analytics', function() {
             layerInfo: layerInfoState
         };
 
-        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
-        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
-        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
-        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
-        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
-        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
-        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+        TestUtil.compareFullStates(actual, expected, true);
     });
 });
