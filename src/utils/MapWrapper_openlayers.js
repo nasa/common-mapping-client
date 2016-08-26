@@ -103,9 +103,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
             case mapStrings.LAYER_VECTOR_KML:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
-                // case mapStrings.LAYER_VECTOR_DRAWING:
-                //     mapLayer = this.createVectorLayer(layer, false);
-                //     break;
             default:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
@@ -250,7 +247,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     enableDrawing(geometryType) {
         try {
             // Get drawHandler by geometryType
-            let interaction = this.findInteractionById("draw_" + geometryType);
+            let interaction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", "draw_" + geometryType);
             if (interaction) {
                 // Call setActive(true) on handler to enable
                 interaction.setActive(true);
@@ -268,7 +265,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     disableDrawing() {
         try {
             // Call setActive(false) on all handlers
-            let drawInteractions = this.findInteractionsWithKey("_drawInteraction");
+            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), "_drawInteraction", true);
             drawInteractions.map((handler) => {
                 handler.setActive(false);
 
@@ -359,31 +356,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         mapLayer.getSource().clear();
         return mapLayer.getSource().getFeatures().length === 0;
-    }
-
-    findInteractionsWithKey(id) {
-        // TODO use MISCUTIL FN
-        let mapInteractions = this.map.getInteractions();
-        if (!mapInteractions) {
-            console.warn("could not get openlayers interactions");
-            return false;
-        }
-        return mapInteractions.getArray().filter((x) => x.get(id));
-    }
-
-    findInteractionById(id) {
-        // TODO use MISCUTIL FN
-        let mapInteractions = this.map.getInteractions();
-        if (!mapInteractions) {
-            console.warn("could not get openlayers interactions");
-            return false;
-        }
-        let interaction = mapInteractions.getArray().filter((x) => x.get("_id") === id);
-        if (!interaction || interaction.length !== 1) {
-            console.warn("could not find requested openlayers interaction");
-            return false;
-        }
-        return interaction[0];
     }
 
     resetOrientation(duration) {

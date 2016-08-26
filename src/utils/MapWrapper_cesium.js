@@ -211,183 +211,211 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     addDrawHandler(geometryType, onDrawEnd) {
-        if (geometryType === mapStrings.GEOMETRY_CIRCLE) {
-            this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_CIRCLE] = () => {
-                this.drawHandler.startDrawingCircle({
-                    callback: (center, radius) => {
-                        // Add geometry to cesium map since it's not done automatically
-                        this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        if (typeof onDrawEnd === "function") {
-                            // Recover geometry from event in cartographic
-                            let cartographicCenter = this.cartesianToCartographic(center);
-                            let geometry = {
-                                type: mapStrings.GEOMETRY_CIRCLE,
-                                center: cartographicCenter,
-                                radius: radius,
-                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                            };
-                            onDrawEnd(geometry);
+        try {
+            if (geometryType === mapStrings.GEOMETRY_CIRCLE) {
+                this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_CIRCLE] = () => {
+                    this.drawHandler.startDrawingCircle({
+                        callback: (center, radius) => {
+                            // Add geometry to cesium map since it's not done automatically
+                            this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
+                            if (typeof onDrawEnd === "function") {
+                                // Recover geometry from event in cartographic
+                                let cartographicCenter = this.cartesianToLatLon(center);
+                                let geometry = {
+                                    type: mapStrings.GEOMETRY_CIRCLE,
+                                    center: cartographicCenter,
+                                    radius: radius,
+                                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                                };
+                                onDrawEnd(geometry);
+                            }
                         }
-                    }
-                });
-            };
-            return true;
-        } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
-            this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_LINE_STRING] = () => {
-                this.drawHandler.startDrawingPolyline({
-                    callback: (coordinates) => {
-                        // Add geometry to cesium map since it's not done automatically
-                        this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        if (typeof onDrawEnd === "function") {
-                            // Recover geometry from event in cartographic
-                            let cartesianCoordinates = coordinates.map((pos) => {
-                                return this.cartesianToCartographic(pos);
-                            });
-                            let geometry = {
-                                type: mapStrings.GEOMETRY_LINE_STRING,
-                                coordinates: cartesianCoordinates,
-                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                            };
-                            onDrawEnd(geometry);
+                    });
+                };
+                return true;
+            } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
+                this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_LINE_STRING] = () => {
+                    this.drawHandler.startDrawingPolyline({
+                        callback: (coordinates) => {
+                            // Add geometry to cesium map since it's not done automatically
+                            this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
+                            if (typeof onDrawEnd === "function") {
+                                // Recover geometry from event in cartographic
+                                let cartographicCoordinates = coordinates.map((pos) => {
+                                    return this.cartesianToLatLon(pos);
+                                });
+                                let geometry = {
+                                    type: mapStrings.GEOMETRY_LINE_STRING,
+                                    coordinates: cartographicCoordinates,
+                                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                                };
+                                onDrawEnd(geometry);
+                            }
                         }
-                    }
-                });
-            };
-            return true;
-        } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
-            this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_POLYGON] = () => {
-                this.drawHandler.startDrawingPolygon({
-                    callback: (coordinates) => {
-                        // Add geometry to cesium map since it's not done automatically
-                        this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
-                        if (typeof onDrawEnd === "function") {
-                            // Recover geometry from event in cartographic
-                            let cartesianCoordinates = coordinates.map((pos) => {
-                                return this.cartesianToCartographic(pos);
-                            });
-                            let geometry = {
-                                type: mapStrings.GEOMETRY_POLYGON,
-                                coordinates: cartesianCoordinates,
-                                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                            };
-                            onDrawEnd(geometry);
+                    });
+                };
+                return true;
+            } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
+                this.drawHandler._customInteractions["_id" + mapStrings.GEOMETRY_POLYGON] = () => {
+                    this.drawHandler.startDrawingPolygon({
+                        callback: (coordinates) => {
+                            // Add geometry to cesium map since it's not done automatically
+                            this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN });
+                            if (typeof onDrawEnd === "function") {
+                                // Recover geometry from event in cartographic
+                                let cartographicCoordinates = coordinates.map((pos) => {
+                                    return this.cartesianToLatLon(pos);
+                                });
+                                let geometry = {
+                                    type: mapStrings.GEOMETRY_POLYGON,
+                                    coordinates: cartographicCoordinates,
+                                    coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                                };
+                                onDrawEnd(geometry);
+                            }
                         }
-                    }
-                });
-            };
-            return true;
-        } else {
-            console.warn("could not add draw handler for cesium of type", geometryType);
+                    });
+                };
+                return true;
+            } else {
+                console.warn("could not add draw handler for cesium of type", geometryType);
+            }
+        } catch (err) {
+            console.warn("could not not add draw handler for cesium", err);
+            return false;
         }
     }
 
     enableDrawing(geometryType) {
-        // Enable drawing for geometryType
-        let interaction = this.drawHandler._customInteractions["_id" + geometryType];
-        if (interaction) {
-            interaction();
-            return true;
+        try {
+            // Enable drawing for geometryType
+            let interaction = this.drawHandler._customInteractions["_id" + geometryType];
+            if (interaction) {
+                interaction();
+                return true;
+            }
+            console.warn("could not enable cesium drawing for:", geometryType);
+            return false;
+        } catch (err) {
+            console.warn("could not not enabled drawing in cesium", err);
+            return false;
         }
-        console.warn("could not enable cesium drawing for:", geometryType);
-        return false;
     }
 
     disableDrawing() {
-        // Stop drawing
-        this.drawHandler.stopDrawing();
-        return true;
+        try {
+            // Stop drawing
+            this.drawHandler.stopDrawing();
+            return true;
+        } catch (err) {
+            console.warn("could not not disable drawing in cesium", err);
+            return false;
+        }
     }
 
     enableActiveListeners(active) {
-        this.drawHandler._isActive = active;
-        return true;
-    }
-
-    addGeometry(geometry) {
-        if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
-            let cesiumCenter = null;
-            let cesiumRadius = null;
-            // Check coordinate type
-            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                // Calc radius by finding cartesian distance from 
-                //  center to radius point
-                let point = { lat: geometry.center.lat, lon: geometry.center.lon };
-                point.lon += geometry.radius;
-
-                let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
-                cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-                cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
-            } else {
-                cesiumCenter = geometry.center;
-                cesiumRadius = geometry.radius;
-            }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
-            material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
-            material.uniforms.rimColor = new this.cesium.Color(1.0, 1.0, 1.0, 1.0);
-            let primitiveToAdd = new this.drawHelper.CirclePrimitive({
-                center: cesiumCenter,
-                radius: cesiumRadius,
-                material: material
-            });
-            this.map.scene.primitives.add(primitiveToAdd);
-            primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
-            return true;
-        } else if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
-            let cartesianCoords = null;
-            // // Check coordinate type
-            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                // Transform coordinates from cartographic to cartesian
-                cartesianCoords = geometry.coordinates.map((x) => {
-                    return this.latLonToCartesian(x[1], x[0]);
-                });
-            } else if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
-                cartesianCoords = geometry.coordinates;
-            } else {
-                console.warn("Unhandled coordinate type when trying to draw cesium line string:", geometry.type);
-                return false;
-            }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
-            material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR);
-            let primitiveToAdd = new this.drawHelper.PolylinePrimitive({
-                positions: cartesianCoords,
-                width: mapConfig.GEOMETRY_STROKE_WEIGHT,
-                material: material,
-                geodesic: true
-            });
-            this.map.scene.primitives.add(primitiveToAdd);
-            return true;
-        } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-            let cartesianCoords = null;
-            // // Check coordinate type
-            if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                // Transform coordinates from cartographic to cartesian
-                cartesianCoords = geometry.coordinates.map((x) => {
-                    return this.latLonToCartesian(x[1], x[0]);
-                });
-            } else if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
-                cartesianCoords = geometry.coordinates;
-            } else {
-                console.warn("Unhandled coordinate type when trying to draw cesium polygon string:", geometry.type);
-                return false;
-            }
-            let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
-            material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
-            material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
-            let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
-                positions: cartesianCoords,
-                material: material
-            });
-            this.map.scene.primitives.add(primitiveToAdd);
-            primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
+        if (this.drawHandler) {
+            this.drawHandler._isActive = active;
             return true;
         }
-        console.warn("add geometry not complete in cesium", geometry, " is unsupported");
         return false;
     }
 
+    addGeometry(geometry) {
+        try {
+            if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
+                let cesiumCenter = null;
+                let cesiumRadius = null;
+                // Check coordinate type
+                if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                    // Calc radius by finding cartesian distance from 
+                    //  center to radius point
+                    let point = { lat: geometry.center.lat, lon: geometry.center.lon };
+                    point.lon += geometry.radius;
+
+                    let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
+                    cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
+                    cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
+                } else {
+                    cesiumCenter = geometry.center;
+                    cesiumRadius = geometry.radius;
+                }
+                let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
+                material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
+                material.uniforms.rimColor = new this.cesium.Color(1.0, 1.0, 1.0, 1.0);
+                let primitiveToAdd = new this.drawHelper.CirclePrimitive({
+                    center: cesiumCenter,
+                    radius: cesiumRadius,
+                    material: material
+                });
+                this.map.scene.primitives.add(primitiveToAdd);
+                primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
+                return true;
+            } else if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+                let cartesianCoords = null;
+                // // Check coordinate type
+                if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                    // Transform coordinates from cartographic to cartesian
+                    cartesianCoords = geometry.coordinates.map((x) => {
+                        return this.latLonToCartesian(x[1], x[0]);
+                    });
+                } else if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
+                    cartesianCoords = geometry.coordinates;
+                } else {
+                    console.warn("Unhandled coordinate type when trying to draw cesium line string:", geometry.type);
+                    return false;
+                }
+                let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
+                material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR);
+                let primitiveToAdd = new this.drawHelper.PolylinePrimitive({
+                    positions: cartesianCoords,
+                    width: mapConfig.GEOMETRY_STROKE_WEIGHT,
+                    material: material,
+                    geodesic: true
+                });
+                this.map.scene.primitives.add(primitiveToAdd);
+                return true;
+            } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+                let cartesianCoords = null;
+                // // Check coordinate type
+                if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                    // Transform coordinates from cartographic to cartesian
+                    cartesianCoords = geometry.coordinates.map((x) => {
+                        return this.latLonToCartesian(x[1], x[0]);
+                    });
+                } else if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTESIAN) {
+                    cartesianCoords = geometry.coordinates;
+                } else {
+                    console.warn("Unhandled coordinate type when trying to draw cesium polygon string:", geometry.type);
+                    return false;
+                }
+                let material = this.cesium.Material.fromType(this.cesium.Material.RimLightingType);
+                material.uniforms.color = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
+                material.uniforms.rimColor = new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_FILL_COLOR);
+                let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
+                    positions: cartesianCoords,
+                    material: material
+                });
+                this.map.scene.primitives.add(primitiveToAdd);
+                primitiveToAdd.setStrokeStyle(new this.cesium.Color.fromCssColorString(mapConfig.GEOMETRY_STROKE_COLOR), mapConfig.GEOMETRY_STROKE_WEIGHT);
+                return true;
+            }
+            console.warn("add geometry not complete in cesium", geometry, " is unsupported");
+            return false;
+        } catch (err) {
+            console.warn("could not add geometry in cesium", err);
+            return false;
+        }
+    }
+
     removeAllGeometries() {
-        this.drawHandler._scene.primitives.removeAll();
-        return this.drawHandler._scene.primitives.length === 0;
+        try {
+            this.drawHandler._scene.primitives.removeAll();
+            return this.drawHandler._scene.primitives.length === 0;
+        } catch (err) {
+            console.warn("remove geometries in cesium", err);
+            return false;
+        }
     }
 
     addEventListener(eventStr, callback) {
@@ -728,8 +756,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
 
     /* methods for Cesium only */
-    cartesianToCartographic(point) {
-        console.warn("Cesium cartesianToCartographic should be moved into MapUtils");
+    cartesianToLatLon(point) {
         let cartographicRadians = this.cesium.Ellipsoid.WGS84.cartesianToCartographic(point);
         return {
             lat: this.cesium.Math.toDegrees(cartographicRadians.latitude),
@@ -738,7 +765,6 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     latLonToCartesian(lat, lon) {
-        console.warn("TODO: Move MapWrapper_cesium.latLonToCartesian into MapUtil?");
         return new this.cesium.Cartesian3.fromDegrees(lon, lat);
     }
 
@@ -854,15 +880,6 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     createVectorSource(layer, options) {
-        // customize the layer url if needed
-        // if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", mapStrings.MAP_LIB_3D]) !== "undefined") {
-        //     let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", mapStrings.MAP_LIB_3D]));
-        //     options.url = urlFunction({
-        //         layer: layer,
-        //         url: options.url
-        //     });
-        // }
-
         switch (layer.get("handleAs")) {
             case mapStrings.LAYER_VECTOR_GEOJSON:
                 return this.createGeoJsonSource(layer, options);

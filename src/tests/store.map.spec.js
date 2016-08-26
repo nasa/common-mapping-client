@@ -809,46 +809,463 @@ describe('Store - Map', function() {
         TestUtil.compareFullStates(actual, expected);
     });
 
-    // it('can enable drawing a circle on a 2D map', function() {
-    //     const store = createStore(rootReducer, initialState);
+    it('can enable drawing a circle on a 2D map', function() {
+        const store = createStore(rootReducer, initialState);
 
-    //     const actions = [
-    //         mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
-    //         mapActions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)
-    //     ];
-    //     actions.forEach(action => store.dispatch(action));
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
 
-    //     const state = store.getState();
-    //     const actualMap2D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
-    //     const actual = {
-    //         map: state.map.remove("maps"),
-    //         view: state.view,
-    //         asyncronous: state.asyncronous,
-    //         help: state.help,
-    //         settings: state.settings,
-    //         share: state.share,
-    //         dateSlider: state.dateSlider,
-    //         analytics: state.analytics,
-    //         layerInfo: state.layerInfo
-    //     };
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
-    //     const expected = {
-    //         map: mapState
-    //             .remove("maps")
-    //             .setIn(["drawing", "isDrawingEnabled"], true)
-    //             .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE),
-    //         view: viewState,
-    //         asyncronous: asyncState,
-    //         help: helpState,
-    //         settings: settingsState,
-    //         share: shareState,
-    //         dateSlider: dateSliderState,
-    //         analytics: analyticsState,
-    //         layerInfo: layerInfoState
-    //     };
+        // add drawing on the map
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
 
-    //     TestUtil.compareFullStates(actual, expected);
-    // });
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], false)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can enable drawing a line on a 2D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        // add drawing on the map
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], false)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can enable drawing a polygon on a 2D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        // add drawing on the map
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_POLYGON)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], false)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can enable drawing a circle on a 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // add drawing on the map
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], true)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can enable drawing a line on a 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // add drawing on the map
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], true)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can enable drawing a polygon on a 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // add drawing on the map
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_POLYGON)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], true)
+                .setIn(["drawing", "isDrawingEnabled"], true)
+                .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can disable drawing on a 2D map and clear previous drawing type', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        // add drawing on the map
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_POLYGON),
+            mapActions.disableDrawing()
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], false)
+                .setIn(["drawing", "isDrawingEnabled"], false)
+                .setIn(["drawing", "geometryType"], ""),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can disable drawing on a 3D map and clear previous drawing type', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // add drawing on the map
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+
+        // enable drawing
+        const finalActions = [
+            mapActions.enableDrawing(mapStrings.GEOMETRY_POLYGON),
+            mapActions.disableDrawing()
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actual = {
+            map: state.map.remove("maps"),
+            view: state.view,
+            asyncronous: state.asyncronous,
+            help: state.help,
+            settings: state.settings,
+            share: state.share,
+            dateSlider: state.dateSlider,
+            analytics: state.analytics,
+            layerInfo: state.layerInfo
+        };
+
+        const expected = {
+            map: mapState
+                .remove("maps")
+                .setIn(["view", "in3DMode"], true)
+                .setIn(["drawing", "isDrawingEnabled"], false)
+                .setIn(["drawing", "geometryType"], ""),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            dateSlider: dateSliderState,
+            analytics: analyticsState,
+            layerInfo: layerInfoState
+        };
+
+        TestUtil.compareFullStates(actual, expected);
+    });
 
     it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
         // adjust default timeout

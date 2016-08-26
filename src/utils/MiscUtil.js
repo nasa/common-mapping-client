@@ -27,6 +27,12 @@ export default class MiscUtil {
         return false;
     }
 
+    static findAllMatchingObjectsInArray(array, key, val) {
+        return array.filter((element) => {
+            return element[key] === val || (typeof element.get === "function" && element.get(key) === val);
+        });
+    }
+
     static findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
             if (array[i][key] === val ||

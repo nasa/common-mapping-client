@@ -687,7 +687,6 @@ const disableDrawing = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        state.setIn(["drawing", "isDrawingEnabled"], false).setIn(["drawing", "geometryType"], "");
         return state.setIn(["drawing", "isDrawingEnabled"], false).setIn(["drawing", "geometryType"], "");
     }
     return state;

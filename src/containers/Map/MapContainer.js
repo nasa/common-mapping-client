@@ -18,6 +18,8 @@ export class MapContainer extends Component {
             map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry));
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry));
             map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry));
+        } else {
+            console.error("Cannot initialize draw listeners: MAP NOT AVAILABLE");
         }
     }
 
@@ -48,7 +50,7 @@ export class MapContainer extends Component {
                 }
             });
         } else {
-            console.error("MAP NOT AVAILABLE");
+            console.error("Cannot initialize event listeners: MAP NOT AVAILABLE");
         }
     }
 
@@ -57,6 +59,14 @@ export class MapContainer extends Component {
         this.props.actions.disableDrawing();
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry);
+    }
+
+    handleDisableDrawing() {
+        // Only disable if drawing is enabled
+        if (this.props.isDrawingEnabled) {
+            // Add other dialog checks here?
+            this.props.actions.disableDrawing();
+        }
     }
 
     render() {
@@ -74,15 +84,7 @@ export class MapContainer extends Component {
         return (
             <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D"></div>
-                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => 
-                    {
-                        // Only disable if drawing is enabled
-                        if (this.props.isDrawingEnabled) {
-                            // Add other dialog checks here?
-                            this.props.actions.disableDrawing();
-                        }
-                    }
-                } />
+                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleDisableDrawing()} />
             </div>
         );
     }
