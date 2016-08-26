@@ -1,7 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as DateSliderActions from '../actions/DateSliderActions';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -28,4 +25,68 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Date Slider', function() {});
+describe('Store - Date Slider', function() {
+    it('begins dragging', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            DateSliderActions.beginDragging(true)
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            dateSlider: dateSliderState.set("isDragging", true),
+            analytics: analyticsState.remove("currentBatch"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+
+    it('ends dragging', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            DateSliderActions.endDragging(false)
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const actual = store.getState();
+        const expected = {
+            map: mapState.remove("maps"),
+            dateSlider: dateSliderState.set("isDragging", false).setIn(["hoverDate", "isValid"], false),
+            analytics: analyticsState.remove("currentBatch"),
+            view: viewState,
+            asyncronous: asyncState,
+            help: helpState,
+            settings: settingsState,
+            share: shareState,
+            layerInfo: layerInfoState
+        };
+
+        expect(actual.analytics.remove("currentBatch").toJS()).to.deep.equal(expected.analytics.toJS());
+        expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
+        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
+        expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
+        expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());
+        expect(actual.map.remove("maps").toJS()).to.deep.equal(expected.map.toJS());
+        expect(actual.dateSlider.toJS()).to.deep.equal(expected.dateSlider.toJS());
+        expect(actual.layerInfo.toJS()).to.deep.equal(expected.layerInfo.toJS());
+    });
+});

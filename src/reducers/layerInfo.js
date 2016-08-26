@@ -13,7 +13,7 @@ const closeLayerInfo = (state, action) => {
     return state.set("isOpen", false);
 };
 
-export default function help(state = layerInfoState, action) {
+export default function layerInfo(state = layerInfoState, action) {
     switch (action.type) {
         case actionTypes.OPEN_LAYER_INFO:
             return openLayerInfo(state, action);

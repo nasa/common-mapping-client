@@ -813,7 +813,7 @@ describe('Store - Map', function() {
     })
 
     it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
-        // adjsut default timeout
+        // adjust default timeout
         this.timeout(2000);
 
         // create store with async action support

@@ -44,7 +44,7 @@ const resetApplicationState = (state, action) => {
     newState = setSliderCollapsed(newState, { collapsed: false });
     return newState;
 };
-export default function settingsContainer(state = dateSliderState, action) {
+export default function dateSlider(state = dateSliderState, action) {
     switch (action.type) {
         case actionTypes.BEGIN_DRAGGING:
             return beginDragging(state, action);
