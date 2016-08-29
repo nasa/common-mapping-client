@@ -107,9 +107,15 @@
             &.tick-text-hour {
                 font-weight: 400;
             }
+            &.future_date {
+                fill: $color-medium;
+            }
         }
         line {
             stroke: $color-medium-dark;
+            &.future_date {
+                stroke: $color-medium;
+            }
         }
     }
     .single-date {

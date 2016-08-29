@@ -1,4 +1,6 @@
 import d3 from 'd3';
+import moment from 'moment';
+import * as appStrings from '../constants/appStrings';
 
 export default class TimeAxisD3 {
     constructor(options) {
@@ -61,7 +63,7 @@ export default class TimeAxisD3 {
             .tickFormat(this._timeFormat);
     }
 
-    enter() {
+    enter(options = false) {
         let _context = this;
 
         // configure the zoom
@@ -117,7 +119,7 @@ export default class TimeAxisD3 {
 
         // done entering time to update
         this.updateAxis();
-        this.update();
+        this.update(options);
     }
 
     updateAxis() {
@@ -178,8 +180,18 @@ export default class TimeAxisD3 {
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
             this._selection.call(this._selection.zoom.event);
 
+            // translate resolution to scale
+            let scale = this._selection.zoom.scale();
+            if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
+                scale = 512;
+            } else if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
+                scale = 16;
+            } else if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
+                scale = 1;
+            }
+
             // Record the coordinates (in data space) of the center( in screen space).
-            let scale = options.scale ? options.scale : this._selection.zoom.scale();
+            // let scale = options.scale ? options.scale : this._selection.zoom.scale();
             let center0 = [this._xFn(options.date), 0];
             let translate0 = this._selection.zoom.translate();
             let coordinates0 = this.coordinates(center0);
@@ -223,6 +235,7 @@ export default class TimeAxisD3 {
         let y1 = "0";
         let y2 = "-18";
         let className = "default";
+
         // Year
         if (month === 0 &&
             day === 1 &&
@@ -253,6 +266,12 @@ export default class TimeAxisD3 {
         } else if (milliseconds === 0) {
             className = "milliseconds";
         }
+
+        // check if its in the future
+        if (moment(d).isAfter(moment(new Date()))) {
+            className += " future_date";
+        }
+
         selection.select("text")
             .classed("tick-text-" + className, true);
 

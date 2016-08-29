@@ -15,7 +15,8 @@ export const MIN_ZOOM_DISTANCE_3D = 500.0;
 // misc.
 export const REFERENCE_LABELS_LAYER_ID = "Reference_Labels";
 export const POLITICAL_BOUNDARIES_LAYER_ID = "Reference_Features";
-export const DEFAULT_DATE = moment("2015-05-20", "YYYY-MM-DD").toDate();
+// export const DEFAULT_DATE = moment("2015-05-20", "YYYY-MM-DD").toDate();
+export const DEFAULT_DATE = new Date();
 export const SCALE_OPTIONS = [
     { value: 'metric', label: 'Metric', abbrev: 'm/Km' },
     { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi' },

@@ -30,7 +30,10 @@ export class TimeAxis extends Component {
         });
 
         // get it going
-        this.timeAxisD3.enter();
+        this.timeAxisD3.enter({
+            date: this.props.date,
+            scale: this.props.resolution
+        });
 
         window.addEventListener("resize", () => {
             let options = this.getSizes();
@@ -52,15 +55,7 @@ export class TimeAxis extends Component {
     componentDidUpdate() {
         let options = { date: this.props.date };
         if (this.props.resolutionHack !== this.cachedResolutionHack) {
-            let scale = 1;
-            if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
-                scale = 256;
-            } else if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
-                scale = 16;
-            } else if (this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
-                scale = 1;
-            }
-            options.scale = scale;
+            options.scale = this.props.resolution;
         }
         this.timeAxisD3.update(options);
     }
