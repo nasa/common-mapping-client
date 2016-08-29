@@ -5,7 +5,7 @@ import * as mapConfig from '../constants/mapConfig';
 import * as mapActions from '../actions/MapActions';
 import * as layerActions from '../actions/LayerActions';
 import * as initialIngest from './data/expectedOutputs/initialIngest';
-import * as activateDeactivateLayers from './data/expectedOutputs/activateDeactivateLayers';
+import * as activateInactivateLayers from './data/expectedOutputs/activateInactivateLayers';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { expect } from 'chai';
@@ -849,17 +849,8 @@ describe('Store - Map', function() {
 
         setTimeout(() => {
             const state = store.getState();
-            const actual = {
-                map: state.map.remove("maps"),
-                view: state.view,
-                asyncronous: state.asyncronous,
-                help: state.help,
-                settings: state.settings,
-                share: state.share,
-                dateSlider: state.dateSlider,
-                analytics: state.analytics,
-                layerInfo: state.layerInfo
-            };
+            const actual = {...state };
+            actual.map = actual.map.remove("maps");
 
             const expected = {...initialState };
             expected.map = expected.map
@@ -882,19 +873,10 @@ describe('Store - Map', function() {
 
     it('can activate layers', function() {
         // create modified state to account for layer ingest
-        const modifiedState = {
-            map: mapState
-                .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
-                .removeIn(["layers", "partial"]),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            dateSlider: dateSliderState,
-            analytics: analyticsState,
-            layerInfo: layerInfoState
-        };
+        const modifiedState = {...initialState };
+        modifiedState.map = modifiedState.map
+            .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+            .removeIn(["layers", "partial"]);
 
         const store = createStore(rootReducer, modifiedState);
 
@@ -914,7 +896,7 @@ describe('Store - Map', function() {
         const expected = {...initialState };
         expected.map = expected.map
             .remove("maps")
-            .set("layers", mapState.get("layers").merge(activateDeactivateLayers.ACTIVE_LAYERS))
+            .set("layers", mapState.get("layers").merge(activateInactivateLayers.ACTIVE_LAYERS))
             .removeIn(["layers", "partial"]);
 
         TestUtil.compareFullStates(actual, expected);
@@ -947,7 +929,7 @@ describe('Store - Map', function() {
         const expected = {...initialState };
         expected.map = expected.map
             .remove("maps")
-            .set("layers", mapState.get("layers").merge(activateDeactivateLayers.DEACTIVE_LAYERS))
+            .set("layers", mapState.get("layers").merge(activateInactivateLayers.INACTIVE_LAYERS))
             .removeIn(["layers", "partial"]);
 
         TestUtil.compareFullStates(actual, expected);

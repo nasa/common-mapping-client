@@ -154,7 +154,7 @@ export const ACTIVE_LAYERS = {
     }]
 };
 
-export const DEACTIVE_LAYERS = {
+export const INACTIVE_LAYERS = {
     "data": [{
         "isChangingPosition": false,
         "timeFormat": "YYYY-MM-DD",
