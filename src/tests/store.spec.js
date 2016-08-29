@@ -66,30 +66,11 @@ describe('Store', function() {
         actions.forEach(action => store.dispatch(action));
 
         const state = store.getState();
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
 
-        const actual = {
-            map: state.map.remove("maps"),
-            view: state.view,
-            asyncronous: state.asyncronous,
-            help: state.help,
-            settings: state.settings,
-            share: state.share,
-            analytics: state.analytics,
-            dateSlider: state.dateSlider,
-            layerInfo: state.layerInfo
-        };
-
-        const expected = {
-            map: mapState.remove("maps"),
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.map = expected.map.remove("maps");
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -102,19 +83,10 @@ describe('Store', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState,
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
 
         TestUtil.compareFullStates(actual, expected);
     });

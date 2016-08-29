@@ -32,22 +32,13 @@ describe('Store - Settings', function() {
         const actions = [
             AppActions.openSettings()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            settings: settingsState.set("isOpen", true),
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.settings = expected.settings.set("isOpen", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -57,22 +48,13 @@ describe('Store - Settings', function() {
         const actions = [
             AppActions.closeSettings()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            settings: settingsState.set("isOpen", false),
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.settings = expected.settings.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -84,22 +66,13 @@ describe('Store - Settings', function() {
             AppActions.openSettings(),
             AppActions.closeSettings()
         ];
-
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            settings: settingsState.set("isOpen", false),
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.settings = expected.settings.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });

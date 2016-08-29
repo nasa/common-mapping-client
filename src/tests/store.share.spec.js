@@ -34,19 +34,11 @@ describe('Store - Share', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState,
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState.set("autoUpdateUrl", true),
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.share = expected.share.set("autoUpdateUrl", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -55,23 +47,16 @@ describe('Store - Share', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
+            AppActions.setAutoUpdateUrl(true),
             AppActions.setAutoUpdateUrl(false)
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState,
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState.set("autoUpdateUrl", false),
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.share = expected.share.set("autoUpdateUrl", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -83,19 +68,11 @@ describe('Store - Share', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState,
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState.set("isOpen", true),
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.share = expected.share.set("isOpen", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -107,19 +84,11 @@ describe('Store - Share', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState,
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState.set("isOpen", false),
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.share = expected.share.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -133,19 +102,11 @@ describe('Store - Share', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState,
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState.set("isOpen", false),
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.share = expected.share.set("isOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });

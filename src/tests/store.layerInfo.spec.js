@@ -38,25 +38,17 @@ describe('Store - Layer Info', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState
-                .set("isOpen", true)
-                .set("layer", layer),
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.layerInfo = expected.layerInfo
+            .set("isOpen", true)
+            .set("layer", layer);
 
-       TestUtil.compareFullStates(actual, expected);
+        TestUtil.compareFullStates(actual, expected);
     });
-    
+
     it('closes layer info and maintains the layer object reference.', function() {
         const store = createStore(rootReducer, initialState);
 
@@ -71,22 +63,14 @@ describe('Store - Layer Info', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            layerInfo: layerInfoState
-                .set("isOpen", false)
-                .set("layer", layer),
-            help: helpState,
-            view: viewState,
-            asyncronous: asyncState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState
-        };
+        const expected = {...initialState };
+        expected.layerInfo = expected.layerInfo
+            .set("isOpen", false)
+            .set("layer", layer);
 
-       TestUtil.compareFullStates(actual, expected);
+        TestUtil.compareFullStates(actual, expected);
     });
 });

@@ -45,19 +45,11 @@ describe('Store - View', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("initialLoadComplete", true),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("initialLoadComplete", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -71,19 +63,11 @@ describe('Store - View', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("isFullscreen", true),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("isFullscreen", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -97,19 +81,11 @@ describe('Store - View', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("isFullscreen", false),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("isFullscreen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -123,19 +99,11 @@ describe('Store - View', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("layerMenuOpen", true),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("layerMenuOpen", true);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -149,19 +117,11 @@ describe('Store - View', function() {
 
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("layerMenuOpen", false),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("layerMenuOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -175,19 +135,11 @@ describe('Store - View', function() {
         ];
         actions.forEach(action => store.dispatch(action));
 
-        const actual = store.getState();
+        const state = store.getState();
+        const actual = {...state };
 
-        const expected = {
-            map: mapState,
-            view: viewState.set("layerMenuOpen", false),
-            asyncronous: asyncState,
-            help: helpState,
-            settings: settingsState,
-            share: shareState,
-            analytics: analyticsState,
-            dateSlider: dateSliderState,
-            layerInfo: layerInfoState
-        };
+        const expected = {...initialState };
+        expected.view = expected.view.set("layerMenuOpen", false);
 
         TestUtil.compareFullStates(actual, expected);
     });
