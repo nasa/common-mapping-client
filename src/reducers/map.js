@@ -717,6 +717,8 @@ const addGeometryToMap = (state, action) => {
 };
 
 const removeAllGeometries = (state, action) => {
+    state = disableDrawing(state, action);
+
     let alerts = state.get("alerts");
     // Add geometry to each inactive map
     let anySucceed = state.get("maps").reduce((acc, map) => {
