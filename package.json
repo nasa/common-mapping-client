@@ -86,6 +86,7 @@
     "proj4": "2.3.14",
     "raw-loader": "0.5.1",
     "react-addons-test-utils": "15.3.0",
+    "react-contextmenu": "1.6.2",
     "react-dom": "15.0.1",
     "react-key-handler": "0.2.0",
     "react-tooltip": "3.0.4",

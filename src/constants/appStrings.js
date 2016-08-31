@@ -13,6 +13,8 @@ export const URL_KEYS = {
     DATE: 'date'
 };
 
+export const MAP_CONTEXT_MENU = "MAP_CONTEXT_MENU";
+
 // Date slider strings, maybe we need a misc? or a datesliderStrings?
 export const DATE_SLIDER_RESOLUTIONS = {
     DAYS: "Days",

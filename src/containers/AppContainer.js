@@ -8,7 +8,7 @@ import * as layerActions from '../actions/LayerActions';
 import * as mapStrings from '../constants/mapStrings';
 import MiscUtil from '../utils/MiscUtil';
 import MapContainer from './Map/MapContainer';
-import MapContainer3D from './Map/MapContainer3D';
+import MapContextMenu from './Map/MapContextMenu';
 import MapControlsContainer from './Map/MapControlsContainer';
 import SettingsContainer from './Settings/SettingsContainer';
 import ShareContainer from './Share/ShareContainer';
@@ -58,7 +58,6 @@ export class AppContainer extends Component {
             <div id="appContainer">
                 <HelpContainer />
                 <MapContainer />
-                <MapContainer3D />
                 <MapControlsContainer />
                 <ToolsContainer />
                 <AppBarContainer />
@@ -70,6 +69,7 @@ export class AppContainer extends Component {
                 <DatePickerContainer />
                 <AlertsContainer />
                 <LoadingContainer />
+                <MapContextMenu />
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );

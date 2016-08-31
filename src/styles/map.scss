@@ -107,6 +107,7 @@
     display: none;
 }
 
+#mapContainer,
 #mapContainer2D,
 #mapContainer3D {
     position: relative;
@@ -116,7 +117,16 @@
     overflow: hidden;
     opacity: 1;
     display: block;
-    background-color: darken($color-medium-light, 10%);
+}
+
+#mapContainer {
+    background-color: $color-dark;
+    @include animation(opacityWithDisplayAnimationShow, 0.5s);
+}
+
+#mapContainer2D,
+#mapContainer3D {
+    background-color: darken($color-medium-light, 15%);
     @include animation(opacityWithDisplayAnimationShow, 0.5s);
 }
 

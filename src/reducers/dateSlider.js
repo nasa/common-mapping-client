@@ -39,7 +39,7 @@ const setChangingResolution = (state, action) => {
 };
 const resetApplicationState = (state, action) => {
     let newState = endDragging(state, action);
-    newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.YEARS });
+    newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.DAYS });
     newState = setChangingResolution(newState, { isSelectingResolution: false });
     newState = setSliderCollapsed(newState, { collapsed: false });
     return newState;

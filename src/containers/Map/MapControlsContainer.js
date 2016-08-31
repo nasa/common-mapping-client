@@ -41,7 +41,7 @@ export class MapControlsContainer extends Component {
                     neutral
                     icon="navigation"
                     className={this.props.in3DMode ? "map-orientation-reset mini-xs" : "hidden"} 
-                    onClick={() => {this.props.actions.resetOrientation(1)}}
+                    onClick={() => {this.props.actions.resetOrientation(1);}}
                     data-tip="Reset orientation"
                     data-place="right" 
                 />

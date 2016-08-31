@@ -8,9 +8,6 @@
     box-sizing: border-box;
 }
 
-
-/* nodes */
-
 html {
     width: 100%;
     height: 100%;
@@ -72,12 +69,6 @@ hr.divider.medium {
 hr.divider.dark {
     background-color: $color-dark;
 }
-
-
-/* end nodes */
-
-
-/* classes */
 
 .hidden {
     display: none !important;
@@ -255,22 +246,11 @@ button.mini-xs-waysmall.small-text {
     color: $color-primary;
 }
 
-
-/* SCROLLBAR STYLING */
-
-.scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.28);
-    border-radius: inherit;
+.react-context-menu-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
-
-
-/*  END */
-
-
-/* end classes */
-
-
-/* ids */
 
 #appContainer {
     position: relative;
@@ -279,10 +259,6 @@ button.mini-xs-waysmall.small-text {
     overflow: hidden;
     white-space: nowrap;
 }
-
-
-/* end ids */
-
 
 /* imports */
 
