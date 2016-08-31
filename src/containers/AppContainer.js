@@ -29,6 +29,10 @@ export class AppContainer extends Component {
         this.urlParams = MiscUtil.getUrlParams();
     }
     componentDidMount() {
+        // disable the right click listener
+        document.addEventListener("oncontextmenu", (e) => false);
+
+        // load in initial data
         this.props.actions.fetchInitialData(() => {
             //initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
             // wait for the DOM to complete rendering.
