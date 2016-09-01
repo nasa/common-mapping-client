@@ -17,12 +17,6 @@ export function openLayerInfo(param) {
 export function closeLayerInfo() {
     return { type: types.CLOSE_LAYER_INFO };
 }
-export function openTools() {
-    return { type: types.OPEN_TOOLS };
-}
-export function closeTools() {
-    return { type: types.CLOSE_TOOLS };
-}
 export function openHelp() {
     return { type: types.OPEN_HELP };
 }

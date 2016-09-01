@@ -6,69 +6,62 @@ import { Button } from 'react-toolbox/lib/button';
 import { ContextMenuSubMenu } from '../../components/ContextMenuSubMenu';
 import * as actions from '../../actions/MapActions';
 import * as appStrings from '../../constants/appStrings';
+import * as mapStrings from '../../constants/mapStrings';
 
 export class MapContextMenu extends Component {
-    handleClick(data) {
+
+    dummyHandleClick(data) {
         return false;
     }
 
     render() {
         return (
             <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU}>
-                <MenuItem data={{}} onClick={this.handleClick}>
+                <MenuItem data={{}} onClick={this.dummyHandleClick}>
                     <Button
-                        accent
-                        data-place="left"
-                        onClick={() => console.log("HERERERE")}
+                        onClick={() => console.log("Measure Distance")}
                         className="context-menu-item" >
-                        <i className="ms ms-measure-distance context-menu-icon"></i><span className="context-menu-label">Measure Distance</span>
+                        <i className="ms ms-measure-distance context-menu-icon" />
+                        <span className="context-menu-label">Measure Distance</span>
                     </Button>
                 </MenuItem>
-                <MenuItem data={{}} onClick={this.handleClick}>
+                <MenuItem data={{}} onClick={this.dummyHandleClick}>
                     <Button
-                        accent
-                        data-place="left"
                         label="Drop Marker"
                         icon="pin_drop"
-                        onClick={() => console.log("HERERERE")}
+                        onClick={() => console.log("Drop Pin")}
                         className="context-menu-item" />
                 </MenuItem>
-                <ContextMenuSubMenu title="Draw Shape">
-                    <MenuItem data={{}} onClick={this.handleClick}>
+                <ContextMenuSubMenu title="Drawing">
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent
-                            data-place="left"
                             label="Circle"
                             icon="radio_button_unchecked"
-                            onClick={() => console.log("HERERERE")}
+                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}
                             className="context-menu-item" />
                     </MenuItem>
-                    <MenuItem data={{}} onClick={this.handleClick}>
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent
-                            data-place="left"
-                            onClick={() => console.log("HERERERE")}
+                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
                             className="context-menu-item" >
-                            <i className="ms ms-line context-menu-icon"></i><span className="context-menu-label">Polyline</span>
+                            <i className="ms ms-line context-menu-icon" />
+                            <span className="context-menu-label">Polyline</span>
                         </Button>
                     </MenuItem>
-                    <MenuItem data={{}} onClick={this.handleClick}>
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent
-                            data-place="left"
-                            onClick={() => console.log("HERERERE")}
+                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}
                             className="context-menu-item" >
-                            <i className="ms ms-polygon context-menu-icon"></i><span className="context-menu-label">Polygon</span>
+                            <i className="ms ms-polygon context-menu-icon" />
+                            <span className="context-menu-label">Polygon</span>
                         </Button>
                     </MenuItem>
                     <hr className="divider medium-light" />
-                    <MenuItem data={{}} onClick={this.handleClick}>
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent
-                            data-place="left"
                             label="Clear Drawings"
                             icon="delete"
-                            onClick={() => console.log("HERERERE")}
+                            onClick={() => this.props.actions.removeAllGeometries()}
                             className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>

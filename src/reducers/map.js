@@ -661,6 +661,8 @@ const ingestLayerPalettes = (state, action) => {
 };
 
 const enableDrawing = (state, action) => {
+    state = disableDrawing(state, action);
+
     // For each map, enable drawing
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.isActive) {
@@ -672,7 +674,9 @@ const enableDrawing = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        return state.setIn(["drawing", "isDrawingEnabled"], true).setIn(["drawing", "geometryType"], action.geometryType);
+        return state
+            .setIn(["drawing", "isDrawingEnabled"], true)
+            .setIn(["drawing", "geometryType"], action.geometryType);
     }
     return state;
 };
@@ -687,7 +691,9 @@ const disableDrawing = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        return state.setIn(["drawing", "isDrawingEnabled"], false).setIn(["drawing", "geometryType"], "");
+        return state
+            .setIn(["drawing", "isDrawingEnabled"], false)
+            .setIn(["drawing", "geometryType"], "");
     }
     return state;
 };

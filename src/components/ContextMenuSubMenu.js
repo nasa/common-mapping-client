@@ -109,12 +109,11 @@ export class ContextMenuSubMenu extends Component {
                 onMouseEnter={() => this.handleMouseEnter()}
                 onMouseLeave={() => this.handleMouseLeave()} >
                 <Button
-                    accent
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}
                     label={title}
                     icon="mode_edit" >
-                    <FontIcon value='chevron_right' className="button-icon-right" />
+                    <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
                 </Button>
                 <div className={subMenuClasses}>
                     {children}

@@ -42,26 +42,20 @@ export class AppBarContainer extends Component {
                         />
                         <Button 
                             neutral
-                            accent
-                            raised
-                            className={"main-action-button "+ (!this.props.toolsOpen ? "main-action-button-inactive" : "")}
+                            className={"main-action-button main-action-button-inactive"}
                             label="Tools"
-                            onClick={() => this.props.toolsOpen ? this.props.actions.closeTools() : this.props.actions.openTools()} 
                         />
                     </div>
                     <div className="buttons-container col-xs-2">
                         <IconButton
-                            // floating
                             neutral
                             icon="help" 
-                            // label="?"
                             className="title-button mini-xs" 
                             onClick={this.props.actions.openHelp} 
                             data-tip="Help"
                             data-place="bottom"
                         />
                         <IconButton
-                            // floating
                             neutral
                             icon="share"
                             className="title-button mini-xs"
@@ -70,7 +64,6 @@ export class AppBarContainer extends Component {
                             data-place="bottom"
                         />
                         <IconButton
-                            // floating
                             neutral
                             icon="settings"
                             className="title-button mini-xs"
@@ -79,7 +72,6 @@ export class AppBarContainer extends Component {
                             data-place="bottom"
                         />
                         <IconButton
-                            // floating
                             neutral
                             icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} 
                             className="title-button mini-xs" 
@@ -98,16 +90,14 @@ AppBarContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string.isRequired,
-    toolsOpen: PropTypes.bool.isRequired
+    subtitle: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         title: state.view.get("title"),
         subtitle: state.view.get("subtitle"),
-        isFullscreen: state.view.get("isFullscreen"),
-        toolsOpen: state.tools.get("isOpen")
+        isFullscreen: state.view.get("isFullscreen")
     };
 }
 
