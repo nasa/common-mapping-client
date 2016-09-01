@@ -29,27 +29,10 @@ export class AppBarContainer extends Component {
                         <h1 id="appTitle" >{this.props.title}</h1>
                         <span id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>{this.props.subtitle}</span>
                     </div>
-                    <div className="main-actions-container col-xs">
-                        <Button
-                            neutral
-                            className="main-action-button main-action-button-inactive"
-                            label="Datasets"
-                        />
-                        <Button 
-                            neutral
-                            className="main-action-button main-action-button-inactive"
-                            label="Timeline"
-                        />
-                        <Button 
-                            neutral
-                            className={"main-action-button main-action-button-inactive"}
-                            label="Tools"
-                        />
-                    </div>
-                    <div className="buttons-container col-xs-2">
+                    <div className="buttons-container col-xs-2 col-xs-offset-7">
                         <IconButton
                             neutral
-                            icon="help" 
+                            icon="help"
                             className="title-button mini-xs" 
                             onClick={this.props.actions.openHelp} 
                             data-tip="Help"
