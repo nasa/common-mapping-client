@@ -109,6 +109,7 @@ export class ContextMenuSubMenu extends Component {
                 onMouseEnter={() => this.handleMouseEnter()}
                 onMouseLeave={() => this.handleMouseLeave()} >
                 <Button
+                    accent={visible}
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}
                     label={title}

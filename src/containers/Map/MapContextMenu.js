@@ -15,6 +15,9 @@ export class MapContextMenu extends Component {
     }
 
     render() {
+        let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_CIRCLE;
+        let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
+        let drawingPolygon = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_POLYGON;
         return (
             <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU}>
                 <MenuItem data={{}} onClick={this.dummyHandleClick}>
@@ -35,6 +38,7 @@ export class MapContextMenu extends Component {
                 <ContextMenuSubMenu title="Drawing">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
+                            accent={drawingCircle}
                             label="Circle"
                             icon="radio_button_unchecked"
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}
@@ -42,6 +46,7 @@ export class MapContextMenu extends Component {
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
+                            accent={drawingLineString}
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
                             className="context-menu-item" >
                             <i className="ms ms-line context-menu-icon" />
@@ -50,6 +55,7 @@ export class MapContextMenu extends Component {
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
+                            accent={drawingPolygon}
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}
                             className="context-menu-item" >
                             <i className="ms ms-polygon context-menu-icon" />
@@ -71,14 +77,12 @@ export class MapContextMenu extends Component {
 }
 
 MapContextMenu.propTypes = {
-    in3DMode: PropTypes.bool.isRequired,
     drawing: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        in3DMode: state.map.getIn(["view", "in3DMode"]),
         drawing: state.map.get("drawing")
     };
 }

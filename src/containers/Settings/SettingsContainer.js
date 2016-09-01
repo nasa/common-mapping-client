@@ -119,7 +119,7 @@ export class SettingsContainer extends Component {
                         className="menu-check-box"
                         caption="Auto-Update Url"
                         checked={this.props.autoUpdateUrlEnabled}
-                        legend="Automatically update the url in this window to be shareable."
+                        legend="Automatically update the url in this window to be shareable"
                         onChange={(value) => this.props.appActions.setAutoUpdateUrl(value)}
                     />
                     <ListItem
