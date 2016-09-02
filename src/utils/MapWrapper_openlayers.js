@@ -65,7 +65,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     new ol.control.ScaleLine({
                         className: "map-scale-container"
                     })
-                ]
+                ],
+                interactions: ol.interaction.defaults({
+                    altShiftDragRotate: false,
+                    pinchRotate: false,
+                    shiftDragZoom: false,
+                    keyboard: false
+                })
             });
         } catch (err) {
             console.warn("could not create openlayers map.", err);

@@ -83,7 +83,7 @@ export class MapContainer2D extends Component {
 
         return (
             <div id="mapContainer2D" className={containerClass}>
-                <div id="map2D"></div>
+                <div id="map2D" />
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleDisableDrawing()} />
             </div>
         );

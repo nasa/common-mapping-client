@@ -120,10 +120,10 @@ export class TimeAxis extends Component {
         return (
             <g className={axisClassNames}>
                 <clipPath id="chart-content">
-                    <rect></rect>
+                    <rect />
                 </clipPath>
-                <rect id="chart-bounds"></rect>
-                <g id="x-axis"></g>
+                <rect id="chart-bounds" />
+                <g id="x-axis" />
                 <defs>
                     <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
                         <feGaussianBlur in="SourceAlpha" stdDeviation="1" />

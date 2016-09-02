@@ -67,7 +67,7 @@ export class MapContainer3D extends Component {
         });
         return (
             <div id="mapContainer3D" className={containerClass}>
-                <div id="map3D"></div>
+                <div id="map3D" />
             </div>
         );
     }

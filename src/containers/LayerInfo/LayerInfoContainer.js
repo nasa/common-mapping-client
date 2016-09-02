@@ -24,11 +24,11 @@ export class LayerInfoContainer extends Component {
                         <List className={"no-margin layerInfo-list"}>
                             <ListItem
                                 caption={metadata ? metadata.get("platform") : ""}
-                                leftIcon={(<i className="ms ms-satellite"></i>)}
+                                leftIcon={(<i className="ms ms-satellite" />)}
                             />
                             <ListItem
                                 caption={metadata ? metadata.get("spatialResolution") : ""}
-                                leftIcon={(<i className="ms ms-merge"></i>)}
+                                leftIcon={(<i className="ms ms-merge" />)}
                             />
                             <ListItem
                                 caption={metadata ? metadata.get("dateRange") : ""}

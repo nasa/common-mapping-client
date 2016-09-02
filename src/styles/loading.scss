@@ -1,23 +1,22 @@
 $loading-spinner-size: 50;
+
 #loadingContainer {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0px;
     left: 0px;
-    padding: 5rem;
+    /*padding: 5rem;*/
     z-index: 5;
     opacity: 1;
     transition: top 0.5s linear 1s, opacity 0.25s linear 1s;
     -webkit-transition: top 0.5s linear 1s, opacity 0.25s linear 1s;
-    background: black;
+    background: $color-dark;
     background-size: cover;
-    // background-image: url("http://localhost:3000/styles/resources/img/pia19358_smaller.jpg");
-    background-image: url("http://localhost:3000/styles/resources/img/best_img_evr.png");
-    // background-image: url(https://planetgallery.global.ssl.fastly.net/web/bahamas-oolites-web.jpg);
-    // background-image: url("http://mars.nasa.gov/mro/imgs/2016/03/Mars-MRO-orbiter-fresh-crater-sirenum-fossae-full.jpg");
-    // background-image: url("http://earthobservatory.nasa.gov/blogs/earthmatters/files/2014/01/Bahamas_amo_2014009_lrg.jpg");
-    background-size: cover;
+    background-position: center;
+    /*background-image: url(https://planetgallery.global.ssl.fastly.net/web/bahamas-oolites-web.jpg);*/
+    /*background-image: url("http://mars.nasa.gov/mro/imgs/2016/03/Mars-MRO-orbiter-fresh-crater-sirenum-fossae-full.jpg");*/
+    background-image: url("http://www.nasa.gov/sites/default/files/thumbnails/image/187_1003703_africa_dxm.png");
     text-transform: uppercase;
     color: white;
 }
@@ -28,29 +27,38 @@ $loading-spinner-size: 50;
 }
 
 #loadingHeader {
-    position: absolute;
-    top: 5rem;
+    /*position: absolute;
+    top: 5rem;*/
+    margin: 0px;
+    margin-top: 5rem;
+    margin-left: 5rem;
     font-size: 4.8rem;
     letter-spacing: -0.1rem;
     font-weight: bolder;
+    border-bottom: 8px solid white;
+    max-width: 75%;
+    word-break: normal;
+    white-space: normal;
+    display: inline-block;
 }
 
 .loadingIntro {
     color: white;
     font-weight: bolder;
-    top: 19rem;
     position: relative;
+    margin-left: 5rem;
     line-height: 1.1;
-    border-top: 8px solid white;
-    width: 97px;
-    padding-top: 5px;
+    /*border-top: 8px solid white;*/
+    padding-top: 1rem;
     font-size: 2rem;
+    text-transform: none;
 }
 
 .loadingAttribution {
     color: white;
     font-weight: bolder;
     position: absolute;
+    left: 5rem;
     bottom: 8rem;
     line-height: 1.1;
     border-bottom: 8px solid white;

@@ -72,7 +72,7 @@ export class HelpContainer extends Component {
                         onClick={() => {MiscUtil.mailTo("test@test.test");}}
                     />
                 </List>
-                <div className={!this.props.helpPage ? 'hidden' : 'help-page'} dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}}></div>
+                <div className={!this.props.helpPage ? 'hidden' : 'help-page'} dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} />
             </ModalMenuContainer>
         );
     }

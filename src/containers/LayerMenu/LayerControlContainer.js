@@ -135,7 +135,7 @@ export class LayerControlContainer extends Component {
                             data-tip={!this.props.layer.get("isChangingPosition") ? "Adjust layer positioning" : null}
                             data-place="left"
                             onClick={() => this.toggleChangingPosition()}>
-                            <i className="button-icon ms ms-fw ms-layers-overlay"></i>
+                            <i className="button-icon ms ms-fw ms-layers-overlay" />
                         </IconButton>
                         <IconButton
                             // primary={!this.props.layer.get("isChangingOpacity")}

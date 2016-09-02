@@ -63,7 +63,7 @@ export class ColorbarContainer extends Component {
 
         return (
             <div className={containerClass}>
-                <canvas ref="canvas" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className={canvasClass}></canvas>
+                <canvas ref="canvas" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className={canvasClass} />
                 <img src={this.props.url} className={imageClass} />
                 <span className={warningClass}>No Colorbar Available</span>
             </div>
