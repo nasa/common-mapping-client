@@ -22,7 +22,8 @@ const initialPosition = {
     left: false,
     right: false
 };
-const defaultDelay = 500;
+const showDelay = 500;
+const hideDelay = 250;
 
 export class ContextMenuSubMenu extends Component {
     componentWillMount() {
@@ -71,16 +72,16 @@ export class ContextMenuSubMenu extends Component {
 
         if (this.props.disabled || this.state.visible) return;
 
-        let hoverDelay = typeof this.props.hoverDelay !== "undefined" ? this.props.hoverDelay : defaultDelay;
-        this.opentimer = setTimeout(() => this.setState({ visible: true }), hoverDelay);
+        let delay = typeof this.props.showDelay !== "undefined" ? this.props.showDelay : showDelay;
+        this.opentimer = setTimeout(() => this.setState({ visible: true }), delay);
     }
     handleMouseLeave() {
         if (this.opentimer) clearTimeout(this.opentimer);
 
         if (!this.state.visible) return;
 
-        let hoverDelay = typeof this.props.hoverDelay !== "undefined" ? this.props.hoverDelay : defaultDelay;
-        this.closetimer = setTimeout(() => this.setState({ visible: false }), hoverDelay);
+        let delay = typeof this.props.hideDelay !== "undefined" ? this.props.hideDelay : hideDelay;
+        this.closetimer = setTimeout(() => this.setState({ visible: false }), delay);
     }
 
     render() {
@@ -127,7 +128,8 @@ export class ContextMenuSubMenu extends Component {
 ContextMenuSubMenu.propTypes = {
     title: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
-    hoverDelay: PropTypes.number,
+    showDelay: PropTypes.number,
+    hideDelay: PropTypes.number,
     children: PropTypes.array
 };
 
