@@ -44,7 +44,7 @@ export default class TimeAxisD3 {
             ["%b %-d", (d) => {
                 return d.getDate() != 1;
             }],
-            ["%B", (d) => {
+            ["%b", (d) => {
                 return d.getMonth();
             }],
             ["%Y", () => {
@@ -59,7 +59,7 @@ export default class TimeAxisD3 {
         this._xAxis = typeof this._xAxis !== "undefined" ? this._xAxis : d3.svg.axis()
             .scale(this._xFn)
             .orient('bottom')
-            .tickSize(-this._height)
+            .innerTickSize(-this._height)
             .tickFormat(this._timeFormat);
     }
 
