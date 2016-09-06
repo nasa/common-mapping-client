@@ -63,16 +63,30 @@
         height: 16px;
     }
 }
+
 .colorbar-warning {
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // text-align: center;
+    // font-size: 1.2rem;
+    // transform: translate(-50%, -50%);
+    // background: $color-medium-light;
+    // padding: 0px 0.8rem;
+    // color: $color-dark;
     position: absolute;
     top: 50%;
     left: 50%;
     text-align: center;
-    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-size: 1rem;
     transform: translate(-50%, -50%);
     background: $color-medium-light;
     padding: 0px 0.8rem;
-    color: $color-dark;
+    color: $color-medium;
+    letter-spacing: 0.075rem;
+    font-weight: 600;
+    font-family: Roboto Mono;
 }
 
 .colorbar {
@@ -315,6 +329,7 @@ button.position-control-button {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+
 #layerMenu.open #layerMenuContent {
     top: 31px;
 }
