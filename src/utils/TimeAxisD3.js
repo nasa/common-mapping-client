@@ -161,7 +161,7 @@ export default class TimeAxisD3 {
             if (!singleDate.attr().data()[0].isDragging) {
                 singleDate
                     .transition()
-                    .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 150)
+                    .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 75)
                     .attr('x', (d) => (_context._xFn(d.date)))
                     .attr("transform", (d) => {
                         return 'translate(' + _context._xFn(d.date) + ',0)';
@@ -171,11 +171,25 @@ export default class TimeAxisD3 {
 
         // update the resolution
         this.setResolution(options);
+
+        // check if scroll is needed
+        if(options.date && !this.dateInRange(options.date)) {
+            let currRange = this._xFn.range();
+            let rangeLeft = currRange[0];
+            let rangeRight = currRange[1];
+            let padding = Math.floor((rangeRight - rangeLeft) / 5);
+            let currDateX = this._xFn(options.date);
+            if(currDateX < rangeLeft) {
+                this.autoScroll(false, (rangeLeft - currDateX) + padding, 75);
+            } else if (currDateX > rangeRight) {
+                this.autoScroll(true, (currDateX - rangeRight) + padding, 75);
+            }
+        }
     }
 
     setResolution(options) {
         let _context = this;
-        if (options && options.date && (options.scale || !this.dateInRange(options.date))) {
+        if (options && options.date && options.scale) {
 
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
             this._selection.call(this._selection.zoom.event);
@@ -329,25 +343,30 @@ export default class TimeAxisD3 {
         return this._xFn(value);
     }
 
-    autoScroll(toLeft) {
+    autoScroll(toLeft, scrollDiff = undefined, duration = undefined) {
         // get current translation
         let currTrans = this._selection.zoom.translate();
 
-        // determine autoscroll amount (one-fifth tick)
-        let currTicks = this._xFn.ticks();
-        let scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
+        // if unset, determine autoscroll amount (one-fifth tick)
+        if(typeof scrollDiff !== "number") {
+            let currTicks = this._xFn.ticks();
+            scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
+        }
 
         // prep the timeline
         this._selection.call(this._selection.zoom.translate(currTrans).event);
 
+
+        duration = typeof duration === "number" ? duration : 50;
+
         // shift the timeline
         if (toLeft) {
             this._selection.transition()
-                .duration(50)
+                .duration(duration)
                 .call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
         } else {
             this._selection.transition()
-                .duration(50)
+                .duration(duration)
                 .call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
     }

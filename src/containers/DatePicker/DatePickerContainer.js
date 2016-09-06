@@ -9,12 +9,16 @@ import * as appConfig from '../../constants/appConfig';
 import MiscUtil from '../../utils/MiscUtil';
 import KeyHandler, { KEYUP, KEYDOWN } from 'react-key-handler';
 
+
+const SPEED_FAST = 100;
+const SPEED_SLOW = 500;
+
 export class DatePickerContainer extends Component {
     componentWillMount() {
         // Don't do this!
         this.autoIncrementInterval = null;
         this.shouldAutoIncrement = false;
-        this.autoIncrementSpeed = 500;
+        this.autoIncrementSpeed = SPEED_SLOW;
         this.autoIncrementResolution = "days";
         this.shouldIntervalIncrement = true;
     }
@@ -96,8 +100,8 @@ export class DatePickerContainer extends Component {
                 <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => {this.setAutoIncrementResolution("months");}} />
                 <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => {this.setAutoIncrementResolution("days");}} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(100);}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(500);}} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(SPEED_FAST);}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(SPEED_SLOW);}} />
                 <div className="date-picker-selection col-xs-5">
                     <div className="date-picker-selection-increment">
                         <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
