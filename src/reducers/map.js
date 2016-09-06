@@ -224,9 +224,7 @@ const setLayerActive = (state, action) => {
                     .set("isActive", action.active)
                     .set("isChangingOpacity", false)
                     .set("isChangingPosition", false);
-                let index = layerList.findKey((layer) => {
-                    return layer.get("id") === actionLayer.get("id");
-                });
+                let index = actionLayer.get("id");
                 return state
                     .setIn(["layers", actionLayer.get("type"), index], newLayer)
                     .set("alerts", alerts);
@@ -251,9 +249,7 @@ const setLayerDisabled = (state, action) => {
                 .set("isDisabled", action.disabled)
                 .set("isChangingOpacity", false)
                 .set("isChangingPosition", false);
-            let index = layerList.findKey((layer) => {
-                return layer.get("id") === actionLayer.get("id");
-            });
+            let index = actionLayer.get("id");
             return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
     }
@@ -277,10 +273,8 @@ const setLayerOpacity = (state, action) => {
     let layerList = state.getIn(["layers", actionLayer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = actionLayer.set("opacity", action.opacity);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === actionLayer.get("id");
-        });
-        return state.setIn(["layers", actionLayer.get("type")], layerList.set(index, newLayer));
+        let index = actionLayer.get("id");
+        return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -289,10 +283,8 @@ const startChangingOpacity = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("isChangingOpacity", true).set("isChangingPosition", false);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === action.layer.get("id");
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+        let index = action.layer.get("id");
+        return state.setIn(["layers", action.layer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -301,10 +293,8 @@ const stopChangingOpacity = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("isChangingOpacity", false);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === action.layer.get("id");
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+        let index = action.layer.get("id");
+        return state.setIn(["layers", action.layer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -313,10 +303,8 @@ const startChangingPosition = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("isChangingPosition", true).set("isChangingOpacity", false);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === action.layer.get("id");
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+        let index = action.layer.get("id");
+        return state.setIn(["layers", action.layer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -325,10 +313,8 @@ const stopChangingPosition = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("isChangingPosition", false);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === action.layer.get("id");
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+        let index = action.layer.get("id");
+        return state.setIn(["layers", action.layer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -338,10 +324,8 @@ const setLayerPalette = (state, action) => {
     let layerList = state.getIn(["layers", action.layer.get("type")]);
     if (typeof layerList !== "undefined") {
         let newLayer = action.layer.set("palette", action.palette);
-        let index = layerList.findKey((layer) => {
-            return layer.get("id") === action.layer.get("id");
-        });
-        return state.setIn(["layers", action.layer.get("type")], layerList.set(index, newLayer));
+        let index = action.layer.get("id");
+        return state.setIn(["layers", action.layer.get("type"), index], newLayer);
     }
     return state;
 };
@@ -451,9 +435,8 @@ const mergeLayers = (state, action) => {
         // update layer time
         mergedLayer = mergedLayer.set("time", moment(mapConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
         // put the newly minted layer into state storage
-        newLayers = state.getIn(["layers", mergedLayer.get("type")]);
-        if (typeof newLayers !== "undefined") {
-            state = state.setIn(["layers", mergedLayer.get("type")], newLayers.push(mergedLayer));
+        if(typeof mergedLayer.get("id") !== "undefined") {
+            state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
         }
     }
     return state.removeIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
