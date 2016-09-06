@@ -215,7 +215,7 @@ export default class TimeAxisD3 {
             let center1 = this.point(coordinates0);
             this._selection.zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
             let translate1 = this._selection.zoom.translate();
-            let xOffset = ((this._xFn.range()[1] - (this._width / 4)) - this._xFn(options.date));
+            let xOffset = ((this._xFn.range()[1] - (this._width / 2)) - this._xFn(options.date));
             this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
 
             let duration = typeof options.scaleDuration === "number" ? options.scaleDuration : 0;
@@ -388,7 +388,7 @@ export default class TimeAxisD3 {
 
         // don't animate the update
         options.dateDuration = 0;
-        
+
         this.updateAxis();
         this.update(options);
     }
