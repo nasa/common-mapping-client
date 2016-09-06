@@ -8,7 +8,7 @@ import * as DateSliderActions from '../../actions/DateSliderActions';
 import MiscUtil from '../../utils/MiscUtil';
 
 export class ResolutionStep extends Component {
-    handleIncremendClick(up) {
+    adjustResolution(up) {
         if(up) {
             if(this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
                 this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS);
@@ -33,8 +33,8 @@ export class ResolutionStep extends Component {
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.handleIncremendClick(true) : false;}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.handleIncremendClick(false) : false;}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(true) : false;}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(false) : false;}} />
                 <div className={resolutionSelectorClasses}>
                     <Button
                         neutral
@@ -63,7 +63,7 @@ export class ResolutionStep extends Component {
                     onClick={() => this.toggleResolutionSelector()}
                     className="timeline-zoom"
                     icon="filter_list"
-                    data-tip="Zoom the Slider"
+                    data-tip="Adjust the slider resolution"
                     data-place="left"
                 >
                     {/*<i className="button-icon ms ms-fw ms-zoom-to-point"></i>*/}
