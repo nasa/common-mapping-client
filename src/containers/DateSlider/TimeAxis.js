@@ -14,6 +14,7 @@ import SingleDate from './SingleDate';
 export class TimeAxis extends Component {
     componentDidMount() {
         let sizes = this.getSizes();
+        this.resizeTimeout = null;
 
         // get D3 wrapper
         this.timeAxisD3 = new TimeAxisD3({
@@ -36,9 +37,17 @@ export class TimeAxis extends Component {
         });
 
         window.addEventListener("resize", () => {
-            let options = this.getSizes();
-            options.date = this.props.date;
-            this.timeAxisD3.resize(options);
+            if(this.resizeTimeout) {
+                clearTimeout(this.resizeTimeout);
+            }
+            this.resizeTimeout = setTimeout(() => {
+                let options = this.getSizes();
+                options.date = this.props.date;
+                options.scale = this.props.resolution;
+                this.timeAxisD3.resize(options);
+                clearTimeout(this.resizeTimeout);
+                this.resizeTimeout = null;
+            }, 50);
         });
     }
     shouldComponentUpdate(nextProps) {

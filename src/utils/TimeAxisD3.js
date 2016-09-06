@@ -218,7 +218,8 @@ export default class TimeAxisD3 {
             let xOffset = ((this._xFn.range()[1] - (this._width / 4)) - this._xFn(options.date));
             this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
 
-            this._selection.transition().duration(750).call(this._selection.zoom.event);
+            let duration = typeof options.scaleDuration === "number" ? options.scaleDuration : 750;
+            this._selection.transition().duration(duration).call(this._selection.zoom.event);
         }
     }
 
@@ -384,6 +385,9 @@ export default class TimeAxisD3 {
 
         // Apply the updated xFn to the zoom
         this._selection.zoom.x(this._xFn);
+
+        // set the scale adjustment resolution
+        options.scaleDuration = 0;
 
         options.dateDuration = 0;
         this.updateAxis();
