@@ -21,6 +21,7 @@ export class DatePickerContainer extends Component {
         this.autoIncrementSpeed = SPEED_SLOW;
         this.autoIncrementResolution = "days";
         this.shouldIntervalIncrement = true;
+        this.autoIncrementEnabled = true;
     }
     incrementDate(resolution, increment = true) {
         let newDate = moment(this.props.date);
@@ -62,20 +63,22 @@ export class DatePickerContainer extends Component {
         if(this.shouldAutoIncrement) {
             clearTimeout(this.autoIncrementInterval);
             this.incrementDate(this.autoIncrementResolution, this.shouldIntervalIncrement);
-            this.autoIncrementInterval = setTimeout(() => {this.autoIncrement();}, this.autoIncrementSpeed);
+            this.autoIncrementInterval = setTimeout(() => this.autoIncrement(), this.autoIncrementSpeed);
         }
     }
     beginAutoIncrement(increment) {
-        this.shouldIntervalIncrement = increment;
-        this.shouldAutoIncrement = true;
-        if(this.autoIncrementInterval === null) {
-            this.autoIncrementInterval = setTimeout(() => {this.autoIncrement();}, this.autoIncrementSpeed);
-            this.incrementDate(this.autoIncrementResolution, this.shouldIntervalIncrement);
+        if(this.autoIncrementEnabled) {
+            this.shouldAutoIncrement = true;
+            this.shouldIntervalIncrement = increment;
+            if(this.autoIncrementInterval === null) {
+                this.autoIncrementInterval = setTimeout(() => this.autoIncrement(), this.autoIncrementSpeed);
+                this.incrementDate(this.autoIncrementResolution, this.shouldIntervalIncrement);
+            }
         }
     }
     endAutoIncrement() {
-        this.shouldAutoIncrement = false;
         clearTimeout(this.autoIncrementInterval);
+        this.shouldAutoIncrement = false;
         this.autoIncrementInterval = null;
     }
     setAutoIncrementResolution(resolution) {
@@ -84,6 +87,13 @@ export class DatePickerContainer extends Component {
     setAutoIncrementSpeed(speed) {
         this.autoIncrementSpeed = speed;
     }
+    disableAutoIncrement() {
+        this.autoIncrementEnabled = false;
+        this.endAutoIncrement();
+    }
+    enableAutoIncrement() {
+        this.autoIncrementEnabled = true;
+    }
     render() {
         let date = moment(this.props.date);
         let year = date.format("YYYY");
@@ -91,17 +101,20 @@ export class DatePickerContainer extends Component {
         let day = date.format("DD");
         return (
             <div id="datePickerContainer" className="row middle-xs">
-                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => {this.beginAutoIncrement(false);}} />
-                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowRight" onKeyHandle={() => {this.beginAutoIncrement(true);}} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Meta" onKeyHandle={() => this.disableAutoIncrement()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Meta" onKeyHandle={() => this.enableAutoIncrement()} />
 
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={() => {this.endAutoIncrement();}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={() => {this.endAutoIncrement();}} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => this.beginAutoIncrement(false)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={() => this.endAutoIncrement()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => {this.setAutoIncrementResolution("months");}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => {this.setAutoIncrementResolution("days");}} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowRight" onKeyHandle={() => this.beginAutoIncrement(true)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={() => this.endAutoIncrement()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(SPEED_FAST);}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => {this.setAutoIncrementSpeed(SPEED_SLOW);}} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementResolution("months")} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementResolution("days")} />
+
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Control" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_FAST)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_SLOW)} />
                 <div className="date-picker-selection col-xs-5">
                     <div className="date-picker-selection-increment">
                         <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>

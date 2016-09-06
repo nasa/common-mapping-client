@@ -89,6 +89,7 @@
     }
     rect#chart-bounds,
     .tick {
+        shape-rendering: crispEdges;
         text {
             fill: $color-medium-dark;
             font-weight: 400;
@@ -138,6 +139,7 @@
         fill-opacity: 1;
         stroke: $color-medium-dark;
         stroke-width: 2;
+        shape-rendering: crispEdges;
         stroke-opacity: 1;
     }
 }
