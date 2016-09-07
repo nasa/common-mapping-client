@@ -75,6 +75,46 @@ describe('Misc Utils', () => {
             //assert
             expect(MiscUtil.findObjectInArray(varIn, "indexD", true)).to.equal(varOut);
         });
+
+        it('accepts a function instead of a key/val pair', () => {
+            // DEFINE VARS
+            let varIn = [{
+                testkey: "testvalue",
+                indexA: true
+            }, {
+                testkey: "testvalue",
+                indexB: true
+            }, {
+                testkey: "testvalue",
+                indexC: true
+            }];
+            let varOut = varIn[1];
+
+            let compFunc = (el) => {return el.indexB === true;};
+
+            //assert
+            expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
+        });
+
+        it('accepts a function instead of a key/val pair and returns false if no match is found', () => {
+            // DEFINE VARS
+            let varIn = [{
+                testkey: "testvalue",
+                indexA: true
+            }, {
+                testkey: "testvalue",
+                indexB: true
+            }, {
+                testkey: "testvalue",
+                indexC: true
+            }];
+            let varOut = false;
+
+            let compFunc = (el) => {return el.indexD === true;};
+
+            //assert
+            expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
+        });
     });
     describe('findAllMatchingObjectsInArray', () => {
         it('returns all the objects in an array that have a matching key/value pair', () => {

@@ -74,15 +74,17 @@ export class ShareContainer extends Component {
         }, "");
     }
     getPlaceLabelsString() {
-        let placeLabelsLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
-            return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
-        });
+        let placeLabelsLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.REFERENCE_LABELS_LAYER_ID]);
+        // let placeLabelsLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
+        //     return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
+        // });
         return appStrings.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
     }
     getPoliticalBoundariesString() {
-        let politicalBoundariesLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
-            return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
-        });
+        let politicalBoundariesLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.POLITICAL_BOUNDARIES_LAYER_ID]);
+        // let politicalBoundariesLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
+        //     return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
+        // });
         return appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
     }
     getViewModeString() {

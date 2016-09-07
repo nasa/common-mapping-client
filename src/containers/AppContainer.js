@@ -29,7 +29,9 @@ export class AppContainer extends Component {
     }
     componentDidMount() {
         // disable the right click listener
-        document.addEventListener("oncontextmenu", (e) => false);
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        }, false);
 
         // load in initial data
         this.props.actions.fetchInitialData(() => {

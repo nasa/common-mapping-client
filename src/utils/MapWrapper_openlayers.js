@@ -252,13 +252,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     enableDrawing(geometryType) {
         try {
+            // remove double-click zoom while drawing so we can double-click complete
+            this.setDoubleClickZoomEnabled(false);
+
             // Get drawHandler by geometryType
-            let interaction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", mapStrings.INTERACTION_DRAW + geometryType);
-            if (interaction) {
+            let drawInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", mapStrings.INTERACTION_DRAW + geometryType);
+            if (drawInteraction) {
                 // Call setActive(true) on handler to enable
-                interaction.setActive(true);
+                drawInteraction.setActive(true);
                 // Check that handler is active
-                return interaction.getActive();
+                return drawInteraction.getActive();
             }
             console.warn("could not enable openlayers drawing for:", geometryType);
             return false;
@@ -268,7 +271,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    disableDrawing() {
+    disableDrawing(delayDblClickEnable = true) {
         try {
             // Call setActive(false) on all handlers
             let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_DRAW, true);
@@ -280,6 +283,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     console.warn("could not disable openlayers draw handler:", handler.get("_id"));
                 }
             });
+
+            // re-enable double-click zoom
+            if (delayDblClickEnable) {
+                setTimeout(() => {
+                    this.setDoubleClickZoomEnabled(true);
+                }, 251);
+            } else {
+                this.setDoubleClickZoomEnabled(true);
+            }
             return true;
         } catch (err) {
             console.warn("could not disable drawing on openlayers map.", err);
@@ -289,6 +301,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     enableMeasuring(geometryType, measurementType) {
         try {
+            // remove double-click zoom while drawing so we can double-click complete
+            this.setDoubleClickZoomEnabled(false);
+
             // Get drawHandler by geometryType
             let interaction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", mapStrings.INTERACTION_MEASURE + geometryType);
             if (interaction) {
@@ -305,7 +320,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    disableMeasuring() {
+    disableMeasuring(delayDblClickEnable = true) {
         try {
             // Call setActive(false) on all handlers
             let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_MEASURE, true);
@@ -317,9 +332,30 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     console.warn("could not disable openlayers measure handler:", handler.get("_id"));
                 }
             });
+            // re-enable double-click zoom
+            if (delayDblClickEnable) {
+                setTimeout(() => {
+                    this.setDoubleClickZoomEnabled(true);
+                }, 251);
+            } else {
+                this.setDoubleClickZoomEnabled(true);
+            }
             return true;
         } catch (err) {
             console.warn("could not disable measuring on openlayers map.", err);
+        }
+    }
+
+    setDoubleClickZoomEnabled(enabled) {
+        try {
+            let dblClickInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), (interaction) => {
+                return interaction instanceof ol.interaction.DoubleClickZoom;
+            });
+            if (dblClickInteraction) {
+                dblClickInteraction.setActive(enabled);
+            }
+        } catch (err) {
+            console.warn("could not enable double click zoom in openlayers", err);
             return false;
         }
     }

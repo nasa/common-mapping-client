@@ -4,9 +4,9 @@ import * as config from '../../constants/mapConfig';
 
 export const mapState = Immutable.fromJS({
     layers: {
-        data: [],
-        reference: [],
-        basemap: [],
+        data: {},
+        reference: {},
+        basemap: {},
         partial: []
     },
     maps: {},
@@ -54,7 +54,7 @@ export const mapState = Immutable.fromJS({
 });
 
 export const layerModel = Immutable.fromJS({
-    id: "",
+    id: undefined,
     title: "",
     isActive: false,
     isDisabled: false,

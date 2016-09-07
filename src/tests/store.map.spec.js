@@ -916,8 +916,7 @@ describe('Store - Map', function() {
             mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
             layerActions.setLayerActive("facilities_kml", true),
             layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
-            layerActions.setLayerActive("facilities_kml", false),
-            layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false)
+            layerActions.setLayerActive("facilities_kml", false)
         ];
         actions.forEach(action => store.dispatch(action));
 

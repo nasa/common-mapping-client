@@ -18,10 +18,18 @@ export default class MiscUtil {
     }
 
     static findObjectInArray(array, key, val) {
-        for (let i = 0; i < array.length; ++i) {
-            if (array[i][key] === val ||
-                (typeof array[i].get === "function" && array[i].get(key) === val)) {
-                return array[i];
+        if (typeof key === "string") {
+            for (let i = 0; i < array.length; ++i) {
+                if (array[i][key] === val ||
+                    (typeof array[i].get === "function" && array[i].get(key) === val)) {
+                    return array[i];
+                }
+            }
+        } else if (typeof key === "function") {
+            for (let i = 0; i < array.length; ++i) {
+                if (key(array[i])) {
+                    return array[i];
+                }
             }
         }
         return false;
