@@ -13,8 +13,42 @@ export default class MapWrapper_openlayers extends MapWrapper {
         super(container, options);
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
-        this.map = this.createMap(container, options);
         this.layerCache = new Cache(50); // TODO - move this number into a config?
+        this.defaultGeometryStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: mapConfig.GEOMETRY_FILL_COLOR
+            }),
+            stroke: new ol.style.Stroke({
+                color: mapConfig.GEOMETRY_STROKE_COLOR,
+                width: mapConfig.GEOMETRY_STROKE_WEIGHT
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33'
+                })
+            })
+        });
+        this.defaultMeasureStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: mapConfig.MEASURE_FILL_COLOR
+            }),
+            stroke: new ol.style.Stroke({
+                color: mapConfig.MEASURE_STROKE_COLOR,
+                lineDash: [10, 10],
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(255, 255, 255, 0.75)'
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.5)'
+                })
+            })
+        });
+        this.map = this.createMap(container, options);
     }
 
     createMap(container, options) {
@@ -23,21 +57,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let vectorSource = new ol.source.Vector({ wrapX: true });
             let vectorLayer = new ol.layer.Vector({
                 source: vectorSource,
-                style: new ol.style.Style({
-                    fill: new ol.style.Fill({
-                        color: mapConfig.GEOMETRY_FILL_COLOR
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: mapConfig.GEOMETRY_STROKE_COLOR,
-                        width: mapConfig.GEOMETRY_STROKE_WEIGHT
-                    }),
-                    image: new ol.style.Circle({
-                        radius: 7,
-                        fill: new ol.style.Fill({
-                            color: '#ffcc33'
-                        })
-                    })
-                })
+                style: this.defaultGeometryStyle
             });
             vectorLayer.set("_layerId", "_vector_drawings");
             vectorLayer.set("_layerType", mapStrings.LAYER_GROUP_TYPE_REFERENCE);
@@ -429,10 +449,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addMeasurementLabelToGeometry(geometry, event, measurementType) {
-        // let mapLayers = this.map.getLayers().getArray();
-        // let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
-        // setTimeout(() => {
         let feature = event.feature;
+        let olGeom = feature.getGeometry();
         if (!feature) {
             console.warn("could not add measurement label to ", " in openlayers map");
             return false;
@@ -445,35 +463,58 @@ export default class MapWrapper_openlayers extends MapWrapper {
             offset: [0, -15],
             positioning: 'bottom-center'
         });
-        measureLabel.setPosition(feature.getGeometry().getLastCoordinate());
 
-        // Get distance
-        let coordinates = feature.getGeometry().getCoordinates();
-        let length = 0;
+        // Set label according to geometry type and measurement type
         let sourceProj = this.map.getView().getProjection();
         let wgs84Sphere = new ol.Sphere(6378137);
-        for (let i = 0, ii = coordinates.length - 1; i < ii; ++i) {
-            let c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
-            let c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
-            length += wgs84Sphere.haversineDistance(c1, c2);
-        }
+        if (measurementType === mapStrings.MEASURE_DISTANCE) {
+            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+                measureLabel.setPosition(olGeom.getLastCoordinate());
+                // Get distance
+                let coordinates = olGeom.getCoordinates();
+                let length = 0;
+                for (let i = 0, ii = coordinates.length - 1; i < ii; ++i) {
+                    let c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
+                    let c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
+                    length += wgs84Sphere.haversineDistance(c1, c2);
+                }
 
-        let output = "";
-        if (length > 100) {
-            output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+                let output = "";
+                if (length > 100) {
+                    output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+                } else {
+                    output = (Math.round(length * 100) / 100) + ' ' + 'm';
+                }
+                measureLabelEl.innerHTML = output;
+            } else {
+                console.warn("could not add distance measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
+                return false;
+            }
+        } else if (measurementType === mapStrings.MEASURE_AREA) {
+            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+                measureLabel.setPosition(olGeom.getInteriorPoint().getCoordinates());
+                let geom = (olGeom.clone().transform(sourceProj, 'EPSG:4326'));
+                let coordinates = geom.getLinearRing(0).getCoordinates();
+                let area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+                let output;
+                if (area > 10000) {
+                    output = (Math.round(area / 1000000 * 100) / 100) +
+                        ' ' + 'km<sup>2</sup>';
+                } else {
+                    output = (Math.round(area * 100) / 100) +
+                        ' ' + 'm<sup>2</sup>';
+                }
+                measureLabelEl.innerHTML = output;
+            } else {
+                console.warn("could not add area measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
+                return false;
+            }
         } else {
-            output = (Math.round(length * 100) / 100) + ' ' + 'm';
+            console.warn("could not add measurement label to geometry in openlayers map, unsupported measurementType ", measurementType);
+            return false;
         }
-
-        console.log(this.map)
-
-        measureLabelEl.innerHTML = output;
         this.map.addOverlay(measureLabel);
-        console.log(measureLabel);
-
-
         return true;
-        // },0)
     }
 
     removeAllDrawings() {
@@ -525,29 +566,19 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (mapLayer) {
                 let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
-                    type: geometryType
+                    type: geometryType,
+                    style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle
                 });
 
                 // Set callback
                 drawInteraction.on('drawend', (event) => {
                     if (typeof onDrawEnd === "function") {
                         let geometry = this.retrieveGeometryFromEvent(event, geometryType);
-                        // console.log(geometry,"GEOM")
                         // Set type of event feature in OL
                         event.feature.set("interactionType", interactionType);
                         onDrawEnd(geometry, event);
-                        // console.log("55", geometry.id, mapLayer.getSource().getFeatures())
                     }
                 })
-
-                // mapLayer.getSource().on('change', (event) => {
-                //     // console.log("66", mapLayer.getSource().getFeatures(), mapLayer)
-                // })
-
-                // mapLayer.getSource().on('addfeature', (event) => {
-                //     console.log("77", mapLayer.getSource().getFeatures(), event.feature)
-                //     this.addMeasurementLabelToGeometry(event.feature.getId(), "??")
-                // })
 
                 // Disable
                 drawInteraction.setActive(false);

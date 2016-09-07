@@ -43,7 +43,7 @@ export class MapContextMenu extends Component {
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             accent={measuringArea}
-                            // onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
+                            onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_POLYGON, mapStrings.MEASURE_AREA)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-area context-menu-icon" />
                             <span className="context-menu-label">Area</span>
