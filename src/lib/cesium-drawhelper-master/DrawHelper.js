@@ -904,6 +904,7 @@ var DrawHelper = (function() {
                         poly.positions = positions;
                         poly._createPrimitive = true;
                     }
+
                     // add new point to polygon
                     // this one will move with the mouse
                     positions.push(cartesian);
@@ -916,24 +917,27 @@ var DrawHelper = (function() {
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
             if (position != null) {
-                if (positions.length == 0) {
-                    tooltip.showAt(position, "<p>Click to add first point</p>");
-                } else {
-                    var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
-                    if (cartesian) {
-                        positions.pop();
-                        // make sure it is slightly different
-                        cartesian.y += (1 + Math.random());
-                        positions.push(cartesian);
-                        if (positions.length >= minPoints) {
-                            poly.positions = positions;
-                            poly._createPrimitive = true;
-                        }
-                        // update marker
-                        markers.getBillboard(positions.length - 1).position = cartesian;
-                        // show tooltip
-                        tooltip.showAt(position, "<p>Click to add new point (" + positions.length + ")</p>" + (positions.length > minPoints ? "<p>Double click to finish drawing</p>" : ""));
+                var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
+                if (cartesian) {
+                    // 09-07-16 MODIFICATION by Flynn Platt
+                    if (positions.length == 0) {
+                        positions.push(cartesian.clone());
+                        markers.addBillboard(positions[0]);
                     }
+
+                    positions.pop();
+
+                    // make sure it is slightly different
+                    cartesian.y += (1 + Math.random());
+                    positions.push(cartesian);
+                    if (positions.length >= minPoints) {
+                        poly.positions = positions;
+                        poly._createPrimitive = true;
+                    }
+                    // update marker
+                    markers.getBillboard(positions.length - 1).position = cartesian;
+                    // show tooltip
+                    tooltip.showAt(position, "<p>Click to add new point (" + positions.length + ")</p>" + (positions.length > minPoints ? "<p>Double click to finish drawing</p>" : ""));
                 }
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -1077,7 +1081,13 @@ var DrawHelper = (function() {
         var tooltip = this._tooltip;
 
         var circle = null;
-        var markers = null;
+        var markers = new _.BillboardGroup(_self, defaultBillboard);
+        // var markers = null;
+
+        // 09-07-16 MODIFICATION by Flynn Platt
+        // positions[0] = circle center
+        // positions[1] = cursor
+        var positions = []
 
         var mouseHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -1094,9 +1104,16 @@ var DrawHelper = (function() {
                             asynchronous: false,
                             material: options.material
                         });
+                        circle.setStrokeStyle(new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)"), 3);
                         primitives.add(circle);
-                        markers = new _.BillboardGroup(_self, defaultBillboard);
-                        markers.addBillboards([cartesian]);
+
+                        // add circle center position
+                        positions = [cartesian.clone(), cartesian.clone()];
+                        if(markers.countBillboards() == 0) {
+                            markers.addBillboards(positions);
+                        } else {
+                            markers.insertBillboard(0, positions[0]);
+                        }
                     } else {
                         if (typeof options.callback == 'function') {
                             options.callback(circle.getCenter(), circle.getRadius());
@@ -1109,14 +1126,24 @@ var DrawHelper = (function() {
 
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
+
+            // 09-07-16 MODIFICATION by Flynn Platt
             if (position != null) {
-                if (circle == null) {
-                    tooltip.showAt(position, "<p>Click to start drawing the circle</p>");
-                } else {
-                    var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
-                    if (cartesian) {
+                var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
+                if (cartesian) {
+                    if(positions.length == 0) {
+                        positions.push(cartesian.clone());
+                        markers.addBillboard(positions[0]);
+                    } else {
+                        positions[positions.length - 1] = cartesian.clone();
+                    }
+
+                    markers.getBillboard(positions.length - 1).position = cartesian;
+                    if (circle == null) {
+                        tooltip.showAt(position, "<p>Click to start drawing the circle</p>");
+                    } else {
                         circle.setRadius(Cesium.Cartesian3.distance(circle.getCenter(), cartesian));
-                        markers.updateBillboardsPositions(cartesian);
+                        // markers.updateBillboardsPositions(cartesian);
                         tooltip.showAt(position, "<p>Move mouse to change circle radius</p><p>Click again to finish drawing</p>");
                     }
                 }
