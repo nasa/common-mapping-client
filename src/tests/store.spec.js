@@ -45,7 +45,8 @@ describe('Store', function() {
                 radius: 500,
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             }),
-            MapActions.removeAllGeometries(),
+            MapActions.removeAllDrawings(),
+            MapActions.removeAllMeasurements(),
             MapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
             MapActions.addGeometryToMap({
                 type: mapStrings.GEOMETRY_CIRCLE,

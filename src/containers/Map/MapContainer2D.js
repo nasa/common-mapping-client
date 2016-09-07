@@ -15,9 +15,19 @@ export class MapContainer2D extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry));
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry));
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry));
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+        } else {
+            console.error("Cannot initialize draw listeners: MAP NOT AVAILABLE");
+        }
+    }
+
+    initializeMapMeasurementHandlers() {
+        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
+        if (typeof map !== "undefined") {
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry, event) => this.handleMeasureEnd(geometry, event, mapStrings.MEASURE_DISTANCE), mapStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry, event) => this.handleMeasureEnd(geometry, event, mapStrings.MEASURE_AREA), mapStrings.INTERACTION_MEASURE);
         } else {
             console.error("Cannot initialize draw listeners: MAP NOT AVAILABLE");
         }
@@ -58,14 +68,25 @@ export class MapContainer2D extends Component {
         // Disable drawing
         this.props.actions.disableDrawing();
         // Add geometry to other maps
-        this.props.actions.addGeometryToMap(geometry);
+        this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_DRAW);
     }
 
-    handleDisableDrawing() {
-        // Only disable if drawing is enabled
+    handleMeasureEnd(geometry, event, measurementType) {
+        // Disable measurement
+        this.props.actions.disableMeasuring();
+        // Add geometry to other maps
+        this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
+        // Add label to geometry
+        this.props.actions.addMeasurementLabelToGeometry(geometry, event, measurementType);
+
+    }
+
+    handleEscapeKeyPress() {
         if (this.props.isDrawingEnabled) {
-            // Add other dialog checks here?
             this.props.actions.disableDrawing();
+        }
+        if (this.props.isMeasuringEnabled) {
+            this.props.actions.disableMeasuring();
         }
     }
 
@@ -74,6 +95,7 @@ export class MapContainer2D extends Component {
         if (this.props.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
             this.initializeMapDrawHandlers();
+            this.initializeMapMeasurementHandlers();
             this.listenersInitialized = true;
         }
 
@@ -84,7 +106,7 @@ export class MapContainer2D extends Component {
         return (
             <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D" />
-                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleDisableDrawing()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleEscapeKeyPress()} />
             </div>
         );
     }
@@ -94,6 +116,7 @@ MapContainer2D.propTypes = {
     maps: PropTypes.object.isRequired,
     in3DMode: PropTypes.bool.isRequired,
     isDrawingEnabled: PropTypes.bool.isRequired,
+    isMeasuringEnabled: PropTypes.bool.isRequired,
     initialLoadComplete: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired
 };
@@ -103,6 +126,7 @@ function mapStateToProps(state) {
         maps: state.map.get("maps"),
         in3DMode: state.map.getIn(["view", "in3DMode"]),
         isDrawingEnabled: state.map.getIn(["drawing", "isDrawingEnabled"]),
+        isMeasuringEnabled: state.map.getIn(["measuring", "isMeasuringEnabled"]),
         initialLoadComplete: state.view.get("initialLoadComplete")
     };
 }

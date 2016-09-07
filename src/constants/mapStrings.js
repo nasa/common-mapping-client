@@ -45,6 +45,14 @@ export const GEOMETRY_CIRCLE = 'Circle';
 export const GEOMETRY_LINE_STRING = 'LineString';
 export const GEOMETRY_POLYGON = 'Polygon';
 
+// measurement types
+export const MEASURE_DISTANCE = 'Distance';
+export const MEASURE_AREA = 'Area';
+
+// interaction types
+export const INTERACTION_DRAW = 'Draw';
+export const INTERACTION_MEASURE = 'Measure';
+
 // event types
 export const EVENT_MOUSE_HOVER = 'mousemove';
 export const EVENT_MOVE_END = 'moveend';

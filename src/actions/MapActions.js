@@ -56,6 +56,14 @@ export function pixelClick(clickEvt) {
     return { type: types.PIXEL_CLICK, clickEvt };
 }
 
+export function enableMeasuring(geometryType, measurementType) {
+    return { type: types.ENABLE_MEASURING, geometryType, measurementType };
+}
+
+export function disableMeasuring() {
+    return { type: types.DISABLE_MEASURING };
+}
+
 export function enableDrawing(geometryType) {
     return { type: types.ENABLE_DRAWING, geometryType };
 }
@@ -64,9 +72,18 @@ export function disableDrawing() {
     return { type: types.DISABLE_DRAWING };
 }
 
-export function addGeometryToMap(geometry) {
-    return { type: types.ADD_GEOMETRY_TO_MAP, geometry };
+export function addGeometryToMap(geometry, interactionType) {
+    return { type: types.ADD_GEOMETRY_TO_MAP, geometry, interactionType };
 }
-export function removeAllGeometries() {
-    return { type: types.REMOVE_ALL_GEOMETRIES };
+
+export function addMeasurementLabelToGeometry(geometry, event, measurementType) {
+    return { type: types.ADD_MEASUREMENT_LABEL_TO_GEOMETRY, geometry, event, measurementType };
+}
+
+export function removeAllDrawings() {
+    return { type: types.REMOVE_ALL_DRAWINGS };
+}
+
+export function removeAllMeasurements() {
+    return { type: types.REMOVE_ALL_MEASUREMENTS };
 }

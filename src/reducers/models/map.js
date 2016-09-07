@@ -41,6 +41,11 @@ export const mapState = Immutable.fromJS({
         isDrawingEnabled: false,
         geometryType: ""
     },
+    measuring: {
+        isMeasuringEnabled: false,
+        geometryType: "",
+        measurementType: ""
+    },
     displaySettings: {
         enableTerrain: true,
         selectedScaleUnits: "metric"

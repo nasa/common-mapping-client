@@ -30,11 +30,11 @@ export class MapContextMenu extends Component {
                         <span className="context-menu-label">Measure Distance</span>
                     </Button>
                 </MenuItem>*/}
-                <ContextMenuSubMenu title="Measure">
+                <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             accent={measuringDistance}
-                            // onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}
+                            onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_LINE_STRING, mapStrings.MEASURE_DISTANCE)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-distance context-menu-icon" />
                             <span className="context-menu-label">Distance</span>
@@ -45,9 +45,17 @@ export class MapContextMenu extends Component {
                             accent={measuringArea}
                             // onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
                             className="context-menu-item" >
-                            <i className="ms ms-line context-menu-icon" />
+                            <i className="ms ms-measure-area context-menu-icon" />
                             <span className="context-menu-label">Area</span>
                         </Button>
+                    </MenuItem>
+                    <hr className="divider medium-light" />
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <Button
+                            label="Clear Measurements"
+                            icon="delete"
+                            onClick={() => this.props.actions.removeAllMeasurements()}
+                            className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>
                 <MenuItem data={{}} onClick={this.dummyHandleClick}>
@@ -57,7 +65,7 @@ export class MapContextMenu extends Component {
                         onClick={() => console.log("Drop Pin")}
                         className="context-menu-item" />
                 </MenuItem>
-                <ContextMenuSubMenu title="Draw">
+                <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             accent={drawingCircle}
@@ -89,7 +97,7 @@ export class MapContextMenu extends Component {
                         <Button
                             label="Clear Drawings"
                             icon="delete"
-                            onClick={() => this.props.actions.removeAllGeometries()}
+                            onClick={() => this.props.actions.removeAllDrawings()}
                             className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>

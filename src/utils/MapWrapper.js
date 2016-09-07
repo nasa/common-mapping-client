@@ -31,12 +31,28 @@ export default class MapWrapper {
         console.warn("disableDrawing not implemented in subclass");
         return false;
     }
-    addGeometry(geometry) {
+    enableMeasuring(geometryType, measurementType) {
+        console.warn("enableMeasuring not implemented in subclass");
+        return false;
+    }
+    disableMeasuring() {
+        console.warn("disableMeasuring not implemented in subclass");
+        return false;
+    }
+    addGeometry(geometry, interactionType) {
         console.warn("addGeometry not implemented in subclass");
         return false;
     }
-    removeAllGeometries(){
-        console.warn("removeAllGeometries not implemented in subclass");
+    addMeasurementLabelToGeometry(id, measurementType) {
+        console.warn("addMeasurementLabelToGeometry not implemented in subclass");
+        return false;
+    }
+    removeAllDrawings(){
+        console.warn("removeAllDrawings not implemented in subclass");
+        return false;
+    }
+    removeAllMeasurements(){
+        console.warn("removeAllMeasurements not implemented in subclass");
         return false;
     }
     getCenter() {
