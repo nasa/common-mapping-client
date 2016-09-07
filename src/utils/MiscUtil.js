@@ -18,7 +18,7 @@ export default class MiscUtil {
     }
 
     static findObjectInArray(array, key, val) {
-        if(typeof key === "string") {
+        if (typeof key === "string") {
             for (let i = 0; i < array.length; ++i) {
                 if (array[i][key] === val ||
                     (typeof array[i].get === "function" && array[i].get(key) === val)) {
@@ -27,7 +27,7 @@ export default class MiscUtil {
             }
         } else if (typeof key === "function") {
             for (let i = 0; i < array.length; ++i) {
-                if(key(array[i])) {
+                if (key(array[i])) {
                     return array[i];
                 }
             }
