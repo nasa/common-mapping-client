@@ -644,6 +644,7 @@ const ingestLayerPalettes = (state, action) => {
 };
 
 const enableDrawing = (state, action) => {
+    action.delayClickEnable = false;
     state = disableDrawing(state, action);
 
     // For each map, enable drawing
@@ -667,7 +668,7 @@ const enableDrawing = (state, action) => {
 const disableDrawing = (state, action) => {
     // For each map, disable drawing
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.disableDrawing()) {
+        if (map.disableDrawing(action.delayClickEnable)) {
             return true;
         }
         return acc;
