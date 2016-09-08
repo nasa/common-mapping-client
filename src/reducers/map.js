@@ -435,7 +435,7 @@ const mergeLayers = (state, action) => {
         // update layer time
         mergedLayer = mergedLayer.set("time", moment(mapConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
         // put the newly minted layer into state storage
-        if(typeof mergedLayer.get("id") !== "undefined") {
+        if (typeof mergedLayer.get("id") !== "undefined") {
             state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
         }
     }
@@ -645,6 +645,7 @@ const ingestLayerPalettes = (state, action) => {
 
 const enableDrawing = (state, action) => {
     action.delayClickEnable = false;
+    state = disableMeasuring(state, action);
     state = disableDrawing(state, action);
 
     // For each map, enable drawing
@@ -682,13 +683,55 @@ const disableDrawing = (state, action) => {
     return state;
 };
 
+const enableMeasuring = (state, action) => {
+    action.delayClickEnable = false;
+    state = disableDrawing(state, action);
+    state = disableMeasuring(state, action);
+
+    // For each map, enable measuring
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.isActive) {
+            if (map.enableMeasuring(action.geometryType, action.measurementType)) {
+                return true;
+            }
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        return state
+            .setIn(["measuring", "isMeasuringEnabled"], true)
+            .setIn(["measuring", "geometryType"], action.geometryType)
+            .setIn(["measuring", "measurementType"], action.measurementType);
+    }
+    return state;
+};
+
+const disableMeasuring = (state, action) => {
+    // For each map, disable drawing
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.disableMeasuring(action.delayClickEnable)) {
+            return true;
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        return state
+            .setIn(["measuring", "isMeasuringEnabled"], true)
+            .setIn(["measuring", "geometryType"], "")
+            .setIn(["measuring", "measurementType"], "");
+    }
+    return state;
+};
+
 const addGeometryToMap = (state, action) => {
     let alerts = state.get("alerts");
     // Add geometry to each inactive map
     let anySucceed = state.get("maps").reduce((acc, map) => {
         // Only add geometry to inactive maps
         if (!map.isActive) {
-            if (map.addGeometry(action.geometry)) {
+            if (map.addGeometry(action.geometry, action.interactionType)) {
                 return true;
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
@@ -706,13 +749,36 @@ const addGeometryToMap = (state, action) => {
     return state.set("alerts", alerts);
 };
 
-const removeAllGeometries = (state, action) => {
+const addMeasurementLabelToGeometry = (state, action) => {
+    let alerts = state.get("alerts");
+    // Add measurement label to each inactive map
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        // Only add geometry to all maps since it's not done automatically for anyone
+        if (map.addMeasurementLabelToGeometry(action.geometry, action.event, action.measurementType)) {
+            return true;
+        } else {
+            let contextStr = map.is3D ? "3D" : "2D";
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.title,
+                body: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
+                severity: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
+                time: new Date()
+            }));
+        }
+        return acc;
+    }, false);
+
+    return state.set("alerts", alerts);
+};
+
+const removeAllDrawings = (state, action) => {
     state = disableDrawing(state, action);
+    state = disableMeasuring(state, action);
 
     let alerts = state.get("alerts");
     // Add geometry to each inactive map
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        if (map.removeAllGeometries()) {
+        if (map.removeAllDrawings()) {
             return true;
         } else {
             let contextStr = map.is3D ? "3D" : "2D";
@@ -720,6 +786,30 @@ const removeAllGeometries = (state, action) => {
                 title: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.title,
                 body: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.formatString.replace("{MAP}", contextStr),
                 severity: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.severity,
+                time: new Date()
+            }));
+        }
+        return acc;
+    }, false);
+
+    return state.set("alerts", alerts);
+};
+
+const removeAllMeasurements = (state, action) => {
+    state = disableMeasuring(state, action);
+    state = disableDrawing(state, action);
+
+    let alerts = state.get("alerts");
+    // Add geometry to each inactive map
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.removeAllMeasurements()) {
+            return true;
+        } else {
+            let contextStr = map.is3D ? "3D" : "2D";
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.title,
+                body: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.formatString.replace("{MAP}", contextStr),
+                severity: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.severity,
                 time: new Date()
             }));
         }
@@ -765,7 +855,7 @@ const resetApplicationState = (state, action) => {
     newState = setScaleUnits(newState, { units: mapConfig.DEFAULT_SCALE_UNITS });
 
     // Remove all user vector geometries
-    newState = removeAllGeometries(newState, {});
+    newState = removeAllDrawings(newState, {});
 
     return newState;
 };
@@ -874,11 +964,23 @@ export default function map(state = mapState, action) {
         case actionTypes.DISABLE_DRAWING:
             return disableDrawing(state, action);
 
+        case actionTypes.ENABLE_MEASURING:
+            return enableMeasuring(state, action);
+
+        case actionTypes.DISABLE_MEASURING:
+            return disableMeasuring(state, action);
+
         case actionTypes.ADD_GEOMETRY_TO_MAP:
             return addGeometryToMap(state, action);
 
-        case actionTypes.REMOVE_ALL_GEOMETRIES:
-            return removeAllGeometries(state, action);
+        case actionTypes.ADD_MEASUREMENT_LABEL_TO_GEOMETRY:
+            return addMeasurementLabelToGeometry(state, action);
+
+        case actionTypes.REMOVE_ALL_DRAWINGS:
+            return removeAllDrawings(state, action);
+
+        case actionTypes.REMOVE_ALL_MEASUREMENTS:
+            return removeAllMeasurements(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
             return resetApplicationState(state, action);

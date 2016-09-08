@@ -161,3 +161,37 @@
     height: 29px;
     // overflow: hidden;
 }
+
+.tooltip {
+    position: relative;
+    background: white;
+    border-radius: 2px;
+    padding: 4px 8px;
+    // opacity: 0.7;
+    white-space: nowrap;
+    font-family: "Roboto Mono";
+    color: $color-text-secondary;
+    @include light-shadow();
+}
+
+.tooltip-measure {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.tooltip-static {
+    color: black;
+    border: 1px solid white;
+}
+
+.tooltip-measure:after,
+.tooltip-static:after {
+    border-top: 8px solid $color-medium-light;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    margin-left: -9px;
+    left: 50%;
+}

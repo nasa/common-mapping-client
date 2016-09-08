@@ -408,7 +408,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    removeAllGeometries() {
+    removeAllDrawings() {
         try {
             this.drawHandler._scene.primitives.removeAll();
             return this.drawHandler._scene.primitives.length === 0;

@@ -13,8 +13,42 @@ export default class MapWrapper_openlayers extends MapWrapper {
         super(container, options);
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
-        this.map = this.createMap(container, options);
         this.layerCache = new Cache(50); // TODO - move this number into a config?
+        this.defaultGeometryStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: mapConfig.GEOMETRY_FILL_COLOR
+            }),
+            stroke: new ol.style.Stroke({
+                color: mapConfig.GEOMETRY_STROKE_COLOR,
+                width: mapConfig.GEOMETRY_STROKE_WEIGHT
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33'
+                })
+            })
+        });
+        this.defaultMeasureStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: mapConfig.MEASURE_FILL_COLOR
+            }),
+            stroke: new ol.style.Stroke({
+                color: mapConfig.MEASURE_STROKE_COLOR,
+                lineDash: [10, 10],
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(255, 255, 255, 0.75)'
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.5)'
+                })
+            })
+        });
+        this.map = this.createMap(container, options);
     }
 
     createMap(container, options) {
@@ -23,21 +57,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let vectorSource = new ol.source.Vector({ wrapX: true });
             let vectorLayer = new ol.layer.Vector({
                 source: vectorSource,
-                style: new ol.style.Style({
-                    fill: new ol.style.Fill({
-                        color: mapConfig.GEOMETRY_FILL_COLOR
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: mapConfig.GEOMETRY_STROKE_COLOR,
-                        width: mapConfig.GEOMETRY_STROKE_WEIGHT
-                    }),
-                    image: new ol.style.Circle({
-                        radius: 7,
-                        fill: new ol.style.Fill({
-                            color: '#ffcc33'
-                        })
-                    })
-                })
+                style: this.defaultGeometryStyle
             });
             vectorLayer.set("_layerId", "_vector_drawings");
             vectorLayer.set("_layerType", mapStrings.LAYER_GROUP_TYPE_REFERENCE);
@@ -256,7 +276,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.setDoubleClickZoomEnabled(false);
 
             // Get drawHandler by geometryType
-            let drawInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", "draw_" + geometryType);
+            let drawInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", mapStrings.INTERACTION_DRAW + geometryType);
             if (drawInteraction) {
                 // Call setActive(true) on handler to enable
                 drawInteraction.setActive(true);
@@ -274,7 +294,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     disableDrawing(delayDblClickEnable = true) {
         try {
             // Call setActive(false) on all handlers
-            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), "_drawInteraction", true);
+            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_DRAW, true);
             drawInteractions.map((handler) => {
                 handler.setActive(false);
 
@@ -285,7 +305,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
 
             // re-enable double-click zoom
-            if(delayDblClickEnable) {
+            if (delayDblClickEnable) {
                 setTimeout(() => {
                     this.setDoubleClickZoomEnabled(true);
                 }, 251);
@@ -296,6 +316,53 @@ export default class MapWrapper_openlayers extends MapWrapper {
         } catch (err) {
             console.warn("could not disable drawing on openlayers map.", err);
             return false;
+        }
+    }
+
+    enableMeasuring(geometryType, measurementType) {
+        try {
+            // remove double-click zoom while drawing so we can double-click complete
+            this.setDoubleClickZoomEnabled(false);
+
+            // Get drawHandler by geometryType
+            let interaction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", mapStrings.INTERACTION_MEASURE + geometryType);
+            if (interaction) {
+                // Call setActive(true) on handler to enable
+                interaction.setActive(true);
+                // Check that handler is active
+                return interaction.getActive();
+            }
+            console.warn("could not enable openlayers measuring for:", geometryType, measurementType);
+            return false;
+        } catch (err) {
+            console.warn("could not enable measuring on openlayers map.", err);
+            return false;
+        }
+    }
+
+    disableMeasuring(delayDblClickEnable = true) {
+        try {
+            // Call setActive(false) on all handlers
+            let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_MEASURE, true);
+            measureInteractions.map((handler) => {
+                handler.setActive(false);
+
+                // Check that handler is not active
+                if (handler.getActive()) {
+                    console.warn("could not disable openlayers measure handler:", handler.get("_id"));
+                }
+            });
+            // re-enable double-click zoom
+            if (delayDblClickEnable) {
+                setTimeout(() => {
+                    this.setDoubleClickZoomEnabled(true);
+                }, 251);
+            } else {
+                this.setDoubleClickZoomEnabled(true);
+            }
+            return true;
+        } catch (err) {
+            console.warn("could not disable measuring on openlayers map.", err);
         }
     }
 
@@ -317,7 +384,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
-    addGeometry(geometry) {
+    addGeometry(geometry, interactionType) {
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
@@ -335,6 +402,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let circleFeature = new ol.Feature({
                 geometry: circleGeom
             });
+            circleFeature.set("interactionType", interactionType);
             mapLayer.getSource().addFeature(circleFeature);
             return true;
         }
@@ -351,6 +419,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let lineStringFeature = new ol.Feature({
                 geometry: lineStringGeom
             });
+            lineStringFeature.set("interactionType", interactionType);
             mapLayer.getSource().addFeature(lineStringFeature);
             return true;
         }
@@ -372,52 +441,151 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let polygonFeature = new ol.Feature({
                 geometry: polygonGeom
             });
+            polygonFeature.set("interactionType", interactionType);
             mapLayer.getSource().addFeature(polygonFeature);
             return true;
         }
         return false;
     }
 
-    removeAllGeometries() {
+    addMeasurementLabelToGeometry(geometry, event, measurementType) {
+        let feature = event.feature;
+        let olGeom = feature.getGeometry();
+        if (!feature) {
+            console.warn("could not add measurement label to ", " in openlayers map");
+            return false;
+        }
+        // Create label
+        let measureLabelEl = document.createElement('div');
+        measureLabelEl.className = "tooltip tooltip-static";
+        let measureLabel = new ol.Overlay({
+            element: measureLabelEl,
+            offset: [0, -15],
+            positioning: 'bottom-center'
+        });
+
+        // Set label according to geometry type and measurement type
+        let sourceProj = this.map.getView().getProjection();
+        let wgs84Sphere = new ol.Sphere(6378137);
+        if (measurementType === mapStrings.MEASURE_DISTANCE) {
+            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+                measureLabel.setPosition(olGeom.getLastCoordinate());
+                // Get distance
+                let coordinates = olGeom.getCoordinates();
+                let length = 0;
+                for (let i = 0, ii = coordinates.length - 1; i < ii; ++i) {
+                    let c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
+                    let c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
+                    length += wgs84Sphere.haversineDistance(c1, c2);
+                }
+
+                let output = "";
+                if (length > 100) {
+                    output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+                } else {
+                    output = (Math.round(length * 100) / 100) + ' ' + 'm';
+                }
+                measureLabelEl.innerHTML = output;
+            } else {
+                console.warn("could not add distance measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
+                return false;
+            }
+        } else if (measurementType === mapStrings.MEASURE_AREA) {
+            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+                measureLabel.setPosition(olGeom.getInteriorPoint().getCoordinates());
+                let geom = (olGeom.clone().transform(sourceProj, 'EPSG:4326'));
+                let coordinates = geom.getLinearRing(0).getCoordinates();
+                let area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+                let output;
+                if (area > 10000) {
+                    output = (Math.round(area / 1000000 * 100) / 100) +
+                        ' ' + 'km<sup>2</sup>';
+                } else {
+                    output = (Math.round(area * 100) / 100) +
+                        ' ' + 'm<sup>2</sup>';
+                }
+                measureLabelEl.innerHTML = output;
+            } else {
+                console.warn("could not add area measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
+                return false;
+            }
+        } else {
+            console.warn("could not add measurement label to geometry in openlayers map, unsupported measurementType ", measurementType);
+            return false;
+        }
+        this.map.addOverlay(measureLabel);
+        return true;
+    }
+
+    removeAllDrawings() {
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not remove all geometries in openlayers map");
-
             return false;
         }
-        mapLayer.getSource().clear();
-        return mapLayer.getSource().getFeatures().length === 0;
+        // Remove geometries
+        let mapLayerFeatures = mapLayer.getSource().getFeatures();
+        let mapLayerFeaturesLen = mapLayerFeatures.length;
+        let featuresToRemove = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW);
+        let featuresToRemoveLen = featuresToRemove.length;
+        for (let i = 0; i < featuresToRemove.length; i++) {
+            mapLayer.getSource().removeFeature(featuresToRemove[i]);
+        }
+        return mapLayer.getSource().getFeatures().filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW).length === 0
+    }
+
+    removeAllMeasurements() {
+        let mapLayers = this.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        if (!mapLayer) {
+            console.warn("could not remove all geometries in openlayers map");
+            return false;
+        }
+        // Remove geometries
+        let mapLayerFeatures = mapLayer.getSource().getFeatures();
+        let mapLayerFeaturesLen = mapLayerFeatures.length;
+        let featuresToRemove = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_MEASURE);
+        let featuresToRemoveLen = featuresToRemove.length;
+        for (let i = 0; i < featuresToRemove.length; i++) {
+            mapLayer.getSource().removeFeature(featuresToRemove[i]);
+        }
+        // Remove overlays
+        this.map.getOverlays().clear();
+        return mapLayer.getSource().getFeatures().filter(x => x.get('interactionType') === mapStrings.INTERACTION_MEASURE).length === 0 && this.map.getOverlays().getArray().length === 0;
     }
 
     resetOrientation(duration) {
         return true;
     }
 
-    addDrawHandler(geometryType, onDrawEnd) {
+    addDrawHandler(geometryType, onDrawEnd, interactionType) {
         try {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
             if (mapLayer) {
                 let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
-                    type: geometryType
+                    type: geometryType,
+                    style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle
                 });
 
                 // Set callback
                 drawInteraction.on('drawend', (event) => {
                     if (typeof onDrawEnd === "function") {
                         let geometry = this.retrieveGeometryFromEvent(event, geometryType);
-                        onDrawEnd(geometry);
+                        // Set type of event feature in OL
+                        event.feature.set("interactionType", interactionType);
+                        onDrawEnd(geometry, event);
                     }
-                });
+                })
 
                 // Disable
                 drawInteraction.setActive(false);
 
                 // Set properties we'll need
-                drawInteraction.set('_id', "draw_" + geometryType);
-                drawInteraction.set('_drawInteraction', true);
+                drawInteraction.set('_id', interactionType + geometryType);
+                drawInteraction.set(interactionType, true);
 
                 // Add to map
                 this.map.addInteraction(drawInteraction);
@@ -437,6 +605,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let center = event.feature.getGeometry().getCenter();
             return {
                 type: mapStrings.GEOMETRY_CIRCLE,
+                id: Math.random(),
                 center: { lon: center[0], lat: center[1] },
                 radius: event.feature.getGeometry().getRadius(),
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
@@ -444,12 +613,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
             return {
                 type: mapStrings.GEOMETRY_LINE_STRING,
+                id: Math.random(),
                 coordinates: event.feature.getGeometry().getCoordinates(),
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
             return {
                 type: mapStrings.GEOMETRY_POLYGON,
+                id: Math.random(),
                 coordinates: event.feature.getGeometry().getCoordinates()[0],
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };

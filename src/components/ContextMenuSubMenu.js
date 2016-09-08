@@ -85,7 +85,7 @@ export class ContextMenuSubMenu extends Component {
     }
 
     render() {
-        let { disabled, children, title } = this.props, { visible } = this.state;
+        let { disabled, children, title, icon, customIcon } = this.props, { visible } = this.state;
 
         let menuClasses = "context-menu-item submenu";
         let subMenuClasses = MiscUtil.generateStringFromSet({
@@ -113,8 +113,10 @@ export class ContextMenuSubMenu extends Component {
                     accent={visible}
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}
-                    label={title}
-                    icon="mode_edit" >
+                    label={icon ? title : ""}
+                    icon={icon || ""} >
+                    <i className={customIcon} />
+                    <span className="context-menu-label">{customIcon ? title : "" }</span>
                     <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
                 </Button>
                 <div className={subMenuClasses}>
@@ -127,6 +129,8 @@ export class ContextMenuSubMenu extends Component {
 
 ContextMenuSubMenu.propTypes = {
     title: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    customIcon: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     showDelay: PropTypes.number,
     hideDelay: PropTypes.number,
