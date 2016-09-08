@@ -161,8 +161,15 @@ var DrawHelper = (function() {
         this._editedSurface = surface;
     }
 
-    var material = Cesium.Material.fromType(Cesium.Material.ColorType);
-    material.uniforms.color = new Cesium.Color(1.0, 1.0, 0.0, 0.5);
+    // var material = Cesium.Material.fromType(Cesium.Material.ColorType);
+    // material.uniforms.color = new Cesium.Color(1.0, 1.0, 0.0, 0.5);
+
+    var stdMaterial = Cesium.Material.fromType(Cesium.Material.ColorType);
+    stdMaterial.uniforms.color = new Cesium.Color.fromCssColorString("rgba(255, 255, 255, 0.5)");
+
+    var polylineMaterial = Cesium.Material.fromType(Cesium.Material.ColorType);
+    polylineMaterial.uniforms.color = new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)");
+
 
     var defaultShapeOptions = {
         ellipsoid: Cesium.Ellipsoid.WGS84,
@@ -177,14 +184,19 @@ var DrawHelper = (function() {
         appearance: new Cesium.EllipsoidSurfaceAppearance({
             aboveGround: false
         }),
-        material: material,
+        // material: material,
+        material: stdMaterial,
         granularity: Math.PI / 180.0
     });
 
-    var defaultPolygonOptions = copyOptions(defaultShapeOptions, {});
+    var defaultPolygonOptions = copyOptions(defaultSurfaceOptions, {});
     var defaultExtentOptions = copyOptions(defaultShapeOptions, {});
-    var defaultCircleOptions = copyOptions(defaultShapeOptions, {});
-    var defaultEllipseOptions = copyOptions(defaultSurfaceOptions, { rotation: 0 });
+    var defaultCircleOptions = copyOptions(defaultSurfaceOptions, {
+        strokeColor: new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)")
+    });
+    var defaultEllipseOptions = copyOptions(defaultSurfaceOptions, {
+        rotation: 0
+    });
 
     var defaultPolylineOptions = copyOptions(defaultShapeOptions, {
         width: 5,
@@ -193,7 +205,8 @@ var DrawHelper = (function() {
         appearance: new Cesium.PolylineMaterialAppearance({
             aboveGround: false
         }),
-        material: material
+        // material: material
+        material: polylineMaterial
     });
 
     //    Cesium.Polygon.prototype.setStrokeStyle = setStrokeStyle;
@@ -392,7 +405,8 @@ var DrawHelper = (function() {
 
         function _(options) {
 
-            options = copyOptions(options, defaultSurfaceOptions);
+            options = copyOptions(options, defaultPolygonOptions);
+            // options = copyOptions(options, defaultSurfaceOptions);
 
             this.initialiseOptions(options);
 
@@ -443,7 +457,8 @@ var DrawHelper = (function() {
                 throw new Cesium.DeveloperError('Center and radius are required');
             }
 
-            options = copyOptions(options, defaultSurfaceOptions);
+            options = copyOptions(options, defaultCircleOptions);
+            // options = copyOptions(options, defaultSurfaceOptions);
 
             this.initialiseOptions(options);
 
@@ -850,7 +865,7 @@ var DrawHelper = (function() {
     }
 
     _.prototype.startDrawingPolygon = function(options) {
-        var options = copyOptions(options, defaultSurfaceOptions);
+        // var options = copyOptions(options, defaultSurfaceOptions);
         this.startDrawingPolyshape(true, options);
     }
 
@@ -864,6 +879,7 @@ var DrawHelper = (function() {
         this.startDrawing(
             function() {
                 primitives.remove(poly);
+                primitives.remove(fakePoly);
                 markers.remove();
                 mouseHandler.destroy();
                 tooltip.setVisible(false);
@@ -876,14 +892,24 @@ var DrawHelper = (function() {
         var tooltip = this._tooltip;
 
         var minPoints = isPolygon ? 3 : 2;
-        var poly;
+        var poly = fakePoly = null;
+        var fakeMinPoints = fakeMaxPoints = 0;
         if (isPolygon) {
             poly = new DrawHelper.PolygonPrimitive(options);
+            
+            // 09/07/16 MODIFICATION by Flynn Platt
+            fakeMinPoints = 2;
+            fakeMaxPoints = 3;
+            fakePoly = new DrawHelper.PolylinePrimitive(defaultPolylineOptions);
+            fakePoly.asynchronous = false;
         } else {
             poly = new DrawHelper.PolylinePrimitive(options);
         }
         poly.asynchronous = false;
         primitives.add(poly);
+        if(fakePoly) {
+            primitives.add(fakePoly);
+        }
 
         var positions = [];
         var markers = new _.BillboardGroup(this, defaultBillboard);
@@ -903,6 +929,10 @@ var DrawHelper = (function() {
                     if (positions.length >= minPoints) {
                         poly.positions = positions;
                         poly._createPrimitive = true;
+                    }
+                    if (fakePoly !== null && positions.length >= fakeMinPoints) {
+                        fakePoly.positions = positions;
+                        fakePoly._createPrimitive = true;
                     }
 
                     // add new point to polygon
@@ -933,6 +963,10 @@ var DrawHelper = (function() {
                     if (positions.length >= minPoints) {
                         poly.positions = positions;
                         poly._createPrimitive = true;
+                    }
+                    if (fakePoly !== null && positions.length >= fakeMinPoints) {
+                        fakePoly.positions = positions;
+                        fakePoly._createPrimitive = true;
                     }
                     // update marker
                     markers.getBillboard(positions.length - 1).position = cartesian;
@@ -1062,13 +1096,15 @@ var DrawHelper = (function() {
 
     _.prototype.startDrawingCircle = function(options) {
 
-        var options = copyOptions(options, defaultSurfaceOptions);
+        var options = copyOptions(options, defaultCircleOptions);
+        // var options = copyOptions(options, defaultSurfaceOptions);
 
         this.startDrawing(
             function cleanUp() {
-                if (circle != null) {
+                if(circle !== null) {
                     primitives.remove(circle);
                 }
+                primitives.remove(fakePoly);
                 markers.remove();
                 mouseHandler.destroy();
                 tooltip.setVisible(false);
@@ -1082,9 +1118,13 @@ var DrawHelper = (function() {
 
         var circle = null;
         var markers = new _.BillboardGroup(_self, defaultBillboard);
-        // var markers = null;
 
-        // 09-07-16 MODIFICATION by Flynn Platt
+        // 09/07/16 MODIFICATION by Flynn Platt
+        fakeMinPoints = 2;
+        fakePoly = new DrawHelper.PolylinePrimitive(defaultPolylineOptions);
+        fakePoly.asynchronous = false;
+        primitives.add(fakePoly);
+
         // positions[0] = circle center
         // positions[1] = cursor
         var positions = []
@@ -1097,22 +1137,18 @@ var DrawHelper = (function() {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
                     if (circle == null) {
-                        // create the circle
                         circle = new _.CirclePrimitive({
                             center: cartesian,
                             radius: 0,
                             asynchronous: false,
                             material: options.material
                         });
-                        circle.setStrokeStyle(new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)"), 3);
                         primitives.add(circle);
 
                         // add circle center position
                         positions = [cartesian.clone(), cartesian.clone()];
-                        if(markers.countBillboards() == 0) {
-                            markers.addBillboards(positions);
-                        } else {
-                            markers.insertBillboard(0, positions[0]);
+                        if (markers.countBillboards() == 0) {
+                            markers.addBillboard(positions[positions.length - 1]);
                         }
                     } else {
                         if (typeof options.callback == 'function') {
@@ -1131,14 +1167,20 @@ var DrawHelper = (function() {
             if (position != null) {
                 var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                 if (cartesian) {
-                    if(positions.length == 0) {
+                    if (positions.length == 0) {
                         positions.push(cartesian.clone());
                         markers.addBillboard(positions[0]);
                     } else {
                         positions[positions.length - 1] = cartesian.clone();
                     }
 
-                    markers.getBillboard(positions.length - 1).position = cartesian;
+                    markers.getBillboard(0).position = cartesian;
+
+                    if (typeof fakePoly !== "undefined" && positions.length >= fakeMinPoints) {
+                        fakePoly.positions = positions;
+                        fakePoly._createPrimitive = true;
+                    }
+
                     if (circle == null) {
                         tooltip.showAt(position, "<p>Click to start drawing the circle</p>");
                     } else {
