@@ -72,14 +72,12 @@ export class MapContainer2D extends Component {
     }
 
     handleMeasureEnd(geometry, event, measurementType) {
-        console.log("end")
         // Disable measurement
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
         // Add label to geometry
         this.props.actions.addMeasurementLabelToGeometry(geometry, event, measurementType);
-
     }
 
     handleEscapeKeyPress() {
