@@ -24,6 +24,7 @@ var DrawHelper = (function() {
         this._tooltip = createTooltip(cesiumWidget.container);
         this._surfaces = [];
         this._isActive = false;
+        this._handlersMuted = true;
 
         this.initialiseHandlers();
 
@@ -34,11 +35,12 @@ var DrawHelper = (function() {
     _.prototype.initialiseHandlers = function() {
         var scene = this._scene;
         var _self = this;
+        var lastMousePosition = false;
         // scene events
         var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         function callPrimitiveCallback(name, position) {
-            if (_self._handlersMuted == true || !_self._isActive) return;
+            if (_self._handlersMuted == true || !_self._isActive || scene.isDestroyed()) return;
             try {
                 var pickedObject = scene.pick(position);
             } catch (err) {
@@ -50,6 +52,7 @@ var DrawHelper = (function() {
         }
         handler.setInputAction(
             function(movement) {
+                lastMousePosition = movement.position;
                 callPrimitiveCallback('leftClick', movement.position);
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(
@@ -59,10 +62,8 @@ var DrawHelper = (function() {
         var mouseOutObject;
         handler.setInputAction(
             function(movement) {
-                if (_self._handlersMuted == true || !_self._isActive) return;
-                if (scene.isDestroyed()) {
-                    return;
-                }
+                if (_self._handlersMuted == true || !_self._isActive || scene.isDestroyed()) return;
+
                 try {
                     var pickedObject = scene.pick(movement.endPosition);
                 } catch (err) {
@@ -131,7 +132,8 @@ var DrawHelper = (function() {
             this.editCleanUp();
         }
         this.editCleanUp = cleanUp;
-        this.muteHandlers(true);
+        // this.muteHandlers(true);
+        this.muteHandlers(false);
     }
 
     _.prototype.stopDrawing = function() {
@@ -140,7 +142,8 @@ var DrawHelper = (function() {
             this.editCleanUp();
             this.editCleanUp = null;
         }
-        this.muteHandlers(false);
+        // this.muteHandlers(false);
+        this.muteHandlers(true);
     }
 
     // make sure only one shape is highlighted at a time
@@ -454,6 +457,7 @@ var DrawHelper = (function() {
 
     _.CirclePrimitive = (function() {
         var _self = this;
+
         function _(options) {
 
             if (!(Cesium.defined(options.center) && Cesium.defined(options.radius))) {
@@ -883,7 +887,7 @@ var DrawHelper = (function() {
 
         // 09/08/16 Hack by Flynn Platt
         // TODO - find better solution
-        if(isPolygon) {
+        if (isPolygon) {
             options.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultFillColor);
             options.strokeColor = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
         } else {
@@ -893,12 +897,13 @@ var DrawHelper = (function() {
         this.startDrawing(
             function() {
                 primitives.remove(poly);
-                if(fakePoly) {
+                if (fakePoly) {
                     primitives.remove(fakePoly);
                 }
                 markers.remove();
                 mouseHandler.destroy();
                 tooltip.setVisible(false);
+                document.removeEventListener("keyup", handleEnter);
             }
         );
 
@@ -912,7 +917,7 @@ var DrawHelper = (function() {
         var fakeMinPoints = fakeMaxPoints = 0;
         if (isPolygon) {
             poly = new DrawHelper.PolygonPrimitive(options);
-            
+
             // 09/07/16 MODIFICATION by Flynn Platt
             fakeMinPoints = 2;
             fakeMaxPoints = 3;
@@ -924,7 +929,7 @@ var DrawHelper = (function() {
         }
         poly.asynchronous = false;
         primitives.add(poly);
-        if(fakePoly) {
+        if (fakePoly) {
             primitives.add(fakePoly);
         }
 
@@ -1024,6 +1029,17 @@ var DrawHelper = (function() {
             }
         }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
+        var handleEnter = function(evt) {
+            if (evt.keyCode === 13 && typeof options.callback == "function" && positions.length - 1 >= minPoints) {
+                _self.stopDrawing();
+                var newPos = [];
+                for (var i = 0; i < positions.length - 1; i++) {
+                    newPos.push(positions[i]);
+                }
+                options.callback(newPos.splice(0, newPos.length + 1));
+            }
+        };
+        document.addEventListener("keyup", handleEnter);
     }
 
     function getExtentCorners(value) {
@@ -1122,13 +1138,14 @@ var DrawHelper = (function() {
 
         this.startDrawing(
             function cleanUp() {
-                if(circle !== null) {
+                if (circle !== null) {
                     primitives.remove(circle);
                 }
                 primitives.remove(fakePoly);
                 markers.remove();
                 mouseHandler.destroy();
                 tooltip.setVisible(false);
+                document.removeEventListener("keyup", handleEnter);
             }
         );
 
@@ -1214,6 +1231,14 @@ var DrawHelper = (function() {
                 }
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        var handleEnter = function(evt) {
+            if (evt.keyCode === 13 && typeof options.callback == "function") {
+                options.callback(circle.getCenter(), circle.getRadius());
+                _self.stopDrawing();
+            }
+        };
+        document.addEventListener("keyup", handleEnter);
 
     }
 
