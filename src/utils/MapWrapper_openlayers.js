@@ -14,6 +14,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.layerCache = new Cache(50); // TODO - move this number into a config?
+        this.cachedGeometry = null;
         this.defaultGeometryStyle = new ol.style.Style({
             fill: new ol.style.Fill({
                 color: mapConfig.GEOMETRY_FILL_COLOR
@@ -315,6 +316,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.warn("could not disable drawing on openlayers map.", err);
+            return false;
+        }
+    }
+
+    completeDrawing() {
+        try {
+            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_DRAW, true);
+            drawInteractions.map((handler) => {
+                if(handler.getActive()) {
+                    handler.finishDrawing();
+                }
+            });
+            return true;
+        } catch (err) {
+            console.warn("could not complete drawing on openlayers map.", err);
             return false;
         }
     }

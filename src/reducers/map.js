@@ -30,6 +30,10 @@ const initializeMap = (state, action) => {
 };
 
 const setMapViewMode = (state, action) => {
+    // rendering issues in cesium
+    state = disableDrawing(state, action);
+    state = disableMeasuring(state, action);
+
     let mode_3D = action.mode === mapStrings.MAP_VIEW_MODE_3D;
     state = state.set("maps", state.get("maps").map((map) => {
         if (map.is3D) {

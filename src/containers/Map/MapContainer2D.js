@@ -89,6 +89,16 @@ export class MapContainer2D extends Component {
         }
     }
 
+    handleEnterKeyPress() {
+        if (this.props.isDrawingEnabled) {
+            let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
+            if (typeof map !== "undefined") {
+                map.completeDrawing();
+            }
+        }
+        // TODO - add complete measure
+    }
+
     render() {
         // need to get some sort of stored state value
         if (this.props.initialLoadComplete && !this.listenersInitialized) {
@@ -106,6 +116,7 @@ export class MapContainer2D extends Component {
             <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D" />
                 <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleEscapeKeyPress()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Enter" onKeyHandle={(evt) => this.handleEnterKeyPress()} />
             </div>
         );
     }
