@@ -24,7 +24,11 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         // Create cesium-draw-helper
         // console.log(this.drawHelper, window.DrawHelper)
-        this.drawHandler = new this.drawHelper(this.map);
+        this.drawHandler = new this.drawHelper({
+            viewer: this.map,
+            fill: mapConfig.GEOMETRY_FILL_COLOR,
+            stroke: mapConfig.GEOMETRY_STROKE_COLOR
+        });
 
         // Initialize custom draw-helper interactions array
         this.drawHandler._customInteractions = {};

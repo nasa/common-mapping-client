@@ -14,7 +14,12 @@ var DrawHelper = (function() {
     var ellipsoid = Cesium.Ellipsoid.WGS84;
 
     // constructor
-    function _(cesiumWidget) {
+    function _(options) {
+
+        var cesiumWidget = options.viewer
+        this._defaultFillColor = options.fill;
+        this._defaultStrokeColor = options.stroke;
+
         this._scene = cesiumWidget.scene;
         this._tooltip = createTooltip(cesiumWidget.container);
         this._surfaces = [];
@@ -165,10 +170,10 @@ var DrawHelper = (function() {
     // material.uniforms.color = new Cesium.Color(1.0, 1.0, 0.0, 0.5);
 
     var stdMaterial = Cesium.Material.fromType(Cesium.Material.ColorType);
-    stdMaterial.uniforms.color = new Cesium.Color.fromCssColorString("rgba(255, 255, 255, 0.5)");
+    // stdMaterial.uniforms.color = new Cesium.Color.fromCssColorString(_self._defaultFillColor);
 
     var polylineMaterial = Cesium.Material.fromType(Cesium.Material.ColorType);
-    polylineMaterial.uniforms.color = new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)");
+    // polylineMaterial.uniforms.color = new Cesium.Color.fromCssColorString(_self._defaultStrokeColor);
 
 
     var defaultShapeOptions = {
@@ -191,9 +196,7 @@ var DrawHelper = (function() {
 
     var defaultPolygonOptions = copyOptions(defaultSurfaceOptions, {});
     var defaultExtentOptions = copyOptions(defaultShapeOptions, {});
-    var defaultCircleOptions = copyOptions(defaultSurfaceOptions, {
-        strokeColor: new Cesium.Color.fromCssColorString("rgba(255, 204, 0, 1)")
-    });
+    var defaultCircleOptions = copyOptions(defaultSurfaceOptions, {});
     var defaultEllipseOptions = copyOptions(defaultSurfaceOptions, {
         rotation: 0
     });
@@ -450,13 +453,14 @@ var DrawHelper = (function() {
     })();
 
     _.CirclePrimitive = (function() {
-
+        var _self = this;
         function _(options) {
 
             if (!(Cesium.defined(options.center) && Cesium.defined(options.radius))) {
                 throw new Cesium.DeveloperError('Center and radius are required');
             }
 
+            // options.strokeColor = options.strokeColor ? options.strokeColor : new Cesium.Color.fromCssColorString(_self._defaultStrokeColor);
             options = copyOptions(options, defaultCircleOptions);
             // options = copyOptions(options, defaultSurfaceOptions);
 
@@ -866,6 +870,7 @@ var DrawHelper = (function() {
 
     _.prototype.startDrawingPolygon = function(options) {
         // var options = copyOptions(options, defaultSurfaceOptions);
+        var options = copyOptions(options, defaultPolygonOptions);
         this.startDrawingPolyshape(true, options);
     }
 
@@ -876,10 +881,21 @@ var DrawHelper = (function() {
 
     _.prototype.startDrawingPolyshape = function(isPolygon, options) {
 
+        // 09/08/16 Hack by Flynn Platt
+        // TODO - find better solution
+        if(isPolygon) {
+            options.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultFillColor);
+            options.strokeColor = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
+        } else {
+            options.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
+        }
+
         this.startDrawing(
             function() {
                 primitives.remove(poly);
-                primitives.remove(fakePoly);
+                if(fakePoly) {
+                    primitives.remove(fakePoly);
+                }
                 markers.remove();
                 mouseHandler.destroy();
                 tooltip.setVisible(false);
@@ -900,6 +916,7 @@ var DrawHelper = (function() {
             // 09/07/16 MODIFICATION by Flynn Platt
             fakeMinPoints = 2;
             fakeMaxPoints = 3;
+            defaultPolylineOptions.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
             fakePoly = new DrawHelper.PolylinePrimitive(defaultPolylineOptions);
             fakePoly.asynchronous = false;
         } else {
@@ -939,7 +956,7 @@ var DrawHelper = (function() {
                     // this one will move with the mouse
                     positions.push(cartesian);
                     // add marker at the new position
-                    markers.addBillboard(cartesian);
+                    // markers.addBillboard(cartesian);
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -969,7 +986,8 @@ var DrawHelper = (function() {
                         fakePoly._createPrimitive = true;
                     }
                     // update marker
-                    markers.getBillboard(positions.length - 1).position = cartesian;
+                    // markers.getBillboard(positions.length - 1).position = cartesian;
+                    markers.getBillboard(0).position = cartesian;
                     // show tooltip
                     tooltip.showAt(position, "<p>Click to add new point (" + positions.length + ")</p>" + (positions.length > minPoints ? "<p>Double click to finish drawing</p>" : ""));
                 }
@@ -1097,6 +1115,9 @@ var DrawHelper = (function() {
     _.prototype.startDrawingCircle = function(options) {
 
         var options = copyOptions(options, defaultCircleOptions);
+        // 09/08/16 Hack by Flynn Platt
+        // TODO - find better solution
+        options.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultFillColor);
         // var options = copyOptions(options, defaultSurfaceOptions);
 
         this.startDrawing(
@@ -1121,6 +1142,7 @@ var DrawHelper = (function() {
 
         // 09/07/16 MODIFICATION by Flynn Platt
         fakeMinPoints = 2;
+        defaultPolylineOptions.material.uniforms.color = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
         fakePoly = new DrawHelper.PolylinePrimitive(defaultPolylineOptions);
         fakePoly.asynchronous = false;
         primitives.add(fakePoly);
@@ -1141,7 +1163,8 @@ var DrawHelper = (function() {
                             center: cartesian,
                             radius: 0,
                             asynchronous: false,
-                            material: options.material
+                            material: options.material,
+                            strokeColor: new Cesium.Color.fromCssColorString(_self._defaultStrokeColor)
                         });
                         primitives.add(circle);
 
