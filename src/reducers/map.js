@@ -754,7 +754,7 @@ const addMeasurementLabelToGeometry = (state, action) => {
     // Add measurement label to each inactive map
     let anySucceed = state.get("maps").reduce((acc, map) => {
         // Only add geometry to all maps since it's not done automatically for anyone
-        if (map.addMeasurementLabelToGeometry(action.geometry, action.event, action.measurementType)) {
+        if (map.addMeasurementLabelToGeometry(action.geometry, action.measurementType)) {
             return true;
         } else {
             let contextStr = map.is3D ? "3D" : "2D";

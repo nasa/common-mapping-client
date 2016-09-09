@@ -451,24 +451,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
-    addMeasurementLabelToGeometry(geometry, event, measurementType) {
-        // Look for event geometry, if not present, attempt to get geometry from mapLayer
-        let olGeom;
-        if (event) {
-            olGeom = event.feature.getGeometry();
-            if (!olGeom) {
-                console.warn("could not add measurement label to ", measurementType, " in openlayers map");
-                return false;
-            }
-        } else {
-            let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
-            if (!mapLayer) {
-                console.warn("could not remove all geometries in openlayers map");
-                return false;
-            }
-            olGeom = mapLayer.getSource().getFeatureById(geometry.id).getGeometry();
-        }
+    addMeasurementLabelToGeometry(geometry, measurementType) {
         // Create label
         let measureLabelEl = document.createElement('div');
         measureLabelEl.className = "tooltip tooltip-static";
@@ -479,25 +462,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
         });
 
         // Set label according to geometry type and measurement type
-        let sourceProj = this.map.getView().getProjection();
-        let wgs84Sphere = new ol.Sphere(6378137);
         if (measurementType === mapStrings.MEASURE_DISTANCE) {
             if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
-                measureLabel.setPosition(olGeom.getLastCoordinate());
-                // Get distance
-                let coordinates = olGeom.getCoordinates();
-                let length = 0;
-                for (let i = 0, ii = coordinates.length - 1; i < ii; ++i) {
-                    let c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
-                    let c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
-                    length += wgs84Sphere.haversineDistance(c1, c2);
-                }
+                let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
+                measureLabel.setPosition(coords.length > 1 ? coords[coords.length - 1] : coords[0]);
 
+                // Get distance
+                let distance = MapUtil.calculatePolylineDistance(coords, geometry.proj);
                 let output = "";
-                if (length > 100) {
-                    output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+                if (distance > 100) {
+                    output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
                 } else {
-                    output = (Math.round(length * 100) / 100) + ' ' + 'm';
+                    output = (Math.round(distance * 100) / 100) + ' ' + 'm';
                 }
                 measureLabelEl.innerHTML = output;
             } else {
@@ -506,11 +482,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
         } else if (measurementType === mapStrings.MEASURE_AREA) {
             if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-                measureLabel.setPosition(olGeom.getInteriorPoint().getCoordinates());
-                let geom = (olGeom.clone().transform(sourceProj, 'EPSG:4326'));
-                let coordinates = geom.getLinearRing(0).getCoordinates();
-                let area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+                let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
+                let polygonCenter = MapUtil.calculatePolygonCenter(coords, geometry.proj);
+                measureLabel.setPosition(polygonCenter);
+                let area = MapUtil.calculatePolygonArea(coords, geometry.proj);
                 let output;
+                
                 if (area > 10000) {
                     output = (Math.round(area / 1000000 * 100) / 100) +
                         ' ' + 'km<sup>2</sup>';
@@ -540,9 +517,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         // Remove geometries
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
-        let mapLayerFeaturesLen = mapLayerFeatures.length;
         let featuresToRemove = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW);
-        let featuresToRemoveLen = featuresToRemove.length;
         for (let i = 0; i < featuresToRemove.length; i++) {
             mapLayer.getSource().removeFeature(featuresToRemove[i]);
         }
@@ -558,9 +533,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         // Remove geometries
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
-        let mapLayerFeaturesLen = mapLayerFeatures.length;
         let featuresToRemove = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_MEASURE);
-        let featuresToRemoveLen = featuresToRemove.length;
         for (let i = 0; i < featuresToRemove.length; i++) {
             mapLayer.getSource().removeFeature(featuresToRemove[i]);
         }
@@ -623,6 +596,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 id: Math.random(),
                 center: { lon: center[0], lat: center[1] },
                 radius: event.feature.getGeometry().getRadius(),
+                proj: this.map.getView().getProjection().getCode(),
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
@@ -633,6 +607,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return {
                 type: mapStrings.GEOMETRY_LINE_STRING,
                 id: Math.random(),
+                proj: this.map.getView().getProjection().getCode(),
                 coordinates: tmpCoords,
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
@@ -644,6 +619,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return {
                 type: mapStrings.GEOMETRY_POLYGON,
                 id: Math.random(),
+                proj: this.map.getView().getProjection().getCode(),
                 coordinates: tmpCoords,
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };

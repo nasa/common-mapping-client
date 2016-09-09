@@ -1,4 +1,8 @@
 import Immutable from 'immutable';
+import turfLineDistance from 'turf-line-distance';
+import turfArea from 'turf-area';
+import turfCentroid from 'turf-centroid';
+import proj4js from 'proj4';
 import * as mapStrings from '../constants/mapStrings';
 import * as urlFunctions from './UrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
@@ -150,5 +154,62 @@ export default class MapUtil {
             default:
                 return undefined;
         }
+    }
+
+    // Calculates distance of a polyline using turf
+    // Expects an array of coordinates in form
+    // [ [lon,lat], ... ]
+    // Reprojects into EPSG:4326 first
+    static calculatePolylineDistance(coords, proj) {
+        // Reproject from source to EPSG:4326
+        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        // Calculate line distance
+        return turfLineDistance({
+            type: "Feature",
+            properties: {},
+            geometry: {
+                type: "LineString",
+                coordinates: newCoords
+            }
+        }, "meters")
+    }
+
+    // Calculates area of a polygon using turf
+    // Expects an array of coordinates in form
+    // [ [lon,lat], ... ]
+    // Reprojects into EPSG:4326 first
+    static calculatePolygonArea(coords, proj) {
+        // Reproject from source to EPSG:4326
+        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        // Calculate line distance
+        return turfArea({
+            type: "Feature",
+            properties: {},
+            geometry: {
+                type: "Polygon",
+                coordinates: [newCoords]
+            }
+        }, "meters")
+    }
+
+    // Calculates center point of a polygon using turf
+    // Expects an array of coordinates in form
+    // [ [lon,lat], ... ]
+    // Reprojects into EPSG:4326 first
+    static calculatePolygonCenter(coords, proj) {
+        // Reproject from source to EPSG:4326
+        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        // Calculate center
+        return turfCentroid({
+            type: "FeatureCollection",
+            features: [{
+                type: "Feature",
+                properties: {},
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [newCoords]
+                }
+            }]
+        }, "meters").geometry.coordinates;
     }
 }

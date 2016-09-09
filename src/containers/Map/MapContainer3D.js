@@ -14,17 +14,17 @@ export class MapContainer3D extends Component {
     initializeMapDrawHandlers() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry, event) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
         }
     }
 
     initializeMapMeasurementHandlers() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry, event) => this.handleMeasureEnd(geometry, event, mapStrings.MEASURE_DISTANCE), mapStrings.INTERACTION_MEASURE);
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry, event) => this.handleMeasureEnd(geometry, event, mapStrings.MEASURE_AREA), mapStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_DISTANCE), mapStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_AREA), mapStrings.INTERACTION_MEASURE);
         } else {
             console.error("Cannot initialize draw listeners: MAP NOT AVAILABLE");
         }
@@ -64,13 +64,13 @@ export class MapContainer3D extends Component {
         this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_DRAW);
     }
 
-    handleMeasureEnd(geometry, event, measurementType) {
+    handleMeasureEnd(geometry, measurementType) {
         // Disable drawing
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
         // Add label to geometry
-        this.props.actions.addMeasurementLabelToGeometry(geometry, event, measurementType);
+        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType);
     }
 
     render() {

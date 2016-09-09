@@ -23,7 +23,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.map = this.createMap(container, options);
 
         // Create cesium-draw-helper
-        // console.log(this.drawHelper, window.DrawHelper)
         this.drawHandler = new this.drawHelper({
             viewer: this.map,
             fill: mapConfig.GEOMETRY_FILL_COLOR,
@@ -41,7 +40,6 @@ export default class MapWrapper_cesium extends MapWrapper {
             maxZoom: options.getIn(["view", "maxZoomDistance3D"]),
             minZoom: options.getIn(["view", "minZoomDistance3D"])
         };
-        console.log("MAPO", this.map, this.cesium)
     }
 
     createMap(container, options) {
@@ -223,7 +221,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         callback: (center, radius) => {
                             // Add geometry to cesium map since it's not done automatically
                             let id = Math.random();
-                            this.addGeometry({ type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
+                            this.addGeometry({ proj: mapStrings.PROJECTIONS.latlon.code, type: geometryType, center: center, radius: radius, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
                             if (typeof onDrawEnd === "function") {
                                 // Recover geometry from event in cartographic
                                 let cartographicCenter = this.cartesianToLatLon(center);
@@ -231,6 +229,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                                     type: mapStrings.GEOMETRY_CIRCLE,
                                     center: cartographicCenter,
                                     id: id,
+                                    proj: mapStrings.PROJECTIONS.latlon.code,
                                     radius: radius,
                                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                                 };
@@ -246,7 +245,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         callback: (coordinates) => {
                             // Add geometry to cesium map since it's not done automatically
                             let id = Math.random();
-                            this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
+                            this.addGeometry({ proj: mapStrings.PROJECTIONS.latlon.code, type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
                             if (typeof onDrawEnd === "function") {
                                 // Recover geometry from event in cartographic
                                 let cartographicCoordinates = coordinates.map((pos) => {
@@ -255,6 +254,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                                 let geometry = {
                                     type: mapStrings.GEOMETRY_LINE_STRING,
                                     id: id,
+                                    proj: mapStrings.PROJECTIONS.latlon.code,
                                     coordinates: cartographicCoordinates,
                                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                                 };
@@ -270,7 +270,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                         callback: (coordinates) => {
                             // Add geometry to cesium map since it's not done automatically
                             let id = Math.random();
-                            this.addGeometry({ type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
+                            this.addGeometry({ proj: mapStrings.PROJECTIONS.latlon.code, type: geometryType, coordinates: coordinates, coordinateType: mapStrings.COORDINATE_TYPE_CARTESIAN, id: id }, interactionType);
                             if (typeof onDrawEnd === "function") {
                                 // Recover geometry from event in cartographic
                                 let cartographicCoordinates = coordinates.map((pos) => {
@@ -280,6 +280,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                                     type: mapStrings.GEOMETRY_POLYGON,
                                     coordinates: cartographicCoordinates,
                                     id: id,
+                                    proj: mapStrings.PROJECTIONS.latlon.code,
                                     coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
                                 };
                                 onDrawEnd(geometry);
@@ -328,7 +329,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             // Enable drawing for geometryType
             let interaction = this.drawHandler._customInteractions["_id" + mapStrings.INTERACTION_MEASURE + geometryType];
-            console.log(geometryType, measurementType, "#?DFSD?", interaction, this.drawHandler._customInteractions)
             if (interaction) {
                 interaction();
                 return true;
@@ -374,7 +374,12 @@ export default class MapWrapper_cesium extends MapWrapper {
 
                     let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
                     cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-                    cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
+                    // cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
+                    cesiumRadius = MapUtil.calculatePolylineDistance([
+                            [geometry.center.lon, geometry.center.lat],
+                            [point.lon, point.lat]
+                        ], geometry.proj)
+
                 } else {
                     cesiumCenter = geometry.center;
                     cesiumRadius = geometry.radius;
@@ -450,7 +455,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    addMeasurementLabelToGeometry(geometry, event, measurementType) {
+    addMeasurementLabelToGeometry(geometry, measurementType) {
         // let labels = new this.cesium.LabelCollection({ scene: this.map.scene });
         // labels.add({
         //     position: this.cesium.Cartesian3.fromDegrees(-75.1641667, 39.9522222),
@@ -464,42 +469,63 @@ export default class MapWrapper_cesium extends MapWrapper {
         //     }
         // });
         let output = "";
+        let labelPos;
         if (measurementType === mapStrings.MEASURE_DISTANCE) {
             if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
-                // Calculate distance of polyline
+                // Flatten coordinates
                 let flatCoordinates = geometry.coordinates
                     .map(x => [x.lon, x.lat])
-                    .reduce((x, y) => x.concat(y));
-                let positions = this.cesium.Cartesian3.fromDegreesArray(flatCoordinates);
 
-                let surfacePositions = this.cesium.PolylinePipeline.generateArc({
-                    positions: positions
-                });
+                let distance = MapUtil.calculatePolylineDistance(flatCoordinates, geometry.proj);
 
-                let scratchCartesian3 = new this.cesium.Cartesian3();
-                let surfacePositionsLength = surfacePositions.length;
-                let totalDistanceInMeters = 0;
-                for (let i = 3; i < surfacePositionsLength; i += 3) {
-                    scratchCartesian3.x = surfacePositions[i] - surfacePositions[i - 3];
-                    scratchCartesian3.y = surfacePositions[i + 1] - surfacePositions[i - 2];
-                    scratchCartesian3.z = surfacePositions[i + 2] - surfacePositions[i - 1];
-                    totalDistanceInMeters += this.cesium.Cartesian3.magnitude(scratchCartesian3);
-                }
+                // let positions = this.cesium.Cartesian3.fromDegreesArray(flatCoordinates);
+
+                // let surfacePositions = this.cesium.PolylinePipeline.generateArc({
+                //     positions: positions
+                // });
+
+                // let scratchCartesian3 = new this.cesium.Cartesian3();
+                // let surfacePositionsLength = surfacePositions.length;
+                // let totalDistanceInMeters = 0;
+                // for (let i = 3; i < surfacePositionsLength; i += 3) {
+                //     scratchCartesian3.x = surfacePositions[i] - surfacePositions[i - 3];
+                //     scratchCartesian3.y = surfacePositions[i + 1] - surfacePositions[i - 2];
+                //     scratchCartesian3.z = surfacePositions[i + 2] - surfacePositions[i - 1];
+                //     totalDistanceInMeters += this.cesium.Cartesian3.magnitude(scratchCartesian3);
+                // }
 
                 // Round and format distance
-                if (totalDistanceInMeters > 100) {
-                    output = (Math.round(totalDistanceInMeters / 1000 * 100) / 100) + ' ' + 'km';
+                if (distance > 100) {
+                    output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
                 } else {
-                    output = (Math.round(totalDistanceInMeters * 100) / 100) + ' ' + 'm';
+                    output = (Math.round(distance * 100) / 100) + ' ' + 'm';
                 }
+
+                // Determine label position
+                // Determine position of last coordinate
+                let lastPos = geometry.coordinates.length > 1 ? geometry.coordinates[geometry.coordinates.length - 1] : geometry.coordinates[0];
+                labelPos = this.cesium.Cartesian3.fromDegrees(lastPos.lon, lastPos.lat);
             } else {
                 console.warn("could not add distance measurement label to geometry in cesium map, unsupported geometry type ", geometry.type);
                 return false;
             }
         } else if (measurementType === mapStrings.MEASURE_AREA) {
             if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-                output = "AREA"
-                console.log(geometry)
+                // Flatten coordinates
+                let flatCoordinates = geometry.coordinates
+                    .map(x => [x.lon, x.lat])
+
+                let area = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
+                if (area > 10000) {
+                    output = (Math.round(area / 1000000 * 100) / 100) +
+                        ' ' + 'km<sup>2</sup>';
+                } else {
+                    output = (Math.round(area * 100) / 100) +
+                        ' ' + 'm<sup>2</sup>';
+                }
+                // Determine label position
+                let polygonCenter = MapUtil.calculatePolygonCenter(flatCoordinates, geometry.proj);
+                labelPos = this.cesium.Cartesian3.fromDegrees(polygonCenter[0], polygonCenter[1]);
             } else {
                 console.warn("could not add area measurement label to geometry in cesium map, unsupported geometry type ", geometry.type);
                 return false;
@@ -531,8 +557,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         let image = new Image();
         image.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
 
-        // Determine position of last coordinate
-        let lastPos = geometry.coordinates.length > 1 ? geometry.coordinates[geometry.coordinates.length - 1] : geometry.coordinates[0];
+
 
         //Need to wait for image to load before proceeding to draw
         image.onload = () => {
@@ -541,7 +566,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             this.map.entities.add({
                 id: Math.random(),
                 interactionType: mapStrings.INTERACTION_MEASURE,
-                position: this.cesium.Cartesian3.fromDegrees(lastPos.lon, lastPos.lat),
+                position: labelPos,
                 billboard: {
                     image: canvas
                 },
