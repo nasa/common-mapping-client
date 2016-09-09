@@ -403,6 +403,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 geometry: circleGeom
             });
             circleFeature.set("interactionType", interactionType);
+            circleFeature.setId(geometry.id);
             mapLayer.getSource().addFeature(circleFeature);
             return true;
         }
@@ -420,6 +421,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 geometry: lineStringGeom
             });
             lineStringFeature.set("interactionType", interactionType);
+            lineStringFeature.setId(geometry.id);
             mapLayer.getSource().addFeature(lineStringFeature);
             return true;
         }
@@ -442,6 +444,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 geometry: polygonGeom
             });
             polygonFeature.set("interactionType", interactionType);
+            polygonFeature.setId(geometry.id);
             mapLayer.getSource().addFeature(polygonFeature);
             return true;
         }
@@ -449,11 +452,22 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     addMeasurementLabelToGeometry(geometry, event, measurementType) {
-        let feature = event.feature;
-        let olGeom = feature.getGeometry();
-        if (!feature) {
-            console.warn("could not add measurement label to ", " in openlayers map");
-            return false;
+        // Look for event geometry, if not present, attempt to get geometry from mapLayer
+        let olGeom;
+        if (event) {
+            olGeom = event.feature.getGeometry();
+            if (!olGeom) {
+                console.warn("could not add measurement label to ", measurementType, " in openlayers map");
+                return false;
+            }
+        } else {
+            let mapLayers = this.map.getLayers().getArray();
+            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+            if (!mapLayer) {
+                console.warn("could not remove all geometries in openlayers map");
+                return false;
+            }
+            olGeom = mapLayer.getSource().getFeatureById(geometry.id).getGeometry();
         }
         // Create label
         let measureLabelEl = document.createElement('div');
@@ -576,6 +590,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         let geometry = this.retrieveGeometryFromEvent(event, geometryType);
                         // Set type of event feature in OL
                         event.feature.set("interactionType", interactionType);
+                        event.feature.setId(geometry.id);
                         onDrawEnd(geometry, event);
                     }
                 })
@@ -611,17 +626,25 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
+            let tmpCoords = event.feature.getGeometry().getCoordinates()
+                .map(x => {
+                    return { lon: x[0], lat: x[1] }
+                });
             return {
                 type: mapStrings.GEOMETRY_LINE_STRING,
                 id: Math.random(),
-                coordinates: event.feature.getGeometry().getCoordinates(),
+                coordinates: tmpCoords,
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
+            let tmpCoords = event.feature.getGeometry().getCoordinates()[0]
+                .map(x => {
+                    return { lon: x[0], lat: x[1] }
+                });
             return {
                 type: mapStrings.GEOMETRY_POLYGON,
                 id: Math.random(),
-                coordinates: event.feature.getGeometry().getCoordinates()[0],
+                coordinates: tmpCoords,
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         }

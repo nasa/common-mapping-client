@@ -173,7 +173,10 @@
     color: $color-text-secondary;
     @include light-shadow();
 }
-
+.testing {
+    color: red !important;
+    background: green !important;
+}
 .tooltip-measure {
     opacity: 1;
     font-weight: bold;
