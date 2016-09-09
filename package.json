@@ -97,6 +97,9 @@
     "sinon-chai": "2.8.0",
     "style-loader": "0.13.1",
     "toolbox-loader": "0.0.3",
+    "turf-area": "3.0.12",
+    "turf-centroid": "3.0.12",
+    "turf-line-distance": "3.0.12",
     "webpack": "1.13.1",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2"
