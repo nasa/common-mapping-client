@@ -382,6 +382,20 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    completeMeasuring() {
+        try {
+            let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_MEASURE, true);
+            measureInteractions.map((handler) => {
+                if(handler.getActive()) {
+                    handler.finishDrawing();
+                }
+            });
+            return true;
+        } catch (err) {
+            console.warn("could not disable measuring on openlayers map.", err);
+        }
+    }
+
     setDoubleClickZoomEnabled(enabled) {
         try {
             let dblClickInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), (interaction) => {
@@ -537,7 +551,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         for (let i = 0; i < featuresToRemove.length; i++) {
             mapLayer.getSource().removeFeature(featuresToRemove[i]);
         }
-        return mapLayer.getSource().getFeatures().filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW).length === 0
+        return mapLayer.getSource().getFeatures().filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW).length === 0;
     }
 
     removeAllMeasurements() {
@@ -582,7 +596,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         event.feature.setId(geometry.id);
                         onDrawEnd(geometry, event);
                     }
-                })
+                });
 
                 // Disable
                 drawInteraction.setActive(false);
@@ -618,7 +632,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
             let tmpCoords = event.feature.getGeometry().getCoordinates()
                 .map(x => {
-                    return { lon: x[0], lat: x[1] }
+                    return { lon: x[0], lat: x[1] };
                 });
             return {
                 type: mapStrings.GEOMETRY_LINE_STRING,
@@ -630,7 +644,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
             let tmpCoords = event.feature.getGeometry().getCoordinates()[0]
                 .map(x => {
-                    return { lon: x[0], lat: x[1] }
+                    return { lon: x[0], lat: x[1] };
                 });
             return {
                 type: mapStrings.GEOMETRY_POLYGON,

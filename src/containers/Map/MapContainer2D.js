@@ -90,13 +90,15 @@ export class MapContainer2D extends Component {
     }
 
     handleEnterKeyPress() {
-        if (this.props.isDrawingEnabled) {
-            let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
-            if (typeof map !== "undefined") {
+        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
+        if (typeof map !== "undefined") {
+            if (this.props.isDrawingEnabled) {
                 map.completeDrawing();
             }
+            if (this.props.isMeasuringEnabled) {
+                map.completeMeasuring();
+            }
         }
-        // TODO - add complete measure
     }
 
     render() {
