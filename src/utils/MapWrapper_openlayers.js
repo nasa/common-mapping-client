@@ -613,7 +613,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return false;
             }
         } catch (err) {
-            console.warn("could not enable drawing in openlayers map");
+            console.warn("could not enable drawing in openlayers map", err);
             return false;
         }
     }

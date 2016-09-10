@@ -722,7 +722,7 @@ const disableMeasuring = (state, action) => {
 
     if (anySucceed) {
         return state
-            .setIn(["measuring", "isMeasuringEnabled"], true)
+            .setIn(["measuring", "isMeasuringEnabled"], false)
             .setIn(["measuring", "geometryType"], "")
             .setIn(["measuring", "measurementType"], "");
     }
