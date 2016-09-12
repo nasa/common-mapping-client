@@ -70,7 +70,7 @@ export class MapContainer3D extends Component {
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
         // Add label to geometry
-        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType);
+        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
 
     render() {
@@ -95,6 +95,7 @@ export class MapContainer3D extends Component {
 
 MapContainer3D.propTypes = {
     maps: PropTypes.object.isRequired,
+    units: PropTypes.string.isRequired,
     in3DMode: PropTypes.bool.isRequired,
     initialLoadComplete: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired
@@ -103,6 +104,7 @@ MapContainer3D.propTypes = {
 function mapStateToProps(state) {
     return {
         maps: state.map.get("maps"),
+        units: state.map.getIn(["displaySettings", "selectedScaleUnits"]),
         in3DMode: state.map.getIn(["view", "in3DMode"]),
         initialLoadComplete: state.view.get("initialLoadComplete")
     };

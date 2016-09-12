@@ -74,7 +74,7 @@ export class SettingsContainer extends Component {
                     />
                     <MenuDropdown
                         auto
-                        label="Scale line units"
+                        label="Scale units"
                         className="list-item-dropdown"
                         onChange={(value) => this.props.mapActions.setScaleUnits(value)}
                         source={mapConfig.SCALE_OPTIONS}

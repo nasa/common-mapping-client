@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
 import proj4js from 'proj4';
+// import Qty from 'js-quantities';
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../constants/mapConfig';
 import MapWrapper from './MapWrapper';
@@ -451,7 +452,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
-    addMeasurementLabelToGeometry(geometry, measurementType) {
+    addMeasurementLabelToGeometry(geometry, measurementType, units) {
         // Create label
         let measureLabelEl = document.createElement('div');
         measureLabelEl.className = "tooltip tooltip-static";
@@ -469,13 +470,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // Get distance
                 let distance = MapUtil.calculatePolylineDistance(coords, geometry.proj);
-                let output = "";
-                if (distance > 100) {
-                    output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
-                } else {
-                    output = (Math.round(distance * 100) / 100) + ' ' + 'm';
-                }
-                measureLabelEl.innerHTML = output;
+
+                // Format distance
+                let formattedDistance = MapUtil.formatDistance(distance, units);
+
+                // let output = "";
+                // if (distance > 100) {
+                //     output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
+                // } else {
+                //     output = (Math.round(distance * 100) / 100) + ' ' + 'm';
+                // }
+                measureLabelEl.innerHTML = formattedDistance;
+                // measureLabel._measurement = new Qty(distance, MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType);
+                measureLabel._meters = distance;
+                measureLabel._measurementType = mapStrings.MEASURE_DISTANCE;
+                // measureLabel._units = units;
             } else {
                 console.warn("could not add distance measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
                 return false;
@@ -486,16 +495,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let polygonCenter = MapUtil.calculatePolygonCenter(coords, geometry.proj);
                 measureLabel.setPosition(polygonCenter);
                 let area = MapUtil.calculatePolygonArea(coords, geometry.proj);
-                let output;
-                
-                if (area > 10000) {
-                    output = (Math.round(area / 1000000 * 100) / 100) +
-                        ' ' + 'km<sup>2</sup>';
-                } else {
-                    output = (Math.round(area * 100) / 100) +
-                        ' ' + 'm<sup>2</sup>';
-                }
-                measureLabelEl.innerHTML = output;
+
+                // Format area
+                let formattedArea = MapUtil.formatArea(area, units);
+                measureLabelEl.innerHTML = formattedArea;
+                // measureLabel._measurement = area;
+                // measureLabel._meters = new Qty(area, MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType + "^2");
+                measureLabel._meters = area;
+                measureLabel._measurementType = mapStrings.MEASURE_AREA;
+                // measureLabel._units = units;
             } else {
                 console.warn("could not add area measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
                 return false;
@@ -630,12 +638,29 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     setScaleUnits(units) {
         try {
+            // Set scalebar units
             let controls = this.map.getControls();
             controls.forEach((el, index, arr) => {
                 if (typeof el.setUnits === "function") {
                     el.setUnits(units);
                 }
             });
+            // Set measurement units
+            console.log("map", this.map);
+            this.map.getOverlays().forEach(overlay => {
+                // console.log
+                // let newMeasurement = MapUtil.convertDistanceUnitValue(1, overlay._units, units);
+                // overlay._measurement = newMeasurement.scalar;
+                // overlay._units = units;
+                if (overlay._measurementType === mapStrings.MEASURE_AREA) {
+                    overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
+                } else if (overlay._measurementType === mapStrings.MEASURE_DISTANCE) {
+                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertAreaUnits(overlay._meters, units), units);
+                } else {
+                    console.warn("could not set openlayers scale units.");
+                    return false;
+                }
+            })
             return true;
         } catch (err) {
             console.warn("could not set openlayers scale units.", err);

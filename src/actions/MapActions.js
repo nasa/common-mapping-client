@@ -76,8 +76,8 @@ export function addGeometryToMap(geometry, interactionType) {
     return { type: types.ADD_GEOMETRY_TO_MAP, geometry, interactionType };
 }
 
-export function addMeasurementLabelToGeometry(geometry, measurementType) {
-    return { type: types.ADD_MEASUREMENT_LABEL_TO_GEOMETRY, geometry, measurementType };
+export function addMeasurementLabelToGeometry(geometry, measurementType, units) {
+    return { type: types.ADD_MEASUREMENT_LABEL_TO_GEOMETRY, geometry, measurementType, units};
 }
 
 export function removeAllDrawings() {

@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import turfLineDistance from 'turf-line-distance';
 import turfArea from 'turf-area';
+import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
 import * as mapStrings from '../constants/mapStrings';
@@ -9,6 +10,7 @@ import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
+import * as mapConfig from '../constants/mapConfig';
 
 export default class MapUtil {
 
@@ -155,6 +157,85 @@ export default class MapUtil {
                 return undefined;
         }
     }
+
+    // Formats distance according to units
+    static formatDistance(distance, units) {
+        if (units === 'metric') {
+            let output = "";
+            if (distance > 100) {
+                output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
+            } else {
+                output = (Math.round(distance * 100) / 100) + ' ' + 'm';
+            }
+            return output;
+        } else if (units === 'imperial') {
+            let output = "";
+            if (distance > 5280) {
+                output = (Math.round(distance / 5280 * 100) / 100) + ' ' + 'miles';
+            } else {
+                output = (Math.round(distance * 100) / 100) + ' ' + 'ft';
+            }
+            return output;
+        } else if (units === 'nautical') {
+            distance = distance / 1852;
+            return (Math.round(distance * 100) / 100) + " nautical miles";
+        } else if (units === 'schoolbus') {
+            distance = distance / 13.716;
+            return (Math.round(distance * 100) / 100) + ' ' + 'schoolbusses';
+        } else {
+            return "Invalid Units";
+        }
+    }
+
+    // Formats area according to units
+    static formatArea(area, units) {
+        if (units === 'metric') {
+            let output = "";
+            if (area > 10000) {
+                output = (Math.round(area / 1000000 * 100) / 100) + ' ' + 'km' + '<sup>2</sup>';
+            } else {
+                output = (Math.round(area * 100) / 100) + ' ' + 'm' + '<sup>2</sup>';
+            }
+            return output;
+        } else if (units === 'imperial') {
+            let output = "";
+            if (area > 27878400) {
+                output = (Math.round(area / 27878400 * 100) / 100) + ' ' + 'miles' + '<sup>2</sup>';
+            } else {
+                output = (Math.round(area * 100) / 100) + ' ' + 'ft' + '<sup>2</sup>';
+            }
+            return output;
+        } else if (units === 'nautical') {
+            console.log(area, "1")
+            area = area / (1852 * 1852);
+            console.log(area, "2")
+            return (Math.round(area * 100) / 100) + " nautical miles<sup>2</sup>";
+        } else if (units === 'schoolbus') {
+            area = area / (13.716 * 13.716);
+            return (Math.round(area * 100) / 100) + ' ' + 'schoolbusses' + '<sup>2</sup>';
+        } else {
+            return "Invalid Units";
+        }
+    }
+
+    // Converts area units
+    static convertAreaUnits(value, units) {
+        return Qty(value, 'm^2').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType + '^2').scalar;
+    }
+
+    // Converts distance units
+    static convertDistanceUnits(value, units) {
+        console.log(value, units, Qty(value, 'm').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType).scalar);
+        return Qty(value, 'm').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType).scalar;
+    }
+
+    // Converts from unitFrom to unitTo
+    // static convertAreaUnitValue(value, unitFrom, unitTo) {
+    //     // if (unitFrom === 'metric') {
+
+    //     // }
+    // }
+
 
     // Calculates distance of a polyline using turf
     // Expects an array of coordinates in form

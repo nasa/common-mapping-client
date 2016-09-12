@@ -376,9 +376,9 @@ export default class MapWrapper_cesium extends MapWrapper {
                     cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
                     // cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
                     cesiumRadius = MapUtil.calculatePolylineDistance([
-                            [geometry.center.lon, geometry.center.lat],
-                            [point.lon, point.lat]
-                        ], geometry.proj)
+                        [geometry.center.lon, geometry.center.lat],
+                        [point.lon, point.lat]
+                    ], geometry.proj)
 
                 } else {
                     cesiumCenter = geometry.center;
@@ -455,7 +455,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    addMeasurementLabelToGeometry(geometry, measurementType) {
+    addMeasurementLabelToGeometry(geometry, measurementType, units) {
         // let labels = new this.cesium.LabelCollection({ scene: this.map.scene });
         // labels.add({
         //     position: this.cesium.Cartesian3.fromDegrees(-75.1641667, 39.9522222),
@@ -494,12 +494,14 @@ export default class MapWrapper_cesium extends MapWrapper {
                 //     totalDistanceInMeters += this.cesium.Cartesian3.magnitude(scratchCartesian3);
                 // }
 
-                // Round and format distance
-                if (distance > 100) {
-                    output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
-                } else {
-                    output = (Math.round(distance * 100) / 100) + ' ' + 'm';
-                }
+                // Format distance
+                output = MapUtil.formatDistance(distance, units);
+
+                // if (distance > 100) {
+                //     output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
+                // } else {
+                //     output = (Math.round(distance * 100) / 100) + ' ' + 'm';
+                // }
 
                 // Determine label position
                 // Determine position of last coordinate
@@ -516,13 +518,15 @@ export default class MapWrapper_cesium extends MapWrapper {
                     .map(x => [x.lon, x.lat])
 
                 let area = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
-                if (area > 10000) {
-                    output = (Math.round(area / 1000000 * 100) / 100) +
-                        ' ' + 'km<sup>2</sup>';
-                } else {
-                    output = (Math.round(area * 100) / 100) +
-                        ' ' + 'm<sup>2</sup>';
-                }
+                // if (area > 10000) {
+                //     output = (Math.round(area / 1000000 * 100) / 100) +
+                //         ' ' + 'km<sup>2</sup>';
+                // } else {
+                //     output = (Math.round(area * 100) / 100) +
+                //         ' ' + 'm<sup>2</sup>';
+                // }
+                output = MapUtil.formatArea(area, units);
+
                 // Determine label position
                 let polygonCenter = MapUtil.calculatePolygonCenter(flatCoordinates, geometry.proj);
                 labelPos = this.cesium.Cartesian3.fromDegrees(polygonCenter[0], polygonCenter[1]);

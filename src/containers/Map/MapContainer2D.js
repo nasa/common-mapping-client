@@ -77,7 +77,7 @@ export class MapContainer2D extends Component {
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
         // Add label to geometry
-        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType);
+        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
 
     handleEscapeKeyPress() {
@@ -113,6 +113,7 @@ export class MapContainer2D extends Component {
 
 MapContainer2D.propTypes = {
     maps: PropTypes.object.isRequired,
+    units: PropTypes.string.isRequired,
     in3DMode: PropTypes.bool.isRequired,
     isDrawingEnabled: PropTypes.bool.isRequired,
     isMeasuringEnabled: PropTypes.bool.isRequired,
@@ -123,6 +124,7 @@ MapContainer2D.propTypes = {
 function mapStateToProps(state) {
     return {
         maps: state.map.get("maps"),
+        units: state.map.getIn(["displaySettings", "selectedScaleUnits"]),
         in3DMode: state.map.getIn(["view", "in3DMode"]),
         isDrawingEnabled: state.map.getIn(["drawing", "isDrawingEnabled"]),
         isMeasuringEnabled: state.map.getIn(["measuring", "isMeasuringEnabled"]),

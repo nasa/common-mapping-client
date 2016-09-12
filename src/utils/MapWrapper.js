@@ -43,7 +43,7 @@ export default class MapWrapper {
         console.warn("addGeometry not implemented in subclass");
         return false;
     }
-    addMeasurementLabelToGeometry(id, measurementType) {
+    addMeasurementLabelToGeometry(id, measurementType, units) {
         console.warn("addMeasurementLabelToGeometry not implemented in subclass");
         return false;
     }
