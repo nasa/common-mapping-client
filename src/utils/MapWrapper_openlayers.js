@@ -103,7 +103,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     getMapSize() {
         let size = this.map.getSize();
-        return { width: size[0], height: size[1] };
+        if (!size) {
+            return { width: 0, height: 0 };
+        } else {
+            return { width: size[0], height: size[1] };
+        }
     }
 
     resize() {
@@ -274,7 +278,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     enableDrawing(geometryType) {
         try {
-            // remove double-click zoom while drawing so we can double-click complete
+                // remove double-click zoom while drawing so we can double-click complete
             this.setDoubleClickZoomEnabled(false);
 
             // Get drawHandler by geometryType
@@ -325,7 +329,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_DRAW, true);
             drawInteractions.map((handler) => {
-                if(handler.getActive()) {
+                if (handler.getActive()) {
                     handler.finishDrawing();
                 }
             });
@@ -387,7 +391,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), mapStrings.INTERACTION_MEASURE, true);
             measureInteractions.map((handler) => {
-                if(handler.getActive()) {
+                if (handler.getActive()) {
                     handler.finishDrawing();
                 }
             });

@@ -528,9 +528,7 @@ describe('Store - Map', function() {
         const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         // add drawing on the map
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -548,7 +546,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], false)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -568,9 +567,7 @@ describe('Store - Map', function() {
         const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         // add drawing on the map
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -588,9 +585,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], false)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING);
-
-        TestUtil.compareFullStates(actual, expected);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
     });
 
     it('can enable drawing a polygon on a 2D map', function() {
@@ -608,9 +604,7 @@ describe('Store - Map', function() {
         const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         // add drawing on the map
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -628,9 +622,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], false)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON);
-
-        TestUtil.compareFullStates(actual, expected);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
     });
 
     it('can enable drawing a circle on a 3D map', function() {
@@ -648,9 +641,7 @@ describe('Store - Map', function() {
         const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         // add drawing on the map
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -668,7 +659,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], true)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_CIRCLE)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -688,9 +680,7 @@ describe('Store - Map', function() {
         const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         // add drawing on the map
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -708,7 +698,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], true)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_LINE_STRING)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -728,9 +719,7 @@ describe('Store - Map', function() {
         const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         // add drawing on the map
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -748,7 +737,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], true)
             .setIn(["drawing", "isDrawingEnabled"], true)
-            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON);
+            .setIn(["drawing", "geometryType"], mapStrings.GEOMETRY_POLYGON)
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -768,9 +758,7 @@ describe('Store - Map', function() {
         const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
 
         // add drawing on the map
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap2D.addDrawHandler(mapStrings.GEOMETRY_POLYGON, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -789,7 +777,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], false)
             .setIn(["drawing", "isDrawingEnabled"], false)
-            .setIn(["drawing", "geometryType"], "");
+            .setIn(["drawing", "geometryType"], "")
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
@@ -809,9 +798,7 @@ describe('Store - Map', function() {
         const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
 
         // add drawing on the map
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_CIRCLE);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING);
-        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON);
+        actualMap3D.addDrawHandler(mapStrings.GEOMETRY_POLYGON, () => {}, mapStrings.INTERACTION_DRAW);
 
         // enable drawing
         const finalActions = [
@@ -830,7 +817,8 @@ describe('Store - Map', function() {
             .remove("maps")
             .setIn(["view", "in3DMode"], true)
             .setIn(["drawing", "isDrawingEnabled"], false)
-            .setIn(["drawing", "geometryType"], "");
+            .setIn(["drawing", "geometryType"], "")
+            .setIn(["measuring", "isMeasuringEnabled"], false);
 
         TestUtil.compareFullStates(actual, expected);
     });
