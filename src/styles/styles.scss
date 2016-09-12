@@ -73,6 +73,7 @@ hr.divider.dark {
 .hidden {
     display: none !important;
 }
+
 .full-size {
     width: 100% !important;
     height: 100% !important;
@@ -115,12 +116,15 @@ hr.divider.dark {
 .no-padding {
     padding: 0px;
 }
+
 button[data-react-toolbox="button"] {
-    line-height: 2.6rem;
+    line-height: 2rem;
 }
+
 button > .material-icons[data-react-toolbox="font-icon"] {
     line-height: 1;
 }
+
 button.small {
     font-size: 1.15rem;
     padding: 0.5rem 0.8rem;
@@ -165,6 +169,7 @@ button.mini-xs-waysmall.small-text {
     width: auto;
     height: 2rem;
 }
+
 button .button-icon-right {
     position: absolute;
     right: 0;
@@ -174,7 +179,9 @@ button .button-icon-right {
 }
 
 .button-icon {
-    vertical-align: middle;
+    // vertical-align: middle;
+    line-height: 2.6rem;
+    vertical-align: top;
 }
 
 .rotate-90 {
@@ -278,6 +285,7 @@ button .button-icon-right {
 .context-menu-item.submenu {
     position: relative;
 }
+
 .context-menu-sub-menu {
     position: absolute;
     display: none;
@@ -303,6 +311,7 @@ button .button-icon-right {
 .context-menu-icon,
 .context-menu-item > [data-react-toolbox="font-icon"] {
     margin: 0px;
+    line-height: 3.6rem;
     margin-right: 1rem;
     font-size: 2rem;
     vertical-align: middle;
@@ -315,6 +324,7 @@ button .button-icon-right {
     overflow: hidden;
     white-space: nowrap;
 }
+
 
 /* imports */
 

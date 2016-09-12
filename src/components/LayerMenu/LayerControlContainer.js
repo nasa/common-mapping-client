@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactTooltip from 'react-tooltip';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
@@ -82,6 +83,8 @@ export class LayerControlContainer extends Component {
     }
 
     render() {
+        ReactTooltip.rebuild();
+
         let switchClasses = MiscUtil.generateStringFromSet({
             "layer-toggle": true,
             "active": this.props.layer.get("isActive")

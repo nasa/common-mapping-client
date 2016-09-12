@@ -225,16 +225,8 @@ export default class MapUtil {
 
     // Converts distance units
     static convertDistanceUnits(value, units) {
-        console.log(value, units, Qty(value, 'm').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType).scalar);
         return Qty(value, 'm').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType).scalar;
     }
-
-    // Converts from unitFrom to unitTo
-    // static convertAreaUnitValue(value, unitFrom, unitTo) {
-    //     // if (unitFrom === 'metric') {
-
-    //     // }
-    // }
 
 
     // Calculates distance of a polyline using turf

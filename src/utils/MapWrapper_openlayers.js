@@ -676,7 +676,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 }
             });
             // Set measurement units
-            console.log("map", this.map);
             this.map.getOverlays().forEach(overlay => {
                 if (overlay._measurementType === mapStrings.MEASURE_AREA) {
                     overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
