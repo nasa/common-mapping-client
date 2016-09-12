@@ -561,8 +561,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         let image = new Image();
         image.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
 
-
-
         //Need to wait for image to load before proceeding to draw
         image.onload = () => {
             canvas.getContext('2d').drawImage(image, 0, 0);

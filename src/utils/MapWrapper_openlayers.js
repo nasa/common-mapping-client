@@ -648,10 +648,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
             // Set measurement units
             console.log("map", this.map);
             this.map.getOverlays().forEach(overlay => {
-                // console.log
-                // let newMeasurement = MapUtil.convertDistanceUnitValue(1, overlay._units, units);
-                // overlay._measurement = newMeasurement.scalar;
-                // overlay._units = units;
                 if (overlay._measurementType === mapStrings.MEASURE_AREA) {
                     overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
                 } else if (overlay._measurementType === mapStrings.MEASURE_DISTANCE) {
