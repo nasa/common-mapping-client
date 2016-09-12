@@ -1239,7 +1239,6 @@ var DrawHelper = (function() {
             }
         };
         document.addEventListener("keyup", handleEnter);
-
     }
 
     _.prototype.enhancePrimitives = function() {

@@ -11,8 +11,8 @@ import * as layerActions from '../../actions/LayerActions';
 import * as dateSliderActions from '../../actions/DateSliderActions';
 import * as analyticsActions from '../../actions/AnalyticsActions';
 import MiscUtil from '../../utils/MiscUtil';
-import MenuDropdown from '../../components/MenuDropdown';
-import BaseMapDropdown from '../../components/BaseMapDropdown';
+import BaseMapDropdown from './BaseMapDropdown';
+import MenuDropdown from '../Reusables/MenuDropdown';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 
 export class SettingsContainer extends Component {

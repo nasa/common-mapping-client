@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { Button } from 'react-toolbox/lib/button';
-import { ContextMenuSubMenu } from '../../components/ContextMenuSubMenu';
+import { ContextMenuSubMenu } from '../Reusables/ContextMenuSubMenu';
 import * as actions from '../../actions/MapActions';
 import * as appStrings from '../../constants/appStrings';
 import * as mapStrings from '../../constants/mapStrings';

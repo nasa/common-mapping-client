@@ -27,7 +27,7 @@ export default class MapWrapper {
         console.warn("enableActiveListeners not implemented in subclass");
         return false;
     }
-    disableDrawing() {
+    disableDrawing(delayDblClickEnable = true) {
         console.warn("disableDrawing not implemented in subclass");
         return false;
     }
@@ -35,7 +35,7 @@ export default class MapWrapper {
         console.warn("enableMeasuring not implemented in subclass");
         return false;
     }
-    disableMeasuring() {
+    disableMeasuring(delayDblClickEnable = true) {
         console.warn("disableMeasuring not implemented in subclass");
         return false;
     }

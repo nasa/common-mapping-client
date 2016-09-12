@@ -378,8 +378,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     cesiumRadius = MapUtil.calculatePolylineDistance([
                         [geometry.center.lon, geometry.center.lat],
                         [point.lon, point.lat]
-                    ], geometry.proj)
-
+                    ], geometry.proj);
                 } else {
                     cesiumCenter = geometry.center;
                     cesiumRadius = geometry.radius;
@@ -474,7 +473,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
                 // Flatten coordinates
                 let flatCoordinates = geometry.coordinates
-                    .map(x => [x.lon, x.lat])
+                    .map(x => [x.lon, x.lat]);
 
                 let distance = MapUtil.calculatePolylineDistance(flatCoordinates, geometry.proj);
 
@@ -515,7 +514,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
                 // Flatten coordinates
                 let flatCoordinates = geometry.coordinates
-                    .map(x => [x.lon, x.lat])
+                    .map(x => [x.lon, x.lat]);
 
                 let area = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
                 // if (area > 10000) {

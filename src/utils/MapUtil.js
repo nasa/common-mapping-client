@@ -252,7 +252,7 @@ export default class MapUtil {
                 type: "LineString",
                 coordinates: newCoords
             }
-        }, "meters")
+        }, "meters");
     }
 
     // Calculates area of a polygon using turf
@@ -270,7 +270,7 @@ export default class MapUtil {
                 type: "Polygon",
                 coordinates: [newCoords]
             }
-        }, "meters")
+        }, "meters");
     }
 
     // Calculates center point of a polygon using turf
