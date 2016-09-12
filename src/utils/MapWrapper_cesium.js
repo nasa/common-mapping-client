@@ -467,7 +467,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         //         style: this.cesium.LabelStyle.FILL_AND_OUTLINE
         //     }
         // });
-        let output = "";
+        let outputText = "";
+        let outputNumber;
         let labelPos;
         if (measurementType === mapStrings.MEASURE_DISTANCE) {
             if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
@@ -475,32 +476,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                 let flatCoordinates = geometry.coordinates
                     .map(x => [x.lon, x.lat]);
 
-                let distance = MapUtil.calculatePolylineDistance(flatCoordinates, geometry.proj);
+                outputNumber = MapUtil.calculatePolylineDistance(flatCoordinates, geometry.proj);
 
-                // let positions = this.cesium.Cartesian3.fromDegreesArray(flatCoordinates);
-
-                // let surfacePositions = this.cesium.PolylinePipeline.generateArc({
-                //     positions: positions
-                // });
-
-                // let scratchCartesian3 = new this.cesium.Cartesian3();
-                // let surfacePositionsLength = surfacePositions.length;
-                // let totalDistanceInMeters = 0;
-                // for (let i = 3; i < surfacePositionsLength; i += 3) {
-                //     scratchCartesian3.x = surfacePositions[i] - surfacePositions[i - 3];
-                //     scratchCartesian3.y = surfacePositions[i + 1] - surfacePositions[i - 2];
-                //     scratchCartesian3.z = surfacePositions[i + 2] - surfacePositions[i - 1];
-                //     totalDistanceInMeters += this.cesium.Cartesian3.magnitude(scratchCartesian3);
-                // }
-
-                // Format distance
-                output = MapUtil.formatDistance(distance, units);
-
-                // if (distance > 100) {
-                //     output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
-                // } else {
-                //     output = (Math.round(distance * 100) / 100) + ' ' + 'm';
-                // }
+                // Format outputNumber
+                outputText = MapUtil.formatDistance(outputNumber, units);
 
                 // Determine label position
                 // Determine position of last coordinate
@@ -516,15 +495,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 let flatCoordinates = geometry.coordinates
                     .map(x => [x.lon, x.lat]);
 
-                let area = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
-                // if (area > 10000) {
-                //     output = (Math.round(area / 1000000 * 100) / 100) +
-                //         ' ' + 'km<sup>2</sup>';
-                // } else {
-                //     output = (Math.round(area * 100) / 100) +
-                //         ' ' + 'm<sup>2</sup>';
-                // }
-                output = MapUtil.formatArea(area, units);
+                outputNumber = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
+                outputText = MapUtil.formatArea(outputNumber, units);
 
                 // Determine label position
                 let polygonCenter = MapUtil.calculatePolygonCenter(flatCoordinates, geometry.proj);
@@ -538,6 +510,30 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
 
+        let result = this.createOverlayImage(outputText);
+        let overlay = result[0];
+        let canvas = result[1];
+
+        //Need to wait for image to load before proceeding to draw
+        overlay.onload = () => {
+            canvas.getContext('2d').drawImage(overlay, 0, 0);
+
+            this.map.entities.add({
+                id: Math.random(),
+                interactionType: mapStrings.INTERACTION_MEASURE,
+                measurementType: measurementType,
+                meters: outputNumber,
+                position: labelPos,
+                billboard: {
+                    image: canvas
+                },
+                description: '<p>This is a cupcake that can be modified.</p>'
+            });
+        };
+        return true;
+    }
+
+    createOverlayImage(text) {
         let canvas = document.createElement('canvas');
         canvas.width = 300;
         canvas.height = 85;
@@ -550,7 +546,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             // '<div xmlns="http://www.w3.org/1999/xhtml" style="background:red">' +
             '<div xmlns="http://www.w3.org/1999/xhtml">' +
             '<div style="transform:scale(1);' + tooltipStyles + '">' +
-            '<span style="' + tooltipContentStyles + '">' + output + '</span>' +
+            '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
             '<span style="' + tooltipAfterStyles + '"></span>' +
             '</div>' +
             '</div>' +
@@ -559,22 +555,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         let image = new Image();
         image.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
-
-        //Need to wait for image to load before proceeding to draw
-        image.onload = () => {
-            canvas.getContext('2d').drawImage(image, 0, 0);
-
-            this.map.entities.add({
-                id: Math.random(),
-                interactionType: mapStrings.INTERACTION_MEASURE,
-                position: labelPos,
-                billboard: {
-                    image: canvas
-                },
-                description: '<p>This is a cupcake that can be modified.</p>'
-            });
-        };
-        return true;
+        return [image, canvas];
     }
 
     removeAllDrawings() {
@@ -645,6 +626,38 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         } catch (err) {
             console.warn("could not set cesium layer opacity.", err);
+            return false;
+        }
+    }
+
+    setScaleUnits(units) {
+        try {
+            // Set measurement units
+            let newOutputText = "";
+            this.map.entities._entities._array.forEach(entity => {
+                if (entity.measurementType === mapStrings.MEASURE_AREA) {
+                    newOutputText = MapUtil.formatArea(MapUtil.convertAreaUnits(entity.meters, units), units);
+                } else if (entity.measurementType === mapStrings.MEASURE_DISTANCE) {
+                    newOutputText = MapUtil.formatDistance(MapUtil.convertDistanceUnits(entity.meters, units), units);
+                } else {
+                    console.warn("could not set cesium scale units.");
+                    return false;
+                }
+                // Create new image
+                let result = this.createOverlayImage(newOutputText);
+                let overlay = result[0];
+                let canvas = result[1];
+
+                //Need to wait for image to load before proceeding to draw
+                overlay.onload = () => {
+                    canvas.getContext('2d').drawImage(overlay, 0, 0);
+                    // Set image of overlay
+                    entity.billboard.image = overlay;
+                };
+            })
+            return true;
+        } catch (err) {
+            console.warn("could not set cesium scale units.", err);
             return false;
         }
     }
