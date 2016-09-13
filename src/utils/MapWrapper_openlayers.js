@@ -684,7 +684,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 if (overlay._measurementType === mapStrings.MEASURE_AREA) {
                     overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
                 } else if (overlay._measurementType === mapStrings.MEASURE_DISTANCE) {
-                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertAreaUnits(overlay._meters, units), units);
+                    console.log("ol format distnace", overlay._meters)
+                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertDistanceUnits(overlay._meters, units), units);
                 } else {
                     console.warn("could not set openlayers scale units.");
                     return false;
