@@ -105,4 +105,34 @@ describe('Map Utils', () => {
             expect(MapUtil.buildTileUrl(varIn)).to.equal(varOut);
         });
     });
+    describe('formatDistance', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('formatArea', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('convertDistanceUnits', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('convertAreaUnits', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('calculatePolylineDistance', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('calculatePolygonArea', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
 });

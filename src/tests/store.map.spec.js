@@ -20,6 +20,7 @@ import { analyticsState } from '../reducers/models/analytics';
 import { viewState } from '../reducers/models/view';
 import { layerInfoState } from '../reducers/models/layerInfo';
 import TestUtil from './TestUtil';
+import MiscUtil from '../utils/MiscUtil';
 import moment from 'moment';
 
 const initialState = {
@@ -820,6 +821,378 @@ describe('Store - Map', function() {
             .setIn(["drawing", "geometryType"], "")
             .setIn(["measuring", "isMeasuringEnabled"], false);
 
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can add geometry to 2D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+
+        // Create dummy geometry
+        let geometryCircle = {
+            type: mapStrings.GEOMETRY_CIRCLE,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            center: {
+                lon: 0,
+                lat: 0
+            },
+            radius: 100,
+            id: Math.random()
+        }
+
+        let geometryLineString = {
+            type: mapStrings.GEOMETRY_LINE_STRING,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        let geometryPolygon = {
+            type: mapStrings.GEOMETRY_POLYGON,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        // add geometries
+        const finalActions = [
+            mapActions.addGeometryToMap(geometryCircle, mapStrings.INTERACTION_DRAW),
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.addGeometryToMap(geometryPolygon, mapStrings.INTERACTION_DRAW)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], true)
+            .setIn(["drawing", "geometryType"], "");
+
+
+        let mapLayers = actualMap2D.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayerFeatures = mapLayer.getSource().getFeatures();
+        let drawFeatures = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW);
+        expect(drawFeatures.length).to.equal(3);
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can add geometry to 3D map', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // Create dummy geometry
+        let geometryCircle = {
+            type: mapStrings.GEOMETRY_CIRCLE,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: mapStrings.PROJECTIONS.latlon.code,
+            center: {
+                lon: 0,
+                lat: 0
+            },
+            radius: 100,
+            id: Math.random()
+        }
+
+        let geometryLineString = {
+            type: mapStrings.GEOMETRY_LINE_STRING,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: mapStrings.PROJECTIONS.latlon.code,
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        let geometryPolygon = {
+            type: mapStrings.GEOMETRY_POLYGON,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: mapStrings.PROJECTIONS.latlon.code,
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        // add geometries
+        const finalActions = [
+            mapActions.addGeometryToMap(geometryCircle, mapStrings.INTERACTION_DRAW),
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.addGeometryToMap(geometryPolygon, mapStrings.INTERACTION_DRAW)
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "geometryType"], "");
+
+        let drawFeatures = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === mapStrings.INTERACTION_DRAW);
+        expect(drawFeatures.length).to.equal(3);
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can remove all drawings from 2D and 3D maps', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // Create dummy geometry
+        let geometryCircle = {
+            type: mapStrings.GEOMETRY_CIRCLE,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            center: {
+                lon: 0,
+                lat: 0
+            },
+            radius: 100,
+            id: Math.random()
+        }
+
+        // add geometries to 2D and 3D maps
+        const nextActions = [
+            mapActions.addGeometryToMap(geometryCircle, mapStrings.INTERACTION_DRAW),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
+            mapActions.addGeometryToMap(geometryCircle, mapStrings.INTERACTION_DRAW),
+            mapActions.removeAllDrawings()
+        ];
+        nextActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "geometryType"], "");
+
+
+        // Get 2D drawings
+        let mapLayers = actualMap2D.map.getLayers().getArray();
+        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayerFeatures = mapLayer.getSource().getFeatures();
+        let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW);
+        
+        // Get 3D drawings
+        let drawFeatures3D = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === mapStrings.INTERACTION_DRAW);
+        expect(drawFeatures2D.length).to.equal(0);
+        expect(drawFeatures3D.length).to.equal(0);
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can add measurement label to geometry on 2D and 3D maps', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // Create dummy geometry
+        let geometryLineString = {
+            type: mapStrings.GEOMETRY_LINE_STRING,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        // add geometries to 2D and 3D maps and then add label
+        const finalActions = [
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric')
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "geometryType"], "");
+
+
+        // Get 2D overlays
+        // let overlays2D = actualMap2D.map.getOverlays().getArray();
+        
+        // Get 3D overlays
+        // let overlays3D = actualMap3D.map.entities._entities._array;
+        console.log(actualMap2D.map.getOverlays().getArray().length, "WHY DOES 1 ACTUALLY EXIST AS 0 HERE?!?!?!?!")
+        expect(actualMap2D.map.getOverlays().getArray().length).to.equal(1);
+
+        expect(actualMap3D.map.entities._entities._array.length).to.equal(1);
+        TestUtil.compareFullStates(actual, expected);
+    });
+
+    it('can remove all measurements in 2D and 3D maps', function() {
+        const store = createStore(rootReducer, initialState);
+
+        // initial map
+        const initalActions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+        ];
+        initalActions.forEach(action => store.dispatch(action));
+
+        // retrieve map object
+        const initialState = store.getState();
+        const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
+        const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        // Create dummy geometry
+        let geometryLineString = {
+            type: mapStrings.GEOMETRY_LINE_STRING,
+            coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+            proj: actualMap2D.map.getView().getProjection().getCode(),
+            coordinates: [{
+                lon: 0,
+                lat: 0
+            }, {
+                lon: 10,
+                lat: 10
+            }, {
+                lon: 20,
+                lat: -20
+            }],
+            id: Math.random()
+        }
+
+        // add geometries to 2D and 3D maps and then add label
+        const finalActions = [
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
+            mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
+            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric'),
+            mapActions.removeAllMeasurements()
+        ];
+        finalActions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["view", "in3DMode"], false)
+            .setIn(["drawing", "geometryType"], "");
+
+
+        // Get 2D overlays
+        // let overlays2D = actualMap2D.map.getOverlays().getArray();
+        
+        // Get 3D overlays
+        // let overlays3D = actualMap3D.map.entities._entities._array;
+        // console.log(actualMap2D.map.getOverlays().getArray().length, "WHY DOES 1 ACTUALLY EXIST AS 0 HERE?!?!?!?!")
+        expect(actualMap2D.map.getOverlays().getArray().length).to.equal(0);
+        
+        expect(actualMap3D.map.entities._entities._array.length).to.equal(0);
         TestUtil.compareFullStates(actual, expected);
     });
 
