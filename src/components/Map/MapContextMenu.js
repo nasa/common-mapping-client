@@ -14,6 +14,11 @@ export class MapContextMenu extends Component {
         return false;
     }
 
+    handleClearMap() {
+        this.props.actions.removeAllDrawings();
+        this.props.actions.removeAllMeasurements();
+    }
+
     render() {
         let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_CIRCLE;
         let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
@@ -22,14 +27,6 @@ export class MapContextMenu extends Component {
         let measuringArea = false;
         return (
             <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU}>
-                {/*<MenuItem data={{}} onClick={this.dummyHandleClick}>
-                    <Button
-                        onClick={() => console.log("Measure Distance")}
-                        className="context-menu-item" >
-                        <i className="ms ms-measure-distance context-menu-icon" />
-                        <span className="context-menu-label">Measure Distance</span>
-                    </Button>
-                </MenuItem>*/}
                 <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
@@ -58,13 +55,13 @@ export class MapContextMenu extends Component {
                             className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>
-                <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                {/*<MenuItem data={{}} onClick={this.dummyHandleClick}>
                     <Button
                         label="Drop Marker"
                         icon="pin_drop"
                         onClick={() => console.log("Drop Pin")}
                         className="context-menu-item" />
-                </MenuItem>
+                </MenuItem>*/}
                 <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
@@ -101,6 +98,14 @@ export class MapContextMenu extends Component {
                             className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>
+                <hr className="divider medium-light" />
+                <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                    <Button
+                        label="Clear Map"
+                        icon="delete"
+                        onClick={() => this.handleClearMap()}
+                        className="context-menu-item" />
+                </MenuItem>
             </ContextMenu>
         );
     }
