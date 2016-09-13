@@ -1122,8 +1122,8 @@ describe('Store - Map', function() {
             // Get 3D overlays
             let overlays3D = actualMap3D.map.entities.values;
 
-            expect(actualMap2D.map.getOverlays().getArray().length).to.equal(1);
-            expect(actualMap3D.map.entities._entities._array.length).to.equal(1);
+            expect(overlays2D.length).to.equal(1);
+            expect(overlays3D.length).to.equal(1);
             TestUtil.compareFullStates(actual, expected);
             done();
         }, 500);
@@ -1186,14 +1186,13 @@ describe('Store - Map', function() {
 
 
         // Get 2D overlays
-        // let overlays2D = actualMap2D.map.getOverlays().getArray();
+        let overlays2D = actualMap2D.map.getOverlays().getArray();
         
         // Get 3D overlays
-        // let overlays3D = actualMap3D.map.entities._entities._array;
-        // console.log(actualMap2D.map.getOverlays().getArray().length, "WHY DOES 1 ACTUALLY EXIST AS 0 HERE?!?!?!?!")
-        expect(actualMap2D.map.getOverlays().getArray().length).to.equal(0);
-        
-        expect(actualMap3D.map.entities._entities._array.length).to.equal(0);
+        let overlays3D = actualMap3D.map.entities.values;
+
+        expect(overlays2D.length).to.equal(0);
+        expect(overlays3D.length).to.equal(0);
         TestUtil.compareFullStates(actual, expected);
     });
 
