@@ -1061,7 +1061,7 @@ describe('Store - Map', function() {
         TestUtil.compareFullStates(actual, expected);
     });
 
-    it('can add measurement label to geometry on 2D and 3D maps', function() {
+    it('can add measurement label to geometry on 2D and 3D maps', function(done) {
         const store = createStore(rootReducer, initialState);
 
         // initial map
@@ -1100,32 +1100,34 @@ describe('Store - Map', function() {
             mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
             mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
             mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
-            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric')
+            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric'),
+            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
         ];
         finalActions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
+        setTimeout(() => {
+            const state = store.getState();
 
-        const actual = {...state };
-        actual.map = actual.map.remove("maps");
+            const actual = {...state };
+            actual.map = actual.map.remove("maps");
 
-        const expected = {...initialState };
-        expected.map = expected.map
-            .remove("maps")
-            .setIn(["view", "in3DMode"], false)
-            .setIn(["drawing", "geometryType"], "");
+            const expected = {...initialState };
+            expected.map = expected.map
+                .remove("maps")
+                .setIn(["view", "in3DMode"], false)
+                .setIn(["drawing", "geometryType"], "");
 
+            // Get 2D overlays
+            let overlays2D = actualMap2D.map.getOverlays().getArray();
+            
+            // Get 3D overlays
+            let overlays3D = actualMap3D.map.entities.values;
 
-        // Get 2D overlays
-        // let overlays2D = actualMap2D.map.getOverlays().getArray();
-        
-        // Get 3D overlays
-        // let overlays3D = actualMap3D.map.entities._entities._array;
-        console.log(actualMap2D.map.getOverlays().getArray().length, "WHY DOES 1 ACTUALLY EXIST AS 0 HERE?!?!?!?!")
-        expect(actualMap2D.map.getOverlays().getArray().length).to.equal(1);
-
-        expect(actualMap3D.map.entities._entities._array.length).to.equal(1);
-        TestUtil.compareFullStates(actual, expected);
+            expect(actualMap2D.map.getOverlays().getArray().length).to.equal(1);
+            expect(actualMap3D.map.entities._entities._array.length).to.equal(1);
+            TestUtil.compareFullStates(actual, expected);
+            done();
+        }, 500);
     });
 
     it('can remove all measurements in 2D and 3D maps', function() {

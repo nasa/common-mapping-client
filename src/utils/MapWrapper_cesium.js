@@ -634,7 +634,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             // Set measurement units
             let newOutputText = "";
-            this.map.entities._entities._array.forEach(entity => {
+            this.map.entities.values.forEach((entity) => {
                 if (entity.measurementType === mapStrings.MEASURE_AREA) {
                     newOutputText = MapUtil.formatArea(MapUtil.convertAreaUnits(entity.meters, units), units);
                 } else if (entity.measurementType === mapStrings.MEASURE_DISTANCE) {
