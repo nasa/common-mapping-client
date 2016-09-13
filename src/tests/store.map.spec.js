@@ -1100,8 +1100,7 @@ describe('Store - Map', function() {
             mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
             mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
             mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
-            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric'),
-            mapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D)
+            mapActions.addMeasurementLabelToGeometry(geometryLineString, mapStrings.MEASURE_DISTANCE, 'metric')
         ];
         finalActions.forEach(action => store.dispatch(action));
 
