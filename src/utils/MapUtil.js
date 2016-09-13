@@ -214,9 +214,7 @@ export default class MapUtil {
             }
             return output;
         } else if (units === 'nautical') {
-            console.log(area, "1")
             area = area / (1852 * 1852);
-            console.log(area, "2")
             return (Math.round(area * 100) / 100) + " nautical miles<sup>2</sup>";
         } else if (units === 'schoolbus') {
             area = area / (13.716 * 13.716);
