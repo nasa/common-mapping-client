@@ -160,6 +160,10 @@ export default class MapUtil {
 
     // Formats distance according to units
     static formatDistance(distance, units) {
+        // Type check on distance
+        if (typeof distance !== 'number') {
+            return null;
+        }
         if (units === 'metric') {
             let output = "";
             if (distance > 100) {
@@ -183,12 +187,16 @@ export default class MapUtil {
             distance = distance / 13.716;
             return (Math.round(distance * 100) / 100) + ' ' + 'schoolbusses';
         } else {
-            return "Invalid Units";
+            return null;
         }
     }
 
     // Formats area according to units
     static formatArea(area, units) {
+        // Type check on area
+        if (typeof area !== 'number') {
+            return null;
+        }
         if (units === 'metric') {
             let output = "";
             if (area > 10000) {

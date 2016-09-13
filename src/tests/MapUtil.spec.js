@@ -4,14 +4,14 @@ import MapUtil from '../utils/MapUtil';
 
 describe('Map Utils', () => {
     describe('constrainCoordinates', () => {
-        it('takes in a set of LatLon coordinates [lon,lat] that may be outside '+
+        it('takes in a set of LatLon coordinates [lon,lat] that may be outside ' +
             'the [-180, -90, 180, 90] bounds and contrains them the the [-180, -90, 180, 90] bounds.', () => {
-            let varIn = [190, -100];
-            let varOut = [-170, -90];
+                let varIn = [190, -100];
+                let varOut = [-170, -90];
 
-            //assert
-            expect(MapUtil.constrainCoordinates(varIn)).to.deep.equal(varOut);
-        });
+                //assert
+                expect(MapUtil.constrainCoordinates(varIn)).to.deep.equal(varOut);
+            });
         it('Wraps longitude values outside [-180, 180] around the [-180, 180] line', () => {
             let varIn1 = [270, 50];
             let varOut1 = [-90, 50];
@@ -106,11 +106,25 @@ describe('Map Utils', () => {
         });
     });
     describe('formatDistance', () => {
+        it('fails on bad input', () => {
+            expect(MapUtil.formatDistance(null, null)).to.equal(null);
+            expect(MapUtil.formatDistance(null, 'cats')).to.equal(null);
+            expect(MapUtil.formatDistance(null, 'metric')).to.equal(null);
+            expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
+            expect(MapUtil.formatDistance([0,1,2], 'metric')).to.equal(null);
+        });
         it('fails', () => {
             expect(1).to.equal(0);
         });
     });
     describe('formatArea', () => {
+        it('fails on bad input', () => {
+            expect(MapUtil.formatDistance(null, null)).to.equal(null);
+            expect(MapUtil.formatDistance(null, 'cats')).to.equal(null);
+            expect(MapUtil.formatDistance(null, 'metric')).to.equal(null);
+            expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
+            expect(MapUtil.formatDistance([0,1,2], 'metric')).to.equal(null);
+        });
         it('fails', () => {
             expect(1).to.equal(0);
         });
@@ -131,6 +145,11 @@ describe('Map Utils', () => {
         });
     });
     describe('calculatePolygonArea', () => {
+        it('fails', () => {
+            expect(1).to.equal(0);
+        });
+    });
+    describe('calculatePolygonCenter', () => {
         it('fails', () => {
             expect(1).to.equal(0);
         });
