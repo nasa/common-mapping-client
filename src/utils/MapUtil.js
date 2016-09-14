@@ -36,7 +36,6 @@ export default class MapUtil {
             return false;
         }
 
-
         let newCoords = [0, 0];
 
         // constrain x
@@ -66,6 +65,37 @@ export default class MapUtil {
             newCoords[1] = Math.max(-90, coords[1]);
         }
         return newCoords;
+    }
+
+    //  deconstrain a set of coordinates
+    static deconstrainPolylineCoordinates(coordsArr) {
+        /*
+         * coordsArr:
+            [
+                [
+                    [lat, lon], [lat, lon]
+                ], ...
+            ]
+         */
+
+        // let newCoords = coordsArr.slice(0, coordsArr.length);
+
+        // // take first set of constrained coordinates as initial frame
+        // // shift subsequent coordinates relative to those
+        // let initialStartPoint = coordsArr[0][0];
+        // let initialEndPoint = coordsArr[0][1];
+        // let makePos = true;
+        // if(initialStartPoint[0] > 0) {
+        //     if(initialEndPoint[0] > 0) {
+        //         makePos = true;
+        //     } else {
+        //         makePos = true;
+        //     }
+        // } else if (initialEndPoint[0] > 0) {
+
+        // } else {
+
+        // }
     }
 
     // parses a getCapabilities xml string
