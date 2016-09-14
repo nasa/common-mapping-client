@@ -6,7 +6,6 @@ import * as mapConfig from '../constants/mapConfig';
 import MapUtil from './MapUtil';
 import '../lib/cesium/Cesium.js';
 import '../lib/cesium-drawhelper-master/DrawHelper.js';
-// import '../lib/cesium/CesiumUnminified.js';
 import '../lib/cesium/Widgets/widgets.css';
 
 export default class MapWrapper_cesium extends MapWrapper {

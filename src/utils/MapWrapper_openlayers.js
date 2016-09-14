@@ -1,7 +1,9 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
 import proj4js from 'proj4';
-// import Qty from 'js-quantities';
+import arc from '../lib/arc/arc';
+// let arc = require('arc');
+// let Arc = window.arc;
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../constants/mapConfig';
 import MapWrapper from './MapWrapper';
@@ -278,7 +280,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     enableDrawing(geometryType) {
         try {
-                // remove double-click zoom while drawing so we can double-click complete
+            // remove double-click zoom while drawing so we can double-click complete
             this.setDoubleClickZoomEnabled(false);
 
             // Get drawHandler by geometryType
@@ -595,7 +597,52 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (mapLayer) {
                 let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
-                    type: geometryType,
+                    // type: geometryType,
+                    type: 'MultiLineString',
+                    wrapX: true,
+                    geometryFunction: (coords, geom) => {
+                        console.log("NEW COORDS", coords[1][0], coords[1][1])
+                            // console.log(coords.toString(), geom, arc, window.Arc);
+                        if (!geom) {
+                            geom = new ol.geom.MultiLineString([]);
+                        }
+                        // If coords are the same, must skip arc since arc bugs out on input of same coords
+                        if ((coords[0][0] === coords[1][0]) && (coords[0][1] === coords[1][1])) {
+                            geom.setCoordinates([coords]);
+                            return geom;
+                        }
+                        let generator = new arc.GreatCircle({ x: coords[0][0], y: coords[0][1] }, { x: coords[1][0], y: coords[1][1] });
+                        let arcCoords = generator.Arc(10, { offset: 0 }).geometries;
+                        let newCoords = arcCoords[0].coords;
+                        if (arcCoords.length === 2) {
+                            console.log("MOAR", arcCoords);
+                            // newCoords = arcCoords[1].coords.concat(newCoords);
+                            // newCoords = newCoords.concat(arcCoords[1].coords);
+                            // return new ol.geom.MultiLineString([newCoords, arcCoords[1].coords]);
+                            return new ol.geom.MultiLineString([arcCoords[0].coords, arcCoords[1].coords]);
+                            // return new ol.geom.MultiLineString([
+                            //     [0, 0],
+                            //     [38, 60]
+                            // ], [
+                            //     [38, 60],
+                            //     [9, 30]
+                            // ]);
+                        }
+                        // console.log(newCoords, arcCoords);
+                        geom.setCoordinates([newCoords]);
+                        // geom.setCoordinates([
+                        //     [
+                        //         [0, 0],
+                        //         [38, 60]
+                        //     ],
+                        //     [
+                        //         [38, 60],
+                        //         [9, 30]
+                        //     ]
+                        // ]);
+                        console.log(geom.getCoordinates(), "GEOMETRY")
+                        return geom;
+                    },
                     style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle
                 });
 
@@ -606,6 +653,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         // Set type of event feature in OL
                         event.feature.set("interactionType", interactionType);
                         event.feature.setId(geometry.id);
+                        console.log(geometry.coordinates, "?")
                         onDrawEnd(geometry, event);
                     }
                 });
@@ -684,7 +732,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 if (overlay._measurementType === mapStrings.MEASURE_AREA) {
                     overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
                 } else if (overlay._measurementType === mapStrings.MEASURE_DISTANCE) {
-                    console.log("ol format distnace", overlay._meters)
                     overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertDistanceUnits(overlay._meters, units), units);
                 } else {
                     console.warn("could not set openlayers scale units.");

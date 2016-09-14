@@ -31,6 +31,7 @@ export default {
     module: {
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
+            { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
             {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
             { test: /Cesium\.js$/, loader: 'script' },
