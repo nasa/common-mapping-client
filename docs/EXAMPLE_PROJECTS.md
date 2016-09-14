@@ -15,5 +15,6 @@
 * Drop a pin on map and have pin display pixel colors at location for all layers.
 * Draggable, expandable, hideable scalebar?
 * Storing, retrieving, displaying, querying, etc. analytics
+* Potentially a more complex, full-ish walkthrough for a non-trivial app? Like a viewer for CORAL data.
 
 # Projects that used CMC to get started
