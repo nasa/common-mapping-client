@@ -53,6 +53,7 @@ module.exports = function(config) {
                 noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
                 loaders: [
                     { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
+                    { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
                     { test: /Cesium\.js$/, loader: 'script' },
                     { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
                     { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
