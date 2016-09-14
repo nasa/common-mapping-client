@@ -243,13 +243,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return this.map.getView().calculateExtent(this.map.getSize());
     }
 
-    zoomIn(duration) {
+    zoomIn(duration = 175) {
         try {
             if (typeof this.map !== "undefined" &&
                 typeof this.map.getView() !== "undefined") {
                 this.map.beforeRender(ol.animation.zoom({
                     resolution: this.map.getView().getResolution(),
-                    duration: duration || 175
+                    duration: duration
                 }));
                 this.map.getView().setZoom(this.map.getView().getZoom() + 1);
                 return true;
@@ -259,13 +259,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return false;
         }
     }
-    zoomOut(duration) {
+    zoomOut(duration = 175) {
         try {
             if (typeof this.map !== "undefined" &&
                 typeof this.map.getView() !== "undefined") {
                 this.map.beforeRender(ol.animation.zoom({
                     resolution: this.map.getView().getResolution(),
-                    duration: duration || 175
+                    duration: duration
                 }));
                 this.map.getView().setZoom(this.map.getView().getZoom() - 1);
                 return true;
