@@ -1,8 +1,11 @@
 # FAQ
 
 ### Quick Installation
-* `npm3 install`
+* `npm install`
 * `npm start`
+
+### Run Tests
+* `npm run test`
 
 ### Build for Production
 * `npm run build`
@@ -15,7 +18,7 @@ CMC was born in 2014 and used Dojo as its underlying framework. After much
 fragmentation and slapdash development, a new effort was undertaken in 2016
 to create a stable and forward-thinking re-implementation of CMC using
 React/Redux. This project used [React Slingshot](https://github.com/coryhouse/react-slingshot)
-as a starting point. See it's documentation for more info.
+as a starting point.
 
 ### How do you determine what features should or shouldn't be in CMC?
 CMC is not a final, user-facing application. CMC is a foundation on which to build more specific applications. Because of that, what is and is not part of the CMC core is an ongoing discussion, but the general idea is that if the majority of applications CMC is intended to support require a certain functionality, (such as shareable urls or setting layer opacity), then CMC should include it. It is important to be able to exclude certain functionalities from CMC in order to keep CMC as thin as possible, that way developers can spend more time creating and less time removing unwanted features.
