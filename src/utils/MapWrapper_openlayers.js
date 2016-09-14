@@ -598,49 +598,67 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
                     // type: geometryType,
-                    type: 'MultiLineString',
+                    type: 'LineString',
                     wrapX: true,
-                    geometryFunction: (coords, geom) => {
-                        console.log("NEW COORDS", coords[1][0], coords[1][1])
-                            // console.log(coords.toString(), geom, arc, window.Arc);
-                        if (!geom) {
-                            geom = new ol.geom.MultiLineString([]);
+                    geometryFunction: (coords, opt_geom) => {
+                        let geom = opt_geom ? opt_geom : new ol.geom.LineString();
+                        let lineCoords = [];
+
+                        for(let i = 0; i < coords.length - 1; ++i) {
+                            let start = coords[i];
+                            let end = coords[i + 1];
+
+                            if(start[0] === end[0] && start[1] === end[1]) {
+                                continue;
+                            }
+
+
+                            let generator = new arc.GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
+                            let arcLines = generator.Arc(20, { offset: 180 }).geometries;
+                            
+                            // shift all the arcs as part of a polyline
+                            if(i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
+                                let initialShift = 1;
+                                if(lineCoords[lineCoords.length - 1][0] < 0) {
+                                    initialShift = -1;
+                                }
+                                arcLines = arcLines.map((arc) => {
+                                    return arc.coords.map((coord) => {
+                                        coord = coord.slice(0, coord.length);
+                                        let shift = initialShift;
+                                        if(coord[0] < 0) {
+                                            if(initialShift < 0) {
+                                                shift = 0;
+                                            } else {
+                                                shift = initialShift;
+                                            }
+                                        } else {
+                                            if(initialShift < 0) {
+                                                shift = initialShift
+                                            } else {
+                                                shift = 0;
+                                            }
+                                        }
+                                        coord[0] += (360 * shift);
+                                        return coord;
+                                    });
+                                });
+                            } else {
+                                arcLines = arcLines.map((arc) => {
+                                    return arc.coords;
+                                });
+                            }
+
+                            let arcCoords = arcLines[0];
+                            if(arcLines.length >= 2) {
+                                arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
+                            }
+
+                            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
                         }
-                        // If coords are the same, must skip arc since arc bugs out on input of same coords
-                        if ((coords[0][0] === coords[1][0]) && (coords[0][1] === coords[1][1])) {
-                            geom.setCoordinates([coords]);
-                            return geom;
-                        }
-                        let generator = new arc.GreatCircle({ x: coords[0][0], y: coords[0][1] }, { x: coords[1][0], y: coords[1][1] });
-                        let arcCoords = generator.Arc(10, { offset: 0 }).geometries;
-                        let newCoords = arcCoords[0].coords;
-                        if (arcCoords.length === 2) {
-                            console.log("MOAR", arcCoords);
-                            // newCoords = arcCoords[1].coords.concat(newCoords);
-                            // newCoords = newCoords.concat(arcCoords[1].coords);
-                            // return new ol.geom.MultiLineString([newCoords, arcCoords[1].coords]);
-                            return new ol.geom.MultiLineString([arcCoords[0].coords, arcCoords[1].coords]);
-                            // return new ol.geom.MultiLineString([
-                            //     [0, 0],
-                            //     [38, 60]
-                            // ], [
-                            //     [38, 60],
-                            //     [9, 30]
-                            // ]);
-                        }
-                        // console.log(newCoords, arcCoords);
-                        geom.setCoordinates([newCoords]);
-                        // geom.setCoordinates([
-                        //     [
-                        //         [0, 0],
-                        //         [38, 60]
-                        //     ],
-                        //     [
-                        //         [38, 60],
-                        //         [9, 30]
-                        //     ]
-                        // ]);
-                        console.log(geom.getCoordinates(), "GEOMETRY")
+
+                        geom.setCoordinates(lineCoords);
+
                         return geom;
                     },
                     style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle

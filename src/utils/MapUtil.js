@@ -68,34 +68,53 @@ export default class MapUtil {
     }
 
     //  deconstrain a set of coordinates
-    static deconstrainPolylineCoordinates(coordsArr) {
-        /*
-         * coordsArr:
-            [
-                [
-                    [lat, lon], [lat, lon]
-                ], ...
-            ]
-         */
+    static deconstrainArcCoordinates(linesArr) {
+         // if there is only one polyline, then we assume no splitting has occured
+         if(linesArr.length < 2) {
+            return linesArr;
+         }
 
-        // let newCoords = coordsArr.slice(0, coordsArr.length);
+        // take first set of constrained coordinates as initial frame
+        // shift subsequent coordinates relative to those
+        let referenceLine = linesArr[0];
+        let referenceLineEnd = referenceLine[referenceLine.length - 1];
 
-        // // take first set of constrained coordinates as initial frame
-        // // shift subsequent coordinates relative to those
-        // let initialStartPoint = coordsArr[0][0];
-        // let initialEndPoint = coordsArr[0][1];
-        // let makePos = true;
-        // if(initialStartPoint[0] > 0) {
-        //     if(initialEndPoint[0] > 0) {
-        //         makePos = true;
-        //     } else {
-        //         makePos = true;
-        //     }
-        // } else if (initialEndPoint[0] > 0) {
+        let deconstrainedLine = linesArr[0].slice(0, linesArr[0].length);
+        for(let i = 1; i < linesArr.length; ++i) {
+            let line = linesArr[i];
+            let lineStart = line[0];
 
-        // } else {
-
-        // }
+            if(referenceLineEnd % 180 !== 0) {
+                if(referenceLineEnd[0] < 0) {
+                    if(lineStart[0] > 0) {
+                        let shiftedLine = line.map((coords) => {
+                            let shiftedCoords = coords.slice(0, coords.length);
+                            shiftedCoords[0] -= 360;
+                            return shiftedCoords;
+                        });
+                        // remove first point due to overlap
+                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    } else {
+                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
+                    }
+                } else {
+                    if(lineStart[0] < 0) {
+                        let shiftedLine = line.map((coords) => {
+                            let shiftedCoords = coords.slice(0, coords.length);
+                            shiftedCoords[0] += 360;
+                            return shiftedCoords;
+                        });
+                        // remove first point due to overlap
+                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    } else {
+                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
+                    }
+                }
+            } else {
+                console.warn("wtf is this ending?", linesArr, referenceLineEnd);
+            }
+        }
+        return deconstrainedLine;
     }
 
     // parses a getCapabilities xml string
