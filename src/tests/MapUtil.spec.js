@@ -140,6 +140,16 @@ describe('Map Utils', () => {
         });
     });
     describe('calculatePolylineDistance', () => {
+        it('calculates distances with two points', () => {
+            let proj = "EPSG:4326";
+            let sfCoords = [-122.431,37.732];
+            let manhattanCoords = [-73.948,40.682];
+            let varIn = [sfCoords, manhattanCoords];
+            let varOut = 4138463;
+            let actualOut = MapUtil.calculatePolylineDistance(varIn, proj);
+
+            expect(Math.floor(actualOut)).to.equal(varOut);
+        });
         it('fails', () => {
             expect(1).to.equal(0);
         });
