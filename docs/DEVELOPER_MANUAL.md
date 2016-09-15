@@ -42,7 +42,7 @@ NPM modules are installed and removed using the following commands
 ### Quick React/Redux overview (in general + our set up)
 ### Quick React Toolbox overview
 ### Quick D3 overview (regarding how we use it)
-### Explanation of all folders/groupings in _src_
+### Brief Overview of Application Directory 
 ```
 .
 ├── .babelrc                  # Configures Babel
@@ -86,9 +86,8 @@ NPM modules are installed and removed using the following commands
 ```
 
 ### How to write tests
+
 ### How the analytics work (briefly, will be covered in separate example)
-
-
 
 
 ### Bundled Packages

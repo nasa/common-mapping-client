@@ -1,21 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
+import { ProgressBar } from 'react-toolbox';
 import * as actions from '../../actions/AppActions';
 import AsyncImageContainer from '../AsyncImage/AsyncImageContainer';
 
 export class LoadingContainer extends Component {
+    componentDidUpdate() {
+        document.getElementById("loadingContainer").style.opacity = 0;
+        setTimeout(() => {
+            document.getElementById("loadingContainer").innerHTML = "";
+            document.getElementById("loadingContainer").style.display = "none";
+        }, 1300)
+    }
     render() {
         return (
-            <div id="loadingContainer" className={this.props.initialLoadComplete ? "close" : ""}>
-                <h1 id="loadingHeader">common mapping client</h1>
-                <div className="loadingIntro">The New Way to Not Reinvent the Wheel</div>
-                <h1 className="loadingAttribution">NASA/JPL</h1>
-                <div className="loadingSpinner spinnerAnimate">
-                    <div className="loadingSpinnerSq1" />
-                    <div className="loadingSpinnerSq2" />
-                </div>
-            </div>
+            <div></div>
         );
     }
 }
