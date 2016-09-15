@@ -27,7 +27,7 @@ const dismissAllAlerts = (state, action) => {
 };
 
 const setFullScreen = (state, action) => {
-    if(action.enabled) {
+    if (action.enabled) {
         MiscUtil.enterFullScreen();
     } else {
         MiscUtil.exitFullscreen();
@@ -36,7 +36,7 @@ const setFullScreen = (state, action) => {
 };
 
 const resetApplicationState = (state, action) => {
-    return setLayerMenuOpen(state, {open: true});
+    return setLayerMenuOpen(state, { open: true });
 };
 
 export default function view(state = viewState, action) {

@@ -25,11 +25,11 @@ export class AppBarContainer extends Component {
         return (
             <div id="titleContainer">
                 <div className="row middle-xs">
-                    <div className="col-xs-3">
+                    <div className="col-xs-6">
                         <h1 id="appTitle" >{this.props.title}</h1>
                         <span id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>{this.props.subtitle}</span>
                     </div>
-                    <div className="buttons-container col-xs-2 col-xs-offset-7">
+                    <div className="buttons-container col-xs-6">
                         <IconButton
                             neutral
                             icon="help"
