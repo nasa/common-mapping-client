@@ -62,20 +62,20 @@ NPM modules are installed and removed using the following commands
 │   ├── actions               # Flux/Redux actions. List of distinct actions that can occur in the app.  
 │   ├── components            # React components
 │   ├── constants             # Application constants including constants for Redux
-│   ├── default-data 		  # Default data for the application
-│   │   ├── help 			  # In-app help markdown documentation files
+│   ├── default-data 		  # Default data for the application
+│   │   ├── help 			  # In-app help markdown documentation files
 │   ├── index.html            # Start page
 │   ├── index.js              # Entry point for your app
-│   ├── lib 				  # 3rd party libraries not in npm or copied over during postinstall
-│   ├── reducers 			  # Redux reducers. Your state is altered here based on actions
-│   │   ├── models 			  # State models acted upon by reducers. Each reducer corresponds to a model
-│   ├── store 				  # Redux store configuration
-│   ├── styles				  # CSS Styles, typically written in Sass
+│   ├── lib 				  # 3rd party libraries not in npm or copied over during postinstall
+│   ├── reducers 			  # Redux reducers. Your state is altered here based on actions
+│   │   ├── models 			  # State models acted upon by reducers. Each reducer corresponds to a model
+│   ├── store 				  # Redux store configuration
+│   ├── styles				  # CSS Styles, typically written in Sass
 |   |   ├── lib				  # Any 3rd party CSS libraries (copied over from node_modules or src/lib during postinstall)
 |   |   ├── resources 		  # CSS Styles, typically written in Sass
-│   ├── tests				  # All tests
-│   │   ├── data 			  # Any dummy data tests may need
-│   └── utils				  # Plain ES6 JS objects. Pure logic. No framework.
+│   ├── tests				  # All tests
+│   │   ├── data 			  # Any dummy data tests may need
+│   └── utils				  # Plain ES6 JS objects. Pure logic. No framework.
 ├── tools                     # Node scripts that run build related tools
 │   ├── build.js              # Runs the production build
 │   ├── buildHtml.js          # Builds index.html
