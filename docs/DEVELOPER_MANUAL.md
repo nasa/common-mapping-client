@@ -53,36 +53,36 @@ NPM modules are installed and removed using the following commands
 ├── README.md                 # This file.
 ├── dist                      # Folder where the build script places the built app. Use this in prod.
 ├── public                    # Folder created during postinstall to house Cesium and Cesium-Drawhelper
-├── docs  					  # All documentation
-├── karma.conf.js 			  # Configuration for karma test runner
+├── docs                      # All documentation
+├── karma.conf.js             # Configuration for karma test runner
 ├── package.json              # Package configuration. The list of 3rd party libraries and utilities
-├── postbuild.sh 			  # Shell script that runs after npm build to copy over certain libs to certain places in the distribution
-├── postinstall.sh 			  # Shell script that copies over certain node_module files, libraries, sets up other stuff, etc.
+├── postbuild.sh              # Shell script that runs after npm build to copy over certain libs to certain places in the distribution
+├── postinstall.sh            # Shell script that copies over certain node_module files, libraries, sets up other stuff, etc.
 ├── src                       # Source code
 │   ├── actions               # Flux/Redux actions. List of distinct actions that can occur in the app.  
 │   ├── components            # React components
 │   ├── constants             # Application constants including constants for Redux
-│   ├── default-data 		  # Default data for the application
-│   │   ├── help 			  # In-app help markdown documentation files
+│   ├── default-data          # Default data for the application
+│   │   ├── help              # In-app help markdown documentation files
 │   ├── index.html            # Start page
 │   ├── index.js              # Entry point for your app
-│   ├── lib 				  # 3rd party libraries not in npm or copied over during postinstall
-│   ├── reducers 			  # Redux reducers. Your state is altered here based on actions
-│   │   ├── models 			  # State models acted upon by reducers. Each reducer corresponds to a model
-│   ├── store 				  # Redux store configuration
-│   ├── styles				  # CSS Styles, typically written in Sass
-|   |   ├── lib				  # Any 3rd party CSS libraries (copied over from node_modules or src/lib during postinstall)
-|   |   ├── resources 		  # CSS Styles, typically written in Sass
-│   ├── tests				  # All tests
-│   │   ├── data 			  # Any dummy data tests may need
-│   └── utils				  # Plain ES6 JS objects. Pure logic. No framework.
+│   ├── lib                   # 3rd party libraries not in npm or copied over during postinstall
+│   ├── reducers              # Redux reducers. Your state is altered here based on actions
+│   │   ├── models            # State models acted upon by reducers. Each reducer corresponds to a model
+│   ├── store                 # Redux store configuration
+│   ├── styles                # CSS Styles, typically written in Sass
+|   |   ├── lib               # Any 3rd party CSS libraries (copied over from node_modules or src/lib during postinstall)
+|   |   ├── resources         # CSS Styles, typically written in Sass
+│   ├── tests                 # All tests
+│   │   ├── data              # Any dummy data tests may need
+│   └── utils                 # Plain ES6 JS objects. Pure logic. No framework.
 ├── tools                     # Node scripts that run build related tools
 │   ├── build.js              # Runs the production build
 │   ├── buildHtml.js          # Builds index.html
 │   ├── distServer.js         # Starts webserver and opens final built app that's in dist in your default browser
 │   ├── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
-├── webpack.config.dev.js 	  # Configures dev webpack
-└── webpack.config.prod.js 	  # Configures production webpack
+├── webpack.config.dev.js     # Configures dev webpack
+└── webpack.config.prod.js    # Configures production webpack
 ```
 
 ### How to write tests
