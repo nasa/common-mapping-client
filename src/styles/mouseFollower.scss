@@ -1,0 +1,17 @@
+#mouseFollowerContainer {
+	position: fixed;
+	z-index: 1;
+	background: rgba($color-medium-dark, 0.7);
+	color: $color-light;
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	max-width: 250px;
+	white-space: normal;
+	word-wrap: normal;
+	border-radius: 2px;
+	transform: translate(0px, -50%);
+	.mouse-follower-line.line-0 {
+		font-weight: 500;
+		font-size: 1.3rem;
+	}
+}

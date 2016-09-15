@@ -47,10 +47,6 @@ export default class MapWrapper {
         console.warn("addLabelToGeometry not implemented in subclass");
         return false;
     }
-    addMeasurementLabelToGeometry(id, measurementType, units) {
-        console.warn("addMeasurementLabelToGeometry not implemented in subclass");
-        return false;
-    }
     removeAllDrawings(){
         console.warn("removeAllDrawings not implemented in subclass");
         return false;

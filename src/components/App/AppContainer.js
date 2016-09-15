@@ -20,6 +20,7 @@ import DateSliderContainer from '../DateSlider/DateSliderContainer';
 import DatePickerContainer from '../DatePicker/DatePickerContainer';
 import AppBarContainer from '../AppBar/AppBarContainer';
 import LayerMenuContainer from '../LayerMenu/LayerMenuContainer';
+import MouseFollowerContainer from '../MouseFollower/MouseFollowerContainer';
 import '../../styles/styles.scss';
 
 export class AppContainer extends Component {
@@ -74,6 +75,7 @@ export class AppContainer extends Component {
                 <AlertsContainer />
                 <LoadingContainer />
                 <MapContextMenu />
+                <MouseFollowerContainer />
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );

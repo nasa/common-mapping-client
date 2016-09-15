@@ -52,6 +52,10 @@ export function pixelHover(pixel) {
     return { type: types.PIXEL_HOVER, pixel };
 }
 
+export function invalidatePixelHover() {
+    return { type: types.INVALIDATE_PIXEL_HOVER };
+}
+
 export function pixelClick(clickEvt) {
     return { type: types.PIXEL_CLICK, clickEvt };
 }

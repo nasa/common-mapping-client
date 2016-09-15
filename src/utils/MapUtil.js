@@ -379,7 +379,7 @@ export default class MapUtil {
                         }
                     } else {
                         if (initialShift <= 0) {
-                            shift = initialShift
+                            shift = initialShift;
                         } else {
                             shift = 0;
                         }
@@ -451,7 +451,7 @@ export default class MapUtil {
                 return [lastCoord.lon, lastCoord.lat];
             } else {
                 console.warn("could not find label placement, no coordinates in geometry.");
-                return false
+                return false;
             }
         } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
             let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
