@@ -28,7 +28,7 @@ part of CMC-Core.
 
 1. Head over to our [release page](LINK TO RELEASE PAGE) and grab the tag
 that suits you best.
-2. Run `npm3 install`
+2. Run `npm install`
 3. Run `npm start`
 4. Start building.
 

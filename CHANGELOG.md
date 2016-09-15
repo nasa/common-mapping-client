@@ -1,4 +1,4 @@
-# [1.0 Release](RELEASE LINK) (2016-?-?)
+# [1.0 Release](RELEASE LINK) (2016-10-15)
 
 ### Features
 
