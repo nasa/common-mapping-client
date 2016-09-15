@@ -1,9 +1,6 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
 import proj4js from 'proj4';
-import arc from '../lib/arc/arc';
-// let arc = require('arc');
-// let Arc = window.arc;
 import * as mapStrings from '../constants/mapStrings';
 import * as mapConfig from '../constants/mapConfig';
 import MapWrapper from './MapWrapper';
@@ -386,6 +383,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.warn("could not disable measuring on openlayers map.", err);
+            return false;
         }
     }
 
@@ -400,6 +398,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.warn("could not disable measuring on openlayers map.", err);
+            return false;
         }
     }
 
@@ -421,7 +420,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
-    addGeometry(geometry, interactionType) {
+    addGeometry(geometry, interactionType, geodesic = false) {
         let mapLayers = this.map.getLayers().getArray();
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
@@ -447,13 +446,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
         if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
             let lineStringGeom = null;
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                lineStringGeom = new ol.geom.LineString(geometry.coordinates.map((x) => {
+                let geomCoords = geometry.coordinates.map((x) => {
                     return [x.lon, x.lat];
-                }));
+                });
+
+                // generate geodesic arcs from points
+                if (geodesic) {
+                    geomCoords = MapUtil.generateGeodesicArcsForLineString(geomCoords);
+                }
+
+                lineStringGeom = new ol.geom.LineString(geomCoords);
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers lineString");
                 return false;
             }
+
             let lineStringFeature = new ol.Feature({
                 geometry: lineStringGeom
             });
@@ -466,13 +473,19 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let polygonGeom = null;
             if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Map obj to array
-                let newCoords = geometry.coordinates.map((x) => {
+                let geomCoords = geometry.coordinates.map((x) => {
                     return [x.lon, x.lat];
                 });
                 // Push the first point to close the ring
-                newCoords.push([geometry.coordinates[0].lon, geometry.coordinates[0].lat]);
+                geomCoords.push([geometry.coordinates[0].lon, geometry.coordinates[0].lat]);
+
+                // generate geodesic arcs from points
+                if (geodesic) {
+                    geomCoords = MapUtil.generateGeodesicArcsForLineString(geomCoords);
+                }
+
                 // Put these coordinates into a ring by adding to array
-                polygonGeom = new ol.geom.Polygon([newCoords]);
+                polygonGeom = new ol.geom.Polygon([geomCoords]);
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers polygon");
                 return false;
@@ -488,68 +501,35 @@ export default class MapWrapper_openlayers extends MapWrapper {
         return false;
     }
 
-    addMeasurementLabelToGeometry(geometry, measurementType, units) {
-        // Create label
-        let measureLabelEl = document.createElement('div');
-        measureLabelEl.className = "tooltip tooltip-static";
-        let measureLabel = new ol.Overlay({
-            element: measureLabelEl,
-            offset: [0, -15],
-            positioning: 'bottom-center'
-        });
+    addLabel(label, coords, opt_meta = {}) {
+        try {
+            // Create label domNode
+            let measureLabelEl = document.createElement('div');
+            measureLabelEl.className = "tooltip tooltip-static";
+            measureLabelEl.innerHTML = label;
 
-        // Set label according to geometry type and measurement type
-        if (measurementType === mapStrings.MEASURE_DISTANCE) {
-            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
-                let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
-                measureLabel.setPosition(coords.length > 1 ? coords[coords.length - 1] : coords[0]);
+            // create ol overlay
+            let measureLabel = new ol.Overlay({
+                element: measureLabelEl,
+                offset: [0, -15],
+                positioning: 'bottom-center'
+            });
 
-                // Get distance
-                let distance = MapUtil.calculatePolylineDistance(coords, geometry.proj);
-
-                // Format distance
-                let formattedDistance = MapUtil.formatDistance(distance, units);
-
-                // let output = "";
-                // if (distance > 100) {
-                //     output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
-                // } else {
-                //     output = (Math.round(distance * 100) / 100) + ' ' + 'm';
-                // }
-                measureLabelEl.innerHTML = formattedDistance;
-                // measureLabel._measurement = new Qty(distance, MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType);
-                measureLabel._meters = distance;
-                measureLabel._measurementType = mapStrings.MEASURE_DISTANCE;
-                // measureLabel._units = units;
-            } else {
-                console.warn("could not add distance measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
-                return false;
+            // store meta opt_meta
+            for (let key in opt_meta) {
+                if (opt_meta.hasOwnProperty(key)) {
+                    measureLabel.set(key, opt_meta[key], true);
+                }
             }
-        } else if (measurementType === mapStrings.MEASURE_AREA) {
-            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-                let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
-                let polygonCenter = MapUtil.calculatePolygonCenter(coords, geometry.proj);
-                measureLabel.setPosition(polygonCenter);
-                let area = MapUtil.calculatePolygonArea(coords, geometry.proj);
 
-                // Format area
-                let formattedArea = MapUtil.formatArea(area, units);
-                measureLabelEl.innerHTML = formattedArea;
-                // measureLabel._measurement = area;
-                // measureLabel._meters = new Qty(area, MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType + "^2");
-                measureLabel._meters = area;
-                measureLabel._measurementType = mapStrings.MEASURE_AREA;
-                // measureLabel._units = units;
-            } else {
-                console.warn("could not add area measurement label to geometry in openlayers map, unsupported geometry type ", geometry.type);
-                return false;
-            }
-        } else {
-            console.warn("could not add measurement label to geometry in openlayers map, unsupported measurementType ", measurementType);
+            // position and place
+            measureLabel.setPosition(coords);
+            this.map.addOverlay(measureLabel);
+            return true;
+        } catch (err) {
+            console.warn("failed to place label in openlayers.", err);
             return false;
         }
-        this.map.addOverlay(measureLabel);
-        return true;
     }
 
     removeAllDrawings() {
@@ -597,15 +577,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
                     let geom = opt_geom ? opt_geom : new ol.geom.LineString();
-                    let lineCoords = this.generateGeodesicArcsForLineString(coords);
+                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(coords);
                     geom.setCoordinates(lineCoords);
+                    geom.set("originalCoordinates", coords, true);
                     return geom;
                 };
                 let measureAreaGeom = (coords, opt_geom) => {
                     coords = coords[0]; // TODO: find case where this isn't what we want
                     let geom = opt_geom ? opt_geom : new ol.geom.Polygon();
-                    let lineCoords = this.generateGeodesicArcsForLineString(coords);
+                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(coords);
                     geom.setCoordinates([lineCoords]);
+                    geom.set("originalCoordinates", coords, true);
                     return geom;
                 };
 
@@ -668,10 +650,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
-            let tmpCoords = event.feature.getGeometry().getCoordinates()
-                .map(x => {
+            let tmpCoords = [];
+            if (event.feature.getGeometry().get("originalCoordinates")) {
+                tmpCoords = event.feature.getGeometry().get("originalCoordinates").map(x => {
                     return { lon: x[0], lat: x[1] };
                 });
+            } else {
+                tmpCoords = event.feature.getGeometry().getCoordinates().map(x => {
+                    return { lon: x[0], lat: x[1] };
+                });
+            }
             return {
                 type: mapStrings.GEOMETRY_LINE_STRING,
                 id: Math.random(),
@@ -680,10 +668,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
             };
         } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
-            let tmpCoords = event.feature.getGeometry().getCoordinates()[0]
-                .map(x => {
+            let tmpCoords = [];
+            if (event.feature.getGeometry().get("originalCoordinates")) {
+                tmpCoords = event.feature.getGeometry().get("originalCoordinates").map(x => {
                     return { lon: x[0], lat: x[1] };
                 });
+            } else {
+                tmpCoords = event.feature.getGeometry().getCoordinates()[0].map(x => {
+                    return { lon: x[0], lat: x[1] };
+                });
+            }
+            console.log(tmpCoords);
             return {
                 type: mapStrings.GEOMETRY_POLYGON,
                 id: Math.random(),
@@ -707,15 +702,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             // Set measurement units
             this.map.getOverlays().forEach(overlay => {
-                if (overlay._measurementType === mapStrings.MEASURE_AREA) {
-                    overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay._meters, units), units);
-                } else if (overlay._measurementType === mapStrings.MEASURE_DISTANCE) {
-                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertDistanceUnits(overlay._meters, units), units);
+                if (overlay.get("measurementType") === mapStrings.MEASURE_AREA) {
+                    overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay.get("meters"), units), units);
+                } else if (overlay.get("measurementType") === mapStrings.MEASURE_DISTANCE) {
+                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertDistanceUnits(overlay.get("meters"), units), units);
                 } else {
                     console.warn("could not set openlayers scale units.");
                     return false;
                 }
-            })
+            });
             return true;
         } catch (err) {
             console.warn("could not set openlayers scale units.", err);
@@ -1028,65 +1023,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     /* functions for openlayers only */
-    generateGeodesicArcsForLineString(coords) {
-        let lineCoords = [];
-        for (let i = 0; i < coords.length - 1; ++i) {
-            let start = coords[i];
-            let end = coords[i + 1];
-
-            // arc doesn't play well with two points in the same place
-            if (start[0] === end[0] && start[1] === end[1]) {
-                continue;
-            }
-
-            // generate the arcs
-            let generator = new arc.GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
-            let arcLines = generator.Arc(100, { offset: 180 }).geometries;
-
-            // shift all the arcs as part of a polyline
-            if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
-                let initialShift = 1;
-                if (lineCoords[lineCoords.length - 1][0] < 0) {
-                    initialShift = -1;
-                }
-                arcLines = arcLines.map((arc) => {
-                    let refCoord = arc.coords[0];
-                    let shift = initialShift;
-                    if (refCoord[0] <= 0) {
-                        if (initialShift <= 0) {
-                            shift = 0;
-                        } else {
-                            shift = initialShift;
-                        }
-                    } else {
-                        if (initialShift <= 0) {
-                            shift = initialShift
-                        } else {
-                            shift = 0;
-                        }
-                    }
-                    return arc.coords.map((coord) => {
-                        coord = coord.slice(0, coord.length);
-                        coord[0] += (360 * shift);
-                        return coord;
-                    });
-                });
-            } else {
-                arcLines = arcLines.map((arc) => {
-                    return arc.coords;
-                });
-            }
-
-            // wrap the arcs beyond [-180,180]
-            let arcCoords = arcLines[0];
-            if (arcLines.length >= 2) {
-                arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
-            }
-            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
-        }
-        return lineCoords;
-    }
-
     generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);

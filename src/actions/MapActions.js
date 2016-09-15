@@ -72,8 +72,8 @@ export function disableDrawing() {
     return { type: types.DISABLE_DRAWING };
 }
 
-export function addGeometryToMap(geometry, interactionType) {
-    return { type: types.ADD_GEOMETRY_TO_MAP, geometry, interactionType };
+export function addGeometryToMap(geometry, interactionType, geodesic = false) {
+    return { type: types.ADD_GEOMETRY_TO_MAP, geometry, interactionType, geodesic };
 }
 
 export function addMeasurementLabelToGeometry(geometry, measurementType, units) {
