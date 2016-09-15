@@ -12,11 +12,11 @@ export class LoadingContainer extends Component {
         setTimeout(() => {
             document.getElementById("loadingContainer").innerHTML = "";
             document.getElementById("loadingContainer").style.display = "none";
-        }, 1300)
+        }, 1300);
     }
     render() {
         return (
-            <div></div>
+            <div/>
         );
     }
 }
