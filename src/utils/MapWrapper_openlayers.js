@@ -678,7 +678,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return { lon: x[0], lat: x[1] };
                 });
             }
-            console.log(tmpCoords);
             return {
                 type: mapStrings.GEOMETRY_POLYGON,
                 id: Math.random(),
