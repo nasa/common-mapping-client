@@ -85,8 +85,8 @@ export default class MapUtil {
             let lineStart = line[0];
 
             if(referenceLineEnd % 180 !== 0) {
-                if(referenceLineEnd[0] < 0) {
-                    if(lineStart[0] > 0) {
+                if(referenceLineEnd[0] <= 0) {
+                    if(lineStart[0] >= 0) {
                         let shiftedLine = line.map((coords) => {
                             let shiftedCoords = coords.slice(0, coords.length);
                             shiftedCoords[0] -= 360;
@@ -98,7 +98,7 @@ export default class MapUtil {
                         deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                     }
                 } else {
-                    if(lineStart[0] < 0) {
+                    if(lineStart[0] <= 0) {
                         let shiftedLine = line.map((coords) => {
                             let shiftedCoords = coords.slice(0, coords.length);
                             shiftedCoords[0] += 360;

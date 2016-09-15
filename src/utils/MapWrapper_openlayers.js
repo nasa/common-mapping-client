@@ -595,83 +595,43 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
             if (mapLayer) {
+                let measureDistGeom = (coords, opt_geom) => {
+                    let geom = opt_geom ? opt_geom : new ol.geom.LineString();
+                    let lineCoords = this.generateGeodesicArcsForLineString(coords);
+                    geom.setCoordinates(lineCoords);
+                    return geom;
+                };
+                let measureAreaGeom = (coords, opt_geom) => {
+                    coords = coords[0]; // TODO: find case where this isn't what we want
+                    let geom = opt_geom ? opt_geom : new ol.geom.Polygon();
+                    let lineCoords = this.generateGeodesicArcsForLineString(coords);
+                    geom.setCoordinates([lineCoords]);
+                    return geom;
+                };
+
+                let geometryFunction = undefined;
+                if (interactionType === mapStrings.INTERACTION_MEASURE) {
+                    if (geometryType === mapStrings.GEOMETRY_LINE_STRING) {
+                        geometryFunction = measureDistGeom;
+                    } else if (geometryType === mapStrings.GEOMETRY_POLYGON) {
+                        geometryFunction = measureAreaGeom;
+                    }
+                }
                 let drawInteraction = new ol.interaction.Draw({
                     source: mapLayer.getSource(),
-                    // type: geometryType,
-                    type: 'LineString',
-                    wrapX: true,
-                    geometryFunction: (coords, opt_geom) => {
-                        let geom = opt_geom ? opt_geom : new ol.geom.LineString();
-                        let lineCoords = [];
-
-                        for(let i = 0; i < coords.length - 1; ++i) {
-                            let start = coords[i];
-                            let end = coords[i + 1];
-
-                            if(start[0] === end[0] && start[1] === end[1]) {
-                                continue;
-                            }
-
-
-                            let generator = new arc.GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
-                            let arcLines = generator.Arc(20, { offset: 180 }).geometries;
-                            
-                            // shift all the arcs as part of a polyline
-                            if(i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
-                                let initialShift = 1;
-                                if(lineCoords[lineCoords.length - 1][0] < 0) {
-                                    initialShift = -1;
-                                }
-                                arcLines = arcLines.map((arc) => {
-                                    return arc.coords.map((coord) => {
-                                        coord = coord.slice(0, coord.length);
-                                        let shift = initialShift;
-                                        if(coord[0] < 0) {
-                                            if(initialShift < 0) {
-                                                shift = 0;
-                                            } else {
-                                                shift = initialShift;
-                                            }
-                                        } else {
-                                            if(initialShift < 0) {
-                                                shift = initialShift
-                                            } else {
-                                                shift = 0;
-                                            }
-                                        }
-                                        coord[0] += (360 * shift);
-                                        return coord;
-                                    });
-                                });
-                            } else {
-                                arcLines = arcLines.map((arc) => {
-                                    return arc.coords;
-                                });
-                            }
-
-                            let arcCoords = arcLines[0];
-                            if(arcLines.length >= 2) {
-                                arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
-                            }
-
-                            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
-                        }
-
-                        geom.setCoordinates(lineCoords);
-
-                        return geom;
-                    },
-                    style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle
+                    type: geometryType,
+                    geometryFunction: geometryFunction,
+                    style: interactionType === mapStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle,
+                    wrapX: true
                 });
 
                 // Set callback
                 drawInteraction.on('drawend', (event) => {
                     if (typeof onDrawEnd === "function") {
+                        // store type of feature and id for later reference
                         let geometry = this.retrieveGeometryFromEvent(event, geometryType);
-                        // Set type of event feature in OL
                         event.feature.set("interactionType", interactionType);
                         event.feature.setId(geometry.id);
-                        console.log(geometry.coordinates, "?")
                         onDrawEnd(geometry, event);
                     }
                 });
@@ -1068,6 +1028,65 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     /* functions for openlayers only */
+    generateGeodesicArcsForLineString(coords) {
+        let lineCoords = [];
+        for (let i = 0; i < coords.length - 1; ++i) {
+            let start = coords[i];
+            let end = coords[i + 1];
+
+            // arc doesn't play well with two points in the same place
+            if (start[0] === end[0] && start[1] === end[1]) {
+                continue;
+            }
+
+            // generate the arcs
+            let generator = new arc.GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
+            let arcLines = generator.Arc(100, { offset: 180 }).geometries;
+
+            // shift all the arcs as part of a polyline
+            if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
+                let initialShift = 1;
+                if (lineCoords[lineCoords.length - 1][0] < 0) {
+                    initialShift = -1;
+                }
+                arcLines = arcLines.map((arc) => {
+                    let refCoord = arc.coords[0];
+                    let shift = initialShift;
+                    if (refCoord[0] <= 0) {
+                        if (initialShift <= 0) {
+                            shift = 0;
+                        } else {
+                            shift = initialShift;
+                        }
+                    } else {
+                        if (initialShift <= 0) {
+                            shift = initialShift
+                        } else {
+                            shift = 0;
+                        }
+                    }
+                    return arc.coords.map((coord) => {
+                        coord = coord.slice(0, coord.length);
+                        coord[0] += (360 * shift);
+                        return coord;
+                    });
+                });
+            } else {
+                arcLines = arcLines.map((arc) => {
+                    return arc.coords;
+                });
+            }
+
+            // wrap the arcs beyond [-180,180]
+            let arcCoords = arcLines[0];
+            if (arcLines.length >= 2) {
+                arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
+            }
+            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
+        }
+        return lineCoords;
+    }
+
     generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
