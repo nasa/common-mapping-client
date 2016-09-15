@@ -359,7 +359,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         return false;
     }
 
-    addGeometry(geometry, interactionType) {
+    addGeometry(geometry, interactionType, geodesic = false) {
         try {
             if (geometry.type === mapStrings.GEOMETRY_CIRCLE) {
                 let cesiumCenter = null;
@@ -367,7 +367,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 // Check coordinate type
                 if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                     // Calc radius by finding cartesian distance from 
-                    //  center to radius point
+                    // center to radius point
                     let point = { lat: geometry.center.lat, lon: geometry.center.lon };
                     point.lon += geometry.radius;
 
@@ -396,7 +396,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return true;
             } else if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
                 let cartesianCoords = null;
-                // // Check coordinate type
+                // Check coordinate type
                 if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                     // Transform coordinates from cartographic to cartesian
                     cartesianCoords = geometry.coordinates.map((x) => {
@@ -421,7 +421,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return true;
             } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
                 let cartesianCoords = null;
-                // // Check coordinate type
+                // Check coordinate type
                 if (geometry.coordinateType === mapStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                     // Transform coordinates from cartographic to cartesian
                     cartesianCoords = geometry.coordinates.map((x) => {
@@ -453,83 +453,40 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
-    addMeasurementLabelToGeometry(geometry, measurementType, units) {
-        // let labels = new this.cesium.LabelCollection({ scene: this.map.scene });
-        // labels.add({
-        //     position: this.cesium.Cartesian3.fromDegrees(-75.1641667, 39.9522222),
-        //     label: {
-        //         text: 'Philadelphia',
-        //         font: '242px Helvetica',
-        //         fillColor: this.cesium.Color.SKYBLUE,
-        //         outlineColor: this.cesium.Color.BLACK,
-        //         outlineWidth: 2,
-        //         style: this.cesium.LabelStyle.FILL_AND_OUTLINE
-        //     }
-        // });
-        let outputText = "";
-        let outputNumber;
-        let labelPos;
-        if (measurementType === mapStrings.MEASURE_DISTANCE) {
-            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
-                // Flatten coordinates
-                let flatCoordinates = geometry.coordinates
-                    .map(x => [x.lon, x.lat]);
+    addLabel(label, coords, opt_meta = {}) {
+        try {
+            coords = this.cesium.Cartesian3.fromDegrees(coords[0], coords[1]);
+            let result = this.createOverlayImage(label);
+            let overlay = result[0];
+            let canvas = result[1];
 
-                outputNumber = MapUtil.calculatePolylineDistance(flatCoordinates, geometry.proj);
+            //Need to wait for image to load before proceeding to draw
+            overlay.onload = () => {
+                // label options
+                let labelOptions = {
+                    id: Math.random(),
+                    position: coords,
+                    billboard: {
+                        image: canvas
+                    }
+                };
 
-                // Format outputNumber
-                outputText = MapUtil.formatDistance(outputNumber, units);
+                // store meta options
+                for (let key in opt_meta) {
+                    if (opt_meta.hasOwnProperty(key)) {
+                        labelOptions[key] = opt_meta[key];
+                    }
+                }
 
-                // Determine label position
-                // Determine position of last coordinate
-                let lastPos = geometry.coordinates.length > 1 ? geometry.coordinates[geometry.coordinates.length - 1] : geometry.coordinates[0];
-                labelPos = this.cesium.Cartesian3.fromDegrees(lastPos.lon, lastPos.lat);
-            } else {
-                console.warn("could not add distance measurement label to geometry in cesium map, unsupported geometry type ", geometry.type);
-                return false;
-            }
-        } else if (measurementType === mapStrings.MEASURE_AREA) {
-            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
-                // Flatten coordinates
-                let flatCoordinates = geometry.coordinates
-                    .map(x => [x.lon, x.lat]);
-
-                outputNumber = MapUtil.calculatePolygonArea(flatCoordinates, geometry.proj);
-                outputText = MapUtil.formatArea(outputNumber, units);
-
-                // Determine label position
-                let polygonCenter = MapUtil.calculatePolygonCenter(flatCoordinates, geometry.proj);
-                labelPos = this.cesium.Cartesian3.fromDegrees(polygonCenter[0], polygonCenter[1]);
-            } else {
-                console.warn("could not add area measurement label to geometry in cesium map, unsupported geometry type ", geometry.type);
-                return false;
-            }
-        } else {
-            console.warn("could not add measurement label to geometry in cesium map, unsupported measurementType ", measurementType);
+                // place the label
+                canvas.getContext('2d').drawImage(overlay, 0, 0);
+                this.map.entities.add(labelOptions);
+            };
+            return true;
+        } catch (err) {
+            console.warn("failed to add label to cesium map.", err);
             return false;
         }
-
-        let result = this.createOverlayImage(outputText);
-        let overlay = result[0];
-        let canvas = result[1];
-
-        //Need to wait for image to load before proceeding to draw
-        overlay.onload = () => {
-            canvas.getContext('2d').drawImage(overlay, 0, 0);
-
-            this.map.entities.add({
-                id: Math.random(),
-                interactionType: mapStrings.INTERACTION_MEASURE,
-                measurementType: measurementType,
-                meters: outputNumber,
-                position: labelPos,
-                billboard: {
-                    image: canvas
-                },
-                description: '<p>This is a cupcake that can be modified.</p>'
-            });
-        };
-        return true;
     }
 
     createOverlayImage(text) {
@@ -653,7 +610,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     // Set image of overlay
                     entity.billboard.image = overlay;
                 };
-            })
+            });
             return true;
         } catch (err) {
             console.warn("could not set cesium scale units.", err);

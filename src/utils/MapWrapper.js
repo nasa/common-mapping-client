@@ -27,7 +27,7 @@ export default class MapWrapper {
         console.warn("enableActiveListeners not implemented in subclass");
         return false;
     }
-    disableDrawing(delayDblClickEnable = true) {
+    disableDrawing(delayDblClickEnable) {
         console.warn("disableDrawing not implemented in subclass");
         return false;
     }
@@ -35,12 +35,16 @@ export default class MapWrapper {
         console.warn("enableMeasuring not implemented in subclass");
         return false;
     }
-    disableMeasuring(delayDblClickEnable = true) {
+    disableMeasuring(delayDblClickEnable) {
         console.warn("disableMeasuring not implemented in subclass");
         return false;
     }
-    addGeometry(geometry, interactionType) {
+    addGeometry(geometry, interactionType, geodesic) {
         console.warn("addGeometry not implemented in subclass");
+        return false;
+    }
+    addLabel(label, coords, options) {
+        console.warn("addLabelToGeometry not implemented in subclass");
         return false;
     }
     addMeasurementLabelToGeometry(id, measurementType, units) {
