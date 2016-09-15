@@ -735,7 +735,7 @@ const addGeometryToMap = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
         // Only add geometry to inactive maps
         if (!map.isActive) {
-            if (map.addGeometry(action.geometry, action.interactionType)) {
+            if (map.addGeometry(action.geometry, action.interactionType, action.geodesic)) {
                 return true;
             } else {
                 let contextStr = map.is3D ? "3D" : "2D";
@@ -755,10 +755,20 @@ const addGeometryToMap = (state, action) => {
 
 const addMeasurementLabelToGeometry = (state, action) => {
     let alerts = state.get("alerts");
-    // Add measurement label to each inactive map
+
+    // calculate measurement and placement
+    let measurement = MapUtil.measureGeometry(action.geometry, action.measurementType);
+    let measurementLabel = MapUtil.formatMeasurement(measurement, action.measurementType, action.units);
+    let measurementPosition = MapUtil.getLabelPosition(action.geometry);
+    let labelMeta = {
+        "meters": measurement,
+        "measurementType": action.measurementType,
+        interactionType: mapStrings.INTERACTION_MEASURE
+    };
+
     let anySucceed = state.get("maps").reduce((acc, map) => {
-        // Only add geometry to all maps since it's not done automatically for anyone
-        if (map.addMeasurementLabelToGeometry(action.geometry, action.measurementType, action.units)) {
+        // add label to all maps since it's not done automatically for anyone
+        if (map.addLabel(measurementLabel, measurementPosition, labelMeta)) {
             return true;
         } else {
             let contextStr = map.is3D ? "3D" : "2D";
@@ -860,7 +870,7 @@ const resetApplicationState = (state, action) => {
 
     // Remove all user vector geometries
     newState = removeAllDrawings(newState, {});
-        
+
     // Remove all measurements
     newState = removeAllMeasurements(newState, {});
 

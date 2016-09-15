@@ -4,6 +4,7 @@ import turfArea from 'turf-area';
 import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
+import { GreatCircle } from '../lib/arc/arc';
 import * as mapStrings from '../constants/mapStrings';
 import * as urlFunctions from './UrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
@@ -67,35 +68,54 @@ export default class MapUtil {
         return newCoords;
     }
 
-    //  deconstrain a set of coordinates
-    static deconstrainPolylineCoordinates(coordsArr) {
-        /*
-         * coordsArr:
-            [
-                [
-                    [lat, lon], [lat, lon]
-                ], ...
-            ]
-         */
+    //  deconstrain a set of coordinates from [-180, 180]
+    static deconstrainArcCoordinates(linesArr) {
+        // if there is only one polyline, then we assume no splitting has occured
+        if (linesArr.length < 2) {
+            return linesArr;
+        }
 
-        // let newCoords = coordsArr.slice(0, coordsArr.length);
+        // take first set of constrained coordinates as initial frame
+        // shift subsequent coordinates relative to those
+        let referenceLine = linesArr[0];
+        let referenceLineEnd = referenceLine[referenceLine.length - 1];
 
-        // // take first set of constrained coordinates as initial frame
-        // // shift subsequent coordinates relative to those
-        // let initialStartPoint = coordsArr[0][0];
-        // let initialEndPoint = coordsArr[0][1];
-        // let makePos = true;
-        // if(initialStartPoint[0] > 0) {
-        //     if(initialEndPoint[0] > 0) {
-        //         makePos = true;
-        //     } else {
-        //         makePos = true;
-        //     }
-        // } else if (initialEndPoint[0] > 0) {
+        let deconstrainedLine = linesArr[0].slice(0, linesArr[0].length);
+        for (let i = 1; i < linesArr.length; ++i) {
+            let line = linesArr[i];
+            let lineStart = line[0];
 
-        // } else {
-
-        // }
+            if (referenceLineEnd % 180 !== 0) {
+                if (referenceLineEnd[0] <= 0) {
+                    if (lineStart[0] >= 0) {
+                        let shiftedLine = line.map((coords) => {
+                            let shiftedCoords = coords.slice(0, coords.length);
+                            shiftedCoords[0] -= 360;
+                            return shiftedCoords;
+                        });
+                        // remove first point due to overlap
+                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    } else {
+                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
+                    }
+                } else {
+                    if (lineStart[0] <= 0) {
+                        let shiftedLine = line.map((coords) => {
+                            let shiftedCoords = coords.slice(0, coords.length);
+                            shiftedCoords[0] += 360;
+                            return shiftedCoords;
+                        });
+                        // remove first point due to overlap
+                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    } else {
+                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
+                    }
+                }
+            } else {
+                console.warn("wtf is this ending?", linesArr, referenceLineEnd);
+            }
+        }
+        return deconstrainedLine;
     }
 
     // parses a getCapabilities xml string
@@ -308,6 +328,7 @@ export default class MapUtil {
     static calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        newCoords = this.generateGeodesicArcsForLineString(coords);
         // Calculate center
         return turfCentroid({
             type: "FeatureCollection",
@@ -320,5 +341,124 @@ export default class MapUtil {
                 }
             }]
         }, "meters").geometry.coordinates;
+    }
+
+    // takes line segments endpoints and generates a set
+    // of segments representing a geodesic arc
+    // [[[lat, lon], ...], ...]
+    // assumes EPSG:4326
+    static generateGeodesicArcsForLineString(coords) {
+        let lineCoords = [];
+        for (let i = 0; i < coords.length - 1; ++i) {
+            let start = coords[i];
+            let end = coords[i + 1];
+
+            // arc doesn't play well with two points in the same place
+            if (start[0] === end[0] && start[1] === end[1]) {
+                continue;
+            }
+
+            // generate the arcs
+            let generator = new GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
+            let arcLines = generator.Arc(100, { offset: 180 }).geometries;
+
+            // shift all the arcs as part of a polyline
+            if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
+                let initialShift = 1;
+                if (lineCoords[lineCoords.length - 1][0] < 0) {
+                    initialShift = -1;
+                }
+                arcLines = arcLines.map((arc) => {
+                    let refCoord = arc.coords[0];
+                    let shift = initialShift;
+                    if (refCoord[0] <= 0) {
+                        if (initialShift <= 0) {
+                            shift = 0;
+                        } else {
+                            shift = initialShift;
+                        }
+                    } else {
+                        if (initialShift <= 0) {
+                            shift = initialShift
+                        } else {
+                            shift = 0;
+                        }
+                    }
+                    return arc.coords.map((coord) => {
+                        coord = coord.slice(0, coord.length);
+                        coord[0] += (360 * shift);
+                        return coord;
+                    });
+                });
+            } else {
+                arcLines = arcLines.map((arc) => {
+                    return arc.coords;
+                });
+            }
+
+            // wrap the arcs beyond [-180,180]
+            let arcCoords = arcLines[0];
+            if (arcLines.length >= 2) {
+                arcCoords = this.deconstrainArcCoordinates(arcLines);
+            }
+            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
+        }
+        return lineCoords;
+    }
+
+    // takes in a geometry and measurement type and
+    // returns a string measurement of that geometry
+    static measureGeometry(geometry, measurementType) {
+        let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
+        coords = this.generateGeodesicArcsForLineString(coords);
+        if (measurementType === mapStrings.MEASURE_DISTANCE) {
+            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+                return this.calculatePolylineDistance(coords, geometry.proj);
+            } else {
+                console.warn("could not measure distance, unsupported geometry type: ", geometry.type);
+                return false;
+            }
+        } else if (measurementType === mapStrings.MEASURE_AREA) {
+            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+                return this.calculatePolygonArea(coords, geometry.proj);
+            } else {
+                console.warn("could not measure area, unsupported geometry type: ", geometry.type);
+                return false;
+            }
+        } else {
+            console.warn("could not measure geometry, unsupported measurement type: ", measurementType);
+            return false;
+        }
+    }
+
+    // formats a given measurement for distance/area
+    static formatMeasurement(measurement, measurementType, units) {
+        if(measurementType === mapStrings.MEASURE_DISTANCE) {
+            return this.formatDistance(measurement, units);
+        } else if (measurementType === mapStrings.MEASURE_AREA) {
+            return this.formatArea(measurement, units);
+        } else {
+            console.warn("could not format measurement, unsupported measurement type: ", measurementType);
+            return false;
+        }
+    }
+
+    // takes in a geometry and returns the coordinates for its label
+    static getLabelPosition(geometry) {
+        if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+            let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
+            if (lastCoord) {
+                return [lastCoord.lon, lastCoord.lat];
+            } else {
+                console.warn("could not find label placement, no coordinates in geometry.");
+                return false
+            }
+        } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+            let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
+            return this.calculatePolygonCenter(coords, geometry.proj);
+        } else {
+            console.warn("could not find label placement, unsupported geometry type: ", geometry.type);
+            return false;
+        }
     }
 }

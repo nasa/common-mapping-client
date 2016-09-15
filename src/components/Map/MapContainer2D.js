@@ -75,7 +75,7 @@ export class MapContainer2D extends Component {
         // Disable measurement
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
-        this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE);
+        this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE, false);
         // Add label to geometry
         this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
