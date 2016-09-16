@@ -6,16 +6,11 @@ import * as mapStrings from '../../constants/mapStrings';
 
 export class MouseFollowerContainer extends Component {
     render() {
-        let maxLeft = window.innerWidth - 150;
+        let maxLeft = window.innerWidth - 250;
         let maxTop = window.innerHeight;
 
         let top = parseInt(this.props.pixelCoordinate.get("y"));
         let left = parseInt(this.props.pixelCoordinate.get("x")) + 25;
-
-        if(left > maxLeft) {
-            left = parseInt(this.props.pixelCoordinate.get("x")) - 150;
-        }
-
         let style = { top, left };
 
         let content = [];
