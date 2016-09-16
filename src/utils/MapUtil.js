@@ -448,14 +448,14 @@ export default class MapUtil {
         if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {
-                return [lastCoord.lon, lastCoord.lat];
+                return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
             } else {
                 console.warn("could not find label placement, no coordinates in geometry.");
                 return false;
             }
         } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
             let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
-            return this.calculatePolygonCenter(coords, geometry.proj);
+            return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
         } else {
             console.warn("could not find label placement, unsupported geometry type: ", geometry.type);
             return false;

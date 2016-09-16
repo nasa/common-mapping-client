@@ -21,7 +21,7 @@ export class MouseFollowerContainer extends Component {
         let content = [];
         if(this.props.drawing.get("isDrawingEnabled") || this.props.measuring.get("isMeasuringEnabled")) {
             // place the coordinates at the top
-            content.push("Position: (" + this.props.pixelCoordinate.get("lat").toFixed(3) + ", " + this.props.pixelCoordinate.get("lon").toFixed(3) + ")");
+            content.push("" + this.props.pixelCoordinate.get("lat").toFixed(3) + "," + this.props.pixelCoordinate.get("lon").toFixed(3) + "");
 
             // add drawing/measuring specific tag
             let referenceGroup = {};
