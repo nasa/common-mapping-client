@@ -575,6 +575,10 @@ const pixelHover = (state, action) => {
     return state.setIn(["view", "pixelHoverCoordinate"], pixelCoordinate);
 };
 
+const invalidatePixelHover = (state, action) => {
+    return state.setIn(["view", "pixelHoverCoordinate", "isValid"], false);
+};
+
 const pixelClick = (state, action) => {
     let pixelCoordinate = state.getIn(["view", "pixelClickCoordinate"]).set("isValid", false);
     state.get("maps").forEach((map) => {
@@ -950,6 +954,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.PIXEL_HOVER:
             return pixelHover(state, action);
+
+        case actionTypes.INVALIDATE_PIXEL_HOVER:
+            return invalidatePixelHover(state, action);
 
         case actionTypes.PIXEL_CLICK:
             return pixelClick(state, action);
