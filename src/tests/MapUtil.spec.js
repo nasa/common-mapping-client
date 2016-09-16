@@ -113,17 +113,25 @@ describe('Map Utils', () => {
             expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
             expect(MapUtil.formatDistance([0,1,2], 'metric')).to.equal(null);
         });
-        it('fails', () => {
-            expect(1).to.equal(0);
+        it('formats distance in meters', () => {
+            expect(MapUtil.formatDistance(0, 'metric')).to.equal('0 m');
+            expect(MapUtil.formatDistance(0.001, 'metric')).to.equal('0 m');
+            expect(MapUtil.formatDistance(0.01, 'metric')).to.equal('0.01 m');
+            expect(MapUtil.formatDistance(100, 'metric')).to.equal('100 m');
+        });
+        it('formats distance in kilometers', () => {
+            expect(MapUtil.formatDistance(100.001, 'metric')).to.equal('0.1 km');
+            expect(MapUtil.formatDistance(100.01, 'metric')).to.equal('0.1 km');
+            expect(MapUtil.formatDistance(10000000, 'metric')).to.equal('10000 km');
         });
     });
     describe('formatArea', () => {
         it('fails on bad input', () => {
-            expect(MapUtil.formatDistance(null, null)).to.equal(null);
-            expect(MapUtil.formatDistance(null, 'cats')).to.equal(null);
-            expect(MapUtil.formatDistance(null, 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance([0,1,2], 'metric')).to.equal(null);
+            expect(MapUtil.formatArea(null, null)).to.equal(null);
+            expect(MapUtil.formatArea(null, 'cats')).to.equal(null);
+            expect(MapUtil.formatArea(null, 'metric')).to.equal(null);
+            expect(MapUtil.formatArea('cats', 'metric')).to.equal(null);
+            expect(MapUtil.formatArea([0,1,2], 'metric')).to.equal(null);
         });
         it('fails', () => {
             expect(1).to.equal(0);

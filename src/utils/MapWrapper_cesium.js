@@ -493,16 +493,18 @@ export default class MapWrapper_cesium extends MapWrapper {
         let canvas = document.createElement('canvas');
         canvas.width = 300;
         canvas.height = 85;
-        let tooltipStyles = "padding-top:60px; top: -60px; text-align:center; position:relative; display:block; text-rendering: optimizeLegibility; font-family:Roboto Mono; font-size:14px; white-space: nowrap;font-family:Roboto Mono;color:black;";
-        let tooltipContentStyles = "top: 0px; position:relative; display: inline-block; background: white; border-radius: 2px;padding: 4px 8px; -webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);-moz-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);";
+        let tooltipStyles = "padding-top:60px; top: -60px; text-align:center; position:relative; display:block; text-rendering: optimizeLegibility; font-family:'Roboto Mono, sans-serif'; font-size:14px; white-space: nowrap; color:black; letter-spacing:1px";
+        let tooltipContentStyles = "font-family:Roboto Mono, Helvetica Neue, Helvetica !important; font-weight:400; !important; top: 0px; position:relative; display: inline-block; background: white; border-radius: 2px;padding: 5px 9px;";
         let tooltipAfterStyles = "border-top: 8px solid #eeeeee;border-right: 8px solid transparent;border-left: 8px solid transparent;content: '';position: absolute;bottom: -8px;margin-left: -9px;left: 50%;";
 
         let svgString = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="85">' +
             '<foreignObject width="100%" height="100%">' +
+            // '<style>@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500|Roboto+Mono:300,400,700)</style>'
             // '<div xmlns="http://www.w3.org/1999/xhtml" style="background:red">' +
             '<div xmlns="http://www.w3.org/1999/xhtml">' +
+            // '<style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto+Mono:300,400); .test{}</style>' +
             '<div style="transform:scale(1);' + tooltipStyles + '">' +
-            '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
+            '<span class="test" style="' + tooltipContentStyles + '">' + text + '</span>' +
             '<span style="' + tooltipAfterStyles + '"></span>' +
             '</div>' +
             '</div>' +
