@@ -10,7 +10,8 @@ export class MouseFollowerContainer extends Component {
         let maxTop = window.innerHeight;
 
         let top = parseInt(this.props.pixelCoordinate.get("y"));
-        let left = parseInt(this.props.pixelCoordinate.get("x")) + 25;
+        let left = parseInt(this.props.pixelCoordinate.get("x"));
+
         let style = { top, left };
 
         let content = [];
@@ -39,7 +40,8 @@ export class MouseFollowerContainer extends Component {
         }
 
         let containerClasses = MiscUtil.generateStringFromSet({
-            "hidden": !this.props.pixelCoordinate.get("isValid") || content.length === 0
+            "active": this.props.pixelCoordinate.get("isValid") && content.length !== 0,
+            "right": left > maxLeft
         });
 
         return (

@@ -46,13 +46,13 @@ export class ContextMenuSubMenu extends Component {
         let rect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
         let position = {...initialPosition };
 
-        if (rect.bottom > innerHeight) {
+        if ((rect.bottom + rect.height) > innerHeight) {
             position.bottom = true;
         } else {
             position.top = true;
         }
 
-        if (rect.right > innerWidth) {
+        if ((rect.right + rect.width) > innerWidth) {
             position.left = true;
         } else {
             position.right = true;
