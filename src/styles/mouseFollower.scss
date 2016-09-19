@@ -1,26 +1,27 @@
 #mouseFollowerContainer {
-	position: fixed;
-	z-index: -1;
-	background: rgba($color-medium-dark, 0.8);
-	color: $color-light;
-	padding: 0.5rem 1rem;
-	font-size: 1.2rem;
-	max-width: 250px;
-	word-wrap: normal;
-	border-radius: 2px;
-	margin: 0px;
-	transform: translate(25px, -50%);
-	visibility: hidden;
-	&.active {
-		visibility: visible;
-		z-index: 1;
-	}
-	&.right {
-		transform: translate(calc(-100% - 25px), -50%);
-	}
-	.mouse-follower-line.line-0 {
-		font-weight: 500;
-		margin-bottom: 0.3rem;
-		font-family: "Roboto Mono";
-	}
+    position: fixed;
+    z-index: -1;
+    background: rgba($color-medium-dark, 0.85);
+    color: $color-light;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    max-width: 250px;
+    word-wrap: normal;
+    border-radius: 2px;
+    margin: 0px;
+    transform: translate(25px, -50%);
+    visibility: hidden;
+    letter-spacing: 0.04rem;
+    &.active {
+        visibility: visible;
+        z-index: 1;
+    }
+    &.right {
+        transform: translate(calc(-100% - 25px), -50%);
+    }
+    .mouse-follower-line.line-0 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-family: "Roboto Mono";
+    }
 }
