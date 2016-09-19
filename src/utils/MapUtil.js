@@ -441,7 +441,7 @@ export default class MapUtil {
 
     // formats a given measurement for distance/area
     static formatMeasurement(measurement, measurementType, units) {
-        if(measurementType === mapStrings.MEASURE_DISTANCE) {
+        if (measurementType === mapStrings.MEASURE_DISTANCE) {
             return this.formatDistance(measurement, units);
         } else if (measurementType === mapStrings.MEASURE_AREA) {
             return this.formatArea(measurement, units);

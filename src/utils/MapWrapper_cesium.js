@@ -504,7 +504,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             '<div xmlns="http://www.w3.org/1999/xhtml">' +
             // '<style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto+Mono:300,400); .test{}</style>' +
             '<div style="transform:scale(1);' + tooltipStyles + '">' +
-            '<span class="test" style="' + tooltipContentStyles + '">' + text + '</span>' +
+            '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
             '<span style="' + tooltipAfterStyles + '"></span>' +
             '</div>' +
             '</div>' +
