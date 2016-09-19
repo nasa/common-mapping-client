@@ -111,7 +111,7 @@ describe('Map Utils', () => {
             expect(MapUtil.formatDistance(null, 'cats')).to.equal(null);
             expect(MapUtil.formatDistance(null, 'metric')).to.equal(null);
             expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance([0,1,2], 'metric')).to.equal(null);
+            expect(MapUtil.formatDistance([0, 1, 2], 'metric')).to.equal(null);
         });
         it('formats distance in meters', () => {
             expect(MapUtil.formatDistance(0, 'metric')).to.equal('0 m');
@@ -124,6 +124,36 @@ describe('Map Utils', () => {
             expect(MapUtil.formatDistance(100.01, 'metric')).to.equal('0.1 km');
             expect(MapUtil.formatDistance(10000000, 'metric')).to.equal('10000 km');
         });
+        it('formats distance in feet', () => {
+            expect(MapUtil.formatDistance(0, 'imperial')).to.equal('0 ft');
+            expect(MapUtil.formatDistance(0.001, 'imperial')).to.equal('0 ft');
+            expect(MapUtil.formatDistance(0.01, 'imperial')).to.equal('0.01 ft');
+            expect(MapUtil.formatDistance(5280, 'imperial')).to.equal('5280 ft');
+        });
+        it('formats distance in miles', () => {
+            expect(MapUtil.formatDistance(5280.001, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatDistance(5280.01, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatDistance(5281, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatDistance(5281000, 'imperial')).to.equal('1000.19 miles');
+        });
+        it('formats distance in nautical', () => {
+            expect(MapUtil.formatDistance(0, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatDistance(0.001, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatDistance(0.01, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatDistance(1852, 'nautical')).to.equal('1 nautical miles');
+            expect(MapUtil.formatDistance(1852.01, 'nautical')).to.equal('1 nautical miles');
+            expect(MapUtil.formatDistance(1933, 'nautical')).to.equal('1.04 nautical miles');
+            expect(MapUtil.formatDistance(100000, 'nautical')).to.equal('54 nautical miles');
+        });
+        it('formats distance in schoolbus', () => {
+            expect(MapUtil.formatDistance(0, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatDistance(0.001, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatDistance(0.01, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatDistance(13.716, 'schoolbus')).to.equal('1 schoolbusses');
+            expect(MapUtil.formatDistance(13.7165, 'schoolbus')).to.equal('1 schoolbusses');
+            expect(MapUtil.formatDistance(27.432, 'schoolbus')).to.equal('2 schoolbusses');
+            expect(MapUtil.formatDistance(100000, 'schoolbus')).to.equal('7290.76 schoolbusses');
+        });
     });
     describe('formatArea', () => {
         it('fails on bad input', () => {
@@ -131,10 +161,47 @@ describe('Map Utils', () => {
             expect(MapUtil.formatArea(null, 'cats')).to.equal(null);
             expect(MapUtil.formatArea(null, 'metric')).to.equal(null);
             expect(MapUtil.formatArea('cats', 'metric')).to.equal(null);
-            expect(MapUtil.formatArea([0,1,2], 'metric')).to.equal(null);
+            expect(MapUtil.formatArea([0, 1, 2], 'metric')).to.equal(null);
         });
-        it('fails', () => {
-            expect(1).to.equal(0);
+        it('formats area in meters squared', () => {
+            expect(MapUtil.formatArea(0, 'metric')).to.equal('0 m<sup>2</sup>');
+            expect(MapUtil.formatArea(0.001, 'metric')).to.equal('0 m<sup>2</sup>');
+            expect(MapUtil.formatArea(0.01, 'metric')).to.equal('0.01 m<sup>2</sup>');
+            expect(MapUtil.formatArea(100, 'metric')).to.equal('100 m<sup>2</sup>');
+        });
+        it('formats area in kilometers squared', () => {
+            expect(MapUtil.formatArea(10000.1, 'metric')).to.equal('0.01 km<sup>2</sup>');
+            expect(MapUtil.formatArea(100000, 'metric')).to.equal('0.1 km<sup>2</sup>');
+        });
+        it('formats area in feet squared', () => {
+            expect(MapUtil.formatArea(0, 'imperial')).to.equal('0 ft<sup>2</sup>');
+            expect(MapUtil.formatArea(0.001, 'imperial')).to.equal('0 ft<sup>2</sup>');
+            expect(MapUtil.formatArea(0.01, 'imperial')).to.equal('0.01 ft<sup>2</sup>');
+            expect(MapUtil.formatArea(5280, 'imperial')).to.equal('5280 ft<sup>2</sup>');
+        });
+        it('formats area in miles squared', () => {
+            expect(MapUtil.formatArea(27878400.001, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatArea(27878400.01, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatArea(27878400, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatArea(27878400, 'imperial')).to.equal('1000.19 miles');
+        });
+        it('formats area in nautical miles squared', () => {
+            expect(MapUtil.formatArea(0, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatArea(0.001, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatArea(0.01, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatArea(1852, 'nautical')).to.equal('1 nautical miles');
+            expect(MapUtil.formatArea(1852.01, 'nautical')).to.equal('1 nautical miles');
+            expect(MapUtil.formatArea(1933, 'nautical')).to.equal('1.04 nautical miles');
+            expect(MapUtil.formatArea(100000, 'nautical')).to.equal('54 nautical miles');
+        });
+        it('formats area in schoolbus squared', () => {
+            expect(MapUtil.formatArea(0, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatArea(0.001, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatArea(0.01, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatArea(13.716, 'schoolbus')).to.equal('1 schoolbusses');
+            expect(MapUtil.formatArea(13.7165, 'schoolbus')).to.equal('1 schoolbusses');
+            expect(MapUtil.formatArea(27.432, 'schoolbus')).to.equal('2 schoolbusses');
+            expect(MapUtil.formatArea(100000, 'schoolbus')).to.equal('7290.76 schoolbusses');
         });
     });
     describe('convertDistanceUnits', () => {
@@ -148,10 +215,30 @@ describe('Map Utils', () => {
         });
     });
     describe('calculatePolylineDistance', () => {
+        it('fails on null coordinate input', () => {
+            let proj = "EPSG:4326";
+            let bad1 = [null, null];
+            let bad2 = [null, null];
+            let varIn = [bad1, bad2];
+            let varOut = 0;
+            let actualOut = MapUtil.calculatePolylineDistance(varIn, proj);
+
+            expect(Math.floor(actualOut)).to.equal(varOut);
+        });
+        it('calculates distances with two identical points', () => {
+            let proj = "EPSG:4326";
+            let sfCoords = [-122.431, 37.732];
+            let sfCoords2 = [-122.431, 37.732];
+            let varIn = [sfCoords, sfCoords2];
+            let varOut = 0;
+            let actualOut = MapUtil.calculatePolylineDistance(varIn, proj);
+
+            expect(Math.floor(actualOut)).to.equal(varOut);
+        });
         it('calculates distances with two points', () => {
             let proj = "EPSG:4326";
-            let sfCoords = [-122.431,37.732];
-            let manhattanCoords = [-73.948,40.682];
+            let sfCoords = [-122.431, 37.732];
+            let manhattanCoords = [-73.948, 40.682];
             let varIn = [sfCoords, manhattanCoords];
             let varOut = 4138463;
             let actualOut = MapUtil.calculatePolylineDistance(varIn, proj);
