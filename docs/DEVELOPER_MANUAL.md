@@ -86,9 +86,19 @@ NPM modules are installed and removed using the following commands
 ```
 
 ### How to write tests
+Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`) try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format. For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
+
+1. Define an initial state/store object
+2. Define an array of actions to affect that store
+3. Dispatch the actions
+4. Define an expected state by cloning then manipulating the inital state
+5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identitcal Openlayers map instances)
+6. Compare the actual and expected states using `TestUtil.compareFullStates`
+
+CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/). Please refer to their respective documentation for syntactic aid etc.
 
 ### How the analytics work (briefly, will be covered in separate example)
-
+The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed, the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
 
 ### Bundled Packages
 Main tech under the hood
