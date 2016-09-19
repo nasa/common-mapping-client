@@ -21,7 +21,7 @@ export const SCALE_OPTIONS = [
     { value: 'metric', label: 'Metric', abbrev: 'm/km', qtyType: 'm'},
     { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi', qtyType: 'ft'},
     { value: 'nautical', label: 'Nautical', abbrev: 'nmi', qtyType: 'nmi'},
-    { value: 'schoolbus', label: 'Schoolbus', abbrev: '', qtyType: 'm' }
+    { value: 'schoolbus', label: 'Schoolbus', abbrev: '', toMeters: 13.72 }
 ];
 export const GEOMETRY_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
 export const GEOMETRY_STROKE_COLOR = "rgba(255, 204, 0, 1)";

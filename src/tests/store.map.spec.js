@@ -849,7 +849,7 @@ describe('Store - Map', function() {
             },
             radius: 100,
             id: Math.random()
-        }
+        };
 
         let geometryLineString = {
             type: mapStrings.GEOMETRY_LINE_STRING,
@@ -866,7 +866,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         let geometryPolygon = {
             type: mapStrings.GEOMETRY_POLYGON,
@@ -883,7 +883,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         // add geometries
         const finalActions = [
@@ -938,7 +938,7 @@ describe('Store - Map', function() {
             },
             radius: 100,
             id: Math.random()
-        }
+        };
 
         let geometryLineString = {
             type: mapStrings.GEOMETRY_LINE_STRING,
@@ -955,7 +955,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         let geometryPolygon = {
             type: mapStrings.GEOMETRY_POLYGON,
@@ -972,7 +972,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         // add geometries
         const finalActions = [
@@ -1025,7 +1025,7 @@ describe('Store - Map', function() {
             },
             radius: 100,
             id: Math.random()
-        }
+        };
 
         // add geometries to 2D and 3D maps
         const nextActions = [
@@ -1093,7 +1093,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         // add geometries to 2D and 3D maps and then add label
         const finalActions = [
@@ -1161,7 +1161,7 @@ describe('Store - Map', function() {
                 lat: -20
             }],
             id: Math.random()
-        }
+        };
 
         // add geometries to 2D and 3D maps and then add label
         const finalActions = [
