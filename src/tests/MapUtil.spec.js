@@ -124,6 +124,27 @@ describe('Map Utils', () => {
             expect(MapUtil.formatDistance(100.01, 'metric')).to.equal('0.1 km');
             expect(MapUtil.formatDistance(10000000, 'metric')).to.equal('10000 km');
         });
+        it('formats distance in feet', () => {
+            expect(MapUtil.formatDistance(0, 'imperial')).to.equal('0 ft');
+            expect(MapUtil.formatDistance(0.01, 'imperial')).to.equal('0.03 ft');
+            expect(MapUtil.formatDistance(1, 'imperial')).to.equal('3.28 ft');
+            expect(MapUtil.formatDistance(100, 'imperial')).to.equal('328.08 ft');
+            expect(MapUtil.formatDistance(304.8, 'imperial')).to.equal('1000 ft');
+        });
+        it('formats distance in miles', () => {
+            expect(MapUtil.formatDistance(1609.344, 'imperial')).to.equal('1 miles');
+            expect(MapUtil.formatDistance(160934, 'imperial')).to.equal('100 miles');
+        });
+        it('formats distance in nautical miles', () => {
+            expect(MapUtil.formatDistance(0, 'nautical')).to.equal('0 nautical miles');
+            expect(MapUtil.formatDistance(1000, 'nautical')).to.equal('0.54 nautical miles');
+            expect(MapUtil.formatDistance(1852, 'nautical')).to.equal('1 nautical miles');
+        });
+        it('formats distance in school buses', () => {
+            expect(MapUtil.formatDistance(0, 'schoolbus')).to.equal('0 schoolbusses');
+            expect(MapUtil.formatDistance(1000, 'schoolbus')).to.equal('72.91 schoolbusses');
+            expect(MapUtil.formatDistance(123, 'schoolbus')).to.equal('8.97 schoolbusses');
+        });
     });
     describe('formatArea', () => {
         it('fails on bad input', () => {

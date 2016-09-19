@@ -224,6 +224,7 @@ export default class MapUtil {
             return output;
         } else if (units === 'imperial') {
             let output = "";
+            distance = distance * 3.28084;
             if (distance > 5280) {
                 output = (Math.round(distance / 5280 * 100) / 100) + ' ' + 'miles';
             } else {

@@ -28,11 +28,11 @@ export function catsIntercept_OL(options) {
     if (typeof tile._origGetImageFunc === "undefined") {
         tile._origGetImageFunc = tile.getImage;
 
-        // fb() == getImage() in minified ol3 code
+        // $a() == getImage() in minified ol3 code
+        // TODO: this function must be updated if openlayers is updated
         // do NOT use an arrow function (loses context)
         let tileSize = catSizes[Math.floor(Math.random() * (catSizes.length - 1)) + 1];
         let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
-        console.log(tile);
         tile.getImage = tile.$a = function(optContext) {
             let node = this._origGetImageFunc(optContext);
             node.src = url;
