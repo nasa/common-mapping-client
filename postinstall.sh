@@ -6,7 +6,7 @@ cp -r ./node_modules/cesium/Build/Cesium/* ./src/lib/cesium/
 cp -r ./src/lib/cesium/* ./public
 
 # Copy Cesium-drawhelper
-cp -r ./src/lib/Cesium-drawhelper-master ./public
+cp -r ./src/lib/cesium-drawhelper-master ./public
 
 # Remove styles lib
 rm -rf ./src/styles/lib && mkdir ./src/styles/lib
