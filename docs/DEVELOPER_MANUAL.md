@@ -54,9 +54,11 @@ that state machine and creates a single data flow path to keep everything cohere
 that follow [Google's Material Design Standards](https://material.google.com/). We use it to make things look nice easily
 
 ### Quick D3 overview (regarding how we use it)
-[D3](https://d3js.org/) is a big, powerful library. We use it to handle large, dynamic data processing and interactions. This
-is mainly comprised of the TimeSlider and associated components. Basically, it renders SVGs really well and has a bunch of
-useful math built in.
+[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for 
+renering the TimeAxis and assocaited components, though it has capabilities far beyond that which we encourage you to use.
+In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We
+create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
+sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
 
 ### Brief Overview of Application Directory 
 ```
