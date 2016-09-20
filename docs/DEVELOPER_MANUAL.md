@@ -47,7 +47,8 @@ It's like CSS, but better. You can define variables and stuff. No really, [check
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
 modules. Those modules then base their rendering on a state machine you define for them and React takes care of
 efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes
-that state machine and creates a single data flow path to keep everything coherent.
+that state machine and creates a single data flow path to keep everything coherent. In general, try to keep
+every aspect of the rendering located and editable in the state.
 
 ### Quick React Toolbox overview
 [React-Toolbox](http://react-toolbox.com/) is a library of what I will call "React-Compliant" UI components

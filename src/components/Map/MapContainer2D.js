@@ -80,15 +80,6 @@ export class MapContainer2D extends Component {
         this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
 
-    handleEscapeKeyPress() {
-        if (this.props.isDrawingEnabled) {
-            this.props.actions.disableDrawing();
-        }
-        if (this.props.isMeasuringEnabled) {
-            this.props.actions.disableMeasuring();
-        }
-    }
-
     handleEnterKeyPress() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
@@ -117,7 +108,6 @@ export class MapContainer2D extends Component {
         return (
             <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D" />
-                <KeyHandler keyEventName={KEYUP} keyValue="Escape" onKeyHandle={(evt) => this.handleEscapeKeyPress()} />
                 <KeyHandler keyEventName={KEYUP} keyValue="Enter" onKeyHandle={(evt) => this.handleEnterKeyPress()} />
             </div>
         );
