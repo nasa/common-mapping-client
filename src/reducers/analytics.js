@@ -73,10 +73,10 @@ const processAction = (state, action) => {
 };
 
 const sendAnalyticsBatch = (state, action) => {
-    if(state.get("currentBatch").size > 0) {
+    if (state.get("currentBatch").size > 0) {
         // convert the current batch to a string
         let batch = JSON.stringify({ data: state.get("currentBatch") });
-            // post the batch
+        // post the batch
         fetch(appConfig.ANALYTICS_ENDPOINT, {
             method: 'POST',
             mode: 'cors',
@@ -84,7 +84,6 @@ const sendAnalyticsBatch = (state, action) => {
                 'Content-Type': 'application/json'
             },
             body: batch
-                // body: JSON.stringify({ test: 1 })
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
