@@ -21,6 +21,7 @@ import DatePickerContainer from '../DatePicker/DatePickerContainer';
 import AppBarContainer from '../AppBar/AppBarContainer';
 import LayerMenuContainer from '../LayerMenu/LayerMenuContainer';
 import MouseFollowerContainer from '../MouseFollower/MouseFollowerContainer';
+import AnalyticsContainer from '../Analytics/AnalyticsContainer';
 import '../../styles/styles.scss';
 
 export class AppContainer extends Component {
@@ -76,6 +77,7 @@ export class AppContainer extends Component {
                 <LoadingContainer />
                 <MapContextMenu />
                 <MouseFollowerContainer />
+                <AnalyticsContainer />
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
             </div>
         );

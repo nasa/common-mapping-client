@@ -9,5 +9,5 @@ export const analyticsState = Immutable.fromJS({
     isEnabled: analyticsEnabled,
     currentBatch: [],
     timeLastSent: new Date(),
-    currBatchNum: 0
+    sequenceIndex: 0
 });

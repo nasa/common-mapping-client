@@ -56,16 +56,23 @@ const processAction = (state, action) => {
     // create and store the analytic
     let analytic = {
         sessionId: appConfig.SESSION_ID,
-        sequenceId: state.get("currBatchNum"),
+        sequenceId: state.get("sequenceIndex"),
+        time: new Date().toISOString(),
         action: action
     };
-    state = state.set("currentBatch", state.get("currentBatch").push(analytic));
+    state = state
+        .set("currentBatch", state.get("currentBatch").push(analytic))
+        .set("sequenceIndex", state.get("sequenceIndex") + 1);
 
-    // send batches every 5 seconds or whenever 10 actions are gathered
-    let then = state.get("timeLastSent");
-    let now = new Date();
-    if (now - then >= appConfig.ANALYTICS_BATCH_WAIT_TIME_MS ||
-        state.get("currentBatch").size >= appConfig.ANALYTICS_BATCH_SIZE) {
+    // send batches when 10 actions are gathered
+    if (state.get("currentBatch").size >= appConfig.ANALYTICS_BATCH_SIZE) {
+        return sendAnalyticsBatch(state, action);
+    }
+    return state;
+};
+
+const sendAnalyticsBatch = (state, action) => {
+    if(state.get("currentBatch").size > 0) {
         // convert the current batch to a string
         let batch = JSON.stringify(state.get("currentBatch"));
 
@@ -74,7 +81,7 @@ const processAction = (state, action) => {
             method: 'POST',
             body: batch
         }).then(function(response) {
-            if(response.status >= 400) {
+            if (response.status >= 400) {
                 throw new Error("Bad response from server");
             }
             console.log("Stored analytic batch: SUCCESS.");
@@ -84,11 +91,9 @@ const processAction = (state, action) => {
 
         // clear the current batch and update the sent time
         state = state
-            .set("currBatchNum", state.get("currBatchNum") + 1)
             .set("currentBatch", Immutable.List())
             .set("timeLastSent", new Date());
     }
-
     return state;
 };
 
@@ -101,6 +106,8 @@ export default function analytics(state = analyticsState, action) {
     switch (action.type) {
         case actionTypes.SET_ANALYTICS_ENABLED:
             return setAnalyticsEnabled(state, action);
+        case actionTypes.SEND_ANALYTICS_BATCH:
+            return sendAnalyticsBatch(state, action);
         default:
             return processAction(state, action);
     }
