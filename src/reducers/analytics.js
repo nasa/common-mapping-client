@@ -84,6 +84,7 @@ const processAction = (state, action) => {
 
         // clear the current batch and update the sent time
         state = state
+            .set("currBatchNum", state.get("currBatchNum") + 1)
             .set("currentBatch", Immutable.List())
             .set("timeLastSent", new Date());
     }

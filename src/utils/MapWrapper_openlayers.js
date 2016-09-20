@@ -581,6 +581,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
                         let prev = acc[i - 1];
+                        el = MapUtil.constrainCoordinates(el);
                         if(!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
                             acc.push(el);
                         }
@@ -599,6 +600,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
                         let prev = acc[i - 1];
+                        el = MapUtil.constrainCoordinates(el);
                         if(!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
                             acc.push(el);
                         }
