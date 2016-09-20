@@ -4,18 +4,18 @@
     padding: 0px 0.3rem;
     input {
         font-family: "Roboto Mono";
-    	text-align: center;
+        text-align: center;
         font-weight: 300;
-    	padding: 0.2rem 0px;
+        padding: 0.2rem 0px;
     }
     [data-react-toolbox="input"] {
-    	padding: 0px;
+        padding: 0px;
     }
-    [data-react-toolbox="input"]::after{
-    	display: none;
+    [data-react-toolbox="input"]::after {
+        display: none;
     }
     [data-react-toolbox="autocomplete"] {
-    	padding: 0px;
+        padding: 0px;
     }
     [data-react-toolbox="autocomplete"] ul {
         color: $color-dark;
@@ -24,10 +24,12 @@
         margin-bottom: 2.5rem;
     }
 }
+
 .date-picker-selection-increment {
-	opacity: 0;
-	transition: opacity 0.1s linear 0s;
+    opacity: 0;
+    transition: opacity 0.1s linear 0s;
 }
+
 .date-picker-selection-increment button {
     font-size: 1.15rem;
     padding: 0.3rem;
@@ -38,11 +40,11 @@
     text-align: center;
 }
 
-.date-picker-selection-increment button > [data-react-toolbox="font-icon"] { 
+.date-picker-selection-increment button > [data-react-toolbox="font-icon"] {
     margin: 0px;
     height: auto;
     font-size: 3rem;
-    line-height: 1rem;
+    line-height: 1rem !important;
 }
 
 #datePickerContainer {
@@ -60,5 +62,5 @@
 }
 
 #datePickerContainer:hover .date-picker-selection-increment {
-	opacity: 1;
+    opacity: 1;
 }
