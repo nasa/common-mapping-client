@@ -25,13 +25,17 @@ as a starting point.
 ### How do you determine what features should or shouldn't be in CMC?
 CMC is not a final, user-facing application. CMC is a foundation on which to build more specific applications. Because of that, what is and is not part of the CMC core is an ongoing discussion, but the general idea is that if the majority of applications CMC is intended to support require a certain functionality, (such as shareable urls or setting layer opacity), then CMC should include it. It is important to be able to exclude certain functionalities from CMC in order to keep CMC as thin as possible, that way developers can spend more time creating and less time removing unwanted features.
 
+### When to use CMC?
+
+### When not to use CMC?
+
 ### What are the Example projects in CMC?
 Example projects are small applications that build one or two features on top of CMC. We use the example projects to demonstrate:
 
 * CMC's flexibility and power
 * How a feature could be integrated into your project
-* Explore new techniques of data vizualization and interaction
-* Explore new User interactions and workflows
+* Explorations of new techniques of data vizualization and interaction
+* Explorations of new user interactions and workflows
 
 ### What are the major functionalities CMC provides?
 * 2D/3D Map library abstraction
@@ -40,12 +44,14 @@ Example projects are small applications that build one or two features on top of
 * Configurable map projection
 * Vector layer support
 * Map extent synchronization across all maps (2D and 3D)
+* Geodesic map geometry synchronization across all maps (2D and 3D)
 * Global time, time widget, and interactive timeslider
 * Adjustable map layer cache
 * Shareable/loadable application state via url parameters with share widget (facebook, twitter, email, google plus)
 * Core set of UI elements necessary for most basic applications
 * Basemap switching
 * Basic shape drawing tools in 2D and 3D
+* Basic geodesic measurement (distance and area) tools in 2D and 3D
 * Display help documentation from markdown files
 
 
