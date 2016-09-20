@@ -16,5 +16,6 @@
 * Draggable, expandable, hideable scalebar?
 * Storing, retrieving, displaying, querying, etc. analytics
 * Potentially a more complex, full-ish walkthrough for a non-trivial app? Like a viewer for CORAL data.
+* Mobile display
 
 # Projects that used CMC to get started
