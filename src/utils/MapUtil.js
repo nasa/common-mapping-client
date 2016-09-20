@@ -209,79 +209,88 @@ export default class MapUtil {
     }
 
     // Formats distance according to units
+    // input assumed in correct base units (meters/feet vs kilometers/miles)
     static formatDistance(distance, units) {
         // Type check on distance
         if (typeof distance !== 'number') {
             return null;
         }
+
         if (units === 'metric') {
-            let output = "";
-            if (distance > 100) {
-                output = (Math.round(distance / 1000 * 100) / 100) + ' ' + 'km';
+            if (Math.abs(distance) >= 1000) {
+                return (distance / 1000).toFixed(2) + ' km';
             } else {
-                output = (Math.round(distance * 100) / 100) + ' ' + 'm';
+                return distance.toFixed(2) + ' m';
             }
-            return output;
         } else if (units === 'imperial') {
-            let output = "";
-            if (distance > 5280) {
-                output = (Math.round(distance / 5280 * 100) / 100) + ' ' + 'miles';
+            if (Math.abs(distance) >= 5280) {
+                return (distance / 5280).toFixed(2) + ' mi';
             } else {
-                output = (Math.round(distance * 100) / 100) + ' ' + 'ft';
+                return distance.toFixed(2) + ' ft';
             }
-            return output;
         } else if (units === 'nautical') {
-            distance = distance / 1852;
-            return (Math.round(distance * 100) / 100) + " nautical miles";
+            return distance.toFixed(2) + ' nmi';
         } else if (units === 'schoolbus') {
-            distance = distance / 13.716;
-            return (Math.round(distance * 100) / 100) + ' ' + 'schoolbusses';
+            return distance.toFixed(2) + ' schoolbusses';
         } else {
             return null;
         }
     }
 
     // Formats area according to units
+    // input assumed in correct base units (meters/feet vs kilometers/miles)
     static formatArea(area, units) {
         // Type check on area
         if (typeof area !== 'number') {
             return null;
         }
+
         if (units === 'metric') {
-            let output = "";
-            if (area > 10000) {
-                output = (Math.round(area / 1000000 * 100) / 100) + ' ' + 'km' + '<sup>2</sup>';
+            if (Math.abs(area) >= 1000000) {
+                return (area / 1000000).toFixed(2) + ' km<sup>2</sup>';
             } else {
-                output = (Math.round(area * 100) / 100) + ' ' + 'm' + '<sup>2</sup>';
+                return area.toFixed(2) + ' m<sup>2</sup>';
             }
-            return output;
         } else if (units === 'imperial') {
-            let output = "";
-            if (area > 27878400) {
-                output = (Math.round(area / 27878400 * 100) / 100) + ' ' + 'miles' + '<sup>2</sup>';
+            if (Math.abs(area) >= 27878400) {
+                return (area / 27878400).toFixed(2) + ' mi<sup>2</sup>';
             } else {
-                output = (Math.round(area * 100) / 100) + ' ' + 'ft' + '<sup>2</sup>';
+                return area.toFixed(2) + ' ft<sup>2</sup>';
             }
-            return output;
         } else if (units === 'nautical') {
-            area = area / (1852 * 1852);
-            return (Math.round(area * 100) / 100) + " nautical miles<sup>2</sup>";
+            return area.toFixed(2) + ' nmi<sup>2</sup>';
         } else if (units === 'schoolbus') {
-            area = area / (13.716 * 13.716);
-            return (Math.round(area * 100) / 100) + ' ' + 'schoolbusses' + '<sup>2</sup>';
+            return area.toFixed(2) + ' schoolbusses<sup>2</sup>';
         } else {
-            return "Invalid Units";
+            return null;
         }
     }
 
     // Converts area units
+    // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertAreaUnits(value, units) {
-        return Qty(value, 'm^2').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType + '^2').scalar;
+        let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
+        if(units === 'schoolbus') {
+            return value / Math.pow(unitEntry.toMeters, 2);
+        } else {
+            return Qty(value, 'm^2').to(unitEntry.qtyType + '^2').scalar;
+        }
     }
 
     // Converts distance units
+    // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertDistanceUnits(value, units) {
-        return Qty(value, 'm').to(MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units).qtyType).scalar;
+        let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
+        if(units === 'schoolbus') {
+            return value / unitEntry.toMeters;
+        } else {
+            return Qty(value, 'm').to(unitEntry.qtyType).scalar;
+        }
+    }
+
+    // remove trailing zeros from fixed width float string
+    static trimFloatString(value) {
+        return parseFloat(value).toString();
     }
 
 
@@ -328,7 +337,6 @@ export default class MapUtil {
     static calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
-        newCoords = this.generateGeodesicArcsForLineString(coords);
         // Calculate center
         return turfCentroid({
             type: "FeatureCollection",
@@ -455,6 +463,7 @@ export default class MapUtil {
             }
         } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
             let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
+            coords = this.generateGeodesicArcsForLineString(coords);
             return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
         } else {
             console.warn("could not find label placement, unsupported geometry type: ", geometry.type);
