@@ -38,10 +38,28 @@ NPM modules are installed and removed using the following commands
 * Remove a package : `npm remove <package_name> --save`
 
 ### Build system overview via webpack including Cesium loading
+[It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup)
+
 ### Quick SASS overview
+It's like CSS, but better. You can define variables and stuff. No really, [check it out](http://sass-lang.com/)
+
 ### Quick React/Redux overview (in general + our set up)
+[The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
+modules. Those modules then base their rendering on a state machine you define for them and React takes care of
+efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes
+that state machine and creates a single data flow path to keep everything coherent.
+
 ### Quick React Toolbox overview
+[React-Toolbox](http://react-toolbox.com/) is a library of what I will call "React-Compliant" UI components
+that follow [Google's Material Design Standards](https://material.google.com/). We use it to make things look nice easily
+
 ### Quick D3 overview (regarding how we use it)
+[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for 
+renering the TimeAxis and assocaited components, though it has capabilities far beyond that which we encourage you to use.
+In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We
+create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
+sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
+
 ### Brief Overview of Application Directory 
 ```
 .
@@ -86,7 +104,9 @@ NPM modules are installed and removed using the following commands
 ```
 
 ### How to write tests
-Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`) try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format. For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
+Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`)
+try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format.
+For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
 
 1. Define an initial state/store object
 2. Define an array of actions to affect that store
@@ -95,10 +115,13 @@ Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framew
 5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identitcal Openlayers map instances)
 6. Compare the actual and expected states using `TestUtil.compareFullStates`
 
-CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/). Please refer to their respective documentation for syntactic aid etc.
+CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
+Please refer to their respective documentation for syntactic aid etc.
 
 ### How the analytics work (briefly, will be covered in separate example)
-The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed, the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
+The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
+each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
+the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
 
 ### Bundled Packages
 Main tech under the hood
