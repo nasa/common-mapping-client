@@ -51,7 +51,7 @@ who have the same problem down the road may find a solution faster.
 
 #### Documentation Shortcut
 
-* [FAQ](LINK TO FAQ)
+* [FAQ](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/FAQ.md)
 * [Developer Guide](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
 * [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
 
