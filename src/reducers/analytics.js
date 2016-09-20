@@ -15,6 +15,7 @@ const EXCLUDED_ACTIONS = new Immutable.List([
     actionTypes.INGEST_LAYER_CONFIG,
     actionTypes.MERGE_LAYERS,
     actionTypes.PIXEL_HOVER,
+    actionTypes.INVALIDATE_PIXEL_HOVER,
     actionTypes.INGEST_LAYER_PALETTES,
 
     // Async Actions
@@ -67,14 +68,18 @@ const processAction = (state, action) => {
     if (now - then >= appConfig.ANALYTICS_BATCH_WAIT_TIME_MS ||
         state.get("currentBatch").size >= appConfig.ANALYTICS_BATCH_SIZE) {
         // convert the current batch to a string
-        let batch = JSON.stringify(state.get("currentBatch"));
-
-        // post the batch
+        let batch = JSON.stringify({ data: state.get("currentBatch") });
+            // post the batch
         fetch(appConfig.ANALYTICS_ENDPOINT, {
             method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: batch
+                // body: JSON.stringify({ test: 1 })
         }).then(function(response) {
-            if(response.status >= 400) {
+            if (response.status >= 400) {
                 throw new Error("Bad response from server");
             }
             console.log("Stored analytic batch: SUCCESS.");

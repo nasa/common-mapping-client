@@ -32,7 +32,7 @@ export const MONTH_ARRAY = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Au
 export const DAY_ARRAY = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 
 // Analytics
-export const ANALYTICS_ENDPOINT = "http://localhost:3000";
+export const ANALYTICS_ENDPOINT = "http://localhost:3050/test";
 export const ANALYTICS_BATCH_WAIT_TIME_MS = 5000;
 export const ANALYTICS_BATCH_SIZE = 10;
 export const SESSION_ID = (() => {
