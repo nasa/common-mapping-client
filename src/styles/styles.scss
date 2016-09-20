@@ -122,7 +122,7 @@ button[data-react-toolbox="button"] {
 }
 
 button > .material-icons[data-react-toolbox="font-icon"] {
-    line-height: 1;
+    line-height: 1 !important;
 }
 
 button.small {
@@ -311,10 +311,10 @@ button .button-icon-right {
 
 .context-menu-icon,
 .context-menu-item > [data-react-toolbox="font-icon"] {
-    margin: 0px;
-    line-height: 3.6rem;
+    margin: 0;
+    line-height: 3.6rem !important;
     margin-right: 1rem;
-    font-size: 2rem;
+    font-size: 2rem !important;
     vertical-align: middle;
 }
 
