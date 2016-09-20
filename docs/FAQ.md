@@ -26,8 +26,10 @@ as a starting point.
 CMC is not a final, user-facing application. CMC is a foundation on which to build more specific applications. Because of that, what is and is not part of the CMC core is an ongoing discussion, but the general idea is that if the majority of applications CMC is intended to support require a certain functionality, (such as shareable urls or setting layer opacity), then CMC should include it. It is important to be able to exclude certain functionalities from CMC in order to keep CMC as thin as possible, that way developers can spend more time creating and less time removing unwanted features.
 
 ### When to use CMC?
+CMC is suitable for complex production applications centered around maps and geospatial data. Ideally, these applications build on top of CMC without having to re-write a significant portion of the core code. Examples: Data preview and subsetters (HiTIDE, SMAP-hub, Methane Portal), planetary exploration tools (Marstrek, Vestatrek, etc.), and others that require the large set of underlying functionalities that CMC provides.
 
 ### When not to use CMC?
+Unless you are already fairly comfortable with CMC architechture and development practices, small and very experimental demo projects would be more easily and more quickly developed without CMC. Examples: Quick, experimental Cesium demos, map tools requiring a single map and little to no complex interaction with the map, and other quick tools that do not require a significant amount of the CMC-core functionalities.
 
 ### What are the Example projects in CMC?
 Example projects are small applications that build one or two features on top of CMC. We use the example projects to demonstrate:
