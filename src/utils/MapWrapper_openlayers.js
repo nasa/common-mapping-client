@@ -577,17 +577,37 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
                     let geom = opt_geom ? opt_geom : new ol.geom.LineString();
-                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(coords);
+
+                    // remove duplicates
+                    let newCoords = coords.reduce((acc, el, i) => {
+                        let prev = acc[i - 1];
+                        if(!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
+                            acc.push(el);
+                        }
+                        return acc;
+                    }, []);
+
+                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates(lineCoords);
-                    geom.set("originalCoordinates", coords, true);
+                    geom.set("originalCoordinates", newCoords, true);
                     return geom;
                 };
                 let measureAreaGeom = (coords, opt_geom) => {
                     coords = coords[0]; // TODO: find case where this isn't what we want
                     let geom = opt_geom ? opt_geom : new ol.geom.Polygon();
-                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(coords);
+
+                    // remove duplicates
+                    let newCoords = coords.reduce((acc, el, i) => {
+                        let prev = acc[i - 1];
+                        if(!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
+                            acc.push(el);
+                        }
+                        return acc;
+                    }, []);
+
+                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates([lineCoords]);
-                    geom.set("originalCoordinates", coords, true);
+                    geom.set("originalCoordinates", newCoords, true);
                     return geom;
                 };
 
