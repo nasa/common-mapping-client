@@ -29,6 +29,11 @@ export const ALERTS = {
         formatString: "Failed to load initial data for this application.",
         severity: 5
     },
+    URL_CONFIG_FAILED: {
+        title: "Loading from URL Failed",
+        formatString: "Failed to load application state configuration from url parameters.",
+        severity: 4
+    },
     LAYER_ACTIVATION_FAILED: {
         title: "Layer Activation Failed",
         formatString: "Activating {LAYER} on the {MAP} map failed.",

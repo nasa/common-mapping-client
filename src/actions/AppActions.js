@@ -4,6 +4,7 @@ import * as mapConfig from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';
+import * as AlertActions from './AlertActions';
 import moment from 'moment';
 
 export function completeInitialLoad() {
@@ -59,6 +60,12 @@ export function runUrlConfig(params) {
             return dispatch(translateUrlParamToActionDispatch(param));
         })).catch((err) => {
             console.warn("Error in AppActions.runUrlConfig:", err);
+            dispatch(AlertActions.addAlert({
+                title: appStrings.ALERTS.URL_CONFIG_FAILED.title,
+                body: appStrings.ALERTS.URL_CONFIG_FAILED.formatString,
+                severity: appStrings.ALERTS.URL_CONFIG_FAILED.severity,
+                time: new Date()
+            }));
         });
     };
 }
