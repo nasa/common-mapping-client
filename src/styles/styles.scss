@@ -101,6 +101,12 @@ hr.divider.dark {
     word-wrap: break-word;
 }
 
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .text-uppercase {
     text-transform: uppercase;
 }

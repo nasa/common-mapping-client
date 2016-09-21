@@ -84,7 +84,7 @@ export class AppContainer extends Component {
                 <MapContextMenu />
                 <MouseFollowerContainer />
                 <AnalyticsContainer />
-                <ReactTooltip effect="solid" globalEventOff="click" delayShow={750} />
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={600} />
             </div>
         );
     }
