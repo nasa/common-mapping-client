@@ -3,6 +3,7 @@
     padding: 0.7rem 0.5rem 0.7rem 0rem;
     width: 100%;
     margin: 0px;
+    overflow: hidden;
     border-bottom: 1px solid $color-medium-light;
     display: block;
     &:last-child {
@@ -147,17 +148,12 @@
     .opacity-slider-container {
         z-index: -1;
         opacity: 0;
-        display: none;
         visibility: hidden;
         border-radius: 2px;
         background: $color-light;
         // border: 1px solid $color-primary;
         transition: opacity 0.2s linear 0s, visibility 0s linear 0.21s, z-index 0.21s linear 0s;
         @include medium-shadow();
-    }
-    &.active .position-controls-container,
-    &.active .opacity-slider-container {
-        display: flex;
     }
     .opacity-slider-container.active,
     .position-controls-container.active {
