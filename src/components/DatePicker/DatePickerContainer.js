@@ -113,11 +113,11 @@ export class DatePickerContainer extends Component {
                 <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowRight" onKeyHandle={() => this.beginAutoIncrement(true)} />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={() => this.endAutoIncrement()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementResolution("months")} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementResolution("days")} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="z" onKeyHandle={() => this.setAutoIncrementResolution("months")} />
+                <KeyHandler keyEventName={KEYUP} keyValue="z" onKeyHandle={() => this.setAutoIncrementResolution("days")} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Control" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_FAST)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_SLOW)} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_FAST)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_SLOW)} />
                 <div className="date-picker-selection col-xs-5">
                     <div className="date-picker-selection-increment">
                         <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
@@ -126,6 +126,7 @@ export class DatePickerContainer extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("years", value)}
                       label=""
+                      tabIndex="1"
                       multiple={false}
                       source={appConfig.YEAR_ARRAY}
                       value={year}
@@ -142,6 +143,7 @@ export class DatePickerContainer extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("months", value)}
                       label=""
+                      tabIndex="2"
                       multiple={false}
                       source={appConfig.MONTH_ARRAY}
                       value={month}
@@ -158,6 +160,7 @@ export class DatePickerContainer extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("days", value)}
                       label=""
+                      tabIndex="3"
                       multiple={false}
                       source={appConfig.DAY_ARRAY}
                       value={day}

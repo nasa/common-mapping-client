@@ -33,8 +33,10 @@ export class ResolutionStep extends Component {
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(true) : false;}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(false) : false;}} />
+                {/*<KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(true) : false;}} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(false) : false;}} />*/}
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary
