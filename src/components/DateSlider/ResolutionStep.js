@@ -62,8 +62,7 @@ export class ResolutionStep extends Component {
                     icon="filter_list"
                     data-tip="Adjust the slider resolution"
                     data-place="left"
-                >
-                </IconButton>
+                />
             </div>
         );
     }

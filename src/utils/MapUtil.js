@@ -231,7 +231,7 @@ export default class MapUtil {
         } else if (units === 'nautical') {
             return distance.toFixed(2) + ' nmi';
         } else if (units === 'schoolbus') {
-            return distance.toFixed(2) + ' schoolbusses';
+            return distance.toFixed(2) + ' school buses';
         } else {
             return null;
         }
@@ -260,7 +260,7 @@ export default class MapUtil {
         } else if (units === 'nautical') {
             return area.toFixed(2) + ' nmi<sup>2</sup>';
         } else if (units === 'schoolbus') {
-            return area.toFixed(2) + ' schoolbusses<sup>2</sup>';
+            return area.toFixed(2) + ' school buses<sup>2</sup>';
         } else {
             return null;
         }

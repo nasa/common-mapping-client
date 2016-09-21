@@ -142,9 +142,9 @@ describe('Map Utils', () => {
             expect(MapUtil.formatDistance(-123.543, 'nautical')).to.equal('-123.54 nmi');
         });
         it('formats distance in school buses', () => {
-            expect(MapUtil.formatDistance(0, 'schoolbus')).to.equal('0.00 schoolbusses');
-            expect(MapUtil.formatDistance(1000, 'schoolbus')).to.equal('1000.00 schoolbusses');
-            expect(MapUtil.formatDistance(123.543, 'schoolbus')).to.equal('123.54 schoolbusses');
+            expect(MapUtil.formatDistance(0, 'schoolbus')).to.equal('0.00 school buses');
+            expect(MapUtil.formatDistance(1000, 'schoolbus')).to.equal('1000.00 school buses');
+            expect(MapUtil.formatDistance(123.543, 'schoolbus')).to.equal('123.54 school buses');
         });
     });
     describe('formatArea', () => {
@@ -181,9 +181,9 @@ describe('Map Utils', () => {
             expect(MapUtil.formatArea(0.1245, 'nautical')).to.equal('0.12 nmi<sup>2</sup>');
         });
         it('formats area in school buses', () => {
-            expect(MapUtil.formatArea(0, 'schoolbus')).to.equal('0.00 schoolbusses<sup>2</sup>');
-            expect(MapUtil.formatArea(1235, 'schoolbus')).to.equal('1235.00 schoolbusses<sup>2</sup>');
-            expect(MapUtil.formatArea(0.1245, 'schoolbus')).to.equal('0.12 schoolbusses<sup>2</sup>');
+            expect(MapUtil.formatArea(0, 'schoolbus')).to.equal('0.00 school buses<sup>2</sup>');
+            expect(MapUtil.formatArea(1235, 'schoolbus')).to.equal('1235.00 school buses<sup>2</sup>');
+            expect(MapUtil.formatArea(0.1245, 'schoolbus')).to.equal('0.12 school buses<sup>2</sup>');
         });
     });
     describe('convertDistanceUnits', () => {
@@ -202,7 +202,7 @@ describe('Map Utils', () => {
             expect(MapUtil.convertDistanceUnits(1018.6, 'nautical').toFixed(2)).to.equal("0.55");
             expect(MapUtil.convertDistanceUnits(-23150, 'nautical').toFixed(2)).to.equal("-12.50");
         });
-        it('converts to schoolbusses', () => {
+        it('converts to school buses', () => {
             expect(MapUtil.convertDistanceUnits(13.72, 'schoolbus').toFixed(2)).to.equal("1.00");
             expect(MapUtil.convertDistanceUnits(75.46, 'schoolbus').toFixed(2)).to.equal("5.50");
             expect(MapUtil.convertDistanceUnits(-3.1556, 'schoolbus').toFixed(2)).to.equal("-0.23");
@@ -225,7 +225,7 @@ describe('Map Utils', () => {
             expect(MapUtil.convertAreaUnits(18860000, 'nautical').toFixed(2)).to.equal("5.50");
             expect(MapUtil.convertAreaUnits(-231500, 'nautical').toFixed(2)).to.equal("-0.07");
         });
-        it('converts to schoolbusses', () => {
+        it('converts to school buses', () => {
             expect(MapUtil.convertAreaUnits(1000, 'schoolbus').toFixed(2)).to.equal("5.31");
             expect(MapUtil.convertAreaUnits(-1223.5496, 'schoolbus').toFixed(2)).to.equal("-6.50");
         });
