@@ -42,53 +42,58 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     createMap(container, options) {
-        let map = new this.cesium.Viewer(container, {
-            animation: false,
-            baseLayerPicker: false,
-            fullscreenButton: false,
-            geocoder: false,
-            homeButton: false,
-            infoBox: false,
-            sceneModePicker: false,
-            selectionIndicator: false,
-            timeline: false,
-            navigationHelpButton: false,
-            vrButton: false,
-            contextOptions: {
-                alpha: true
-            },
-            terrainExaggeration: 1,
-            navigationInstructionsInitiallyVisible: false,
-            scene3DOnly: true,
-            clock: this.createClock(),
-            //initialize an empty layer so Cesium doesn't load bing maps
-            imageryProvider: new this.cesium.WebMapServiceImageryProvider({ url: " ", layers: 0 })
-        });
-        // Depth testing
-        // Seems to be causing issues with vector rendering. Removing.
-        // map.scene.globe.depthTestAgainstTerrain = true;
+        try {
+            let map = new this.cesium.Viewer(container, {
+                animation: false,
+                baseLayerPicker: false,
+                fullscreenButton: false,
+                geocoder: false,
+                homeButton: false,
+                infoBox: false,
+                sceneModePicker: false,
+                selectionIndicator: false,
+                timeline: false,
+                navigationHelpButton: false,
+                vrButton: false,
+                contextOptions: {
+                    alpha: true
+                },
+                terrainExaggeration: 1,
+                navigationInstructionsInitiallyVisible: false,
+                scene3DOnly: true,
+                clock: this.createClock(),
+                //initialize an empty layer so Cesium doesn't load bing maps
+                imageryProvider: new this.cesium.WebMapServiceImageryProvider({ url: " ", layers: 0 })
+            });
+            // Depth testing
+            // Seems to be causing issues with vector rendering. Removing.
+            // map.scene.globe.depthTestAgainstTerrain = true;
 
-        // Terrain
-        let terrainProvider = new this.cesium.CesiumTerrainProvider({
-            url: '//assets.agi.com/stk-terrain/world'
-        });
-        let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
-        map.terrainProvider = terrainProvider;
+            // Terrain
+            let terrainProvider = new this.cesium.CesiumTerrainProvider({
+                url: '//assets.agi.com/stk-terrain/world'
+            });
+            let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            map.terrainProvider = terrainProvider;
 
-        // remove sun and moon
-        map.scene.sun = undefined;
-        map.scene.moon = undefined;
+            // remove sun and moon
+            map.scene.sun = undefined;
+            map.scene.moon = undefined;
 
-        //change the maximum distance we can move from the globe
-        map.scene.screenSpaceCameraController.maximumZoomDistance = options.getIn(["view", "maxZoomDistance3D"]);
-        map.scene.screenSpaceCameraController.minimumZoomDistance = options.getIn(["view", "minZoomDistance3D"]);
+            //change the maximum distance we can move from the globe
+            map.scene.screenSpaceCameraController.maximumZoomDistance = options.getIn(["view", "maxZoomDistance3D"]);
+            map.scene.screenSpaceCameraController.minimumZoomDistance = options.getIn(["view", "minZoomDistance3D"]);
 
-        map.scene.globe.baseColor = this.cesium.Color.BLACK;
+            map.scene.globe.baseColor = this.cesium.Color.BLACK;
 
-        //remove all preloaded earth layers
-        map.scene.globe.imageryLayers.removeAll();
+            //remove all preloaded earth layers
+            map.scene.globe.imageryLayers.removeAll();
 
-        return map;
+            return map;
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.createMap:", err);
+            return false;
+        }
     }
 
     getMapSize() {
@@ -111,54 +116,69 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
 
     getCenter() {
-        return [this.cesium.Math.toDegrees(this.map.camera.positionCartographic.longitude),
-            this.cesium.Math.toDegrees(this.map.camera.positionCartographic.latitude)
-        ];
+        try {
+            return [this.cesium.Math.toDegrees(this.map.camera.positionCartographic.longitude),
+                this.cesium.Math.toDegrees(this.map.camera.positionCartographic.latitude)
+            ];
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.getCenter:", err);
+            return false;
+        }
     }
 
     setExtent(extent) {
-        if (!extent) {
+        try {
+            if (!extent) {
+                return false;
+            }
+            let extentClone = extent.slice(0);
+            // Ensure that extent lat is -90 to 90
+            if (extentClone[1] < -90) {
+                extentClone[1] = -90;
+            }
+            if (extentClone[3] > 90) {
+                extentClone[3] = 90;
+            }
+            this.map.camera.flyTo({
+                destination: this.cesium.Rectangle.fromDegrees(...extentClone),
+                duration: 0
+            });
+            return true;
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.setExtent:", err);
             return false;
         }
-        let extentClone = extent.slice(0);
-        // Ensure that extent lat is -90 to 90
-        if (extentClone[1] < -90) {
-            extentClone[1] = -90;
-        }
-        if (extentClone[3] > 90) {
-            extentClone[3] = 90;
-        }
-        this.map.camera.flyTo({
-            destination: this.cesium.Rectangle.fromDegrees(...extentClone),
-            duration: 0
-        });
-        return true;
     }
 
     getExtent() {
-        let fallbackExtent = [-180, -90, 180, 90];
-        let viewRect = this.map.camera.computeViewRectangle();
-        // If viewRect does not exist
-        if (!viewRect) {
-            return fallbackExtent;
-        }
-        // Convert viewRect to Degrees
-        let viewRectDeg = [this.cesium.Math.toDegrees(viewRect.west),
-            this.cesium.Math.toDegrees(viewRect.south),
-            this.cesium.Math.toDegrees(viewRect.east),
-            this.cesium.Math.toDegrees(viewRect.north)
-        ];
-
-        // If viewRect is too far out and we actually get [-180, -90, 180, 90], 
-        // attempt to approximate view by creating extent around center point
-        if (viewRectDeg[0] === -180 && viewRectDeg[1] === -90 && viewRectDeg[2] === 180 && viewRectDeg[3] === 90) {
-            let center = this.getCenter();
-            if (!center) {
+        try {
+            let fallbackExtent = [-180, -90, 180, 90];
+            let viewRect = this.map.camera.computeViewRectangle();
+            // If viewRect does not exist
+            if (!viewRect) {
                 return fallbackExtent;
             }
-            return [center[0] - 90, center[1] - 45, center[0] + 90, center[1] + 45];
+            // Convert viewRect to Degrees
+            let viewRectDeg = [this.cesium.Math.toDegrees(viewRect.west),
+                this.cesium.Math.toDegrees(viewRect.south),
+                this.cesium.Math.toDegrees(viewRect.east),
+                this.cesium.Math.toDegrees(viewRect.north)
+            ];
+
+            // If viewRect is too far out and we actually get [-180, -90, 180, 90], 
+            // attempt to approximate view by creating extent around center point
+            if (viewRectDeg[0] === -180 && viewRectDeg[1] === -90 && viewRectDeg[2] === 180 && viewRectDeg[3] === 90) {
+                let center = this.getCenter();
+                if (!center) {
+                    return fallbackExtent;
+                }
+                return [center[0] - 90, center[1] - 45, center[0] + 90, center[1] + 45];
+            }
+            return viewRectDeg;
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.getExtent:", err);
+            return false;
         }
-        return viewRectDeg;
     }
 
 
@@ -175,7 +195,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn("could not zoom cesium map", err);
+            console.warn("Error in MapWrapper_cesium.zoomIn:", err);
             return false;
         }
     }
@@ -193,7 +213,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn("could not zoom cesium map", err);
+            console.warn("Error in MapWrapper_cesium.zoomOut:", err);
             return false;
         }
     }
@@ -207,7 +227,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn("could not set north orientation in cesium map", err);
+            console.warn("Error in MapWrapper_cesium.resetOrientation:", err);
             return false;
         }
     }
@@ -288,11 +308,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                     });
                 };
                 return true;
-            } else {
-                console.warn("could not add draw handler for cesium of type", geometryType);
             }
+            return false;
         } catch (err) {
-            console.warn("could not not add draw handler for cesium", err);
+            console.warn("Error in MapWrapper_cesium.addDrawHandler:", err);
             return false;
         }
     }
@@ -305,21 +324,19 @@ export default class MapWrapper_cesium extends MapWrapper {
                 interaction();
                 return true;
             }
-            console.warn("could not enable cesium drawing for:", geometryType);
             return false;
         } catch (err) {
-            console.warn("could not not enabled drawing in cesium", err);
+            console.warn("Error in MapWrapper_cesium.enableDrawing:", err);
             return false;
         }
     }
 
     disableDrawing() {
         try {
-            // Stop drawing
             this.drawHandler.stopDrawing();
             return true;
         } catch (err) {
-            console.warn("could not not disable drawing in cesium", err);
+            console.warn("Error in MapWrapper_cesium.disableDrawing:", err);
             return false;
         }
     }
@@ -332,21 +349,19 @@ export default class MapWrapper_cesium extends MapWrapper {
                 interaction();
                 return true;
             }
-            console.warn("could not enable cesium measuring for:", geometryType);
             return false;
         } catch (err) {
-            console.warn("could not not enabled measuring in cesium", err);
+            console.warn("Error in MapWrapper_cesium.enableMeasuring:", err);
             return false;
         }
     }
 
     disableMeasuring() {
         try {
-            // Stop measuring
             this.drawHandler.stopDrawing();
             return true;
         } catch (err) {
-            console.warn("could not not disable measuring in cesium", err);
+            console.warn("Error in MapWrapper_cesium.disableMeasuring:", err);
             return false;
         }
     }
@@ -448,7 +463,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             console.warn("add geometry not complete in cesium", geometry, " is unsupported");
             return false;
         } catch (err) {
-            console.warn("could not add geometry in cesium", err);
+            console.warn("Error in MapWrapper_cesium.addGeometry:", err);
             return false;
         }
     }
@@ -484,7 +499,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             };
             return true;
         } catch (err) {
-            console.warn("failed to add label to cesium map.", err);
+            console.warn("Error in MapWrapper_cesium.addLabel:", err);
             return false;
         }
     }
@@ -499,17 +514,14 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         let svgString = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="85">' +
             '<foreignObject width="100%" height="100%">' +
-            // '<style>@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500|Roboto+Mono:300,400,700)</style>'
-            // '<div xmlns="http://www.w3.org/1999/xhtml" style="background:red">' +
-            '<div xmlns="http://www.w3.org/1999/xhtml">' +
-            // '<style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto+Mono:300,400); .test{}</style>' +
-            '<div style="transform:scale(1);' + tooltipStyles + '">' +
-            '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
-            '<span style="' + tooltipAfterStyles + '"></span>' +
-            '</div>' +
-            '</div>' +
+                '<div xmlns="http://www.w3.org/1999/xhtml">' +
+                    '<div style="transform:scale(1);' + tooltipStyles + '">' +
+                        '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
+                        '<span style="' + tooltipAfterStyles + '"></span>' +
+                    '</div>' +
+                '</div>' +
             '</foreignObject>' +
-            '</svg>';
+        '</svg>';
 
         let image = new Image();
         image.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);
@@ -525,7 +537,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return this.map.scene.primitives._primitives.filter(x => x._interactionType === mapStrings.INTERACTION_DRAW).length === 0;
         } catch (err) {
-            console.warn("remove geometries in cesium", err);
+            console.warn("Error in MapWrapper_cesium.removeAllDrawings:", err);
             return false;
         }
     }
@@ -541,7 +553,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             this.map.entities.removeAll();
             return this.map.scene.primitives._primitives.filter(x => x._interactionType === mapStrings.INTERACTION_MEASURE).length === 0;
         } catch (err) {
-            console.warn("remove measurements in cesium", err);
+            console.warn("Error in MapWrapper_cesium.removeAllMeasurements:", err);
             return false;
         }
     }
@@ -568,7 +580,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     return;
             }
         } catch (err) {
-            console.warn("could not implement listener.", err);
+            console.warn("Error in MapWrapper_cesium.addEventListener:", err);
             return false;
         }
     }
@@ -583,7 +595,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not set cesium layer opacity.", err);
+            console.warn("Error in MapWrapper_cesium.setLayerOpacity:", err);
             return false;
         }
     }
@@ -615,7 +627,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn("could not set cesium scale units.", err);
+            console.warn("Error in MapWrapper_cesium.setScaleUnits:", err);
             return false;
         }
     }
@@ -627,7 +639,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             mapLayers.add(mapLayer, index);
             return true;
         } catch (err) {
-            console.warn("could not add cesium layer.", err);
+            console.warn("Error in MapWrapper_cesium.addLayer:", err);
             return false;
         }
     }
@@ -638,7 +650,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             mapLayers.remove(mapLayer);
             return true;
         } catch (err) {
-            console.warn("could not remove cesium layer.", err);
+            console.warn("Error in MapWrapper_cesium.removeLayer:", err);
             return false;
         }
     }
@@ -656,7 +668,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             mapLayer.show = true;
             return true;
         } catch (err) {
-            console.warn("could not activate cesium layer.", err);
+            console.warn("Error in MapWrapper_cesium.activateLayer:", err);
             return false;
         }
     }
@@ -670,7 +682,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return true;
         } catch (err) {
-            console.warn("could not deactivate cesium layer.", err);
+            console.warn("Error in MapWrapper_cesium.deactivateLayer:", err);
             return false;
         }
     }
@@ -695,7 +707,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return true;
         } catch (err) {
-            console.warn("could not update cesium layer.", err);
+            console.warn("Error in MapWrapper_cesium.updateLayer:", err);
             return false;
         }
     }
@@ -713,12 +725,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                 }
                 mapLayers.add(newBasemap, 0);
                 return true;
-            } else {
-                console.warn("could not set cesium basemap");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("could not set cesium basemap", err);
+            console.warn("Error in MapWrapper_cesium.setBasemap:", err);
             return false;
         }
     }
@@ -729,12 +739,10 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (typeof currBasemap !== "undefined") {
                 currBasemap.show = false;
                 return true;
-            } else {
-                console.warn("could not hide cesium basemap.");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("could not hide cesium basemap.", err);
+            console.warn("Error in MapWrapper_cesium.hideBasemap:", err);
             return false;
         }
     }
@@ -781,35 +789,37 @@ export default class MapWrapper_cesium extends MapWrapper {
                 };
 
                 return mapLayer;
-            } else {
-                console.warn("could not create cesium layer");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("could not create cesium layer", err);
+            console.warn("Error in MapWrapper_cesium.createWMTSLayer:", err);
             return false;
         }
     }
 
     createVectorLayer(layer) {
-        let options = { url: layer.get("url") };
-        let layerSource = this.createVectorSource(layer, options);
-        if (layerSource) {
-            // layer source is a promise that acts as a stand-in while the data loads
-            layerSource.then((mapLayer) => {
-                mapLayer._layerId = layer.get("id");
-                mapLayer._layerType = layer.get("type");
-                mapLayer._layerHandleAs = layer.get("handleAs");
-            });
+        try {
+            let options = { url: layer.get("url") };
+            let layerSource = this.createVectorSource(layer, options);
+            if (layerSource) {
+                // layer source is a promise that acts as a stand-in while the data loads
+                layerSource.then((mapLayer) => {
+                    mapLayer._layerId = layer.get("id");
+                    mapLayer._layerType = layer.get("type");
+                    mapLayer._layerHandleAs = layer.get("handleAs");
+                });
 
-            // need to add custom metadata while data loads
-            layerSource._layerId = layer.get("id");
-            layerSource._layerType = layer.get("type");
-            layerSource._layerHandleAs = layer.get("handleAs");
+                // need to add custom metadata while data loads
+                layerSource._layerId = layer.get("id");
+                layerSource._layerType = layer.get("type");
+                layerSource._layerHandleAs = layer.get("handleAs");
 
-            return layerSource;
+                return layerSource;
+            }
+            return false;
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.createVectorLayer:", err);
         }
-        return false;
     }
 
 
@@ -827,7 +837,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not get coordinate from pixel", err);
+            console.warn("Error in MapWrapper_cesium.getLatLonFromPixelCoordinate:", err);
             return false;
         }
     }
@@ -847,7 +857,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not move cesium layer to top.", err);
+            console.warn("Error in MapWrapper_cesium.moveLayerToTop:", err);
             return false;
         }
     }
@@ -863,7 +873,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not move cesium layer to bottom.", err);
+            console.warn("Error in MapWrapper_cesium.moveLayerToBottom:", err);
             return false;
         }
     }
@@ -882,7 +892,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not move cesium layer up.", err);
+            console.warn("Error in MapWrapper_cesium.moveLayerUp:", err);
             return false;
         }
     }
@@ -900,7 +910,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn("could not move cesium layer down.", err);
+            console.warn("Error in MapWrapper_cesium.moveLayerDown:", err);
             return false;
         }
     }
@@ -909,7 +919,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         try {
             return clickEvt.pixel;
         } catch (err) {
-            console.warn("could not retrieve pixel from cesium click event.", err);
+            console.warn("Error in MapWrapper_cesium.getPixelFromClickEvent:", err);
             return false;
         }
     }
@@ -973,12 +983,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                         projection: options.projection
                     }, options)
                 });
-            } else {
-                console.warn("Could not create GIBS layer");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("Could not create GIBS layer", err);
+            console.warn("Error in MapWrapper_cesium.createGIBSWMTSProvider:", err);
             return false;
         }
     }
@@ -1002,12 +1010,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                         projection: options.projection
                     }, options)
                 });
-            } else {
-                console.warn("Could not create layer");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("Could not create layer", err);
+            console.warn("Error in MapWrapper_cesium.createGenericWMTSProvider:", err);
             return false;
         }
     }
@@ -1029,12 +1035,10 @@ export default class MapWrapper_cesium extends MapWrapper {
                         projection: options.projection
                     }, options)
                 });
-            } else {
-                console.warn("Could not create layer");
-                return false;
             }
+            return false;
         } catch (err) {
-            console.warn("Could not create layer", err);
+            console.warn("Error in MapWrapper_cesium.createGenericXYZProvider:", err);
             return false;
         }
     }

@@ -88,9 +88,8 @@ const sendAnalyticsBatch = (state, action) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
             }
-            console.log("Stored analytic batch: SUCCESS.");
         }).catch((err) => {
-            console.warn("Stored analytic batch: FAIL.", err);
+            console.warn("Error in analytics.sendAnalyticsBatch:", err);
         });
 
         // clear the current batch and update the sent time

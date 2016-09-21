@@ -83,7 +83,7 @@ export function fetchInitialData(callback = null) {
             }
         }).catch((err) => {
             // TODO - dispatch initialDataLoaded and then throw app alert
-            console.warn("ERROR", err);
+            console.warn("Error in LayerActions.fetchInitialData:", err);
         });
     };
 }
@@ -97,7 +97,7 @@ export function fetchLayerPalettes() {
             dispatch(ingestLayerPalettes(resp));
             dispatch(layerPalettesLoaded());
         }).catch((err) => {
-            console.warn("ERROR LOADING PALETTES", err);
+            console.warn("Error in LayerActions.fetchLayerPalettes:", err);
             throw err;
         });
     };
@@ -113,7 +113,7 @@ export function fetchLayers() {
             dispatch(mergeLayers());
             dispatch(layersLoaded());
         }).catch((err) => {
-            console.warn("ERROR", err);
+            console.warn("Error in LayerActions.fetchLayers:", err);
             throw err;
         });
     };
@@ -133,7 +133,7 @@ export function fetchSingleLayerSource(options) {
         }).then((resp) => {
             dispatch(ingestLayerConfig(resp, options));
         }).catch((err) => {
-            console.warn("ERROR LOADING CONFIG", err);
+            console.warn("Error in LayerActions.fetchSingleLayerSource:", err);
             throw err;
         });
     };

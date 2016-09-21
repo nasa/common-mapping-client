@@ -112,7 +112,7 @@ export default class MapUtil {
                     }
                 }
             } else {
-                console.warn("wtf is this ending?", linesArr, referenceLineEnd);
+                console.warn("Unable to deconstrain coordinates. Reference line end: ", referenceLineEnd.toString());
             }
         }
         return deconstrainedLine;
