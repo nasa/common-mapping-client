@@ -19,12 +19,12 @@ const EXCLUDED_ACTIONS = new Immutable.List([
     actionTypes.INGEST_LAYER_PALETTES,
 
     // Async Actions
-    actionTypes.LOAD_INITIAL_DATA,
+    actionTypes.INITIAL_DATA_LOADING,
     actionTypes.INITIAL_DATA_LOADED,
-    actionTypes.LOAD_LAYER_PALETTES,
-    actionTypes.LAYER_PALETTES_LOADED,
-    actionTypes.LOAD_LAYERS,
-    actionTypes.LAYERS_LOADED,
+    actionTypes.PALETTE_DATA_LOADING,
+    actionTypes.PALETTE_DATA_LOADED,
+    actionTypes.LAYER_DATA_LOADING,
+    actionTypes.LAYER_DATA_LOADED,
 
     // Date Slider Actions
     actionTypes.BEGIN_DRAGGING,
@@ -88,9 +88,8 @@ const sendAnalyticsBatch = (state, action) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
             }
-            console.log("Stored analytic batch: SUCCESS.");
         }).catch((err) => {
-            console.warn("Stored analytic batch: FAIL.", err);
+            console.warn("Error in analytics.sendAnalyticsBatch:", err);
         });
 
         // clear the current batch and update the sent time

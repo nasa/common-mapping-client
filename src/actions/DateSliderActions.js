@@ -35,7 +35,7 @@ export function dragEnd(newDate) {
             dispatch(endDragging()),
             dispatch(setDate(newDate))
         ]).catch((err) => {
-            console.warn("ERROR", err);
+            console.warn("Error in DateSliderActions.dragEnd:", err);
         });
     };
 }

@@ -30,7 +30,7 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.LOAD_INITIAL_DATA }
+            { type: actionTypes.INITIAL_DATA_LOADING }
         ];
         actions.forEach(action => store.dispatch(action));
 
@@ -67,7 +67,7 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.LOAD_LAYER_PALETTES }
+            { type: actionTypes.PALETTE_DATA_LOADING }
         ];
 
         actions.forEach(action => store.dispatch(action));
@@ -85,7 +85,7 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.LAYER_PALETTES_LOADED }
+            { type: actionTypes.PALETTE_DATA_LOADED }
         ];
 
         actions.forEach(action => store.dispatch(action));
@@ -105,7 +105,7 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.LOAD_LAYERS }
+            { type: actionTypes.LAYER_DATA_LOADING }
         ];
 
         actions.forEach(action => store.dispatch(action));
@@ -123,7 +123,7 @@ describe('Store - Async', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            { type: actionTypes.LAYERS_LOADED }
+            { type: actionTypes.LAYER_DATA_LOADED }
         ];
 
         actions.forEach(action => store.dispatch(action));

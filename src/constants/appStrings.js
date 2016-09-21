@@ -24,6 +24,11 @@ export const DATE_SLIDER_RESOLUTIONS = {
 
 // alert templates
 export const ALERTS = {
+    INITIAL_DATA_LOAD_FAILED: {
+        title: "Data Loading Failed",
+        formatString: "Failed to load initial data for this application.",
+        severity: 5
+    },
     LAYER_ACTIVATION_FAILED: {
         title: "Layer Activation Failed",
         formatString: "Activating {LAYER} on the {MAP} map failed.",

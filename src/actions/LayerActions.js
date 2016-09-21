@@ -2,6 +2,8 @@ import fetch from 'isomorphic-fetch';
 import { URLS } from '../constants/appConfig';
 import * as types from '../constants/actionTypes';
 import * as mapStrings from '../constants/mapStrings';
+import * as appStrings from '../constants/appStrings';
+import * as AlertActions from './AlertActions';
 
 export function openLayerInfo(layer) {
     return { type: types.OPEN_LAYER_INFO, layer };
@@ -67,14 +69,14 @@ export function activateDefaultLayers() {
     return { type: types.ACTIVATE_DEFAULT_LAYERS };
 }
 
-export function fetchInitialData(callback = null) {
+export function loadInitialData(callback = null) {
     return (dispatch) => {
         // Set flag that initial layer data has begun loading
-        dispatch(loadInitialData());
+        dispatch(initialDataLoading());
         // Fetch all initial layer data
         return Promise.all([
-            dispatch(fetchLayers()),
-            dispatch(fetchLayerPalettes())
+            dispatch(loadLayerData()),
+            dispatch(loadPaletteData())
         ]).then(() => {
             // Set flag that initial layer data has finished loading
             dispatch(initialDataLoaded());
@@ -82,43 +84,53 @@ export function fetchInitialData(callback = null) {
                 callback.call(this);
             }
         }).catch((err) => {
-            // TODO - dispatch initialDataLoaded and then throw app alert
-            console.warn("ERROR", err);
+            console.warn("Error in LayerActions.loadInitialData:", err);
+            dispatch(initialDataLoaded());
+            dispatch(AlertActions.addAlert({
+                title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
+                body: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.formatString,
+                severity: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
+                time: new Date()
+            }));
+            if (typeof callback === "function") {
+                callback.call(this);
+            }
         });
     };
 }
 
-export function fetchLayerPalettes() {
+export function loadPaletteData() {
     return (dispatch) => {
         let url = URLS.paletteConfig;
+        dispatch(paletteDataLoaded());
         return fetch(url).then((response) => {
             return response.json();
         }).then((resp) => {
             dispatch(ingestLayerPalettes(resp));
-            dispatch(layerPalettesLoaded());
+            dispatch(paletteDataLoading());
         }).catch((err) => {
-            console.warn("ERROR LOADING PALETTES", err);
+            console.warn("Error in LayerActions.loadPaletteData:", err);
             throw err;
         });
     };
 }
 
 
-export function fetchLayers() {
+export function loadLayerData() {
     return (dispatch) => {
-        dispatch(loadLayers());
+        dispatch(layerDataLoading());
         return Promise.all(URLS.layerConfig.map((el) => {
-            return dispatch(fetchSingleLayerSource(el));
+            return dispatch(loadSingleLayerSource(el));
         })).then(() => {
             dispatch(mergeLayers());
-            dispatch(layersLoaded());
+            dispatch(layerDataLoaded());
         }).catch((err) => {
-            console.warn("ERROR", err);
+            console.warn("Error in LayerActions.loadLayerData:", err);
             throw err;
         });
     };
 }
-export function fetchSingleLayerSource(options) {
+export function loadSingleLayerSource(options) {
     return (dispatch) => {
         let url = options.url;
         let type = options.type;
@@ -133,7 +145,7 @@ export function fetchSingleLayerSource(options) {
         }).then((resp) => {
             dispatch(ingestLayerConfig(resp, options));
         }).catch((err) => {
-            console.warn("ERROR LOADING CONFIG", err);
+            console.warn("Error in LayerActions.loadSingleLayerSource:", err);
             throw err;
         });
     };
@@ -142,31 +154,28 @@ export function fetchSingleLayerSource(options) {
 
 // async action helpers
 
-function loadInitialData() {
-    // TODO: Swap name to LAYER_DATA_LOADING
-    return { type: types.LOAD_INITIAL_DATA };
+function initialDataLoading() {
+    return { type: types.INITIAL_DATA_LOADING };
 }
 
 function initialDataLoaded() {
-    // TODO: Swap name to LAYER_DATA_LOADED
     return { type: types.INITIAL_DATA_LOADED };
 }
 
-function loadLayerPalettes() {
-    // TODO: Swap name to LAYER_PALETTES_LOADING
-    return { type: types.LOAD_LAYER_PALETTES };
+function paletteDataLoading() {
+    return { type: types.PALETTE_DATA_LOADING };
 }
 
-function layerPalettesLoaded() {
-    return { type: types.LAYER_PALETTES_LOADED };
+function paletteDataLoaded() {
+    return { type: types.PALETTE_DATA_LOADED };
 }
 
-function loadLayers() {
-    return { type: types.LOAD_LAYERS };
+function layerDataLoading() {
+    return { type: types.LAYER_DATA_LOADING };
 }
 
-function layersLoaded() {
-    return { type: types.LAYERS_LOADED };
+function layerDataLoaded() {
+    return { type: types.LAYER_DATA_LOADED };
 }
 
 function ingestLayerConfig(config, options) {

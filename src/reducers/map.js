@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import moment from 'moment';
 import * as actionTypes from '../constants/actionTypes';
 import { mapState, layerModel, paletteModel } from './models/map';
-import { alert } from './models/view';
+import { alert } from './models/alert';
 import MapUtil from '../utils/MapUtil.js';
 import MiscUtil from '../utils/MiscUtil.js';
 import * as appStrings from '../constants/appStrings';

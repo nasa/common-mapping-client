@@ -9,6 +9,7 @@ import share from './share';
 import dateSlider from './dateSlider';
 import asyncronous from './async';
 import analytics from './analytics';
+import alerts from './alerts';
 
 const rootReducer = combineReducers({
     view,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     share,
     dateSlider,
     asyncronous,
-    analytics
+    analytics,
+    alerts
 });
 
 export default rootReducer;
