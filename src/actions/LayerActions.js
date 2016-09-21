@@ -69,16 +69,20 @@ export function activateDefaultLayers() {
 
 export function fetchInitialData(callback = null) {
     return (dispatch) => {
+        // Set flag that initial layer data has begun loading
         dispatch(loadInitialData());
+        // Fetch all initial layer data
         return Promise.all([
             dispatch(fetchLayers()),
             dispatch(fetchLayerPalettes())
         ]).then(() => {
+            // Set flag that initial layer data has finished loading
             dispatch(initialDataLoaded());
             if (typeof callback === "function") {
                 callback.call(this);
             }
         }).catch((err) => {
+            // TODO - dispatch initialDataLoaded and then throw app alert
             console.warn("ERROR", err);
         });
     };
@@ -94,6 +98,7 @@ export function fetchLayerPalettes() {
             dispatch(layerPalettesLoaded());
         }).catch((err) => {
             console.warn("ERROR LOADING PALETTES", err);
+            throw err;
         });
     };
 }
@@ -109,6 +114,7 @@ export function fetchLayers() {
             dispatch(layersLoaded());
         }).catch((err) => {
             console.warn("ERROR", err);
+            throw err;
         });
     };
 }
@@ -128,6 +134,7 @@ export function fetchSingleLayerSource(options) {
             dispatch(ingestLayerConfig(resp, options));
         }).catch((err) => {
             console.warn("ERROR LOADING CONFIG", err);
+            throw err;
         });
     };
 }
@@ -136,14 +143,17 @@ export function fetchSingleLayerSource(options) {
 // async action helpers
 
 function loadInitialData() {
+    // TODO: Swap name to LAYER_DATA_LOADING
     return { type: types.LOAD_INITIAL_DATA };
 }
 
 function initialDataLoaded() {
+    // TODO: Swap name to LAYER_DATA_LOADED
     return { type: types.INITIAL_DATA_LOADED };
 }
 
 function loadLayerPalettes() {
+    // TODO: Swap name to LAYER_PALETTES_LOADING
     return { type: types.LOAD_LAYER_PALETTES };
 }
 

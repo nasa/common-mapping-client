@@ -16,15 +16,6 @@ export class MapControlsContainer extends Component {
     }
 
     render() {
-        let coordinateString = "coordinates of cursor";
-        if (this.props.pixelCoordinate.get("isValid")) {
-            coordinateString = this.props.pixelCoordinate.get("lat").toFixed(3) + ", " + this.props.pixelCoordinate.get("lon").toFixed(3);
-        }
-        let coordinateContainerClasses = MiscUtil.generateStringFromSet({
-            "mouse-position-container": true,
-            "invalid": !this.props.pixelCoordinate.get("isValid"),
-            "isolate": this.props.in3DMode
-        });
         return (
             <div id="mapControls">
                 <Button 
@@ -63,9 +54,6 @@ export class MapControlsContainer extends Component {
                     data-tip="Zoom out"
                     data-place="right"
                 />
-                <div className={coordinateContainerClasses}>
-                    <span className="mouse-position-label">Position:</span> {coordinateString}
-                </div>
             </div>
         );
     }
@@ -73,14 +61,12 @@ export class MapControlsContainer extends Component {
 
 MapControlsContainer.propTypes = {
     in3DMode: PropTypes.bool.isRequired,
-    pixelCoordinate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        in3DMode: state.map.getIn(["view", "in3DMode"]),
-        pixelCoordinate: state.map.getIn(["view", "pixelHoverCoordinate"])
+        in3DMode: state.map.getIn(["view", "in3DMode"])
     };
 }
 

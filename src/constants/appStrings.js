@@ -1,5 +1,5 @@
-export const APP_TITLE = 'RiPTIDE';
-export const APP_VERSION = '0.9';
+export const APP_TITLE = 'Common Mapping Client';
+export const APP_VERSION = '0.9-beta';
 export const APP_SUBTITLE = APP_VERSION;
 export const URL_KEYS = {
     ACTIVE_LAYERS: 'activeLayers',

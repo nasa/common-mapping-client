@@ -11,6 +11,12 @@ import MiscUtil from '../../utils/MiscUtil';
 
 export class LayerControlContainer extends Component {
     shouldComponentUpdate(nextProps) {
+        // Here we prevent unnecessary renderings by explicitly 
+        // ignoring certain pieces of the layer state. We do this
+        // since LayerControlContainer is passed an entire layer object
+        // when instantiated in LayerMenuContainer, which contains state
+        // we want to ignore. By ignoring certain things, we can reduce
+        // the number of unnecessary renderings.
         let nextLayer = nextProps.layer;
         let currLayer = this.props.layer;
         return (nextProps.palette !== this.props.palette ||
@@ -83,6 +89,8 @@ export class LayerControlContainer extends Component {
     }
 
     render() {
+        // ReactTooltip needs to be rebuilt on render for this type
+        // of dynamic content
         ReactTooltip.rebuild();
 
         let switchClasses = MiscUtil.generateStringFromSet({
@@ -131,7 +139,6 @@ export class LayerControlContainer extends Component {
                     </div>
                     <div className="col-xs-3 text-center">
                         <IconButton
-                            // primary={!this.props.layer.get("isChangingPosition")}
                             accent={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
@@ -141,7 +148,6 @@ export class LayerControlContainer extends Component {
                             <i className="button-icon ms ms-fw ms-layers-overlay" />
                         </IconButton>
                         <IconButton
-                            // primary={!this.props.layer.get("isChangingOpacity")}
                             icon="opacity"
                             accent={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
@@ -151,7 +157,6 @@ export class LayerControlContainer extends Component {
                             onClick={() => this.toggleChangingOpacity()}
                         />
                         <IconButton
-                            // primary
                             icon="info_outline"
                             className="no-padding mini-xs-waysmall"
                             data-tip="Layer information"

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Snackbar } from 'react-toolbox';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 import * as actions from '../../actions/AppActions';
 

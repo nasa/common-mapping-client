@@ -26,7 +26,13 @@ import '../../styles/styles.scss';
 
 export class AppContainer extends Component {
     componentWillMount() {
-        // Don't do this!
+        // Setting urlParams as a local variable avoids setting application state before
+        // we know if we want to set state via urlParams. If you set urlParams in state, 
+        // you'd need to set app state to default and then check for urlParams and configure,
+        // but that would change the urlParams, wiping out desired urlParams.
+
+        // Generally speaking, however, it is not recommended to rely on instance variables inside of 
+        // components since they lie outside of the application state and Redux paradigm.
         this.urlParams = MiscUtil.getUrlParams();
     }
     componentDidMount() {

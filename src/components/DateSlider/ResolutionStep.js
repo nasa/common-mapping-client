@@ -38,21 +38,18 @@ export class ResolutionStep extends Component {
                 <div className={resolutionSelectorClasses}>
                     <Button
                         neutral
-                        // inverse
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
                         neutral
-                        // inverse
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
                         neutral
-                        // inverse
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
@@ -66,7 +63,6 @@ export class ResolutionStep extends Component {
                     data-tip="Adjust the slider resolution"
                     data-place="left"
                 >
-                    {/*<i className="button-icon ms ms-fw ms-zoom-to-point"></i>*/}
                 </IconButton>
             </div>
         );

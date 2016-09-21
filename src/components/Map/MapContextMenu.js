@@ -11,6 +11,8 @@ import * as mapStrings from '../../constants/mapStrings';
 export class MapContextMenu extends Component {
 
     dummyHandleClick(data) {
+        // The Context Menu component library *fails* when you don't give an item
+        // a click listener, so we have this here to keep it happy. 
         return false;
     }
 
@@ -23,8 +25,8 @@ export class MapContextMenu extends Component {
         let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_CIRCLE;
         let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
         let drawingPolygon = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_POLYGON;
-        let measuringDistance = false;
-        let measuringArea = false;
+        let measuringDistance = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
+        let measuringArea = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === mapStrings.GEOMETRY_POLYGON;
         return (
             <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU}>
                 <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
@@ -55,13 +57,6 @@ export class MapContextMenu extends Component {
                             className="context-menu-item" />
                     </MenuItem>
                 </ContextMenuSubMenu>
-                {/*<MenuItem data={{}} onClick={this.dummyHandleClick}>
-                    <Button
-                        label="Drop Marker"
-                        icon="pin_drop"
-                        onClick={() => console.log("Drop Pin")}
-                        className="context-menu-item" />
-                </MenuItem>*/}
                 <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
@@ -113,12 +108,14 @@ export class MapContextMenu extends Component {
 
 MapContextMenu.propTypes = {
     drawing: PropTypes.object.isRequired,
+    measuring: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        drawing: state.map.get("drawing")
+        drawing: state.map.get("drawing"),
+        measuring: state.map.get("measuring")
     };
 }
 

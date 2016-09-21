@@ -4,6 +4,7 @@ import * as mapConfig from '../constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';
+import moment from 'moment';
 
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
@@ -51,11 +52,13 @@ export function setAutoUpdateUrl(autoUpdateUrl) {
     return { type: types.SET_AUTO_UPDATE_URL, autoUpdateUrl };
 }
 export function runUrlConfig(params) {
+    // Takes an array of key value pairs and dispatches associated actions for each
+    // one.
     return (dispatch) => {
         return Promise.all(params.map((param) => {
             return dispatch(translateUrlParamToActionDispatch(param));
         })).catch((err) => {
-            console.warn("ERROR", err);
+            console.warn("Error in AppActions.runUrlConfig:", err);
         });
     };
 }
@@ -79,7 +82,7 @@ function translateUrlParamToActionDispatch(param) {
         case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         case appStrings.URL_KEYS.DATE:
-            return setDate(new Date(param.value));
+            return setDate(moment(param.value, 'YYYY-MM-DD').toDate());
         default:
             return { type: types.NO_ACTION };
     }
