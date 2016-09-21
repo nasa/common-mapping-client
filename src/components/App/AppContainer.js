@@ -42,8 +42,8 @@ export class AppContainer extends Component {
         }, false);
 
         // load in initial data
-        this.props.actions.fetchInitialData(() => {
-            //initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
+        this.props.actions.loadInitialData(() => {
+            // initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
             // wait for the DOM to complete rendering.
             // see: http://stackoverflow.com/a/34999925
             window.requestAnimationFrame(() => {
@@ -98,7 +98,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
-            fetchInitialData: bindActionCreators(layerActions.fetchInitialData, dispatch),
+            loadInitialData: bindActionCreators(layerActions.loadInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
             runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),
             initializeMap: bindActionCreators(mapActions.initializeMap, dispatch)
