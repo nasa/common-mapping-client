@@ -1204,7 +1204,7 @@ describe('Store - Map', function() {
         const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
         const actions = [
-            layerActions.fetchInitialData()
+            layerActions.loadInitialData()
         ];
         actions.forEach(action => store.dispatch(action));
 
