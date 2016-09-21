@@ -1,8 +1,5 @@
 import moment from 'moment';
 
-// General
-export const APP_NAME = "RiPTIDE";
-
 // Endpoints
 export const URLS = {
     layerConfig: [{

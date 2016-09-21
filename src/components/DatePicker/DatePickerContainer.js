@@ -15,7 +15,8 @@ const SPEED_SLOW = 500;
 
 export class DatePickerContainer extends Component {
     componentWillMount() {
-        // Don't do this!
+        // Instance variables are used here since these variables are purely interaction
+        // based and are never intended to be affected by application state or affect application state.
         this.autoIncrementInterval = null;
         this.shouldAutoIncrement = false;
         this.autoIncrementSpeed = SPEED_SLOW;
@@ -39,6 +40,8 @@ export class DatePickerContainer extends Component {
         }
     }
     updateDate(resolution, value) {
+        // Update the application date based off 
+        // Autocomplete incomplete date string
         let date = moment(this.props.date);
         let newDate = date.format("YYYY-MMM-DD");
         if (resolution === "days") {

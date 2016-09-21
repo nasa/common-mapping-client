@@ -3,6 +3,10 @@ import moment from 'moment';
 import * as appStrings from '../constants/appStrings';
 
 export default class TimeAxisD3 {
+    // This timeline is loosely based off of this d3 timeline
+    // https://github.com/commodityvectors/d3-timeline
+    // The timeline also contains several other features/pieces of logic that
+    // were not implemented here such as tick label size constraining/formatting (we think)
     constructor(options) {
         this.initValues(options);
     }

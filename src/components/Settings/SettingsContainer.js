@@ -16,6 +16,9 @@ import MenuDropdown from '../Reusables/MenuDropdown';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
 
 export class SettingsContainer extends Component {
+    shouldComponentUpdate(nextProps) {
+        return nextProps.settingsOpen || nextProps.settingsOpen !== this.props.settingsOpen;
+    }
     setBasemap(layerId) {
         if(layerId && layerId !== "") {
             this.props.mapActions.setBasemap(layerId);
@@ -49,12 +52,6 @@ export class SettingsContainer extends Component {
         // check the reference and boundary layers
         let referenceLabelsLayer = this.props.referenceLayers.get(mapConfig.REFERENCE_LABELS_LAYER_ID);
         let politicalBoundariesLayer = this.props.referenceLayers.get(mapConfig.POLITICAL_BOUNDARIES_LAYER_ID);
-        // let referenceLabelsLayer = this.props.referenceLayers.find((layer) => {
-        //     return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
-        // });
-        // let politicalBoundariesLayer = this.props.referenceLayers.find((layer) => {
-        //     return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
-        // });
 
         return (
             <ModalMenuContainer

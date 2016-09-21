@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dialog from 'react-toolbox/lib/dialog';
 import AsyncImageContainer from '../AsyncImage/AsyncImageContainer';
-// import { Button, IconButton } from 'react-toolbox/lib/button';
-import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
+import { List, ListItem, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '../../actions/AppActions';
 import MiscUtil from '../../utils/MiscUtil';
 
@@ -16,7 +15,6 @@ export class LayerInfoContainer extends Component {
                 active={this.props.isOpen}
                 onEscKeyDown={() => this.props.actions.closeLayerInfo()} 
                 onOverlayClick={() => this.props.actions.closeLayerInfo()}>
-                {/*<div className="thumbnail-image" style={{backgroundImage: "url("+this.props.layer.get("thumbnailImage")+")"}}></div>*/}
                 <AsyncImageContainer className="thumbnail-image" src={this.props.layer.get("thumbnailImage")} />
                 <div className="layerInfo-content">
                     <div className={metadata ? "" : "hidden"}>

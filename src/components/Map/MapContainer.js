@@ -11,7 +11,6 @@ import KeyHandler, { KEYUP } from 'react-key-handler';
 export class MapContainer extends Component {
 	componentDidMount() {
 		this.refs.container.addEventListener("mouseout", (evt) => {
-			evt.stopPropagation();
 			this.props.actions.invalidatePixelHover();
 		});
 	}

@@ -9,6 +9,8 @@ import KeyHandler, { KEYUP } from 'react-key-handler';
 
 export class MapContainer2D extends Component {
     componentWillMount() {
+        // We need this instance variable because the map will take an unknown number of
+        // render cycles as the map is initialized in appContainer
         this.listenersInitialized = false;
     }
 

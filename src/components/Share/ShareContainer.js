@@ -9,6 +9,7 @@ import * as mapStrings from '../../constants/mapStrings';
 import * as mapConfig from '../../constants/mapConfig';
 import MiscUtil from '../../utils/MiscUtil';
 import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
+import moment from 'moment';
 
 
 const FacebookIcon = () => (
@@ -40,12 +41,12 @@ export class ShareContainer extends Component {
         let viewMode = this.getViewModeString();
         let basemap = this.getBasemapString();
         let extent = this.getExtentString();
-        let enablePlaceLables = this.getPlaceLabelsString();
+        let enablePlaceLabels = this.getPlaceLabelsString();
         let enablePoliticalBoundaries = this.getPoliticalBoundariesString();
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
 
-        return [basemap, activeLayers, opacities, viewMode, extent, enablePlaceLables, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
+        return [basemap, activeLayers, opacities, viewMode, extent, enablePlaceLabels, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
@@ -75,16 +76,10 @@ export class ShareContainer extends Component {
     }
     getPlaceLabelsString() {
         let placeLabelsLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.REFERENCE_LABELS_LAYER_ID]);
-        // let placeLabelsLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
-        //     return layer.get("id") === mapConfig.REFERENCE_LABELS_LAYER_ID;
-        // });
         return appStrings.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
     }
     getPoliticalBoundariesString() {
         let politicalBoundariesLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.POLITICAL_BOUNDARIES_LAYER_ID]);
-        // let politicalBoundariesLayer = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_REFERENCE).find((layer) => {
-        //     return layer.get("id") === mapConfig.POLITICAL_BOUNDARIES_LAYER_ID;
-        // });
         return appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
     }
     getViewModeString() {
@@ -97,9 +92,8 @@ export class ShareContainer extends Component {
         return appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
     }
     getDateString() {
-        return appStrings.URL_KEYS.DATE + "=" + this.props.mapDate.toISOString().split("T")[0];
+        return appStrings.URL_KEYS.DATE + "=" + moment(this.props.mapDate).format("YYYY-MM-DD");
     }
-
     shareEmail(url) {
         window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appStrings.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
     }
@@ -115,7 +109,7 @@ export class ShareContainer extends Component {
 
     render() {
         let shareQuery = this.generateShareQuery();
-        let shareUrl = "http://" + window.location.host + "#" + shareQuery;
+        let shareUrl = window.location.protocol + "//" + window.location.host + "#" + shareQuery;
         if(this.props.autoUpdateUrl) {
             window.history.replaceState(undefined, undefined, "#" + shareQuery);
         } else if(window.location.hash !== "") {

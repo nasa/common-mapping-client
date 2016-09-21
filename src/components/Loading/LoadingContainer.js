@@ -9,6 +9,7 @@ import AsyncImageContainer from '../AsyncImage/AsyncImageContainer';
 export class LoadingContainer extends Component {
     componentDidUpdate() {
         document.getElementById("loadingContainer").style.opacity = 0;
+        document.getElementById("loadingContainer").style.pointerEvents = "none";  
         setTimeout(() => {
             document.getElementById("loadingContainer").innerHTML = "";
             document.getElementById("loadingContainer").style.display = "none";

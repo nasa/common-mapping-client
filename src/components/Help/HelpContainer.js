@@ -21,7 +21,7 @@ export class HelpContainer extends Component {
         this.helpPageHeaders[this.pageKeys.FAQ] = 'FAQ';
         this.helpPageHeaders[this.pageKeys.SYS_REQ] = 'System Requirements';
 
-        // get makdown and parse it
+        // get markdown and parse it
         let cvt = new showdown.Converter();
         this.helpPageContent = {};
         this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('../../default-data/help/about.md'));

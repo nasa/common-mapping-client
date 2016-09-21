@@ -57,7 +57,7 @@ export class TimeAxis extends Component {
             (nextProps.resolutionHack !== this.props.resolutionHack);
     }
     componentWillUpdate() {
-        // track the resolution changes because changing the date also triggers and update
+        // track the resolution changes because changing the date also triggers an update
         // but we don't want to change the resolution for that
         this.cachedResolutionHack = this.props.resolutionHack;
     }
