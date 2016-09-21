@@ -186,30 +186,6 @@
             <ResourceURL format="image/png" resourceType="tile" template="http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_Sea_Ice/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
         </Layer>
         <Layer>
-            <ows:Title xml:lang="en">Water Vapor Infrared (Day, MODIS, Terra)</ows:Title>
-            <ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
-                <ows:LowerCorner>-180 -90</ows:LowerCorner>
-                <ows:UpperCorner>180 90</ows:UpperCorner>
-            </ows:WGS84BoundingBox>
-            <ows:Identifier>MODIS_Terra_Water_Vapor_5km_Day</ows:Identifier>
-            <ows:Metadata xlink:type="simple" xlink:role="http://earthdata.nasa.gov/gibs/metadata-type/colormap" xlink:href="http://gibs.earthdata.nasa.gov/colormaps/v1.0/MODIS_Terra_Water_Vapor_5km_Day.xml" xlink:title="GIBS Color Map: Data - RGB Mapping" />
-            <Style isDefault="true">
-            <ows:Title xml:lang="en">default</ows:Title> <ows:Identifier>default</ows:Identifier>
-            </Style>
-            <Format>image/png</Format>
-            <Dimension>
-                <ows:Identifier>time</ows:Identifier>
-                <UOM>ISO8601</UOM>
-                <Default>2016-05-24</Default>
-                <Current>false</Current>
-                <Value>2012-05-08/2016-05-24/P1D</Value>
-            </Dimension>
-            <TileMatrixSetLink>
-                <TileMatrixSet>2km</TileMatrixSet>
-            </TileMatrixSetLink>
-            <ResourceURL format="image/png" resourceType="tile" template="http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_Water_Vapor_5km_Day/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png" />
-        </Layer>
-        <Layer>
             <ows:Title xml:lang="en">
                 Sea Surface Temperature (L4, G1SST Global Foundation, GHRSST)
             </ows:Title>
