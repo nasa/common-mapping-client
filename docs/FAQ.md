@@ -56,4 +56,13 @@ Example projects are small applications that build one or two features on top of
 * Basic geodesic measurement (distance and area) tools in 2D and 3D
 * Display help documentation from markdown files
 
+### When should I separate a large component into smaller components?
+Of course keeping your code modular and reusable is paramount. However, the overhead involved in making any component
+(defining their proptypes, rendering methods, update conditions, etc) can often overweigh their utility as an independant module.
+Here are some guidelines for knowing whether or not it's worth creating a new module.
 
+_Minimum recommendations for a component_:
+* The component returns more than 1 node in the `render` method
+* The component performs 1 or more actions
+* The component has more than 1 display state
+* The component includes logic that would unduely clutter to parent/sibling components
