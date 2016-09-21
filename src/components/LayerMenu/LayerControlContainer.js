@@ -139,7 +139,7 @@ export class LayerControlContainer extends Component {
                     </div>
                     <div className="col-xs-3 text-center">
                         <IconButton
-                            accent={this.props.layer.get("isChangingPosition")}
+                            primary={this.props.layer.get("isChangingPosition")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
                             data-tip={!this.props.layer.get("isChangingPosition") ? "Adjust layer positioning" : null}
@@ -149,7 +149,7 @@ export class LayerControlContainer extends Component {
                         </IconButton>
                         <IconButton
                             icon="opacity"
-                            accent={this.props.layer.get("isChangingOpacity")}
+                            primary={this.props.layer.get("isChangingOpacity")}
                             disabled={!this.props.layer.get("isActive")}
                             className="no-padding mini-xs-waysmall"
                             data-tip={!this.props.layer.get("isChangingOpacity") ? "Adjust layer opacity" : null}
@@ -187,10 +187,10 @@ export class LayerControlContainer extends Component {
                     </span>
                 </div>
                 <div className={positionContainerClasses}>
-                    <Button accent label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
-                    <Button accent label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
-                    <Button accent label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
-                    <Button accent label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
+                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
+                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
+                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
             </div>
         );

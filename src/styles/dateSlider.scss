@@ -15,7 +15,7 @@
     left: 50%;
     font-size: 1.51rem;
     padding: 0.5rem 0.8rem;
-    background: $color-accent;
+    background: $color-primary;
     font-family: "Roboto Mono";
     border-radius: 2px;
     color: $color-light;
@@ -39,7 +39,7 @@
 
 .hover-date-display:after {
     border-color: rgba(0, 0, 0, 0);
-    border-top-color: darken($color-accent, 20%);
+    border-top-color: darken($color-primary, 20%);
     border-width: 10px;
     margin-left: -10px;
 }
@@ -121,9 +121,9 @@
     }
     .single-date {
         position: absolute;
-        fill: $color-accent;
+        fill: $color-primary;
         fill-opacity: 1;
-        stroke: $color-accent, 10%;
+        stroke: $color-primary, 10%;
         stroke-width: 1;
         stroke-opacity: 1;
         cursor: -webkit-grab;
@@ -148,7 +148,7 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    font-family: "Roboto Mono";
+    // font-family: "Roboto Mono";
     font-weight: 300;
     z-index: 1;
     width: 60px;
@@ -156,8 +156,10 @@
     background: white;
     @include light-shadow();
     button {
-        font-weight: 400;
-        font-family: "Roboto Mono";
+        font-size: 1.15rem;
+        padding-left: 1px;
+        padding-right: 1px;
+        // font-family: "Roboto Mono";
     }
     .resolution-selector {
         position: absolute;
@@ -168,11 +170,9 @@
         top: 200%;
         left: 50%;
         transform: translate(-50%, 0px);
-        border: 1px solid $color-accent;
-        border-radius: 4px;
+        border-radius: 2px;
         transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
         @include medium-shadow();
-
         &:after,
         &:before {
             top: 100%;
@@ -184,7 +184,6 @@
             position: absolute;
             pointer-events: none;
         }
-
         &:after {
             border-color: rgba(0, 0, 0, 0);
             border-top-color: $color-light;
@@ -193,7 +192,7 @@
         }
         &:before {
             border-color: rgba(0, 0, 0, 0);
-            border-top-color: $color-accent;
+            border-top-color: rgba(0, 0, 0, 0.12);
             border-width: 11px;
             margin-left: -11px;
         }

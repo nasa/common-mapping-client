@@ -37,26 +37,26 @@ export class ResolutionStep extends Component {
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(false) : false;}} />
                 <div className={resolutionSelectorClasses}>
                     <Button
-                        neutral
+                        primary
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
-                        neutral
+                        primary
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
-                        neutral
+                        primary
                         label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
                     />
                 </div>
                 <IconButton
-                    accent={this.props.isSelectingResolution}
+                    primary={this.props.isSelectingResolution}
                     onClick={() => this.toggleResolutionSelector()}
                     className="timeline-zoom"
                     icon="filter_list"

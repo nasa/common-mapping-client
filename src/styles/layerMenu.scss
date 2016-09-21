@@ -16,6 +16,7 @@
     padding: 0px;
     margin: 0.5rem 0px;
     font-size: 1.4rem;
+    color: $color-dark;
 }
 
 .layer-toggle {
@@ -31,7 +32,7 @@
 }
 
 .layer-toggle.active > span {
-    background: rgba($color-accent, .5);
+    background: rgba($color-primary, .5);
 }
 
 .layer-toggle span[role="thumb"] {
@@ -43,7 +44,7 @@
 
 .layer-toggle.active span[role="thumb"] {
     left: 1.5rem;
-    background: $color-accent;
+    background: $color-primary;
 }
 
 .layer-pallete-icon {
@@ -139,9 +140,9 @@
 .position-controls-container,
 .opacity-slider-container {
     z-index: -1;
-    border-radius: 4px;
+    border-radius: 2px;
     background: $color-light;
-    border: 1px solid $color-accent;
+    // border: 1px solid $color-primary;
     transition: opacity 0.2s linear 0s, right 0s linear 0.21s, z-index 0.21s linear 0s;
     @include medium-shadow();
 }
@@ -192,7 +193,7 @@
 .opacity-slider-container:before,
 .position-controls-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-left-color: $color-accent;
+    border-left-color: rgba(0, 0, 0, 0.12);
     border-width: 11px;
     margin-top: -11px;
 }
@@ -201,14 +202,14 @@
 .opacity-slider-container {
     [data-react-toolbox="slider"] {
         & div > div:first-child > div {
-            background: $color-accent;
+            background: $color-primary;
         }
         & [data-react-toolbox="progress-bar"] {
             [data-ref="buffer"] {
-                background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(to right, $color-accent, $color-accent);
+                background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(to right, $color-primary, $color-primary);
             }
             [data-ref="value"] {
-                background-color: $color-accent;
+                background-color: $color-primary;
             }
         }
     }
@@ -216,6 +217,7 @@
 
 .opacity-label {
     text-align: right;
+    font-family: "Roboto Mono";
 }
 
 .layer-menu-header {
@@ -224,7 +226,7 @@
 }
 
 .layer-menu-note {
-    letter-spacing: 0.15em;
+    letter-spacing: 0.09rem;
     background: $color-light;
     font-family: "Roboto Mono";
     font-size: 0.8em;
@@ -239,7 +241,7 @@
     border-radius: 2px;
     color: $color-medium-dark;
     .layer-menu-note-active {
-        color: $color-accent;
+        color: $color-primary;
     }
 }
 

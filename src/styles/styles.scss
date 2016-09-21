@@ -33,6 +33,7 @@ body {
     cursor: default;
     overflow: hidden !important;
     color: #212121;
+    letter-spacing: 0.02rem;
     @include selectable(none);
 }
 

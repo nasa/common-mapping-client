@@ -120,7 +120,7 @@ export class DatePickerContainer extends Component {
                 <KeyHandler keyEventName={KEYUP} keyValue="Control" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_SLOW)} />
                 <div className="date-picker-selection col-xs-5">
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
+                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
                     </div>
                     <Autocomplete
                       direction="up"
@@ -131,12 +131,12 @@ export class DatePickerContainer extends Component {
                       value={year}
                     />
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
+                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
                     </div>
                 </div>
                 <div className="date-picker-selection col-xs-4">
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
+                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
                     </div>
                     <Autocomplete
                       direction="up"
@@ -147,12 +147,12 @@ export class DatePickerContainer extends Component {
                       value={month}
                     />
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
+                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
                     </div>
                 </div>
                 <div className="date-picker-selection col-xs-3">
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
+                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
                     </div>
                     <Autocomplete
                       direction="up"
@@ -163,7 +163,7 @@ export class DatePickerContainer extends Component {
                       value={day}
                     />
                     <div className="date-picker-selection-increment">
-                        <Button neutral accent icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
+                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
                     </div>
                 </div>
             </div>

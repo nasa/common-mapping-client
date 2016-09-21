@@ -32,7 +32,7 @@ export class MapContextMenu extends Component {
                 <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent={measuringDistance}
+                            primary={measuringDistance}
                             onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_LINE_STRING, mapStrings.MEASURE_DISTANCE)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-distance context-menu-icon" />
@@ -41,7 +41,7 @@ export class MapContextMenu extends Component {
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent={measuringArea}
+                            primary={measuringArea}
                             onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_POLYGON, mapStrings.MEASURE_AREA)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-area context-menu-icon" />
@@ -60,7 +60,7 @@ export class MapContextMenu extends Component {
                 <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent={drawingCircle}
+                            primary={drawingCircle}
                             label="Circle"
                             icon="radio_button_unchecked"
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}
@@ -68,7 +68,7 @@ export class MapContextMenu extends Component {
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent={drawingLineString}
+                            primary={drawingLineString}
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
                             className="context-menu-item" >
                             <i className="ms ms-line context-menu-icon" />
@@ -77,7 +77,7 @@ export class MapContextMenu extends Component {
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
-                            accent={drawingPolygon}
+                            primary={drawingPolygon}
                             onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}
                             className="context-menu-item" >
                             <i className="ms ms-polygon context-menu-icon" />
