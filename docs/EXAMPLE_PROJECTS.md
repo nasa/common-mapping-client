@@ -12,7 +12,7 @@
 * Game controls
 * Planetary imagery/projection/ellipsoids
 * Disabling 2D or 3D map
-* Drop a pin on map and have pin display pixel colors at location for all layers.
+* Drop a pin on map and have pin display pixel data at location for all layers.
 * Storing, retrieving, displaying, querying, etc. analytics
 * Walkthrough for a non-trivial app (ex. a viewer for CORAL data)
 
