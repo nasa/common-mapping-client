@@ -102,12 +102,12 @@ export function loadInitialData(callback = null) {
 export function loadPaletteData() {
     return (dispatch) => {
         let url = URLS.paletteConfig;
-        dispatch(paletteDataLoaded());
+        dispatch(paletteDataLoading());
         return fetch(url).then((response) => {
             return response.json();
         }).then((resp) => {
             dispatch(ingestLayerPalettes(resp));
-            dispatch(paletteDataLoading());
+            dispatch(paletteDataLoaded());
         }).catch((err) => {
             console.warn("Error in LayerActions.loadPaletteData:", err);
             throw err;

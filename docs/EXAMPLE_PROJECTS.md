@@ -10,13 +10,10 @@
 * Display 3D model
 * Flying tour + Cesium VR
 * Game controls
-* Custom Cesium ellipsoid
 * Planetary imagery/projection/ellipsoids
 * Disabling 2D or 3D map
-* Drop a pin on map and have pin display pixel colors at location for all layers.
-* Draggable, expandable, hideable scalebar
+* Drop a pin on map and have pin display pixel data at location for all layers.
 * Storing, retrieving, displaying, querying, etc. analytics
 * Walkthrough for a non-trivial app (ex. a viewer for CORAL data)
-* Mobile display
 
 # Projects that used CMC to get started
