@@ -24,6 +24,9 @@ on top of our client.
 If a capability or widget is not in 85% of mapping applications, it will not be
 part of CMC-Core.
 
+#### Live Demo
+Check out our live demo http://graywhale:49160/
+
 #### Getting Started
 
 1. Head over to our [release page](LINK TO RELEASE PAGE) and grab the tag
