@@ -4,6 +4,7 @@
 * Color palettes + recoloring
 * User-entered JS functions to map over layer pixel/data values
 * ESRI JS 2D map example
+* Docker + CMC https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker
 * Animation
 * Mobile interface example
 * Dark theme example
