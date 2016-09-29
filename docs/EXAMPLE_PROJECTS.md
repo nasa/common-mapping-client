@@ -16,4 +16,7 @@
 * Storing, retrieving, displaying, querying, etc. analytics
 * Walkthrough for a non-trivial app (ex. a viewer for CORAL data)
 
+# Tip for forking and merging in changes from cmc-core
+http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository/3903835#3903835
+
 # Projects that used CMC to get started
