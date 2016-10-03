@@ -11,7 +11,7 @@
 * Display 3D model
 * Flying tour + Cesium VR
 * Game controls
-* Planetary imagery/projection/ellipsoids
+* [Planetary imagery/custom Cesium ellipsoids](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-planetary)
 * Disabling 2D or 3D map
 * Drop a pin on map and have pin display pixel data at location for all layers.
 * [Analytics Storage and Analysis](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-analytics)
