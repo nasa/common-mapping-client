@@ -76,6 +76,22 @@ const setTerrainEnabled = (state, action) => {
     return state;
 };
 
+const setTerrainExaggeration = (state, action) => {
+    let anySucceed = state.get("maps").reduce((acc, map) => {
+        if (map.is3D) {
+            if (map.setTerrainExaggeration(action.terrainExaggeration)) {
+                return true;
+            }
+        }
+        return acc;
+    }, false);
+
+    if (anySucceed) {
+        return state.setIn(["displaySettings", "selectedTerrainExaggeration"], action.terrainExaggeration);
+    }
+    return state;
+};
+
 const setScaleUnits = (state, action) => {
     let anySucceed = state.get("maps").reduce((acc, map) => {
         if (map.setScaleUnits(action.units)) {
@@ -872,6 +888,9 @@ const resetApplicationState = (state, action) => {
     // set scale units
     newState = setScaleUnits(newState, { units: mapConfig.DEFAULT_SCALE_UNITS });
 
+    // set terrain exaggeration
+    newState = setTerrainExaggeration(newState, { terrainExaggeration: mapConfig.DEFAULT_TERRAIN_EXAGGERATION });
+
     // Remove all user vector geometries
     newState = removeAllDrawings(newState, {});
 
@@ -891,6 +910,9 @@ export default function map(state = mapState, action) {
 
         case actionTypes.SET_TERRAIN_ENABLED:
             return setTerrainEnabled(state, action);
+
+        case actionTypes.SET_TERRAIN_EXAGGERATION:
+            return setTerrainExaggeration(state, action);
 
         case actionTypes.SET_SCALE_UNITS:
             return setScaleUnits(state, action);

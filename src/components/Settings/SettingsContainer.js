@@ -77,6 +77,14 @@ export class SettingsContainer extends Component {
                         source={mapConfig.SCALE_OPTIONS}
                         value={this.props.mapSettings.get("selectedScaleUnits")}
                     />
+                    <MenuDropdown
+                         auto
+                         label="Terrain Exaggeration"
+                         className="list-item-dropdown"
+                         onChange={(value) => this.props.mapActions.setTerrainExaggeration(value)}
+                         source={mapConfig.TERRAIN_EXAGGERATION_OPTIONS}
+                         value={this.props.mapSettings.get("selectedTerrainExaggeration")}
+                    />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Political Boundaries"

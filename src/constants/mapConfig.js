@@ -6,6 +6,7 @@ export const DEFAULT_PROJECTION = mapStrings.PROJECTIONS.latlon;
 export const DEFAULT_CENTER = [0, 0];
 export const DEFAULT_ZOOM = 3;
 export const DEFAULT_SCALE_UNITS = 'metric';
+export const DEFAULT_TERRAIN_EXAGGERATION = 1;
 export const DEFAULT_TERRAIN_ENDPOINT = '//assets.agi.com/stk-terrain/world';
 export const MIN_ZOOM = 2;
 export const MAX_ZOOM = 10000;
@@ -18,10 +19,17 @@ export const POLITICAL_BOUNDARIES_LAYER_ID = "Reference_Features";
 // export const DEFAULT_DATE = new Date();
 export const DEFAULT_DATE = moment("2015-05-20", "YYYY-MM-DD").toDate(); // set to 2015-05-20 for testing
 export const SCALE_OPTIONS = [
-    { value: 'metric', label: 'Metric', abbrev: 'm/km', qtyType: 'm'},
-    { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi', qtyType: 'ft'},
-    { value: 'nautical', label: 'Nautical', abbrev: 'nmi', qtyType: 'nmi'},
+    { value: 'metric', label: 'Metric', abbrev: 'm/km', qtyType: 'm' },
+    { value: 'imperial', label: 'Imperial', abbrev: 'ft/mi', qtyType: 'ft' },
+    { value: 'nautical', label: 'Nautical', abbrev: 'nmi', qtyType: 'nmi' },
     { value: 'schoolbus', label: 'Schoolbus', abbrev: '', toMeters: 13.72 }
+];
+export const TERRAIN_EXAGGERATION_OPTIONS = [
+    { value: 0.5, label: '0.5' },
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 5, label: '5' },
+    { value: 10, label: '10' }
 ];
 export const GEOMETRY_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
 export const GEOMETRY_STROKE_COLOR = "rgba(255, 204, 0, 1)";

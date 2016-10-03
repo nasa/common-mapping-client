@@ -173,6 +173,30 @@ describe('Store - Map', function() {
         TestUtil.compareFullStates(actual, expected);
     });
 
+    it('can set 3D terrain exaggeration', function() {
+        const store = createStore(rootReducer, initialState);
+
+        const actions = [
+            mapActions.initializeMap(mapStrings.MAP_LIB_3D, "map3D"),
+            mapActions.setTerrainExaggeration(mapConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value)
+        ];
+        actions.forEach(action => store.dispatch(action));
+
+        const state = store.getState();
+        const actualMap3D = state.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
+
+        const actual = {...state };
+        actual.map = actual.map.remove("maps");
+
+        const expected = {...initialState };
+        expected.map = expected.map
+            .remove("maps")
+            .setIn(["displaySettings", "selectedTerrainExaggeration"], mapConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value);
+
+        expect(actualMap3D.map.scene.terrainExaggeration).to.equal(mapConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value);
+        TestUtil.compareFullStates(actual, expected);
+    });
+
     it('can disable 3D terrain', function() {
         const store = createStore(rootReducer, initialState);
 

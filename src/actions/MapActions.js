@@ -24,6 +24,10 @@ export function setTerrainEnabled(enabled) {
     return { type: types.SET_TERRAIN_ENABLED, enabled };
 }
 
+export function setTerrainExaggeration(terrainExaggeration) {
+    return { type: types.SET_TERRAIN_EXAGGERATION, terrainExaggeration };
+}
+
 export function setScaleUnits(units) {
     return { type: types.SET_SCALE_UNITS, units };
 }
@@ -81,7 +85,7 @@ export function addGeometryToMap(geometry, interactionType, geodesic = false) {
 }
 
 export function addMeasurementLabelToGeometry(geometry, measurementType, units) {
-    return { type: types.ADD_MEASUREMENT_LABEL_TO_GEOMETRY, geometry, measurementType, units};
+    return { type: types.ADD_MEASUREMENT_LABEL_TO_GEOMETRY, geometry, measurementType, units };
 }
 
 export function removeAllDrawings() {

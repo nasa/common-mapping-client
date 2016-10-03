@@ -104,6 +104,21 @@ export default class MapWrapper_cesium extends MapWrapper {
         return true;
     }
 
+    setTerrainExaggeration(terrainExaggeration) {
+        // Set terrain exaggeration on scene
+        this.map.scene._terrainExaggeration = terrainExaggeration;
+
+        // Force re-render if terrain is currently enabled
+        if (this.map.terrainProvider !== new this.cesium.EllipsoidTerrainProvider()) {
+            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({
+                url: mapConfig.DEFAULT_TERRAIN_ENDPOINT
+            });
+        }
+        return true;
+    }
+
+
     enableTerrain(enable) {
         if (enable) {
             this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({
@@ -514,14 +529,14 @@ export default class MapWrapper_cesium extends MapWrapper {
 
         let svgString = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="85">' +
             '<foreignObject width="100%" height="100%">' +
-                '<div xmlns="http://www.w3.org/1999/xhtml">' +
-                    '<div style="transform:scale(1);' + tooltipStyles + '">' +
-                        '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
-                        '<span style="' + tooltipAfterStyles + '"></span>' +
-                    '</div>' +
-                '</div>' +
+            '<div xmlns="http://www.w3.org/1999/xhtml">' +
+            '<div style="transform:scale(1);' + tooltipStyles + '">' +
+            '<span style="' + tooltipContentStyles + '">' + text + '</span>' +
+            '<span style="' + tooltipAfterStyles + '"></span>' +
+            '</div>' +
+            '</div>' +
             '</foreignObject>' +
-        '</svg>';
+            '</svg>';
 
         let image = new Image();
         image.src = 'data:image/svg+xml;base64,' + window.btoa(svgString);

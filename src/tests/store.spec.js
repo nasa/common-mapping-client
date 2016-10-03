@@ -56,6 +56,7 @@ describe('Store', function() {
             }),
             MapActions.zoomIn(),
             MapActions.setTerrainEnabled(false),
+            MapActions.setTerrainExaggeration(mapConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
             MapActions.setScaleUnits(mapConfig.SCALE_OPTIONS[1].value),
             MapActions.zoomOut(),
             MapActions.resetOrientation(0),
