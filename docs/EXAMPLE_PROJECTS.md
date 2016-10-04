@@ -7,7 +7,7 @@
 * [Docker + CMC](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker)
 * [Animation](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-animation)
 * Mobile interface example
-* Dark theme example
+* [Dark theme example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-dark-theme)
 * Display 3D model
 * Flying tour + Cesium VR
 * Game controls
