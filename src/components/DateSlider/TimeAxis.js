@@ -133,12 +133,12 @@ export class TimeAxis extends Component {
                 </clipPath>
                 <rect id="chart-bounds" />
                 <g id="x-axis" />
-                <defs>
+                <defs>  
                     <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
                         <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"></feGaussianBlur>
-                        <feOffset dx="0" dy="1"></feOffset>
+                        <feOffset dx="0" dy="2"></feOffset>
                         <feComponentTransfer>
-                            <feFuncA type="linear" slope="0.65"></feFuncA>
+                            <feFuncA type="linear" slope="0.45"></feFuncA>
                         </feComponentTransfer>
                         <feMerge>
                             <feMergeNode></feMergeNode>
