@@ -693,7 +693,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
             if (mapLayer) {
-                mapLayer.show = false;
+                this.removeLayer(mapLayer);
             }
             return true;
         } catch (err) {

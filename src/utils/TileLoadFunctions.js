@@ -19,7 +19,7 @@ options: object containing the following...
 RETURN: none
 **/
 
-let catSizes = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
+const CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
 
 export function catsIntercept_OL(options) {
     let tile = options.tile;
@@ -31,7 +31,7 @@ export function catsIntercept_OL(options) {
         // $a() == getImage() in minified ol3 code
         // TODO: this function must be updated if openlayers is updated
         // do NOT use an arrow function (loses context)
-        let tileSize = catSizes[Math.floor(Math.random() * (catSizes.length - 1)) + 1];
+        let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
         let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
         tile.getImage = tile.$a = function(optContext) {
             let node = this._origGetImageFunc(optContext);
@@ -45,7 +45,7 @@ export function catsIntercept_OL(options) {
 
 export function catsIntercept_CS(options) {
     let imgTile = new Image();
-    let tileSize = catSizes[Math.floor(Math.random() * (catSizes.length - 1)) + 1];
+    let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
     let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
 
     imgTile.onload = () => {

@@ -23,19 +23,27 @@
         padding: 0px;
         margin-bottom: 2.5rem;
         font-family: "Roboto Mono";
+        li {
+            padding: 0.5rem 0px;
+            text-align: center;
+        }
     }
 }
 
-.date-picker-selection-increment {
+.date-picker .date-picker-selection-increment {
     opacity: 0;
     transition: opacity 0.1s linear 0s;
+}
+.date-picker:hover .date-picker-selection-increment {
+    opacity: 1;
 }
 
 .date-picker-selection-increment button {
     font-size: 1.15rem;
     padding: 0.3rem;
-    min-width: initial;
     line-height: 1rem;
+    min-width: initial;
+    max-width: 100%;
     width: 100%;
     height: initial;
     text-align: center;
@@ -46,6 +54,7 @@
     height: auto;
     font-size: 3rem;
     line-height: 1rem !important;
+    max-width: 100%;
 }
 
 #datePickerContainer {
@@ -62,6 +71,3 @@
     @include medium-shadow();
 }
 
-#datePickerContainer:hover .date-picker-selection-increment {
-    opacity: 1;
-}
