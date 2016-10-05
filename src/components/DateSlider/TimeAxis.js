@@ -135,13 +135,17 @@ export class TimeAxis extends Component {
                 <g id="x-axis" />
                 <defs>
                     <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="1" />
-                        <feOffset dx="0" dy="1" />
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"></feGaussianBlur>
+                        <feOffset dx="0" dy="1"></feOffset>
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.65"></feFuncA>
+                        </feComponentTransfer>
                         <feMerge>
-                            <feMergeNode />
-                            <feMergeNode in="SourceGraphic" />
+                            <feMergeNode></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
                         </feMerge>
                     </filter>
+
                 </defs>
                 <line className="timeline-horiz-axis" y1="14" y2="14" />
                 <SingleDate
