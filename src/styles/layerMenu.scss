@@ -146,7 +146,7 @@
     }
     .position-controls-container,
     .opacity-slider-container {
-        z-index: -1;
+        z-index: 0;
         opacity: 0;
         visibility: hidden;
         border-radius: 2px;
@@ -159,7 +159,7 @@
     .position-controls-container.active {
         transition: opacity 0s linear 0s, visibility 0s linear 0s;
         opacity: 1;
-        z-index: 1;
+        z-index: 2;
         visibility: visible;
     }
     .opacity-slider-container:after,
