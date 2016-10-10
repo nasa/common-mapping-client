@@ -1,18 +1,13 @@
-#mouseFollowerContainer {
+.mouse-follower-container {
     position: fixed;
     z-index: -1;
-    background: rgba($color-medium-dark, 0.85);
-    color: $color-light;
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
-    max-width: 250px;
-    word-wrap: normal;
-    border-radius: 2px;
+    background: none;
     margin: 0px;
     transform: translate(25px, -50%);
     visibility: hidden;
-    letter-spacing: 0.04rem;
     pointer-events: none;
+    border-radius: 2px;
+    @include medium-shadow();
     &.active {
         visibility: visible;
         z-index: 1;
@@ -20,9 +15,32 @@
     &.right {
         transform: translate(calc(-100% - 25px), -50%);
     }
-    .mouse-follower-line.line-0 {
+    .content-container {
+        background: $color-light;
+        color: $color-dark;
+        position: relative;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        @include light-shadow();
+    }
+    .current-coordinate {
+        padding: 0.3rem;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        background: $color-medium-light;
+        font-size: 1.2rem;
+        color: rgba($color-dark, 0.8);
         font-weight: 600;
-        margin-bottom: 0.5rem;
         font-family: "Roboto Mono";
+    }
+    &.dark {
+        .content-container {
+            background: rgba($color-dark, 0.85);
+            color: $color-light;
+        }
+        .current-coordinate {
+            background: rgba($color-dark, 0.7);
+            color: $color-light;   
+        }
     }
 }

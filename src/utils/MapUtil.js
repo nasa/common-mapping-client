@@ -28,7 +28,7 @@ export default class MapUtil {
     }
 
     // constrains coordinates to [+-180, +-90]
-    static constrainCoordinates(coords) {
+    static constrainCoordinates(coords, limitY = true) {
         // check for array of numbers
         if ((typeof coords !== "object") ||
             (coords.length !== 2) ||
@@ -60,10 +60,33 @@ export default class MapUtil {
         }
 
         // constrain y
-        if (coords[1] > 0) {
-            newCoords[1] = Math.min(90, coords[1]);
+        if (limitY) {
+            // simple top/bottom limit
+            if (coords[1] > 0) {
+                newCoords[1] = Math.min(90, coords[1]);
+            } else {
+                newCoords[1] = Math.max(-90, coords[1]);
+            }
         } else {
-            newCoords[1] = Math.max(-90, coords[1]);
+            // handle vertical wrapping
+            if (Math.abs(coords[1]) > 90) {
+                let scale = Math.floor(coords[1] / 90);
+                if (coords[1] < 0) {
+                    if (scale % 2 !== 0) {
+                        newCoords[1] = coords[1] % 90;
+                    } else {
+                        newCoords[1] = 90 - Math.abs(coords[1] % 90);
+                    }
+                } else {
+                    if (scale % 2 !== 0) {
+                        newCoords[1] = 0 - (90 - Math.abs(coords[1] % 90));
+                    } else {
+                        newCoords[1] = coords[1] % 90;
+                    }
+                }
+            } else {
+                newCoords[1] = coords[1];
+            }
         }
         return newCoords;
     }
