@@ -17,6 +17,8 @@ export class MapContainer3D extends Component {
             map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
             map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+        } else {
+            console.error("Cannot initialize 3D draw listeners: MAP NOT AVAILABLE");
         }
     }
 
@@ -26,7 +28,7 @@ export class MapContainer3D extends Component {
             map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_DISTANCE), mapStrings.INTERACTION_MEASURE);
             map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_AREA), mapStrings.INTERACTION_MEASURE);
         } else {
-            console.error("Cannot initialize draw listeners: MAP NOT AVAILABLE");
+            console.error("Cannot initialize 3D measurement listeners: MAP NOT AVAILABLE");
         }
     }
 
