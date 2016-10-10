@@ -1055,6 +1055,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    clearCache() {
+        try {
+            this.layerCache.clear();
+            return true;
+        } catch (err) {
+            console.warn("Error in MapWrapper_openlayers.clearCache:", err);
+            return false;
+        }
+    }
+
     /* functions for openlayers only */
     generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {

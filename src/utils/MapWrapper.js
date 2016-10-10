@@ -183,4 +183,8 @@ export default class MapWrapper {
         console.warn("getPixelFromClickEvent not implemented in subclass");
         return false;
     }
+    clearCache() {
+        console.warn("clearCache not implemented in subclass");
+        return false;
+    }
 }
