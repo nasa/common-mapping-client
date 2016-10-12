@@ -1,8 +1,8 @@
 # Example projects
 
 * Tabbar UI
-* Dynamic User Defined Layer Recoloring + Extracting Pixel Data
-* ESRI JS 2D map example
+* [Dynamic User Defined Layer Recoloring + Extracting Pixel Data](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-tile-data-extraction) – ([Demo](http://graywhale:49170/))
+* [ESRI JS 2D map example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-arcgisjs) – ([Demo](http://graywhale:49169/))
 * [Docker + CMC](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker) – ([Demo](http://graywhale:49160/))
 * [Animation](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-animation) – ([Demo](http://graywhale:49165/))
 * Mobile interface example
