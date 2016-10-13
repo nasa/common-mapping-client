@@ -62,9 +62,6 @@ describe('Map Utils', () => {
             expect(MapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3);
             expect(MapUtil.constrainCoordinates(varIn4)).to.deep.equal(varOut4);
         });
-
-
-        // TODO
         it('can optionally wrap the y coordinate instead of simply capping it to +-90', () => {
             let varIn = [190, -100];
             let varOut = [-170, 80];
@@ -87,8 +84,6 @@ describe('Map Utils', () => {
             expect(MapUtil.constrainCoordinates(varIn2, false)).to.deep.equal(varOut2);
             expect(MapUtil.constrainCoordinates(varIn3, false)).to.deep.equal(varOut3);
         });
-
-
         it('Returns false with bad input', () => {
             let varIn1 = "cats";
             let varOut1 = false;
