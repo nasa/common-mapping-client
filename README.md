@@ -3,7 +3,7 @@
 #### Overview
 
 The Common Mapping Client (CMC) aims to solve the problem of redundant and unshared
-code in scientific web mapping applicaitons.
+code in scientific web mapping applications.
 
 Over the years, there have been many projects that try to solve the same issue:
 put data on a map and explore it. There is an increasingly steep hill to climb
