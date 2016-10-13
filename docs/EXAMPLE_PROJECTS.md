@@ -1,21 +1,19 @@
 # Example projects
 
 * Tabbar UI
-* Color palettes + recoloring
-* User-entered JS functions to map over layer pixel/data values
-* ESRI JS 2D map example
-* [Docker + CMC](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker)
-* [Animation](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-animation)
+* [Dynamic User Defined Layer Recoloring + Extracting Pixel Data](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-tile-data-extraction) – ([Demo](http://graywhale:49170/))
+* [ESRI JS 2D map example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-arcgisjs) – ([Demo](http://graywhale:49169/))
+* [Docker + CMC](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker) – ([Demo](http://graywhale:49160/))
+* [Animation](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-animation) – ([Demo](http://graywhale:49165/))
 * Mobile interface example
-* [Dark theme example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-dark-theme)
+* [Dark theme example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-dark-theme) – ([Demo](http://graywhale:49166/))
 * Display 3D model
 * Flying tour + Cesium VR
 * Game controls
-* [Planetary imagery/custom Cesium ellipsoids](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-planetary)
-* [2D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-2D-only)
-* [3D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-3D-only)
-* Drop a pin on map and have pin display pixel data at location for all layers.
-* [Analytics Storage and Analysis](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-analytics)
+* [Planetary imagery/custom Cesium ellipsoids](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-planetary) – ([Demo](http://graywhale:49164/))
+* [2D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-2D-only) – ([Demo](http://graywhale:49167/))
+* [3D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-3D-only) – ([Demo](http://graywhale:49168/))
+* [Analytics Storage and Analysis](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-analytics) – ([Demo Client](http://graywhale:49161/), [Demo Server](http://graywhale:49162/))
 * Walkthrough for a non-trivial app (ex. a viewer for CORAL data)
 
 # Tip for forking and merging in changes from cmc-core
