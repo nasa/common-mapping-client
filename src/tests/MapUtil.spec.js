@@ -67,10 +67,10 @@ describe('Map Utils', () => {
         // TODO
         it('can optionally wrap the y coordinate instead of simply capping it to +-90', () => {
             let varIn = [190, -100];
-            let varOut = [-170, 10];
+            let varOut = [-170, 80];
 
             //assert
-            expect(MapUtil.constrainCoordinates(varIn)).to.deep.equal(varOut, false);
+            expect(MapUtil.constrainCoordinates(varIn, false)).to.deep.equal(varOut);
         });
         it('optionally wraps latitude values outside [-90, 90] around the [-90, 90] line', () => {
             let varIn1 = [50, 180];
@@ -80,12 +80,12 @@ describe('Map Utils', () => {
             let varOut2 = [50, -89];
 
             let varIn3 = [50, 321];
-            let varOut3 = [50, 90];
+            let varOut3 = [50, -39];
 
             //assert
-            expect(MapUtil.constrainCoordinates(varIn1)).to.deep.equal(varOut1, false);
-            expect(MapUtil.constrainCoordinates(varIn2)).to.deep.equal(varOut2, false);
-            expect(MapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3, false);
+            expect(MapUtil.constrainCoordinates(varIn1, false)).to.deep.equal(varOut1);
+            expect(MapUtil.constrainCoordinates(varIn2, false)).to.deep.equal(varOut2);
+            expect(MapUtil.constrainCoordinates(varIn3, false)).to.deep.equal(varOut3);
         });
 
 
