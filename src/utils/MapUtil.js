@@ -91,7 +91,8 @@ export default class MapUtil {
         return newCoords;
     }
 
-    //  deconstrain a set of coordinates from [-180, 180]
+    // deconstrain a set of polyline coordinates from [-180, 180]
+    // this is meant for polylines that cross the dateline.
     static deconstrainArcCoordinates(linesArr) {
         // if there is only one polyline, then we assume no splitting has occured
         if (linesArr.length < 2) {

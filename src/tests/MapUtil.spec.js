@@ -62,6 +62,33 @@ describe('Map Utils', () => {
             expect(MapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3);
             expect(MapUtil.constrainCoordinates(varIn4)).to.deep.equal(varOut4);
         });
+
+
+        // TODO
+        it('can optionally wrap the y coordinate instead of simply capping it to +-90', () => {
+            let varIn = [190, -100];
+            let varOut = [-170, 10];
+
+            //assert
+            expect(MapUtil.constrainCoordinates(varIn)).to.deep.equal(varOut, false);
+        });
+        it('optionally wraps latitude values outside [-90, 90] around the [-90, 90] line', () => {
+            let varIn1 = [50, 180];
+            let varOut1 = [50, 0];
+
+            let varIn2 = [50, -269];
+            let varOut2 = [50, -89];
+
+            let varIn3 = [50, 321];
+            let varOut3 = [50, 90];
+
+            //assert
+            expect(MapUtil.constrainCoordinates(varIn1)).to.deep.equal(varOut1, false);
+            expect(MapUtil.constrainCoordinates(varIn2)).to.deep.equal(varOut2, false);
+            expect(MapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3, false);
+        });
+
+
         it('Returns false with bad input', () => {
             let varIn1 = "cats";
             let varOut1 = false;
