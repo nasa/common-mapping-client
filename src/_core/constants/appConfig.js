@@ -3,17 +3,16 @@ import moment from 'moment';
 // Endpoints
 export const URLS = {
     layerConfig: [{
-        url: "_core/default-data/capabilities.xml",
+        url: "default-data/capabilities.xml",
         type: "wmts/xml"
     }, {
-        url: "_core/default-data/layers.json",
+        url: "default-data/layers.json",
         type: "json"
     }],
-    paletteConfig: "_core/default-data/palettes.json"
+    paletteConfig: "default-data/palettes.json"
 };
 
 // Time slider
-export const SCRUBBING_UPDATE = true;
 export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD").toDate();
 export const MAX_DATE = moment(new Date()).add(1, 'month').toDate();
 

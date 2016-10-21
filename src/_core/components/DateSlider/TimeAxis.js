@@ -88,10 +88,7 @@ export class TimeAxis extends Component {
         // update if configured
         let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.dateSliderActions.hoverDate(date, xValue);
-        if(appConfig.SCRUBBING_UPDATE) {
-            this.props.mapActions.setDate(date);
-        }
-
+        this.props.mapActions.setDate(date);
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
