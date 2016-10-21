@@ -11,7 +11,7 @@ import asyncronous from './async';
 import analytics from './analytics';
 import alerts from './alerts';
 
-const coreReducer = combineReducers({
+const rootReducer = combineReducers({
     view,
     map,
     settings,
@@ -24,4 +24,4 @@ const coreReducer = combineReducers({
     alerts
 });
 
-export default coreReducer;
+export default rootReducer;
