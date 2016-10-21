@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dialog from 'react-toolbox/lib/dialog';
-import AsyncImageContainer from '../AsyncImage/AsyncImageContainer';
+import AsyncImageContainer from '_core/components/AsyncImage/AsyncImageContainer';
 import { List, ListItem, ListDivider } from 'react-toolbox/lib/list';
-import * as actions from '../../actions/AppActions';
-import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '_core/actions/AppActions';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerInfoContainer extends Component {
     render() {

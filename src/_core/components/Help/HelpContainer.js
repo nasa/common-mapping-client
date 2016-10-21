@@ -3,9 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
-import * as actions from '../../actions/AppActions';
-import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
-import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '_core/actions/AppActions';
+import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class HelpContainer extends Component {
     componentWillMount() {
@@ -24,7 +24,7 @@ export class HelpContainer extends Component {
         // get markdown and parse it
         let cvt = new showdown.Converter();
         this.helpPageContent = {};
-        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('../../default-data/help/about.md'));
+        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('_core/default-data/help/about.md'));
         this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('../../default-data/help/faq.md'));
         this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('../../default-data/help/systemReqs.md'));
     }

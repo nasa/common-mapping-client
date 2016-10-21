@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+import * as actionTypes from '_core/constants/actionTypes';
 import { alertState, alert } from './models/alert';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.

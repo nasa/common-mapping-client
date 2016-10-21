@@ -1,4 +1,4 @@
-import '../lib/cesium/Cesium.js';
+import 'lib/cesium/Cesium.js';
 
 export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTilingScheme {
     constructor(options, wmtsOptions = {}) {

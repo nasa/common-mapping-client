@@ -2,29 +2,29 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactTooltip from 'react-tooltip';
-import * as actions from '../../actions/AppActions';
-import * as mapActions from '../../actions/MapActions';
-import * as layerActions from '../../actions/LayerActions';
-import * as mapStrings from '../../constants/mapStrings';
-import MiscUtil from '../../utils/MiscUtil';
-import MapContainer from '../Map/MapContainer';
-import MapContextMenu from '../Map/MapContextMenu';
-import MapControlsContainer from '../Map/MapControlsContainer';
-import SettingsContainer from '../Settings/SettingsContainer';
-import ShareContainer from '../Share/ShareContainer';
-import LayerInfoContainer from '../LayerInfo/LayerInfoContainer';
-import LoadingContainer from '../Loading/LoadingContainer';
-import HelpContainer from '../Help/HelpContainer';
-import AlertsContainer from '../Alerts/AlertsContainer';
-import DateSliderContainer from '../DateSlider/DateSliderContainer';
-import DatePickerContainer from '../DatePicker/DatePickerContainer';
-import AppBarContainer from '../AppBar/AppBarContainer';
-import LayerMenuContainer from '../LayerMenu/LayerMenuContainer';
-import MouseFollowerContainer from '../MouseFollower/MouseFollowerContainer';
-import AnalyticsContainer from '../Analytics/AnalyticsContainer';
-// import '../../styles/styles.scss';
+import * as actions from '_core/actions/AppActions';
+import * as mapActions from '_core/actions/MapActions';
+import * as layerActions from '_core/actions/LayerActions';
+import * as mapStrings from '_core/constants/mapStrings';
+import MiscUtil from '_core/utils/MiscUtil';
+import MapContainer from '_core/components/Map/MapContainer';
+import MapContextMenu from '_core/components/Map/MapContextMenu';
+import MapControlsContainer from '_core/components/Map/MapControlsContainer';
+import SettingsContainer from '_core/components/Settings/SettingsContainer';
+import ShareContainer from '_core/components/Share/ShareContainer';
+import LayerInfoContainer from '_core/components/LayerInfo/LayerInfoContainer';
+import LoadingContainer from '_core/components/Loading/LoadingContainer';
+import HelpContainer from '_core/components/Help/HelpContainer';
+import AlertsContainer from '_core/components/Alerts/AlertsContainer';
+import DateSliderContainer from '_core/components/DateSlider/DateSliderContainer';
+import DatePickerContainer from '_core/components/DatePicker/DatePickerContainer';
+import AppBarContainer from '_core/components/AppBar/AppBarContainer';
+import LayerMenuContainer from '_core/components/LayerMenu/LayerMenuContainer';
+import MouseFollowerContainer from '_core/components/MouseFollower/MouseFollowerContainer';
+import AnalyticsContainer from '_core/components/Analytics/AnalyticsContainer';
+import '_core/styles/styles.scss';
 
-export class CoreAppContainer extends Component {
+export class AppContainer extends Component {
     componentWillMount() {
         // Setting urlParams as a local variable avoids setting application state before
         // we know if we want to set state via urlParams. If you set urlParams in state, 
@@ -90,7 +90,7 @@ export class CoreAppContainer extends Component {
     }
 }
 
-CoreAppContainer.propTypes = {
+AppContainer.propTypes = {
     actions: PropTypes.object.isRequired
 };
 
@@ -109,4 +109,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     null,
     mapDispatchToProps
-)(CoreAppContainer);
+)(AppContainer);

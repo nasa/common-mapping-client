@@ -1,6 +1,6 @@
-import * as types from '../constants/actionTypes';
-import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as types from '_core/constants/actionTypes';
+import * as appStrings from '_core/constants/appStrings';
+import * as mapConfig from '_core/constants/mapConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';

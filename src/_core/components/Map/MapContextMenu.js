@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { Button } from 'react-toolbox/lib/button';
-import { ContextMenuSubMenu } from '../Reusables/ContextMenuSubMenu';
-import * as actions from '../../actions/MapActions';
-import * as appStrings from '../../constants/appStrings';
-import * as mapStrings from '../../constants/mapStrings';
+import { ContextMenuSubMenu } from '_core/components/Reusables/ContextMenuSubMenu';
+import * as actions from '_core/actions/MapActions';
+import * as appStrings from '_core/constants/appStrings';
+import * as mapStrings from '_core/constants/mapStrings';
 
 export class MapContextMenu extends Component {
 

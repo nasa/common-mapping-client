@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '_core/constants/actionTypes';
 import { setDate } from './MapActions';
 
 export function beginDragging() {

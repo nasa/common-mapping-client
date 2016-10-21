@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import { MenuItem } from "react-contextmenu";
 import { Button } from 'react-toolbox/lib/button';
 import FontIcon from 'react-toolbox/lib/font_icon';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 const menuStyles = {
     position: "relative",

@@ -11,7 +11,7 @@ const GLOBALS = {
 export default {
     debug: true,
     devtool: 'cheap-module-eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
-    noInfo: true, // set to false to see a list of every file being bundled.
+    noInfo: false, // set to false to see a list of every file being bundled.
     entry: [
         'webpack-hot-middleware/client?reload=true',
         './src/index'
@@ -29,14 +29,15 @@ export default {
         new webpack.NoErrorsPlugin()
     ],
     resolve: {
+        modulesDirectories: ["src", "node_modules"],
         extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
     },
     module: {
         unknownContextCritical: false,
         noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js'), path.join(__dirname, 'node_modules/proj4/dist/proj4.js')],
         loaders: [
-            { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/_core/lib') },
-            { test: /\.js$/, include: path.join(__dirname, 'src/_core/lib/arc'), loaders: ['babel', 'eslint'] },
+            { test: /\.js$/, include: path.join(__dirname, 'src'), exclude: path.join(__dirname, 'src/lib'), loaders: ['babel', 'eslint'] },
+            { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
             { test: /Cesium\.js$/, loader: 'script' },
             { test: /DrawHelper\.js$/, loader: 'script' },
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
@@ -44,7 +45,7 @@ export default {
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
             { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'file-loader?name=[name].[ext]' },
-            { test: /\.md$/, loader: "raw-loader" }
+            { test: /\.md$/, loader: 'raw-loader' }
         ]
     },
     toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }

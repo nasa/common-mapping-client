@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import * as mapStrings from '../../constants/mapStrings';
+import * as mapStrings from '_core/constants/mapStrings';
 
 export class DrawingTooltip extends Component {
     render() {

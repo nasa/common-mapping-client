@@ -1,4 +1,4 @@
-import * as actionTypes from '../constants/actionTypes';
+import * as actionTypes from '_core/constants/actionTypes';
 import { settingsState } from './models/settings';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.

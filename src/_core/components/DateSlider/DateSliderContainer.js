@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import d3 from 'd3';
 import moment from 'moment';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 import TimeAxis from './TimeAxis';
 import ResolutionStep from './ResolutionStep';
 

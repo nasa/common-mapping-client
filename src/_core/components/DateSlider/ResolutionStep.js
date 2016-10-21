@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import KeyHandler, { KEYPRESS, KEYUP } from 'react-key-handler';
 import {Button, IconButton} from 'react-toolbox/lib/button';
-import * as appStrings from '../../constants/appStrings';
-import * as DateSliderActions from '../../actions/DateSliderActions';
-import MiscUtil from '../../utils/MiscUtil';
+import * as appStrings from '_core/constants/appStrings';
+import * as DateSliderActions from '_core/actions/DateSliderActions';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class ResolutionStep extends Component {
     adjustResolution(up) {

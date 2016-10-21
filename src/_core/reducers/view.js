@@ -1,6 +1,6 @@
-import * as actionTypes from '../constants/actionTypes';
+import * as actionTypes from '_core/constants/actionTypes';
 import { viewState } from './models/view';
-import MiscUtil from '../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,

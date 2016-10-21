@@ -1,14 +1,14 @@
 import Immutable from 'immutable';
 import moment from 'moment';
-import * as actionTypes from '../constants/actionTypes';
+import * as actionTypes from '_core/constants/actionTypes';
 import { mapState, layerModel, paletteModel } from './models/map';
 import { alert } from './models/alert';
-import MapUtil from '../utils/MapUtil.js';
-import MiscUtil from '../utils/MiscUtil.js';
-import * as appStrings from '../constants/appStrings';
-import * as mapStrings from '../constants/mapStrings';
-import * as appConfig from '../constants/appConfig';
-import * as mapConfig from '../constants/mapConfig';
+import MapUtil from '_core/utils/MapUtil.js';
+import MiscUtil from '_core/utils/MiscUtil.js';
+import * as appStrings from '_core/constants/appStrings';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as appConfig from '_core/constants/appConfig';
+import * as mapConfig from '_core/constants/mapConfig';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,

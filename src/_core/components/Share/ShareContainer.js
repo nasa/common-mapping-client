@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
-import * as actions from '../../actions/AppActions';
-import * as appStrings from '../../constants/appStrings';
-import * as mapStrings from '../../constants/mapStrings';
-import * as mapConfig from '../../constants/mapConfig';
-import MiscUtil from '../../utils/MiscUtil';
-import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
+import * as actions from '_core/actions/AppActions';
+import * as appStrings from '_core/constants/appStrings';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as mapConfig from '_core/constants/mapConfig';
+import MiscUtil from '_core/utils/MiscUtil';
+import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import moment from 'moment';
 
 

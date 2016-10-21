@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
-import * as actions from '../../actions/AppActions';
+import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
+import * as actions from '_core/actions/AppActions';
 
 
 export class AlertsContainer extends Component {

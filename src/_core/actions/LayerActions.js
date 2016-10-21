@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-fetch';
-import { URLS } from '../constants/appConfig';
-import * as types from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
-import * as appStrings from '../constants/appStrings';
+import { URLS } from '_core/constants/appConfig';
+import * as types from '_core/constants/actionTypes';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 import * as AlertActions from './AlertActions';
 
 export function openLayerInfo(layer) {

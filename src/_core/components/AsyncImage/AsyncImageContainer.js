@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
-import * as actions from '../../actions/AppActions';
+import * as actions from '_core/actions/AppActions';
 
 
 export class AsyncImageContainer extends Component {

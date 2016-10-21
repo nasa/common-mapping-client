@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DrawingTooltip from './DrawingTooltip';
-import MiscUtil from '../../utils/MiscUtil';
-import * as mapStrings from '../../constants/mapStrings';
+import MiscUtil from '_core/utils/MiscUtil';
+import * as mapStrings from '_core/constants/mapStrings';
 
 export class MouseFollowerContainer extends Component {
     render() {

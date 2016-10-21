@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-toolbox/lib/dropdown';
-require('../../styles/resources/img/no_tile.png');
+require('_core/styles/resources/img/no_tile.png');
 
 
 const BaseMapDropdown = (props) => {

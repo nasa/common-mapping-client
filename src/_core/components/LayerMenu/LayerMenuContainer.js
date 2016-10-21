@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import * as appConfig from '../../constants/appConfig';
-import * as mapStrings from '../../constants/mapStrings';
-import * as layerActions from '../../actions/LayerActions';
+import * as appConfig from '_core/constants/appConfig';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as layerActions from '_core/actions/LayerActions';
 import LayerControlContainer from './LayerControlContainer';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     render() {

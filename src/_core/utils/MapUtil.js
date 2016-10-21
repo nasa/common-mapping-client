@@ -4,14 +4,14 @@ import turfArea from 'turf-area';
 import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
-import { GreatCircle } from '../lib/arc/arc';
-import * as mapStrings from '../constants/mapStrings';
+import { GreatCircle } from 'lib/arc/arc';
+import * as mapStrings from '_core/constants/mapStrings';
 import * as urlFunctions from './UrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
-import * as mapConfig from '../constants/mapConfig';
+import * as mapConfig from '_core/constants/mapConfig';
 
 export default class MapUtil {
 

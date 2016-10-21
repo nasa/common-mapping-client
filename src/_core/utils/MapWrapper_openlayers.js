@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
 import proj4js from 'proj4';
-import * as mapStrings from '../constants/mapStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as mapConfig from '_core/constants/mapConfig';
 import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import MapUtil from './MapUtil';

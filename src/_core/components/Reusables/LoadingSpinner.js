@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 const LoadingSpinner = (props) => {
     let containerClasses = MiscUtil.generateStringFromSet({

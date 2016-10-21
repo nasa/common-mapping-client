@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import * as actions from '../../actions/AppActions';
-import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '_core/actions/AppActions';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class AppBarContainer extends Component {
     componentDidMount() {

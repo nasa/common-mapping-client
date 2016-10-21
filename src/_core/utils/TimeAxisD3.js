@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import moment from 'moment';
-import * as appStrings from '../constants/appStrings';
+import * as appStrings from '_core/constants/appStrings';
 
 export default class TimeAxisD3 {
     // This timeline is loosely based off of this d3 timeline

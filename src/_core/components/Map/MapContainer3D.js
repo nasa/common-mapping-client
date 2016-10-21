@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../../actions/MapActions';
-import * as mapStrings from '../../constants/mapStrings';
-import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '_core/actions/MapActions';
+import * as mapStrings from '_core/constants/mapStrings';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class MapContainer3D extends Component {
 

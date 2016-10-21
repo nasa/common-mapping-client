@@ -3,17 +3,17 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
-import * as mapConfig from '../../constants/mapConfig';
-import * as mapStrings from '../../constants/mapStrings';
-import * as appActions from '../../actions/AppActions';
-import * as mapActions from '../../actions/MapActions';
-import * as layerActions from '../../actions/LayerActions';
-import * as dateSliderActions from '../../actions/DateSliderActions';
-import * as analyticsActions from '../../actions/AnalyticsActions';
-import MiscUtil from '../../utils/MiscUtil';
+import * as mapConfig from '_core/constants/mapConfig';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as appActions from '_core/actions/AppActions';
+import * as mapActions from '_core/actions/MapActions';
+import * as layerActions from '_core/actions/LayerActions';
+import * as dateSliderActions from '_core/actions/DateSliderActions';
+import * as analyticsActions from '_core/actions/AnalyticsActions';
+import MiscUtil from '_core/utils/MiscUtil';
 import BaseMapDropdown from './BaseMapDropdown';
-import MenuDropdown from '../Reusables/MenuDropdown';
-import ModalMenuContainer from '../ModalMenu/ModalMenuContainer';
+import MenuDropdown from '_core/components/Reusables/MenuDropdown';
+import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 
 export class SettingsContainer extends Component {
     shouldComponentUpdate(nextProps) {

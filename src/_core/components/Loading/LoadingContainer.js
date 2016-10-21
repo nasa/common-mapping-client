@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { ProgressBar } from 'react-toolbox';
-import * as actions from '../../actions/AppActions';
-import AsyncImageContainer from '../AsyncImage/AsyncImageContainer';
+import * as actions from '_core/actions/AppActions';
+import AsyncImageContainer from '_core/components/AsyncImage/AsyncImageContainer';
 
 export class LoadingContainer extends Component {
     componentDidUpdate() {

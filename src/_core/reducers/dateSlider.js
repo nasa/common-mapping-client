@@ -1,5 +1,5 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as appStrings from '../constants/appStrings';
+import * as actionTypes from '_core/constants/actionTypes';
+import * as appStrings from '_core/constants/appStrings';
 import { dateSliderState } from './models/dateSlider';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.

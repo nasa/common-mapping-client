@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import d3 from 'd3';
-import SingleDateD3 from '../../utils/SingleDateD3';
-import MiscUtil from '../../utils/MiscUtil';
+import SingleDateD3 from '_core/utils/SingleDateD3';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class SingleDate extends Component {
     componentDidMount() {

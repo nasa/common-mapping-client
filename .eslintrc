@@ -63,7 +63,8 @@
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
     "react/jsx-wrap-multilines": 1,
-    "import/no-named-as-default": 0
+    "import/no-named-as-default": 0,
+    "import/no-unresolved": 0
   },
   "globals": {
   }

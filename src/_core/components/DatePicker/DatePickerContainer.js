@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
-import * as actions from '../../actions/MapActions';
+import * as actions from '_core/actions/MapActions';
 import DatePicker from './DatePicker';
 import DateKeyboardControls from './DateKeyboardControls';
 

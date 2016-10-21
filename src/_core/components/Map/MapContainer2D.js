@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'react-toolbox/lib/button';
-import * as actions from '../../actions/MapActions';
-import * as mapStrings from '../../constants/mapStrings';
-import MiscUtil from '../../utils/MiscUtil';
+import * as actions from '_core/actions/MapActions';
+import * as mapStrings from '_core/constants/mapStrings';
+import MiscUtil from '_core/utils/MiscUtil';
 import KeyHandler, { KEYUP } from 'react-key-handler';
 
 export class MapContainer2D extends Component {

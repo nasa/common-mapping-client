@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import * as actions from '../../actions/MapActions';
-import * as appConfig from '../../constants/appConfig';
+import * as actions from '_core/actions/MapActions';
+import * as appConfig from '_core/constants/appConfig';
 import KeyHandler, { KEYUP, KEYDOWN } from 'react-key-handler';
 
 const SPEED_FAST = 100;

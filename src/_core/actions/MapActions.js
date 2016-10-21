@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '_core/constants/actionTypes';
 
 export function initializeMap(mapType, container) {
     return { type: types.INITIALIZE_MAP, mapType, container };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class ModalMenuContainer extends Component {
     render() {

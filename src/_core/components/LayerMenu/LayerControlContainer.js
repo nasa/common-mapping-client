@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import Slider from 'react-toolbox/lib/slider';
-import * as layerActions from '../../actions/LayerActions';
+import * as layerActions from '_core/actions/LayerActions';
 import ColorbarContainer from './ColorbarContainer';
-import MiscUtil from '../../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerControlContainer extends Component {
     shouldComponentUpdate(nextProps) {

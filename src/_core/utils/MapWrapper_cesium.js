@@ -1,12 +1,12 @@
 import MapWrapper from './MapWrapper';
 import MiscUtil from './MiscUtil';
 import CesiumTilingScheme_GIBS from './CesiumTilingScheme_GIBS';
-import * as mapStrings from '../constants/mapStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as mapStrings from '_core/constants/mapStrings';
+import * as mapConfig from '_core/constants/mapConfig';
 import MapUtil from './MapUtil';
-import '../lib/cesium/Cesium.js';
-import '../lib/cesium-drawhelper-master/DrawHelper.js';
-import '../lib/cesium/Widgets/widgets.css';
+import 'lib/cesium/Cesium.js';
+import 'lib/cesium-drawhelper-master/DrawHelper.js';
+import 'lib/cesium/Widgets/widgets.css';
 
 export default class MapWrapper_cesium extends MapWrapper {
 

@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '_core/constants/actionTypes';
 
 export function setAnalyticsEnabled(isEnabled) {
     return { type: types.SET_ANALYTICS_ENABLED, isEnabled };
