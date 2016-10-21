@@ -22,7 +22,7 @@ import AppBarContainer from '../AppBar/AppBarContainer';
 import LayerMenuContainer from '../LayerMenu/LayerMenuContainer';
 import MouseFollowerContainer from '../MouseFollower/MouseFollowerContainer';
 import AnalyticsContainer from '../Analytics/AnalyticsContainer';
-import '../../styles/styles.scss';
+// import '../../styles/styles.scss';
 
 export class CoreAppContainer extends Component {
     componentWillMount() {

@@ -1,5 +1,5 @@
 @import "~react-toolbox/lib/colors";
-@import "_theme.scss";
+@import "theme";
 @import "~react-toolbox/lib/globals";
 
 /* borders */
@@ -52,6 +52,7 @@ $light-border: 1px solid $color-light;
     user-select: $sel;
 }
 
+
 /* flex */
 
 @mixin flex() {
@@ -76,6 +77,7 @@ $light-border: 1px solid $color-light;
     flex-grow: $amount;
 }
 
+
 /* rotate */
 
 @mixin rotate($amount) {
@@ -86,60 +88,140 @@ $light-border: 1px solid $color-light;
     transform: rotate($amount);
 }
 
+
 /* animtion */
 
 @mixin animation($name, $duration) {
-    -webkit-animation: $name $duration both;/* Safari 4+ */
-    -moz-animation: $name $duration both;/* Fx 5+ */
-    -o-animation: $name $duration both;/* Opera 12+ */
+    -webkit-animation: $name $duration both;
+    /* Safari 4+ */
+    -moz-animation: $name $duration both;
+    /* Fx 5+ */
+    -o-animation: $name $duration both;
+    /* Opera 12+ */
     animation: $name $duration both;
 }
 
 
 /* KEYFRAME ANIMATIONS */
 
+
 /* opacity w/display HIDE */
+
 @-webkit-keyframes opacityWithDisplayAnimationHide {
-  0%    { opacity: 1; display: block; }
-  99%   { display: none; }
-  100%  { opacity: 0; display: none; }
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        display: none;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
+
 @-moz-keyframes opacityWithDisplayAnimationHide {
-  0%    { opacity: 1; display: block; }
-  99%   { display: none; }
-  100%  { opacity: 0; display: none; }
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        display: none;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
+
 @-o-keyframes opacityWithDisplayAnimationHide {
-  0%    { opacity: 1; display: block; }
-  99%   { display: none; }
-  100%  { opacity: 0; display: none; }
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        display: none;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
+
 @keyframes opacityWithDisplayAnimationHide {
-  0%    { opacity: 1; display: block; }
-  99%   { display: none; }
-  100%  { opacity: 0; display: none; }
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        display: none;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
+
+
 /* opacity w/display SHOW */
+
 @-webkit-keyframes opacityWithDisplayAnimationShow {
-  0%    { opacity: 0; display: none; }
-  1%    { display: none; }
-  100%  { opacity: 1; display: block; }
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    1% {
+        display: none;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
 }
+
 @-moz-keyframes opacityWithDisplayAnimationShow {
-  0%    { opacity: 0; display: none; }
-  1%    { display: none; }
-  100%  { opacity: 1; display: block; }
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    1% {
+        display: none;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
 }
+
 @-o-keyframes opacityWithDisplayAnimationShow {
-  0%    { opacity: 0; display: none; }
-  1%    { display: none; }
-  100%  { opacity: 1; display: block; }
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    1% {
+        display: none;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
 }
+
 @keyframes opacityWithDisplayAnimationShow {
-  0%    { opacity: 0; display: none; }
-  1%    { display: none; }
-  100%  { opacity: 1; display: block; }
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    1% {
+        display: none;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
 }
+
 
 /* rotations for loader */
 
