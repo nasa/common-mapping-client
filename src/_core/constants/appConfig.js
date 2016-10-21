@@ -3,13 +3,13 @@ import moment from 'moment';
 // Endpoints
 export const URLS = {
     layerConfig: [{
-        url: "default-data/capabilities.xml",
+        url: "_core/default-data/capabilities.xml",
         type: "wmts/xml"
     }, {
-        url: "default-data/layers.json",
+        url: "_core/default-data/layers.json",
         type: "json"
     }],
-    paletteConfig: "default-data/palettes.json"
+    paletteConfig: "_core/default-data/palettes.json"
 };
 
 // Time slider

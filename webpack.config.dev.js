@@ -35,8 +35,8 @@ export default {
         unknownContextCritical: false,
         noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js'), path.join(__dirname, 'node_modules/proj4/dist/proj4.js')],
         loaders: [
-            { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
-            { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
+            { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/_core/lib') },
+            { test: /\.js$/, include: path.join(__dirname, 'src/_core/lib/arc'), loaders: ['babel', 'eslint'] },
             { test: /Cesium\.js$/, loader: 'script' },
             { test: /DrawHelper\.js$/, loader: 'script' },
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
@@ -48,5 +48,5 @@ export default {
             { test: /\.md$/, loader: "raw-loader" }
         ]
     },
-    toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }
+    toolbox: { theme: path.join(__dirname, 'src/_core/styles/_theme.scss') }
 };
