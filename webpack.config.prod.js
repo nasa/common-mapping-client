@@ -35,7 +35,7 @@ export default {
             // { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
             {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
             { test: /Cesium\.js$/, loader: 'script' },
-            { test: /DrawHelper\.js$/, loader: 'script' },
+            { test: /CesiumDrawHelper\.js$/, loader: 'script' },
             // { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
             // { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css', 'sass'] },
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css!sass') },

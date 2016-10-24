@@ -24,9 +24,9 @@ export class HelpContainer extends Component {
         // get markdown and parse it
         let cvt = new showdown.Converter();
         this.helpPageContent = {};
-        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('_core/default-data/help/about.md'));
-        this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('../../default-data/help/faq.md'));
-        this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('../../default-data/help/systemReqs.md'));
+        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('default-data/help/about.md'));
+        this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('default-data/help/faq.md'));
+        this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('default-data/help/systemReqs.md'));
     }
 
     render() {

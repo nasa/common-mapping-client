@@ -1,6 +1,5 @@
 import webpack from 'webpack';
 import path from 'path';
-// import raw from 'raw-loader';
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('development'),
@@ -39,7 +38,7 @@ export default {
             { test: /\.js$/, include: path.join(__dirname, 'src'), exclude: path.join(__dirname, 'src/lib'), loaders: ['babel', 'eslint'] },
             { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
             { test: /Cesium\.js$/, loader: 'script' },
-            { test: /DrawHelper\.js$/, loader: 'script' },
+            { test: /CesiumDrawHelper\.js$/, loader: 'script' },
             { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
             { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },

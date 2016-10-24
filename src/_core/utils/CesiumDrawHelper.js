@@ -1,3 +1,6 @@
+// copied from: https://github.com/leforthomas/cesium-drawhelper
+// edited by Aaron Plave and Flynn Platt
+
 /**
  * Created by thomas on 9/01/14.
  *
@@ -655,19 +658,19 @@ var DrawHelper = (function() {
     })();
 
     var defaultBillboard = {
-        iconUrl: "./Cesium-drawhelper-master/img/dragIcon2.png",
+        iconUrl: "./CesiumDrawHelper/dragIcon2.png",
         shiftX: 0,
         shiftY: 0
     }
 
     var dragBillboard = {
-        iconUrl: "./Cesium-drawhelper-master/img/dragIcon2.png",
+        iconUrl: "./CesiumDrawHelper/dragIcon2.png",
         shiftX: 0,
         shiftY: 0
     }
 
     var dragHalfBillboard = {
-        iconUrl: "./Cesium-drawhelper-master/img/dragIconLight.png",
+        iconUrl: "./CesiumDrawHelper/dragIconLight.png",
         shiftX: 0,
         shiftY: 0
     }
