@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import fetch from 'isomorphic-fetch';
 import * as actionTypes from '_core/constants/actionTypes';
-import * as appConfig from '_core/constants/appConfig';
+import * as appConfig from 'constants/appConfig';
 import { analyticsState } from './models/analytics';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.

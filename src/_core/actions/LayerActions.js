@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { URLS } from '_core/constants/appConfig';
+import { URLS } from 'constants/appConfig';
 import * as types from '_core/constants/actionTypes';
 import * as mapStrings from '_core/constants/mapStrings';
 import * as appStrings from '_core/constants/appStrings';

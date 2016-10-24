@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import * as actions from '_core/actions/MapActions';
-import * as appConfig from '_core/constants/appConfig';
+import * as appConfig from 'constants/appConfig';
 import KeyHandler, { KEYUP, KEYDOWN } from 'react-key-handler';
 
 const SPEED_FAST = 100;

@@ -11,7 +11,7 @@ import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
-import * as mapConfig from '_core/constants/mapConfig';
+import * as mapConfig from 'constants/mapConfig';
 
 export default class MapUtil {
 

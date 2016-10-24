@@ -7,8 +7,8 @@ import MapUtil from '_core/utils/MapUtil.js';
 import MiscUtil from '_core/utils/MiscUtil.js';
 import * as appStrings from '_core/constants/appStrings';
 import * as mapStrings from '_core/constants/mapStrings';
-import * as appConfig from '_core/constants/appConfig';
-import * as mapConfig from '_core/constants/mapConfig';
+import * as appConfig from 'constants/appConfig';
+import * as mapConfig from 'constants/mapConfig';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,

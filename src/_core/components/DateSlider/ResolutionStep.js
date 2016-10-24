@@ -33,26 +33,24 @@ export class ResolutionStep extends Component {
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
-                {/*<KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(true) : false;}} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={(evt) => {evt.altKey ? this.adjustResolution(false) : false;}} />*/}
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS}
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS}
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS}
+                        label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
                     />

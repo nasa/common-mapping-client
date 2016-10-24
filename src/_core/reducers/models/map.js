@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import moment from 'moment';
-import * as config from '../../constants/mapConfig';
+import * as config from 'constants/mapConfig';
 
 export const mapState = Immutable.fromJS({
     layers: {

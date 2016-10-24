@@ -1,28 +1,6 @@
-export const APP_TITLE = 'Common Mapping Client';
-export const APP_VERSION = '0.9-beta';
-export const APP_SUBTITLE = APP_VERSION;
-export const URL_KEYS = {
-    ACTIVE_LAYERS: 'activeLayers',
-    OPACITIES: 'opacities',
-    VIEW_MODE: 'viewMode',
-    BASEMAP: 'basemap',
-    VIEW_EXTENT: 'extent',
-    ENABLE_PLACE_LABLES: 'enablePlaceLables',
-    ENABLE_POLITICAL_BOUNDARIES: 'enablePoliticalBoundaries',
-    ENABLE_3D_TERRAIN: 'enable3DTerrain',
-    DATE: 'date'
-};
+export const MAP_CONTEXT_MENU_ID = "mapContextMenu";
 
-export const MAP_CONTEXT_MENU = "MAP_CONTEXT_MENU";
-
-// Date slider strings, maybe we need a misc? or a datesliderStrings?
-export const DATE_SLIDER_RESOLUTIONS = {
-    DAYS: "Days",
-    MONTHS: "Months",
-    YEARS: "Years"
-};
-
-// alert templates
+// Alert templates
 export const ALERTS = {
     INITIAL_DATA_LOAD_FAILED: {
         title: "Data Loading Failed",

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
-import * as mapConfig from '_core/constants/mapConfig';
+import * as mapConfig from 'constants/mapConfig';
 import * as mapStrings from '_core/constants/mapStrings';
 import * as appActions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
