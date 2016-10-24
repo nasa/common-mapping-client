@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox } from 'react-toolbox/lib/list';
-import * as mapConfig from 'constants/mapConfig';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appConfig from 'constants/appConfig';
+import * as appStrings from '_core/constants/appStrings';
 import * as appActions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
@@ -50,8 +50,8 @@ export class SettingsContainer extends Component {
 
 
         // check the reference and boundary layers
-        let referenceLabelsLayer = this.props.referenceLayers.get(mapConfig.REFERENCE_LABELS_LAYER_ID);
-        let politicalBoundariesLayer = this.props.referenceLayers.get(mapConfig.POLITICAL_BOUNDARIES_LAYER_ID);
+        let referenceLabelsLayer = this.props.referenceLayers.get(appConfig.REFERENCE_LABELS_LAYER_ID);
+        let politicalBoundariesLayer = this.props.referenceLayers.get(appConfig.POLITICAL_BOUNDARIES_LAYER_ID);
 
         return (
             <ModalMenuContainer
@@ -74,7 +74,7 @@ export class SettingsContainer extends Component {
                         label="Scale units"
                         className="list-item-dropdown"
                         onChange={(value) => this.props.mapActions.setScaleUnits(value)}
-                        source={mapConfig.SCALE_OPTIONS}
+                        source={appConfig.SCALE_OPTIONS}
                         value={this.props.mapSettings.get("selectedScaleUnits")}
                     />
                     <MenuDropdown
@@ -82,7 +82,7 @@ export class SettingsContainer extends Component {
                          label="Terrain Exaggeration"
                          className="list-item-dropdown"
                          onChange={(value) => this.props.mapActions.setTerrainExaggeration(value)}
-                         source={mapConfig.TERRAIN_EXAGGERATION_OPTIONS}
+                         source={appConfig.TERRAIN_EXAGGERATION_OPTIONS}
                          value={this.props.mapSettings.get("selectedTerrainExaggeration")}
                     />
                     <ListCheckbox
@@ -90,14 +90,14 @@ export class SettingsContainer extends Component {
                         caption="Political Boundaries"
                         checked={politicalBoundariesLayer && politicalBoundariesLayer.get("isActive")}
                         legend="Display political boundaries on the map"
-                        onChange={(value) => this.props.layerActions.setLayerActive(mapConfig.POLITICAL_BOUNDARIES_LAYER_ID, value)}
+                        onChange={(value) => this.props.layerActions.setLayerActive(appConfig.POLITICAL_BOUNDARIES_LAYER_ID, value)}
                     />
                     <ListCheckbox
                         className="menu-check-box"
                         caption="Place Labels"
                         checked={referenceLabelsLayer && referenceLabelsLayer.get("isActive")}
                         legend="Display place labels on the map"
-                        onChange={(value) => this.props.layerActions.setLayerActive(mapConfig.REFERENCE_LABELS_LAYER_ID, value)}
+                        onChange={(value) => this.props.layerActions.setLayerActive(appConfig.REFERENCE_LABELS_LAYER_ID, value)}
                     />
                     <ListCheckbox
                         className="menu-check-box"
@@ -161,8 +161,8 @@ function mapStateToProps(state) {
     return {
         settingsOpen: state.settings.get("isOpen"),
         mapSettings: state.map.get("displaySettings"),
-        basemaps: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]),
-        referenceLayers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]),
+        basemaps: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]),
+        referenceLayers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]),
         sliderCollapsed: state.dateSlider.get("sliderCollapsed"),
         analyticsEnabled: state.analytics.get("isEnabled"),
         autoUpdateUrlEnabled: state.share.get("autoUpdateUrl")

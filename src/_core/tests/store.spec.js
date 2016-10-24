@@ -2,9 +2,8 @@ import * as AppActions from '../actions/AppActions';
 import * as MapActions from '../actions/MapActions';
 import * as DateSliderActions from '../actions/DateSliderActions';
 import * as actionTypes from '../constants/actionTypes';
-import * as mapStrings from '../constants/mapStrings';
 import * as appStrings from '../constants/appStrings';
-import * as mapConfig from '../constants/mapConfig';
+import * as appConfig from '../constants/appConfig';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -36,28 +35,28 @@ describe('Store', function() {
         const store = createStore(rootReducer, initialState);
 
         const actions = [
-            MapActions.initializeMap(mapStrings.MAP_LIB_2D),
-            MapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D),
+            MapActions.initializeMap(appStrings.MAP_LIB_2D),
+            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
             MapActions.zoomIn(),
             MapActions.addGeometryToMap({
-                type: mapStrings.GEOMETRY_CIRCLE,
+                type: appStrings.GEOMETRY_CIRCLE,
                 center: { lon: 0, lat: 0 },
                 radius: 500,
-                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
             }),
             MapActions.removeAllDrawings(),
             MapActions.removeAllMeasurements(),
-            MapActions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D),
+            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
             MapActions.addGeometryToMap({
-                type: mapStrings.GEOMETRY_CIRCLE,
+                type: appStrings.GEOMETRY_CIRCLE,
                 center: { lon: 10, lat: -20 },
                 radius: 52200,
-                coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
             }),
             MapActions.zoomIn(),
             MapActions.setTerrainEnabled(false),
-            MapActions.setTerrainExaggeration(mapConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
-            MapActions.setScaleUnits(mapConfig.SCALE_OPTIONS[1].value),
+            MapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
+            MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
             MapActions.zoomOut(),
             MapActions.resetOrientation(0),
             DateSliderActions.setSliderCollapsed(),

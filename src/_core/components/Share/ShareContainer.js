@@ -5,8 +5,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as mapStrings from '_core/constants/mapStrings';
-import * as mapConfig from 'constants/mapConfig';
+import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import moment from 'moment';
@@ -49,25 +48,25 @@ export class ShareContainer extends Component {
         return [basemap, activeLayers, opacities, viewMode, extent, enablePlaceLabels, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
     }
     getActiveLayerString() {
-        let map = this.props.maps.get(mapStrings.MAP_LIB_2D);
+        let map = this.props.maps.get(appStrings.MAP_LIB_2D);
         if (map) {
             let layerIds = map.getActiveLayerIds();
             if (layerIds) {
-                return appStrings.URL_KEYS.ACTIVE_LAYERS + "=" + layerIds.join(",");
+                return appConfig.URL_KEYS.ACTIVE_LAYERS + "=" + layerIds.join(",");
             }
         }
         return "";
     }
     getOpacitiesString() {
-        let dataLayers = this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_DATA);
-        return dataLayers.size > 0 ? appStrings.URL_KEYS.OPACITIES + "=" + dataLayers.reduce((acc, layer) => {
+        let dataLayers = this.props.layers.get(appStrings.LAYER_GROUP_TYPE_DATA);
+        return dataLayers.size > 0 ? appConfig.URL_KEYS.OPACITIES + "=" + dataLayers.reduce((acc, layer) => {
             acc.push(layer.get("id"));
             acc.push(layer.get("opacity"));
             return acc;
         }, []).join(",") : "";
     }
     getBasemapString() {
-        return appStrings.URL_KEYS.BASEMAP + "=" + this.props.layers.get(mapStrings.LAYER_GROUP_TYPE_BASEMAP).reduce((acc, layer) => {
+        return appConfig.URL_KEYS.BASEMAP + "=" + this.props.layers.get(appStrings.LAYER_GROUP_TYPE_BASEMAP).reduce((acc, layer) => {
             if (layer.get("isActive")) {
                 acc = layer.get("id");
             }
@@ -75,33 +74,33 @@ export class ShareContainer extends Component {
         }, "");
     }
     getPlaceLabelsString() {
-        let placeLabelsLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.REFERENCE_LABELS_LAYER_ID]);
-        return appStrings.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
+        let placeLabelsLayer = this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_REFERENCE, appConfig.REFERENCE_LABELS_LAYER_ID]);
+        return appConfig.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
     }
     getPoliticalBoundariesString() {
-        let politicalBoundariesLayer = this.props.layers.getIn([mapStrings.LAYER_GROUP_TYPE_REFERENCE, mapConfig.POLITICAL_BOUNDARIES_LAYER_ID]);
-        return appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
+        let politicalBoundariesLayer = this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_REFERENCE, appConfig.POLITICAL_BOUNDARIES_LAYER_ID]);
+        return appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
     }
     getViewModeString() {
-        return appStrings.URL_KEYS.VIEW_MODE + "=" + (this.props.in3DMode ? mapStrings.MAP_VIEW_MODE_3D : mapStrings.MAP_VIEW_MODE_2D);
+        return appConfig.URL_KEYS.VIEW_MODE + "=" + (this.props.in3DMode ? appStrings.MAP_VIEW_MODE_3D : appStrings.MAP_VIEW_MODE_2D);
     }
     getExtentString() {
-        return appStrings.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent.join(",");
+        return appConfig.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent.join(",");
     }
     getTerrainString() {
-        return appStrings.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
+        return appConfig.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
     }
     getDateString() {
-        return appStrings.URL_KEYS.DATE + "=" + moment(this.props.mapDate).format("YYYY-MM-DD");
+        return appConfig.URL_KEYS.DATE + "=" + moment(this.props.mapDate).format("YYYY-MM-DD");
     }
     shareEmail(url) {
-        window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appStrings.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
+        window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appConfig.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
     }
     shareFacebook(url) {
         MiscUtil.openLinkInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
     }
     shareTwitter(url) {
-        MiscUtil.openLinkInNewTab("https://www.twitter.com/share?url=" + encodeURIComponent(url) + "text=Check out what I found in " + appStrings.APP_TITLE);
+        MiscUtil.openLinkInNewTab("https://www.twitter.com/share?url=" + encodeURIComponent(url) + "text=Check out what I found in " + appConfig.APP_TITLE);
     }
     shareGooglePlus(url) {
         MiscUtil.openLinkInNewTab("https://plus.google.com/share?url=" + encodeURIComponent(url));

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import * as appConfig from 'constants/appConfig';
-import * as appStrings from '_core/constants/appStrings';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as MapActions from '_core/actions/MapActions';
 import TimeAxisD3 from '_core/utils/TimeAxisD3';
@@ -33,7 +32,7 @@ export class TimeAxis extends Component {
         // get it going
         this.timeAxisD3.enter({
             date: this.props.date,
-            scale: this.props.resolution
+            scale: this.props.resolution.toJS()
         });
 
         window.addEventListener("resize", () => {
@@ -43,7 +42,7 @@ export class TimeAxis extends Component {
             this.resizeTimeout = setTimeout(() => {
                 let options = this.getSizes();
                 options.date = this.props.date;
-                options.scale = this.props.resolution;
+                options.scale = this.props.resolution.toJS();
                 this.timeAxisD3.resize(options);
                 clearTimeout(this.resizeTimeout);
                 this.resizeTimeout = null;
@@ -64,7 +63,7 @@ export class TimeAxis extends Component {
     componentDidUpdate() {
         let options = { date: this.props.date };
         if (this.props.resolutionHack !== this.cachedResolutionHack) {
-            options.scale = this.props.resolution;
+            options.scale = this.props.resolution.toJS();
         }
         this.timeAxisD3.update(options);
     }
@@ -184,7 +183,7 @@ TimeAxis.propTypes = {
     mapActions: PropTypes.object.isRequired,
     dateSliderActions: PropTypes.object.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    resolution: PropTypes.string.isRequired,
+    resolution: PropTypes.object.isRequired,
     resolutionHack: PropTypes.bool.isRequired
 };
 

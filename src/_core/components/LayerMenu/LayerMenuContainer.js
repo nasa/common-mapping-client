@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
-import * as appConfig from 'constants/appConfig';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 import * as layerActions from '_core/actions/LayerActions';
 import LayerControlContainer from './LayerControlContainer';
 import MiscUtil from '_core/utils/MiscUtil';
@@ -63,7 +62,7 @@ LayerMenuContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
-        layers: state.map.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]),
+        layers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]),
         palettes: state.map.get("palettes"),
         sliderCollapsed: state.dateSlider.get("sliderCollapsed")
     };

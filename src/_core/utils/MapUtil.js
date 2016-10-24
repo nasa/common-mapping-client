@@ -5,22 +5,22 @@ import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
 import { GreatCircle } from 'lib/arc/arc';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import * as urlFunctions from './UrlFunctions';
 import * as tileLoadFunctions from './TileLoadFunctions';
 import MiscUtil from './MiscUtil';
 import MapWrapper_openlayers from './MapWrapper_openlayers';
 import MapWrapper_cesium from './MapWrapper_cesium';
-import * as mapConfig from 'constants/mapConfig';
 
 export default class MapUtil {
 
     // creates a new object that abstracts a mapping library
     static createMap(type, container, mapOptions) {
         switch (type) {
-            case mapStrings.MAP_LIB_2D:
+            case appStrings.MAP_LIB_2D:
                 return new MapWrapper_openlayers(container, mapOptions);
-            case mapStrings.MAP_LIB_3D:
+            case appStrings.MAP_LIB_3D:
                 return new MapWrapper_cesium(container, mapOptions);
             default:
                 return false;
@@ -168,7 +168,7 @@ export default class MapUtil {
         let context = options.context;
 
         // adjust tileRow
-        if (context === mapStrings.MAP_LIB_2D) {
+        if (context === appStrings.MAP_LIB_2D) {
             row = -options.row - 1;
         }
 
@@ -207,13 +207,13 @@ export default class MapUtil {
     // takes a function string and returns the tile url function associated with it or undefined
     static getUrlFunction(functionString = "") {
         switch (functionString) {
-            case mapStrings.DEFAULT_URL_FUNC:
+            case appStrings.DEFAULT_URL_FUNC:
                 return urlFunctions.defaultKVPUrlFunc;
-            case mapStrings.ESRI_CUSTOM_512:
+            case appStrings.ESRI_CUSTOM_512:
                 return urlFunctions.esriCustom512;
-            case mapStrings.KVP_TIME_PARAM:
+            case appStrings.KVP_TIME_PARAM:
                 return urlFunctions.kvpTimeParam;
-            case mapStrings.CATS_URL:
+            case appStrings.CATS_URL:
                 return urlFunctions.catsIntercept;
             default:
                 return undefined;
@@ -223,9 +223,9 @@ export default class MapUtil {
     // takes a function string and returns the tile load function associated with it or undefined
     static getTileFunction(functionString = "") {
         switch (functionString) {
-            case mapStrings.CATS_TILE_OL:
+            case appStrings.CATS_TILE_OL:
                 return tileLoadFunctions.catsIntercept_OL;
-            case mapStrings.CATS_TILE_CS:
+            case appStrings.CATS_TILE_CS:
                 return tileLoadFunctions.catsIntercept_CS;
             default:
                 return undefined;
@@ -293,7 +293,7 @@ export default class MapUtil {
     // Converts area units
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertAreaUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
+        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
         if(units === 'schoolbus') {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
@@ -304,7 +304,7 @@ export default class MapUtil {
     // Converts distance units
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertDistanceUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
+        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
         if(units === 'schoolbus') {
             return value / unitEntry.toMeters;
         } else {
@@ -324,7 +324,7 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     static calculatePolylineDistance(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate line distance
         return turfLineDistance({
             type: "Feature",
@@ -342,7 +342,7 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     static calculatePolygonArea(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate line distance
         return turfArea({
             type: "Feature",
@@ -360,7 +360,7 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     static calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, mapStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate center
         return turfCentroid({
             type: "FeatureCollection",
@@ -443,15 +443,15 @@ export default class MapUtil {
     static measureGeometry(geometry, measurementType) {
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
         coords = this.generateGeodesicArcsForLineString(coords);
-        if (measurementType === mapStrings.MEASURE_DISTANCE) {
-            if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+        if (measurementType === appStrings.MEASURE_DISTANCE) {
+            if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
                 return this.calculatePolylineDistance(coords, geometry.proj);
             } else {
                 console.warn("could not measure distance, unsupported geometry type: ", geometry.type);
                 return false;
             }
-        } else if (measurementType === mapStrings.MEASURE_AREA) {
-            if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+        } else if (measurementType === appStrings.MEASURE_AREA) {
+            if (geometry.type === appStrings.GEOMETRY_POLYGON) {
                 return this.calculatePolygonArea(coords, geometry.proj);
             } else {
                 console.warn("could not measure area, unsupported geometry type: ", geometry.type);
@@ -465,9 +465,9 @@ export default class MapUtil {
 
     // formats a given measurement for distance/area
     static formatMeasurement(measurement, measurementType, units) {
-        if (measurementType === mapStrings.MEASURE_DISTANCE) {
+        if (measurementType === appStrings.MEASURE_DISTANCE) {
             return this.formatDistance(measurement, units);
-        } else if (measurementType === mapStrings.MEASURE_AREA) {
+        } else if (measurementType === appStrings.MEASURE_AREA) {
             return this.formatArea(measurement, units);
         } else {
             console.warn("could not format measurement, unsupported measurement type: ", measurementType);
@@ -477,7 +477,7 @@ export default class MapUtil {
 
     // takes in a geometry and returns the coordinates for its label
     static getLabelPosition(geometry) {
-        if (geometry.type === mapStrings.GEOMETRY_LINE_STRING) {
+        if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {
                 return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
@@ -485,7 +485,7 @@ export default class MapUtil {
                 console.warn("could not find label placement, no coordinates in geometry.");
                 return false;
             }
-        } else if (geometry.type === mapStrings.GEOMETRY_POLYGON) {
+        } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
             let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
             coords = this.generateGeodesicArcsForLineString(coords);
             return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));

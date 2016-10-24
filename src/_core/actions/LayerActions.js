@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { URLS } from 'constants/appConfig';
 import * as types from '_core/constants/actionTypes';
-import * as mapStrings from '_core/constants/mapStrings';
 import * as appStrings from '_core/constants/appStrings';
 import * as AlertActions from './AlertActions';
 
@@ -135,9 +134,9 @@ export function loadSingleLayerSource(options) {
         let url = options.url;
         let type = options.type;
         return fetch(url).then((response) => {
-            if (type === mapStrings.LAYER_CONFIG_JSON) {
+            if (type === appStrings.LAYER_CONFIG_JSON) {
                 return response.json();
-            } else if (type === mapStrings.LAYER_CONFIG_WMTS_XML) {
+            } else if (type === appStrings.LAYER_CONFIG_WMTS_XML) {
                 return response.text();
             } else {
                 return response;

@@ -1,5 +1,6 @@
+import Immutable from 'immutable';
 import * as actionTypes from '_core/constants/actionTypes';
-import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import { dateSliderState } from './models/dateSlider';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -25,7 +26,7 @@ const timelineMouseOut = (state, action) => {
 };
 const setDateResolution = (state, action) => {
     let newState = state
-        .set("resolution", action.resolution)
+        .set("resolution", Immutable.Map(action.resolution))
         .set("resolutionHack", !state.get("resolutionHack"));
     newState = setChangingResolution(newState, { isSelectingResolution: false });
     return newState;
@@ -39,7 +40,7 @@ const setChangingResolution = (state, action) => {
 };
 const resetApplicationState = (state, action) => {
     let newState = endDragging(state, action);
-    newState = setDateResolution(newState, { resolution: appStrings.DATE_SLIDER_RESOLUTIONS.DAYS });
+    newState = setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS.DAYS });
     newState = setChangingResolution(newState, { isSelectingResolution: false });
     newState = setSliderCollapsed(newState, { collapsed: false });
     return newState;

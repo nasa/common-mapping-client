@@ -3,23 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import KeyHandler, { KEYPRESS, KEYUP } from 'react-key-handler';
 import {Button, IconButton} from 'react-toolbox/lib/button';
-import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class ResolutionStep extends Component {
     adjustResolution(up) {
         if(up) {
-            if(this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
-                this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS);
+            if(this.props.resolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label) {
+                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
             } else {
-                this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS);
+                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS);
             }
         } else {
-            if(this.props.resolution === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
-                this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS);
+            if(this.props.resolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label) {
+                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
             } else {
-                this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS);
+                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS);
             }
         }
     }
@@ -38,21 +38,21 @@ export class ResolutionStep extends Component {
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.DAYS.label}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label}
                         className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.DAYS)}
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
                         className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS)}
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
                         primary
-                        label={appStrings.DATE_SLIDER_RESOLUTIONS.YEARS.label}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label}
                         className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.YEARS)}
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}
                     />
                 </div>
                 <IconButton
@@ -68,7 +68,7 @@ export class ResolutionStep extends Component {
     }
 }
 ResolutionStep.propTypes = {
-    resolution: PropTypes.string.isRequired,
+    resolution: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     isSelectingResolution: PropTypes.bool.isRequired
 };

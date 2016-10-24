@@ -1,10 +1,10 @@
 import Immutable from 'immutable';
-import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 
 export const viewState = Immutable.fromJS({
-    title: appStrings.APP_TITLE,
-    subtitle: appStrings.APP_SUBTITLE,
-    version: appStrings.APP_VERSION,
+    title: appConfig.APP_TITLE,
+    subtitle: appConfig.APP_SUBTITLE,
+    version: appConfig.APP_VERSION,
     initialLoadComplete: false,
     layerMenuOpen: true,
     isFullscreen: false,

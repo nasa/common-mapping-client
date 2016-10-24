@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import moment from 'moment';
-import * as config from 'constants/mapConfig';
+import * as appConfig from 'constants/appConfig';
 
 export const mapState = Immutable.fromJS({
     layers: {
@@ -11,17 +11,17 @@ export const mapState = Immutable.fromJS({
     },
     maps: {},
     palettes: {},
-    date: config.DEFAULT_DATE,
+    date: appConfig.DEFAULT_DATE,
     view: {
         in3DMode: false,
-        zoom: config.DEFAULT_ZOOM,
-        maxZoom: config.MAX_ZOOM,
-        minZoom: config.MIN_ZOOM,
-        maxZoomDistance3D: config.MAX_ZOOM_DISTANCE_3D,
-        minZoomDistance3D: config.MIN_ZOOM_DISTANCE_3D,
-        center: config.DEFAULT_CENTER,
-        projection: config.DEFAULT_PROJECTION,
-        extent: config.DEFAULT_PROJECTION.extent,
+        zoom: appConfig.DEFAULT_ZOOM,
+        maxZoom: appConfig.MAX_ZOOM,
+        minZoom: appConfig.MIN_ZOOM,
+        maxZoomDistance3D: appConfig.MAX_ZOOM_DISTANCE_3D,
+        minZoomDistance3D: appConfig.MIN_ZOOM_DISTANCE_3D,
+        center: appConfig.DEFAULT_CENTER,
+        projection: appConfig.DEFAULT_PROJECTION,
+        extent: appConfig.DEFAULT_PROJECTION.extent,
         pixelHoverCoordinate: {
             lat: 0.0,
             lon: 0.0,
@@ -74,7 +74,7 @@ export const layerModel = Immutable.fromJS({
     max: 0,
     units: "",
     timeFormat: "YYYY-MM-DD",
-    time: moment(config.DEFAULT_DATE).format("YYYY-MM-DD"),
+    time: moment(appConfig.DEFAULT_DATE).format("YYYY-MM-DD"),
     type: "",
     isDefault: false,
     wmtsOptions: {

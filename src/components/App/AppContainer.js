@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import * as actions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapContainer from '_core/components/Map/MapContainer';
 import MapContextMenu from '_core/components/Map/MapContextMenu';
@@ -49,8 +49,8 @@ export class AppContainer extends Component {
             window.requestAnimationFrame(() => {
                 setTimeout(() => {
                     // initialize the maps
-                    this.props.actions.initializeMap(mapStrings.MAP_LIB_2D, "map2D");
-                    this.props.actions.initializeMap(mapStrings.MAP_LIB_3D, "map3D");
+                    this.props.actions.initializeMap(appStrings.MAP_LIB_2D, "map2D");
+                    this.props.actions.initializeMap(appStrings.MAP_LIB_3D, "map3D");
 
                     // activate default/url params
                     if (this.urlParams.length === 0) {

@@ -1,6 +1,6 @@
 import * as types from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
-import * as mapConfig from 'constants/mapConfig';
+import * as appConfig from 'constants/appConfig';
 import * as LayerActions from './LayerActions';
 import * as MapActions from './MapActions';
 import * as DateSliderActions from './DateSliderActions';
@@ -72,23 +72,23 @@ export function runUrlConfig(params) {
 
 function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
-        case appStrings.URL_KEYS.ACTIVE_LAYERS:
+        case appConfig.URL_KEYS.ACTIVE_LAYERS:
             return setLayersActive(param.value.split(","), true);
-        case appStrings.URL_KEYS.OPACITIES:
+        case appConfig.URL_KEYS.OPACITIES:
             return setLayerOpacities(param.value.split(","));
-        case appStrings.URL_KEYS.VIEW_MODE:
+        case appConfig.URL_KEYS.VIEW_MODE:
             return setViewMode(param.value);
-        case appStrings.URL_KEYS.BASEMAP:
+        case appConfig.URL_KEYS.BASEMAP:
             return setBasemap(param.value);
-        case appStrings.URL_KEYS.VIEW_EXTENT:
+        case appConfig.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
-        case appStrings.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive([mapConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
-        case appStrings.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return setLayersActive([mapConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
-        case appStrings.URL_KEYS.ENABLE_3D_TERRAIN:
+        case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
+            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
+        case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
+            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
+        case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
-        case appStrings.URL_KEYS.DATE:
+        case appConfig.URL_KEYS.DATE:
             return setDate(moment(param.value, 'YYYY-MM-DD').toDate());
         default:
             return { type: types.NO_ACTION };

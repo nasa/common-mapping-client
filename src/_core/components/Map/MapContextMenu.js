@@ -6,7 +6,6 @@ import { Button } from 'react-toolbox/lib/button';
 import { ContextMenuSubMenu } from '_core/components/Reusables/ContextMenuSubMenu';
 import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as mapStrings from '_core/constants/mapStrings';
 
 export class MapContextMenu extends Component {
 
@@ -22,18 +21,18 @@ export class MapContextMenu extends Component {
     }
 
     render() {
-        let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_CIRCLE;
-        let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
-        let drawingPolygon = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === mapStrings.GEOMETRY_POLYGON;
-        let measuringDistance = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING;
-        let measuringArea = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === mapStrings.GEOMETRY_POLYGON;
+        let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_CIRCLE;
+        let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
+        let drawingPolygon = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_POLYGON;
+        let measuringDistance = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
+        let measuringArea = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_POLYGON;
         return (
-            <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU}>
+            <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU_ID}>
                 <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             primary={measuringDistance}
-                            onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_LINE_STRING, mapStrings.MEASURE_DISTANCE)}
+                            onClick={() => this.props.actions.enableMeasuring(appStrings.GEOMETRY_LINE_STRING, appStrings.MEASURE_DISTANCE)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-distance context-menu-icon" />
                             <span className="context-menu-label">Distance</span>
@@ -42,7 +41,7 @@ export class MapContextMenu extends Component {
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             primary={measuringArea}
-                            onClick={() => this.props.actions.enableMeasuring(mapStrings.GEOMETRY_POLYGON, mapStrings.MEASURE_AREA)}
+                            onClick={() => this.props.actions.enableMeasuring(appStrings.GEOMETRY_POLYGON, appStrings.MEASURE_AREA)}
                             className="context-menu-item" >
                             <i className="ms ms-measure-area context-menu-icon" />
                             <span className="context-menu-label">Area</span>
@@ -63,13 +62,13 @@ export class MapContextMenu extends Component {
                             primary={drawingCircle}
                             label="Circle"
                             icon="radio_button_unchecked"
-                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_CIRCLE)}
+                            onClick={() => this.props.actions.enableDrawing(appStrings.GEOMETRY_CIRCLE)}
                             className="context-menu-item" />
                     </MenuItem>
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             primary={drawingLineString}
-                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_LINE_STRING)}
+                            onClick={() => this.props.actions.enableDrawing(appStrings.GEOMETRY_LINE_STRING)}
                             className="context-menu-item" >
                             <i className="ms ms-line context-menu-icon" />
                             <span className="context-menu-label">Polyline</span>
@@ -78,7 +77,7 @@ export class MapContextMenu extends Component {
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button
                             primary={drawingPolygon}
-                            onClick={() => this.props.actions.enableDrawing(mapStrings.GEOMETRY_POLYGON)}
+                            onClick={() => this.props.actions.enableDrawing(appStrings.GEOMETRY_POLYGON)}
                             className="context-menu-item" >
                             <i className="ms ms-polygon context-menu-icon" />
                             <span className="context-menu-label">Polygon</span>

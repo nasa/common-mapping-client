@@ -1,9 +1,5 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { alertState, alert } from './models/alert';
-
-//IMPORTANT: Note that with Redux, state should NEVER be changed.
-//State is considered immutable. Instead,
-//create a copy of the state passed and set new values on the copy.
+import { alertState } from './models/alert';
 
 const addAlert = (state, action) => {
     return state.set("alerts", state.get("alerts").push(alert.merge(action.alert)));

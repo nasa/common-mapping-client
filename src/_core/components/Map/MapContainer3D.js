@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '_core/actions/MapActions';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class MapContainer3D extends Component {
@@ -12,30 +12,30 @@ export class MapContainer3D extends Component {
     }
 
     initializeMapDrawHandlers() {
-        let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
+        let map = this.props.maps.get(appStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), mapStrings.INTERACTION_DRAW);
+            map.addDrawHandler(appStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
         } else {
             console.error("Cannot initialize 3D draw listeners: MAP NOT AVAILABLE");
         }
     }
 
     initializeMapMeasurementHandlers() {
-        let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
+        let map = this.props.maps.get(appStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addDrawHandler(mapStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_DISTANCE), mapStrings.INTERACTION_MEASURE);
-            map.addDrawHandler(mapStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, mapStrings.MEASURE_AREA), mapStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE), appStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA), appStrings.INTERACTION_MEASURE);
         } else {
             console.error("Cannot initialize 3D measurement listeners: MAP NOT AVAILABLE");
         }
     }
 
     initializeMapListeners() {
-        let map = this.props.maps.get(mapStrings.MAP_LIB_3D);
+        let map = this.props.maps.get(appStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addEventListener(mapStrings.EVENT_MOVE_END, () => {
+            map.addEventListener(appStrings.EVENT_MOVE_END, () => {
                 // Only fire move event if this map is active
                 if (map.isActive) {
                     this.props.actions.setMapViewInfo({
@@ -44,12 +44,12 @@ export class MapContainer3D extends Component {
                     });
                 }
             });
-            map.addEventListener(mapStrings.EVENT_MOUSE_HOVER, (pixel) => {
+            map.addEventListener(appStrings.EVENT_MOUSE_HOVER, (pixel) => {
                 if (map.isActive) {
                     this.props.actions.pixelHover(pixel);
                 }
             });
-            map.addEventListener(mapStrings.EVENT_MOUSE_CLICK, (pixel) => {
+            map.addEventListener(appStrings.EVENT_MOUSE_CLICK, (pixel) => {
                 if (map.isActive) {
                     this.props.actions.pixelClick(pixel);
                 }
@@ -63,14 +63,14 @@ export class MapContainer3D extends Component {
         // Disable drawing
         this.props.actions.disableDrawing();
         // Add geometry to other maps
-        // this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_DRAW);
+        // this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_DRAW);
     }
 
     handleMeasureEnd(geometry, measurementType) {
         // Disable drawing
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
-        this.props.actions.addGeometryToMap(geometry, mapStrings.INTERACTION_MEASURE, true);
+        this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, true);
         // Add label to geometry
         this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }

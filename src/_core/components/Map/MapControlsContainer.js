@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class MapControlsContainer extends Component {
     setViewMode() {
         if (this.props.in3DMode) {
-            this.props.actions.setMapViewMode(mapStrings.MAP_VIEW_MODE_2D);
+            this.props.actions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D);
         } else {
-            this.props.actions.setMapViewMode(mapStrings.MAP_VIEW_MODE_3D);
+            this.props.actions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D);
         }
     }
 

@@ -54,4 +54,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default ContextMenuLayer(appStrings.MAP_CONTEXT_MENU, (data) => data)(connect(mapStateToProps, mapDispatchToProps)(MapContainer));
+export default ContextMenuLayer(appStrings.MAP_CONTEXT_MENU_ID, (data) => data)(connect(mapStateToProps, mapDispatchToProps)(MapContainer));

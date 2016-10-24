@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MiscUtil from '_core/utils/MiscUtil';
 import * as actions from '_core/actions/LayerActions';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 
 const CANVAS_WIDTH = 255;
 const CANVAS_HEIGHT = 12;
@@ -11,15 +11,15 @@ const CANVAS_HEIGHT = 12;
 export class ColorbarContainer extends Component {
 
     componentDidMount() {
-        if (this.props.handleAs === mapStrings.COLORBAR_JSON_FIXED ||
-            this.props.handleAs === mapStrings.COLORBAR_JSON_RELATIVE) {
+        if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
+            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
             this.draw();
         }
     }
 
     componentDidUpdate(nextProps, nextState) {
-        if (this.props.handleAs === mapStrings.COLORBAR_JSON_FIXED ||
-            this.props.handleAs === mapStrings.COLORBAR_JSON_RELATIVE) {
+        if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
+            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
             this.draw();
         }
     }
@@ -50,11 +50,11 @@ export class ColorbarContainer extends Component {
         });
         let canvasClass = MiscUtil.generateStringFromSet({
             "colorbar": true,
-            "hidden": this.props.handleAs !== mapStrings.COLORBAR_JSON_FIXED && this.props.handleAs !== mapStrings.COLORBAR_JSON_RELATIVE
+            "hidden": this.props.handleAs !== appStrings.COLORBAR_JSON_FIXED && this.props.handleAs !== appStrings.COLORBAR_JSON_RELATIVE
         });
         let imageClass = MiscUtil.generateStringFromSet({
             "colorbar": true,
-            "hidden": this.props.handleAs !== mapStrings.COLORBAR_IMAGE
+            "hidden": this.props.handleAs !== appStrings.COLORBAR_IMAGE
         });
         let warningClass = MiscUtil.generateStringFromSet({
             "colorbar-warning": true,

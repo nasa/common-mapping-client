@@ -6,9 +6,7 @@ import { alert } from './models/alert';
 import MapUtil from '_core/utils/MapUtil.js';
 import MiscUtil from '_core/utils/MiscUtil.js';
 import * as appStrings from '_core/constants/appStrings';
-import * as mapStrings from '_core/constants/mapStrings';
 import * as appConfig from 'constants/appConfig';
-import * as mapConfig from 'constants/mapConfig';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -20,7 +18,7 @@ const initializeMap = (state, action) => {
         return state.setIn(["maps", action.mapType], map);
     }
 
-    let contextStr = action.mapType === mapStrings.MAP_LIB_3D ? "3D" : "2D";
+    let contextStr = action.mapType === appStrings.MAP_LIB_3D ? "3D" : "2D";
     return state.set("alerts", state.get("alerts").push(alert.merge({
         title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
         body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", contextStr),
@@ -34,7 +32,7 @@ const setMapViewMode = (state, action) => {
     state = disableDrawing(state, action);
     state = disableMeasuring(state, action);
 
-    let mode_3D = action.mode === mapStrings.MAP_VIEW_MODE_3D;
+    let mode_3D = action.mode === appStrings.MAP_VIEW_MODE_3D;
     state = state.set("maps", state.get("maps").map((map) => {
         if (map.is3D) {
             map.isActive = mode_3D;
@@ -399,33 +397,33 @@ const hideBasemap = (state, action) => {
     }, false);
 
     if (anySucceed) {
-        let layerList = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]);
+        let layerList = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]);
         if (typeof layerList !== "undefined") {
             layerList = layerList.map((layer) => {
                 return layer.set("isActive", false);
             });
-            return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP], layerList);
+            return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP], layerList);
         }
         return state;
     }
     return state;
 };
 const ingestLayerConfig = (state, action) => {
-    if (action.options.type === mapStrings.LAYER_CONFIG_JSON) {
-        let currPartials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
+    if (action.options.type === appStrings.LAYER_CONFIG_JSON) {
+        let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let newPartials = generatePartialsListFromJson(action.config);
-        return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
-    } else if (action.options.type === mapStrings.LAYER_CONFIG_WMTS_XML) {
-        let currPartials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
+        return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
+    } else if (action.options.type === appStrings.LAYER_CONFIG_WMTS_XML) {
+        let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let newPartials = generatePartialsListFromWmtsXml(action.config);
-        return state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
+        return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
     } else {
         console.warn("could not ingest layer config");
     }
     return state;
 };
 const mergeLayers = (state, action) => {
-    let partials = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]);
+    let partials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
     let refPartial = null;
     let matchingPartials = null;
     let mergedLayer = null;
@@ -453,20 +451,20 @@ const mergeLayers = (state, action) => {
         // merge in the default values
         mergedLayer = layerModel.mergeDeep(mergedLayer);
         // update layer time
-        mergedLayer = mergedLayer.set("time", moment(mapConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
+        mergedLayer = mergedLayer.set("time", moment(appConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
         // put the newly minted layer into state storage
         if (typeof mergedLayer.get("id") !== "undefined") {
             state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
         }
     }
-    return state.removeIn(["layers", mapStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
+    return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
 };
 
 const activateDefaultLayers = (state, action) => {
     // we use an explicit group order to avoid issues with draw initialization
 
     // activate basemap
-    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_BASEMAP]).map((layer) => {
+    state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]).map((layer) => {
         if (layer.get("isDefault")) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setBasemap(layer)) {
@@ -482,7 +480,7 @@ const activateDefaultLayers = (state, action) => {
     }));
 
     // activate data layers
-    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).map((layer) => {
+    state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).map((layer) => {
         if (layer.get("isDefault")) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setLayerActive(layer, true)) {
@@ -498,7 +496,7 @@ const activateDefaultLayers = (state, action) => {
     }));
 
     // activate reference layers
-    state = state.setIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE], state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).map((layer) => {
+    state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).map((layer) => {
         if (layer.get("isDefault")) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setLayerActive(layer, true)) {
@@ -541,7 +539,7 @@ const setMapDate = (state, action) => {
     // update the layers on the map
     let anyFail = state.get("maps").reduce((acc1, map) => {
         // only updated data layers, should we update basemaps and reference layers too?
-        let mapFail = state.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
+        let mapFail = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
             if (layer.get("updateParameters").get("time")) {
                 if (!map.updateLayer(layer)) {
                     return true;
@@ -783,7 +781,7 @@ const addMeasurementLabelToGeometry = (state, action) => {
     let labelMeta = {
         "meters": measurement,
         "measurementType": action.measurementType,
-        interactionType: mapStrings.INTERACTION_MEASURE
+        interactionType: appStrings.INTERACTION_MEASURE
     };
 
     let anySucceed = state.get("maps").reduce((acc, map) => {
@@ -857,23 +855,23 @@ const resetApplicationState = (state, action) => {
     let newState = state;
 
     // set data/reference layers opacity to 1
-    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
+    newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
         newState = setLayerOpacity(newState, { layer, opacity: 1 });
     });
-    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
+    newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
         newState = setLayerOpacity(newState, { layer, opacity: 1 });
     });
 
     // turn off data/reference layers
-    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
+    newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).forEach((layer) => {
         newState = setLayerActive(newState, { layer, active: false });
     });
-    newState.getIn(["layers", mapStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
+    newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach((layer) => {
         newState = setLayerActive(newState, { layer, active: false });
     });
 
     // set view to 2D
-    newState = setMapViewMode(newState, { mode: mapStrings.MAP_VIEW_MODE_2D });
+    newState = setMapViewMode(newState, { mode: appStrings.MAP_VIEW_MODE_2D });
 
     // set view extent to global
     newState = setMapView(newState, {
@@ -883,13 +881,13 @@ const resetApplicationState = (state, action) => {
     });
 
     // set date to today
-    newState = setMapDate(newState, { date: mapConfig.DEFAULT_DATE });
+    newState = setMapDate(newState, { date: appConfig.DEFAULT_DATE });
 
     // set scale units
-    newState = setScaleUnits(newState, { units: mapConfig.DEFAULT_SCALE_UNITS });
+    newState = setScaleUnits(newState, { units: appConfig.DEFAULT_SCALE_UNITS });
 
     // set terrain exaggeration
-    newState = setTerrainExaggeration(newState, { terrainExaggeration: mapConfig.DEFAULT_TERRAIN_EXAGGERATION });
+    newState = setTerrainExaggeration(newState, { terrainExaggeration: appConfig.DEFAULT_TERRAIN_EXAGGERATION });
 
     // Remove all user vector geometries
     newState = removeAllDrawings(newState, {});

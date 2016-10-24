@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import * as mapStrings from '../constants/mapStrings';
 import MapUtil from '../utils/MapUtil';
 
 describe('Map Utils', () => {

@@ -200,14 +200,6 @@ export default class TimeAxisD3 {
 
             // translate resolution to scale
             let scale = options.scale && typeof options.scale.resolution !== "undefined" ? options.scale.resolution : this._selection.zoom.scale();
-            // let scale = this._selection.zoom.scale();
-            // if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.DAYS) {
-            //     scale = 512;
-            // } else if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS) {
-            //     scale = 16;
-            // } else if (options.scale === appStrings.DATE_SLIDER_RESOLUTIONS.YEARS) {
-            //     scale = 1;
-            // }
 
             // Record the coordinates (in data space) of the center( in screen space).
             // let scale = options.scale ? options.scale : this._selection.zoom.scale();

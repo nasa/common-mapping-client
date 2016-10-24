@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import * as mapStrings from '_core/constants/mapStrings';
+import * as appStrings from '_core/constants/appStrings';
 
 export class DrawingTooltip extends Component {
     render() {
@@ -15,11 +15,11 @@ export class DrawingTooltip extends Component {
         }
 
         // set the hint to complete
-        if (referenceGroup.get("geometryType") === mapStrings.GEOMETRY_CIRCLE) {
+        if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_CIRCLE) {
             endHint = "Press enter or click to complete";
-        } else if (referenceGroup.get("geometryType") === mapStrings.GEOMETRY_LINE_STRING) {
+        } else if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_LINE_STRING) {
             endHint = "Press enter or double-click to complete";
-        } else if (referenceGroup.get("geometryType") === mapStrings.GEOMETRY_POLYGON) {
+        } else if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_POLYGON) {
             endHint = "Press enter or double-click to complete";
         }
 

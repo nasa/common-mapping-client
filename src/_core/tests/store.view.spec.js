@@ -1,6 +1,6 @@
 import * as AppActions from '../actions/AppActions';
 import * as LayerActions from '../actions/LayerActions';
-import * as appStrings from '../constants/appStrings';
+import * as appConfig from '../constants/appConfig';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '../reducers';
@@ -32,9 +32,9 @@ describe('Store - View', function() {
         const store = createStore(rootReducer, initialState);
         const actual = store.getState();
 
-        expect(actual.view.get("title")).to.equal(appStrings.APP_TITLE);
-        expect(actual.view.get("subtitle")).to.equal(appStrings.APP_SUBTITLE);
-        expect(actual.view.get("version")).to.equal(appStrings.APP_VERSION);
+        expect(actual.view.get("title")).to.equal(appConfig.APP_TITLE);
+        expect(actual.view.get("subtitle")).to.equal(appConfig.APP_SUBTITLE);
+        expect(actual.view.get("version")).to.equal(appConfig.APP_VERSION);
     });
 
     it('can complete initial load', function() {
