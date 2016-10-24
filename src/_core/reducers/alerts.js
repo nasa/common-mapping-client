@@ -1,31 +1,17 @@
 import * as actionTypes from '_core/constants/actionTypes';
 import { alertState } from './models/alert';
-
-const addAlert = (state, action) => {
-    return state.set("alerts", state.get("alerts").push(alert.merge(action.alert)));
-};
-
-const dismissAlert = (state, action) => {
-    let remAlert = action.alert;
-    return state.set("alerts", state.get("alerts").filter((alert) => {
-        return alert !== remAlert;
-    }));
-};
-
-const dismissAllAlerts = (state, action) => {
-    return state.set("alerts", state.get("alerts").clear());
-};
+import AlertsReducer from './reducerFunctions/AlertsReducer';
 
 export default function alerts(state = alertState, action) {
     switch (action.type) {
         case actionTypes.ADD_ALERT:
-            return addAlert(state, action);
+            return AlertsReducer.addAlert(state, action);
 
         case actionTypes.DISMISS_ALERT:
-            return dismissAlert(state, action);
+            return AlertsReducer.dismissAlert(state, action);
 
         case actionTypes.DISMISS_ALL_ALERTS:
-            return dismissAllAlerts(state, action);
+            return AlertsReducer.dismissAllAlerts(state, action);
 
         default:
             return state;
