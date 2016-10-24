@@ -10,7 +10,9 @@ const GLOBALS = {
 
 export default {
     debug: true,
-    devtool: 'cheap-module-eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
+    // SOURCE MAP ISSUE AS OF 10/24/16 see https://github.com/webpack/webpack/issues/2145, HAVE TO USE INLINE-SOURCE-MAP FOR NOW EVEN THOUGH SLIGHTLY SLOWER
+    // devtool: 'cheap-module-eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
+    devtool: 'inline-source-map',
     noInfo: true, // set to false to see a list of every file being bundled.
     entry: [
         'webpack-hot-middleware/client?reload=true',
