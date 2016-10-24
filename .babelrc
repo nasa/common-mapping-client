@@ -10,6 +10,16 @@
         "react-hmre"
       ]
     },
+    "test": {
+      "plugins": [
+        ["istanbul", {
+          "exclude": [
+            "**/*.spec.js",
+            "src/lib/*"
+          ]
+        }]
+      ]
+    },
     "production": {
       "plugins": [
         "transform-runtime",
