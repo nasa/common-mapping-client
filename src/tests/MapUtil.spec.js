@@ -4,6 +4,25 @@ import * as mapStrings from '../constants/mapStrings';
 import MapUtil from '../utils/MapUtil';
 
 describe('Map Utils', () => {
+    describe('Creates a Map', () => {
+        beforeEach(function() {
+            let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
+            document.body.insertAdjacentHTML('afterbegin', fixture);
+        });
+
+        // remove the html fixture from the DOM
+        afterEach(function() {
+            document.body.removeChild(document.getElementById('fixture'));
+        });
+        it('creates a 2D map when given mapStrings.MAP_LIB_2D', () => {
+            // expect(MapUtil.createMap(mapStrings.MAP_LIB_2D))
+            let map = MapUtil.createMap(mapStrings.MAP_LIB_2D, 'map2D', Immutable.fromJS({
+                view: { in3DMode: false }
+            }));
+            expect(map.constructor.name).to.equal("MapWrapper_openlayers");
+            expect(map.map).to.not.equal(undefined);
+        })
+    })
     describe('constrainCoordinates', () => {
         it('takes in a set of LatLon coordinates [lon,lat] that may be outside ' +
             'the [-180, -90, 180, 90] bounds and contrains them the the [-180, -90, 180, 90] bounds.', () => {

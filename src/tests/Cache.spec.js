@@ -41,6 +41,28 @@ describe('Cache', () => {
             expect(cache.getSize()).to.equal(limit);
         });
     });
+    describe('Clearing', () => {
+        it('Clears all entries in the cache', () => {
+            let limit = 3;
+            let cache = new Cache(limit);
+            cache.set("a", 1);
+            cache.set(3, [1]);
+            cache.set("c", {a: 1});
+
+            // assert all is well
+            expect(cache.get("a")).to.equal(1);
+            expect(cache.get(3)).to.deep.equal([1]);
+            expect(cache.get("c")).to.deep.equal({a:1});
+            expect(cache.get("d")).to.deep.equal(false);
+            expect(cache.getSize()).to.equal(limit);
+
+            // Clear cache
+            cache.clear();
+
+            // assert cache is cleared
+            expect(cache.getSize()).to.equal(0);
+        });
+    });
     describe('Limit and Size', () => {
         it('Allows for arbitrary limit', () => {
             let limit = 4321;
