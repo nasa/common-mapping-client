@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { shareState } from './models/share';
-import ShareReducer from './reducerFunctions/ShareReducer';
+import { shareState } from '_core/reducers/models/share';
+import ShareReducer from '_core/reducers/reducerFunctions/ShareReducer';
 
 export default function share(state = shareState, action) {
     switch (action.type) {

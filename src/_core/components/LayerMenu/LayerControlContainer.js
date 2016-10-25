@@ -6,7 +6,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import Slider from 'react-toolbox/lib/slider';
 import * as layerActions from '_core/actions/LayerActions';
-import ColorbarContainer from './ColorbarContainer';
+import ColorbarContainer from '_core/components/LayerMenu/ColorbarContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerControlContainer extends Component {

@@ -8,7 +8,7 @@ import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as MapActions from '_core/actions/MapActions';
 import TimeAxisD3 from '_core/utils/TimeAxisD3';
 import MiscUtil from '_core/utils/MiscUtil';
-import SingleDate from './SingleDate';
+import SingleDate from '_core/components/DateSlider/SingleDate';
 
 export class TimeAxis extends Component {
     componentDidMount() {

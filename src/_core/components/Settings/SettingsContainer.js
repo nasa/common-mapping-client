@@ -11,7 +11,7 @@ import * as layerActions from '_core/actions/LayerActions';
 import * as dateSliderActions from '_core/actions/DateSliderActions';
 import * as analyticsActions from '_core/actions/AnalyticsActions';
 import MiscUtil from '_core/utils/MiscUtil';
-import BaseMapDropdown from './BaseMapDropdown';
+import BaseMapDropdown from '_core/components/Settings/BaseMapDropdown';
 import MenuDropdown from '_core/components/Reusables/MenuDropdown';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 

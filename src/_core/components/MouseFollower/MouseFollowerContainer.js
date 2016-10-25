@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import DrawingTooltip from './DrawingTooltip';
+import DrawingTooltip from '_core/components/MouseFollower/DrawingTooltip';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class MouseFollowerContainer extends Component {

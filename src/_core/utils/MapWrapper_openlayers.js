@@ -3,10 +3,10 @@ import ol from 'openlayers';
 import proj4js from 'proj4';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
-import MapWrapper from './MapWrapper';
-import MiscUtil from './MiscUtil';
-import MapUtil from './MapUtil';
-import Cache from './Cache';
+import MapWrapper from '_core/utils/MapWrapper';
+import MiscUtil from '_core/utils/MiscUtil';
+import MapUtil from '_core/utils/MapUtil';
+import Cache from '_core/utils/Cache';
 
 export default class MapWrapper_openlayers extends MapWrapper {
     constructor(container, options) {

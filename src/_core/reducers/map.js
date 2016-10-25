@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { mapState } from './models/map';
-import MapReducer from './reducerFunctions/MapReducer';
+import { mapState } from '_core/reducers/models/map';
+import MapReducer from '_core/reducers/reducerFunctions/MapReducer';
 
 export default function map(state = mapState, action) {
     switch (action.type) {

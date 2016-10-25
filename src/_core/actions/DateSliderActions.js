@@ -1,5 +1,5 @@
 import * as types from '_core/constants/actionTypes';
-import { setDate } from './MapActions';
+import { setDate } from '_core/actions/MapActions';
 
 export function beginDragging() {
     return { type: types.BEGIN_DRAGGING };

@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { viewState } from './models/view';
-import ViewReducer from './reducerFunctions/ViewReducer';
+import { viewState } from '_core/reducers/models/view';
+import ViewReducer from '_core/reducers/reducerFunctions/ViewReducer';
 
 export default function view(state = viewState, action) {
     switch (action.type) {

@@ -4,8 +4,8 @@ import { ContextMenuLayer } from "react-contextmenu";
 import { bindActionCreators } from 'redux';
 import * as appStrings from '_core/constants/appStrings';
 import * as actions from '_core/actions/MapActions';
-import MapContainer2D from './MapContainer2D';
-import MapContainer3D from './MapContainer3D';
+import MapContainer2D from '_core/components/Map/MapContainer2D';
+import MapContainer3D from '_core/components/Map/MapContainer3D';
 import KeyHandler, { KEYUP } from 'react-key-handler';
 
 export class MapContainer extends Component {

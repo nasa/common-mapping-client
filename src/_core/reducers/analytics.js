@@ -1,6 +1,6 @@
-import { analyticsState } from './models/analytics';
+import { analyticsState } from '_core/reducers/models/analytics';
 import * as actionTypes from '_core/constants/actionTypes';
-import AnalyticsReducer from './reducerFunctions/AnalyticsReducer';
+import AnalyticsReducer from '_core/reducers/reducerFunctions/AnalyticsReducer';
 
 export default function analytics(state = analyticsState, action) {
     switch (action.type) {

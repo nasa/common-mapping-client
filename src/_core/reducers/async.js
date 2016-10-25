@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { asyncState } from './models/async';
-import AsyncReducer from './reducerFunctions/AsyncReducer';
+import { asyncState } from '_core/reducers/models/async';
+import AsyncReducer from '_core/reducers/reducerFunctions/AsyncReducer';
 
 export default function asyncronous(state = asyncState, action) {
     switch (action.type) {

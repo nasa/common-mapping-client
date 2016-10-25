@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { alertState } from './models/alert';
-import AlertsReducer from './reducerFunctions/AlertsReducer';
+import { alertState } from '_core/reducers/models/alert';
+import AlertsReducer from '_core/reducers/reducerFunctions/AlertsReducer';
 
 export default function alerts(state = alertState, action) {
     switch (action.type) {

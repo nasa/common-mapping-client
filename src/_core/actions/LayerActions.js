@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { URLS } from 'constants/appConfig';
 import * as types from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
-import * as AlertActions from './AlertActions';
+import * as AlertActions from '_core/actions/AlertActions';
 
 export function openLayerInfo(layer) {
     return { type: types.OPEN_LAYER_INFO, layer };

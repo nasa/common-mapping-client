@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux';
 import d3 from 'd3';
 import moment from 'moment';
 import MiscUtil from '_core/utils/MiscUtil';
-import TimeAxis from './TimeAxis';
-import ResolutionStep from './ResolutionStep';
+import TimeAxis from '_core/components/DateSlider/TimeAxis';
+import ResolutionStep from '_core/components/DateSlider/ResolutionStep';
 
 export class DateSliderContainer extends Component {
     render() {

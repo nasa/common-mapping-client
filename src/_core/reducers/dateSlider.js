@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { dateSliderState } from './models/dateSlider';
-import DateSliderReducer from './reducerFunctions/DateSliderReducer';
+import { dateSliderState } from '_core/reducers/models/dateSlider';
+import DateSliderReducer from '_core/reducers/reducerFunctions/DateSliderReducer';
 
 export default function dateSlider(state = dateSliderState, action) {
     switch (action.type) {

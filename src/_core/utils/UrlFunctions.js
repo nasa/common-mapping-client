@@ -1,4 +1,4 @@
-import MapUtil from './MapUtil';
+import MapUtil from '_core/utils/MapUtil';
 
 /** Tile Url Function Parameters
 

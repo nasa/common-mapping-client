@@ -5,8 +5,8 @@ import moment from 'moment';
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
-import DatePicker from './DatePicker';
-import DateKeyboardControls from './DateKeyboardControls';
+import DatePicker from '_core/components/DatePicker/DatePicker';
+import DateKeyboardControls from '_core/components/DatePicker/DateKeyboardControls';
 
 export class DatePickerContainer extends Component {
     render() {

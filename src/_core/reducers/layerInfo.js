@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { layerInfoState } from './models/layerInfo';
-import LayerInfoReducer from './reducerFunctions/LayerInfoReducer';
+import { layerInfoState } from '_core/reducers/models/layerInfo';
+import LayerInfoReducer from '_core/reducers/reducerFunctions/LayerInfoReducer';
 
 export default function layerInfo(state = layerInfoState, action) {
     switch (action.type) {

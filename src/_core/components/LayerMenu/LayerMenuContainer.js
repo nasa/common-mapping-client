@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import * as appStrings from '_core/constants/appStrings';
 import * as layerActions from '_core/actions/LayerActions';
-import LayerControlContainer from './LayerControlContainer';
+import LayerControlContainer from '_core/components/LayerMenu/LayerControlContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     render() {
-        console.log(this.props.layers.toJS());
         let layerList = this.props.layers.toList().sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
         let activeNum = layerList.count((el) => {

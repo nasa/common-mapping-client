@@ -7,11 +7,11 @@ import proj4js from 'proj4';
 import { GreatCircle } from 'lib/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
-import * as urlFunctions from './UrlFunctions';
-import * as tileLoadFunctions from './TileLoadFunctions';
-import MiscUtil from './MiscUtil';
-import MapWrapper_openlayers from './MapWrapper_openlayers';
-import MapWrapper_cesium from './MapWrapper_cesium';
+import * as urlFunctions from '_core/utils/UrlFunctions';
+import * as tileLoadFunctions from '_core/utils/TileLoadFunctions';
+import MiscUtil from '_core/utils/MiscUtil';
+import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
+import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
 
 export default class MapUtil {
 

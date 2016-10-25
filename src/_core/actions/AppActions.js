@@ -1,10 +1,10 @@
 import * as types from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
-import * as LayerActions from './LayerActions';
-import * as MapActions from './MapActions';
-import * as DateSliderActions from './DateSliderActions';
-import * as AlertActions from './AlertActions';
+import * as LayerActions from '_core/actions/LayerActions';
+import * as MapActions from '_core/actions/MapActions';
+import * as DateSliderActions from '_core/actions/DateSliderActions';
+import * as AlertActions from '_core/actions/AlertActions';
 import moment from 'moment';
 
 export function completeInitialLoad() {

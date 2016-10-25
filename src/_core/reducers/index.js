@@ -1,15 +1,15 @@
 import { combineReducers } from 'redux';
 import Immutable from 'immutable';
-import view from './view';
-import map from './map';
-import settings from './settings';
-import help from './help';
-import layerInfo from './layerInfo';
-import share from './share';
-import dateSlider from './dateSlider';
-import asyncronous from './async';
-import analytics from './analytics';
-import alerts from './alerts';
+import view from '_core/reducers/view';
+import map from '_core/reducers/map';
+import settings from '_core/reducers/settings';
+import help from '_core/reducers/help';
+import layerInfo from '_core/reducers/layerInfo';
+import share from '_core/reducers/share';
+import dateSlider from '_core/reducers/dateSlider';
+import asyncronous from '_core/reducers/async';
+import analytics from '_core/reducers/analytics';
+import alerts from '_core/reducers/alerts';
 
 const rootReducer = combineReducers({
     view,

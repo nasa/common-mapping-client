@@ -1,6 +1,6 @@
 import * as actionTypes from '_core/constants/actionTypes';
-import { helpState } from './models/help';
-import HelpReducer from './reducerFunctions/HelpReducer';
+import { helpState } from '_core/reducers/models/help';
+import HelpReducer from '_core/reducers/reducerFunctions/HelpReducer';
 
 export default function help(state = helpState, action) {
     switch (action.type) {
