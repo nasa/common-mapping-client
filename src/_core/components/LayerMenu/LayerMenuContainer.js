@@ -9,6 +9,7 @@ import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerMenuContainer extends Component {
     render() {
+        console.log(this.props.layers.toJS());
         let layerList = this.props.layers.toList().sort(MiscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
         let activeNum = layerList.count((el) => {

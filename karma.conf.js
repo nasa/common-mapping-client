@@ -24,14 +24,14 @@ module.exports = function(config) {
             'src/tests/**/*.spec.js',
             'src/_core/tests/**/*.spec.js',
             './node_modules/es6-promise/dist/es6-promise.js', {
-                pattern: "src/tests/data/*",
+                pattern: "src/_core/tests/data/*",
                 included: false,
                 served: true
             }
         ],
 
         proxies: {
-            '/default-data': 'http://localhost:9876/base/src/tests/data'
+            '/default-data': 'http://localhost:9876/base/src/_core/tests/data'
         },
 
 
@@ -51,17 +51,23 @@ module.exports = function(config) {
             devtool: 'inline-source-map', //just do inline source maps instead of the default
             debug: false,
             noInfo: true, // set to false to see a list of every file being bundled.
+            resolve: {
+                modulesDirectories: ["src", "node_modules"],
+                extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
+            },
             module: {
                 noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
                 loaders: [
-                    { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
+                    { test: /\.js$/, include: path.join(__dirname, 'src'), exclude: path.join(__dirname, 'src/lib'), loaders: ['babel', 'eslint'] },
                     { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
                     { test: /Cesium\.js$/, loader: 'script' },
+                    { test: /CesiumDrawHelper\.js$/, loader: 'script' },
                     { test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file'] },
                     { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
                     { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
                     { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
-                    { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]' }
+                    { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'file-loader?name=[name].[ext]' },
+                    { test: /\.md$/, loader: 'raw-loader' }
                 ]
             }
         },

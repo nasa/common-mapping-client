@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MiscUtil from '../utils/MiscUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 
 describe('Misc Utils', () => {
     describe('generateStringFromSet', () => {

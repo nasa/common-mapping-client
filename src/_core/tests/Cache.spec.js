@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Cache from '../utils/Cache';
+import Cache from '_core/utils/Cache';
 
 describe('Cache', () => {
     describe('Set and Get', () => {

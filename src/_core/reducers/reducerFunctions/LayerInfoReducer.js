@@ -3,11 +3,11 @@
 //create a copy of the state passed and set new values on the copy.
 
 export default class LayerInfoReducer {
-    openLayerInfo(state, action){
+    static openLayerInfo(state, action) {
         return state.set("isOpen", true).set("layer", action.layer);
     }
 
-    closeLayerInfo(state, action){
+    static closeLayerInfo(state, action) {
         return state.set("isOpen", false);
     }
 }

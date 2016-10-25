@@ -1,22 +1,22 @@
-import * as AppActions from '../actions/AppActions';
-import * as MapActions from '../actions/MapActions';
-import * as DateSliderActions from '../actions/DateSliderActions';
-import * as actionTypes from '../constants/actionTypes';
-import * as appStrings from '../constants/appStrings';
-import * as appConfig from '../constants/appConfig';
+import * as AppActions from '_core/actions/AppActions';
+import * as MapActions from '_core/actions/MapActions';
+import * as DateSliderActions from '_core/actions/DateSliderActions';
+import * as actionTypes from '_core/constants/actionTypes';
+import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import { createStore } from 'redux';
 import { expect } from 'chai';
-import rootReducer from '../reducers';
-import { mapState, layerModel, paletteModel } from '../reducers/models/map';
-import { asyncState } from '../reducers/models/async';
-import { helpState } from '../reducers/models/help';
-import { shareState } from '../reducers/models/share';
-import { settingsState } from '../reducers/models/settings';
-import { dateSliderState } from '../reducers/models/dateSlider';
-import { analyticsState } from '../reducers/models/analytics';
-import { viewState } from '../reducers/models/view';
-import { layerInfoState } from '../reducers/models/layerInfo';
-import TestUtil from './TestUtil';
+import rootReducer from '_core/reducers';
+import { mapState, layerModel, paletteModel } from '_core/reducers/models/map';
+import { asyncState } from '_core/reducers/models/async';
+import { helpState } from '_core/reducers/models/help';
+import { shareState } from '_core/reducers/models/share';
+import { settingsState } from '_core/reducers/models/settings';
+import { dateSliderState } from '_core/reducers/models/dateSlider';
+import { analyticsState } from '_core/reducers/models/analytics';
+import { viewState } from '_core/reducers/models/view';
+import { layerInfoState } from '_core/reducers/models/layerInfo';
+import TestUtil from '_core/tests/TestUtil';
 
 const initialState = {
     map: mapState,
@@ -60,7 +60,7 @@ describe('Store', function() {
             MapActions.zoomOut(),
             MapActions.resetOrientation(0),
             DateSliderActions.setSliderCollapsed(),
-            DateSliderActions.setDateResolution(appStrings.DATE_SLIDER_RESOLUTIONS.MONTHS),
+            DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
             AppActions.resetApplicationState()
         ];
         

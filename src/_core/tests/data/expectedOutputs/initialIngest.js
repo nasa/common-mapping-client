@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const LAYERS = {
     "data": {
         "facilities_kml": {
@@ -8,7 +10,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "", "requestEncoding": "", "tileFunction": "", "urlFunction": "", "extents": [], "urlFunctions": {}, "tileFunctions": {}, "url": "", "projection": "", "layer": "", "tileGrid": { "origin": [], "resolutions": [], "matrixIds": [], "tileSize": 256 }, "format": "" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "default-data/facilities.kml",
             "metadata": { "platform": "", "spatialResolution": "", "dateRange": "", "description": "" },
             "units": "",
@@ -34,7 +36,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "", "requestEncoding": "", "tileFunction": "", "urlFunction": "", "extents": [], "urlFunctions": {}, "tileFunctions": {}, "url": "", "projection": "", "layer": "", "tileGrid": { "origin": [], "resolutions": [], "matrixIds": [], "tileSize": 256 }, "format": "" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "default-data/ne_10m_us_states.topojson",
             "metadata": { "platform": "", "spatialResolution": "", "dateRange": "", "description": "" },
             "units": "",
@@ -60,7 +62,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "1km", "requestEncoding": "REST", "tileFunction": "", "urlFunction": "", "extents": [-180, -90, 180, 90], "urlFunctions": { "openlayers": "kvpTimeParam", "cesium": "kvpTimeParam" }, "tileFunctions": {}, "url": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/GHRSST_L4_G1SST_Sea_Surface_Temperature/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png", "projection": "EPSG:4326", "layer": "GHRSST_L4_G1SST_Sea_Surface_Temperature", "tileGrid": { "origin": [-180, 90], "resolutions": [0.5624999999999999, 0.2812500000000001, 0.140625, 0.0703125, 0.035156250000000014, 0.017578125, 0.008789062499999998], "matrixIds": ["0", "1", "2", "3", "4", "5", "6"], "tileSize": 512, "minZoom": 0, "maxZoom": 6 }, "format": "image/png" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "",
             "metadata": { "platform": "MODIS, Terra", "spatialResolution": "25km x 25km spatial resolution", "dateRange": "2012 – Present", "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA)." },
             "units": "˚C",
@@ -88,7 +90,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "250m", "requestEncoding": "REST", "tileFunction": "", "urlFunction": "", "extents": [-180, -90, 180, 90], "urlFunctions": {}, "tileFunctions": {}, "url": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/Reference_Labels/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png", "projection": "EPSG:4326", "layer": "Reference_Labels", "tileGrid": { "origin": [-180, 90], "resolutions": [0.5624999999999999, 0.2812500000000001, 0.140625, 0.0703125, 0.035156250000000014, 0.017578125, 0.008789062499999998, 0.004394531249999999, 0.002197265625], "matrixIds": ["0", "1", "2", "3", "4", "5", "6", "7", "8"], "tileSize": 512, "minZoom": 0, "maxZoom": 8 }, "format": "image/png" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "",
             "metadata": { "platform": "", "spatialResolution": "", "dateRange": "", "description": "" },
             "units": "",
@@ -116,7 +118,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "500m", "requestEncoding": "REST", "tileFunction": "", "urlFunction": "", "extents": [-180, -90, 180, 90], "urlFunctions": {}, "tileFunctions": {}, "url": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/BlueMarble_ShadedRelief_Bathymetry/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg", "projection": "EPSG:4326", "layer": "BlueMarble_ShadedRelief_Bathymetry", "tileGrid": { "origin": [-180, 90], "resolutions": [0.5624999999999999, 0.2812500000000001, 0.140625, 0.0703125, 0.035156250000000014, 0.017578125, 0.008789062499999998, 0.004394531249999999], "matrixIds": ["0", "1", "2", "3", "4", "5", "6", "7"], "tileSize": 512, "minZoom": 0, "maxZoom": 7 }, "format": "image/jpeg" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "",
             "metadata": { "platform": "", "spatialResolution": "", "dateRange": "", "description": "" },
             "units": "",
@@ -142,7 +144,7 @@ export const LAYERS = {
             "wmtsOptions": { "matrixSet": "", "requestEncoding": "", "tileFunction": "", "urlFunction": "", "extents": [], "urlFunctions": { "openlayers": "esriCustom512" }, "tileFunctions": { "openlayers": "catsTile" }, "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}", "projection": "EPSG:4326", "layer": "ESRI_World_Imagery", "tileGrid": { "origin": [], "resolutions": [], "matrixIds": [], "tileSize": 512, "minZoom": 1, "maxZoom": 16 }, "format": "" },
             "opacity": 1,
             "urlFunctions": {},
-            "time": "2015-05-20",
+            "time": moment(new Date()).subtract(3, "d").startOf('d').format("YYYY-MM-DD"),
             "url": "",
             "metadata": { "platform": "", "spatialResolution": "", "dateRange": "", "description": "" },
             "units": "",

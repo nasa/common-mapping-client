@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MapUtil from '../utils/MapUtil';
+import MapUtil from '_core/utils/MapUtil';
 
 describe('Map Utils', () => {
     describe('constrainCoordinates', () => {

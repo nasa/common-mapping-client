@@ -1,25 +1,25 @@
-import * as actionTypes from '../constants/actionTypes';
-import * as appStrings from '../constants/appStrings';
-import * as appConfig from '../constants/appConfig';
-import * as mapActions from '../actions/MapActions';
-import * as layerActions from '../actions/LayerActions';
-import * as initialIngest from './data/expectedOutputs/initialIngest';
-import * as activateInactivateLayers from './data/expectedOutputs/activateInactivateLayers';
+import * as actionTypes from '_core/constants/actionTypes';
+import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
+import * as mapActions from '_core/actions/MapActions';
+import * as layerActions from '_core/actions/LayerActions';
+import * as initialIngest from '_core/tests/data/expectedOutputs/initialIngest';
+import * as activateInactivateLayers from '_core/tests/data/expectedOutputs/activateInactivateLayers';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { expect } from 'chai';
-import rootReducer from '../reducers';
-import { mapState, layerModel, paletteModel } from '../reducers/models/map';
-import { asyncState } from '../reducers/models/async';
-import { helpState } from '../reducers/models/help';
-import { shareState } from '../reducers/models/share';
-import { settingsState } from '../reducers/models/settings';
-import { dateSliderState } from '../reducers/models/dateSlider';
-import { analyticsState } from '../reducers/models/analytics';
-import { viewState } from '../reducers/models/view';
-import { layerInfoState } from '../reducers/models/layerInfo';
-import TestUtil from './TestUtil';
-import MiscUtil from '../utils/MiscUtil';
+import rootReducer from '_core/reducers';
+import { mapState, layerModel, paletteModel } from '_core/reducers/models/map';
+import { asyncState } from '_core/reducers/models/async';
+import { helpState } from '_core/reducers/models/help';
+import { shareState } from '_core/reducers/models/share';
+import { settingsState } from '_core/reducers/models/settings';
+import { dateSliderState } from '_core/reducers/models/dateSlider';
+import { analyticsState } from '_core/reducers/models/analytics';
+import { viewState } from '_core/reducers/models/view';
+import { layerInfoState } from '_core/reducers/models/layerInfo';
+import TestUtil from '_core/tests/TestUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 import moment from 'moment';
 
 const initialState = {
@@ -1076,7 +1076,7 @@ describe('Store - Map', function() {
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
         let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
-        
+
         // Get 3D drawings
         let drawFeatures3D = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === appStrings.INTERACTION_DRAW);
         expect(drawFeatures2D.length).to.equal(0);
@@ -1141,7 +1141,7 @@ describe('Store - Map', function() {
 
             // Get 2D overlays
             let overlays2D = actualMap2D.map.getOverlays().getArray();
-            
+
             // Get 3D overlays
             let overlays3D = actualMap3D.map.entities.values;
 
@@ -1210,7 +1210,7 @@ describe('Store - Map', function() {
 
         // Get 2D overlays
         let overlays2D = actualMap2D.map.getOverlays().getArray();
-        
+
         // Get 3D overlays
         let overlays3D = actualMap3D.map.entities.values;
 
