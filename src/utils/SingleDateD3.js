@@ -1,6 +1,6 @@
 import d3 from 'd3';
 
-export default class TimeAxisD3 {
+export default class SingleDateD3 {
     constructor(options) {
         this.initValues(options);
     }
