@@ -141,6 +141,123 @@ describe('Map Utils', () => {
             expect(MapUtil.constrainCoordinates(varIn2)).to.deep.equal(varOut2);
         });
     });
+    describe('deconstrainArcCoordinates', () => {
+        it('returns the original polyline when given a single polyline', () => {
+            let linesArr = [
+                [
+                    [0, 0],
+                    [1, 1],
+                    [40, 40]
+                ]
+            ];
+            expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
+        })
+        it('returns false when end of first line lon % 180 === 0', () => {
+            let linesArr = [
+                [
+                    [0, 0],
+                    [1, 1],
+                    [180, 0]
+                ],
+                [
+                    [10, 0],
+                    [1, 1],
+                    [40, 40]
+                ]
+
+            ];
+            expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.be.false;
+        })
+        it('deconstrains where first line end has -lon and second line start has +lon', () => {
+            let linesArrIn = [
+                [
+                    [0, 0],
+                    [-5, -5],
+                    [-90, 0]
+                ],
+                [
+                    [90, 0],
+                    [-100, 0],
+                    [-105, 40]
+                ]
+            ];
+            let linesArrOut = [
+                [0, 0],
+                [-5, -5],
+                [-90, 0],
+                [-460, 0],
+                [-465, 40]
+            ];
+            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+        })
+        it('deconstrains where first line end has -lon and second line start has -lon', () => {
+            let linesArrIn = [
+                [
+                    [0, 0],
+                    [-5, -5],
+                    [-90, 0]
+                ],
+                [
+                    [-90, 0],
+                    [-100, 0],
+                    [-105, 40]
+                ]
+            ];
+            let linesArrOut = [
+                [0, 0],
+                [-5, -5],
+                [-90, 0],
+                [-100, 0],
+                [-105, 40]
+            ];
+            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+        })
+        it('deconstrains where first line end has +lon and second line start has +lon', () => {
+            let linesArrIn = [
+                [
+                    [0, 0],
+                    [-5, -5],
+                    [90, 0]
+                ],
+                [
+                    [90, 0],
+                    [-100, 0],
+                    [105, 40]
+                ]
+            ];
+            let linesArrOut = [
+                [0, 0],
+                [-5, -5],
+                [90, 0],
+                [-100, 0],
+                [105, 40]
+            ];
+            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+        })
+        it('deconstrains where first line end has +lon and second line start has +lon', () => {
+            let linesArrIn = [
+                [
+                    [0, 0],
+                    [-5, -5],
+                    [90, 0]
+                ],
+                [
+                    [-90, 0],
+                    [-100, 0],
+                    [105, 40]
+                ]
+            ];
+            let linesArrOut = [
+                [0, 0],
+                [-5, -5],
+                [90, 0],
+                [260, 0],
+                [465, 40]
+            ];
+            console.log(linesArrOut, MapUtil.deconstrainArcCoordinates(linesArrIn))
+            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+        })
+    })
     describe('buildTileUrl', () => {
         it('takes in a set WMTS url params and returns a valid WMTS tile url.', () => {
             let varIn1 = {
@@ -158,7 +275,7 @@ describe('Map Utils', () => {
                 url: "http://fakeTile.com/getTile",
                 layerId: "layerId",
                 tileMatrixSet: "tileMatrixSet",
-                tileMatrixLabels: ["0","1","2"],
+                tileMatrixLabels: ["0", "1", "2"],
                 col: 0,
                 row: 0,
                 level: 0,
@@ -338,11 +455,11 @@ describe('Map Utils', () => {
     });
     describe('trimFloatString', () => {
         it('removes trailing zeros from fixed width float string', () => {
-            expect(MapUtil.trimFloatString('0.00')).to.equal(0);
-            expect(MapUtil.trimFloatString('0.001')).to.equal(0.001);
-            expect(MapUtil.trimFloatString('1.001')).to.equal(1.001);
-            expect(MapUtil.trimFloatString('1.00100')).to.equal(1.001);
-            expect(MapUtil.trimFloatString('0')).to.equal(0);
+            expect(MapUtil.trimFloatString('0.00')).to.equal("0");
+            expect(MapUtil.trimFloatString('0.001')).to.equal("0.001");
+            expect(MapUtil.trimFloatString('1.001')).to.equal("1.001");
+            expect(MapUtil.trimFloatString('1.00100')).to.equal("1.001");
+            expect(MapUtil.trimFloatString('0')).to.equal("0");
         });
     });
     describe('calculatePolylineDistance', () => {
