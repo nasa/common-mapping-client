@@ -14,8 +14,9 @@
     "prebuild": "npm run clean-dist && npm run build:html",
     "build": "babel-node tools/build.js > dist/build-report.txt && bash ./postbuild.sh && npm run open:dist",
     "test": "karma start karma.conf.js --singleRun=true --reporters=progress",
-    "test:cover": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=true --reporters=progress,coverage",
     "test:watch": "karma start karma.conf.js --singleRun=false",
+    "test:cover": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=true --reporters=progress,coverage",
+    "test:cover:watch": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=false --reporters=progress,coverage",
     "postinstall": "bash ./postinstall.sh"
   },
   "author": "Flynn Platt",
