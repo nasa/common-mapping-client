@@ -108,8 +108,7 @@ export default class MapUtil {
         for (let i = 1; i < linesArr.length; ++i) {
             let line = linesArr[i];
             let lineStart = line[0];
-
-            if (referenceLineEnd % 180 !== 0) {
+            if (referenceLineEnd[0] % 180 !== 0) {
                 if (referenceLineEnd[0] <= 0) {
                     if (lineStart[0] >= 0) {
                         let shiftedLine = line.map((coords) => {
@@ -137,6 +136,7 @@ export default class MapUtil {
                 }
             } else {
                 console.warn("Unable to deconstrain coordinates. Reference line end: ", referenceLineEnd.toString());
+                return false;
             }
         }
         return deconstrainedLine;
@@ -294,7 +294,7 @@ export default class MapUtil {
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertAreaUnits(value, units) {
         let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
-        if(units === 'schoolbus') {
+        if (units === 'schoolbus') {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
             return Qty(value, 'm^2').to(unitEntry.qtyType + '^2').scalar;
@@ -305,7 +305,7 @@ export default class MapUtil {
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertDistanceUnits(value, units) {
         let unitEntry = MiscUtil.findObjectInArray(mapConfig.SCALE_OPTIONS, 'value', units);
-        if(units === 'schoolbus') {
+        if (units === 'schoolbus') {
             return value / unitEntry.toMeters;
         } else {
             return Qty(value, 'm').to(unitEntry.qtyType).scalar;
