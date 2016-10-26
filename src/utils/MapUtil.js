@@ -108,35 +108,31 @@ export default class MapUtil {
         for (let i = 1; i < linesArr.length; ++i) {
             let line = linesArr[i];
             let lineStart = line[0];
-            if (referenceLineEnd[0] % 180 !== 0) {
-                if (referenceLineEnd[0] <= 0) {
-                    if (lineStart[0] >= 0) {
-                        let shiftedLine = line.map((coords) => {
-                            let shiftedCoords = coords.slice(0, coords.length);
-                            shiftedCoords[0] -= 360;
-                            return shiftedCoords;
-                        });
-                        // remove first point due to overlap
-                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
-                    } else {
-                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
-                    }
+
+            if (referenceLineEnd[0] <= 0) {
+                if (lineStart[0] >= 0) {
+                    let shiftedLine = line.map((coords) => {
+                        let shiftedCoords = coords.slice(0, coords.length);
+                        shiftedCoords[0] -= 360;
+                        return shiftedCoords;
+                    });
+                    // remove first point due to overlap
+                    deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
                 } else {
-                    if (lineStart[0] <= 0) {
-                        let shiftedLine = line.map((coords) => {
-                            let shiftedCoords = coords.slice(0, coords.length);
-                            shiftedCoords[0] += 360;
-                            return shiftedCoords;
-                        });
-                        // remove first point due to overlap
-                        deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
-                    } else {
-                        deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
-                    }
+                    deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                 }
             } else {
-                console.warn("Unable to deconstrain coordinates. Reference line end: ", referenceLineEnd.toString());
-                return false;
+                if (lineStart[0] <= 0) {
+                    let shiftedLine = line.map((coords) => {
+                        let shiftedCoords = coords.slice(0, coords.length);
+                        shiftedCoords[0] += 360;
+                        return shiftedCoords;
+                    });
+                    // remove first point due to overlap
+                    deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                } else {
+                    deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
+                }
             }
         }
         return deconstrainedLine;
@@ -396,6 +392,7 @@ export default class MapUtil {
 
             // shift all the arcs as part of a polyline
             if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
+                console.log("YES", coords)
                 let initialShift = 1;
                 if (lineCoords[lineCoords.length - 1][0] < 0) {
                     initialShift = -1;
