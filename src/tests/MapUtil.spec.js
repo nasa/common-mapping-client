@@ -144,27 +144,27 @@ describe('Map Utils', () => {
     });
     describe('deconstrainArcCoordinates', () => {
         it('returns the original polyline when given a single polyline', () => {
-            let linesArr = [
-                [
-                    [0, 0],
-                    [1, 1],
-                    [40, 40]
-                ]
-            ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
-        })
-        // it('returns false when end of first line lon % 180 === 0', () => {
-        //     let linesArr = [
-        //         [
-        //             [0, 0],
-        //             [1, 1],
-        //             [180, 0]
-        //         ],
-        //         [
-        //             [10, 0],
-        //             [1, 1],
-        //             [40, 40]
-        //         ]
+                let linesArr = [
+                    [
+                        [0, 0],
+                        [1, 1],
+                        [40, 40]
+                    ]
+                ];
+                expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
+            })
+            // it('returns false when end of first line lon % 180 === 0', () => {
+            //     let linesArr = [
+            //         [
+            //             [0, 0],
+            //             [1, 1],
+            //             [180, 0]
+            //         ],
+            //         [
+            //             [10, 0],
+            //             [1, 1],
+            //             [40, 40]
+            //         ]
 
         //     ];
         //     expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.be.false;
@@ -267,9 +267,10 @@ describe('Map Utils', () => {
                 col: 0,
                 row: 0,
                 level: 0,
-                format: "format"
+                format: "format",
+                context: mapStrings.MAP_LIB_2D
             };
-            let varOut1 = 'http://fakeTile.com/getTile?tilerow=0&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
+            let varOut1 = 'http://fakeTile.com/getTile?tilerow=-1&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
 
             let varIn2 = {
                 url: "http://fakeTile.com/getTile",
@@ -579,5 +580,70 @@ describe('Map Utils', () => {
             let coordsOut = expectedArcs.ARCS.test5;
             expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
         });
+    });
+    describe('measureGeometry', () => {
+        // it('returns false when measurementType is not mapStrings.MEASURE_DISTANCE or mapStrings.MEASURE_AREA', () => {
+        //     let geometryCircle = {
+        //         type: mapStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         center: {
+        //             lon: 0,
+        //             lat: 0
+        //         },
+        //         radius: 100,
+        //         id: Math.random()
+        //     };
+        //     expect(MapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
+        // })
+        // it('returns a string measurement of given geometry', () => {
+        //     // Create dummy geometry
+        //     let geometryCircle = {
+        //         type: mapStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         center: {
+        //             lon: 0,
+        //             lat: 0
+        //         },
+        //         radius: 100,
+        //         id: Math.random()
+        //     };
+
+        //     let geometryLineString = {
+        //         type: mapStrings.GEOMETRY_LINE_STRING,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         coordinates: [{
+        //             lon: 0,
+        //             lat: 0
+        //         }, {
+        //             lon: 10,
+        //             lat: 10
+        //         }, {
+        //             lon: 20,
+        //             lat: -20
+        //         }],
+        //         id: Math.random()
+        //     };
+
+        //     let geometryPolygon = {
+        //         type: mapStrings.GEOMETRY_POLYGON,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         coordinates: [{
+        //             lon: 0,
+        //             lat: 0
+        //         }, {
+        //             lon: 10,
+        //             lat: 10
+        //         }, {
+        //             lon: 20,
+        //             lat: -20
+        //         }],
+        //         id: Math.random()
+        //     };
+        //     expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+        // });
     });
 });
