@@ -6,9 +6,11 @@ import {Button, IconButton} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class ModalMenuContainer extends Component {
     render() {
-        let modalMenuClasses = MiscUtil.generateStringFromSet({
+        let modalMenuClasses = miscUtil.generateStringFromSet({
             "modal-menu no-padding": true,
             "modal-menu-subpage": this.props.back,
             "small": this.props.small

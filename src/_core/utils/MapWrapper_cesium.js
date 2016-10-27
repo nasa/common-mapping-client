@@ -16,6 +16,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.is3D = true;
         this.isActive = options.getIn(["view", "in3DMode"]);
         this.tileHandler = new TileHandler();
+        this.mapUtil = new MapUtil();
+        this.miscUtil = new MiscUtil();
 
         // Create cesium scene 
         window.CESIUM_BASE_URL = './';
@@ -406,7 +408,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     let cesiumPoint = this.latLonToCartesian(point.lat, point.lon);
                     cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
                     // cesiumRadius = this.cesium.Cartesian3.distance(cesiumCenter, cesiumPoint);
-                    cesiumRadius = MapUtil.calculatePolylineDistance([
+                    cesiumRadius = this.mapUtil.calculatePolylineDistance([
                         [geometry.center.lon, geometry.center.lat],
                         [point.lon, point.lat]
                     ], geometry.proj);
@@ -623,9 +625,9 @@ export default class MapWrapper_cesium extends MapWrapper {
             let newOutputText = "";
             this.map.entities.values.forEach((entity) => {
                 if (entity.measurementType === appStrings.MEASURE_AREA) {
-                    newOutputText = MapUtil.formatArea(MapUtil.convertAreaUnits(entity.meters, units), units);
+                    newOutputText = this.mapUtil.formatArea(this.mapUtil.convertAreaUnits(entity.meters, units), units);
                 } else if (entity.measurementType === appStrings.MEASURE_DISTANCE) {
-                    newOutputText = MapUtil.formatDistance(MapUtil.convertDistanceUnits(entity.meters, units), units);
+                    newOutputText = this.mapUtil.formatDistance(this.mapUtil.convertDistanceUnits(entity.meters, units), units);
                 } else {
                     console.warn("could not set cesium scale units.");
                     return false;
@@ -1126,7 +1128,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                             reject(err);
                         };
 
-                        if (MiscUtil.urlIsCrossorigin(tileUrl)) {
+                        if (this.miscUtil.urlIsCrossorigin(tileUrl)) {
                             imgTile.crossOrigin = '';
                         }
                         imgTile.src = tileUrl;

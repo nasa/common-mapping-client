@@ -12,9 +12,12 @@ import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
 import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
 
 export default class MapUtil {
+    constructor() {
+        this.miscUtil = new MiscUtil();
+    }
 
     // creates a new object that abstracts a mapping library
-    static createMap(type, container, mapOptions) {
+    createMap(type, container, mapOptions) {
         switch (type) {
             case appStrings.MAP_LIB_2D:
                 return new MapWrapper_openlayers(container, mapOptions);
@@ -26,7 +29,7 @@ export default class MapUtil {
     }
 
     // constrains coordinates to [+-180, +-90]
-    static constrainCoordinates(coords, limitY = true) {
+    constrainCoordinates(coords, limitY = true) {
         // check for array of numbers
         if ((typeof coords !== "object") ||
             (coords.length !== 2) ||
@@ -91,7 +94,7 @@ export default class MapUtil {
 
     // deconstrain a set of polyline coordinates from [-180, 180]
     // this is meant for polylines that cross the dateline.
-    static deconstrainArcCoordinates(linesArr) {
+    deconstrainArcCoordinates(linesArr) {
         // if there is only one polyline, then we assume no splitting has occured
         if (linesArr.length < 2) {
             return linesArr;
@@ -142,19 +145,19 @@ export default class MapUtil {
 
     // parses a getCapabilities xml string
     // NOTE: uses openlayers to do the actual parsing
-    static parseCapabilities(capabilitiesString) {
+    parseCapabilities(capabilitiesString) {
         return MapWrapper_openlayers.parseCapabilities(capabilitiesString);
     }
 
     // generates a set of wmts options for a layer
     // NOTE: uses openlayers to do the actual info gathering
-    static getWmtsOptions(options) {
+    getWmtsOptions(options) {
         MapWrapper_openlayers.prepProjection();
         return MapWrapper_openlayers.getWmtsOptions(options);
     }
 
     // generates a WMTS tile url from the provided options
-    static buildTileUrl(options) {
+    buildTileUrl(options) {
         let layerId = options.layerId;
         let url = options.url;
         let tileMatrixSet = options.tileMatrixSet;
@@ -193,7 +196,7 @@ export default class MapUtil {
                 format: format
             });
 
-            let queryStr = MiscUtil.objectToUrlParams(queryOptions);
+            let queryStr = this.miscUtil.objectToUrlParams(queryOptions);
 
             url = url.replace("?", "");
             url = url + "?" + queryStr;
@@ -204,7 +207,7 @@ export default class MapUtil {
 
     // Formats distance according to units
     // input assumed in correct base units (meters/feet vs kilometers/miles)
-    static formatDistance(distance, units) {
+    formatDistance(distance, units) {
         // Type check on distance
         if (typeof distance !== 'number') {
             return null;
@@ -233,7 +236,7 @@ export default class MapUtil {
 
     // Formats area according to units
     // input assumed in correct base units (meters/feet vs kilometers/miles)
-    static formatArea(area, units) {
+    formatArea(area, units) {
         // Type check on area
         if (typeof area !== 'number') {
             return null;
@@ -262,8 +265,8 @@ export default class MapUtil {
 
     // Converts area units
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
-    static convertAreaUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
+    convertAreaUnits(value, units) {
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
         if(units === 'schoolbus') {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
@@ -273,8 +276,8 @@ export default class MapUtil {
 
     // Converts distance units
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
-    static convertDistanceUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
+    convertDistanceUnits(value, units) {
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
         if(units === 'schoolbus') {
             return value / unitEntry.toMeters;
         } else {
@@ -283,7 +286,7 @@ export default class MapUtil {
     }
 
     // remove trailing zeros from fixed width float string
-    static trimFloatString(value) {
+    trimFloatString(value) {
         return parseFloat(value).toString();
     }
 
@@ -292,7 +295,7 @@ export default class MapUtil {
     // Expects an array of coordinates in form
     // [ [lon,lat], ... ]
     // Reprojects into EPSG:4326 first
-    static calculatePolylineDistance(coords, proj) {
+    calculatePolylineDistance(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate line distance
@@ -310,7 +313,7 @@ export default class MapUtil {
     // Expects an array of coordinates in form
     // [ [lon,lat], ... ]
     // Reprojects into EPSG:4326 first
-    static calculatePolygonArea(coords, proj) {
+    calculatePolygonArea(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate line distance
@@ -328,7 +331,7 @@ export default class MapUtil {
     // Expects an array of coordinates in form
     // [ [lon,lat], ... ]
     // Reprojects into EPSG:4326 first
-    static calculatePolygonCenter(coords, proj) {
+    calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
         // Calculate center
@@ -349,7 +352,7 @@ export default class MapUtil {
     // of segments representing a geodesic arc
     // [[[lat, lon], ...], ...]
     // assumes EPSG:4326
-    static generateGeodesicArcsForLineString(coords) {
+    generateGeodesicArcsForLineString(coords) {
         let lineCoords = [];
         for (let i = 0; i < coords.length - 1; ++i) {
             let start = coords[i];
@@ -410,7 +413,7 @@ export default class MapUtil {
 
     // takes in a geometry and measurement type and
     // returns a string measurement of that geometry
-    static measureGeometry(geometry, measurementType) {
+    measureGeometry(geometry, measurementType) {
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
         coords = this.generateGeodesicArcsForLineString(coords);
         if (measurementType === appStrings.MEASURE_DISTANCE) {
@@ -434,7 +437,7 @@ export default class MapUtil {
     }
 
     // formats a given measurement for distance/area
-    static formatMeasurement(measurement, measurementType, units) {
+    formatMeasurement(measurement, measurementType, units) {
         if (measurementType === appStrings.MEASURE_DISTANCE) {
             return this.formatDistance(measurement, units);
         } else if (measurementType === appStrings.MEASURE_AREA) {
@@ -446,7 +449,7 @@ export default class MapUtil {
     }
 
     // takes in a geometry and returns the coordinates for its label
-    static getLabelPosition(geometry) {
+    getLabelPosition(geometry) {
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {

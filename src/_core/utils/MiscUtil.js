@@ -1,9 +1,11 @@
 import objectAssign from 'object-assign';
 
 export default class MiscUtil {
+    constructor() {}
+
     // takes in an object mapping strings (as keys) to booleans
     // and returns a space separated string of those keys that map to true
-    static generateStringFromSet(classSet) {
+    generateStringFromSet(classSet) {
         if (typeof classSet === "object") {
             return Object.keys(classSet).reduce((acc, key) => {
                 if (classSet[key] === true) {
@@ -17,7 +19,7 @@ export default class MiscUtil {
         }
     }
 
-    static findObjectInArray(array, key, val) {
+    findObjectInArray(array, key, val) {
         if (typeof key === "string") {
             for (let i = 0; i < array.length; ++i) {
                 if (array[i][key] === val ||
@@ -35,13 +37,13 @@ export default class MiscUtil {
         return false;
     }
 
-    static findAllMatchingObjectsInArray(array, key, val) {
+    findAllMatchingObjectsInArray(array, key, val) {
         return array.filter((element) => {
             return element[key] === val || (typeof element.get === "function" && element.get(key) === val);
         });
     }
 
-    static findObjectWithIndexInArray(array, key, val) {
+    findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
             if (array[i][key] === val ||
                 (typeof array[i].get === "function" && array[i].get(key) === val)) {
@@ -54,7 +56,7 @@ export default class MiscUtil {
         return false;
     }
 
-    static getImmutableObjectSort(field) {
+    getImmutableObjectSort(field) {
         return (objA, objB) => {
             let fieldA = objA.get(field);
             let fieldB = objB.get(field);
@@ -69,7 +71,7 @@ export default class MiscUtil {
         };
     }
 
-    static getHexFromColorString(colorStr) {
+    getHexFromColorString(colorStr) {
         let rgbExp = /[0-9]{1,3}(,|, | )[0-9]{1,3}(,|, | )[0-9]{1,3}/;
         let hexExp = /[0-9A-Fa-f]{6}/;
 
@@ -81,7 +83,7 @@ export default class MiscUtil {
         return "";
     }
 
-    static convertRgbToHex(colorStr) {
+    convertRgbToHex(colorStr) {
         let rgbExp = /[0-9]{1,3}/g;
         let rgbParts = colorStr.match(rgbExp);
 
@@ -101,7 +103,7 @@ export default class MiscUtil {
         return "";
     }
 
-    static formatHex(colorStr) {
+    formatHex(colorStr) {
         let hexExp = /[0-9A-Fa-f]{6}/;
         let hexParts = colorStr.match(hexExp);
 
@@ -111,7 +113,7 @@ export default class MiscUtil {
         return "";
     }
 
-    static enterFullScreen() {
+    enterFullScreen() {
         let element = document.documentElement;
         if (element.requestFullscreen) {
             element.requestFullscreen();
@@ -124,7 +126,7 @@ export default class MiscUtil {
         }
     }
 
-    static exitFullscreen() {
+    exitFullscreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -134,11 +136,11 @@ export default class MiscUtil {
         }
     }
 
-    static getIsInFullScreenMode() {
+    getIsInFullScreenMode() {
         return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
     }
 
-    static objectToUrlParams(params) {
+    objectToUrlParams(params) {
         let arr = params.reduce((acc, el, i) => {
             acc.push(i + "=" + el);
             return acc;
@@ -146,7 +148,7 @@ export default class MiscUtil {
         return arr.join("&");
     }
 
-    static parseUrlHashString(urlStr) {
+    parseUrlHashString(urlStr) {
         return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
             let paramParts = param.split('=');
             if (paramParts && paramParts.length === 2 && paramParts[0] !== "" && paramParts[1] !== "") {
@@ -156,11 +158,11 @@ export default class MiscUtil {
         }, []);
     }
 
-    static getUrlParams() {
+    getUrlParams() {
         return this.parseUrlHashString(location.hash);
     }
 
-    static urlIsCrossorigin(url) {
+    urlIsCrossorigin(url) {
         let a = document.createElement('a');
 
         // copy window location into the anchor to get consistent results
@@ -177,11 +179,11 @@ export default class MiscUtil {
         return protocol !== a.protocol || host !== a.host;
     }
 
-    static openLinkInNewTab(url) {
+    openLinkInNewTab(url) {
         window.open(url, "_blank");
     }
 
-    static mailTo(address) {
+    mailTo(address) {
         window.location.href = "mailto:" + address;
     }
 }

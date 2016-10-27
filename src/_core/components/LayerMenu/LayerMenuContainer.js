@@ -7,16 +7,18 @@ import * as layerActions from '_core/actions/LayerActions';
 import LayerControlContainer from '_core/components/LayerMenu/LayerControlContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class LayerMenuContainer extends Component {
     render() {
-        let layerList = this.props.layers.toList().sort(MiscUtil.getImmutableObjectSort("title"));
+        let layerList = this.props.layers.toList().sort(miscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
         let activeNum = layerList.count((el) => {
             return el.get("isActive");
         });
 
         // css classes
-        let layerMenuClasses = MiscUtil.generateStringFromSet({
+        let layerMenuClasses = miscUtil.generateStringFromSet({
             "open": this.props.layerMenuOpen
         });
 

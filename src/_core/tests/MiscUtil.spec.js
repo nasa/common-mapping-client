@@ -2,6 +2,8 @@ import { expect } from 'chai';
 import Immutable from 'immutable';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 describe('Misc Utils', () => {
     describe('generateStringFromSet', () => {
         it('returns a space separated string from a set of strings mapped to booleans', () => {
@@ -13,7 +15,7 @@ describe('Misc Utils', () => {
             let varOut = 'foo fubar';
 
             //assert
-            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+            expect(miscUtil.generateStringFromSet(varIn)).to.equal(varOut);
         });
 
         it('handles only string booleans (true/false)', () => {
@@ -25,7 +27,7 @@ describe('Misc Utils', () => {
             let varOut = 'bar';
 
             //assert
-            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+            expect(miscUtil.generateStringFromSet(varIn)).to.equal(varOut);
         });
 
         it('returns empty string if no strings map to true', () => {
@@ -37,7 +39,7 @@ describe('Misc Utils', () => {
             let varOut = '';
 
             //assert
-            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+            expect(miscUtil.generateStringFromSet(varIn)).to.equal(varOut);
         });
     });
     describe('findObjectInArray', () => {
@@ -56,7 +58,7 @@ describe('Misc Utils', () => {
             let varOut = varIn[0];
 
             //assert
-            expect(MiscUtil.findObjectInArray(varIn, "testkey", "testvalue")).to.equal(varOut);
+            expect(miscUtil.findObjectInArray(varIn, "testkey", "testvalue")).to.equal(varOut);
         });
         it('returns false if a matching object is not found', () => {
             // DEFINE VARS
@@ -73,7 +75,7 @@ describe('Misc Utils', () => {
             let varOut = false;
 
             //assert
-            expect(MiscUtil.findObjectInArray(varIn, "indexD", true)).to.equal(varOut);
+            expect(miscUtil.findObjectInArray(varIn, "indexD", true)).to.equal(varOut);
         });
 
         it('accepts a function instead of a key/val pair', () => {
@@ -93,7 +95,7 @@ describe('Misc Utils', () => {
             let compFunc = (el) => {return el.indexB === true;};
 
             //assert
-            expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
+            expect(miscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
         });
 
         it('accepts a function instead of a key/val pair and returns false if no match is found', () => {
@@ -113,7 +115,7 @@ describe('Misc Utils', () => {
             let compFunc = (el) => {return el.indexD === true;};
 
             //assert
-            expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
+            expect(miscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
         });
     });
     describe('findAllMatchingObjectsInArray', () => {
@@ -150,7 +152,7 @@ describe('Misc Utils', () => {
             }];
 
             //assert
-            expect(MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
+            expect(miscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
         });
         it('returns an empty array if matching objects are not found', () => {
             // DEFINE VARS
@@ -167,7 +169,7 @@ describe('Misc Utils', () => {
             let varOut = [];
 
             //assert
-            expect(MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
+            expect(miscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")).to.deep.equal(varOut);
         });
     });
     describe('findObjectWithIndexInArray', () => {
@@ -189,7 +191,7 @@ describe('Misc Utils', () => {
             };
 
             //assert
-            expect(MiscUtil.findObjectWithIndexInArray(varIn, "indexB", true)).to.deep.equal(varOut);
+            expect(miscUtil.findObjectWithIndexInArray(varIn, "indexB", true)).to.deep.equal(varOut);
         });
         it('returns false if a matching object is not found', () => {
             // DEFINE VARS
@@ -206,7 +208,7 @@ describe('Misc Utils', () => {
             let varOut = false;
 
             //assert
-            expect(MiscUtil.findObjectWithIndexInArray(varIn, "indexD", true)).to.equal(varOut);
+            expect(miscUtil.findObjectWithIndexInArray(varIn, "indexD", true)).to.equal(varOut);
         });
     });
     describe('getImmutableObjectSort', () => {
@@ -228,7 +230,7 @@ describe('Misc Utils', () => {
                 index: 3,
                 testkey: "testvalue"
             }]);
-            let varIn = MiscUtil.getImmutableObjectSort("index");
+            let varIn = miscUtil.getImmutableObjectSort("index");
             let varOut = [{
                 index: 1,
                 testkey: "testvalue"
@@ -257,7 +259,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
 
         it('returns a hex string from an rgb string with comma separators', () => {
@@ -266,7 +268,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns a hex string from an rgb string with comma space separators', () => {
             // DEFINE VARS
@@ -274,7 +276,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns a hex string from an rgb string with an rgb wrapper', () => {
             // DEFINE VARS
@@ -282,7 +284,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns a capitalized hex string from a hex string', () => {
             // DEFINE VARS
@@ -290,7 +292,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns a # prefixed hex string from a hex number', () => {
             // DEFINE VARS
@@ -298,7 +300,7 @@ describe('Misc Utils', () => {
             let varOut = "#7B2003";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with empty input', () => {
             // DEFINE VARS
@@ -306,7 +308,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with null input', () => {
             // DEFINE VARS
@@ -314,7 +316,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with bad input rgb characters', () => {
             // DEFINE VARS
@@ -322,7 +324,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with input of two numbers', () => {
             // DEFINE VARS
@@ -330,7 +332,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with input of one character', () => {
             // DEFINE VARS
@@ -338,7 +340,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with input of bad hex string', () => {
             // DEFINE VARS
@@ -346,7 +348,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
         it('returns empty string with input of out of range rgb string', () => {
             // DEFINE VARS
@@ -354,7 +356,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
+            expect(miscUtil.getHexFromColorString(varIn)).to.equal(varOut);
         });
     });
     describe('objectToUrlParams', () => {
@@ -368,7 +370,7 @@ describe('Misc Utils', () => {
             let varOut = "service=A&version=BB&request=CCC";
 
             //assert
-            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
         });
         it('returns a string representing the key/value string pairs in an object - arrays', () => {
             // DEFINE VARS
@@ -380,7 +382,7 @@ describe('Misc Utils', () => {
             let varOut = "service=12,3&version=A,B&request=";
 
             //assert
-            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
         });
         it('returns a string representing the key/value string pairs in an object - empty', () => {
             // DEFINE VARS
@@ -388,7 +390,7 @@ describe('Misc Utils', () => {
             let varOut = "";
 
             //assert
-            expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
         });
     });
     describe('parseUrlHashString', () => {
@@ -407,7 +409,7 @@ describe('Misc Utils', () => {
             }];
 
             //assert
-            expect(MiscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
         });
         it('returns an array of objects representing the key/value pairs in a url format string without the preceeding hash', () => {
             // DEFINE VARS
@@ -424,7 +426,7 @@ describe('Misc Utils', () => {
             }];
 
             //assert
-            expect(MiscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
         });
         it('ignores keys without values and values without keys', () => {
             // DEFINE VARS
@@ -435,7 +437,7 @@ describe('Misc Utils', () => {
             }];
 
             //assert
-            expect(MiscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+            expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
         });
     });
 });

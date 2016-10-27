@@ -9,6 +9,8 @@ import * as layerActions from '_core/actions/LayerActions';
 import ColorbarContainer from '_core/components/LayerMenu/ColorbarContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class LayerControlContainer extends Component {
     shouldComponentUpdate(nextProps) {
         // Here we prevent unnecessary renderings by explicitly 
@@ -93,23 +95,23 @@ export class LayerControlContainer extends Component {
         // of dynamic content
         ReactTooltip.rebuild();
 
-        let containerClasses = MiscUtil.generateStringFromSet({
+        let containerClasses = miscUtil.generateStringFromSet({
             "layer-control pos-rel": true,
             "active": this.props.layer.get("isActive")
         });
-        let switchClasses = MiscUtil.generateStringFromSet({
+        let switchClasses = miscUtil.generateStringFromSet({
             "layer-toggle": true,
             "active": this.props.layer.get("isActive")
         });
-        let sliderContainerClasses = MiscUtil.generateStringFromSet({
+        let sliderContainerClasses = miscUtil.generateStringFromSet({
             "opacity-slider-container row middle-xs": true,
             "active": this.props.layer.get("isChangingOpacity")
         });
-        let positionContainerClasses = MiscUtil.generateStringFromSet({
+        let positionContainerClasses = miscUtil.generateStringFromSet({
             "position-controls-container text-wrap row middle-xs": true,
             "active": this.props.layer.get("isChangingPosition")
         });
-        let colorbarRangeClasses = MiscUtil.generateStringFromSet({
+        let colorbarRangeClasses = miscUtil.generateStringFromSet({
             "row middle-xs colorbar-range-wrapper": true,
             "active": this.props.layer.getIn(["palette", "handleAs"]) !== ""
         });

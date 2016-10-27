@@ -5,7 +5,10 @@ import MiscUtil from "_core/utils/MiscUtil";
 export default class TileHandler {
     static CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
 
-    constructor() {}
+    constructor() {
+        this.mapUtil = new MapUtil();
+        this.miscUtil = new MiscUtil();
+    }
 
     // takes a function string and returns the tile url function associated with it or undefined
     /** Tile Url Function Parameters
@@ -72,7 +75,7 @@ export default class TileHandler {
 
     _defaultKVPUrl(options) {
         let layer = options.layer;
-        let url = MapUtil.buildTileUrl({
+        let url = this.mapUtil.buildTileUrl({
             layerId: layer.get("id"),
             url: options.origUrl,
             tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
@@ -151,7 +154,7 @@ export default class TileHandler {
         imgTile.onerror = (err) => {
             options.fail(err);
         };
-        if (MiscUtil.urlIsCrossorigin(url)) {
+        if (this.miscUtil.urlIsCrossorigin(url)) {
             imgTile.crossOrigin = '';
         }
 

@@ -7,6 +7,8 @@ import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
 import KeyHandler, { KEYUP } from 'react-key-handler';
 
+const miscUtil = new MiscUtil();
+
 export class MapContainer2D extends Component {
     componentWillMount() {
         // We need this instance variable because the map will take an unknown number of
@@ -103,7 +105,7 @@ export class MapContainer2D extends Component {
             this.listenersInitialized = true;
         }
 
-        let containerClass = MiscUtil.generateStringFromSet({
+        let containerClass = miscUtil.generateStringFromSet({
             "inactive": this.props.in3DMode
         });
 

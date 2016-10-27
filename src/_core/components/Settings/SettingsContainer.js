@@ -15,6 +15,8 @@ import BaseMapDropdown from '_core/components/Settings/BaseMapDropdown';
 import MenuDropdown from '_core/components/Reusables/MenuDropdown';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 
+const miscUtil = new MiscUtil();
+
 export class SettingsContainer extends Component {
     shouldComponentUpdate(nextProps) {
         return nextProps.settingsOpen || nextProps.settingsOpen !== this.props.settingsOpen;
@@ -29,7 +31,7 @@ export class SettingsContainer extends Component {
     render() {
         // sort and gather the basemaps into a set of dropdown options
         let activeBasemapId = "";
-        let basemapList = this.props.basemaps.sort(MiscUtil.getImmutableObjectSort("title"));
+        let basemapList = this.props.basemaps.sort(miscUtil.getImmutableObjectSort("title"));
         let basemapOptions = basemapList.reduce((acc, layer) => {
             if(layer.get("isActive")) {
                 activeBasemapId = layer.get("id");

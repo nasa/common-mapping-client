@@ -5,8 +5,9 @@ import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
 
-export class MapContainer3D extends Component {
+const miscUtil = new MiscUtil();
 
+export class MapContainer3D extends Component {
     componentWillMount() {
         this.listenersInitialized = false;
     }
@@ -84,7 +85,7 @@ export class MapContainer3D extends Component {
             this.listenersInitialized = true;
         }
 
-        let containerClass = MiscUtil.generateStringFromSet({
+        let containerClass = miscUtil.generateStringFromSet({
             "inactive": !this.props.in3DMode
         });
         return (

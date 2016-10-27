@@ -7,6 +7,8 @@ import * as actions from '_core/actions/AppActions';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class HelpContainer extends Component {
     componentWillMount() {
         // TODO - move these to a config or something
@@ -64,12 +66,12 @@ export class HelpContainer extends Component {
                     <ListItem
                         caption="Visit Help Forum"
                         leftIcon="link"
-                        onClick={() => {MiscUtil.openLinkInNewTab("http://google.com");}}
+                        onClick={() => {miscUtil.openLinkInNewTab("http://google.com");}}
                     />
                     <ListItem
                         caption="Contact"
                         leftIcon="email"
-                        onClick={() => {MiscUtil.mailTo("test@test.test");}}
+                        onClick={() => {miscUtil.mailTo("test@test.test");}}
                     />
                 </List>
                 <div className={!this.props.helpPage ? 'hidden' : 'help-page'} dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} />

@@ -2,8 +2,8 @@ import Immutable from 'immutable';
 import moment from 'moment';
 import { layerModel, paletteModel } from '_core/reducers/models/map';
 import { alert } from '_core/reducers/models/alert';
-import MapUtil from '_core/utils/MapUtil.js';
-import MiscUtil from '_core/utils/MiscUtil.js';
+import MapUtil from '_core/utils/MapUtil';
+import MiscUtil from '_core/utils/MiscUtil';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 
@@ -11,9 +11,11 @@ import * as appConfig from 'constants/appConfig';
 //State is considered immutable. Instead,
 //create a copy of the state passed and set new values on the copy.
 export default class MapReducer {
+    static mapUtil = new MapUtil();
+    static miscUtil = new MiscUtil();
 
     static initializeMap(state, action) {
-        let map = MapUtil.createMap(action.mapType, action.container, state);
+        let map = this.mapUtil.createMap(action.mapType, action.container, state);
         if (map) {
             return state.setIn(["maps", action.mapType], map);
         }
@@ -775,9 +777,9 @@ export default class MapReducer {
         let alerts = state.get("alerts");
 
         // calculate measurement and placement
-        let measurement = MapUtil.measureGeometry(action.geometry, action.measurementType);
-        let measurementLabel = MapUtil.formatMeasurement(measurement, action.measurementType, action.units);
-        let measurementPosition = MapUtil.getLabelPosition(action.geometry);
+        let measurement = this.mapUtil.measureGeometry(action.geometry, action.measurementType);
+        let measurementLabel = this.mapUtil.formatMeasurement(measurement, action.measurementType, action.units);
+        let measurementPosition = this.mapUtil.getLabelPosition(action.geometry);
         let labelMeta = {
             "meters": measurement,
             "measurementType": action.measurementType,
@@ -919,7 +921,7 @@ export default class MapReducer {
             values: Immutable.List(palette.values.map((entry) => {
                 return Immutable.Map({
                     value: parseFloat(entry[0]),
-                    color: MiscUtil.getHexFromColorString(entry[1])
+                    color: this.miscUtil.getHexFromColorString(entry[1])
                 });
             }))
         });
@@ -933,11 +935,11 @@ export default class MapReducer {
     }
 
     static generatePartialsListFromWmtsXml(config) {
-        let capabilities = MapUtil.parseCapabilities(config);
+        let capabilities = this.mapUtil.parseCapabilities(config);
         if (capabilities) {
             let wmtsLayers = capabilities.Contents.Layer;
             let newLayers = wmtsLayers.map((layer) => {
-                let wmtsOptions = MapUtil.getWmtsOptions({
+                let wmtsOptions = this.mapUtil.getWmtsOptions({
                     capabilities: capabilities,
                     options: {
                         layer: layer.Identifier,

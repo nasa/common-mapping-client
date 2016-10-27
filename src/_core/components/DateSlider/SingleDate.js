@@ -6,6 +6,8 @@ import d3 from 'd3';
 import SingleDateD3 from '_core/utils/SingleDateD3';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class SingleDate extends Component {
     componentDidMount() {
         // get D3 wrapper
@@ -42,7 +44,7 @@ export class SingleDate extends Component {
         });
     }
     render() {
-        let classNames = MiscUtil.generateStringFromSet({
+        let classNames = miscUtil.generateStringFromSet({
             "single-date": true,
             dragging: this.props.isDragging
         });

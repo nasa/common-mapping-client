@@ -7,6 +7,8 @@ import * as appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class ResolutionStep extends Component {
     adjustResolution(up) {
         if(up) {
@@ -27,7 +29,7 @@ export class ResolutionStep extends Component {
         this.props.actions.setIsSelectionResolution(!this.props.isSelectingResolution);
     }
     render() {
-        let resolutionSelectorClasses = MiscUtil.generateStringFromSet({
+        let resolutionSelectorClasses = miscUtil.generateStringFromSet({
             "resolution-selector": true,
             "active": this.props.isSelectingResolution
         });

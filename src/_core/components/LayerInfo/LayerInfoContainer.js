@@ -5,7 +5,6 @@ import Dialog from 'react-toolbox/lib/dialog';
 import AsyncImageContainer from '_core/components/AsyncImage/AsyncImageContainer';
 import { List, ListItem, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
-import MiscUtil from '_core/utils/MiscUtil';
 
 export class LayerInfoContainer extends Component {
     render() {

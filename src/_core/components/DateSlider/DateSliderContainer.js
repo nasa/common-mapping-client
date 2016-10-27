@@ -8,12 +8,14 @@ import MiscUtil from '_core/utils/MiscUtil';
 import TimeAxis from '_core/components/DateSlider/TimeAxis';
 import ResolutionStep from '_core/components/DateSlider/ResolutionStep';
 
+const miscUtil = new MiscUtil();
+
 export class DateSliderContainer extends Component {
     render() {
-        let containerClasses = MiscUtil.generateStringFromSet({
+        let containerClasses = miscUtil.generateStringFromSet({
             "collapsed": this.props.sliderCollapsed
         });
-        let hoverDateClasses = MiscUtil.generateStringFromSet({
+        let hoverDateClasses = miscUtil.generateStringFromSet({
             "hover-date-display": true,
             "hidden": !this.props.hoverDate.get("isValid")
         });

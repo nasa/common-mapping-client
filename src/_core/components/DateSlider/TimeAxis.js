@@ -10,6 +10,8 @@ import TimeAxisD3 from '_core/utils/TimeAxisD3';
 import MiscUtil from '_core/utils/MiscUtil';
 import SingleDate from '_core/components/DateSlider/SingleDate';
 
+const miscUtil = new MiscUtil();
+
 export class TimeAxis extends Component {
     componentDidMount() {
         let sizes = this.getSizes();
@@ -49,6 +51,7 @@ export class TimeAxis extends Component {
             }, 50);
         });
     }
+
     shouldComponentUpdate(nextProps) {
         return (nextProps.date !== this.props.date &&
                 !nextProps.isDragging) ||
@@ -118,7 +121,7 @@ export class TimeAxis extends Component {
     render() {
         let autoScrollInterval = null;
         let sizes = this.getSizes();
-        let axisClassNames = MiscUtil.generateStringFromSet({
+        let axisClassNames = miscUtil.generateStringFromSet({
             timeAxis: true,
             dragging: this.props.isDragging
         });

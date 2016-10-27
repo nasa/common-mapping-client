@@ -34,6 +34,8 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
+const miscUtil = new MiscUtil();
+
 describe('Store - Map', function() {
     // add the html fixture from the DOM to give maps a place to render during tests
     beforeEach(function() {
@@ -929,7 +931,7 @@ describe('Store - Map', function() {
 
 
         let mapLayers = actualMap2D.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayer = miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
         let drawFeatures = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
         expect(drawFeatures.length).to.equal(3);
@@ -1073,7 +1075,7 @@ describe('Store - Map', function() {
 
         // Get 2D drawings
         let mapLayers = actualMap2D.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayer = miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
         let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
 

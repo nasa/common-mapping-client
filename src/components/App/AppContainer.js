@@ -24,6 +24,8 @@ import MouseFollowerContainer from '_core/components/MouseFollower/MouseFollower
 import AnalyticsContainer from '_core/components/Analytics/AnalyticsContainer';
 import 'styles/styles.scss';
 
+const miscUtil = new MiscUtil();
+
 export class AppContainer extends Component {
     componentWillMount() {
         // Setting urlParams as a local variable avoids setting application state before
@@ -33,7 +35,7 @@ export class AppContainer extends Component {
 
         // Generally speaking, however, it is not recommended to rely on instance variables inside of 
         // components since they lie outside of the application state and Redux paradigm.
-        this.urlParams = MiscUtil.getUrlParams();
+        this.urlParams = miscUtil.getUrlParams();
     }
     componentDidMount() {
         // disable the right click listener

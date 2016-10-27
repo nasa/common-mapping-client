@@ -5,6 +5,8 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/AppActions';
 import MiscUtil from '_core/utils/MiscUtil';
 
+const miscUtil = new MiscUtil();
+
 export class AppBarContainer extends Component {
     componentDidMount() {
         // have to retroactively sync the state given browser specific hardware options to enter/exit full screen
@@ -14,7 +16,7 @@ export class AppBarContainer extends Component {
     }
 
     handleFullScreenChange() {
-        if (MiscUtil.getIsInFullScreenMode()) {
+        if (miscUtil.getIsInFullScreenMode()) {
             this.props.actions.setFullScreenMode(true);
         } else {
             this.props.actions.setFullScreenMode(false);

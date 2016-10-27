@@ -16,6 +16,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.layerCache = new Cache(50); // TODO - move this number into a config?
         this.tileHandler = new TileHandler();
+        this.mapUtil = new MapUtil();
+        this.miscUtil = new MiscUtil();
         this.cachedGeometry = null;
         this.defaultGeometryStyle = new ol.style.Style({
             fill: new ol.style.Fill({
@@ -300,7 +302,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.setDoubleClickZoomEnabled(false);
 
             // Get drawHandler by geometryType
-            let drawInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", appStrings.INTERACTION_DRAW + geometryType);
+            let drawInteraction = this.miscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", appStrings.INTERACTION_DRAW + geometryType);
             if (drawInteraction) {
                 // Call setActive(true) on handler to enable
                 drawInteraction.setActive(true);
@@ -317,7 +319,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     disableDrawing(delayDblClickEnable = true) {
         try {
             // Call setActive(false) on all handlers
-            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_DRAW, true);
+            let drawInteractions = this.miscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_DRAW, true);
             drawInteractions.map((handler) => {
                 handler.setActive(false);
 
@@ -344,7 +346,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     completeDrawing() {
         try {
-            let drawInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_DRAW, true);
+            let drawInteractions = this.miscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_DRAW, true);
             drawInteractions.map((handler) => {
                 if (handler.getActive()) {
                     handler.finishDrawing();
@@ -363,7 +365,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             this.setDoubleClickZoomEnabled(false);
 
             // Get drawHandler by geometryType
-            let interaction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", appStrings.INTERACTION_MEASURE + geometryType);
+            let interaction = this.miscUtil.findObjectInArray(this.map.getInteractions().getArray(), "_id", appStrings.INTERACTION_MEASURE + geometryType);
             if (interaction) {
                 // Call setActive(true) on handler to enable
                 interaction.setActive(true);
@@ -380,7 +382,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     disableMeasuring(delayDblClickEnable = true) {
         try {
             // Call setActive(false) on all handlers
-            let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_MEASURE, true);
+            let measureInteractions = this.miscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_MEASURE, true);
             measureInteractions.map((handler) => {
                 handler.setActive(false);
 
@@ -406,7 +408,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     completeMeasuring() {
         try {
-            let measureInteractions = MiscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_MEASURE, true);
+            let measureInteractions = this.miscUtil.findAllMatchingObjectsInArray(this.map.getInteractions().getArray(), appStrings.INTERACTION_MEASURE, true);
             measureInteractions.map((handler) => {
                 if (handler.getActive()) {
                     handler.finishDrawing();
@@ -421,7 +423,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     setDoubleClickZoomEnabled(enabled) {
         try {
-            let dblClickInteraction = MiscUtil.findObjectInArray(this.map.getInteractions().getArray(), (interaction) => {
+            let dblClickInteraction = this.miscUtil.findObjectInArray(this.map.getInteractions().getArray(), (interaction) => {
                 return interaction instanceof ol.interaction.DoubleClickZoom;
             });
             if (dblClickInteraction) {
@@ -439,7 +441,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     addGeometry(geometry, interactionType, geodesic = false) {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not find drawing layer in openlayers map");
             return false;
@@ -469,7 +471,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // generate geodesic arcs from points
                 if (geodesic) {
-                    geomCoords = MapUtil.generateGeodesicArcsForLineString(geomCoords);
+                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(geomCoords);
                 }
 
                 lineStringGeom = new ol.geom.LineString(geomCoords);
@@ -498,7 +500,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // generate geodesic arcs from points
                 if (geodesic) {
-                    geomCoords = MapUtil.generateGeodesicArcsForLineString(geomCoords);
+                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(geomCoords);
                 }
 
                 // Put these coordinates into a ring by adding to array
@@ -551,7 +553,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     removeAllDrawings() {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not remove all geometries in openlayers map");
             return false;
@@ -567,7 +569,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     removeAllMeasurements() {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not remove all geometries in openlayers map");
             return false;
@@ -590,7 +592,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     addDrawHandler(geometryType, onDrawEnd, interactionType) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
                     let geom = opt_geom ? opt_geom : new ol.geom.LineString();
@@ -598,14 +600,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
                         let prev = acc[i - 1];
-                        el = MapUtil.constrainCoordinates(el);
+                        el = this.mapUtil.constrainCoordinates(el);
                         if (!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
                             acc.push(el);
                         }
                         return acc;
                     }, []);
 
-                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(newCoords);
+                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates(lineCoords);
                     geom.set("originalCoordinates", newCoords, true);
                     return geom;
@@ -617,14 +619,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
                         let prev = acc[i - 1];
-                        el = MapUtil.constrainCoordinates(el);
+                        el = this.mapUtil.constrainCoordinates(el);
                         if (!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
                             acc.push(el);
                         }
                         return acc;
                     }, []);
 
-                    let lineCoords = MapUtil.generateGeodesicArcsForLineString(newCoords);
+                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates([lineCoords]);
                     geom.set("originalCoordinates", newCoords, true);
                     return geom;
@@ -739,9 +741,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             // Set measurement units
             this.map.getOverlays().forEach(overlay => {
                 if (overlay.get("measurementType") === appStrings.MEASURE_AREA) {
-                    overlay.getElement().innerHTML = MapUtil.formatArea(MapUtil.convertAreaUnits(overlay.get("meters"), units), units);
+                    overlay.getElement().innerHTML = this.mapUtil.formatArea(this.mapUtil.convertAreaUnits(overlay.get("meters"), units), units);
                 } else if (overlay.get("measurementType") === appStrings.MEASURE_DISTANCE) {
-                    overlay.getElement().innerHTML = MapUtil.formatDistance(MapUtil.convertDistanceUnits(overlay.get("meters"), units), units);
+                    overlay.getElement().innerHTML = this.mapUtil.formatDistance(this.mapUtil.convertDistanceUnits(overlay.get("meters"), units), units);
                 } else {
                     console.warn("could not set openlayers scale units.");
                     return false;
@@ -790,7 +792,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     activateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (!mapLayer) {
                 mapLayer = this.createLayer(layer);
                 this.addLayer(mapLayer);
@@ -808,7 +810,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     deactivateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 this.removeLayer(mapLayer);
             }
@@ -830,7 +832,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     setLayerOpacity(layer, opacity) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 mapLayer.setOpacity(opacity);
                 return true;
@@ -922,7 +924,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     updateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
+            let mapLayerWithIndex = this.miscUtil.findObjectWithIndexInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = this.createLayer(layer);
                 this.replaceLayer(mapLayer, mapLayerWithIndex.index);
@@ -937,7 +939,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     getLatLonFromPixelCoordinate(pixel) {
         try {
             let coordinate = this.map.getCoordinateFromPixel(pixel);
-            coordinate = MapUtil.constrainCoordinates(coordinate);
+            coordinate = this.mapUtil.constrainCoordinates(coordinate);
             if (typeof coordinate[0] !== "undefined" &&
                 typeof coordinate[1] !== "undefined" &&
                 !isNaN(coordinate[0]) &&
@@ -958,7 +960,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     moveLayerToTop(layer) {
         try {
             let mapLayers = this.map.getLayers();
-            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            let mapLayerWithIndex = this.miscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = mapLayerWithIndex.value;
                 let currIndex = mapLayerWithIndex.index;
@@ -977,7 +979,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     moveLayerToBottom(layer) {
         try {
             let mapLayers = this.map.getLayers();
-            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            let mapLayerWithIndex = this.miscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = mapLayerWithIndex.value;
                 let currIndex = mapLayerWithIndex.index;
@@ -995,7 +997,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     moveLayerUp(layer) {
         try {
             let mapLayers = this.map.getLayers();
-            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            let mapLayerWithIndex = this.miscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = mapLayerWithIndex.value;
                 let currIndex = mapLayerWithIndex.index;
@@ -1015,7 +1017,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     moveLayerDown(layer) {
         try {
             let mapLayers = this.map.getLayers();
-            let mapLayerWithIndex = MiscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
+            let mapLayerWithIndex = this.miscUtil.findObjectWithIndexInArray(mapLayers.getArray(), "_layerId", layer.get("id"));
             if (mapLayerWithIndex) {
                 let mapLayer = mapLayerWithIndex.value;
                 let currIndex = mapLayerWithIndex.index;

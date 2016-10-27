@@ -25,6 +25,8 @@ const initialPosition = {
 const showDelay = 500;
 const hideDelay = 250;
 
+const miscUtil = new MiscUtil();
+
 export class ContextMenuSubMenu extends Component {
     componentWillMount() {
         this.setState({...initialState });
@@ -88,7 +90,7 @@ export class ContextMenuSubMenu extends Component {
         let { disabled, children, title, icon, customIcon } = this.props, { visible } = this.state;
 
         let menuClasses = "context-menu-item submenu";
-        let subMenuClasses = MiscUtil.generateStringFromSet({
+        let subMenuClasses = miscUtil.generateStringFromSet({
             "context-menu-sub-menu": true,
             "active": visible,
             "top": this.position.top,
@@ -96,7 +98,7 @@ export class ContextMenuSubMenu extends Component {
             "left": this.position.left,
             "right": this.position.right
         });
-        let labelClasses = MiscUtil.generateStringFromSet({
+        let labelClasses = miscUtil.generateStringFromSet({
             "context-menu-item context-menu-sub-menu-label": true,
             "disabled": disabled,
             "active": visible

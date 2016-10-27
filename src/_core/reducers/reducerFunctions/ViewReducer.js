@@ -5,6 +5,8 @@ import MiscUtil from '_core/utils/MiscUtil';
 //create a copy of the state passed and set new values on the copy.
 
 export default class ViewReducer {
+    static miscUtil = new MiscUtil();
+
     static completeInitialLoad(state, action) {
         return state.set("initialLoadComplete", true);
     }
@@ -26,9 +28,9 @@ export default class ViewReducer {
 
     static setFullScreen(state, action) {
         if (action.enabled) {
-            MiscUtil.enterFullScreen();
+            this.miscUtil.enterFullScreen();
         } else {
-            MiscUtil.exitFullscreen();
+            this.miscUtil.exitFullscreen();
         }
         return state.set("isFullscreen", action.enabled);
     }

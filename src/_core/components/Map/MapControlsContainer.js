@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
-import MiscUtil from '_core/utils/MiscUtil';
 
 export class MapControlsContainer extends Component {
     setViewMode() {

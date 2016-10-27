@@ -29,6 +29,8 @@ const GooglePlusIcon = () => (
     </svg>
 );
 
+const miscUtil = new MiscUtil();
+
 export class ShareContainer extends Component {
     focusTextArea() {
         this.urlText.focus();
@@ -97,13 +99,13 @@ export class ShareContainer extends Component {
         window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appConfig.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
     }
     shareFacebook(url) {
-        MiscUtil.openLinkInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
+        miscUtil.openLinkInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
     }
     shareTwitter(url) {
-        MiscUtil.openLinkInNewTab("https://www.twitter.com/share?url=" + encodeURIComponent(url) + "text=Check out what I found in " + appConfig.APP_TITLE);
+        miscUtil.openLinkInNewTab("https://www.twitter.com/share?url=" + encodeURIComponent(url) + "text=Check out what I found in " + appConfig.APP_TITLE);
     }
     shareGooglePlus(url) {
-        MiscUtil.openLinkInNewTab("https://plus.google.com/share?url=" + encodeURIComponent(url));
+        miscUtil.openLinkInNewTab("https://plus.google.com/share?url=" + encodeURIComponent(url));
     }
 
     render() {

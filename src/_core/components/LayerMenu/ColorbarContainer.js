@@ -8,8 +8,9 @@ import * as appStrings from '_core/constants/appStrings';
 const CANVAS_WIDTH = 255;
 const CANVAS_HEIGHT = 12;
 
-export class ColorbarContainer extends Component {
+const miscUtil = new MiscUtil();
 
+export class ColorbarContainer extends Component {
     componentDidMount() {
         if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
             this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
@@ -44,19 +45,19 @@ export class ColorbarContainer extends Component {
     }
 
     render() {
-        let containerClass = MiscUtil.generateStringFromSet({
+        let containerClass = miscUtil.generateStringFromSet({
             "colorbar-container": true,
             "no-colorbar": this.props.handleAs === ""
         });
-        let canvasClass = MiscUtil.generateStringFromSet({
+        let canvasClass = miscUtil.generateStringFromSet({
             "colorbar": true,
             "hidden": this.props.handleAs !== appStrings.COLORBAR_JSON_FIXED && this.props.handleAs !== appStrings.COLORBAR_JSON_RELATIVE
         });
-        let imageClass = MiscUtil.generateStringFromSet({
+        let imageClass = miscUtil.generateStringFromSet({
             "colorbar": true,
             "hidden": this.props.handleAs !== appStrings.COLORBAR_IMAGE
         });
-        let warningClass = MiscUtil.generateStringFromSet({
+        let warningClass = miscUtil.generateStringFromSet({
             "colorbar-warning": true,
             "hidden": this.props.handleAs !== ""
         });
