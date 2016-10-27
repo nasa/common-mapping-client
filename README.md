@@ -1,3 +1,5 @@
+[![Build Status](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core.svg?token=kcPVkrUjSKF8FJtoQYEw&branch=master)](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core)
+
 ## Welcome to the Common Mapping Client 2.0!
 
 #### Overview
