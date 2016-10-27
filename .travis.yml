@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "6"
+after_success:
+  # Send coverage data to coveralls.
+  # - npm run test:cover:travis
+  # - chmod a+x deploy.sh
+  # - ./deploy.sh
+notifications:
+  email: false
