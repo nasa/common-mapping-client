@@ -4,6 +4,7 @@ import CesiumTilingScheme_GIBS from '_core/utils/CesiumTilingScheme_GIBS';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MapUtil from '_core/utils/MapUtil';
+import TileHandler from '_core/utils/TileHandler';
 import 'lib/cesium/Cesium.js';
 import '_core/utils/CesiumDrawHelper.js';
 import 'lib/cesium/Widgets/widgets.css';
@@ -14,6 +15,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         super(container, options);
         this.is3D = true;
         this.isActive = options.getIn(["view", "in3DMode"]);
+        this.tileHandler = new TileHandler();
 
         // Create cesium scene 
         window.CESIUM_BASE_URL = './';
@@ -1087,12 +1089,12 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
     handleTileLoad(layer, mapLayer, x, y, level, context) {
         let url = layer.getIn(["wmtsOptions", "url"]);
-        let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_3D]));
-        let customTileFunction = MapUtil.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_3D]));
+        let customUrlFunction = this.tileHandler.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_3D]));
+        let customTileFunction = this.tileHandler.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_3D]));
 
         // have to override url to override tile load
         if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
-            customUrlFunction = MapUtil.getUrlFunction(appStrings.DEFAULT_URL_FUNC);
+            customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC);
         }
 
         if (typeof customUrlFunction === "function") {

@@ -7,8 +7,6 @@ import proj4js from 'proj4';
 import { GreatCircle } from 'lib/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
-import * as urlFunctions from '_core/utils/UrlFunctions';
-import * as tileLoadFunctions from '_core/utils/TileLoadFunctions';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
 import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
@@ -202,34 +200,6 @@ export default class MapUtil {
         }
 
         return url;
-    }
-
-    // takes a function string and returns the tile url function associated with it or undefined
-    static getUrlFunction(functionString = "") {
-        switch (functionString) {
-            case appStrings.DEFAULT_URL_FUNC:
-                return urlFunctions.defaultKVPUrlFunc;
-            case appStrings.ESRI_CUSTOM_512:
-                return urlFunctions.esriCustom512;
-            case appStrings.KVP_TIME_PARAM:
-                return urlFunctions.kvpTimeParam;
-            case appStrings.CATS_URL:
-                return urlFunctions.catsIntercept;
-            default:
-                return undefined;
-        }
-    }
-
-    // takes a function string and returns the tile load function associated with it or undefined
-    static getTileFunction(functionString = "") {
-        switch (functionString) {
-            case appStrings.CATS_TILE_OL:
-                return tileLoadFunctions.catsIntercept_OL;
-            case appStrings.CATS_TILE_CS:
-                return tileLoadFunctions.catsIntercept_CS;
-            default:
-                return undefined;
-        }
     }
 
     // Formats distance according to units

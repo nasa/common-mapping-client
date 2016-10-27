@@ -6,6 +6,7 @@ import * as appConfig from 'constants/appConfig';
 import MapWrapper from '_core/utils/MapWrapper';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapUtil from '_core/utils/MapUtil';
+import TileHandler from '_core/utils/TileHandler';
 import Cache from '_core/utils/Cache';
 
 export default class MapWrapper_openlayers extends MapWrapper {
@@ -14,6 +15,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
         this.layerCache = new Cache(50); // TODO - move this number into a config?
+        this.tileHandler = new TileHandler();
         this.cachedGeometry = null;
         this.defaultGeometryStyle = new ol.style.Style({
             fill: new ol.style.Fill({
@@ -1069,11 +1071,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
     generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
-            let customUrlFunction = MapUtil.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D]));
+            let customUrlFunction = this.tileHandler.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D]));
             let tileMatrixIds = typeof layerSource.getTileGrid === "function" &&
                 typeof layerSource.getTileGrid().getMatrixIds === "function" ? layerSource.getTileGrid().getMatrixIds() : [];
             if (typeof customUrlFunction === "function") {
-                return customUrlFunction({
+                return customUrlFunction.call(this.tileHandler, {
                     layer,
                     origUrl,
                     tileCoord,
@@ -1092,10 +1094,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     handleTileLoad(layer, tile, url, origFunc) {
         try {
-            let customTileFunction = MapUtil.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D]));
+            let customTileFunction = this.tileHandler.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D]));
             let processedTile = origFunc(tile, url);
             if (typeof customTileFunction === "function") {
-                return customTileFunction({
+                return customTileFunction.call(this.tileHandler, {
                     layer,
                     tile,
                     url,
@@ -1183,8 +1185,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorGeojsonSource(layer, options) {
         // customize the layer url if needed
         if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined") {
-            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
-            options.url = urlFunction({
+            let urlFunction = this.tileHandler.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
+            options.url = urlFunction.call(this.tileHandler, {
                 layer: layer,
                 url: options.url
             });
@@ -1199,8 +1201,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorTopojsonSource(layer, options) {
         // customize the layer url if needed
         if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined") {
-            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
-            options.url = urlFunction({
+            let urlFunction = this.tileHandler.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
+            options.url = urlFunction.call(this.tileHandler, {
                 layer: layer,
                 url: options.url
             });
@@ -1215,8 +1217,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorKMLSource(layer, options) {
         // customize the layer url if needed
         if (typeof options.url !== "undefined" && typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined") {
-            let urlFunction = MapUtil.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
-            options.url = urlFunction({
+            let urlFunction = this.tileHandler.getUrlFunction(layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]));
+            options.url = urlFunction.call(this.tileHandler, {
                 layer: layer,
                 url: options.url
             });
