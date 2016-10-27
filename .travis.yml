@@ -15,7 +15,7 @@ before_install:
   - chmod a+x deploy.bash
 script: 
   - npm run build
-  - npm run test:cover
+  - npm run test
   - npm run deploy
 # after_success:
   # Send coverage data to coveralls.

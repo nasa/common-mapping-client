@@ -510,6 +510,7 @@ describe('Map Utils', () => {
         });
     });
     describe('generateGeodesicArcsForLineString', () => {
+        const roundFn = arr => arr.map(x => x.map(z => z.toFixed(6)));
         it('returns empty array given empty array', () => {
             let coords = [];
             expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
@@ -526,8 +527,9 @@ describe('Map Utils', () => {
                 [0, 0],
                 [1, 1]
             ];
-            let coordsOut = expectedArcs.ARCS.test1;
-            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+            let coordsOut = roundFn(expectedArcs.ARCS.test1);
+            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in negative direction', () => {
             let coordsIn = [
@@ -536,8 +538,9 @@ describe('Map Utils', () => {
                 [-250, -20]
 
             ];
-            let coordsOut = expectedArcs.ARCS.test2;
-            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+            let coordsOut = roundFn(expectedArcs.ARCS.test2);
+            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in negative direction and crosses back', () => {
             let coordsIn = [
@@ -546,8 +549,9 @@ describe('Map Utils', () => {
                 [-89.82421875, -18.28125]
 
             ];
-            let coordsOut = expectedArcs.ARCS.test3;
-            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+            let coordsOut = roundFn(expectedArcs.ARCS.test3);
+            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in positive direction', () => {
             let coordsIn = [
@@ -556,8 +560,9 @@ describe('Map Utils', () => {
                 [250, -20]
 
             ];
-            let coordsOut = expectedArcs.ARCS.test4;
-            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+            let coordsOut = roundFn(expectedArcs.ARCS.test4);
+            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in positive direction and crosses back', () => {
             let coordsIn = [
@@ -565,8 +570,9 @@ describe('Map Utils', () => {
                 [-132.01171875, 4.21875],
                 [142.20703125, -24.2578125]
             ];
-            let coordsOut = expectedArcs.ARCS.test5;
-            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+            let coordsOut = roundFn(expectedArcs.ARCS.test5);
+            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            expect(generatedLineString).to.deep.equal(coordsOut);
         });
     });
     describe('measureGeometry', () => {
