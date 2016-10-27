@@ -1,7 +1,11 @@
 language: node_js
 node_js:
   - "6"
-script: npm run build && npm run test
+  - "5"
+  - "4"
+script: 
+  - npm run build
+  - npm run test
 # after_success:
   # Send coverage data to coveralls.
   # - npm run test:cover:travis
