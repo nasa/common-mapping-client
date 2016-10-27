@@ -6,7 +6,7 @@ import * as tileLoadFunctions from '../utils/TileLoadFunctions';
 import * as expectedArcs from './data/expectedOutputs/generatedGeodesicArcs';
 import MapUtil from '../utils/MapUtil';
 
-describe('Map Utils', () => {
+describe('Map Utils', () => { 
     describe('Creates a Map', () => {
         beforeEach(function() {
             let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
