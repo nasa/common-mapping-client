@@ -1,3 +1,6 @@
+### NOTICE: This repository is in the process of migrating to GithubEnterprise: 
+https://github.jpl.nasa.gov/CommonMappingClient/cmc-core
+
 ## Welcome to the Common Mapping Client 2.0!
 
 #### Overview
