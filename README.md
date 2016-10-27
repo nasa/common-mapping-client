@@ -60,3 +60,7 @@ who have the same problem down the road may find a solution faster.
 * [Developer Guide](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
 * [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
 
+
+#### Legacy Repository
+
+This repository was migrated from a GitLab repository hosted by PO.DAAC. Old issues can be viewed at https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core.
