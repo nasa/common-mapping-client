@@ -1125,7 +1125,7 @@ describe('Store - Map', function() {
             id: Math.random()
         };
 
-        console.log("bloop", geometryLineStringe)
+        console.log("bloop", geometryLineString)
 
         // add geometries to 2D and 3D maps and then add label
         const finalActions = [
