@@ -6,7 +6,7 @@ import * as tileLoadFunctions from '../utils/TileLoadFunctions';
 import * as expectedArcs from './data/expectedOutputs/generatedGeodesicArcs';
 import MapUtil from '../utils/MapUtil';
 
-describe('Map Utils', () => { 
+describe('Map Utils', () => {
     describe('Creates a Map', () => {
         beforeEach(function() {
             let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
@@ -539,6 +539,10 @@ describe('Map Utils', () => {
                 [1, 1]
             ];
             let coordsOut = expectedArcs.ARCS.test1;
+            let tmp = MapUtil.generateGeodesicArcsForLineString(coordsIn);
+            console.log(coordsOut[0], tmp[0],"?")
+            console.log(coordsOut[50], tmp[50],"??")
+            console.log(coordsOut[99], tmp[99],"???")
             expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in negative direction', () => {
