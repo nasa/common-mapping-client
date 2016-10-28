@@ -9,23 +9,11 @@ import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
-import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
+// import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
 
 export default class MapUtil {
     constructor() {
         this.miscUtil = new MiscUtil();
-    }
-
-    // creates a new object that abstracts a mapping library
-    createMap(type, container, mapOptions) {
-        switch (type) {
-            case appStrings.MAP_LIB_2D:
-                return new MapWrapper_openlayers(container, mapOptions);
-            case appStrings.MAP_LIB_3D:
-                return new MapWrapper_cesium(container, mapOptions);
-            default:
-                return false;
-        }
     }
 
     // constrains coordinates to [+-180, +-90]

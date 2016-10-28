@@ -1103,7 +1103,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             let tileFunc = () => {
                 return new Promise((resolve, reject) => {
                     // get the customized url
-                    let tileUrl = customUrlFunction({
+                    let tileUrl = customUrlFunction.call(this.tileHandler, {
                         layer,
                         origUrl: layer.getIn(["wmtsOptions", "url"]),
                         tileCoord: [level, x, y],
@@ -1112,7 +1112,7 @@ export default class MapWrapper_cesium extends MapWrapper {
 
                     // run the customized tile creator
                     if (typeof customTileFunction === "function") {
-                        customTileFunction({
+                        customTileFunction.call(this.tileHandler, {
                             layer: layer,
                             url: tileUrl,
                             success: resolve,

@@ -6,6 +6,7 @@ import MapUtil from '_core/utils/MapUtil';
 import MiscUtil from '_core/utils/MiscUtil';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
+import { createMap } from 'utils/MapCreator';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -15,7 +16,7 @@ export default class MapReducer {
     static miscUtil = new MiscUtil();
 
     static initializeMap(state, action) {
-        let map = this.mapUtil.createMap(action.mapType, action.container, state);
+        let map = createMap(action.mapType, action.container, state);
         if (map) {
             return state.setIn(["maps", action.mapType], map);
         }
@@ -566,7 +567,7 @@ export default class MapReducer {
         }, false);
 
 
-        if(!anyFail) {
+        if (!anyFail) {
             return state.set("date", date);
         }
     }
