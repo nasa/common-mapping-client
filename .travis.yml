@@ -16,3 +16,8 @@ script:
   # - ./deploy.sh
 notifications:
   email: false
+  slack: 
+    rooms: 'jpl:aIhKT9PPFqBrGZxYBva6mEJx'
+    on_pull_requests: false
+    template:
+      - "[%{branch}] build <%{build_url}|#%{build_number}> of (<%{compare_url}|%{commit}>) by %{author} %{result} in %{duration}"
