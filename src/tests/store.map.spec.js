@@ -1161,7 +1161,7 @@ describe('Store - Map', function() {
             TestUtil.compareFullStates(actual, expected);
             console.log("done");
             done();
-        }, 10000);
+        }, 2000);
     });
 
     it('can remove all measurements in 2D and 3D maps', function() {
