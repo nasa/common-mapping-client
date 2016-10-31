@@ -35,6 +35,8 @@ export default class MapReducer {
         state = this.disableDrawing(state, action);
         state = this.disableMeasuring(state, action);
 
+        console.log("GERERERERE");
+
         let mode_3D = action.mode === appStrings.MAP_VIEW_MODE_3D;
         state = state.set("maps", state.get("maps").map((map) => {
             if (map.is3D) {
