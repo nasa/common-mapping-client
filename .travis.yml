@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "6"
+env:
+  global:
+    - BUILD_HOMEPAGE=https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/$TRAVIS_BRANCH
 cache:
   directories:
     - node_modules
