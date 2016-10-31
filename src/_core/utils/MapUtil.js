@@ -353,7 +353,6 @@ export default class MapUtil {
 
             // shift all the arcs as part of a polyline
             if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
-                console.log("YES", coords)
                 let initialShift = 1;
                 if (lineCoords[lineCoords.length - 1][0] < 0) {
                     initialShift = -1;

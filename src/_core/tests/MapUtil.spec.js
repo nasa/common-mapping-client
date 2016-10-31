@@ -2,42 +2,43 @@ import { expect } from 'chai';
 import Immutable from 'immutable';
 import MapUtil from '_core/utils/MapUtil';
 const mapUtil = new MapUtil();
-import * as mapStrings from '_core/constants/mapStrings';
-import * as urlFunctions from '_core/utils/UrlFunctions';
-import * as tileLoadFunctions from '_core/utils/TileLoadFunctions';
+import * as appStrings from '_core/constants/appStrings';
+import TileHandler from '_core/utils/TileHandler';
+import * as expectedArcs from './data/expectedOutputs/generatedGeodesicArcs';
+const tileHandler = new TileHandler();
 
 describe('Map Utils', () => {
-    describe('Creates a Map', () => {
-        beforeEach(function() {
-            let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
-            document.body.insertAdjacentHTML('afterbegin', fixture);
-        });
+    // describe('Creates a Map', () => {
+    //     beforeEach(function() {
+    //         let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
+    //         document.body.insertAdjacentHTML('afterbegin', fixture);
+    //     });
 
-        // remove the html fixture from the DOM
-        afterEach(function() {
-            document.body.removeChild(document.getElementById('fixture'));
-        });
-        it('creates a 2D map when given mapStrings.MAP_LIB_2D', () => {
-            let map = MapUtil.createMap(mapStrings.MAP_LIB_2D, 'map2D', Immutable.fromJS({
-                view: { in3DMode: false }
-            }));
-            expect(map.constructor.name).to.equal("MapWrapper_openlayers");
-            expect(map.map).to.not.equal(undefined);
-        })
-        it('creates a 3D map when given mapStrings.MAP_LIB_3D', () => {
-            let map = MapUtil.createMap(mapStrings.MAP_LIB_3D, 'map3D', Immutable.fromJS({
-                view: { in3DMode: true }
-            }));
-            expect(map.constructor.name).to.equal("MapWrapper_cesium");
-            expect(map.map).to.not.equal(undefined);
-        })
-        it('returns false when given a non-matching map type', () => {
-            let map = MapUtil.createMap('4D_MAP', 'map3D', Immutable.fromJS({
-                view: { in3DMode: true }
-            }));
-            expect(map).to.be.false;
-        })
-    })
+    //     // remove the html fixture from the DOM
+    //     afterEach(function() {
+    //         document.body.removeChild(document.getElementById('fixture'));
+    //     });
+    //     it('creates a 2D map when given appStrings.MAP_LIB_2D', () => {
+    //         let map = MapUtil.createMap(appStrings.MAP_LIB_2D, 'map2D', Immutable.fromJS({
+    //             view: { in3DMode: false }
+    //         }));
+    //         expect(map.constructor.name).to.equal("MapWrapper_openlayers");
+    //         expect(map.map).to.not.equal(undefined);
+    //     })
+    //     it('creates a 3D map when given appStrings.MAP_LIB_3D', () => {
+    //         let map = MapUtil.createMap(appStrings.MAP_LIB_3D, 'map3D', Immutable.fromJS({
+    //             view: { in3DMode: true }
+    //         }));
+    //         expect(map.constructor.name).to.equal("MapWrapper_cesium");
+    //         expect(map.map).to.not.equal(undefined);
+    //     })
+    //     it('returns false when given a non-matching map type', () => {
+    //         let map = MapUtil.createMap('4D_MAP', 'map3D', Immutable.fromJS({
+    //             view: { in3DMode: true }
+    //         }));
+    //         expect(map).to.be.false;
+    //     })
+    // })
     describe('constrainCoordinates', () => {
         it('takes in a set of LatLon coordinates [lon,lat] that may be outside ' +
             'the [-180, -90, 180, 90] bounds and contrains them the the [-180, -90, 180, 90] bounds.', () => {
@@ -64,11 +65,11 @@ describe('Map Utils', () => {
             let varOut5 = [40, 50];
 
             //assert
-            expect(MapUtil.constrainCoordinates(varIn1)).to.deep.equal(varOut1);
-            expect(MapUtil.constrainCoordinates(varIn2)).to.deep.equal(varOut2);
-            expect(MapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3);
-            expect(MapUtil.constrainCoordinates(varIn4)).to.deep.equal(varOut4);
-            expect(MapUtil.constrainCoordinates(varIn5)).to.deep.equal(varOut5);
+            expect(mapUtil.constrainCoordinates(varIn1)).to.deep.equal(varOut1);
+            expect(mapUtil.constrainCoordinates(varIn2)).to.deep.equal(varOut2);
+            expect(mapUtil.constrainCoordinates(varIn3)).to.deep.equal(varOut3);
+            expect(mapUtil.constrainCoordinates(varIn4)).to.deep.equal(varOut4);
+            expect(mapUtil.constrainCoordinates(varIn5)).to.deep.equal(varOut5);
         });
         it('Limits latitude values outside [-90, 90] to the [-90, 90] line', () => {
             let varIn1 = [50, 270];
@@ -126,10 +127,10 @@ describe('Map Utils', () => {
 
             //assert
 
-            expect(MapUtil.constrainCoordinates(varIn1, false)).to.deep.equal(varOut1);
-            expect(MapUtil.constrainCoordinates(varIn2, false)).to.deep.equal(varOut2);
-            expect(MapUtil.constrainCoordinates(varIn3, false)).to.deep.equal(varOut3);
-            expect(MapUtil.constrainCoordinates(varIn4, false)).to.deep.equal(varOut4);
+            expect(mapUtil.constrainCoordinates(varIn1, false)).to.deep.equal(varOut1);
+            expect(mapUtil.constrainCoordinates(varIn2, false)).to.deep.equal(varOut2);
+            expect(mapUtil.constrainCoordinates(varIn3, false)).to.deep.equal(varOut3);
+            expect(mapUtil.constrainCoordinates(varIn4, false)).to.deep.equal(varOut4);
         });
         it('Returns false with bad input', () => {
             let varIn1 = "cats";
@@ -145,6 +146,7 @@ describe('Map Utils', () => {
     });
     describe('deconstrainArcCoordinates', () => {
         it('returns the original polyline when given a single polyline', () => {
+
             let linesArr = [
                 [
                     [0, 0],
@@ -154,22 +156,7 @@ describe('Map Utils', () => {
             ];
             expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
         })
-        it('returns false when end of first line lon % 180 === 0', () => {
-            let linesArr = [
-                [
-                    [0, 0],
-                    [1, 1],
-                    [180, 0]
-                ],
-                [
-                    [10, 0],
-                    [1, 1],
-                    [40, 40]
-                ]
 
-            ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.be.false;
-        })
         it('deconstrains where first line end has -lon and second line start has +lon', () => {
             let linesArrIn = [
                 [
@@ -190,7 +177,7 @@ describe('Map Utils', () => {
                 [-460, 0],
                 [-465, 40]
             ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+            expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
         })
         it('deconstrains where first line end has -lon and second line start has -lon', () => {
             let linesArrIn = [
@@ -212,7 +199,7 @@ describe('Map Utils', () => {
                 [-100, 0],
                 [-105, 40]
             ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+            expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
         })
         it('deconstrains where first line end has +lon and second line start has +lon', () => {
             let linesArrIn = [
@@ -234,7 +221,7 @@ describe('Map Utils', () => {
                 [-100, 0],
                 [105, 40]
             ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+            expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
         })
         it('deconstrains where first line end has +lon and second line start has +lon', () => {
             let linesArrIn = [
@@ -256,7 +243,6 @@ describe('Map Utils', () => {
                 [260, 0],
                 [465, 40]
             ];
-            console.log(linesArrOut, MapUtil.deconstrainArcCoordinates(linesArrIn))
             expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
         })
     })
@@ -269,9 +255,10 @@ describe('Map Utils', () => {
                 col: 0,
                 row: 0,
                 level: 0,
-                format: "format"
+                format: "format",
+                context: mapStrings.MAP_LIB_2D
             };
-            let varOut1 = 'http://fakeTile.com/getTile?tilerow=0&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
+            let varOut1 = 'http://fakeTile.com/getTile?tilerow=-1&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
 
             let varIn2 = {
                 url: "http://fakeTile.com/getTile",
@@ -286,8 +273,8 @@ describe('Map Utils', () => {
             let varOut2 = 'http://fakeTile.com/getTile?tilerow=0&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
 
             //assert
-            expect(MapUtil.buildTileUrl(varIn1)).to.equal(varOut1);
-            expect(MapUtil.buildTileUrl(varIn2)).to.equal(varOut2);
+            expect(mapUtil.buildTileUrl(varIn1)).to.equal(varOut1);
+            expect(mapUtil.buildTileUrl(varIn2)).to.equal(varOut2);
         });
         it('Accepts a restful url and populates the provided fields.', () => {
             let varIn = {
@@ -308,35 +295,35 @@ describe('Map Utils', () => {
     describe('getUrlFunction', () => {
         it('takes a function string and returns the tile url function associated with it', () => {
             //assert
-            expect(MapUtil.getUrlFunction(mapStrings.DEFAULT_URL_FUNC)).to.equal(urlFunctions.defaultKVPUrlFunc);
-            expect(MapUtil.getUrlFunction(mapStrings.ESRI_CUSTOM_512)).to.equal(urlFunctions.esriCustom512);
-            expect(MapUtil.getUrlFunction(mapStrings.KVP_TIME_PARAM)).to.equal(urlFunctions.kvpTimeParam);
-            expect(MapUtil.getUrlFunction(mapStrings.CATS_URL)).to.equal(urlFunctions.catsIntercept);
+            expect(tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(tileHandler._defaultKVPUrlFunc);
+            expect(tileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(tileHandler._esriCustom512);
+            expect(tileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(tileHandler._kvpTimeParam);
+            expect(tileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(tileHandler._catsIntercept);
         });
         it('returns undefined on unmatched function string', () => {
-            expect(MapUtil.getUrlFunction()).to.equal(undefined);
-            expect(MapUtil.getUrlFunction("bleh")).to.equal(undefined);
+            expect(tileHandler.getUrlFunction()).to.equal(undefined);
+            expect(tileHandler.getUrlFunction("bleh")).to.equal(undefined);
         });
     });
     describe('getTileFunction', () => {
         it('takes a function string and returns the tile load function associated with it', () => {
             //assert
-            expect(MapUtil.getTileFunction(mapStrings.CATS_TILE_OL)).to.equal(tileLoadFunctions.catsIntercept_OL);
-            expect(MapUtil.getTileFunction(mapStrings.CATS_TILE_CS)).to.equal(tileLoadFunctions.catsIntercept_CS);
+            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_OL)).to.equal(tileHandler._catsIntercept_OL);
+            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_CS)).to.equal(tileHandler._catsIntercept_CS);
         });
         it('returns undefined on unmatched function string', () => {
-            expect(MapUtil.getTileFunction()).to.equal(undefined);
-            expect(MapUtil.getTileFunction("bleh")).to.equal(undefined);
+            expect(tileHandler.getTileFunction()).to.equal(undefined);
+            expect(tileHandler.getTileFunction("bleh")).to.equal(undefined);
         });
     });
     describe('formatDistance', () => {
         it('fails on bad input', () => {
-            expect(MapUtil.formatDistance(null, null)).to.equal(null);
-            expect(MapUtil.formatDistance(null, 'cats')).to.equal(null);
-            expect(MapUtil.formatDistance(null, 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance('cats', 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance([0, 1, 2], 'metric')).to.equal(null);
-            expect(MapUtil.formatDistance(0, 'fleebles')).to.equal(null);
+            expect(mapUtil.formatDistance(null, null)).to.equal(null);
+            expect(mapUtil.formatDistance(null, 'cats')).to.equal(null);
+            expect(mapUtil.formatDistance(null, 'metric')).to.equal(null);
+            expect(mapUtil.formatDistance('cats', 'metric')).to.equal(null);
+            expect(mapUtil.formatDistance([0, 1, 2], 'metric')).to.equal(null);
+            expect(mapUtil.formatDistance(0, 'fleebles')).to.equal(null);
         });
         it('formats distance in meters', () => {
             expect(mapUtil.formatDistance(0, 'metric')).to.equal('0.00 m');
@@ -373,12 +360,12 @@ describe('Map Utils', () => {
     });
     describe('formatArea', () => {
         it('fails on bad input', () => {
-            expect(MapUtil.formatArea(null, null)).to.equal(null);
-            expect(MapUtil.formatArea(null, 'cats')).to.equal(null);
-            expect(MapUtil.formatArea(null, 'metric')).to.equal(null);
-            expect(MapUtil.formatArea('cats', 'metric')).to.equal(null);
-            expect(MapUtil.formatArea([0, 1, 2], 'metric')).to.equal(null);
-            expect(MapUtil.formatArea(0, 'fleebles')).to.equal(null);
+            expect(mapUtil.formatArea(null, null)).to.equal(null);
+            expect(mapUtil.formatArea(null, 'cats')).to.equal(null);
+            expect(mapUtil.formatArea(null, 'metric')).to.equal(null);
+            expect(mapUtil.formatArea('cats', 'metric')).to.equal(null);
+            expect(mapUtil.formatArea([0, 1, 2], 'metric')).to.equal(null);
+            expect(mapUtil.formatArea(0, 'fleebles')).to.equal(null);
         });
         it('formats area in meters', () => {
             expect(mapUtil.formatArea(0, 'metric')).to.equal('0.00 m<sup>2</sup>');
@@ -457,11 +444,11 @@ describe('Map Utils', () => {
     });
     describe('trimFloatString', () => {
         it('removes trailing zeros from fixed width float string', () => {
-            expect(MapUtil.trimFloatString('0.00')).to.equal("0");
-            expect(MapUtil.trimFloatString('0.001')).to.equal("0.001");
-            expect(MapUtil.trimFloatString('1.001')).to.equal("1.001");
-            expect(MapUtil.trimFloatString('1.00100')).to.equal("1.001");
-            expect(MapUtil.trimFloatString('0')).to.equal("0");
+            expect(mapUtil.trimFloatString('0.00')).to.equal("0");
+            expect(mapUtil.trimFloatString('0.001')).to.equal("0.001");
+            expect(mapUtil.trimFloatString('1.001')).to.equal("1.001");
+            expect(mapUtil.trimFloatString('1.00100')).to.equal("1.001");
+            expect(mapUtil.trimFloatString('0')).to.equal("0");
         });
     });
     describe('calculatePolylineDistance', () => {
@@ -521,5 +508,130 @@ describe('Map Utils', () => {
             let center = [-108.718, 42.333333333333336];
             expect(mapUtil.calculatePolygonCenter(wyomingCoords, proj)).to.deep.equal(center);
         });
+    });
+    describe('generateGeodesicArcsForLineString', () => {
+        it('returns empty array given empty array', () => {
+            let coords = [];
+            expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+        });
+        it('returns empty array given a point', () => {
+            let coords = [
+                [0, 0],
+                [0, 0]
+            ];
+            expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+        });
+        it('generates geodesic arc for linestring that does not cross dateline', () => {
+            let coordsIn = [
+                [0, 0],
+                [1, 1]
+            ];
+            let coordsOut = expectedArcs.ARCS.test1;
+            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+        });
+        it('generates geodesic arc for linestring that crosses dateline in negative direction', () => {
+            let coordsIn = [
+                [0, 0],
+                [-50, -20],
+                [-250, -20]
+
+            ];
+            let coordsOut = expectedArcs.ARCS.test2;
+            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+        });
+        it('generates geodesic arc for linestring that crosses dateline in negative direction and crosses back', () => {
+            let coordsIn = [
+                [-92.98828125, 79.1015625],
+                [130.25390625, 1.0546875],
+                [-89.82421875, -18.28125]
+
+            ];
+            let coordsOut = expectedArcs.ARCS.test3;
+            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+        });
+        it('generates geodesic arc for linestring that crosses dateline in positive direction', () => {
+            let coordsIn = [
+                [0, 0],
+                [50, -20],
+                [250, -20]
+
+            ];
+            let coordsOut = expectedArcs.ARCS.test4;
+            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+        });
+        it('generates geodesic arc for linestring that crosses dateline in positive direction and crosses back', () => {
+            let coordsIn = [
+                [141.15234375, 6.328125],
+                [-132.01171875, 4.21875],
+                [142.20703125, -24.2578125]
+            ];
+            let coordsOut = expectedArcs.ARCS.test5;
+            expect(MapUtil.generateGeodesicArcsForLineString(coordsIn)).to.deep.equal(coordsOut);
+        });
+    });
+    describe('measureGeometry', () => {
+        // it('returns false when measurementType is not mapStrings.MEASURE_DISTANCE or mapStrings.MEASURE_AREA', () => {
+        //     let geometryCircle = {
+        //         type: mapStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         center: {
+        //             lon: 0,
+        //             lat: 0
+        //         },
+        //         radius: 100,
+        //         id: Math.random()
+        //     };
+        //     expect(MapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
+        // })
+        // it('returns a string measurement of given geometry', () => {
+        //     // Create dummy geometry
+        //     let geometryCircle = {
+        //         type: mapStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         center: {
+        //             lon: 0,
+        //             lat: 0
+        //         },
+        //         radius: 100,
+        //         id: Math.random()
+        //     };
+
+        //     let geometryLineString = {
+        //         type: mapStrings.GEOMETRY_LINE_STRING,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         coordinates: [{
+        //             lon: 0,
+        //             lat: 0
+        //         }, {
+        //             lon: 10,
+        //             lat: 10
+        //         }, {
+        //             lon: 20,
+        //             lat: -20
+        //         }],
+        //         id: Math.random()
+        //     };
+
+        //     let geometryPolygon = {
+        //         type: mapStrings.GEOMETRY_POLYGON,
+        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         proj: actualMap2D.map.getView().getProjection().getCode(),
+        //         coordinates: [{
+        //             lon: 0,
+        //             lat: 0
+        //         }, {
+        //             lon: 10,
+        //             lat: 10
+        //         }, {
+        //             lon: 20,
+        //             lat: -20
+        //         }],
+        //         id: Math.random()
+        //     };
+        //     expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+        // });
     });
 });
