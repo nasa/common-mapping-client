@@ -1087,7 +1087,7 @@ describe('Store - Map', function() {
 
     it('can add measurement label to geometry on 2D and 3D maps', function(done) {
         // adjust default timeout
-        this.timeout(6000);
+        this.timeout(10000);
 
         const store = createStore(rootReducer, initialState);
 

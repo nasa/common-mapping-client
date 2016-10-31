@@ -18,7 +18,8 @@
     "test:watch": "karma start karma.conf.js --singleRun=false",
     "test:cover": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=true --reporters=progress,coverage",
     "test:cover:watch": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=false --reporters=progress,coverage",
-    "postinstall": "bash ./postinstall.sh"
+    "postinstall": "bash ./postinstall.sh",
+    "deploy": "deploy.bash"
   },
   "author": "Flynn Platt",
   "license": "MIT",

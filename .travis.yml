@@ -12,6 +12,7 @@ before_install:
 script: 
   - npm run build
   - npm run test
+  - npm run deploy
 # after_success:
   # Send coverage data to coveralls.
   # - npm run test:cover:travis
