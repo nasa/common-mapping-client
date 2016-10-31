@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# Copy Cesium
+# Remove and re-add public folder
 rm -rf public && mkdir public
+
+# Copy Cesium into lib and public
+mkdir public/cesium
 cp -r ./node_modules/cesium/Build/Cesium/* ./src/lib/cesium/
-cp -r ./src/lib/cesium/* ./public
+cp -r ./src/lib/cesium/Assets ./public/cesium
+cp -r ./src/lib/cesium/ThirdParty ./public/cesium
+cp -r ./src/lib/cesium/Workers ./public/cesium
 
 # Copy Cesium-drawhelper
-cp -r ./src/lib/cesium-drawhelper-master ./public
+mkdir -p public/CesiumDrawHelper/img
+cp ./src/lib/cesium-drawhelper-master/img/*.png ./public/CesiumDrawHelper/img
 
 # Remove styles lib
 rm -rf ./src/styles/lib && mkdir ./src/styles/lib

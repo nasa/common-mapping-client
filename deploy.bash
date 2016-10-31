@@ -32,6 +32,9 @@ rm -rf $SOURCE_BRANCH
 
 # Rename the dist directory to match the source branch name
 mv dist $SOURCE_BRANCH
+
+# Move public folders into root of app
+mv public/* dist/
 git add --all -- $SOURCE_BRANCH
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
