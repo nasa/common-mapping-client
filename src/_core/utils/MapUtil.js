@@ -28,9 +28,6 @@ export default class MapUtil {
 
         let newCoords = [0, 0];
 
-        console.log("GERERERERE 2");
-
-
         // constrain x
         if (Math.abs(coords[0]) > 180) {
             let scale = Math.floor(coords[0] / 180);
