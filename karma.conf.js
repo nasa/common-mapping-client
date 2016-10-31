@@ -87,7 +87,8 @@ module.exports = function(config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_DISABLE,
+        // logLevel: config.LOG_DISABLE,
+        logLevel: config.LOG_INFO,
         // logLevel: config.LOG_DEBUG,
 
         // enable / disable watching file and executing tests whenever any file changes
@@ -95,8 +96,17 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        // browsers: ['PhantomJS'],
         // browsers: ['PhantomJS','Chrome'],
-        browsers: ['Chrome'],
+        browsers: process.env.TRAVIS ? ['Chrome_travis_ci'] : ['Chrome'],
+
+        // Custom launcher for headless CI testing (Travis)
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox', "--enable-webgl", "--ignore-gpu-blacklist"]
+            }
+        },
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

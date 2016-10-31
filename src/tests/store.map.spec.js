@@ -1077,7 +1077,7 @@ describe('Store - Map', function() {
         let mapLayer = MiscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         let mapLayerFeatures = mapLayer.getSource().getFeatures();
         let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === mapStrings.INTERACTION_DRAW);
-        
+
         // Get 3D drawings
         let drawFeatures3D = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === mapStrings.INTERACTION_DRAW);
         expect(drawFeatures2D.length).to.equal(0);
@@ -1086,6 +1086,9 @@ describe('Store - Map', function() {
     });
 
     it('can add measurement label to geometry on 2D and 3D maps', function(done) {
+        // adjust default timeout
+        this.timeout(10000);
+
         const store = createStore(rootReducer, initialState);
 
         // initial map
@@ -1142,15 +1145,16 @@ describe('Store - Map', function() {
 
             // Get 2D overlays
             let overlays2D = actualMap2D.map.getOverlays().getArray();
-            
+
             // Get 3D overlays
             let overlays3D = actualMap3D.map.entities.values;
+
 
             expect(overlays2D.length).to.equal(1);
             expect(overlays3D.length).to.equal(1);
             TestUtil.compareFullStates(actual, expected);
             done();
-        }, 500);
+        }, 2000);
     });
 
     it('can remove all measurements in 2D and 3D maps', function() {
@@ -1211,7 +1215,7 @@ describe('Store - Map', function() {
 
         // Get 2D overlays
         let overlays2D = actualMap2D.map.getOverlays().getArray();
-        
+
         // Get 3D overlays
         let overlays3D = actualMap3D.map.entities.values;
 

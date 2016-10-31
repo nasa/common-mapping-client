@@ -1,6 +1,8 @@
 ### NOTICE: This repository is in the process of migrating to GithubEnterprise: 
 https://github.jpl.nasa.gov/CommonMappingClient/cmc-core
 
+[![Build Status](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core.svg?token=kcPVkrUjSKF8FJtoQYEw&branch=master)](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core)
+
 ## Welcome to the Common Mapping Client 2.0!
 
 #### Overview
@@ -61,3 +63,7 @@ who have the same problem down the road may find a solution faster.
 * [Developer Guide](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
 * [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
 
+
+#### Legacy Repository
+
+This repository was migrated from a GitLab repository hosted by PO.DAAC. Old issues can be viewed at https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core.
