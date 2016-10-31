@@ -1087,9 +1087,8 @@ describe('Store - Map', function() {
 
     it('can add measurement label to geometry on 2D and 3D maps', function(done) {
         // adjust default timeout
-        this.timeout(10000);
-        console.log("measure start")
-       
+        this.timeout(5000);
+
         const store = createStore(rootReducer, initialState);
 
         // initial map
@@ -1104,8 +1103,6 @@ describe('Store - Map', function() {
         const initialState = store.getState();
         const actualMap2D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_2D];
         const actualMap3D = initialState.map.get("maps").toJS()[mapStrings.MAP_LIB_3D];
-
-        console.log("blip")
 
         // Create dummy geometry
         let geometryLineString = {
@@ -1125,8 +1122,6 @@ describe('Store - Map', function() {
             id: Math.random()
         };
 
-        console.log("bloop", geometryLineString)
-
         // add geometries to 2D and 3D maps and then add label
         const finalActions = [
             mapActions.addGeometryToMap(geometryLineString, mapStrings.INTERACTION_DRAW),
@@ -1137,7 +1132,6 @@ describe('Store - Map', function() {
         finalActions.forEach(action => store.dispatch(action));
 
         setTimeout(() => {
-            console.log("floop");
             const state = store.getState();
 
             const actual = {...state };
@@ -1159,9 +1153,8 @@ describe('Store - Map', function() {
             expect(overlays2D.length).to.equal(1);
             expect(overlays3D.length).to.equal(1);
             TestUtil.compareFullStates(actual, expected);
-            console.log("done");
             done();
-        }, 2000);
+        }, 1000);
     });
 
     it('can remove all measurements in 2D and 3D maps', function() {
