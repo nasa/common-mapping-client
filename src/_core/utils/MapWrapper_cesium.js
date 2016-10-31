@@ -20,7 +20,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.miscUtil = new MiscUtil();
 
         // Create cesium scene 
-        window.CESIUM_BASE_URL = './';
+        window.CESIUM_BASE_URL = './cesium';
         this.cesium = window.Cesium;
         this.drawHelper = window.DrawHelper;
         this.map = this.createMap(container, options);
