@@ -34,7 +34,7 @@ rm -rf $SOURCE_BRANCH
 mv dist $SOURCE_BRANCH
 
 # Move public folders into root of app
-mv public/* dist/
+mv public/* $SOURCE_BRANCH
 git add --all -- $SOURCE_BRANCH
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
