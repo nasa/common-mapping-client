@@ -297,7 +297,7 @@ describe('Map Utils', () => {
             //assert
             expect(tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(tileHandler._defaultKVPUrl);
             expect(tileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(tileHandler._esriCustom512Url);
-            expect(tileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(tileHandler._kvpTimeParam);
+            expect(tileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(tileHandler._kvpTimeParamUrl);
             expect(tileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(tileHandler._catsInterceptUrl);
         });
         it('returns undefined on unmatched function string', () => {
