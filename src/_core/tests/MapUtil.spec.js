@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MapUtil from '_core/utils/mapUtil';
+import MapUtil from '_core/utils/MapUtil';
 const mapUtil = new MapUtil();
 import * as appStrings from '_core/constants/appStrings';
 import TileHandler from '_core/utils/TileHandler';
