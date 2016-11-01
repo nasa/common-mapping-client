@@ -3,7 +3,7 @@
 # Deploy script based on https://github.jpl.nasa.gov/M2020-CS3/m2020-app-template/blob/master/scripts/deploy.bash
 
 set -e          # Exit with nonzero exit code if anything fails
-set -o verbose  # Print commands that are executed
+# set -o verbose  # Print commands that are executed
 
 SOURCE_BRANCH=$TRAVIS_BRANCH
 TARGET_BRANCH="gh-pages"
