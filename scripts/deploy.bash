@@ -18,6 +18,11 @@ if [ ! -d "dist" ]; then
   exit 1
 fi
 
+if [ ! -d "coverage" ]; then
+  echo "The coverage/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
+  exit 1
+fi
+
 # If user.(name|email) aren't set, use the values from the latest commit
 git config user.name > /dev/null || git config user.name 'Travis CI'
 git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
@@ -32,6 +37,9 @@ rm -rf $SOURCE_BRANCH
 
 # Rename the dist directory to match the source branch name
 mv dist $SOURCE_BRANCH
+
+# Move coverage output into source branch
+mv coverage $SOURCE_BRANCH
 
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
