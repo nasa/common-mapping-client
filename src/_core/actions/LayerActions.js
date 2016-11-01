@@ -102,7 +102,7 @@ export function loadPaletteData() {
     return (dispatch) => {
         let url = URLS.paletteConfig;
         dispatch(paletteDataLoading());
-        return fetch(url).then((response) => {
+        return fetch(url, { credentials: 'same-origin' }).then((response) => {
             return response.json();
         }).then((resp) => {
             dispatch(ingestLayerPalettes(resp));
@@ -133,7 +133,7 @@ export function loadSingleLayerSource(options) {
     return (dispatch) => {
         let url = options.url;
         let type = options.type;
-        return fetch(url).then((response) => {
+        return fetch(url,{credentials:'same-origin'}).then((response) => {
             if (type === appStrings.LAYER_CONFIG_JSON) {
                 return response.json();
             } else if (type === appStrings.LAYER_CONFIG_WMTS_XML) {
