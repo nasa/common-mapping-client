@@ -18,8 +18,8 @@ if [ ! -d "dist" ]; then
   exit 1
 fi
 
-if [ ! -d "coverage" ]; then
-  echo "The coverage/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
+if [ ! -d ".coverage" ]; then
+  echo "The .coverage/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
   exit 1
 fi
 
