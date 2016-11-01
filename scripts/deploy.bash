@@ -13,6 +13,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
 
+echo "what's here"
+ls -la
+
 if [ ! -d "dist" ]; then
   echo "The dist/ directory doesn't exist; you must \`npm run build\` before deploying."
   exit 1
