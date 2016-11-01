@@ -21,8 +21,8 @@ if [ ! -d "dist" ]; then
   exit 1
 fi
 
-if [ ! -d ".coverage" ]; then
-  echo "The .coverage/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
+if [ ! -d "coverage" ]; then
+  echo "The coverage/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
   exit 1
 fi
 
@@ -42,7 +42,7 @@ rm -rf $SOURCE_BRANCH
 mv dist $SOURCE_BRANCH
 
 # Move coverage output into source branch
-mv .coverage $SOURCE_BRANCH/coverage
+mv coverage $SOURCE_BRANCH/code-coverage
 
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
