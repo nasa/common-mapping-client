@@ -47,6 +47,6 @@ fi
 set -e
 
 git commit -m "Deploy [$SOURCE_BRANCH] to $BUILD_HOMEPAGE"
-git push -u origin $TARGET_BRANCH
+git push -u -f origin $TARGET_BRANCH
 
 echo "Finished deployment"
