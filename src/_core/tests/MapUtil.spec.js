@@ -296,7 +296,7 @@ describe('Map Utils', () => {
         it('takes a function string and returns the tile url function associated with it', () => {
             //assert
             expect(tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(tileHandler._defaultKVPUrl);
-            expect(tileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(tileHandler._esriCustom512);
+            expect(tileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(tileHandler._esriCustom512Url);
             expect(tileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(tileHandler._kvpTimeParam);
             expect(tileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(tileHandler._catsInterceptUrl);
         });
@@ -308,8 +308,8 @@ describe('Map Utils', () => {
     describe('getTileFunction', () => {
         it('takes a function string and returns the tile load function associated with it', () => {
             //assert
-            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_OL)).to.equal(tileHandler._catsIntercept_OL);
-            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_CS)).to.equal(tileHandler._catsIntercept_CS);
+            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_OL)).to.equal(tileHandler._catsInterceptTile_OL);
+            expect(tileHandler.getTileFunction(appStrings.CATS_TILE_CS)).to.equal(tileHandler._catsInterceptTile_CS);
         });
         it('returns undefined on unmatched function string', () => {
             expect(tileHandler.getTileFunction()).to.equal(undefined);
