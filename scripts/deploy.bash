@@ -39,7 +39,7 @@ rm -rf $SOURCE_BRANCH
 mv dist $SOURCE_BRANCH
 
 # Move coverage output into source branch
-mv coverage $SOURCE_BRANCH
+mv .coverage $SOURCE_BRANCH/coverage
 
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
