@@ -97,7 +97,7 @@ module.exports = function(config) {
         // logLevel: config.LOG_DISABLE,
         // logLevel: config.LOG_DEBUG,
         // logLevel: config.LOG_DEBUG,
-        logLevel: config.LOG_INFO
+        logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
