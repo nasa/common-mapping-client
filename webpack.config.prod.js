@@ -26,6 +26,7 @@ export default {
         new webpack.optimize.UglifyJsPlugin()
     ],
     resolve: {
+        modulesDirectories: ["src", "node_modules"],
         extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
     },
     module: {

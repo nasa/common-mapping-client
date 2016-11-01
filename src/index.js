@@ -7,6 +7,7 @@ import configureStore from 'store/configureStore';
 import MyAppContainer from 'components/App/AppContainer';
 require('_core/styles/resources/img/favicon.ico');
 require('_core/styles/resources/img/7994970.png');
+// require('./loadingScreen.css');
 
 const store = configureStore();
 

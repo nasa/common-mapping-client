@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MapUtil from '_core/utils/MapUtil';
+import MapUtil from '_core/utils/mapUtil';
 const mapUtil = new MapUtil();
 import * as appStrings from '_core/constants/appStrings';
 import TileHandler from '_core/utils/TileHandler';
-import * as expectedArcs from './data/expectedOutputs/generatedGeodesicArcs';
+import * as expectedArcs from '_core/tests/data/expectedOutputs/generatedGeodesicArcs';
 const tileHandler = new TileHandler();
 
 describe('Map Utils', () => {
@@ -19,21 +19,21 @@ describe('Map Utils', () => {
     //         document.body.removeChild(document.getElementById('fixture'));
     //     });
     //     it('creates a 2D map when given appStrings.MAP_LIB_2D', () => {
-    //         let map = MapUtil.createMap(appStrings.MAP_LIB_2D, 'map2D', Immutable.fromJS({
+    //         let map = mapUtil.createMap(appStrings.MAP_LIB_2D, 'map2D', Immutable.fromJS({
     //             view: { in3DMode: false }
     //         }));
     //         expect(map.constructor.name).to.equal("MapWrapper_openlayers");
     //         expect(map.map).to.not.equal(undefined);
     //     })
     //     it('creates a 3D map when given appStrings.MAP_LIB_3D', () => {
-    //         let map = MapUtil.createMap(appStrings.MAP_LIB_3D, 'map3D', Immutable.fromJS({
+    //         let map = mapUtil.createMap(appStrings.MAP_LIB_3D, 'map3D', Immutable.fromJS({
     //             view: { in3DMode: true }
     //         }));
     //         expect(map.constructor.name).to.equal("MapWrapper_cesium");
     //         expect(map.map).to.not.equal(undefined);
     //     })
     //     it('returns false when given a non-matching map type', () => {
-    //         let map = MapUtil.createMap('4D_MAP', 'map3D', Immutable.fromJS({
+    //         let map = mapUtil.createMap('4D_MAP', 'map3D', Immutable.fromJS({
     //             view: { in3DMode: true }
     //         }));
     //         expect(map).to.be.false;
@@ -154,8 +154,8 @@ describe('Map Utils', () => {
                     [40, 40]
                 ]
             ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
-        })
+            expect(mapUtil.deconstrainArcCoordinates(linesArr)).to.deep.equal(linesArr);
+        });
 
         it('deconstrains where first line end has -lon and second line start has +lon', () => {
             let linesArrIn = [
@@ -178,7 +178,7 @@ describe('Map Utils', () => {
                 [-465, 40]
             ];
             expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
-        })
+        });
         it('deconstrains where first line end has -lon and second line start has -lon', () => {
             let linesArrIn = [
                 [
@@ -200,7 +200,7 @@ describe('Map Utils', () => {
                 [-105, 40]
             ];
             expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
-        })
+        });
         it('deconstrains where first line end has +lon and second line start has +lon', () => {
             let linesArrIn = [
                 [
@@ -222,7 +222,7 @@ describe('Map Utils', () => {
                 [105, 40]
             ];
             expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
-        })
+        });
         it('deconstrains where first line end has +lon and second line start has +lon', () => {
             let linesArrIn = [
                 [
@@ -243,9 +243,9 @@ describe('Map Utils', () => {
                 [260, 0],
                 [465, 40]
             ];
-            expect(MapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
-        })
-    })
+            expect(mapUtil.deconstrainArcCoordinates(linesArrIn)).to.deep.equal(linesArrOut);
+        });
+    });
     describe('buildTileUrl', () => {
         it('takes in a set WMTS url params and returns a valid WMTS tile url.', () => {
             let varIn1 = {
@@ -256,7 +256,7 @@ describe('Map Utils', () => {
                 row: 0,
                 level: 0,
                 format: "format",
-                context: mapStrings.MAP_LIB_2D
+                context: appStrings.MAP_LIB_2D
             };
             let varOut1 = 'http://fakeTile.com/getTile?tilerow=-1&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
 
@@ -295,10 +295,10 @@ describe('Map Utils', () => {
     describe('getUrlFunction', () => {
         it('takes a function string and returns the tile url function associated with it', () => {
             //assert
-            expect(tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(tileHandler._defaultKVPUrlFunc);
+            expect(tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(tileHandler._defaultKVPUrl);
             expect(tileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(tileHandler._esriCustom512);
             expect(tileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(tileHandler._kvpTimeParam);
-            expect(tileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(tileHandler._catsIntercept);
+            expect(tileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(tileHandler._catsInterceptUrl);
         });
         it('returns undefined on unmatched function string', () => {
             expect(tileHandler.getUrlFunction()).to.equal(undefined);
@@ -513,14 +513,14 @@ describe('Map Utils', () => {
         const roundFn = arr => arr.map(x => x.map(z => z.toFixed(6)));
         it('returns empty array given empty array', () => {
             let coords = [];
-            expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+            expect(mapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
         });
         it('returns empty array given a point', () => {
             let coords = [
                 [0, 0],
                 [0, 0]
             ];
-            expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+            expect(mapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
         });
         it('generates geodesic arc for linestring that does not cross dateline', () => {
             let coordsIn = [
@@ -528,7 +528,7 @@ describe('Map Utils', () => {
                 [1, 1]
             ];
             let coordsOut = roundFn(expectedArcs.ARCS.test1);
-            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            let generatedLineString = roundFn(mapUtil.generateGeodesicArcsForLineString(coordsIn));
             expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in negative direction', () => {
@@ -539,7 +539,7 @@ describe('Map Utils', () => {
 
             ];
             let coordsOut = roundFn(expectedArcs.ARCS.test2);
-            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            let generatedLineString = roundFn(mapUtil.generateGeodesicArcsForLineString(coordsIn));
             expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in negative direction and crosses back', () => {
@@ -550,7 +550,7 @@ describe('Map Utils', () => {
 
             ];
             let coordsOut = roundFn(expectedArcs.ARCS.test3);
-            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            let generatedLineString = roundFn(mapUtil.generateGeodesicArcsForLineString(coordsIn));
             expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in positive direction', () => {
@@ -561,7 +561,7 @@ describe('Map Utils', () => {
 
             ];
             let coordsOut = roundFn(expectedArcs.ARCS.test4);
-            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            let generatedLineString = roundFn(mapUtil.generateGeodesicArcsForLineString(coordsIn));
             expect(generatedLineString).to.deep.equal(coordsOut);
         });
         it('generates geodesic arc for linestring that crosses dateline in positive direction and crosses back', () => {
@@ -571,15 +571,15 @@ describe('Map Utils', () => {
                 [142.20703125, -24.2578125]
             ];
             let coordsOut = roundFn(expectedArcs.ARCS.test5);
-            let generatedLineString = roundFn(MapUtil.generateGeodesicArcsForLineString(coordsIn))
+            let generatedLineString = roundFn(mapUtil.generateGeodesicArcsForLineString(coordsIn));
             expect(generatedLineString).to.deep.equal(coordsOut);
         });
     });
     describe('measureGeometry', () => {
-        // it('returns false when measurementType is not mapStrings.MEASURE_DISTANCE or mapStrings.MEASURE_AREA', () => {
+        // it('returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA', () => {
         //     let geometryCircle = {
-        //         type: mapStrings.GEOMETRY_CIRCLE,
-        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         type: appStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
         //         proj: actualMap2D.map.getView().getProjection().getCode(),
         //         center: {
         //             lon: 0,
@@ -588,13 +588,13 @@ describe('Map Utils', () => {
         //         radius: 100,
         //         id: Math.random()
         //     };
-        //     expect(MapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
+        //     expect(mapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
         // })
         // it('returns a string measurement of given geometry', () => {
         //     // Create dummy geometry
         //     let geometryCircle = {
-        //         type: mapStrings.GEOMETRY_CIRCLE,
-        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         type: appStrings.GEOMETRY_CIRCLE,
+        //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
         //         proj: actualMap2D.map.getView().getProjection().getCode(),
         //         center: {
         //             lon: 0,
@@ -605,8 +605,8 @@ describe('Map Utils', () => {
         //     };
 
         //     let geometryLineString = {
-        //         type: mapStrings.GEOMETRY_LINE_STRING,
-        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         type: appStrings.GEOMETRY_LINE_STRING,
+        //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
         //         proj: actualMap2D.map.getView().getProjection().getCode(),
         //         coordinates: [{
         //             lon: 0,
@@ -622,8 +622,8 @@ describe('Map Utils', () => {
         //     };
 
         //     let geometryPolygon = {
-        //         type: mapStrings.GEOMETRY_POLYGON,
-        //         coordinateType: mapStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+        //         type: appStrings.GEOMETRY_POLYGON,
+        //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
         //         proj: actualMap2D.map.getView().getProjection().getCode(),
         //         coordinates: [{
         //             lon: 0,
@@ -637,7 +637,7 @@ describe('Map Utils', () => {
         //         }],
         //         id: Math.random()
         //     };
-        //     expect(MapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
+        //     expect(mapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
         // });
     });
 });
