@@ -658,19 +658,19 @@ var DrawHelper = (function() {
     })();
 
     var defaultBillboard = {
-        iconUrl: "./CesiumDrawhelper/img/dragIcon2.png",
+        iconUrl: "./CesiumDrawHelper/img/dragIcon2.png",
         shiftX: 0,
         shiftY: 0
     }
 
     var dragBillboard = {
-        iconUrl: "./CesiumDrawhelper/img/dragIcon2.png",
+        iconUrl: "./CesiumDrawHelper/img/dragIcon2.png",
         shiftX: 0,
         shiftY: 0
     }
 
     var dragHalfBillboard = {
-        iconUrl: "./CesiumDrawhelper/img/dragIconLight.png",
+        iconUrl: "./CesiumDrawHelper/img/dragIconLight.png",
         shiftX: 0,
         shiftY: 0
     }
