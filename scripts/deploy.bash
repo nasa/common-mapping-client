@@ -50,14 +50,15 @@ mv coverage $SOURCE_BRANCH/code-coverage
 echo "What's in source branch"
 ls $SOURCE_BRANCH -la 
 
+# Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
+touch .nojekyll
+
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
 git add --all -- $SOURCE_BRANCH
 
 git status
 
-# Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
-touch .nojekyll
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e
