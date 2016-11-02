@@ -60,7 +60,8 @@ git add .nojekyll
 
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
-git add -u .
+git add -u . # Commit deleted files
+git add SOURCE_BRANCH # Add source branch
 
 git status
 
