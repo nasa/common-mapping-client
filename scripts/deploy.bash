@@ -52,6 +52,7 @@ ls $SOURCE_BRANCH -la
 
 # Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
 touch .nojekyll
+git add .nojekyll
 
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
