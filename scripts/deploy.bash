@@ -37,10 +37,10 @@ ls -la
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|dist|$SOURCE_BRANCH)
+rm -rf !(coverage|dist|$SOURCE_BRANCH|public)
 
 # Clean out existing contents
-rm -rf $SOURCE_BRANCH
+# rm -rf $SOURCE_BRANCH
 
 # Rename the dist directory to match the source branch name
 mv dist $SOURCE_BRANCH
