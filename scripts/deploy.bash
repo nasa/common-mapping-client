@@ -36,6 +36,7 @@ echo "what's here"
 ls -la
 
 # Remove unneeded files from gh-pages
+shopt -s extglob
 rm -rf !(coverage|dist|$SOURCE_BRANCH)
 
 # Clean out existing contents
