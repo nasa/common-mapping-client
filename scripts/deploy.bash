@@ -30,14 +30,14 @@ git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.
 # Move everything over to the gh-pages branch
 git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
-  || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
+  || git checkout $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
 echo "what's here"
 ls -la
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|dist|$SOURCE_BRANCH|public)
+rm -rf !(coverage|dist|public)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
@@ -61,7 +61,7 @@ git add .nojekyll
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
 git add -u . # Commit deleted files
-git add SOURCE_BRANCH # Add source branch
+git add $SOURCE_BRANCH # Add source branch
 
 git status
 
