@@ -30,10 +30,12 @@ git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.
 # Move everything over to the gh-pages branch
 git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
-  || git checkout $TARGET_BRANCH # In case the gh-pages branch didn't exist before
+  || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
 echo "what's here"
 ls -la
+
+git status
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
