@@ -1398,7 +1398,7 @@ export const StoreMapSpec = {
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
                         const finalActions = [
-                            layerActions.setLayerActive("facilities_kml", false)
+                            layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false)
                         ];
                         finalActions.forEach(action => store.dispatch(action));
 
