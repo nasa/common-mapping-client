@@ -983,7 +983,7 @@ export default class MapWrapper_cesium extends MapWrapper {
             case appStrings.LAYER_XYZ_RASTER:
                 return this.createGenericXYZProvider(layer, options);
             default:
-                console.warn("Error in MapWrapper_cesium.createImageryProvider: unknown layer type - " + layer.get("handleAs"))
+                console.warn("Error in MapWrapper_cesium.createImageryProvider: unknown layer type - " + layer.get("handleAs"));
                 return false;
         }
     }
