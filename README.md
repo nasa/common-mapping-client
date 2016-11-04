@@ -30,6 +30,8 @@ part of CMC-Core.
 
 #### Live Demo
 Check out our live demo http://graywhale:49160/
+GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/master/
+GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/master/code-coverage
 
 #### Getting Started
 
