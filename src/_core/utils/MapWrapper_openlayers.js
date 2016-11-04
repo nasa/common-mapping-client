@@ -793,13 +793,24 @@ export default class MapWrapper_openlayers extends MapWrapper {
     activateLayer(layer) {
         try {
             let mapLayers = this.map.getLayers().getArray();
+
+            // check if layer already exists on map, just move to top
             let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
-            if (!mapLayer) {
-                mapLayer = this.createLayer(layer);
-                this.addLayer(mapLayer);
-            } else {
+            if (mapLayer) {
                 this.moveLayerToTop(layer);
+                return true;
             }
+
+            // layer does not exist so we must create it
+            mapLayer = this.createLayer(layer);
+
+            // if the creation failed
+            if (!mapLayer) {
+                return false;
+            }
+
+            // layer creation succeeded, add and set visible
+            this.addLayer(mapLayer);
             mapLayer.setVisible(true);
             return true;
         } catch (err) {
@@ -810,12 +821,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     deactivateLayer(layer) {
         try {
+            // find the layer on the map
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
+
+            // remove the layer
             if (mapLayer) {
-                this.removeLayer(mapLayer);
+                return this.removeLayer(mapLayer);
             }
-            return true;
+
+            // no layer to remove
+            return false;
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.deactivateLayer:", err);
             return false;

@@ -677,13 +677,24 @@ export default class MapWrapper_cesium extends MapWrapper {
     activateLayer(layer) {
         try {
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
+
+            // check if layer already exists on map, just move to top
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
-            if (!mapLayer) {
-                mapLayer = this.createLayer(layer);
-                this.addLayer(mapLayer);
-            } else {
+            if (mapLayer) {
                 this.moveLayerToTop(layer);
+                return true;
             }
+
+            // layer does not exist so we must create it
+            mapLayer = this.createLayer(layer);
+
+            // if the creation failed
+            if (!mapLayer) {
+                return false;
+            }
+
+            // layer creation succeeded, add the layer to map and make it visible
+            this.addLayer(mapLayer);
             mapLayer.show = true;
             return true;
         } catch (err) {
@@ -694,12 +705,17 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     deactivateLayer(layer) {
         try {
+            // find the layer on the map
             let mapLayers = this.getMapLayers(layer.get("handleAs"));
             let mapLayer = this.findLayerInMapLayers(mapLayers, layer);
+
+            // remove the layer
             if (mapLayer) {
-                this.removeLayer(mapLayer);
+                return this.removeLayer(mapLayer);
             }
-            return true;
+
+            // failed to remove the layer from the map
+            return false;
         } catch (err) {
             console.warn("Error in MapWrapper_cesium.deactivateLayer:", err);
             return false;

@@ -1375,7 +1375,10 @@ export const StoreMapSpec = {
             },
 
             test35: () => {
-                it('can deactivate layers', function() {
+                it('can deactivate layers', function(done) {
+                    // adjust default timeout
+                    this.timeout(5000);
+
                     // create modified state to account for layer ingest
                     const modifiedState = {...initialState };
                     modifiedState.map = modifiedState.map
@@ -1384,27 +1387,35 @@ export const StoreMapSpec = {
 
                     const store = createStore(rootReducer, modifiedState);
 
-                    const actions = [
+                    const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
-                        layerActions.setLayerActive("facilities_kml", false)
+                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
                     ];
-                    actions.forEach(action => store.dispatch(action));
+                    initialActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    // use a timeout to give facilities layer time to load
+                    setTimeout(() => {
+                        const finalActions = [
+                            layerActions.setLayerActive("facilities_kml", false)
+                        ];
+                        finalActions.forEach(action => store.dispatch(action));
 
-                    const actual = {...state };
-                    actual.map = actual.map.remove("maps");
+                        const state = store.getState();
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .set("layers", mapState.get("layers").merge(activateInactivateLayers.INACTIVE_LAYERS))
-                        .removeIn(["layers", "partial"]);
+                        const actual = {...state };
+                        actual.map = actual.map.remove("maps");
 
-                    TestUtil.compareFullStates(actual, expected);
+                        const expected = {...initialState };
+                        expected.map = expected.map
+                            .remove("maps")
+                            .set("layers", mapState.get("layers").merge(activateInactivateLayers.INACTIVE_LAYERS))
+                            .removeIn(["layers", "partial"]);
+
+                        TestUtil.compareFullStates(actual, expected);
+                        done();
+                    }, 3000);
                 });
             }
         }
