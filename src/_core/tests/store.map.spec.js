@@ -1377,7 +1377,7 @@ export const StoreMapSpec = {
             test35: () => {
                 it('can deactivate layers', function(done) {
                     // adjust default timeout
-                    this.timeout(5000);
+                    this.timeout(3000);
 
                     // create modified state to account for layer ingest
                     const modifiedState = {...initialState };
@@ -1415,7 +1415,7 @@ export const StoreMapSpec = {
 
                         TestUtil.compareFullStates(actual, expected);
                         done();
-                    }, 3000);
+                    }, 2000);
                 });
             }
         }

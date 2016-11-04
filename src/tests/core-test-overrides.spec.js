@@ -32,18 +32,18 @@ import Immutable from 'immutable';
 
 // Run core tests
 const testSuites = [
-    // CacheSpec,
-    // MiscUtilSpec,
-    // MapUtilSpec,
-    // StoreAnalyticsSpec,
-    // StoreAsyncSpec,
-    // StoreDateSliderSpec,
-    // StoreHelpSpec,
-    // StoreLayerInfoSpec,
+    CacheSpec,
+    MiscUtilSpec,
+    MapUtilSpec,
+    StoreAnalyticsSpec,
+    StoreAsyncSpec,
+    StoreDateSliderSpec,
+    StoreHelpSpec,
+    StoreLayerInfoSpec,
     StoreMapSpec,
-    // StoreSettingsSpec,
-    // StoreShareSpec,
-    // StoreSpec,
-    // StoreViewSpec
+    StoreSettingsSpec,
+    StoreShareSpec,
+    StoreSpec,
+    StoreViewSpec
 ];
 testSuites.map(testSuite => TestUtil.runTestSuite(testSuite));
