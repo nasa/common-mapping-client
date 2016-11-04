@@ -26,41 +26,49 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Date Slider', function() {
-    it('begins dragging', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreDateSliderSpec = {
+    name: "StoreDateSliderSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('begins dragging', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            DateSliderActions.beginDragging(true)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        DateSliderActions.beginDragging(true)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.dateSlider = expected.dateSlider.set("isDragging", true);
+                    const expected = {...initialState };
+                    expected.dateSlider = expected.dateSlider.set("isDragging", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+            test2: () => {
+                it('ends dragging', function() {
+                    const store = createStore(rootReducer, initialState);
 
-    it('ends dragging', function() {
-        const store = createStore(rootReducer, initialState);
+                    const actions = [
+                        DateSliderActions.beginDragging(true),
+                        DateSliderActions.endDragging(false)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const actions = [
-            DateSliderActions.beginDragging(true),
-            DateSliderActions.endDragging(false)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const state = store.getState();
-        const actual = {...state };
+                    const expected = {...initialState };
+                    expected.dateSlider = expected.dateSlider
+                        .set("isDragging", false)
+                        .setIn(["hoverDate", "isValid"], false);
 
-        const expected = {...initialState };
-        expected.dateSlider = expected.dateSlider
-            .set("isDragging", false)
-            .setIn(["hoverDate", "isValid"], false);
-
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+};

@@ -30,65 +30,74 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store', function() {
-    it('resets application state correctly', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreSpec = {
+    name: "StoreSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('resets application state correctly', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            MapActions.initializeMap(appStrings.MAP_LIB_2D),
-            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
-            MapActions.zoomIn(),
-            MapActions.addGeometryToMap({
-                type: appStrings.GEOMETRY_CIRCLE,
-                center: { lon: 0, lat: 0 },
-                radius: 500,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-            }),
-            MapActions.removeAllDrawings(),
-            MapActions.removeAllMeasurements(),
-            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-            MapActions.addGeometryToMap({
-                type: appStrings.GEOMETRY_CIRCLE,
-                center: { lon: 10, lat: -20 },
-                radius: 52200,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-            }),
-            MapActions.zoomIn(),
-            MapActions.setTerrainEnabled(false),
-            MapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
-            MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
-            MapActions.zoomOut(),
-            MapActions.resetOrientation(0),
-            DateSliderActions.setSliderCollapsed(),
-            DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
-            AppActions.resetApplicationState()
-        ];
-        
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        MapActions.initializeMap(appStrings.MAP_LIB_2D),
+                        MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
+                        MapActions.zoomIn(),
+                        MapActions.addGeometryToMap({
+                            type: appStrings.GEOMETRY_CIRCLE,
+                            center: { lon: 0, lat: 0 },
+                            radius: 500,
+                            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                        }),
+                        MapActions.removeAllDrawings(),
+                        MapActions.removeAllMeasurements(),
+                        MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
+                        MapActions.addGeometryToMap({
+                            type: appStrings.GEOMETRY_CIRCLE,
+                            center: { lon: 10, lat: -20 },
+                            radius: 52200,
+                            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                        }),
+                        MapActions.zoomIn(),
+                        MapActions.setTerrainEnabled(false),
+                        MapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
+                        MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
+                        MapActions.zoomOut(),
+                        MapActions.resetOrientation(0),
+                        DateSliderActions.setSliderCollapsed(),
+                        DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
+                        AppActions.resetApplicationState()
+                    ];
 
-        const state = store.getState();
-        const actual = {...state };
-        actual.map = actual.map.remove("maps");
+                    actions.forEach(action => store.dispatch(action));
 
-        const expected = {...initialState };
-        expected.map = expected.map.remove("maps");
+                    const state = store.getState();
+                    const actual = {...state };
+                    actual.map = actual.map.remove("maps");
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    const expected = {...initialState };
+                    expected.map = expected.map.remove("maps");
 
-    it('does nothing on a NO_ACTION', function() {
-        const store = createStore(rootReducer, initialState);
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-        const actions = [
-            { type: actionTypes.NO_ACTION }
-        ];
-        actions.forEach(action => store.dispatch(action));
+            test2: () => {
+                it('does nothing on a NO_ACTION', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const state = store.getState();
-        const actual = {...state };
+                    const actions = [
+                        { type: actionTypes.NO_ACTION }
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const expected = {...initialState };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    const expected = {...initialState };
+
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}

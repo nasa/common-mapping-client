@@ -25,117 +25,134 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Async', function() {
-    it('kicks off initial data loading', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreAsyncSpec = {
+    name: "StoreAsyncSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('kicks off initial data loading', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.INITIAL_DATA_LOADING }
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        { type: actionTypes.INITIAL_DATA_LOADING }
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous.set("loadingInitialData", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous.set("loadingInitialData", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('completes initial data loading', function() {
-        const store = createStore(rootReducer, initialState);
+            test2: () => {
+                it('completes initial data loading', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.INITIAL_DATA_LOADED }
-        ];
+                    const actions = [
+                        { type: actionTypes.INITIAL_DATA_LOADED }
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous
-            .set("loadingInitialData", false)
-            .set("initialLoadingAttempted", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous
+                        .set("loadingInitialData", false)
+                        .set("initialLoadingAttempted", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('kicks off loading palettes', function() {
-        const store = createStore(rootReducer, initialState);
+            test3: () => {
+                it('kicks off loading palettes', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.PALETTE_DATA_LOADING }
-        ];
+                    const actions = [
+                        { type: actionTypes.PALETTE_DATA_LOADING }
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous.set("loadingLayerPalettes", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous.set("loadingLayerPalettes", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('completes loading palettes', function() {
-        const store = createStore(rootReducer, initialState);
+            test4: () => {
+                it('completes loading palettes', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.PALETTE_DATA_LOADED }
-        ];
+                    const actions = [
+                        { type: actionTypes.PALETTE_DATA_LOADED }
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous
-            .set("loadingLayerPalettes", false)
-            .set("paletteLoadingAttempted", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous
+                        .set("loadingLayerPalettes", false)
+                        .set("paletteLoadingAttempted", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('kicks off loading layer configs', function() {
-        const store = createStore(rootReducer, initialState);
+            test5: () => {
+                it('kicks off loading layer configs', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.LAYER_DATA_LOADING }
-        ];
+                    const actions = [
+                        { type: actionTypes.LAYER_DATA_LOADING }
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous.set("loadingLayerSources", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous.set("loadingLayerSources", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('completes loading layer configs', function() {
-        const store = createStore(rootReducer, initialState);
+            test6: () => {
+                it('completes loading layer configs', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            { type: actionTypes.LAYER_DATA_LOADED }
-        ];
+                    const actions = [
+                        { type: actionTypes.LAYER_DATA_LOADED }
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.asyncronous = expected.asyncronous
-            .set("loadingLayerSources", false)
-            .set("layerLoadingAttempted", true);
+                    const expected = {...initialState };
+                    expected.asyncronous = expected.asyncronous
+                        .set("loadingLayerSources", false)
+                        .set("layerLoadingAttempted", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+};

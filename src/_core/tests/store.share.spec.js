@@ -25,89 +25,104 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Share', function() {
-    it('enables auto update url', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreShareSpec = {
+    name: "StoreSharesSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('enables auto update url', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.setAutoUpdateUrl(true)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.setAutoUpdateUrl(true)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.share = expected.share.set("autoUpdateUrl", true);
+                    const expected = {...initialState };
+                    expected.share = expected.share.set("autoUpdateUrl", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('disables auto update url', function() {
-        const store = createStore(rootReducer, initialState);
+            test2: () => {
+                it('disables auto update url', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.setAutoUpdateUrl(true),
-            AppActions.setAutoUpdateUrl(false)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.setAutoUpdateUrl(true),
+                        AppActions.setAutoUpdateUrl(false)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.share = expected.share.set("autoUpdateUrl", false);
+                    const expected = {...initialState };
+                    expected.share = expected.share.set("autoUpdateUrl", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-    it('can open the share container.', function() {
-        const store = createStore(rootReducer, initialState);
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+            test3: () => {
+                it('can open the share container.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.openShare()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.openShare()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.share = expected.share.set("isOpen", true);
+                    const expected = {...initialState };
+                    expected.share = expected.share.set("isOpen", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-    it('can close the share container.', function() {
-        const store = createStore(rootReducer, initialState);
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+            test4: () => {
+                it('can close the share container.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.closeShare()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.closeShare()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.share = expected.share.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.share = expected.share.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can open and close the share container.', function() {
-        const store = createStore(rootReducer, initialState);
+            test5: () => {
+                it('can open and close the share container.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.openShare(),
-            AppActions.closeShare()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.openShare(),
+                        AppActions.closeShare()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.share = expected.share.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.share = expected.share.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}
