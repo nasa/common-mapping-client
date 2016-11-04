@@ -3,7 +3,7 @@
         "id": "MODIS_Terra_CorrectedReflectance_TrueColor",
         "title": "Corrected Reflectance (True Color, MODIS, Terra)",
         "type": "data",
-        "handleAs": "GIBS",
+        "handleAs": "GIBS_raster",
         "wmtsOptions": {
             "urlFunctions": {
                 "openlayers": "kvpTimeParam",
@@ -21,7 +21,7 @@
         "id": "MODIS_Terra_Sea_Ice",
         "title": "Sea Ice Extent (MODIS, Terra)",
         "type": "data",
-        "handleAs": "GIBS",
+        "handleAs": "GIBS_raster",
         "min": 0.1,
         "max": 9.64,
         "units": "cm",
@@ -45,7 +45,7 @@
         "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
         "title": "Sea Surface Temperature",
         "type": "data",
-        "handleAs": "GIBS",
+        "handleAs": "GIBS_raster",
         "min": 2.0,
         "max": 32.0,
         "units": "˚C",
@@ -71,7 +71,7 @@
         "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
         "title": "Brightness Temperature",
         "type": "data",
-        "handleAs": "GIBS",
+        "handleAs": "GIBS_raster",
         "min": 180.0,
         "max": 340.0,
         "units": "˚K",
@@ -110,19 +110,19 @@
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS_raster"
     }, {
         "id": "Reference_Features",
         "title": "Reference Features",
         "type": "reference",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS_raster"
     }, {
         "id": "ESRI_World_Imagery",
         "title": "ESRI High Resolution World Imagery",
         "type": "basemap",
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
         "isDefault": true,
-        "handleAs": "xyz",
+        "handleAs": "xyz_raster",
         "wmtsOptions": {
             "projection": "EPSG:4326",
             "layer": "ESRI_World_Imagery",
@@ -144,12 +144,12 @@
         "title": "GIBS Blue Marble, Shaded Relief w/Bathymetry",
         "type": "basemap",
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS_raster"
     }, {
         "id": "OSM_Land_Water_Map",
         "title": "GIBS Land/Water Map (data from OSM)",
         "type": "basemap",
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS"
+        "handleAs": "GIBS_raster"
     }]
 }
