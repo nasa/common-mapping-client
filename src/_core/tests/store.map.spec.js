@@ -1225,7 +1225,10 @@ export const StoreMapSpec = {
             },
 
             test32: () => {
-                it('can remove all measurements in 2D and 3D maps', function() {
+                it('can remove all measurements in 2D and 3D maps', function(done) {
+                    // adjust default timeout
+                    this.timeout(10000);
+
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1260,36 +1263,43 @@ export const StoreMapSpec = {
                     };
 
                     // add geometries to 2D and 3D maps and then add label
-                    const finalActions = [
+                    const intermediateActions = [
                         mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
                         mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric'),
-                        mapActions.removeAllMeasurements()
+                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric')
                     ];
-                    finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    intermediateActions.forEach(action => store.dispatch(action));
 
-                    const actual = {...state };
-                    actual.map = actual.map.remove("maps");
+                    setTimeout(() => {
+                        let a = store.dispatch(mapActions.removeAllMeasurements());
+                        setTimeout(() => {
+                            const state = store.getState();
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], false)
-                        .setIn(["drawing", "geometryType"], "");
+                            const actual = {...state };
+                            actual.map = actual.map.remove("maps");
+
+                            const expected = {...initialState };
+                            expected.map = expected.map
+                                .remove("maps")
+                                .setIn(["view", "in3DMode"], false)
+                                .setIn(["drawing", "geometryType"], "");
 
 
-                    // Get 2D overlays
-                    let overlays2D = actualMap2D.map.getOverlays().getArray();
+                            // Get 2D overlays
+                            let overlays2D = actualMap2D.map.getOverlays().getArray();
 
-                    // Get 3D overlays
-                    let overlays3D = actualMap3D.map.entities.values;
+                            // Get 3D overlays
+                            let overlays3D = actualMap3D.map.entities.values;
 
-                    expect(overlays2D.length).to.equal(0);
-                    expect(overlays3D.length).to.equal(0);
-                    TestUtil.compareFullStates(actual, expected);
+                            expect(overlays2D.length).to.equal(0);
+                            expect(overlays3D.length).to.equal(0);
+                            TestUtil.compareFullStates(actual, expected);
+                            done();
+                        }, 500);
+                    }, 2000)
+
                 });
             },
 
