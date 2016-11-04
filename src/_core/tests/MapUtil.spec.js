@@ -255,7 +255,7 @@ export const MapUtilSpec = {
                         format: "format",
                         context: appStrings.MAP_LIB_2D
                     };
-                    let varOut1 = 'http://fakeTile.com/getTile?tilerow=-1&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
+                    let varOut1 = 'http://fakeTile.com/getTile?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=layerId&STYLE=&TILEMATRIXSET=tileMatrixSet&TILEMATRIX=0&TILEROW=-1&TILECOL=0&FORMAT=format';
 
                     let varIn2 = {
                         url: "http://fakeTile.com/getTile",
@@ -267,7 +267,7 @@ export const MapUtilSpec = {
                         level: 0,
                         format: "format"
                     };
-                    let varOut2 = 'http://fakeTile.com/getTile?tilerow=0&request=GetTile&tilematrix=0&layer=layerId&tilecol=0&tilematrixset=tileMatrixSet&service=WMTS&format=format&version=1.0.0';
+                    let varOut2 = 'http://fakeTile.com/getTile?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=layerId&STYLE=&TILEMATRIXSET=tileMatrixSet&TILEMATRIX=0&TILEROW=0&TILECOL=0&FORMAT=format';
 
                     //assert
                     expect(mapUtil.buildTileUrl(varIn1)).to.equal(varOut1);

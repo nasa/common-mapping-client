@@ -168,7 +168,7 @@ export default class MapUtil {
                 .replace('{TileCol}', col.toString());
         } else {
             // build KVP request
-            let queryOptions = Immutable.Map({
+            let queryOptions = Immutable.OrderedMap({
                 SERVICE: 'WMTS',
                 REQUEST: 'GetTile',
                 VERSION: '1.0.0',
