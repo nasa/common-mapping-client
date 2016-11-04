@@ -131,13 +131,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createLayer(layer, fromCache = true) {
         let mapLayer = false;
         switch (layer.get("handleAs")) {
-            case appStrings.LAYER_GIBS:
+            case appStrings.LAYER_GIBS_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
-            case appStrings.LAYER_WMTS:
+            case appStrings.LAYER_WMTS_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
-            case appStrings.LAYER_XYZ:
+            case appStrings.LAYER_XYZ_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
             case appStrings.LAYER_VECTOR_GEOJSON:
@@ -150,7 +150,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
             default:
-                mapLayer = this.createWMTSLayer(layer, fromCache);
+                console.warn("Error in MapWrapper_openlayers.createLayer: unknown layer type - ", layer.get("handleAs"));
+                mapLayer = false;
                 break;
         }
 
@@ -1114,11 +1115,11 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
     createLayerSource(layer, options) {
         switch (layer.get("handleAs")) {
-            case appStrings.LAYER_GIBS:
+            case appStrings.LAYER_GIBS_RASTER:
                 return this.createGIBSWMTSSource(layer, options);
-            case appStrings.LAYER_WMTS:
+            case appStrings.LAYER_WMTS_RASTER:
                 return this.createWMTSSource(layer, options);
-            case appStrings.LAYER_XYZ:
+            case appStrings.LAYER_XYZ_RASTER:
                 return this.createXYZSource(layer, options);
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorGeojsonSource(layer, options);
@@ -1129,7 +1130,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             case appStrings.LAYER_VECTOR_DRAWING:
                 return this.createVectorDrawingSource(layer, options);
             default:
-                return this.createXYZSource(layer, options);
+                console.warn("Error in MapWrapper_openlayers.createLayerSource: unknonw layer type - ", layer.get("handleAs"));
+                return false;
         }
     }
 

@@ -18,9 +18,9 @@ export const LAYER_CONFIG_JSON = 'json';
 export const LAYER_CONFIG_WMTS_XML = 'wmts/xml';
 
 // layer handler types
-export const LAYER_GIBS = 'GIBS';
-export const LAYER_WMTS = 'wmts';
-export const LAYER_XYZ = 'xyz';
+export const LAYER_GIBS_RASTER = 'GIBS_raster';
+export const LAYER_WMTS_RASTER = 'wmts_raster';
+export const LAYER_XYZ_RASTER = 'xyz_raster';
 export const LAYER_VECTOR_GEOJSON = 'vector_geojson';
 export const LAYER_VECTOR_TOPOJSON = 'vector_topojson';
 export const LAYER_VECTOR_KML = 'vector_kml';

@@ -767,11 +767,11 @@ export default class MapWrapper_cesium extends MapWrapper {
     }
     createLayer(layer) {
         switch (layer.get("handleAs")) {
-            case appStrings.LAYER_GIBS:
+            case appStrings.LAYER_GIBS_RASTER:
                 return this.createWMTSLayer(layer);
-            case appStrings.LAYER_WMTS:
+            case appStrings.LAYER_WMTS_RASTER:
                 return this.createWMTSLayer(layer);
-            case appStrings.LAYER_XYZ:
+            case appStrings.LAYER_XYZ_RASTER:
                 return this.createWMTSLayer(layer);
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorLayer(layer);
@@ -782,7 +782,8 @@ export default class MapWrapper_cesium extends MapWrapper {
             case appStrings.LAYER_VECTOR_DRAWING:
                 return this.createVectorLayer(layer);
             default:
-                return this.createWMTSLayer(layer);
+                console.warn("Error in MapWrapper_cesium.createLayer: unknown layer type - " + layer.get("handleAs"));
+                return false;
         }
     }
 
@@ -959,19 +960,20 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     createImageryProvider(layer, options) {
         switch (layer.get("handleAs")) {
-            case appStrings.LAYER_GIBS:
+            case appStrings.LAYER_GIBS_RASTER:
                 return this.createGIBSWMTSProvider(layer, options);
-            case appStrings.LAYER_WMTS:
+            case appStrings.LAYER_WMTS_RASTER:
                 return this.createGenericWMTSProvider(layer, options);
-            case appStrings.LAYER_XYZ:
+            case appStrings.LAYER_XYZ_RASTER:
                 return this.createGenericXYZProvider(layer, options);
             default:
-                return this.createGenericWMTSProvider(layer, options);
+                console.warn("Error in MapWrapper_cesium.createImageryProvider: unknown layer type - " + layer.get("handleAs"))
+                return false;
         }
     }
     createTilingScheme(options, tileSchemeOptions) {
         if (options.projection === appStrings.PROJECTIONS.latlon.code) {
-            if (options.handleAs === appStrings.LAYER_GIBS) {
+            if (options.handleAs === appStrings.LAYER_GIBS_RASTER) {
                 return new CesiumTilingScheme_GIBS({ numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1 }, tileSchemeOptions);
             }
             return new this.cesium.GeographicTilingScheme();
@@ -1182,11 +1184,11 @@ export default class MapWrapper_cesium extends MapWrapper {
 
     getMapLayers(type) {
         switch (type) {
-            case appStrings.LAYER_GIBS:
+            case appStrings.LAYER_GIBS_RASTER:
                 return this.map.imageryLayers;
-            case appStrings.LAYER_WMTS:
+            case appStrings.LAYER_WMTS_RASTER:
                 return this.map.imageryLayers;
-            case appStrings.LAYER_XYZ:
+            case appStrings.LAYER_XYZ_RASTER:
                 return this.map.imageryLayers;
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.map.dataSources;
