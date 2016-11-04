@@ -169,15 +169,16 @@ export default class MapUtil {
         } else {
             // build KVP request
             let queryOptions = Immutable.Map({
-                service: 'WMTS',
-                version: '1.0.0',
-                request: 'GetTile',
-                tilematrix: tileMatrix,
-                layer: layerId,
-                tilerow: row,
-                tilecol: col,
-                tilematrixset: tileMatrixSet,
-                format: format
+                SERVICE: 'WMTS',
+                REQUEST: 'GetTile',
+                VERSION: '1.0.0',
+                LAYER: layerId,
+                STYLE: "",
+                TILEMATRIXSET: tileMatrixSet,
+                TILEMATRIX: tileMatrix,
+                TILEROW: row,
+                TILECOL: col,
+                FORMAT: encodeURIComponent(format)
             });
 
             let queryStr = this.miscUtil.objectToUrlParams(queryOptions);
