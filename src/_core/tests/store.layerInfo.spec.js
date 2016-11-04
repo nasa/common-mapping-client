@@ -25,52 +25,60 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Layer Info', function() {
-    it('opens layer info and sets the correct layer object.', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreLayerInfoSpec = {
+    name: "StoreLayerInfoSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('opens layer info and sets the correct layer object.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const layer = layerModel.merge({
-            id: "TEST_LAYER_1"
-        });
+                    const layer = layerModel.merge({
+                        id: "TEST_LAYER_1"
+                    });
 
-        const actions = [
-            LayerActions.openLayerInfo(layer)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        LayerActions.openLayerInfo(layer)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.layerInfo = expected.layerInfo
-            .set("isOpen", true)
-            .set("layer", layer);
+                    const expected = {...initialState };
+                    expected.layerInfo = expected.layerInfo
+                        .set("isOpen", true)
+                        .set("layer", layer);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+            test2: () => {
+                it('closes layer info and maintains the layer object reference.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-    it('closes layer info and maintains the layer object reference.', function() {
-        const store = createStore(rootReducer, initialState);
+                    const layer = layerModel.merge({
+                        id: "TEST_LAYER_1"
+                    });
 
-        const layer = layerModel.merge({
-            id: "TEST_LAYER_1"
-        });
+                    const actions = [
+                        LayerActions.openLayerInfo(layer),
+                        LayerActions.closeLayerInfo()
+                    ];
 
-        const actions = [
-            LayerActions.openLayerInfo(layer),
-            LayerActions.closeLayerInfo()
-        ];
+                    actions.forEach(action => store.dispatch(action));
 
-        actions.forEach(action => store.dispatch(action));
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const state = store.getState();
-        const actual = {...state };
+                    const expected = {...initialState };
+                    expected.layerInfo = expected.layerInfo
+                        .set("isOpen", false)
+                        .set("layer", layer);
 
-        const expected = {...initialState };
-        expected.layerInfo = expected.layerInfo
-            .set("isOpen", false)
-            .set("layer", layer);
-
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}

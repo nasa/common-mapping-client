@@ -15,4 +15,18 @@ export default class TestUtil {
             expect(actual.analytics.toJS()).to.deep.equal(expected.analytics.toJS());
         }
     }
+
+    static runTestSuite(testSuite) {
+        Object.keys(testSuite.tests).map(testSet => {
+            describe("_core." + testSuite.name + " -> " + testSet + " ->", () => {
+                if (testSuite.beforeEach) {
+                    testSuite.beforeEach();
+                }
+                if (testSuite.afterEach) {
+                    testSuite.afterEach();
+                }
+                Object.keys(testSuite.tests[testSet]).map(test => testSuite.tests[testSet][test]());
+            });
+        });
+    }
 }

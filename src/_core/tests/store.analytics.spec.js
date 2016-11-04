@@ -26,45 +26,53 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Analytics', function() {
-    it('enables user analytics', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreAnalyticsSpec = {
+    name: "StoreAnalyticsSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('enables user analytics', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            analyticsActions.setAnalyticsEnabled(true)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        analyticsActions.setAnalyticsEnabled(true)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
-        actual.analytics = actual.analytics.remove("currentBatch");
+                    const state = store.getState();
+                    const actual = {...state };
+                    actual.analytics = actual.analytics.remove("currentBatch");
 
-        const expected = {...initialState };
-        expected.analytics = expected.analytics
-            .set("isEnabled", true)
-            .remove("currentBatch");
+                    const expected = {...initialState };
+                    expected.analytics = expected.analytics
+                        .set("isEnabled", true)
+                        .remove("currentBatch");
 
-        TestUtil.compareFullStates(actual, expected, true);
-    });
+                    TestUtil.compareFullStates(actual, expected, true);
+                });
+            },
+            test2: () => {
+                it('disables user analytics', function() {
+                    const store = createStore(rootReducer, initialState);
 
-    it('disables user analytics', function() {
-        const store = createStore(rootReducer, initialState);
+                    const actions = [
+                        analyticsActions.setAnalyticsEnabled(true),
+                        analyticsActions.setAnalyticsEnabled(false)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const actions = [
-            analyticsActions.setAnalyticsEnabled(true),
-            analyticsActions.setAnalyticsEnabled(false)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const state = store.getState();
+                    const actual = {...state };
+                    actual.analytics = actual.analytics.remove("currentBatch");
 
-        const state = store.getState();
-        const actual = {...state };
-        actual.analytics = actual.analytics.remove("currentBatch");
+                    const expected = {...initialState };
+                    expected.analytics = expected.analytics
+                        .set("isEnabled", false)
+                        .remove("currentBatch");
 
-        const expected = {...initialState };
-        expected.analytics = expected.analytics
-            .set("isEnabled", false)
-            .remove("currentBatch");
-
-        TestUtil.compareFullStates(actual, expected, true);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected, true);
+                });
+            }
+        }
+    }
+}

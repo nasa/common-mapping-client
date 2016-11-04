@@ -25,55 +25,66 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Settings', function() {
-    it('opens settings.', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreSettingsSpec = {
+    name: "StoreSettingsSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('opens settings.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.openSettings()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.openSettings()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.settings = expected.settings.set("isOpen", true);
+                    const expected = {...initialState };
+                    expected.settings = expected.settings.set("isOpen", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-    it('closes settings.', function() {
-        const store = createStore(rootReducer, initialState);
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+            test2: () => {
+                it('closes settings.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.closeSettings()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.closeSettings()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.settings = expected.settings.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.settings = expected.settings.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('opens and closes settings.', function() {
-        const store = createStore(rootReducer, initialState);
+            test3: () => {
+                it('opens and closes settings.', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.openSettings(),
-            AppActions.closeSettings()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.openSettings(),
+                        AppActions.closeSettings()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.settings = expected.settings.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.settings = expected.settings.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}

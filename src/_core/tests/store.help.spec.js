@@ -25,123 +25,140 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - Help', function() {
-    it('opens help', function() {
-        const store = createStore(rootReducer, initialState);
+export const StoreHelpSpec = {
+    name: "StoreHelperSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('opens help', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            appActions.openHelp()
-        ];
+                    const actions = [
+                        appActions.openHelp()
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help.set("isOpen", true);
+                    const expected = {...initialState };
+                    expected.help = expected.help.set("isOpen", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('closes help', function() {
-        const store = createStore(rootReducer, initialState);
+            test2: () => {
+                it('closes help', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            appActions.closeHelp()
-        ];
+                    const actions = [
+                        appActions.closeHelp()
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.help = expected.help.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('opens and closes help', function() {
-        const store = createStore(rootReducer, initialState);
+            test3: () => {
+                it('opens and closes help', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            appActions.openHelp(),
-            appActions.closeHelp()
-        ];
+                    const actions = [
+                        appActions.openHelp(),
+                        appActions.closeHelp()
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help.set("isOpen", false);
+                    const expected = {...initialState };
+                    expected.help = expected.help.set("isOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('selects a help page', function() {
-        const store = createStore(rootReducer, initialState);
+            test4: () => {
+                it('selects a help page', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        let helpPage = "screaming eagles";
-        const actions = [
-            appActions.selectHelpPage(helpPage)
-        ];
+                    let helpPage = "screaming eagles";
+                    const actions = [
+                        appActions.selectHelpPage(helpPage)
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help.set("helpPage", helpPage);
+                    const expected = {...initialState };
+                    expected.help = expected.help.set("helpPage", helpPage);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('opens and selects a help page', function() {
-        const store = createStore(rootReducer, initialState);
+            test5: () => {
+                it('opens and selects a help page', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        let helpPage = "screaming eagles";
-        const actions = [
-            appActions.openHelp(),
-            appActions.selectHelpPage(helpPage)
-        ];
+                    let helpPage = "screaming eagles";
+                    const actions = [
+                        appActions.openHelp(),
+                        appActions.selectHelpPage(helpPage)
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help
-            .set("isOpen", true)
-            .set("helpPage", helpPage);
+                    const expected = {...initialState };
+                    expected.help = expected.help
+                        .set("isOpen", true)
+                        .set("helpPage", helpPage);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('closing help resets the selected page', function() {
-        const store = createStore(rootReducer, initialState);
+            test6: () => {
+                it('closing help resets the selected page', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        let helpPage = "screaming eagles";
-        const actions = [
-            appActions.openHelp(),
-            appActions.selectHelpPage(helpPage),
-            appActions.closeHelp()
-        ];
+                    let helpPage = "screaming eagles";
+                    const actions = [
+                        appActions.openHelp(),
+                        appActions.selectHelpPage(helpPage),
+                        appActions.closeHelp()
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.help = expected.help
-            .set("isOpen", false)
-            .set("helpPage", "");
+                    const expected = {...initialState };
+                    expected.help = expected.help
+                        .set("isOpen", false)
+                        .set("helpPage", "");
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}

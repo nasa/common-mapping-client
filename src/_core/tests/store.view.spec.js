@@ -27,120 +27,139 @@ const initialState = {
     layerInfo: layerInfoState
 };
 
-describe('Store - View', function() {
-    it('sets the app title, version, and subtitle from config', function() {
-        const store = createStore(rootReducer, initialState);
-        const actual = store.getState();
+export const StoreViewSpec = {
+    name: "StoreViewSpec",
+    tests: {
+        default: {
+            test1: () => {
+                it('sets the app title, version, and subtitle from config', function() {
+                    const store = createStore(rootReducer, initialState);
+                    const actual = store.getState();
 
-        expect(actual.view.get("title")).to.equal(appConfig.APP_TITLE);
-        expect(actual.view.get("subtitle")).to.equal(appConfig.APP_SUBTITLE);
-        expect(actual.view.get("version")).to.equal(appConfig.APP_VERSION);
-    });
+                    expect(actual.view.get("title")).to.equal(appConfig.APP_TITLE);
+                    expect(actual.view.get("subtitle")).to.equal(appConfig.APP_SUBTITLE);
+                    expect(actual.view.get("version")).to.equal(appConfig.APP_VERSION);
+                });
+            },
 
-    it('can complete initial load', function() {
-        const store = createStore(rootReducer, initialState);
+            test2: () => {
+                it('can complete initial load', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.completeInitialLoad()
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.completeInitialLoad()
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("initialLoadComplete", true);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("initialLoadComplete", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can set full screen enabled', function() {
-        const store = createStore(rootReducer, initialState);
+            test3: () => {
+                it('can set full screen enabled', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.setFullScreenMode(true)
-        ];
+                    const actions = [
+                        AppActions.setFullScreenMode(true)
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("isFullscreen", true);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("isFullscreen", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can set full screen disabled', function() {
-        const store = createStore(rootReducer, initialState);
+            test4: () => {
+                it('can set full screen disabled', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            AppActions.setFullScreenMode(true),
-            AppActions.setFullScreenMode(false)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        AppActions.setFullScreenMode(true),
+                        AppActions.setFullScreenMode(false)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("isFullscreen", false);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("isFullscreen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can set layer menu open', function() {
-        const store = createStore(rootReducer, initialState);
+            test5: () => {
+                it('can set layer menu open', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            LayerActions.setLayerMenuOpen(true)
-        ];
+                    const actions = [
+                        LayerActions.setLayerMenuOpen(true)
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("layerMenuOpen", true);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("layerMenuOpen", true);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can set layer menu closed', function() {
-        const store = createStore(rootReducer, initialState);
+            test6: () => {
+                it('can set layer menu closed', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            LayerActions.setLayerMenuOpen(false)
-        ];
+                    const actions = [
+                        LayerActions.setLayerMenuOpen(false)
+                    ];
 
-        actions.forEach(action => store.dispatch(action));
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("layerMenuOpen", false);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("layerMenuOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
 
-    it('can set layer menu open and closed', function() {
-        const store = createStore(rootReducer, initialState);
+            test7: () => {
+                it('can set layer menu open and closed', function() {
+                    const store = createStore(rootReducer, initialState);
 
-        const actions = [
-            LayerActions.setLayerMenuOpen(true),
-            LayerActions.setLayerMenuOpen(false)
-        ];
-        actions.forEach(action => store.dispatch(action));
+                    const actions = [
+                        LayerActions.setLayerMenuOpen(true),
+                        LayerActions.setLayerMenuOpen(false)
+                    ];
+                    actions.forEach(action => store.dispatch(action));
 
-        const state = store.getState();
-        const actual = {...state };
+                    const state = store.getState();
+                    const actual = {...state };
 
-        const expected = {...initialState };
-        expected.view = expected.view.set("layerMenuOpen", false);
+                    const expected = {...initialState };
+                    expected.view = expected.view.set("layerMenuOpen", false);
 
-        TestUtil.compareFullStates(actual, expected);
-    });
-});
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            }
+        }
+    }
+}
