@@ -830,8 +830,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 return this.removeLayer(mapLayer);
             }
 
-            // no layer to remove
-            return false;
+            // Layer is already not active
+            return true;
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.deactivateLayer:", err);
             return false;

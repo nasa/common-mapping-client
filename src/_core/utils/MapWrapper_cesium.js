@@ -714,8 +714,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return this.removeLayer(mapLayer);
             }
 
-            // failed to remove the layer from the map
-            return false;
+            // Layer is already not active
+            return true;
         } catch (err) {
             console.warn("Error in MapWrapper_cesium.deactivateLayer:", err);
             return false;
