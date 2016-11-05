@@ -1299,7 +1299,6 @@ export const StoreMapSpec = {
                             done();
                         }, 500);
                     }, 2000)
-
                 });
             },
 
