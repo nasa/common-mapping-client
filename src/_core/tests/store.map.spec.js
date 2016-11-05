@@ -1154,7 +1154,7 @@ export const StoreMapSpec = {
             test31: () => {
                 it('can add measurement label to geometry on 2D and 3D maps', function(done) {
                     // adjust default timeout
-                    this.timeout(20000);
+                    this.timeout(10000);
 
                     const store = createStore(rootReducer, initialState);
 
@@ -1227,7 +1227,7 @@ export const StoreMapSpec = {
             test32: () => {
                 it('can remove all measurements in 2D and 3D maps', function(done) {
                     // adjust default timeout
-                    this.timeout(20000);
+                    this.timeout(10000);
 
                     const store = createStore(rootReducer, initialState);
 
@@ -1297,7 +1297,7 @@ export const StoreMapSpec = {
                             expect(overlays3D.length).to.equal(0);
                             TestUtil.compareFullStates(actual, expected);
                             done();
-                        }, 500);
+                        }, 2000);
                     }, 2000)
                 });
             },
