@@ -1336,7 +1336,7 @@ export const StoreMapSpec = {
 
                         TestUtil.compareFullStates(actual, expected);
                         done();
-                    }, 2000);
+                    }, 10000);
                 });
             },
 
