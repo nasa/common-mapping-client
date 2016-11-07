@@ -42,9 +42,9 @@ git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
-# Move current branch into branches folder
+# Rename the dist directory to match the source branch name
 ls -la
-mv $SOURCE_BRANCH branches/$SOURCE_BRANCH
+mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
@@ -53,8 +53,7 @@ rm -rf !(coverage|test-results|dist|public|branches)
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
 
-# Rename the dist directory to match the source branch name
-mv dist branches/$SOURCE_BRANCH
+# mv dist branches/$SOURCE_BRANCH
 
 # Move coverage output into source branch
 mv coverage branches/$SOURCE_BRANCH/code-coverage
