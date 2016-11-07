@@ -3,7 +3,7 @@
 # Deploy script based on https://github.jpl.nasa.gov/M2020-CS3/m2020-app-template/blob/master/scripts/deploy.bash
 
 set -e          # Exit with nonzero exit code if anything fails
-set -o verbose  # Print commands that are executed
+# set -o verbose  # Print commands that are executed
 
 SOURCE_BRANCH=$TRAVIS_BRANCH
 TARGET_BRANCH="gh-pages"
@@ -42,12 +42,8 @@ git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
-ls -la
-
-git status
-
 # Move current branch into branches folder
-mv SOURCE_BRANCH branches
+mv $SOURCE_BRANCH branches
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
@@ -59,17 +55,11 @@ rm -rf !(coverage|test-results|dist|public|branches)
 # Rename the dist directory to match the source branch name
 mv dist $SOURCE_BRANCH
 
-echo "what's here now"
-ls -la
-
 # Move coverage output into source branch
 mv coverage $SOURCE_BRANCH/code-coverage
 
 # Move test-results output into source branch
 mv test-results $SOURCE_BRANCH/unit-tests
-
-echo "What's in source branch"
-ls $SOURCE_BRANCH -la 
 
 # Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
 touch .nojekyll
@@ -79,9 +69,6 @@ git add .nojekyll
 mv public/* $SOURCE_BRANCH
 git add -u . # Commit deleted files
 git add $SOURCE_BRANCH # Add source branch
-
-git status
-
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e
