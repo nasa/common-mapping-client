@@ -3,7 +3,7 @@
 # Deploy script based on https://github.jpl.nasa.gov/M2020-CS3/m2020-app-template/blob/master/scripts/deploy.bash
 
 set -e          # Exit with nonzero exit code if anything fails
-# set -o verbose  # Print commands that are executed
+set -o verbose  # Print commands that are executed
 
 SOURCE_BRANCH=$TRAVIS_BRANCH
 TARGET_BRANCH="gh-pages"
@@ -43,6 +43,7 @@ git remote set-branches --add origin $TARGET_BRANCH
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
 # Move current branch into branches folder
+ls -la
 mv $SOURCE_BRANCH branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
@@ -66,7 +67,7 @@ touch .nojekyll
 git add .nojekyll
 
 # Move public folders into root of app
-mv public/* $SOURCE_BRANCH
+mv public/* branches/$SOURCE_BRANCH
 git add -u . # Commit deleted files
 git add branches/$SOURCE_BRANCH # Add source branch
 
