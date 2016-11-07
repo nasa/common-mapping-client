@@ -1154,7 +1154,7 @@ export const StoreMapSpec = {
             test31: () => {
                 it('can add measurement label to geometry on 2D and 3D maps', function(done) {
                     // adjust default timeout
-                    this.timeout(10000);
+                    this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
@@ -1227,7 +1227,7 @@ export const StoreMapSpec = {
             test32: () => {
                 it('can remove all measurements in 2D and 3D maps', function(done) {
                     // adjust default timeout
-                    this.timeout(10000);
+                    this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
@@ -1305,7 +1305,7 @@ export const StoreMapSpec = {
             test33: () => {
                 it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
                     // adjust default timeout
-                    this.timeout(10000);
+                    this.timeout(30000);
 
                     // create store with async action support
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
@@ -1376,7 +1376,7 @@ export const StoreMapSpec = {
             test35: () => {
                 it('can deactivate layers', function(done) {
                     // adjust default timeout
-                    this.timeout(10000);
+                    this.timeout(30000);
 
                     // create modified state to account for layer ingest
                     const modifiedState = {...initialState };
