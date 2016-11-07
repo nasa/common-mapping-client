@@ -1331,15 +1331,9 @@ export const StoreMapSpec = {
                             .set("loadingLayerPalettes", false)
                             .set("paletteLoadingAttempted", true);
 
-                        console.log("EXPECTED:" + JSON.stringify(expected.map.get("layers").toJS()));
-                        console.log("ACTUAL" + JSON.stringify(actual.map.get("layers").toJS()));
-
                         TestUtil.compareFullStates(actual, expected);
                         done.call(_context);
                     }));
-
-                    // setTimeout(() => {
-                    // }, 10000);
                 });
             },
 
