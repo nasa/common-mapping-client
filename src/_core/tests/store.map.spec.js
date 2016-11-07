@@ -1156,7 +1156,7 @@ export const StoreMapSpec = {
                     // adjust default timeout
                     this.timeout(10000);
 
-                    const store = createStore(rootReducer, initialState);
+                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
                     // initial map
                     const initalActions = [
@@ -1229,7 +1229,7 @@ export const StoreMapSpec = {
                     // adjust default timeout
                     this.timeout(10000);
 
-                    const store = createStore(rootReducer, initialState);
+                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
                     // initial map
                     const initalActions = [
@@ -1305,7 +1305,7 @@ export const StoreMapSpec = {
             test33: () => {
                 it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
                     // adjust default timeout
-                    this.timeout(2000);
+                    this.timeout(10000);
 
                     // create store with async action support
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
@@ -1336,7 +1336,7 @@ export const StoreMapSpec = {
 
                         TestUtil.compareFullStates(actual, expected);
                         done();
-                    }, 1000);
+                    }, 2000);
                 });
             },
 
@@ -1376,7 +1376,7 @@ export const StoreMapSpec = {
             test35: () => {
                 it('can deactivate layers', function(done) {
                     // adjust default timeout
-                    this.timeout(5000);
+                    this.timeout(10000);
 
                     // create modified state to account for layer ingest
                     const modifiedState = {...initialState };
@@ -1384,7 +1384,7 @@ export const StoreMapSpec = {
                         .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                         .removeIn(["layers", "partial"]);
 
-                    const store = createStore(rootReducer, modifiedState);
+                    const store = createStore(rootReducer, modifiedState, compose(applyMiddleware(thunkMiddleware)));
 
                     const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
@@ -1411,8 +1411,8 @@ export const StoreMapSpec = {
 
                             TestUtil.compareFullStates(actual, expected);
                             done();
-                        }, 1000);
-                    }, 1000);
+                        }, 2000);
+                    }, 2000);
                 });
             }
         }

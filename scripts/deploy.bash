@@ -23,6 +23,11 @@ if [ ! -d "coverage" ]; then
   exit 1
 fi
 
+if [ ! -d "test-results" ]; then
+  echo "The test-results/ directory doesn't exist; you must \`npm run test:cover\` before deploying."
+  exit 1
+fi
+
 # If user.(name|email) aren't set, use the values from the latest commit
 git config user.name > /dev/null || git config user.name 'Travis CI'
 git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
@@ -38,7 +43,7 @@ git status
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|dist|public)
+rm -rf !(coverage|test-results|dist|public)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
@@ -51,6 +56,9 @@ ls -la
 
 # Move coverage output into source branch
 mv coverage $SOURCE_BRANCH/code-coverage
+
+# Move test-results output into source branch
+mv test-results $SOURCE_BRANCH/unit-tests
 
 echo "What's in source branch"
 ls $SOURCE_BRANCH -la 
