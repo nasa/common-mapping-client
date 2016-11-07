@@ -28,6 +28,11 @@ if [ ! -d "test-results" ]; then
   exit 1
 fi
 
+if [ ! -d "branches" ]; then
+  # Make the branches dir if it doesn't exist
+  mkdir branches
+fi
+
 # If user.(name|email) aren't set, use the values from the latest commit
 git config user.name > /dev/null || git config user.name 'Travis CI'
 git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
@@ -37,43 +42,33 @@ git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
+# Rename the dist directory to match the source branch name
 ls -la
-
-git status
+mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|test-results|dist|public)
+rm -rf !(coverage|test-results|dist|public|branches)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
 
-# Rename the dist directory to match the source branch name
-mv dist $SOURCE_BRANCH
-
-echo "what's here now"
-ls -la
+# mv dist branches/$SOURCE_BRANCH
 
 # Move coverage output into source branch
-mv coverage $SOURCE_BRANCH/code-coverage
+mv coverage branches/$SOURCE_BRANCH/code-coverage
 
 # Move test-results output into source branch
-mv test-results $SOURCE_BRANCH/unit-tests
-
-echo "What's in source branch"
-ls $SOURCE_BRANCH -la 
+mv test-results branches/$SOURCE_BRANCH/unit-tests
 
 # Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
 touch .nojekyll
 git add .nojekyll
 
 # Move public folders into root of app
-mv public/* $SOURCE_BRANCH
+mv public/* branches/$SOURCE_BRANCH
 git add -u . # Commit deleted files
-git add $SOURCE_BRANCH # Add source branch
-
-git status
-
+git add branches/$SOURCE_BRANCH # Add source branch
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e

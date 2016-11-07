@@ -1306,21 +1306,18 @@ export const StoreMapSpec = {
                 it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
                     // adjust default timeout
                     this.timeout(30000);
+                    let _context = this;
 
                     // create store with async action support
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
-                    const actions = [
-                        layerActions.loadInitialData()
-                    ];
-                    actions.forEach(action => store.dispatch(action));
-
-                    setTimeout(() => {
+                    store.dispatch(layerActions.loadInitialData(function() {
                         const state = store.getState();
                         const actual = {...state };
                         actual.map = actual.map.remove("maps");
 
                         const expected = {...initialState };
+
                         expected.map = expected.map
                             .remove("maps")
                             .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
@@ -1335,8 +1332,8 @@ export const StoreMapSpec = {
                             .set("paletteLoadingAttempted", true);
 
                         TestUtil.compareFullStates(actual, expected);
-                        done();
-                    }, 2000);
+                        done.call(_context);
+                    }));
                 });
             },
 
