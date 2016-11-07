@@ -28,6 +28,11 @@ if [ ! -d "test-results" ]; then
   exit 1
 fi
 
+if [ ! -d "branches" ]; then
+  # Make the branches dir if it doesn't exist
+  mkdir branches
+fi
+
 # If user.(name|email) aren't set, use the values from the latest commit
 git config user.name > /dev/null || git config user.name 'Travis CI'
 git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
@@ -41,9 +46,12 @@ ls -la
 
 git status
 
+# Move current branch into branches folder
+mv SOURCE_BRANCH branches
+
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|test-results|dist|public)
+rm -rf !(coverage|test-results|dist|public|branches)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
