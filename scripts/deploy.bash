@@ -43,7 +43,7 @@ git remote set-branches --add origin $TARGET_BRANCH
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
 # Move current branch into branches folder
-mv $SOURCE_BRANCH branches
+mv $SOURCE_BRANCH branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
@@ -53,13 +53,13 @@ rm -rf !(coverage|test-results|dist|public|branches)
 # rm -rf $SOURCE_BRANCH
 
 # Rename the dist directory to match the source branch name
-mv dist $SOURCE_BRANCH
+mv dist branches/$SOURCE_BRANCH
 
 # Move coverage output into source branch
-mv coverage $SOURCE_BRANCH/code-coverage
+mv coverage branches/$SOURCE_BRANCH/code-coverage
 
 # Move test-results output into source branch
-mv test-results $SOURCE_BRANCH/unit-tests
+mv test-results branches/$SOURCE_BRANCH/unit-tests
 
 # Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
 touch .nojekyll
@@ -68,7 +68,7 @@ git add .nojekyll
 # Move public folders into root of app
 mv public/* $SOURCE_BRANCH
 git add -u . # Commit deleted files
-git add $SOURCE_BRANCH # Add source branch
+git add branches/$SOURCE_BRANCH # Add source branch
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e
