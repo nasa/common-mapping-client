@@ -3,7 +3,7 @@
 # Deploy script based on https://github.jpl.nasa.gov/M2020-CS3/m2020-app-template/blob/master/scripts/deploy.bash
 
 set -e          # Exit with nonzero exit code if anything fails
-set -o verbose  # Print commands that are executed
+# set -o verbose  # Print commands that are executed
 
 SOURCE_BRANCH=$TRAVIS_BRANCH
 TARGET_BRANCH="gh-pages"
@@ -43,7 +43,6 @@ git remote set-branches --add origin $TARGET_BRANCH
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
 
 # Rename the dist directory to match the source branch name
-ls -la
 mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
