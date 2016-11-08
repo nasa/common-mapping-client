@@ -3,12 +3,25 @@
 # Deploy script based on https://github.jpl.nasa.gov/M2020-CS3/m2020-app-template/blob/master/scripts/deploy.bash
 
 set -e          # Exit with nonzero exit code if anything fails
-# set -o verbose  # Print commands that are executed
+set -o verbose  # Print commands that are executed
 
 SOURCE_BRANCH=$TRAVIS_BRANCH
 TARGET_BRANCH="gh-pages"
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+# Check if this is travis or local deployment
+if [ ! "$CI" ]; then
+  echo "Travis environment not detected, proceeding with a locally sourced deployment"
+  if [ ! "$1" ]; then
+    echo "Local deployment passed no BUILD_HOMEPAGE, exiting."
+    exit 0
+  else
+    BUILD_HOMEPAGE=$1
+    SOURCE_BRANCH="master"
+  fi
+fi
+
+
+if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$CI" ]; then
   echo "Skipping deployment because this is a PR merge build."
   exit 0
 fi
@@ -28,10 +41,6 @@ if [ ! -d "test-results" ]; then
   exit 1
 fi
 
-if [ ! -d "branches" ]; then
-  # Make the branches dir if it doesn't exist
-  mkdir branches
-fi
 
 # If user.(name|email) aren't set, use the values from the latest commit
 git config user.name > /dev/null || git config user.name 'Travis CI'
@@ -41,6 +50,11 @@ git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.
 git remote set-branches --add origin $TARGET_BRANCH
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
+
+if [ ! -d "branches" ]; then
+  # Make the branches dir if it doesn't exist
+  mkdir branches
+fi
 
 # Rename the dist directory to match the source branch name
 mv dist branches/$SOURCE_BRANCH
@@ -79,7 +93,6 @@ fi
 set -e
 
 git commit -m "Deploy [$SOURCE_BRANCH] to $BUILD_HOMEPAGE"
-git pull --no-edit origin $TARGET_BRANCH
 git push -u origin $TARGET_BRANCH
 
 echo "Finished deployment"
