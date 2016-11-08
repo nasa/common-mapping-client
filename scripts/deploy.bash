@@ -65,7 +65,7 @@ fi
 
 # Remove old files in branches/$SOURCE_BRANCH
 if [ -d branches/$SOURCE_BRANCH ]; then
-  rm -rf branches/$SOURCE_BRANCH/*
+  rm -rf branches/$SOURCE_BRANCH
 fi
 
 ls -la
