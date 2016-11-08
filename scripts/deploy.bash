@@ -69,7 +69,6 @@ if [ -d branches/$SOURCE_BRANCH ]; then
 fi
 
 ls -la
-ls -la branches/$SOURCE_BRANCH
 
 # Rename the dist directory to match the source branch name
 mv dist branches/$SOURCE_BRANCH
