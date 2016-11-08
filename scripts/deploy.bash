@@ -48,7 +48,7 @@ git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.
 
 # Move everything over to the gh-pages branch
 git remote set-branches --add origin $TARGET_BRANCH
-git add .
+git add --all
 git commit -m "Dummy commit"
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
@@ -56,6 +56,11 @@ git commit -m "Dummy commit"
 if [ ! -d "branches" ]; then
   # Make the branches dir if it doesn't exist
   mkdir branches
+fi
+
+# Remove old files in branches/$SOURCE_BRANCH
+if [ -d branches/$SOURCE_BRANCH ]; then
+  rm -rf branches/$SOURCE_BRANCH/*
 fi
 
 # Rename the dist directory to match the source branch name
