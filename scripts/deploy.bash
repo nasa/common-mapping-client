@@ -46,17 +46,12 @@ fi
 git config user.name > /dev/null || git config user.name 'Travis CI'
 git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
 
-ls -la
-
 # Move everything over to the gh-pages branch
 git remote set-branches --add origin $TARGET_BRANCH
 git add --all
 git commit -m "Dummy commit"
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
-
-ls -la
-ls -la branches/$SOURCE_BRANCH
 
 if [ ! -d "branches" ]; then
   # Make the branches dir if it doesn't exist
@@ -67,8 +62,6 @@ fi
 if [ -d branches/$SOURCE_BRANCH ]; then
   rm -rf branches/$SOURCE_BRANCH
 fi
-
-ls -la
 
 # Rename the dist directory to match the source branch name
 mv dist branches/$SOURCE_BRANCH
@@ -97,10 +90,6 @@ mv public/* branches/$SOURCE_BRANCH
 
 # Touch every file so it's fresh 
 touch .
-
-ls -la
-ls -la branches/$SOURCE_BRANCH
-git status
 
 git add -u . # Commit deleted files
 git add branches/$SOURCE_BRANCH # Add source branch
