@@ -64,9 +64,9 @@ who have the same problem down the road may find a solution faster.
 
 #### Documentation Shortcut
 
-* [FAQ](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/FAQ.md)
-* [Developer Guide](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
-* [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
+* [FAQ](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/FAQ.md)
+* [Developer Guide](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
+* [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
 
 
 #### Legacy Repository
