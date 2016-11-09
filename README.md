@@ -1,6 +1,6 @@
-[![Build Status](https://travis.jpl.nasa.gov/CommonMappingClient/branches/cmc-core.svg?token=kcPVkrUjSKF8FJtoQYEw&branch=master)](https://travis.jpl.nasa.gov/CommonMappingClient/branches/cmc-core)
+[![Build Status](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core.svg?token=kcPVkrUjSKF8FJtoQYEw&branch=master)](https://travis.jpl.nasa.gov/CommonMappingClient/cmc-core)
 ### NOTICE: This repository is in the process of migrating to GithubEnterprise: 
-https://github.jpl.nasa.gov/CommonMappingClient/branches/cmc-core
+https://github.jpl.nasa.gov/CommonMappingClient/cmc-core
 
 ## Welcome to the Common Mapping Client 2.0!
 
@@ -31,11 +31,11 @@ part of CMC-Core.
 #### Live Demo
 Check out our live demo http://graywhale:49160/
 
-GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/branches/cmc-core/master/
+GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
 
-GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/branches/cmc-core/master/code-coverage
+GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/code-coverage
 
-GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/branches/cmc-core/master/unit-tests
+GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/unit-tests
 
 #### Getting Started
 
