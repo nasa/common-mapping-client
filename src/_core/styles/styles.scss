@@ -1,7 +1,6 @@
 @import "../lib/normalize/normalize.css";
 @import "../lib/flexboxgrid/flexboxgrid.min.css";
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-
 * {
     box-sizing: border-box;
 }
@@ -321,6 +320,10 @@ button .button-icon-right {
     margin-right: 1rem;
     font-size: 2rem !important;
     vertical-align: middle;
+}
+
+button.context-menu-item.context-menu-sub-menu-label {
+    padding: 0px 1.2rem;
 }
 
 #appContainer {
