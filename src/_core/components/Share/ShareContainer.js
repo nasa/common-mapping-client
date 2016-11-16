@@ -32,6 +32,26 @@ const GooglePlusIcon = () => (
 const miscUtil = new MiscUtil();
 
 export class ShareContainer extends Component {
+    componentDidMount() {
+        this.updateTimeout = null;
+    }
+    shouldComponentUpdate(nextProps) {
+        if (this.props.updateFlag !== nextProps.updateFlag ||
+            this.props.isOpen !== nextProps.isOpen ||
+            this.props.autoUpdateUrl !== nextProps.autoUpdateUrl) {
+            return true;
+        }
+
+        // delay updates to fix performance hit
+        if(this.updateTimeout === null) {
+            this.updateTimeout = setTimeout(() => {
+                this.props.actions.toggleShareUpdateFlag();
+                clearInterval(this.updateTimeout);
+                this.updateTimeout = null;
+            }, 1000);
+        }
+        return false;
+    }
     focusTextArea() {
         this.urlText.focus();
         this.urlText.select();
@@ -145,6 +165,7 @@ export class ShareContainer extends Component {
 ShareContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    updateFlag: PropTypes.bool.isRequired,
     autoUpdateUrl: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     maps: PropTypes.object.isRequired,
@@ -157,6 +178,7 @@ ShareContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isOpen: state.share.get("isOpen"),
+        updateFlag: state.share.get("updateFlag"),
         autoUpdateUrl: state.share.get("autoUpdateUrl"),
         maps: state.map.get("maps"),
         layers: state.map.get("layers"),

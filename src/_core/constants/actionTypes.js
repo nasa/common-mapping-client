@@ -7,6 +7,7 @@ export const OPEN_HELP = 'OPEN_HELP';
 export const CLOSE_HELP = 'CLOSE_HELP';
 export const OPEN_SHARE = 'OPEN_SHARE';
 export const CLOSE_SHARE = 'CLOSE_SHARE';
+export const TOGGLE_SHARE_UPDATE_FLAG = 'TOGGLE_SHARE_UPDATE_FLAG';
 export const SELECT_HELP_PAGE = 'SELECT_HELP_PAGE';
 export const DISMISS_ALERT = 'DISMISS_ALERT';
 export const DISMISS_ALL_ALERTS = 'DISMISS_ALL_ALERTS';

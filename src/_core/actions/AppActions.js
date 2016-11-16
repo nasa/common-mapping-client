@@ -31,6 +31,9 @@ export function openShare() {
 export function closeShare() {
     return { type: types.CLOSE_SHARE };
 }
+export function toggleShareUpdateFlag() {
+    return { type: types.TOGGLE_SHARE_UPDATE_FLAG };
+}
 export function selectHelpPage(param) {
     return { type: types.SELECT_HELP_PAGE, param };
 }

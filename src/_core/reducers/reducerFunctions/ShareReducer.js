@@ -11,6 +11,10 @@ export default class ShareReducer {
         return state.set("isOpen", false);
     }
 
+    static toggleShareUpdateFlag(state, action) {
+        return state.set("updateFlag", !state.get("updateFlag"));
+    }
+
     static setAutoUpdateUrl(state, action) {
         window.localStorage.setItem("autoUpdateUrl", action.autoUpdateUrl);
         return state.set("autoUpdateUrl", action.autoUpdateUrl);

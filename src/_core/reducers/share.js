@@ -10,6 +10,9 @@ export default function share(state = shareState, action) {
         case actionTypes.CLOSE_SHARE:
             return ShareReducer.closeShare(state, action);
 
+        case actionTypes.TOGGLE_SHARE_UPDATE_FLAG:
+            return ShareReducer.toggleShareUpdateFlag(state, action);
+
         case actionTypes.SET_AUTO_UPDATE_URL:
             return ShareReducer.setAutoUpdateUrl(state, action);
 

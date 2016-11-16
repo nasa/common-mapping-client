@@ -6,5 +6,6 @@ let autoUpdateUrl = localStorageAutoUpdateUrl !== null ? localStorageAutoUpdateU
 
 export const shareState = Immutable.fromJS({
     isOpen: false,
+    updateFlag: true,
     autoUpdateUrl: autoUpdateUrl
 });
