@@ -1,7 +1,6 @@
 @import "../lib/normalize/normalize.css";
 @import "../lib/flexboxgrid/flexboxgrid.min.css";
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-
 * {
     box-sizing: border-box;
 }
@@ -124,6 +123,7 @@ hr.divider.dark {
 
 button[data-react-toolbox="button"] {
     line-height: 2rem;
+    padding: 0px;
 }
 
 button > .material-icons[data-react-toolbox="font-icon"] {
@@ -320,6 +320,10 @@ button .button-icon-right {
     margin-right: 1rem;
     font-size: 2rem !important;
     vertical-align: middle;
+}
+
+button.context-menu-item {
+    padding: 0px 1.2rem;
 }
 
 #appContainer {
