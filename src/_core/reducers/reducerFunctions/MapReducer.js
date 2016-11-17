@@ -157,15 +157,15 @@ export default class MapReducer {
             return acc;
         }, false);
 
-        if (anySucceed) {
+        // if (anySucceed) {
             return state
                 .setIn(["view", "zoom"], typeof action.viewInfo.zoom !== "undefined" ? action.viewInfo.zoom : state.getIn(["view", "zoom"]))
                 .setIn(["view", "center"], typeof action.viewInfo.center !== "undefined" ? Immutable.List(action.viewInfo.center) : state.getIn(["view", "center"]))
                 .setIn(["view", "extent"], typeof action.viewInfo.extent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
                 .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
                 .set("alerts", alerts);
-        }
-        return state;
+        // }
+        // return state;
     }
     static zoomIn(state, action) {
         let anySucceed = state.get("maps").reduce((acc, map) => {
