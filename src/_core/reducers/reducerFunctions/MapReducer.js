@@ -216,11 +216,14 @@ export default class MapReducer {
     static setLayerActive(state, action) {
         let alerts = state.get("alerts");
 
-        // resolve layer from id if necessary
-        let actionLayer = action.layer;
-        if (typeof actionLayer === "string") {
-            actionLayer = this.findLayerById(state, actionLayer);
+       // resolve layer from id if necessary
+        let tmpActionLayer = action.layer;
+        if (typeof tmpActionLayer === "string") {
+            tmpActionLayer = this.findLayerById(state, tmpActionLayer);
         }
+
+        // Set layer opacity
+        let actionLayer = tmpActionLayer.set("opacity", action.opacity);
 
         if (typeof actionLayer !== "undefined") {
             let anySucceed = state.get("maps").reduce((acc, map) => {
@@ -279,6 +282,7 @@ export default class MapReducer {
 
     static setLayerOpacity(state, action) {
         // resolve layer from id if necessary
+        console.log("SET L", action.opacity)
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);

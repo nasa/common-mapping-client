@@ -58,9 +58,18 @@ export function setAutoUpdateUrl(autoUpdateUrl) {
 export function runUrlConfig(params) {
     // Takes an array of key value pairs and dispatches associated actions for each
     // one.
+
+    // Extract layer opacities here since we can't rely on synchronous layer activation
+    // for all maps and therefore need to activate layers with desired opacities
+    let layerOpacities = params.find(x => x.key === appConfig.URL_KEYS.OPACITIES);
+    let layerOpacitiesList = layerOpacities ? layerOpacities.value.split(",") : [];
+    let layerOpacitiesMap = {};
+    for (var i = 0; i < layerOpacitiesList.length; i += 2) {
+        layerOpacitiesMap[layerOpacitiesList[i]] = layerOpacitiesList[i + 1];
+    }
     return (dispatch) => {
         return Promise.all(params.map((param) => {
-            return dispatch(translateUrlParamToActionDispatch(param));
+            return dispatch(translateUrlParamToActionDispatch(param, layerOpacitiesMap));
         })).catch((err) => {
             console.warn("Error in AppActions.runUrlConfig:", err);
             dispatch(AlertActions.addAlert({
@@ -73,12 +82,10 @@ export function runUrlConfig(params) {
     };
 }
 
-function translateUrlParamToActionDispatch(param) {
+function translateUrlParamToActionDispatch(param, opacities) {
     switch (param.key) {
         case appConfig.URL_KEYS.ACTIVE_LAYERS:
-            return setLayersActive(param.value.split(","), true);
-        case appConfig.URL_KEYS.OPACITIES:
-            return setLayerOpacities(param.value.split(","));
+            return setLayersActive(param.value.split(","), true, opacities);
         case appConfig.URL_KEYS.VIEW_MODE:
             return setViewMode(param.value);
         case appConfig.URL_KEYS.BASEMAP:
@@ -86,9 +93,9 @@ function translateUrlParamToActionDispatch(param) {
         case appConfig.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
+            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true", opacities);
         case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
+            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true", opacities);
         case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         case appConfig.URL_KEYS.DATE:
@@ -98,11 +105,11 @@ function translateUrlParamToActionDispatch(param) {
     }
 }
 
-function setLayersActive(idArr, active) {
+function setLayersActive(idArr, active, opacities) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(idArr[i], active));
+                dispatch(LayerActions.setLayerActive(idArr[i], active, opacities[idArr[i]]));
             }
         });
     };
