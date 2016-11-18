@@ -282,7 +282,6 @@ export default class MapReducer {
 
     static setLayerOpacity(state, action) {
         // resolve layer from id if necessary
-        console.log("SET L", action.opacity)
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
