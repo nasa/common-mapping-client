@@ -5,7 +5,7 @@
 * [ESRI JS 2D map example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-arcgisjs) – ([Demo](http://graywhale:49169/))
 * [Docker + CMC](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-docker) – ([Demo](http://graywhale:49160/))
 * [Animation](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-animation) – ([Demo](http://graywhale:49165/))
-* Mobile interface example
+* [Mobile interface example](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-mobile) – ([Demo](https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-example-mobile/branches/master/))
 * [Dark theme example](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-dark-theme) – ([Demo](http://graywhale:49166/))
 * Display 3D model
 * Flying tour + Cesium VR
