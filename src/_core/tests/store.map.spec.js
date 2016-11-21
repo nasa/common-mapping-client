@@ -53,6 +53,47 @@ export const StoreMapSpec = {
     },
     tests: {
         default: {
+            test0: () => {
+                it('fails on initialization of map with non-matching map type', function() {
+                    const store = createStore(rootReducer, initialState);
+
+                    const actions = [
+                        mapActions.initializeMap("foo bar party", "map2D")
+                    ];
+                    actions.forEach(action => store.dispatch(action));
+
+                    const state = store.getState();
+                    const actualNumMaps = state.map.get("maps").size;
+                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+
+                    const actual = {...state };
+                    const actualAlerts = actual.map.get("alerts").toJS().map(x => {
+                        delete x.time;
+                        return x
+                    });
+                    actual.map = actual.map.remove("maps").remove("alerts");
+
+                    expect(actualAlerts.length).to.equal(1);
+
+                    const expected = {...initialState };
+                    expected.map = expected.map.remove("maps").remove("alerts");
+
+
+                    const expectedAlert = {
+                        title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
+                        body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", "2D"),
+                        severity: appStrings.ALERTS.CREATE_MAP_FAILED.severity
+                    }
+
+                    expect(actualNumMaps).to.equal(0);
+                    expect(actualMap2D).to.equal(undefined);
+                    expect(actualMap3D).to.equal(undefined);
+                    expect(actualAlerts[0]).to.deep.equal(expectedAlert);
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+
             test1: () => {
                 it('initializes 2D map', function() {
                     const store = createStore(rootReducer, initialState);
