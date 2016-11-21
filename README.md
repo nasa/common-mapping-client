@@ -29,13 +29,12 @@ If a capability or widget is not in 85% of mapping applications, it will not be
 part of CMC-Core.
 
 #### Live Demo
-Check out our live demo http://graywhale:49160/
+- Check out our live demo http://graywhale:49160/
+- GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
+- GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/code-coverage
+- GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/unit-tests
 
-GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
-
-GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/code-coverage
-
-GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/unit-tests
+![Preview](https://github.jpl.nasa.gov/raw/CommonMappingClient/cmc-design/master/screenshots/core.png?token=AAAILehBUeCu1_IIZoByiFhc1eqms_rYks5YPK54wA%3D%3D)
 
 #### Getting Started
 
