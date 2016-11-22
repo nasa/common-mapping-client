@@ -399,6 +399,10 @@ export default class MapUtil {
     // takes in a geometry and measurement type and
     // returns a string measurement of that geometry
     measureGeometry(geometry, measurementType) {
+        if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
+            console.warn("could not measure geometry, unsupported geometry type: ", geometry.type);
+            return false;
+        }
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
         coords = this.generateGeodesicArcsForLineString(coords);
         if (measurementType === appStrings.MEASURE_DISTANCE) {

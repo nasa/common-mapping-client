@@ -689,70 +689,162 @@ export const MapUtilSpec = {
             // })
         },
         measureGeometry: {
-            // it('returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA', () => {
-            //     let geometryCircle = {
-            //         type: appStrings.GEOMETRY_CIRCLE,
-            //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-            //         proj: actualMap2D.map.getView().getProjection().getCode(),
-            //         center: {
-            //             lon: 0,
-            //             lat: 0
-            //         },
-            //         radius: 100,
-            //         id: Math.random()
-            //     };
-            //     expect(mapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
-            // })
-            // it('returns a string measurement of given geometry', () => {
-            //     // Create dummy geometry
-            //     let geometryCircle = {
-            //         type: appStrings.GEOMETRY_CIRCLE,
-            //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-            //         proj: actualMap2D.map.getView().getProjection().getCode(),
-            //         center: {
-            //             lon: 0,
-            //             lat: 0
-            //         },
-            //         radius: 100,
-            //         id: Math.random()
-            //     };
-
-            //     let geometryLineString = {
-            //         type: appStrings.GEOMETRY_LINE_STRING,
-            //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-            //         proj: actualMap2D.map.getView().getProjection().getCode(),
-            //         coordinates: [{
-            //             lon: 0,
-            //             lat: 0
-            //         }, {
-            //             lon: 10,
-            //             lat: 10
-            //         }, {
-            //             lon: 20,
-            //             lat: -20
-            //         }],
-            //         id: Math.random()
-            //     };
-
-            //     let geometryPolygon = {
-            //         type: appStrings.GEOMETRY_POLYGON,
-            //         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-            //         proj: actualMap2D.map.getView().getProjection().getCode(),
-            //         coordinates: [{
-            //             lon: 0,
-            //             lat: 0
-            //         }, {
-            //             lon: 10,
-            //             lat: 10
-            //         }, {
-            //             lon: 20,
-            //             lat: -20
-            //         }],
-            //         id: Math.random()
-            //     };
-            //     expect(mapUtil.generateGeodesicArcsForLineString(coords)).to.deep.equal([]);
-            // });
-
+            test1: () => {
+                it('returns false when geometry.type is not appStrings.GEOMETRY_LINE_STRING or appStrings.GEOMETRY_POLYGON', () => {
+                    let geometryCircle = {
+                        type: appStrings.GEOMETRY_CIRCLE,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        center: {
+                            lon: 0,
+                            lat: 0
+                        },
+                        radius: 100,
+                        id: Math.random()
+                    };
+                    expect(mapUtil.measureGeometry(geometryCircle, "beepbloop")).to.be.false;
+                });
+            },
+            test2: () => {
+                it('returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA', () => {
+                    let geometryPolygon = {
+                        type: appStrings.GEOMETRY_POLYGON,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }],
+                        id: Math.random()
+                    }
+                    expect(mapUtil.measureGeometry(geometryPolygon, "beepbloop")).to.be.false;
+                });
+            },
+            test3: () => {
+                it('returns false when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is not appStrings.GEOMETRY_LINE_STRING', () => {
+                    let geometryPolygon = {
+                        type: appStrings.GEOMETRY_POLYGON,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }],
+                        id: Math.random()
+                    }
+                    expect(mapUtil.measureGeometry(geometryPolygon, appStrings.MEASURE_DISTANCE)).to.be.false;
+                });
+            },
+            test4: () => {
+                it('returns false when measurementType is appStrings.MEASURE_AREA and geometry.type is not appStrings.GEOMETRY_POLYGON', () => {
+                    let geometryLineString = {
+                        type: appStrings.GEOMETRY_LINE_STRING,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }],
+                        id: Math.random()
+                    }
+                    expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA)).to.be.false;
+                });
+            },
+            test5: () => {
+                it('returns correct measurement when measurementType is appStrings.MEASURE_AREA and geometry.type is appStrings.GEOMETRY_POLYGON', () => {
+                    let geometryLineString = {
+                        type: appStrings.GEOMETRY_POLYGON,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }, {
+                            lon: 0,
+                            lat: 0
+                        }],
+                        id: Math.random()
+                    }
+                    expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA).toFixed(6)).to.equal(2509284697628.792.toFixed(6));
+                });
+            },
+            test6: () => {
+                it('returns correct measurement when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is appStrings.GEOMETRY_LINE_STRING', () => {
+                    let geometryLineString = {
+                        type: appStrings.GEOMETRY_LINE_STRING,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: "EPSG:4326",
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }, {
+                            lon: 0,
+                            lat: 0
+                        }],
+                        id: Math.random()
+                    }
+                    expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_DISTANCE).toFixed(6)).to.equal(8194386.058827784.toFixed(6));
+                });
+            }
+        },
+        formatMeasurement: {
+            test1: () => {
+                it('returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA', () => {
+                    expect(mapUtil.formatMeasurement({}, "beepbloop", "unitz")).to.be.false;
+                });
+            },
+            test2: () => {
+                it('returns formatted distance when measurementType is appStrings.MEASURE_DISTANCE', () => {
+                    expect(mapUtil.formatMeasurement(0, appStrings.MEASURE_DISTANCE, 'imperial')).to.equal('0.00 ft');
+                });
+            },
+            test3: () => {
+                it('returns formatted area when measurementType is appStrings.MEASURE_AREA', () => {
+                    expect(mapUtil.formatMeasurement(0, appStrings.MEASURE_AREA, 'imperial')).to.equal('0.00 ft<sup>2</sup>');
+                });
+            }
+        },
+        getLabelPosition: {
+            test1: () => {
+                it('returns false when geometry.type is not appStrings.GEOMETRY_LINE_STRING or appStrings.GEOMETRY_POLYGON', () => {
+                    expect(mapUtil.getLabelPosition({ type: "polar bear" })).to.be.false;
+                });
+            },
+            test2: () => {
+                it('returns false when geometry.type is appStrings.GEOMETRY_LINE_STRING and geometry.coordinates is empty', () => {
+                    expect(mapUtil.getLabelPosition({ type: appStrings.GEOMETRY_LINE_STRING, coordinates: [] })).to.be.false;
+                });
+            }
         }
     }
 }

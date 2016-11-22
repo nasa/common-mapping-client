@@ -79,7 +79,6 @@ export const StoreMapSpec = {
                     const expected = {...initialState };
                     expected.map = expected.map.remove("maps").remove("alerts");
 
-
                     const expectedAlert = {
                         title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
                         body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", "2D"),
@@ -1230,12 +1229,36 @@ export const StoreMapSpec = {
                         id: Math.random()
                     };
 
+                    // Create dummy geometry
+                    let geometryPolygon = {
+                        type: appStrings.GEOMETRY_POLYGON,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: actualMap2D.map.getView().getProjection().getCode(),
+                        coordinates: [{
+                            lon: 0,
+                            lat: 0
+                        }, {
+                            lon: 10,
+                            lat: 10
+                        }, {
+                            lon: 20,
+                            lat: -20
+                        }, {
+                            lon: 0,
+                            lat: 0
+                        }],
+                        id: Math.random()
+                    };
+
                     // add geometries to 2D and 3D maps and then add label
                     const finalActions = [
                         mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
                         mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric')
+                        mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
+                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric'),
+                        mapActions.addMeasurementLabelToGeometry(geometryPolygon, appStrings.MEASURE_DISTANCE, 'metric')
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
@@ -1257,8 +1280,8 @@ export const StoreMapSpec = {
                         // Get 3D overlays
                         let overlays3D = actualMap3D.map.entities.values;
 
-                        expect(overlays2D.length).to.equal(1);
-                        expect(overlays3D.length).to.equal(1);
+                        expect(overlays2D.length).to.equal(2);
+                        expect(overlays3D.length).to.equal(2);
                         TestUtil.compareFullStates(actual, expected);
                         done();
                     }, 2000);
