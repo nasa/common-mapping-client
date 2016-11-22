@@ -789,7 +789,7 @@ export const MapUtilSpec = {
                         }],
                         id: Math.random()
                     }
-                    expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA).toFixed(6)).to.equal(2509284697628.792.toFixed(6));
+                    expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA).toFixed(1)).to.equal(2509284697628.792.toFixed(1));
                 });
             },
             test6: () => {
