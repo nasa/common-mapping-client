@@ -63,20 +63,8 @@ export function runUrlConfig(params) {
     // one.
 
     // Sort url params according to appConfig.URL_KEY_ORDER
-    // params
-    console.log(params,"PARAMS", miscUtil.findObjectInArray)
-    // let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p)
     let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key) || key)
-    console.log(sortedParams,"SORTED PARAMS")
 
-    // Extract layer opacities here since we can't rely on synchronous layer activation
-    // for all maps and therefore need to activate layers with desired opacities
-    // let layerOpacities = params.find(x => x.key === appConfig.URL_KEYS.OPACITIES);
-    // let layerOpacitiesList = layerOpacities ? layerOpacities.value.split(",") : [];
-    // let layerOpacitiesMap = {};
-    // for (var i = 0; i < layerOpacitiesList.length; i += 2) {
-    //     layerOpacitiesMap[layerOpacitiesList[i]] = layerOpacitiesList[i + 1];
-    // }
     return (dispatch) => {
         return Promise.all(sortedParams.map((param) => {
             return dispatch(translateUrlParamToActionDispatch(param));
