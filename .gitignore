@@ -32,8 +32,8 @@ node_modules
 #dist folder
 dist
 
-#public cesium folder
-public
+#public assets folder
+assets
 
 #Webstorm metadata
 .idea

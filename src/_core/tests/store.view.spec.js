@@ -14,6 +14,9 @@ import { analyticsState } from '_core/reducers/models/analytics';
 import { viewState } from '_core/reducers/models/view';
 import { layerInfoState } from '_core/reducers/models/layerInfo';
 import TestUtil from '_core/tests/TestUtil';
+import MiscUtil from '_core/utils/MiscUtil';
+
+const miscUtil = new MiscUtil();
 
 const initialState = {
     map: mapState,
