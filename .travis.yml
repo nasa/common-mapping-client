@@ -24,4 +24,4 @@ notifications:
     on_pull_requests: false
     on_start: always
     template:
-      - "%{repository} [%{branch}] \nBuild <%{build_url}|#%{build_number}> for commit (<%{compare_url}|%{commit}>) by %{author}\n %{result} in %{duration}\n Deploy to https://github.jpl.nasa.gov/pages/%{repository_slug}/branches/%{branch}\n - %{commit_subject}"
+      - "%{repository} [%{branch}] \nBuild <%{build_url}|#%{build_number}> for commit (<%{compare_url}|%{commit}>) by %{author}\n %{result} in %{duration}\n Deployed to <%{https://github.jpl.nasa.gov/pages/%{repository_slug}/branches/%{branch}}|#github pages>\n - %{commit_subject}"
