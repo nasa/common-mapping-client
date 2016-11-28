@@ -17,11 +17,6 @@ script:
   - npm run build
   - npm run test:cover
   - npm run deploy
-# after_success:
-  # Send coverage data to coveralls.
-  # - npm run test:cover:travis
-  # - chmod a+x deploy.sh
-  # - ./deploy.sh
 notifications:
   email: false
   slack: 
@@ -29,4 +24,4 @@ notifications:
     on_pull_requests: false
     on_start: always
     template:
-      - "%{repository} [%{branch}] \nBuild <%{build_url}|#%{build_number}> for commit (<%{compare_url}|%{commit}>) by %{author}\n %{result} in %{duration}\n Deploy to https://github.jpl.nasa.gov/pages/$TRAVIS_REPO_SLUG/branches/$TRAVIS_BRANCH\n - %{commit_subject}"
+      - "%{repository} [%{branch}] \nBuild <%{build_url}|#%{build_number}> for commit (<%{compare_url}|%{commit}>) by %{author}\n %{result} in %{duration}\n Deploy to https://github.jpl.nasa.gov/pages/%{repository_slug}/branches/%{branch}\n - %{commit_subject}"
