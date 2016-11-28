@@ -611,6 +611,41 @@ export default class MapWrapper_cesium extends MapWrapper {
             if (mapLayer && typeof mapLayer.alpha !== "undefined") {
                 mapLayer.alpha = opacity;
                 return true;
+            } else if (
+                mapLayer._layerHandleAs === appStrings.LAYER_VECTOR_GEOJSON ||
+                mapLayer._layerHandleAs === appStrings.LAYER_VECTOR_TOPOJSON ||
+                mapLayer._layerHandleAs === appStrings.LAYER_VECTOR_KML
+            ) {
+                mapLayer.entities._entities._array.map((entity) => {
+                    if (entity.polygon) {
+                        if (entity.polygon.outlineColor) {
+                            let c = entity.polygon.outlineColor.getValue();
+                            c.alpha = opacity * 1.0;
+                            entity.polygon.outlineColor.setValue(c);
+                        }
+                        if (entity.polygon.fill) {
+                            let c = entity.polygon.fill.getValue();
+                            c.alpha = opacity * 0.5;
+                            entity.polygon.fill.setValue(c);
+                        }
+                        if (entity.polygon.material) {
+                            if (entity.polygon.material.color) {
+                                let c = entity.polygon.material.color.getValue();
+                                c.alpha = opacity * 0.5;
+                                entity.polygon.material.color.setValue(c);
+                            }
+                        }
+                    }
+                    if (entity.polyline) {
+                        let c = entity.polyline.material.color.getValue();
+                        c.alpha = opacity * 1.0;
+                        entity.polyline.material.color.setValue(c);
+                    }
+                    if (entity.billboard) {
+                        entity.billboard.color = new this.cesium.Color(1.0, 1.0, 1.0, opacity * 1.0);
+                    }
+                })
+
             }
             return false;
         } catch (err) {
@@ -843,6 +878,9 @@ export default class MapWrapper_cesium extends MapWrapper {
                     mapLayer._layerId = layer.get("id");
                     mapLayer._layerType = layer.get("type");
                     mapLayer._layerHandleAs = layer.get("handleAs");
+                    setTimeout(() => {
+                        this.setLayerOpacity(layer, layer.get("opacity"))
+                    }, 0)
                 });
 
                 // need to add custom metadata while data loads

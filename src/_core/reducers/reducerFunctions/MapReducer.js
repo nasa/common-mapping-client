@@ -216,7 +216,7 @@ export default class MapReducer {
     static setLayerActive(state, action) {
         let alerts = state.get("alerts");
 
-        // resolve layer from id if necessary
+       // resolve layer from id if necessary
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
