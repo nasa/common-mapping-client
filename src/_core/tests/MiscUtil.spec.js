@@ -46,6 +46,15 @@ export const MiscUtilSpec = {
                     //assert
                     expect(miscUtil.generateStringFromSet(varIn)).to.equal(varOut);
                 });
+            },
+            test4: () => {
+                it('returns empty string if input is not an object', () => {
+                    let varIn = "fluffy";
+                    let varOut = '';
+
+                    //assert
+                    expect(miscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+                });
             }
         },
         findObjectInArray: {
@@ -132,7 +141,7 @@ export const MiscUtilSpec = {
                     //assert
                     expect(miscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
                 });
-            }
+            },
         },
         findAllMatchingObjectsInArray: {
             test1: () => {
@@ -264,6 +273,47 @@ export const MiscUtilSpec = {
                         testkey: "testvalue"
                     }, {
                         index: 3,
+                        testkey: "testvalue"
+                    }, {
+                        index: 4,
+                        testkey: "testvalue"
+                    }, {
+                        index: 5,
+                        testkey: "testvalue"
+                    }];
+
+                    //assert
+                    expect(immutableArr.sort(varIn).toJS()).to.deep.equal(varOut);
+                });
+            },
+            test2: () => {
+                it('takes a key and returns a sort function comparing that key for an Immutable List of Map objects with shared indices.', () => {
+                    // DEFINE VARS
+                    let immutableArr = Immutable.fromJS([{
+                        index: 4,
+                        testkey: "testvalue"
+                    }, {
+                        index: 4,
+                        testkey: "testvalue"
+                    }, {
+                        index: 1,
+                        testkey: "testvalue"
+                    }, {
+                        index: 5,
+                        testkey: "testvalue"
+                    }, {
+                        index: 3,
+                        testkey: "testvalue"
+                    }]);
+                    let varIn = miscUtil.getImmutableObjectSort("index");
+                    let varOut = [{
+                        index: 1,
+                        testkey: "testvalue"
+                    }, {
+                        index: 3,
+                        testkey: "testvalue"
+                    }, {
+                        index: 4,
                         testkey: "testvalue"
                     }, {
                         index: 4,
@@ -412,6 +462,60 @@ export const MiscUtilSpec = {
             }
 
         },
+        convertRgbToHex: {
+            test1: () => {
+                it('converts rgb to hex', () => {
+                    // DEFINE VARS
+                    let varIn = "rgb(1,2,3)";
+                    let varOut = "#010203";
+
+                    //assert
+                    expect(miscUtil.convertRgbToHex(varIn)).to.equal(varOut);
+                });
+            },
+            test2: () => {
+                it('returns empty string when one of the rgb values is > 255', () => {
+                    // DEFINE VARS
+                    let varIn = "rgb(511,2,3)";
+                    let varOut = "";
+
+                    //assert
+                    expect(miscUtil.convertRgbToHex(varIn)).to.equal(varOut);
+                });
+            },
+            test3: () => {
+                it('returns empty string when given invalid input', () => {
+                    // DEFINE VARS
+                    let varIn = "zrgbs(zz,2,3)";
+                    let varOut = "";
+
+                    //assert
+                    expect(miscUtil.convertRgbToHex(varIn)).to.equal(varOut);
+                });
+            },
+            test4: () => {
+                it('returns empty string when given input of incorrect length', () => {
+                    // DEFINE VARS
+                    let varIn = "rgba(1,2,3,0.5)";
+                    let varOut = "";
+
+                    //assert
+                    expect(miscUtil.convertRgbToHex(varIn)).to.equal(varOut);
+                });
+            }
+        },
+        formatHex: {
+            test1: () => {
+                it('returns empty string if given unmatching input', () => {
+                    // DEFINE VARS
+                    let varIn = "rgb(1,2,3)";
+                    let varOut = "";
+
+                    //assert
+                    expect(miscUtil.formatHex(varIn)).to.equal(varOut);
+                });
+            }
+        },
         objectToUrlParams: {
             test1: () => {
                 it('returns a string representing the key/value pairs in an object - strings', () => {
@@ -504,7 +608,13 @@ export const MiscUtilSpec = {
                     expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
                 });
             }
-
         }
+        // enterFullScreen: {
+        //     test1: () => {
+        //         it('enters fullscreen for element.requestFullscreen', () => {
+        //             expect(miscUtil.enterFullScreen()).to.be.null;
+        //         });
+        //     }
+        // }
     }
 };
