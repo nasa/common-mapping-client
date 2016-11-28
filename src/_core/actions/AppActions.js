@@ -63,7 +63,9 @@ export function runUrlConfig(params) {
     // one.
 
     // Sort url params according to appConfig.URL_KEY_ORDER
-    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key) || key)
+    console.log(params,"PAR")
+    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p)
+    console.log(sortedParams,"S PAR")
 
     return (dispatch) => {
         return Promise.all(sortedParams.map((param) => {
