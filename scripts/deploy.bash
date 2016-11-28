@@ -86,7 +86,7 @@ touch .nojekyll
 git add .nojekyll
 
 # Move public folders into root of app
-mv public/* branches/$SOURCE_BRANCH
+# mv public/* branches/$SOURCE_BRANCH
 
 # Touch every file so it's fresh 
 touch .
