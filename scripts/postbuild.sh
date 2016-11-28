@@ -4,7 +4,7 @@
 cp -r ./src/default-data ./dist
 
 # Copy public assets
-cp -r ./public/* ./dist
+cp -r ./assets/* ./dist
 
 # Copy mapskin fonts
 # mkdir -p ./dist/styles/lib/mapskin

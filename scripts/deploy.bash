@@ -68,7 +68,7 @@ mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|test-results|dist|public|branches)
+rm -rf !(coverage|test-results|dist|assets|branches)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
