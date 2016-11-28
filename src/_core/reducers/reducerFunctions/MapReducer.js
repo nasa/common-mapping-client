@@ -217,13 +217,10 @@ export default class MapReducer {
         let alerts = state.get("alerts");
 
        // resolve layer from id if necessary
-        let tmpActionLayer = action.layer;
-        if (typeof tmpActionLayer === "string") {
-            tmpActionLayer = this.findLayerById(state, tmpActionLayer);
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
         }
-
-        // Set layer opacity
-        let actionLayer = tmpActionLayer.set("opacity", action.opacity);
 
         if (typeof actionLayer !== "undefined") {
             let anySucceed = state.get("maps").reduce((acc, map) => {
