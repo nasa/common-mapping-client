@@ -68,7 +68,7 @@ mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|test-results|dist|public|branches)
+rm -rf !(coverage|test-results|dist|assets|branches)
 
 # Clean out existing contents
 # rm -rf $SOURCE_BRANCH
@@ -86,7 +86,7 @@ touch .nojekyll
 git add .nojekyll
 
 # Move public folders into root of app
-mv public/* branches/$SOURCE_BRANCH
+# mv public/* branches/$SOURCE_BRANCH
 
 # Touch every file so it's fresh 
 touch .

@@ -11,7 +11,7 @@ browserSync({
     ghostMode: false,
     ui: false,
     server: {
-        baseDir: ['dist', 'public']
+        baseDir: ['dist']
     },
 
     files: [

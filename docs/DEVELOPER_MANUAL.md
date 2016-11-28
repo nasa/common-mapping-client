@@ -70,8 +70,8 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 ├── .gitignore                # Tells git which files to ignore
 ├── .npmrc                    # Configures npm to save exact by default
 ├── README.md                 # This file.
+├── assets                    # Folder created during postinstall to house Cesium and Cesium-Drawhelper
 ├── dist                      # Folder where the build script places the built app. Use this in prod.
-├── public                    # Folder created during postinstall to house Cesium and Cesium-Drawhelper
 ├── docs                      # All documentation
 ├── karma.conf.js             # Configuration for karma test runner
 ├── package.json              # Package configuration. The list of 3rd party libraries and utilities

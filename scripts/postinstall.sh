@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Remove and re-add public folder
-rm -rf ./public && mkdir ./public
+# Remove and re-add assets folder
+rm -rf ./assets && mkdir ./assets
 
-# Copy Cesium into lib and public
-mkdir ./public/cesium
+# Copy Cesium into lib and assets
+mkdir ./assets/cesium
 cp -r ./node_modules/cesium/Build/Cesium/* ./src/lib/cesium/
-cp -r ./src/lib/cesium/Assets ./public/cesium
-cp -r ./src/lib/cesium/ThirdParty ./public/cesium
-cp -r ./src/lib/cesium/Workers ./public/cesium
+cp -r ./src/lib/cesium/Assets ./assets/cesium
+cp -r ./src/lib/cesium/ThirdParty ./assets/cesium
+cp -r ./src/lib/cesium/Workers ./assets/cesium
 
 # Copy Cesium-drawhelper
-mkdir -p ./public/CesiumDrawHelper/img
-cp ./src/_core/styles/resources/img/CesiumDrawHelper/*.png ./public/CesiumDrawHelper/img
+mkdir -p ./assets/CesiumDrawHelper/img
+cp ./src/_core/styles/resources/img/CesiumDrawHelper/*.png ./assets/CesiumDrawHelper/img
 
 # Copy flexbox
 mkdir ./src/lib/flexboxgrid/
@@ -22,5 +22,5 @@ cp ./node_modules/flexboxgrid/dist/flexboxgrid.min.css ./src/lib/flexboxgrid/
 mkdir ./src/lib/normalize/
 cp ./node_modules/normalize.css/normalize.css ./src/lib/normalize/
 
-# Copy mapskin into public
-cp -r ./src/lib/mapskin ./public
+# Copy mapskin into assets
+cp -r ./src/lib/mapskin ./assets
