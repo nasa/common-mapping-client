@@ -16,8 +16,8 @@ export function setLayerMenuOpen(open) {
     return { type: types.SET_LAYER_MENU_OPEN, open };
 }
 
-export function setLayerActive(layer, active, opacity = 1) {
-    return { type: types.SET_LAYER_ACTIVE, layer, active, opacity};
+export function setLayerActive(layer, active) {
+    return { type: types.SET_LAYER_ACTIVE, layer, active};
 }
 
 export function setLayerDisabled(layer, disabled) {

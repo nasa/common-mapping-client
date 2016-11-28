@@ -5,7 +5,10 @@ import * as LayerActions from '_core/actions/LayerActions';
 import * as MapActions from '_core/actions/MapActions';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as AlertActions from '_core/actions/AlertActions';
+import MiscUtil from '_core/utils/MiscUtil';
 import moment from 'moment';
+
+const miscUtil = new MiscUtil();
 
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
@@ -59,17 +62,24 @@ export function runUrlConfig(params) {
     // Takes an array of key value pairs and dispatches associated actions for each
     // one.
 
+    // Sort url params according to appConfig.URL_KEY_ORDER
+    // params
+    console.log(params,"PARAMS", miscUtil.findObjectInArray)
+    // let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p)
+    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key) || key)
+    console.log(sortedParams,"SORTED PARAMS")
+
     // Extract layer opacities here since we can't rely on synchronous layer activation
     // for all maps and therefore need to activate layers with desired opacities
-    let layerOpacities = params.find(x => x.key === appConfig.URL_KEYS.OPACITIES);
-    let layerOpacitiesList = layerOpacities ? layerOpacities.value.split(",") : [];
-    let layerOpacitiesMap = {};
-    for (var i = 0; i < layerOpacitiesList.length; i += 2) {
-        layerOpacitiesMap[layerOpacitiesList[i]] = layerOpacitiesList[i + 1];
-    }
+    // let layerOpacities = params.find(x => x.key === appConfig.URL_KEYS.OPACITIES);
+    // let layerOpacitiesList = layerOpacities ? layerOpacities.value.split(",") : [];
+    // let layerOpacitiesMap = {};
+    // for (var i = 0; i < layerOpacitiesList.length; i += 2) {
+    //     layerOpacitiesMap[layerOpacitiesList[i]] = layerOpacitiesList[i + 1];
+    // }
     return (dispatch) => {
-        return Promise.all(params.map((param) => {
-            return dispatch(translateUrlParamToActionDispatch(param, layerOpacitiesMap));
+        return Promise.all(sortedParams.map((param) => {
+            return dispatch(translateUrlParamToActionDispatch(param));
         })).catch((err) => {
             console.warn("Error in AppActions.runUrlConfig:", err);
             dispatch(AlertActions.addAlert({
@@ -82,10 +92,12 @@ export function runUrlConfig(params) {
     };
 }
 
-function translateUrlParamToActionDispatch(param, opacities) {
+function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
         case appConfig.URL_KEYS.ACTIVE_LAYERS:
-            return setLayersActive(param.value.split(","), true, opacities);
+            return setLayersActive(param.value.split(","), true);
+        case appConfig.URL_KEYS.OPACITIES:
+            return setLayerOpacities(param.value.split(","));
         case appConfig.URL_KEYS.VIEW_MODE:
             return setViewMode(param.value);
         case appConfig.URL_KEYS.BASEMAP:
@@ -93,9 +105,9 @@ function translateUrlParamToActionDispatch(param, opacities) {
         case appConfig.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true", opacities);
+            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
         case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true", opacities);
+            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         case appConfig.URL_KEYS.DATE:
@@ -105,11 +117,11 @@ function translateUrlParamToActionDispatch(param, opacities) {
     }
 }
 
-function setLayersActive(idArr, active, opacities) {
+function setLayersActive(idArr, active) {
     return (dispatch) => {
         return new Promise(() => {
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(idArr[i], active, opacities[idArr[i]]));
+                dispatch(LayerActions.setLayerActive(idArr[i], active));
             }
         });
     };
