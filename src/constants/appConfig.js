@@ -45,10 +45,12 @@ export const URL_KEY_ORDER = [
     URL_KEYS.BASEMAP,
     URL_KEYS.ENABLE_POLITICAL_BOUNDARIES
 ];
+export const DEFAULT_AUTO_UPDATE_URL_ENABLED = true;
 /* END SHAREABLE URL */
 
 
 /* ANALYTICS */
+export const DEFAULT_ANALYTICS_ENABLED = false;
 export const ANALYTICS_BATCH_WAIT_TIME_MS = 5000;
 export const ANALYTICS_BATCH_SIZE = 10;
 export const SESSION_ID = (() => {
