@@ -12,9 +12,6 @@ const miscUtil = new MiscUtil();
 
 export class DateSliderContainer extends Component {
     render() {
-        let containerClasses = miscUtil.generateStringFromSet({
-            "collapsed": this.props.sliderCollapsed
-        });
         let hoverDateClasses = miscUtil.generateStringFromSet({
             "hover-date-display": true,
             "hidden": !this.props.hoverDate.get("isValid")
@@ -24,7 +21,7 @@ export class DateSliderContainer extends Component {
         };
         let hoverDate = moment(this.props.hoverDate.get("date")).format("YYYY MMM DD");
         return (
-            <div id="dateSliderContainer" className={containerClasses}>
+            <div id="dateSliderContainer">
                 <div className={hoverDateClasses} style={hoverDateStyles}>
                     {hoverDate}
                 </div>
@@ -40,14 +37,12 @@ export class DateSliderContainer extends Component {
 }
 
 DateSliderContainer.propTypes = {
-    hoverDate: PropTypes.object.isRequired,
-    sliderCollapsed: PropTypes.bool.isRequired
+    hoverDate: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        hoverDate: state.dateSlider.get("hoverDate"),
-        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
+        hoverDate: state.dateSlider.get("hoverDate")
     };
 }
 

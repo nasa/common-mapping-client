@@ -57,16 +57,14 @@ LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
-    palettes: PropTypes.object.isRequired,
-    sliderCollapsed: PropTypes.bool.isRequired
+    palettes: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
         layers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]),
-        palettes: state.map.get("palettes"),
-        sliderCollapsed: state.dateSlider.get("sliderCollapsed")
+        palettes: state.map.get("palettes")
     };
 }
 

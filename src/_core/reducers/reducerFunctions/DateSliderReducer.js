@@ -29,10 +29,6 @@ export default class DateSliderReducer {
         newState = this.setChangingResolution(newState, { isSelectingResolution: false });
         return newState;
     }
-    static setSliderCollapsed(state, action) {
-        state = this.setChangingResolution(state, {isSelectingResolution: false});
-        return state.set("sliderCollapsed", action.collapsed);
-    }
     static setChangingResolution(state, action) {
         return state.set("isSelectingResolution", action.isSelectingResolution);
     }

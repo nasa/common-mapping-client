@@ -63,7 +63,6 @@ export const StoreSpec = {
                         MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
                         MapActions.zoomOut(),
                         MapActions.resetOrientation(0),
-                        DateSliderActions.setSliderCollapsed(),
                         DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
                         AppActions.resetApplicationState()
                     ];
