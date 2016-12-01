@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 
 export class MapControlsContainer extends Component {
     setViewMode() {
@@ -29,10 +30,12 @@ export class MapControlsContainer extends Component {
                 <Button
                     floating
                     neutral
-                    icon="navigation"
-                    className={this.props.in3DMode ? "map-orientation-reset mini-xs" : "hidden"} 
-                    onClick={() => {this.props.actions.resetOrientation(1);}}
-                    data-tip="Reset orientation"
+                    icon="home"
+                    className={"map-reset-view mini-xs"} 
+                    onClick={() => {
+                        this.props.actions.setMapView({extent: appConfig.DEFAULT_PROJECTION.extent});
+                    }}
+                    data-tip="Reset Map View"
                     data-place="right" 
                 />
                 <Button
