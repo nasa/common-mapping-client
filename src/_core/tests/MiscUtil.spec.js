@@ -608,13 +608,20 @@ export const MiscUtilSpec = {
                     expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
                 });
             }
+        },
+        getIsInFullScreenMode: {
+            test1: () => {
+                it('returns null when not in fullscreen', () => {
+                    // Testing fullscreen is more trouble than it's worth here since
+                    // fullscreen is difficult to initiate without direct user input
+                    expect(miscUtil.getIsInFullScreenMode()).to.be.null;
+                });
+            }
+        },
+        getUrlParams: {
+            test1: () => {
+                expect(miscUtil.getUrlParams()).to.deep.equal([]);
+            }
         }
-        // enterFullScreen: {
-        //     test1: () => {
-        //         it('enters fullscreen for element.requestFullscreen', () => {
-        //             expect(miscUtil.enterFullScreen()).to.be.null;
-        //         });
-        //     }
-        // }
     }
 };

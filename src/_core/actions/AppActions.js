@@ -5,7 +5,10 @@ import * as LayerActions from '_core/actions/LayerActions';
 import * as MapActions from '_core/actions/MapActions';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as AlertActions from '_core/actions/AlertActions';
+import MiscUtil from '_core/utils/MiscUtil';
 import moment from 'moment';
+
+const miscUtil = new MiscUtil();
 
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
@@ -58,8 +61,13 @@ export function setAutoUpdateUrl(autoUpdateUrl) {
 export function runUrlConfig(params) {
     // Takes an array of key value pairs and dispatches associated actions for each
     // one.
+
+    // Sort url params according to appConfig.URL_KEY_ORDER
+    // After sorting, filter out false values (occur when there are keys with no values, e.g. 'basemap=')
+    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p)
+
     return (dispatch) => {
-        return Promise.all(params.map((param) => {
+        return Promise.all(sortedParams.map((param) => {
             return dispatch(translateUrlParamToActionDispatch(param));
         })).catch((err) => {
             console.warn("Error in AppActions.runUrlConfig:", err);

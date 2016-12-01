@@ -33,10 +33,24 @@ export const URL_KEYS = {
     ENABLE_3D_TERRAIN: 'enable3DTerrain',
     DATE: 'date'
 };
+
+export const URL_KEY_ORDER = [
+    URL_KEYS.OPACITIES,
+    URL_KEYS.VIEW_MODE,
+    URL_KEYS.VIEW_EXTENT,
+    URL_KEYS.DATE,
+    URL_KEYS.ENABLE_3D_TERRAIN,
+    URL_KEYS.ENABLE_PLACE_LABLES,
+    URL_KEYS.ACTIVE_LAYERS,
+    URL_KEYS.BASEMAP,
+    URL_KEYS.ENABLE_POLITICAL_BOUNDARIES
+];
+export const DEFAULT_AUTO_UPDATE_URL_ENABLED = true;
 /* END SHAREABLE URL */
 
 
 /* ANALYTICS */
+export const DEFAULT_ANALYTICS_ENABLED = false;
 export const ANALYTICS_BATCH_WAIT_TIME_MS = 5000;
 export const ANALYTICS_BATCH_SIZE = 10;
 export const SESSION_ID = (() => {
@@ -66,9 +80,9 @@ export const YEAR_ARRAY = (() => {
 export const MONTH_ARRAY = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const DAY_ARRAY = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 export const DATE_SLIDER_RESOLUTIONS = {
-    DAYS: {label: "Days", resolution: 512},
-    MONTHS: {label: "Months", resolution: 16},
-    YEARS: {label: "Years", resolution: 1}
+    DAYS: { label: "Days", resolution: 512 },
+    MONTHS: { label: "Months", resolution: 16 },
+    YEARS: { label: "Years", resolution: 1 }
 };
 /* END DATE */
 
@@ -110,4 +124,3 @@ export const GEOMETRY_STROKE_WEIGHT = 3;
 export const MEASURE_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
 export const MEASURE_STROKE_COLOR = "rgba(255, 255, 255, 0.75)";
 /* END MAP */
-
