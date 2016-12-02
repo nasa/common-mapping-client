@@ -108,7 +108,6 @@ export class SettingsContainer extends Component {
                         legend="Enable terrain on the 3D map"
                         onChange={(value) => this.props.mapActions.setTerrainEnabled(value)}
                     />
-                    <ListSubHeader className="list-sub-header" caption="Application Display" />
                     <ListSubHeader className="list-sub-header" caption="Application Configuration" />
                     <ListCheckbox
                         className="menu-check-box"
