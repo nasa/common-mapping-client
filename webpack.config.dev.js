@@ -3,9 +3,9 @@ import path from 'path';
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('development'),
+    __VERSION__: JSON.stringify(require("./package.json").version),
     __DEV__: true
 };
-
 
 export default {
     debug: true,

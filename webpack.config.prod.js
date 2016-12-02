@@ -4,6 +4,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
+    __VERSION__: JSON.stringify(require("./package.json").version),
     __DEV__: false
 };
 
