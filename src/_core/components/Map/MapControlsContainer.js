@@ -26,12 +26,9 @@ export class MapControlsContainer extends Component {
         this.hideMapControlsTimeout = null;
         this.mouseMovementTimeThreshold = 2000;
         this.hideMapControlsEnabled = false;
-        this.isHoveringOverMapControls = false;
         this._isInDistractionFreeMode = false;
     }
     componentWillUpdate(nextProps, nextState) {
-        console.log("currentProps", this.props);
-        console.log("nextProps", nextProps);
         // If we're not going to be in distractionFreeMode we can stop everything
         if (!nextProps.distractionFreeMode) {
             this.stopListeningToMouseMovement();
@@ -39,14 +36,8 @@ export class MapControlsContainer extends Component {
         }
         // If we are transitioning to distractionFreeMode
         else if (!this.props.distractionFreeMode && nextProps.distractionFreeMode) {
-            this.startListeningToMouseMovement();
+            // this.startListeningToMouseMovement();
             this._isInDistractionFreeMode = true;
-        }
-        // If distractionFreeMode is true and hasn't changed, we just care about mapControlsHidden
-        else if (this.props.distractionFreeMode && nextProps.distractionFreeMode && this._isInDistractionFreeMode) {
-            if (!this.props.mapControlsHidden && nextProps.mapControlsHidden) {
-                console.log("uh")
-            }
         }
     }
     startListeningToMouseMovement() {
@@ -60,18 +51,25 @@ export class MapControlsContainer extends Component {
         } 
     }
     stopListeningToMouseMovement() {
-        console.log("STAWP")
         clearTimeout(this.hideMapControlsTimeout);
         this.hideMapControlsEnabled = false;
         window.onmousemove = null;
         this.props.appActions.hideMapControls(false);
     }
     hideMapControls() {
-        console.log("HIDE MAP CONTROLS")
         if (!this.hideMapControlsEnabled) {
             this.hideMapControlsEnabled = true;
-            console.log("FIRE HIDE");
             this.props.appActions.hideMapControls(true);
+        }
+    }
+    onMapControlsMouseEnter() {
+        if (this.props.distractionFreeMode) {
+            this.stopListeningToMouseMovement();
+        }
+    }
+    onMapControlsMouseLeave() {
+        if (this.props.distractionFreeMode) {
+            this.startListeningToMouseMovement();
         }
     }
     setViewMode() {
@@ -89,8 +87,8 @@ export class MapControlsContainer extends Component {
         });
         return (
             <div className={containerClasses} id="mapControls" 
-                // onMouseLeave={() => {this.isHoveringOverMapControls = false}}
-                // onMouseEnter={() => {this.isHoveringOverMapControls = true}}
+                onMouseLeave={() => {this.onMapControlsMouseLeave()}}
+                onMouseEnter={() => {this.onMapControlsMouseEnter()}}
                 >
                 <Button 
                     floating
