@@ -53,6 +53,9 @@ module.exports = function(config) {
                 modulesDirectories: ["src", "node_modules"],
                 extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
             },
+            plugins: [
+                new webpack.DefinePlugin({ __VERSION__: JSON.stringify(require("./package.json").version) })
+            ],
             module: {
                 noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
                 loaders: [
