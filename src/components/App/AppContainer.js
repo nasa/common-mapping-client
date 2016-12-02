@@ -69,8 +69,12 @@ export class AppContainer extends Component {
     }
 
     render() {
+        let containerClasses = miscUtil.generateStringFromSet({
+            "mouse-hidden": this.props.mapControlsHidden && this.props.distractionFreeMode,
+            "mouse-shown": !this.props.mapControlsHidden && this.props.distractionFreeMode
+        });
         return (
-            <div id="appContainer">
+            <div id="appContainer" className={containerClasses}>
                 <HelpContainer />
                 <MapContainer />
                 <MapControlsContainer />
@@ -93,8 +97,17 @@ export class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    distractionFreeMode: PropTypes.bool.isRequired,
+    mapControlsHidden: PropTypes.bool.isRequired
 };
+
+function mapStateToProps(state) {
+    return {
+        distractionFreeMode: state.view.get("distractionFreeMode"),
+        mapControlsHidden: state.view.get("mapControlsHidden")
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -109,6 +122,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(AppContainer);

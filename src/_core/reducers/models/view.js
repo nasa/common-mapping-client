@@ -8,5 +8,7 @@ export const viewState = Immutable.fromJS({
     initialLoadComplete: false,
     layerMenuOpen: true,
     isFullscreen: false,
+    distractionFreeMode: false,
+    mapControlsHidden: false,
     alerts: []
 });

@@ -49,6 +49,12 @@ export function dismissAllAlerts(alerts) {
 export function setFullScreenMode(enabled) {
     return { type: types.SET_FULL_SCREEN, enabled };
 }
+export function setDistractionFreeMode(enabled) {
+    return {type: types.SET_DISTRACTION_FREE_MODE, enabled};
+}
+export function hideMapControls(hidden) {
+    return {type: types.HIDE_MAP_CONTROLS, hidden};
+}
 export function openSettings() {
     return { type: types.OPEN_SETTINGS };
 }

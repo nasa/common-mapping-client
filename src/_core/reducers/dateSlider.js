@@ -19,9 +19,6 @@ export default function dateSlider(state = dateSliderState, action) {
         case actionTypes.SET_DATE_RESOLUTION:
             return DateSliderReducer.setDateResolution(state, action);
 
-        case actionTypes.SET_SLIDER_COLLAPSED:
-            return DateSliderReducer.setSliderCollapsed(state, action);
-
         case actionTypes.SET_CHANGING_RESOLUTION:
             return DateSliderReducer.setChangingResolution(state, action);
 

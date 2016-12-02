@@ -38,4 +38,12 @@ export default class ViewReducer {
     static resetApplicationState(state, action) {
         return this.setLayerMenuOpen(state, { open: true });
     }
+
+    static setDistractionFreeMode(state, action) {
+        return state.set("distractionFreeMode", action.enabled);
+    }
+
+    static hideMapControls(state, action) {
+        return state.set("mapControlsHidden", action.hidden);
+    }
 }

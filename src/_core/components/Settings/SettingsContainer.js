@@ -109,13 +109,6 @@ export class SettingsContainer extends Component {
                         onChange={(value) => this.props.mapActions.setTerrainEnabled(value)}
                     />
                     <ListSubHeader className="list-sub-header" caption="Application Display" />
-                    <ListCheckbox
-                        className="menu-check-box"
-                        caption="Collapsed Time Slider"
-                        checked={this.props.sliderCollapsed}
-                        legend="Collapse the time slider at the bottom of the screen"
-                        onChange={(value) => this.props.dateSliderActions.setSliderCollapsed(value)}
-                    />
                     <ListSubHeader className="list-sub-header" caption="Application Configuration" />
                     <ListCheckbox
                         className="menu-check-box"
@@ -146,7 +139,6 @@ export class SettingsContainer extends Component {
 
 SettingsContainer.propTypes = {
     settingsOpen: PropTypes.bool.isRequired,
-    sliderCollapsed: PropTypes.bool.isRequired,
     analyticsEnabled: PropTypes.bool.isRequired,
     autoUpdateUrlEnabled: PropTypes.bool.isRequired,
     basemaps: PropTypes.object.isRequired,
@@ -165,7 +157,6 @@ function mapStateToProps(state) {
         mapSettings: state.map.get("displaySettings"),
         basemaps: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]),
         referenceLayers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]),
-        sliderCollapsed: state.dateSlider.get("sliderCollapsed"),
         analyticsEnabled: state.analytics.get("isEnabled"),
         autoUpdateUrlEnabled: state.share.get("autoUpdateUrl")
     };
