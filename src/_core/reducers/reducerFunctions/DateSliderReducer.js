@@ -36,7 +36,6 @@ export default class DateSliderReducer {
         let newState = this.endDragging(state, action);
         newState = this.setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS.DAYS });
         newState = this.setChangingResolution(newState, { isSelectingResolution: false });
-        newState = this.setSliderCollapsed(newState, { collapsed: false });
         return newState;
     }
 }
