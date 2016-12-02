@@ -1,11 +1,11 @@
+/*global __VERSION__*/
+
 import moment from 'moment';
 import * as appStrings from '_core/constants/appStrings';
 
 /* APP DISPLAY */
 export const APP_TITLE = 'Common Mapping Client';
-/*global __VERSION__*/
-export const APP_VERSION = __VERSION__ || 'Unknown Version'; // VERSION is a plugin defined in webpack config
-// export const APP_VERSION = 'Unknown Version'; // VERSION is a plugin defined in webpack config
+export const APP_VERSION = __VERSION__ || 'Unknown Version'; // __VERSION__ is a plugin defined in webpack config. Use eslint global flag for this global excpetion.
 export const APP_SUBTITLE = APP_VERSION;
 /* END APP DISPLAY */
 
