@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import ol from 'openlayers';
+// import olDebug from 'openlayers/dist/ol-debug.js';
 import proj4js from 'proj4';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
@@ -1281,6 +1282,23 @@ export default class MapWrapper_openlayers extends MapWrapper {
         // define the projection for this application and reproject defaults
         ol.proj.setProj4(proj4js);
         proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
+
+        // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
+        // string in getCapabilities and parses it into "OGC:CRS84". This
+        // hopefully adds that as an equivalent projection
+        let epsg4326Proj = ol.proj.get('EPSG:4326');
+        let ogcCrs84Proj = new ol.proj.Projection({
+            code: 'OGC:CRS84',
+            units: epsg4326Proj.getUnits(),
+            extent: epsg4326Proj.getExtent(),
+            global: epsg4326Proj.isGlobal(),
+            metersPerUnit: epsg4326Proj.getMetersPerUnit(),
+            worldExtent: epsg4326Proj.getWorldExtent(),
+            getPointResolution: function(res, point) { return ol.proj.get('EPSG:4326').getPointResolution(res, point); }
+
+        });
+        ol.proj.addProjection(ogcCrs84Proj);
+        ol.proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
 
         let mapProjection = ol.proj.get(appConfig.DEFAULT_PROJECTION.code);
         mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
