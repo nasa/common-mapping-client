@@ -3,7 +3,9 @@ import * as appStrings from '_core/constants/appStrings';
 
 /* APP DISPLAY */
 export const APP_TITLE = 'Common Mapping Client';
-export const APP_VERSION = '0.9-beta';
+/*global __VERSION__*/
+export const APP_VERSION = __VERSION__ || 'Unknown Version'; // VERSION is a plugin defined in webpack config
+// export const APP_VERSION = 'Unknown Version'; // VERSION is a plugin defined in webpack config
 export const APP_SUBTITLE = APP_VERSION;
 /* END APP DISPLAY */
 
