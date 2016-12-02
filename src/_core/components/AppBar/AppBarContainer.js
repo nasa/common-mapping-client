@@ -22,10 +22,13 @@ export class AppBarContainer extends Component {
             this.props.actions.setFullScreenMode(false);
         }
     }
-
     render() {
+        let containerClasses = miscUtil.generateStringFromSet({
+            "hidden-fade-out": this.props.distractionFreeMode,
+            "hidden-fade-in": !this.props.distractionFreeMode
+        });
         return (
-            <div id="titleContainer">
+            <div id="titleContainer" className={containerClasses}>
                 <div className="row middle-xs">
                     <div className="col-xs-6">
                         <h1 id="appTitle" >{this.props.title}</h1>
@@ -73,6 +76,7 @@ export class AppBarContainer extends Component {
 
 AppBarContainer.propTypes = {
     actions: PropTypes.object.isRequired,
+    distractionFreeMode: PropTypes.bool.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string.isRequired
@@ -82,6 +86,7 @@ function mapStateToProps(state) {
     return {
         title: state.view.get("title"),
         subtitle: state.view.get("subtitle"),
+        distractionFreeMode: state.view.get("distractionFreeMode"),
         isFullscreen: state.view.get("isFullscreen")
     };
 }

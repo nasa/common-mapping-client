@@ -72,6 +72,27 @@ hr.divider.dark {
     display: none !important;
 }
 
+.hidden-fade-in {
+    opacity: 1;
+    transition: opacity 0.2s linear 0s;
+    // @include animation(opacityWithDisplayAnimationShow, 0.5s);
+}
+
+.hidden-fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s linear 0s;
+    // @include animation(opacityWithDisplayAnimationHide, 0.5s);
+}
+
+.mouse-hidden {
+    cursor: none;
+}
+
+.mouse-shown {
+    cursor: initial;
+}
+
 .full-size {
     width: 100% !important;
     height: 100% !important;

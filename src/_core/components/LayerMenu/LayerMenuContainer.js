@@ -19,7 +19,9 @@ export class LayerMenuContainer extends Component {
 
         // css classes
         let layerMenuClasses = miscUtil.generateStringFromSet({
-            "open": this.props.layerMenuOpen
+            "open": this.props.layerMenuOpen,
+            "hidden-fade-out": this.props.distractionFreeMode,
+            "hidden-fade-in": !this.props.distractionFreeMode
         });
 
         return (
@@ -57,6 +59,7 @@ LayerMenuContainer.propTypes = {
     setLayerMenuOpen: PropTypes.func.isRequired,
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
+    distractionFreeMode: PropTypes.bool.isRequired,
     palettes: PropTypes.object.isRequired
 };
 
@@ -64,7 +67,8 @@ function mapStateToProps(state) {
     return {
         layerMenuOpen: state.view.get("layerMenuOpen"),
         layers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]),
-        palettes: state.map.get("palettes")
+        palettes: state.map.get("palettes"),
+        distractionFreeMode: state.view.get("distractionFreeMode")
     };
 }
 

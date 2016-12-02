@@ -61,7 +61,6 @@
     width: 100%;
     bottom: 0px;
     left: 0px;
-    transition: bottom 0.1s linear 0s;
     height: 50px;
     @include medium-shadow();
     &.collapsed {
