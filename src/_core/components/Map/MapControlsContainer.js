@@ -36,7 +36,6 @@ export class MapControlsContainer extends Component {
         }
         // If we are transitioning to distractionFreeMode
         else if (!this.props.distractionFreeMode && nextProps.distractionFreeMode) {
-            // this.startListeningToMouseMovement();
             this._isInDistractionFreeMode = true;
         }
     }
@@ -45,6 +44,7 @@ export class MapControlsContainer extends Component {
         window.onmousemove = () => {
             // Clear the timeout
             clearTimeout(this.hideMapControlsTimeout);
+            this.hideMapControlsTimeout = null;
             this.hideMapControlsEnabled = false;
             this.startListeningToMouseMovement();
             this.props.appActions.hideMapControls(false);
@@ -52,6 +52,7 @@ export class MapControlsContainer extends Component {
     }
     stopListeningToMouseMovement() {
         clearTimeout(this.hideMapControlsTimeout);
+        this.hideMapControlsTimeout = null;
         this.hideMapControlsEnabled = false;
         window.onmousemove = null;
         this.props.appActions.hideMapControls(false);
@@ -59,6 +60,7 @@ export class MapControlsContainer extends Component {
     hideMapControls() {
         if (!this.hideMapControlsEnabled) {
             this.hideMapControlsEnabled = true;
+            this.hideMapControlsTimeout = null;
             this.props.appActions.hideMapControls(true);
         }
     }

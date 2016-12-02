@@ -63,9 +63,6 @@
     left: 0px;
     height: 50px;
     @include medium-shadow();
-    &.collapsed {
-        bottom: -50px;
-    }
 }
 
 #dateSlider {
