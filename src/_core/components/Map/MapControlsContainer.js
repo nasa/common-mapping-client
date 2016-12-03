@@ -103,7 +103,8 @@ export class MapControlsContainer extends Component {
                 />
                 <Button
                     // floating
-                    neutral
+                    neutral={!this.props.distractionFreeMode ? false : true}
+                    primary={this.props.distractionFreeMode ? true : false}
                     className={"map-distraction-free-mode mini-xs"} 
                     onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
                     data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
