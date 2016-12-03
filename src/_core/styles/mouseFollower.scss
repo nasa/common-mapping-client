@@ -3,7 +3,7 @@
     z-index: -1;
     background: none;
     margin: 0px;
-    transform: translate(25px, -50%);
+    transform: translate(25px, -51%);
     visibility: hidden;
     pointer-events: none;
     border-radius: 2px;
@@ -13,7 +13,7 @@
         z-index: 1;
     }
     &.right {
-        transform: translate(calc(-100% - 25px), -50%);
+        transform: translate(calc(-100% - 25px), -51%);
     }
     .content-container {
         background: $color-light;
