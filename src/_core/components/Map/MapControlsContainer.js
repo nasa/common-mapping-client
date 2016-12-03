@@ -92,8 +92,34 @@ export class MapControlsContainer extends Component {
                 onMouseLeave={() => {this.onMapControlsMouseLeave()}}
                 onMouseEnter={() => {this.onMapControlsMouseEnter()}}
                 >
+                <Button
+                    // floating
+                    neutral
+                    icon="add"
+                    className="map-zoom-in mini-xs" 
+                    onClick={this.props.actions.zoomIn} 
+                    data-tip="Zoom in"
+                    data-place="right"
+                />
+                <Button
+                    // floating
+                    neutral
+                    className={"map-distraction-free-mode mini-xs"} 
+                    onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
+                    data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
+                    data-place="right" 
+                >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
+                <Button
+                    // floating
+                    neutral
+                    icon="remove"
+                    className="map-zoom-out mini-xs" 
+                    onClick={this.props.actions.zoomOut} 
+                    data-tip="Zoom out"
+                    data-place="right"
+                />
                 <Button 
-                    floating
+                    // floating
                     neutral
                     label={this.props.in3DMode ? "2D" : "3D"} 
                     className="map-dimension-toggle mini-xs" 
@@ -102,15 +128,7 @@ export class MapControlsContainer extends Component {
                     data-place="right"
                 />
                 <Button
-                    floating
-                    neutral
-                    className={"map-distraction-free-mode mini-xs"} 
-                    onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
-                    data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
-                    data-place="right" 
-                >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
-                <Button
-                    floating
+                    // floating
                     neutral
                     icon="home"
                     className={"map-reset-view mini-xs"} 
@@ -121,21 +139,12 @@ export class MapControlsContainer extends Component {
                     data-place="right" 
                 />
                 <Button
-                    floating
+                    // floating
                     neutral
-                    icon="add"
-                    className="map-zoom-in mini-xs" 
-                    onClick={this.props.actions.zoomIn} 
-                    data-tip="Zoom in"
-                    data-place="right"
-                />
-                <Button
-                    floating
-                    neutral
-                    icon="remove"
-                    className="map-zoom-out mini-xs" 
-                    onClick={this.props.actions.zoomOut} 
-                    data-tip="Zoom out"
+                    icon="build"
+                    className="map-tools mini-xs" 
+                    // onClick={this.props.actions.zoomOut} 
+                    data-tip="Tools"
                     data-place="right"
                 />
             </div>
