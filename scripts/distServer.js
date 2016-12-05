@@ -9,6 +9,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 browserSync({
     port: 3000,
     ghostMode: false,
+    notify: false,
     ui: false,
     server: {
         baseDir: ['dist']
