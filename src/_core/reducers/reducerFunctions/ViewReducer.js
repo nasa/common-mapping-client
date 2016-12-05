@@ -43,6 +43,10 @@ export default class ViewReducer {
         return state.set("distractionFreeMode", action.enabled);
     }
 
+    static setMapControlsToolsOpen(state, action) {
+        return state.set("mapControlsToolsOpen", action.open);
+    }
+
     static hideMapControls(state, action) {
         return state.set("mapControlsHidden", action.hidden);
     }

@@ -45,9 +45,8 @@ export class ContextMenuSubMenu extends Component {
     }
     getMenuPosition() {
         let { innerWidth, innerHeight } = window;
-        let rect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
+        let rect = ReactDOM.findDOMNode(this.refs.submenu).getBoundingClientRect();
         let position = {...initialPosition };
-
         if ((rect.bottom + rect.height) > innerHeight) {
             position.bottom = true;
         } else {
@@ -59,7 +58,6 @@ export class ContextMenuSubMenu extends Component {
         } else {
             position.right = true;
         }
-
         return position;
     }
     handleClick(e) {
@@ -106,7 +104,6 @@ export class ContextMenuSubMenu extends Component {
 
         return (
             <div
-                ref="menu"
                 className={menuClasses}
                 style={menuStyles}
                 onMouseEnter={() => this.handleMouseEnter()}
@@ -121,7 +118,7 @@ export class ContextMenuSubMenu extends Component {
                     <span className="context-menu-label">{customIcon ? title : "" }</span>
                     <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
                 </Button>
-                <div className={subMenuClasses}>
+                <div className={subMenuClasses} ref="submenu">
                     {children}
                 </div>
             </div>

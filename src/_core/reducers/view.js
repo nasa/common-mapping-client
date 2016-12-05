@@ -22,6 +22,9 @@ export default function view(state = viewState, action) {
         case actionTypes.SET_DISTRACTION_FREE_MODE:
             return ViewReducer.setDistractionFreeMode(state, action);
 
+        case actionTypes.SET_MAP_CONTROL_TOOLS_OPEN:
+            return ViewReducer.setMapControlsToolsOpen(state, action);
+
         case actionTypes.HIDE_MAP_CONTROLS:
             return ViewReducer.hideMapControls(state, action);
 

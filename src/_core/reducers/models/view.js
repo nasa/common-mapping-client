@@ -10,5 +10,6 @@ export const viewState = Immutable.fromJS({
     isFullscreen: false,
     distractionFreeMode: false,
     mapControlsHidden: false,
+    mapControlsToolsOpen: false,
     alerts: []
 });

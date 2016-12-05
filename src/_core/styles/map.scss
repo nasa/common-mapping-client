@@ -1,3 +1,45 @@
+#mapToolsMenu {
+    position: absolute;
+    left: 107px;
+    bottom: 75px;
+    transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
+    opacity: 0;
+    pointer-events: none;
+    &.active {
+        opacity: 1;
+        transition: opacity 0s linear 0s, top 0s linear 0s;
+        pointer-events: all;
+    }
+    &:after,
+    &:before {
+        left: -23px;
+        top: 86%;
+        border: solid red;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    &:before {
+        border-color: rgba(194, 225, 245, 0);
+        border-right-color: rgba(0, 0, 0, 0.08);
+        border-width: 11px;
+        margin-top: -11px;
+    }
+    &:after {
+        border-color: transparent;
+        border-right-color: $color-light;
+        border-width: 11px;
+        margin-top: -11px;
+        margin-left: 2px;
+    }
+    [data-react-toolbox="menu-item"] {
+        height: inherit;
+        padding: 0px;
+    }
+}
+
 #mapControls {
     position: absolute;
     bottom: 65px;
@@ -9,8 +51,48 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    // div[data-react-toolbox="menu"] {
+    //     padding: 0px;
+    //     left: 130%;
+    //     & > ul {
+    //         clip: initial !important;
+    //         // transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), clip 0s cubic-bezier(0.4, 0, 0.2, 1)
+    //         transition: none;
+    //         padding: 0px;
+    //         margin: 0px;
+    //         // animation: test 0.5s linear;
+    //         // -webkit-animation: test 0.5s linear;
+    //     }
+    //     & > div {
+    //         transition: none;
+    //     }
+    //     &:after,
+    //     &:before {
+    //         left: -20px;
+    //         top: 88%;
+    //         border: solid red;
+    //         content: " ";
+    //         height: 0;
+    //         width: 0;
+    //         position: absolute;
+    //         pointer-events: none;
+    //     }
+    //     &:before {
+    //         border-color: rgba(194, 225, 245, 0);
+    //         border-right-color: rgba(0, 0, 0, 0.2);
+    //         border-width: 11px;
+    //         margin-top: -11px;
+    //     }
+    //     &:after {
+    //         border-left-color: $color-light;
+    //         border-color: transparent;
+    //         border-width: 11px;
+    //         margin-top: -11px;
+    //         margin-left: 1px;
+    //     }
+    // }
     @include light-shadow();
-    button[data-react-toolbox="button"] {
+    .primary-map-button {
         position: relative;
         border-radius: 0px;
         display: inline-block;
