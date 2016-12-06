@@ -5,9 +5,9 @@ import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MapUtil from '_core/utils/MapUtil';
 import TileHandler from '_core/utils/TileHandler';
-import 'lib/cesium/Cesium.js';
+import 'assets/cesium/Cesium.js';
 import '_core/utils/CesiumDrawHelper.js';
-import 'lib/cesium/Widgets/widgets.css';
+import 'assets/cesium/Widgets/widgets.css';
 
 export default class MapWrapper_cesium extends MapWrapper {
 
@@ -20,7 +20,7 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.miscUtil = new MiscUtil();
 
         // Create cesium scene 
-        window.CESIUM_BASE_URL = './cesium';
+        window.CESIUM_BASE_URL = 'assets/cesium';
         this.cesium = window.Cesium;
         this.drawHelper = window.DrawHelper;
         this.map = this.createMap(container, options);

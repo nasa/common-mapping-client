@@ -10,7 +10,7 @@ const GLOBALS = {
 
 export default {
     debug: true,
-    devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
+    // devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
     noInfo: true, // set to false to see a list of every file being bundled.
     entry: './src/index',
     target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
@@ -27,19 +27,19 @@ export default {
         new webpack.optimize.UglifyJsPlugin()
     ],
     resolve: {
-        modulesDirectories: ["src", "node_modules"],
+        modulesDirectories: ["src", "assets", "node_modules"],
         extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
     },
     module: {
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') },
-            { test: /\.js$/, include: path.join(__dirname, 'src/lib/arc'), loaders: ['babel', 'eslint'] },
-            {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
+            { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] },
+            { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
             { test: /Cesium\.js$/, loader: 'script' },
             { test: /CesiumDrawHelper\.js$/, loader: 'script' },
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css!sass') },
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox') },
-            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/, loader: 'file-loader?name=[name].[ext]' },
+            { test: /\.(eot|woff|woff2|ttf|svg|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
             { test: /\.md$/, loader: "raw-loader" }
         ]
     },

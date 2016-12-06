@@ -1,26 +1,30 @@
 #!/bin/bash
 
 # Remove and re-add assets folder
-rm -rf ./assets && mkdir ./assets
+rm -rf ./assets && mkdir -p ./assets/assets
 
 # Copy Cesium into lib and assets
-mkdir ./assets/cesium
-cp -r ./node_modules/cesium/Build/Cesium/* ./src/lib/cesium/
-cp -r ./src/lib/cesium/Assets ./assets/cesium
-cp -r ./src/lib/cesium/ThirdParty ./assets/cesium
-cp -r ./src/lib/cesium/Workers ./assets/cesium
+mkdir ./assets/assets/cesium
+cp -r ./node_modules/cesium/Build/Cesium/* ./assets/assets/cesium/
+# cp -r ./node_modules/cesium/Build/Cesium/Widgets ./lib/cesium/Widgets
+# cp -r ./node_modules/cesium/Assets ./assets/assets/cesium
+# cp -r ./node_modules/cesium/ThirdParty ./assets/assets/cesium
+# cp -r ./node_modules/cesium/Workers ./assets/assets/cesium
 
 # Copy Cesium-drawhelper
-mkdir -p ./assets/CesiumDrawHelper/img
-cp ./src/_core/styles/resources/img/CesiumDrawHelper/*.png ./assets/CesiumDrawHelper/img
+mkdir -p ./assets/assets/CesiumDrawHelper/img
+cp ./src/_core/styles/resources/img/CesiumDrawHelper/*.png ./assets/assets/CesiumDrawHelper/img
 
-# Copy flexbox
-mkdir ./src/lib/flexboxgrid/
-cp ./node_modules/flexboxgrid/dist/flexboxgrid.min.css ./src/lib/flexboxgrid/
+# Copy fslexbox
+mkdir ./assets/assets/flexboxgrid/
+cp ./node_modules/flexboxgrid/dist/flexboxgrid.min.css ./assets/assets/flexboxgrid/
 
 # Copy normalize.css
-mkdir ./src/lib/normalize/
-cp ./node_modules/normalize.css/normalize.css ./src/lib/normalize/
+mkdir ./assets/assets/normalize/
+cp ./node_modules/normalize.css/normalize.css ./assets/assets/normalize/
 
 # Copy mapskin into assets
-cp -r ./src/lib/mapskin ./assets
+cp -r ./lib/mapskin ./assets/assets
+
+# Copy arc into assets
+cp -r ./lib/arc ./assets/assets
