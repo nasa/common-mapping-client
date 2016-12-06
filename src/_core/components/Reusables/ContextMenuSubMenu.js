@@ -24,6 +24,7 @@ const initialPosition = {
 };
 const showDelay = 500;
 const hideDelay = 250;
+const edgePadding = 50;
 
 const miscUtil = new MiscUtil();
 
@@ -36,7 +37,10 @@ export class ContextMenuSubMenu extends Component {
         return this.state.isVisible !== nextState.visible;
     }
     componentWillUpdate() {
-        this.position = this.getMenuPosition();
+        // Skip re-evaluating position if submenu already open
+        if (!this.state.visible) {
+            this.position = this.getMenuPosition();
+        }
     }
     componentWillUnmount() {
         if (this.opentimer) clearTimeout(this.opentimer);
@@ -45,21 +49,20 @@ export class ContextMenuSubMenu extends Component {
     }
     getMenuPosition() {
         let { innerWidth, innerHeight } = window;
-        let rect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
+        let menuRect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
+        let submenuRect = ReactDOM.findDOMNode(this.refs.submenu).getBoundingClientRect();
         let position = {...initialPosition };
-
-        if ((rect.bottom + rect.height) > innerHeight) {
+        if ((menuRect.top + submenuRect.height + edgePadding) > innerHeight) {
             position.bottom = true;
         } else {
             position.top = true;
         }
 
-        if ((rect.right + rect.width) > innerWidth) {
+        if ((menuRect.right + submenuRect.width + edgePadding) > innerWidth) {
             position.left = true;
         } else {
             position.right = true;
         }
-
         return position;
     }
     handleClick(e) {
@@ -121,7 +124,7 @@ export class ContextMenuSubMenu extends Component {
                     <span className="context-menu-label">{customIcon ? title : "" }</span>
                     <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
                 </Button>
-                <div className={subMenuClasses}>
+                <div className={subMenuClasses} ref="submenu">
                     {children}
                 </div>
             </div>

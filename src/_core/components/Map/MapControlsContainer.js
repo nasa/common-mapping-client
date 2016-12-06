@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
+import { ContextMenuSubMenu } from '_core/components/Reusables/ContextMenuSubMenu';
 import * as actions from '_core/actions/MapActions';
 import * as appActions from '_core/actions/AppActions';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
+
+import {IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
+
 
 const miscUtil = new MiscUtil();
 
@@ -82,62 +86,157 @@ export class MapControlsContainer extends Component {
         }
     }
 
+    handleClearMap() {
+        this.props.actions.removeAllDrawings();
+        this.props.actions.removeAllMeasurements();
+    }
+
     render() {
         let containerClasses = miscUtil.generateStringFromSet({
             "hidden-fade-out": this.props.mapControlsHidden && this.props.distractionFreeMode,
             "hidden-fade-in": !this.props.mapControlsHidden && this.props.distractionFreeMode
         });
+        let toolsMenuClasses = miscUtil.generateStringFromSet({
+            "active": this.props.mapControlsToolsOpen,
+            "react-context-menu": true
+        });
+        let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_CIRCLE;
+        let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
+        let drawingPolygon = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_POLYGON;
+        let measuringDistance = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
+        let measuringArea = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_POLYGON;
         return (
-            <div className={containerClasses} id="mapControls" 
+            <div className={containerClasses} 
                 onMouseLeave={() => {this.onMapControlsMouseLeave()}}
                 onMouseEnter={() => {this.onMapControlsMouseEnter()}}
                 >
-                <Button 
-                    floating
-                    neutral
-                    label={this.props.in3DMode ? "2D" : "3D"} 
-                    className="map-dimension-toggle mini-xs" 
-                    onClick={() => this.setViewMode()} 
-                    data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"} 
-                    data-place="right"
-                />
-                <Button
-                    floating
-                    neutral
-                    className={"map-distraction-free-mode mini-xs"} 
-                    onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
-                    data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
-                    data-place="right" 
-                >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
-                <Button
-                    floating
-                    neutral
-                    icon="home"
-                    className={"map-reset-view mini-xs"} 
-                    onClick={() => {
-                        this.props.actions.setMapView({extent: appConfig.DEFAULT_PROJECTION.extent});
-                    }}
-                    data-tip="Reset Map View"
-                    data-place="right" 
-                />
-                <Button
-                    floating
-                    neutral
-                    icon="add"
-                    className="map-zoom-in mini-xs" 
-                    onClick={this.props.actions.zoomIn} 
-                    data-tip="Zoom in"
-                    data-place="right"
-                />
-                <Button
-                    floating
-                    neutral
-                    icon="remove"
-                    className="map-zoom-out mini-xs" 
-                    onClick={this.props.actions.zoomOut} 
-                    data-tip="Zoom out"
-                    data-place="right"
-                />
+                <div id="mapControls" >
+                    <Button
+                        neutral
+                        icon="add"
+                        className="primary-map-button map-zoom-in mini-xs" 
+                        onClick={this.props.actions.zoomIn} 
+                        data-tip="Zoom in"
+                        data-place="right"
+                    />
+                    <Button
+                        neutral={!this.props.distractionFreeMode ? false : true}
+                        primary={this.props.distractionFreeMode ? true : false}
+                        className={"primary-map-button map-distraction-free-mode mini-xs"} 
+                        onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
+                        data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
+                        data-place="right" 
+                    >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
+                    <Button
+                        neutral
+                        icon="remove"
+                        className="primary-map-button ap-zoom-out mini-xs" 
+                        onClick={this.props.actions.zoomOut} 
+                        data-tip="Zoom out"
+                        data-place="right"
+                    />
+                    <Button 
+                        neutral
+                        label={this.props.in3DMode ? "2D" : "3D"} 
+                        className="primary-map-button ap-dimension-toggle mini-xs" 
+                        onClick={() => this.setViewMode()} 
+                        data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"} 
+                        data-place="right"
+                    />
+                    <Button
+                        neutral
+                        icon="home"
+                        className={"primary-map-button map-reset-view mini-xs"} 
+                        onClick={() => {
+                            this.props.actions.setMapView({extent: appConfig.DEFAULT_PROJECTION.extent});
+                        }}
+                        data-tip="Reset Map View"
+                        data-place="right" 
+                    />
+                    <Button
+                        neutral={!this.props.mapControlsToolsOpen ? false : true}
+                        primary={this.props.mapControlsToolsOpen ? true : false}
+                        icon="build"
+                        className="primary-map-button map-tools mini-xs" 
+                        onClick={() => {this.props.appActions.setMapControlsToolsOpen(!this.props.mapControlsToolsOpen)}}
+                        data-tip="Tools"
+                        data-place="right"
+                    />
+                </div>
+                <div id="mapToolsMenu" className={toolsMenuClasses}>
+                    <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <Button
+                            primary={measuringDistance}
+                            onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_LINE_STRING, appStrings.MEASURE_DISTANCE)}}
+                            className="context-menu-item" >
+                            <i className="ms ms-measure-distance context-menu-icon" />
+                            <span className="context-menu-label">Distance</span>
+                        </Button>
+                    </MenuItem>
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <Button
+                            primary={measuringArea}
+                            onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_POLYGON, appStrings.MEASURE_AREA)}}
+                            className="context-menu-item" >
+                            <i className="ms ms-measure-area context-menu-icon" />
+                            <span className="context-menu-label">Area</span>
+                        </Button>
+                    </MenuItem>
+                    <hr className="divider medium-light" />
+                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <Button
+                            label="Clear Measurements"
+                            icon="delete"
+                            onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.removeAllMeasurements()}}
+                            className="context-menu-item" />
+                    </MenuItem>
+                    </ContextMenuSubMenu>
+                    <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
+                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                            <Button
+                                primary={drawingCircle}
+                                label="Circle"
+                                icon="radio_button_unchecked"
+                                onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_CIRCLE)}}
+                                className="context-menu-item" />
+                        </MenuItem>
+                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                            <Button
+                                primary={drawingLineString}
+                                onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_LINE_STRING)}}
+                                className="context-menu-item" >
+                                <i className="ms ms-line context-menu-icon" />
+                                <span className="context-menu-label">Polyline</span>
+                            </Button>
+                        </MenuItem>
+                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                            <Button
+                                primary={drawingPolygon}
+                                onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_POLYGON)}}
+                                className="context-menu-item" >
+                                <i className="ms ms-polygon context-menu-icon" />
+                                <span className="context-menu-label">Polygon</span>
+                            </Button>
+                        </MenuItem>
+                        <hr className="divider medium-light" />
+                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                            <Button
+                                label="Clear Drawings"
+                                icon="delete"
+                                onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.removeAllDrawings()}}
+                                className="context-menu-item" />
+                        </MenuItem>
+                    </ContextMenuSubMenu>
+                    <hr className="divider medium-light" />
+                    <MenuItem className="menu-i" data={{}} onClick={this.dummyHandleClick}>
+                        <Button
+                            label="Clear Map"
+                            icon="delete"
+                            onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.handleClearMap();}}
+                            className="context-menu-item" />
+                    </MenuItem>
+                </div>
             </div>
         );
     }
@@ -147,14 +246,20 @@ MapControlsContainer.propTypes = {
     in3DMode: PropTypes.bool.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
     mapControlsHidden: PropTypes.bool.isRequired,
+    mapControlsToolsOpen: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired,
+    drawing: PropTypes.object.isRequired,
+    measuring: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         in3DMode: state.map.getIn(["view", "in3DMode"]),
+        drawing: state.map.get("drawing"),
+        measuring: state.map.get("measuring"),
         distractionFreeMode: state.view.get("distractionFreeMode"),
+        mapControlsToolsOpen: state.view.get("mapControlsToolsOpen"),
         mapControlsHidden: state.view.get("mapControlsHidden")
     };
 }

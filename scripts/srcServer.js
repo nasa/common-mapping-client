@@ -15,9 +15,9 @@ const bundler = webpack(config);
 
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
+    notify: false,
     server: {
         baseDir: ['src', 'assets'],
-
         middleware: [
             webpackDevMiddleware(bundler, {
                 // Dev middleware can't access config, so we provide publicPath

@@ -55,6 +55,9 @@ export function setDistractionFreeMode(enabled) {
 export function hideMapControls(hidden) {
     return {type: types.HIDE_MAP_CONTROLS, hidden};
 }
+export function setMapControlsToolsOpen(open) {
+    return {type: types.SET_MAP_CONTROL_TOOLS_OPEN, open};
+}
 export function openSettings() {
     return { type: types.OPEN_SETTINGS };
 }

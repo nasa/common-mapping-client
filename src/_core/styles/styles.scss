@@ -314,11 +314,13 @@ button .button-icon-right {
 
 .context-menu-sub-menu {
     position: absolute;
-    display: none;
+    // display: none;
+    visibility: hidden;
     background: $color-light;
     @include light-shadow();
     &.active {
-        display: block;
+        // display: block;
+        visibility: visible;
     }
     &.top {
         top: 0px;

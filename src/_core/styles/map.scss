@@ -1,39 +1,169 @@
+#mapToolsMenu {
+    position: absolute;
+    left: 107px;
+    bottom: 75px;
+    transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
+    opacity: 0;
+    pointer-events: none;
+    &.active {
+        opacity: 1;
+        transition: opacity 0s linear 0s, top 0s linear 0s;
+        pointer-events: all;
+    }
+    &:after,
+    &:before {
+        left: -23px;
+        top: 86%;
+        border: solid red;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    &:before {
+        border-color: rgba(194, 225, 245, 0);
+        border-right-color: rgba(0, 0, 0, 0.08);
+        border-width: 11px;
+        margin-top: -11px;
+    }
+    &:after {
+        border-color: transparent;
+        border-right-color: $color-light;
+        border-width: 11px;
+        margin-top: -11px;
+        margin-left: 2px;
+    }
+    [data-react-toolbox="menu-item"] {
+        height: inherit;
+        padding: 0px;
+    }
+}
+
+#mapControls {
+    position: absolute;
+    bottom: 65px;
+    width: 76px;
+    bottom: 75px;
+    left: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    // div[data-react-toolbox="menu"] {
+    //     padding: 0px;
+    //     left: 130%;
+    //     & > ul {
+    //         clip: initial !important;
+    //         // transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), clip 0s cubic-bezier(0.4, 0, 0.2, 1)
+    //         transition: none;
+    //         padding: 0px;
+    //         margin: 0px;
+    //         // animation: test 0.5s linear;
+    //         // -webkit-animation: test 0.5s linear;
+    //     }
+    //     & > div {
+    //         transition: none;
+    //     }
+    //     &:after,
+    //     &:before {
+    //         left: -20px;
+    //         top: 88%;
+    //         border: solid red;
+    //         content: " ";
+    //         height: 0;
+    //         width: 0;
+    //         position: absolute;
+    //         pointer-events: none;
+    //     }
+    //     &:before {
+    //         border-color: rgba(194, 225, 245, 0);
+    //         border-right-color: rgba(0, 0, 0, 0.2);
+    //         border-width: 11px;
+    //         margin-top: -11px;
+    //     }
+    //     &:after {
+    //         border-left-color: $color-light;
+    //         border-color: transparent;
+    //         border-width: 11px;
+    //         margin-top: -11px;
+    //         margin-left: 1px;
+    //     }
+    // }
+    @include light-shadow();
+    .primary-map-button {
+        position: relative;
+        border-radius: 0px;
+        display: inline-block;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background: white;
+        width: 38px;
+        height: 38px;
+        position: relative;
+        min-width: 0rem;
+        [data-react-toolbox="font-icon"] {
+            margin: 0px !important;
+        }
+        &:first-child {
+            border-top-left-radius: 2px;
+        }
+        &:nth-child(2) {
+            border-top-right-radius: 2px;
+        }
+        &:nth-last-child(2) {
+            border-bottom-left-radius: 2px;
+        }
+        &:last-child {
+            border-bottom-right-radius: 2px;
+        }
+        &:nth-child(even) {
+            border-left: 1px solid #e5e5df;
+        }
+        &:nth-child(n+3) {
+            border-top: 1px solid #e5e5df;
+        }
+    }
+    // .map-dimension-toggle {
+    //     left: 0.7rem;
+    //     bottom: 9rem;
+    // }
+    // .map-zoom-in {
+    //     position: absolute;
+    //     left: 0.7rem;
+    //     bottom: 4.3rem;
+    // }
+    // .map-zoom-out {
+    //     position: absolute;
+    //     left: 0.7rem;
+    //     bottom: 0.7rem;
+    // }
+    // .map-reset-view {
+    //     position: absolute;
+    //     left: 0.7rem;
+    //     bottom: 13.4rem;
+    // }
+    // .map-distraction-free-mode {
+    //     position: absolute;
+    //     left: 0.7rem;
+    //     bottom: 18rem;
+    // }
+}
+
 .map-image-tile {
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
     image-rendering: pixelated;
-}
-
-.map-dimension-toggle {
-    position: absolute;
-    left: 0.7rem;
-    bottom: 9rem;
-}
-
-.map-zoom-in {
-    position: absolute;
-    left: 0.7rem;
-    bottom: 4.3rem;
-}
-
-.map-zoom-out {
-    position: absolute;
-    left: 0.7rem;
-    bottom: 0.7rem;
-}
-
-.map-reset-view {
-    position: absolute;
-    left: 0.7rem;
-    bottom: 13.4rem;
-}
-
-.map-distraction-free-mode {
-    position: absolute;
-    left: 0.7rem;
-    bottom: 18rem;
 }
 
 .map-scale-container {
@@ -149,11 +279,6 @@
     @include animation(opacityWithDisplayAnimationHide, 0.5s);
 }
 
-#mapControls {
-    position: absolute;
-    bottom: 65px;
-}
-
 .cesium-viewer-bottom {
     display: none;
 }
@@ -179,10 +304,12 @@
     color: $color-text-secondary;
     @include light-shadow();
 }
+
 .testing {
     color: red !important;
     background: green !important;
 }
+
 .tooltip-measure {
     opacity: 1;
     font-weight: bold;
