@@ -114,15 +114,15 @@ export class MapControlsContainer extends Component {
                     <Button
                         neutral
                         icon="add"
-                        className="primary-map-button map-zoom-in mini-xs" 
+                        className="primary-map-button mini-xs" 
                         onClick={this.props.actions.zoomIn} 
                         data-tip="Zoom in"
                         data-place="right"
                     />
                     <Button
-                        neutral={!this.props.distractionFreeMode ? false : true}
+                        neutral
                         primary={this.props.distractionFreeMode ? true : false}
-                        className={"primary-map-button map-distraction-free-mode mini-xs"} 
+                        className={"primary-map-button mini-xs"} 
                         onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode)}}
                         data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
                         data-place="right" 
@@ -130,7 +130,7 @@ export class MapControlsContainer extends Component {
                     <Button
                         neutral
                         icon="remove"
-                        className="primary-map-button ap-zoom-out mini-xs" 
+                        className="primary-map-button mini-xs" 
                         onClick={this.props.actions.zoomOut} 
                         data-tip="Zoom out"
                         data-place="right"
@@ -138,7 +138,7 @@ export class MapControlsContainer extends Component {
                     <Button 
                         neutral
                         label={this.props.in3DMode ? "2D" : "3D"} 
-                        className="primary-map-button ap-dimension-toggle mini-xs" 
+                        className="primary-map-button mini-xs" 
                         onClick={() => this.setViewMode()} 
                         data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"} 
                         data-place="right"
@@ -146,7 +146,7 @@ export class MapControlsContainer extends Component {
                     <Button
                         neutral
                         icon="home"
-                        className={"primary-map-button map-reset-view mini-xs"} 
+                        className={"primary-map-button mini-xs"} 
                         onClick={() => {
                             this.props.actions.setMapView({extent: appConfig.DEFAULT_PROJECTION.extent});
                         }}
@@ -154,10 +154,10 @@ export class MapControlsContainer extends Component {
                         data-place="right" 
                     />
                     <Button
-                        neutral={!this.props.mapControlsToolsOpen ? false : true}
+                        neutral
                         primary={this.props.mapControlsToolsOpen ? true : false}
                         icon="build"
-                        className="primary-map-button map-tools mini-xs" 
+                        className="primary-map-button mini-xs" 
                         onClick={() => {this.props.appActions.setMapControlsToolsOpen(!this.props.mapControlsToolsOpen)}}
                         data-tip="Tools"
                         data-place="right"
