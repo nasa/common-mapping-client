@@ -45,7 +45,7 @@ export default {
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
             { test: /\.(eot|woff|woff2|ttf|svg|gif|ico|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
             { test: /(browserconfig.xml|manifest.json)$/, loader: 'file-loader?name=img/[name].[ext]' }, // favicon related items
-            { test: /\.md$/, loader: 'raw-loader' }
+            { test: /\.md|\.json$/, loader: 'raw-loader' }
         ]
     },
     toolbox: { theme: path.join(__dirname, 'src/styles/_theme.scss') }
