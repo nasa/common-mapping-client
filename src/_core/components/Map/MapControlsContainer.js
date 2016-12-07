@@ -9,7 +9,7 @@ import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 
-import {IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
+import { MenuItem } from 'react-toolbox/lib/menu';
 
 
 const miscUtil = new MiscUtil();
@@ -165,7 +165,7 @@ export class MapControlsContainer extends Component {
                 </div>
                 <div id="mapToolsMenu" className={toolsMenuClasses}>
                     <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
-                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                    <MenuItem data={{}}>
                         <Button
                             primary={measuringDistance}
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_LINE_STRING, appStrings.MEASURE_DISTANCE)}}
@@ -174,7 +174,7 @@ export class MapControlsContainer extends Component {
                             <span className="context-menu-label">Distance</span>
                         </Button>
                     </MenuItem>
-                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                    <MenuItem data={{}}>
                         <Button
                             primary={measuringArea}
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_POLYGON, appStrings.MEASURE_AREA)}}
@@ -184,7 +184,7 @@ export class MapControlsContainer extends Component {
                         </Button>
                     </MenuItem>
                     <hr className="divider medium-light" />
-                    <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                    <MenuItem data={{}}>
                         <Button
                             label="Clear Measurements"
                             icon="delete"
@@ -193,7 +193,7 @@ export class MapControlsContainer extends Component {
                     </MenuItem>
                     </ContextMenuSubMenu>
                     <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
-                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <MenuItem data={{}}>
                             <Button
                                 primary={drawingCircle}
                                 label="Circle"
@@ -201,7 +201,7 @@ export class MapControlsContainer extends Component {
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_CIRCLE)}}
                                 className="context-menu-item" />
                         </MenuItem>
-                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <MenuItem data={{}}>
                             <Button
                                 primary={drawingLineString}
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_LINE_STRING)}}
@@ -210,7 +210,7 @@ export class MapControlsContainer extends Component {
                                 <span className="context-menu-label">Polyline</span>
                             </Button>
                         </MenuItem>
-                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <MenuItem data={{}}>
                             <Button
                                 primary={drawingPolygon}
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_POLYGON)}}
@@ -220,7 +220,7 @@ export class MapControlsContainer extends Component {
                             </Button>
                         </MenuItem>
                         <hr className="divider medium-light" />
-                        <MenuItem data={{}} onClick={this.dummyHandleClick}>
+                        <MenuItem data={{}}>
                             <Button
                                 label="Clear Drawings"
                                 icon="delete"
@@ -229,7 +229,7 @@ export class MapControlsContainer extends Component {
                         </MenuItem>
                     </ContextMenuSubMenu>
                     <hr className="divider medium-light" />
-                    <MenuItem className="menu-i" data={{}} onClick={this.dummyHandleClick}>
+                    <MenuItem className="menu-i" data={{}}>
                         <Button
                             label="Clear Map"
                             icon="delete"
