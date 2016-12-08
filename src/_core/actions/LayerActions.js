@@ -4,20 +4,12 @@ import * as types from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
 import * as AlertActions from '_core/actions/AlertActions';
 
-export function openLayerInfo(layer) {
-    return { type: types.OPEN_LAYER_INFO, layer };
-}
-
-export function closeLayerInfo() {
-    return { type: types.CLOSE_LAYER_INFO };
-}
-
 export function setLayerMenuOpen(open) {
     return { type: types.SET_LAYER_MENU_OPEN, open };
 }
 
 export function setLayerActive(layer, active) {
-    return { type: types.SET_LAYER_ACTIVE, layer, active};
+    return { type: types.SET_LAYER_ACTIVE, layer, active };
 }
 
 export function setLayerDisabled(layer, disabled) {
@@ -66,6 +58,53 @@ export function moveLayerDown(layer) {
 
 export function activateDefaultLayers() {
     return { type: types.ACTIVATE_DEFAULT_LAYERS };
+}
+
+export function openLayerInfo(layer) {
+    return { type: types.OPEN_LAYER_INFO, layer };
+}
+
+export function closeLayerInfo() {
+    return { type: types.CLOSE_LAYER_INFO };
+}
+
+export function setCurrentMetadata(layer, data) {
+    return { type: types.SET_CURRENT_METADATA, layer, data };
+}
+
+export function loadLayerMetadata(layer) {
+    return (dispatch) => {
+        if(layer.getIn(["metadata", "url"])) {
+            // signal loading
+            dispatch(layerMetadataLoading());
+            // open the display
+            dispatch(openLayerInfo(layer));
+            // fetch the metadata
+            return fetch(layer.getIn(["metadata", "url"])).then((response) => {
+                switch (layer.getIn(["metadata", "handleAs"])) {
+                    case appStrings.FILE_TYPE_JSON:
+                        return response.json();
+                    case appStrings.FILE_TYPE_MARKDOWN:
+                        return response.text();
+                }
+            }).then((resp) => {
+                // store the data for display
+                dispatch(setCurrentMetadata(layer, resp));
+                // signal loading complete
+                dispatch(layerMetadataLoaded());
+            }).catch((err) => {
+                console.warn("Error in LayerActions.openLayerInfo:", err);
+                throw err;
+            });
+        } else {
+            dispatch(AlertActions.addAlert({
+                title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
+                body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString.split("{LAYER}").join(layer.get("title")),
+                severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
+                time: new Date()
+            }));
+        }
+    };
 }
 
 export function loadInitialData(callback = null) {
@@ -133,7 +172,7 @@ export function loadSingleLayerSource(options) {
     return (dispatch) => {
         let url = options.url;
         let type = options.type;
-        return fetch(url,{credentials:'same-origin'}).then((response) => {
+        return fetch(url, { credentials: 'same-origin' }).then((response) => {
             if (type === appStrings.LAYER_CONFIG_JSON) {
                 return response.json();
             } else if (type === appStrings.LAYER_CONFIG_WMTS_XML) {
@@ -187,4 +226,12 @@ function mergeLayers() {
 
 function ingestLayerPalettes(paletteConfig) {
     return { type: types.INGEST_LAYER_PALETTES, paletteConfig };
+}
+
+function layerMetadataLoading() {
+    return { type: types.LAYER_METADATA_LOADING };
+}
+
+function layerMetadataLoaded() {
+    return { type: types.LAYER_METADATA_LOADED };
 }

@@ -31,6 +31,10 @@ export const COLORBAR_IMAGE = "image";
 export const COLORBAR_JSON_FIXED = "json-fixed";
 export const COLORBAR_JSON_RELATIVE = "json-relative";
 
+// file formats
+export const FILE_TYPE_JSON = "json";
+export const FILE_TYPE_MARKDOWN = "markdown";
+
 // tile URL function
 export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
 export const ESRI_CUSTOM_512 = "esriCustom512";
@@ -138,6 +142,11 @@ export const ALERTS = {
         title: "Map Creation Failed",
         formatString: "The {MAP} map failed to initialize.",
         severity: 5
+    },
+    FETCH_METADATA_FAILED: {
+        title: "Loading Metadata Failed",
+        formatString: "Could not retrieve metadata for {LAYER}.",
+        severity: 3
     }
 };
 /* END ALERTS */

@@ -7,5 +7,7 @@ export const asyncState = Immutable.fromJS({
 	layerLoadingAttempted: false,
 	loadingLayerPalettes: false,
 	paletteLoadingAttempted: false,
+	loadingLayerMetadata: false,
+	loadingMetadataAttempted: false,
     alerts: []
 });

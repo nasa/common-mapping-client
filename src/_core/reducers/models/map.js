@@ -98,10 +98,8 @@ export const layerModel = Immutable.fromJS({
     },
     urlFunctions: {},
     metadata: {
-        platform: "",
-        spatialResolution: "",
-        dateRange: "",
-        description: ""
+        "url": null,
+        "handleAs": "markdown"
     },
     thumbnailImage: "https://unsplash.it/700/400?image=1025",
     fromJson: false,

@@ -70,7 +70,8 @@ export class LayerControlContainer extends Component {
     }
 
     openLayerInfo() {
-        this.props.actions.openLayerInfo(this.props.layer);
+        this.props.actions.loadLayerMetadata(this.props.layer);
+        // this.props.actions.openLayerInfo(this.props.layer);
     }
 
     changePalette() {

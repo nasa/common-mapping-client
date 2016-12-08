@@ -10,6 +10,9 @@ export default function layerInfo(state = layerInfoState, action) {
         case actionTypes.CLOSE_LAYER_INFO:
             return LayerInfoReducer.closeLayerInfo(state, action);
 
+        case actionTypes.SET_CURRENT_METADATA:
+            return LayerInfoReducer.setCurrentMetadata(state, action);
+
         default:
             return state;
     }
