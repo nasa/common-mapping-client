@@ -32,6 +32,16 @@ export default class AsyncReducer {
             .set("paletteLoadingAttempted", true);
     }
 
+    static metadataLoading(state, action) {
+        return state.set("loadingLayerMetadata", true);
+    }
+
+    static metadataLoaded(state, action) {
+        return state
+            .set("loadingLayerMetadata", false)
+            .set("loadingMetadataAttempted", true);
+    }
+
     static dismissAlert(state, action) {
         let remAlert = action.alert;
         return state.set("alerts", state.get("alerts").filter((alert) => {

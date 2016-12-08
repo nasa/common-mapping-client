@@ -22,6 +22,12 @@ export default function asyncronous(state = asyncState, action) {
         case actionTypes.PALETTE_DATA_LOADED:
             return AsyncReducer.paletteDataLoaded(state, action);
 
+        case actionTypes.LAYER_METADATA_LOADING:
+            return AsyncReducer.metadataLoading(state, action);
+
+        case actionTypes.LAYER_METADATA_LOADED:
+            return AsyncReducer.metadataLoaded(state, action);
+
         case actionTypes.DISMISS_ALERT:
             return AsyncReducer.dismissAlert(state, action);
 

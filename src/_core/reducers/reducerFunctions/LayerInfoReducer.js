@@ -4,10 +4,22 @@
 
 export default class LayerInfoReducer {
     static openLayerInfo(state, action) {
-        return state.set("isOpen", true).set("layer", action.layer);
+        return state
+            .set("isOpen", true)
+            .set("activeLayerId", action.layer.get("id"))
+            .set("activeThumbnailUrl", action.layer.get("thumbnailImage"));
     }
 
     static closeLayerInfo(state, action) {
-        return state.set("isOpen", false);
+        return state
+            .set("isOpen", false)
+            .set("activeLayerId", "");
+    }
+
+    static setCurrentMetadata(state, action) {
+        if (state.get("activeLayerId") === action.layer.get("id")) {
+            return state.setIn(["metadata", "content"], action.data);
+        }
+        return state;
     }
 }
