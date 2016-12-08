@@ -456,8 +456,10 @@ export default class MapReducer {
             // update layer time
             mergedLayer = mergedLayer.set("time", moment(appConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
             // put the newly minted layer into state storage
-            if (typeof mergedLayer.get("id") !== "undefined") {
+            if (typeof mergedLayer.get("id") !== "undefined" && typeof state.getIn(["layers", mergedLayer.get("type")]) !== "undefined") {
                 state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
+            } else {
+                console.warn("Error in MapReducer.mergeLayers: could not store merged layer; missing a valid id or type.", mergedLayer.toJS());
             }
         }
         return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
