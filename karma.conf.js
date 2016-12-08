@@ -66,8 +66,8 @@ module.exports = function(config) {
                     { test: /CesiumDrawHelper\.js$/, loader: 'script' },
                     { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
                     { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
-                    { test: /\.(eot|woff|woff2|ttf|svg|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
-                    { test: /\.md$/, loader: 'raw-loader' }
+                    { test: /\.(eot|woff|woff2|ttf|svg|icon|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
+                    { test: /\.md|\.json$/, loader: "raw-loader" }
                 ]
             }
         },

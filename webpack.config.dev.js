@@ -41,10 +41,9 @@ export default {
             { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] },
             { test: /Cesium\.js$/, loader: 'script' },
             { test: /CesiumDrawHelper\.js$/, loader: 'script' },
-            { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
-            { test: /\.(eot|woff|woff2|ttf|svg|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
+            { test: /\.(eot|woff|woff2|ttf|svg|gif|ico|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
             { test: /\.md|\.json$/, loader: 'raw-loader' }
         ]
     },
