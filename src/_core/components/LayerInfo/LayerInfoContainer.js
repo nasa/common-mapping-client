@@ -14,7 +14,7 @@ const miscUtil = new MiscUtil();
 const defaultData = Immutable.Map({
     title: "Title Unknown",
     platform: "Platform Unknown",
-    spatialResolution: "Spatial Rsolution Unknown",
+    spatialResolution: "Spatial Resolution Unknown",
     dateRange: "Date Range Unknown",
     description: "Description Unknown"
 });
