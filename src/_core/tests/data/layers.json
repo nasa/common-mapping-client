@@ -13,12 +13,6 @@
                 "cesium": "kvpTimeParam"
             }
         },
-        "metadata": {
-            "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-            "dateRange": "2012 – Present",
-            "platform": "MODIS, Terra",
-            "spatialResolution": "25km x 25km spatial resolution"
-        },
         "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
         "palette": {
             "name": "GHRSST_L4_Sea_Surface_Temperature",

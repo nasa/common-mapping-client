@@ -48,7 +48,8 @@ export const StoreLayerInfoSpec = {
                     const expected = {...initialState };
                     expected.layerInfo = expected.layerInfo
                         .set("isOpen", true)
-                        .set("layer", layer);
+                        .set("activeLayerId", layer.get("id"))
+                        .set("activeThumbnailUrl", layer.get("thumbnailImage"));
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -74,7 +75,7 @@ export const StoreLayerInfoSpec = {
                     const expected = {...initialState };
                     expected.layerInfo = expected.layerInfo
                         .set("isOpen", false)
-                        .set("layer", layer);
+                        .set("activeThumbnailUrl", layer.get("thumbnailImage"));
 
                     TestUtil.compareFullStates(actual, expected);
                 });
