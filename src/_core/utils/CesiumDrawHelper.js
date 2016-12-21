@@ -19,7 +19,7 @@ var DrawHelper = (function() {
     // constructor
     function _(options) {
 
-        var cesiumWidget = options.viewer
+        var cesiumWidget = options.viewer;
         this._defaultFillColor = options.fill;
         this._defaultStrokeColor = options.stroke;
 
@@ -98,11 +98,11 @@ var DrawHelper = (function() {
 
     _.prototype.setListener = function(primitive, type, callback) {
         primitive[type] = callback;
-    }
+    };
 
     _.prototype.muteHandlers = function(muted) {
         this._handlersMuted = muted;
-    }
+    };
 
     // register event handling for an editable shape
     // shape should implement setEditMode and setHighlighted
@@ -125,7 +125,7 @@ var DrawHelper = (function() {
         setListener(surface, 'leftClick', function(position) {
             surface.setEditMode(true);
         });
-    }
+    };
 
     _.prototype.startDrawing = function(cleanUp) {
         // undo any current edit of shapes
@@ -137,7 +137,7 @@ var DrawHelper = (function() {
         this.editCleanUp = cleanUp;
         // this.muteHandlers(true);
         this.muteHandlers(false);
-    }
+    };
 
     _.prototype.stopDrawing = function() {
         // check for cleanUp first
@@ -147,12 +147,12 @@ var DrawHelper = (function() {
         }
         // this.muteHandlers(false);
         this.muteHandlers(true);
-    }
+    };
 
     // make sure only one shape is highlighted at a time
     _.prototype.disableAllHighlights = function() {
         this.setHighlighted(undefined);
-    }
+    };
 
     _.prototype.setHighlighted = function(surface) {
         if (this._highlightedSurface && !this._highlightedSurface.isDestroyed() && this._highlightedSurface != surface) {
@@ -163,7 +163,7 @@ var DrawHelper = (function() {
 
     _.prototype.disableAllEditMode = function() {
         this.setEdited(undefined);
-    }
+    };
 
     _.prototype.setEdited = function(surface) {
         if (this._editedSurface && !this._editedSurface.isDestroyed()) {
@@ -241,7 +241,7 @@ var DrawHelper = (function() {
             this._primitive = undefined;
             this._outlinePolygon = undefined;
 
-        }
+        };
 
         _.prototype.setAttribute = function(name, value) {
             this[name] = value;
@@ -355,7 +355,7 @@ var DrawHelper = (function() {
                 this.strokeColor = strokeColor;
                 this.strokeWidth = strokeWidth;
             }
-        }
+        };
 
         return _;
     })();
@@ -405,7 +405,7 @@ var DrawHelper = (function() {
             return new Cesium.RectangleOutlineGeometry({
                 rectangle: this.extent
             });
-        }
+        };
 
         return _;
     })();
@@ -586,7 +586,6 @@ var DrawHelper = (function() {
                 height: this.height,
                 vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
                 stRotation: this.textureRotationAngle,
-                ellipsoid: this.ellipsoid,
                 granularity: this.granularity
             });
         };
@@ -725,7 +724,6 @@ var DrawHelper = (function() {
                 return i;
             }
             if (callbacks.dragHandlers) {
-                var _self = this;
                 setListener(billboard, 'leftDown', function(position) {
                     // TODO - start the drag handlers here
                     // create handlers for mouseOut and leftUp for the billboard and a mouseMove
@@ -1913,7 +1911,7 @@ var DrawHelper = (function() {
         }
 
         return e;
-    };
+    }
 
     function createTooltip(frameDiv) {
 

@@ -14,11 +14,12 @@ const miscUtil = new MiscUtil();
 export class DatePickerContainer extends Component {
     render() {
         let containerClasses = miscUtil.generateStringFromSet({
+            "row middle-xs": true,
             "hidden-fade-out": this.props.distractionFreeMode,
             "hidden-fade-in": !this.props.distractionFreeMode
         });
         return (
-            <div id="datePickerContainer" className="row middle-xs" className={containerClasses}>
+            <div id="datePickerContainer" className={containerClasses}>
                 <DateKeyboardControls />
                 <DatePicker date={this.props.date} setDate={this.props.actions.setDate} />
             </div>
