@@ -4,11 +4,20 @@ import { ContextMenuLayer } from "react-contextmenu";
 import { bindActionCreators } from 'redux';
 import * as appConfig from 'constants/appConfig';
 import * as actions from '_core/actions/AnalyticsActions';
+import ReactGA from 'react-ga';
 
 export class AnalyticsContainer extends Component {
     componentDidMount() {
         this.batchInterval = null;
         this.checkInterval();
+        if (appConfig.GOOGLE_ANALYTICS_ENABLED) {
+            // Initialize basic google analytics tracking
+            ReactGA.initialize(appConfig.GOOGLE_ANALYTICS_ID);
+            // Initialize root page view to start collecting data
+            ReactGA.pageview('/');
+            // Can also use ReactGA.pageview elsewhere to note view changes
+            // Can also use ReactGA.event to log custom events if desired
+        }
     }
     
     componentDidUpdate() {

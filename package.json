@@ -38,6 +38,7 @@
     "react-addons-css-transition-group": "15.3.0",
     "react-addons-update": "15.3.0",
     "react-dom": "15.3.1",
+    "react-ga": "2.1.2",
     "react-key-handler": "0.2.0",
     "react-redux": "4.4.5",
     "react-tap-event-plugin": "1.0.0",
