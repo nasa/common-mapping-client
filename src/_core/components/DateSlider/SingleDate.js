@@ -19,7 +19,9 @@ export class SingleDate extends Component {
             minX: this.props.minX,
             beforeDrag: this.props.beforeDrag,
             onDrag: this.props.onDrag,
-            afterDrag: this.props.afterDrag
+            afterDrag: this.props.afterDrag,
+            getDateFromX: this.props.getDateFromX,
+            getXFromDate: this.props.getXFromDate
         });
 
         // get it going
@@ -29,24 +31,25 @@ export class SingleDate extends Component {
         });
     }
     shouldComponentUpdate(nextProps) {
-        return (nextProps.date !== this.props.date &&
-                !nextProps.isDragging) ||
+        // update the d3 component
+        if (nextProps.date !== this.props.date && !nextProps.isDragging ||
             nextProps.isDragging !== this.props.isDragging ||
             nextProps.maxX !== this.props.maxX ||
-            nextProps.minX !== this.props.minX;
-    }
-    componentDidUpdate() {
-        this.singleDateD3.update({
-            date: this.props.date,
-            isDragging: this.props.isDragging,
-            maxX: this.props.maxX,
-            minX: this.props.minX
-        });
+            nextProps.minX !== this.props.minX) {
+            this.singleDateD3.update({
+                date: nextProps.date,
+                isDragging: nextProps.isDragging,
+                maxX: nextProps.maxX,
+                minX: nextProps.minX
+            });
+        }
+        return nextProps.isDragging !== this.props.isDragging || nextProps.active !== this.props.active;
     }
     render() {
         let classNames = miscUtil.generateStringFromSet({
             "single-date": true,
-            dragging: this.props.isDragging
+            "dragging": this.props.isDragging,
+            "hidden": !this.props.active
         });
         return (
             <g className={classNames}>
@@ -56,7 +59,10 @@ export class SingleDate extends Component {
     }
 }
 SingleDate.propTypes = {
+    active: PropTypes.bool.isRequired,
     date: PropTypes.object.isRequired,
+    getDateFromX: PropTypes.func.isRequired,
+    getXFromDate: PropTypes.func.isRequired,
     isDragging: PropTypes.bool,
     onDrag: PropTypes.func,
     beforeDrag: PropTypes.func,
