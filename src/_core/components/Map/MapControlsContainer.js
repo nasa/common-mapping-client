@@ -148,7 +148,7 @@ export class MapControlsContainer extends Component {
                         icon="home"
                         className={"primary-map-button mini-xs"} 
                         onClick={() => {
-                            this.props.actions.setMapView({extent: appConfig.DEFAULT_PROJECTION.extent});
+                            this.props.actions.setMapView({extent: appConfig.DEFAULT_BBOX_EXTENT});
                         }}
                         data-tip="Reset Map View"
                         data-place="right" 

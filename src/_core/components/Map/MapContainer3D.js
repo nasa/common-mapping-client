@@ -40,7 +40,6 @@ export class MapContainer3D extends Component {
                 // Only fire move event if this map is active
                 if (map.isActive) {
                     this.props.actions.setMapViewInfo({
-                        center: map.getCenter(),
                         extent: map.getExtent()
                     });
                 }

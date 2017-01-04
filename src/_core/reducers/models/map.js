@@ -14,12 +14,10 @@ export const mapState = Immutable.fromJS({
     date: appConfig.DEFAULT_DATE,
     view: {
         in3DMode: false,
-        zoom: appConfig.DEFAULT_ZOOM,
         maxZoom: appConfig.MAX_ZOOM,
         minZoom: appConfig.MIN_ZOOM,
         maxZoomDistance3D: appConfig.MAX_ZOOM_DISTANCE_3D,
         minZoomDistance3D: appConfig.MIN_ZOOM_DISTANCE_3D,
-        center: appConfig.DEFAULT_CENTER,
         projection: appConfig.DEFAULT_PROJECTION,
         extent: appConfig.DEFAULT_PROJECTION.extent,
         pixelHoverCoordinate: {

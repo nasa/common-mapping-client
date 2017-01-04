@@ -437,10 +437,8 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
                         mapActions.setMapViewInfo({
-                            center: [0, 0],
                             extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752],
-                            projection: appConfig.DEFAULT_PROJECTION,
-                            zoom: 8
+                            projection: appConfig.DEFAULT_PROJECTION
                         })
                     ];
                     actions.forEach(action => store.dispatch(action));
@@ -457,10 +455,8 @@ export const StoreMapSpec = {
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
-                        .setIn(["view", "center"], [0, 0])
                         .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752])
-                        .setIn(["view", "projection"], appConfig.DEFAULT_PROJECTION)
-                        .setIn(["view", "zoom"], 8);
+                        .setIn(["view", "projection"], appConfig.DEFAULT_PROJECTION);
 
                     expect(actualNumMaps).to.equal(2);
                     TestUtil.compareFullStates(actual, expected);
@@ -476,7 +472,6 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
                         mapActions.setMapViewInfo({
-                            center: [0, 0],
                             extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]
                         })
                     ];
@@ -494,7 +489,6 @@ export const StoreMapSpec = {
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
-                        .setIn(["view", "center"], [0, 0])
                         .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]);
 
                     expect(actualNumMaps).to.equal(2);
@@ -525,76 +519,116 @@ export const StoreMapSpec = {
             },
 
             test16: () => {
-                it('can zoom out', function() {
+                it('can zoom out', function(done) {
+                    this.timeout(30000);
+
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
-                        mapActions.zoomOut()
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    setTimeout(() => {
+                        const zoomActions = [
+                            mapActions.zoomIn(),
+                            mapActions.zoomOut()
+                        ];
+                        zoomActions.forEach(action => store.dispatch(action));
+                        setTimeout(() => {
+                            const state = store.getState();
 
-                    const actual = {...state };
-                    actual.map = actual.map.remove("maps");
+                            const actual = {...state };
+                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) - 1);
+                            const expected = {...initialState };
+                            expected.map = expected.map.remove("maps");
 
-                    TestUtil.compareFullStates(actual, expected);
+                            expect(actualMap2D.getZoom()).to.equal(2);
+                            TestUtil.compareFullStates(actual, expected);
+                            done();
+                        }, 1000);
+                    }, 1000);
                 });
             },
 
             test17: () => {
-                it('can zoom in', function() {
+                it('can zoom in', function(done) {
+                    this.timeout(30000);
+
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
-                        mapActions.zoomIn()
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    setTimeout(() => {
+                        const zoomActions = [
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn()
+                        ];
+                        zoomActions.forEach(action => store.dispatch(action));
+                        setTimeout(() => {
+                            const state = store.getState();
 
-                    const actual = {...state };
-                    actual.map = actual.map.remove("maps");
+                            const actual = {...state };
+                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "zoom"], mapState.getIn(["view", "zoom"]) + 1);
+                            const expected = {...initialState };
+                            expected.map = expected.map.remove("maps");
 
-                    TestUtil.compareFullStates(actual, expected);
+                            expect(actualMap2D.getZoom()).to.equal(5);
+                            TestUtil.compareFullStates(actual, expected);
+                            done();
+                        }, 1000);
+                    }, 1000);
                 });
             },
 
             test18: () => {
-                it('can zoom in and out', function() {
+                it('can zoom in and out', function(done) {
+                    this.timeout(30000);
+
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
-                        mapActions.zoomIn(),
-                        mapActions.zoomOut()
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    setTimeout(() => {
+                        const zoomActions = [
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn(),
+                            mapActions.zoomIn(),
+                            mapActions.zoomOut(),
+                            mapActions.zoomOut()
+                        ];
+                        zoomActions.forEach(action => store.dispatch(action));
+                        setTimeout(() => {
+                            const state = store.getState();
 
-                    const actual = {...state };
-                    actual.map = actual.map.remove("maps");
+                            const actual = {...state };
+                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map.remove("maps");
+                            const expected = {...initialState };
+                            expected.map = expected.map.remove("maps");
 
-                    TestUtil.compareFullStates(actual, expected);
+                            expect(actualMap2D.getZoom()).to.equal(3);
+                            TestUtil.compareFullStates(actual, expected);
+                            done();
+                        }, 1000);
+                    }, 1000);
                 });
             },
 
