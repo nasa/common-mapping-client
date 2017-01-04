@@ -73,7 +73,7 @@ export function runUrlConfig(params) {
 
     // Sort url params according to appConfig.URL_KEY_ORDER
     // After sorting, filter out false values (occur when there are keys with no values, e.g. 'basemap=')
-    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p)
+    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p);
 
     return (dispatch) => {
         return Promise.all(sortedParams.map((param) => {

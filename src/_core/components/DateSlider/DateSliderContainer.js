@@ -30,6 +30,19 @@ export class DateSliderContainer extends Component {
                     {hoverDate}
                 </div>
                 <svg className="date-slider-container">
+                    <defs>
+                        <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" />
+                            <feOffset dx="0" dy="2" />
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.45" />
+                            </feComponentTransfer>
+                            <feMerge>
+                                <feMergeNode />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
                     <g id="dateSlider">
                         <TimeAxis />
                     </g>

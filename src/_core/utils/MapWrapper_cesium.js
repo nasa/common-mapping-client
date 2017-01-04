@@ -644,7 +644,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     if (entity.billboard) {
                         entity.billboard.color = new this.cesium.Color(1.0, 1.0, 1.0, opacity * 1.0);
                     }
-                })
+                });
 
             }
             return false;
@@ -879,8 +879,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                     mapLayer._layerType = layer.get("type");
                     mapLayer._layerHandleAs = layer.get("handleAs");
                     setTimeout(() => {
-                        this.setLayerOpacity(layer, layer.get("opacity"))
-                    }, 0)
+                        this.setLayerOpacity(layer, layer.get("opacity"));
+                    }, 0);
                 });
 
                 // need to add custom metadata while data loads

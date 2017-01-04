@@ -30,7 +30,7 @@ const miscUtil = new MiscUtil();
 
 export class ContextMenuSubMenu extends Component {
     componentWillMount() {
-        this.setState({...initialState });
+        this.setState({...initialState }); // eslint-disable-line react/no-set-state
         this.position = {...initialPosition };
     }
     shouldComponentUpdate(nextProps, nextState) {
@@ -70,7 +70,7 @@ export class ContextMenuSubMenu extends Component {
         if (this.closetimer) clearTimeout(this.closetimer);
         if (this.opentimer) clearTimeout(this.opentimer);
 
-        this.setState({ visible: true });
+        this.setState({ visible: true }); // eslint-disable-line react/no-set-state
     }
     handleMouseEnter() {
         if (this.closetimer) clearTimeout(this.closetimer);
@@ -78,7 +78,7 @@ export class ContextMenuSubMenu extends Component {
         if (this.props.disabled || this.state.visible) return;
 
         let delay = typeof this.props.showDelay !== "undefined" ? this.props.showDelay : showDelay;
-        this.opentimer = setTimeout(() => this.setState({ visible: true }), delay);
+        this.opentimer = setTimeout(() => this.setState({ visible: true }), delay); // eslint-disable-line react/no-set-state
     }
     handleMouseLeave() {
         if (this.opentimer) clearTimeout(this.opentimer);
@@ -86,7 +86,7 @@ export class ContextMenuSubMenu extends Component {
         if (!this.state.visible) return;
 
         let delay = typeof this.props.hideDelay !== "undefined" ? this.props.hideDelay : hideDelay;
-        this.closetimer = setTimeout(() => this.setState({ visible: false }), delay);
+        this.closetimer = setTimeout(() => this.setState({ visible: false }), delay); // eslint-disable-line react/no-set-state
     }
 
     render() {

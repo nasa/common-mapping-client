@@ -73,6 +73,7 @@ export default class TimeAxisD3 {
         // configure the zoom
         this._selection.zoom = d3.behavior.zoom()
             .x(this._xFn)
+            .scaleExtent([0, 512])
             .on('zoom', () => {
                 this.zoomed();
             });
@@ -90,12 +91,14 @@ export default class TimeAxisD3 {
             .call(this._selection.drag)
             .on("click", () => {
                 if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
-                    this._onClick(d3.event.clientX);
+                    let date = this.getNearestDate(d3.event.clientX);
+                    this._onClick(d3.event.clientX, date);
                 }
             })
             .on("mousemove", () => {
                 if (typeof this._onHover === "function") {
-                    this._onHover(d3.event.clientX);
+                    let date = this.getNearestDate(d3.event.clientX);
+                    this._onHover(d3.event.clientX, date);
                 }
             })
             .on("mouseleave", () => {
@@ -108,18 +111,6 @@ export default class TimeAxisD3 {
         this._selection.select("#x-axis")
             .attr('transform', 'translate(0,' + this._height + ')')
             .call(this._xAxis);
-
-        // configure the single date bounds
-        this._selection.selectAll(".single-date").each(function() {
-            let singleDate = d3.select(this);
-            if (!singleDate.attr().data()[0].isDragging) {
-                singleDate
-                    .attr('x', (d) => _context._xFn(d.date))
-                    .attr("transform", (d) => {
-                        return 'translate(' + _context._xFn(d.date) + ',0)';
-                    });
-            }
-        });
 
         // done entering time to update
         this.updateAxis();
@@ -156,45 +147,23 @@ export default class TimeAxisD3 {
             });
     }
 
-    update(options = false) {
-        let _context = this;
-
+    updateSingleDate(options = false) {
         // update the single date display
+        let _context = this;
         this._selection.selectAll(".single-date").each(function() {
             let singleDate = d3.select(this);
-            if (!singleDate.attr().data()[0].isDragging) {
+            let datum = singleDate.datum();
+            if (!datum.isDragging && _context._xFn(datum.date) !== parseFloat(singleDate.attr('x'))) {
                 singleDate
-                    .transition()
-                    .duration(options && typeof options.dateDuration !== "undefined" ? options.dateDuration : 75)
-                    .attr('x', (d) => (_context._xFn(d.date)))
-                    .attr("transform", (d) => {
-                        return 'translate(' + _context._xFn(d.date) + ',0)';
-                    });
+                    .attr('x', _context._xFn(datum.date))
+                    .attr("transform", 'translate(' + _context._xFn(datum.date) + ',0)');
             }
         });
-
-        // update the resolution
-        this.setResolution(options);
-
-        // check if scroll is needed
-        if(options.date && !this.dateInRange(options.date)) {
-            let currRange = this._xFn.range();
-            let rangeLeft = currRange[0];
-            let rangeRight = currRange[1];
-            let padding = Math.floor((rangeRight - rangeLeft) / 5);
-            let currDateX = this._xFn(options.date);
-            if(currDateX < rangeLeft) {
-                this.autoScroll(false, (rangeLeft - currDateX) + padding, 75);
-            } else if (currDateX > rangeRight) {
-                this.autoScroll(true, (currDateX - rangeRight) + padding, 75);
-            }
-        }
     }
 
-    setResolution(options) {
+    updateResolution(options) {
         let _context = this;
-        if (options && options.date && options.scale) {
-
+        if (options && options.date && options.scale && options.scale !== this._selection.zoom.scale()) {
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
             this._selection.call(this._selection.zoom.event);
 
@@ -215,10 +184,35 @@ export default class TimeAxisD3 {
             let xOffset = ((this._xFn.range()[1] - (this._width / 2)) - this._xFn(options.date));
             this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
 
-            let duration = typeof options.scaleDuration === "number" ? options.scaleDuration : 0;
-            this._selection.transition().duration(duration).call(this._selection.zoom.event);
+            this._selection.call(this._selection.zoom.event);
         }
     }
+
+    scrollToDate(date = false) {
+        // check if scroll is needed
+        if (date && !this.dateInRange(date)) {
+            let currRange = this._xFn.range();
+            let rangeLeft = currRange[0];
+            let rangeRight = currRange[1];
+            let padding = Math.floor((rangeRight - rangeLeft) / 2);
+            let currDateX = this._xFn(date);
+            if (currDateX < rangeLeft) {
+                this.autoScroll(false, (rangeLeft - currDateX) + padding);
+            } else if (currDateX > rangeRight) {
+                this.autoScroll(true, (currDateX - rangeRight) + padding);
+            }
+        }
+    }
+
+    update(options = false) {
+        this.updateResolution({
+            date: options.date,
+            scale: options.scale
+        });
+
+        this.scrollToDate(options.date);
+    }
+
 
     dateInRange(date) {
         let dateX = this._xFn(date);
@@ -294,6 +288,8 @@ export default class TimeAxisD3 {
     }
 
     zoomed() {
+        let _context = this;
+
         // Check that the domain is not larger than bounds
         if (this._xFn.domain()[1] - this._xFn.domain()[0] > this._maxDt - this._minDt) {
             // Constrain scale to 1
@@ -311,21 +307,8 @@ export default class TimeAxisD3 {
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
-        let singleDate = this._selection.select('.single-date');
-        // If not isDragging, set x of singledate to new value
-        // If isDragging, do not set value so that single date can be
-        //  dragged while zoom is in progress
-        if (!singleDate.attr().data()[0].isDragging) {
-            singleDate
-                .attr('x', d => {
-                    return this._xFn(d.date);
-                })
-                .attr("transform", (d) => {
-                    return 'translate(' + this._xFn(d.date) + ',0)';
-                });
-        }
+        this.updateSingleDate();
 
-        let _context = this;
         this._selection.selectAll(".tick")
             .each(function(d, i) {
                 let tick = d3.select(this);
@@ -341,12 +324,12 @@ export default class TimeAxisD3 {
         return this._xFn(value);
     }
 
-    autoScroll(toLeft, scrollDiff = undefined, duration = undefined) {
+    autoScroll(toLeft, scrollDiff = undefined) {
         // get current translation
         let currTrans = this._selection.zoom.translate();
 
         // if unset, determine autoscroll amount (one-fifth tick)
-        if(typeof scrollDiff !== "number") {
+        if (typeof scrollDiff !== "number") {
             let currTicks = this._xFn.ticks();
             scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
         }
@@ -354,18 +337,11 @@ export default class TimeAxisD3 {
         // prep the timeline
         this._selection.call(this._selection.zoom.translate(currTrans).event);
 
-
-        duration = typeof duration === "number" ? duration : 50;
-
         // shift the timeline
         if (toLeft) {
-            this._selection.transition()
-                .duration(duration)
-                .call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
+            this._selection.call(this._selection.zoom.translate([currTrans[0] - scrollDiff, currTrans[1]]).event);
         } else {
-            this._selection.transition()
-                .duration(duration)
-                .call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
+            this._selection.call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
     }
 
@@ -383,14 +359,23 @@ export default class TimeAxisD3 {
         // Apply the updated xFn to the zoom
         this._selection.zoom.x(this._xFn);
 
-        // don't animate the update
-        options.dateDuration = 0;
-
         this.updateAxis();
         this.update(options);
     }
 
     getScaledWidth() {
         return (this._xFn.range()[1] - this._xFn.range()[0]) * this._selection.zoom.scale();
+    }
+
+    getNearestDate(x) {
+        let date = this.getDateFromX(x);
+        let lowDate = moment(date).startOf("d").toDate();
+        let highDate = moment(lowDate).add(1, "d").toDate();
+        if ((date - lowDate) > (highDate - date)) {
+            date = highDate;
+        } else {
+            date = lowDate;
+        }
+        return date;
     }
 }
