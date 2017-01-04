@@ -53,6 +53,8 @@ export const DEFAULT_AUTO_UPDATE_URL_ENABLED = true;
 
 /* ANALYTICS */
 export const DEFAULT_ANALYTICS_ENABLED = false;
+export const GOOGLE_ANALYTICS_ENABLED = false;
+export const GOOGLE_ANALYTICS_ID = "";
 export const ANALYTICS_BATCH_WAIT_TIME_MS = 5000;
 export const ANALYTICS_BATCH_SIZE = 10;
 export const SESSION_ID = (() => {
