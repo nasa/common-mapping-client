@@ -8,7 +8,7 @@ import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as MapActions from '_core/actions/MapActions';
 import TimeAxisD3 from '_core/utils/TimeAxisD3';
 import MiscUtil from '_core/utils/MiscUtil';
-import SingleDate from '_core/components/DateSlider/SingleDate';
+import CurrentDate from '_core/components/DateSlider/CurrentDate';
 
 const miscUtil = new MiscUtil();
 
@@ -26,8 +26,8 @@ export class TimeAxis extends Component {
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
             symbolWidth: 0,
-            onClick: (value) => { this.handleSingleDateDragUpdate(value); },
-            onHover: (value) => { this.handleTimelineHover(value); },
+            onClick: (x, date) => { this.handleSingleDateDragUpdate(x, date); },
+            onHover: (x, date) => { this.handleTimelineHover(x, date); },
             onMouseOut: () => { this.handleTimeLineMouseOut(); }
         });
 
@@ -38,7 +38,7 @@ export class TimeAxis extends Component {
         });
 
         window.addEventListener("resize", () => {
-            if(this.resizeTimeout) {
+            if (this.resizeTimeout) {
                 clearTimeout(this.resizeTimeout);
             }
             this.resizeTimeout = setTimeout(() => {
@@ -53,29 +53,22 @@ export class TimeAxis extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (nextProps.date !== this.props.date &&
-                !nextProps.isDragging) ||
-            nextProps.isDragging !== this.props.isDragging ||
-            (nextProps.resolutionHack !== this.props.resolutionHack);
-    }
-    componentWillUpdate() {
-        // track the resolution changes because changing the date also triggers an update
-        // but we don't want to change the resolution for that
-        this.cachedResolutionHack = this.props.resolutionHack;
-    }
-    componentDidUpdate() {
-        let options = { date: this.props.date };
-        if (this.props.resolutionHack !== this.cachedResolutionHack) {
-            options.scale = this.props.resolution.toJS();
+        if (nextProps.date !== this.props.date ||
+            nextProps.resolutionHack !== this.props.resolutionHack) {
+            this.timeAxisD3.update({
+                date: nextProps.date,
+                scale: nextProps.resolutionHack !== this.props.resolutionHack ? nextProps.resolution.toJS() : undefined
+            });
         }
-        this.timeAxisD3.update(options);
+
+        return nextProps.isDragging !== this.props.isDragging;
     }
     handleTimeLineMouseOut() {
         this.props.dateSliderActions.timelineMouseOut();
     }
-    handleTimelineHover(xValue) {
-        if(!this.props.isDragging) {
-            let date = this.timeAxisD3.getDateFromX(xValue);
+     handleTimelineHover(xValue, date) {
+        if (!this.props.isDragging) {
+            // let date = this.timeAxisD3.getDateFromX(xValue);
             this.props.dateSliderActions.hoverDate(date, xValue);
         }
     }
@@ -86,11 +79,12 @@ export class TimeAxis extends Component {
         let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.dateSliderActions.dragEnd(date);
     }
-    handleSingleDateDragUpdate(xValue) {
-        // update if configured
-        let date = this.timeAxisD3.getDateFromX(xValue);
+    handleSingleDateDragUpdate(xValue, date) {
+        // let date = this.timeAxisD3.getDateFromX(xValue);
         this.props.dateSliderActions.hoverDate(date, xValue);
-        this.props.mapActions.setDate(date);
+        if(date - this.props.date !== 0) {
+            this.props.mapActions.setDate(date);
+        }
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
@@ -132,32 +126,17 @@ export class TimeAxis extends Component {
                 </clipPath>
                 <rect id="chart-bounds" />
                 <g id="x-axis" />
-                <defs>  
-                    <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" />
-                        <feOffset dx="0" dy="2" />
-                        <feComponentTransfer>
-                            <feFuncA type="linear" slope="0.45" />
-                        </feComponentTransfer>
-                        <feMerge>
-                            <feMergeNode />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-
-                </defs>
                 <line className="timeline-horiz-axis" y1="14" y2="14" />
-                <SingleDate
-                    date={this.props.date}
-                    isDragging={this.props.isDragging}
+                <CurrentDate
+                    active={true}
                     beforeDrag={() => {
                         clearInterval(autoScrollInterval);
                         this.handleSingleDateDragStart();
                     }} 
-                    onDrag={(x, scrollFlag) => {
+                    onDrag={(x, date, scrollFlag) => {
                         clearInterval(autoScrollInterval);
 
-                        this.handleSingleDateDragUpdate(x);
+                        this.handleSingleDateDragUpdate(x, date);
 
                         // handle auto-scrolling
                         if(scrollFlag > 0) {
@@ -174,6 +153,8 @@ export class TimeAxis extends Component {
                         clearInterval(autoScrollInterval);
                         this.handleSingleDateDragEnd(value);
                     }}
+                    getDateFromX={(x) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getDateFromX(x) : 0}
+                    getXFromDate={(date) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getXFromDate(date) : 0}
                     maxX={sizes.margin.left + sizes.width}
                     minX={sizes.margin.left}
                 />
