@@ -6,6 +6,7 @@ import * as actions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
 import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapContainer from '_core/components/Map/MapContainer';
 import MapContextMenu from '_core/components/Map/MapContextMenu';
@@ -53,6 +54,9 @@ export class AppContainer extends Component {
                     // initialize the maps
                     this.props.actions.initializeMap(appStrings.MAP_LIB_2D, "map2D");
                     this.props.actions.initializeMap(appStrings.MAP_LIB_3D, "map3D");
+
+                    // set initial view
+                    this.props.actions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT });
 
                     // activate default/url params
                     if (this.urlParams.length === 0) {
@@ -116,7 +120,8 @@ function mapDispatchToProps(dispatch) {
             loadInitialData: bindActionCreators(layerActions.loadInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
             runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),
-            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch)
+            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch),
+            setMapView: bindActionCreators(mapActions.setMapView, dispatch)
         }
     };
 }

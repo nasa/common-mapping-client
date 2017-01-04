@@ -93,8 +93,7 @@ export const DATE_SLIDER_RESOLUTIONS = {
 /* MAP */
 // Map View Config
 export const DEFAULT_PROJECTION = appStrings.PROJECTIONS.latlon;
-export const DEFAULT_CENTER = [0, 0];
-export const DEFAULT_ZOOM = 3;
+export const DEFAULT_BBOX_EXTENT = [-90,-45,90,45];
 export const DEFAULT_SCALE_UNITS = 'metric';
 export const DEFAULT_TERRAIN_EXAGGERATION = 1;
 export const DEFAULT_TERRAIN_ENDPOINT = '//assets.agi.com/stk-terrain/world';

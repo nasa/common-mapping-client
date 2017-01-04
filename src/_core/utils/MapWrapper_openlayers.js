@@ -81,10 +81,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 renderer: ['canvas', 'dom'],
                 layers: [vectorLayer],
                 view: new ol.View({
-                    zoom: viewOptions.zoom,
                     maxZoom: viewOptions.maxZoom,
                     minZoom: viewOptions.minZoom,
-                    center: center,
                     projection: mapProjection
                 }),
                 controls: [
