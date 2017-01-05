@@ -570,61 +570,6 @@ export default class MapReducer {
         return state.set("alerts", alerts);
     }
 
-    // static setMapDate(state, action) {
-    //     let date = action.date;
-
-    //     // shortcut non-updates
-    //     if (date === state.get("date")) {
-    //         return state;
-    //     }
-
-    //     // make sure we are in bounds
-    //     if (moment(date).isBefore(moment(appConfig.MIN_DATE))) {
-    //         date = appConfig.MIN_DATE;
-    //     } else if (moment(date).isAfter(moment(appConfig.MAX_DATE))) {
-    //         date = appConfig.MAX_DATE;
-    //     }
-
-    //     // update the layer objects
-    //     state = state.set("layers", state.get("layers").map((layerSection) => {
-    //         return layerSection.map((layer) => {
-    //             return layer.set("time", moment(date).format(layer.get("timeFormat")));
-    //         });
-    //     }));
-
-    //     // update the layers on the map
-    //     let anyFail = state.get("maps").reduce((acc1, map) => {
-    //         // only updated data layers, should we update basemaps and reference layers too?
-    //         let mapFail = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
-    //             if (layer.get("updateParameters").get("time")) {
-    //                 if (!map.updateLayer(layer)) {
-    //                     return true;
-    //                 }
-    //                 return false;
-    //             }
-    //             return acc2;
-    //         }, false);
-
-    //         if (mapFail) {
-    //             let contextStr = map.is3D ? "3D" : "2D";
-    //             state = state.set("alerts", state.get("alerts").push(alert.merge({
-    //                 title: appStrings.ALERTS.SET_DATE_FAILED.title,
-    //                 body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
-    //                 severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
-    //                 time: new Date()
-    //             })));
-    //             return true;
-    //         }
-    //         return acc1;
-
-    //     }, false);
-
-
-    //     if (!anyFail) {
-    //         return state.set("date", date);
-    //     }
-    // }
-
     static pixelHover(state, action) {
         let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
         state.get("maps").forEach((map) => {
