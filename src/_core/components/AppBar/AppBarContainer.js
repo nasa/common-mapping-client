@@ -65,7 +65,7 @@ export class AppBarContainer extends Component {
                             className="title-button mini-xs" 
                             onClick={() => this.props.actions.setFullScreenMode(!this.props.isFullscreen)} 
                             data-tip={this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"} 
-                            data-place="bottom"
+                            data-place="left"
                         />
                     </div>
                 </div>
