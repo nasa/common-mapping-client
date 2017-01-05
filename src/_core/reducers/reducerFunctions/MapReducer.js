@@ -209,7 +209,7 @@ export default class MapReducer {
     static setLayerActive(state, action) {
         let alerts = state.get("alerts");
 
-       // resolve layer from id if necessary
+        // resolve layer from id if necessary
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
@@ -513,7 +513,9 @@ export default class MapReducer {
     }
 
     static setMapDate(state, action) {
+        let alerts = state.get("alerts");
         let date = action.date;
+        let anyMapFail = false;
 
         // shortcut non-updates
         if (date === state.get("date")) {
@@ -527,45 +529,101 @@ export default class MapReducer {
             date = appConfig.MAX_DATE;
         }
 
-        // update the layer objects
+        // update each layer
         state = state.set("layers", state.get("layers").map((layerSection) => {
             return layerSection.map((layer) => {
-                return layer.set("time", moment(date).format(layer.get("timeFormat")));
+                // change the time for each layer
+                let updatedLayer = layer.set("time", moment(date).format(layer.get("timeFormat")));
+                // if the layer is active, time dependant, and a data layer then update it on the map(s)
+                // TODO - should we update basemaps and reference layers too?
+                if (updatedLayer.get("isActive") &&
+                    updatedLayer.get("updateParameters").get("time") &&
+                    updatedLayer.get("type") === appStrings.LAYER_GROUP_TYPE_DATA) {
+                    // track if any maps fail to update
+                    state.get("maps").forEach((map) => {
+                        // update the layer
+                        if (!map.updateLayer(updatedLayer)) {
+                            // store alert if the map fails to udpate
+                            let contextStr = map.is3D ? "3D" : "2D";
+                            alerts = alerts.push(alert.merge({
+                                title: appStrings.ALERTS.SET_DATE_FAILED.title,
+                                body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
+                                severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
+                                time: new Date()
+                            }));
+
+                            // track the failure
+                            anyMapFail = true;
+                        }
+                    });
+                }
+                // return the updated layer
+                return updatedLayer;
             });
         }));
 
-        // update the layers on the map
-        let anyFail = state.get("maps").reduce((acc1, map) => {
-            // only updated data layers, should we update basemaps and reference layers too?
-            let mapFail = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
-                if (layer.get("updateParameters").get("time")) {
-                    if (!map.updateLayer(layer)) {
-                        return true;
-                    }
-                    return false;
-                }
-                return acc2;
-            }, false);
-
-            if (mapFail) {
-                let contextStr = map.is3D ? "3D" : "2D";
-                state = state.set("alerts", state.get("alerts").push(alert.merge({
-                    title: appStrings.ALERTS.SET_DATE_FAILED.title,
-                    body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
-                    severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
-                    time: new Date()
-                })));
-                return true;
-            }
-            return acc1;
-
-        }, false);
-
-
-        if (!anyFail) {
-            return state.set("date", date);
+        // only update date if everything went well
+        if (!anyMapFail) {
+            state = state.set("date", date);
         }
+
+        return state.set("alerts", alerts);
     }
+
+    // static setMapDate(state, action) {
+    //     let date = action.date;
+
+    //     // shortcut non-updates
+    //     if (date === state.get("date")) {
+    //         return state;
+    //     }
+
+    //     // make sure we are in bounds
+    //     if (moment(date).isBefore(moment(appConfig.MIN_DATE))) {
+    //         date = appConfig.MIN_DATE;
+    //     } else if (moment(date).isAfter(moment(appConfig.MAX_DATE))) {
+    //         date = appConfig.MAX_DATE;
+    //     }
+
+    //     // update the layer objects
+    //     state = state.set("layers", state.get("layers").map((layerSection) => {
+    //         return layerSection.map((layer) => {
+    //             return layer.set("time", moment(date).format(layer.get("timeFormat")));
+    //         });
+    //     }));
+
+    //     // update the layers on the map
+    //     let anyFail = state.get("maps").reduce((acc1, map) => {
+    //         // only updated data layers, should we update basemaps and reference layers too?
+    //         let mapFail = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).reduce((acc2, layer) => {
+    //             if (layer.get("updateParameters").get("time")) {
+    //                 if (!map.updateLayer(layer)) {
+    //                     return true;
+    //                 }
+    //                 return false;
+    //             }
+    //             return acc2;
+    //         }, false);
+
+    //         if (mapFail) {
+    //             let contextStr = map.is3D ? "3D" : "2D";
+    //             state = state.set("alerts", state.get("alerts").push(alert.merge({
+    //                 title: appStrings.ALERTS.SET_DATE_FAILED.title,
+    //                 body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
+    //                 severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
+    //                 time: new Date()
+    //             })));
+    //             return true;
+    //         }
+    //         return acc1;
+
+    //     }, false);
+
+
+    //     if (!anyFail) {
+    //         return state.set("date", date);
+    //     }
+    // }
 
     static pixelHover(state, action) {
         let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
