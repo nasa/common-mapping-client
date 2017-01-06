@@ -51,60 +51,20 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    // div[data-react-toolbox="menu"] {
-    //     padding: 0px;
-    //     left: 130%;
-    //     & > ul {
-    //         clip: initial !important;
-    //         // transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), clip 0s cubic-bezier(0.4, 0, 0.2, 1)
-    //         transition: none;
-    //         padding: 0px;
-    //         margin: 0px;
-    //         // animation: test 0.5s linear;
-    //         // -webkit-animation: test 0.5s linear;
-    //     }
-    //     & > div {
-    //         transition: none;
-    //     }
-    //     &:after,
-    //     &:before {
-    //         left: -20px;
-    //         top: 88%;
-    //         border: solid red;
-    //         content: " ";
-    //         height: 0;
-    //         width: 0;
-    //         position: absolute;
-    //         pointer-events: none;
-    //     }
-    //     &:before {
-    //         border-color: rgba(194, 225, 245, 0);
-    //         border-right-color: rgba(0, 0, 0, 0.2);
-    //         border-width: 11px;
-    //         margin-top: -11px;
-    //     }
-    //     &:after {
-    //         border-left-color: $color-light;
-    //         border-color: transparent;
-    //         border-width: 11px;
-    //         margin-top: -11px;
-    //         margin-left: 1px;
-    //     }
-    // }
+    flex-flow: column wrap;
+    align-content: flex-start;
+    height: 114px;
     @include light-shadow();
     .primary-map-button {
         position: relative;
         border-radius: 0px;
         display: inline-block;
         display: -webkit-box;
-        // display: -ms-flexbox;
-        // display: flex;
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;
         -webkit-box-align: center;
         -ms-flex-align: center;
-        // color: initial;
         align-items: center;
         background: white;
         width: 38px;
@@ -116,21 +76,38 @@
         }
         &:first-child {
             border-top-left-radius: 2px;
+            border-bottom: 1px solid #e5e5df;
+            border-right: 1px solid #e5e5df;
+            padding-left: 1px;
         }
         &:nth-child(2) {
-            border-top-right-radius: 2px;
+            border-bottom: 1px solid #e5e5df;
+            border-right: 1px solid #e5e5df;
+            padding-left: 1px;
         }
-        &:nth-last-child(2) {
+        &:nth-child(3) {
             border-bottom-left-radius: 2px;
+            border-right: 1px solid #e5e5df;
+            padding-left: 1px;
+        }
+        &:nth-child(4) {
+            border-top-right-radius: 2px;
+            border-bottom: 1px solid #e5e5df;
+        }
+        &:nth-child(5) {
+            border-bottom: 1px solid #e5e5df;
         }
         &:last-child {
             border-bottom-right-radius: 2px;
         }
-        &:nth-child(even) {
-            border-left: 1px solid #e5e5df;
-        }
+        // &:nth-child(even) {
+        //     border-left: 1px solid #e5e5df;
+        // }
         &:nth-child(n+3) {
-            border-top: 1px solid #e5e5df;
+            // border-top: 1px solid #e5e5df;
+        }
+        &:focus {
+            background: rgb(209, 209, 209);
         }
     }
 }

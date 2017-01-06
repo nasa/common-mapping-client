@@ -121,26 +121,10 @@ export class MapControlsContainer extends Component {
                     />
                     <Button
                         neutral
-                        primary={this.props.distractionFreeMode ? true : false}
-                        className={"primary-map-button mini-xs"} 
-                        onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode);}}
-                        data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
-                        data-place="right" 
-                    >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
-                    <Button
-                        neutral
                         icon="remove"
                         className="primary-map-button mini-xs" 
                         onClick={this.props.actions.zoomOut} 
                         data-tip="Zoom out"
-                        data-place="right"
-                    />
-                    <Button 
-                        neutral
-                        label={this.props.in3DMode ? "2D" : "3D"} 
-                        className="primary-map-button mini-xs" 
-                        onClick={() => this.setViewMode()} 
-                        data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"} 
                         data-place="right"
                     />
                     <Button
@@ -152,6 +136,22 @@ export class MapControlsContainer extends Component {
                         }}
                         data-tip="Reset Map View"
                         data-place="right" 
+                    />
+                    <Button
+                        neutral
+                        primary={this.props.distractionFreeMode ? true : false}
+                        className={"primary-map-button mini-xs"} 
+                        onClick={() => {this.props.appActions.setDistractionFreeMode(!this.props.distractionFreeMode);}}
+                        data-tip={this.props.distractionFreeMode ? "Disable distraction free mode" : "Enable distraction free mode"} 
+                        data-place="right" 
+                    >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
+                    <Button 
+                        neutral
+                        label={this.props.in3DMode ? "2D" : "3D"} 
+                        className="primary-map-button mini-xs" 
+                        onClick={() => this.setViewMode()} 
+                        data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"} 
+                        data-place="right"
                     />
                     <Button
                         neutral
