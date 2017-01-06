@@ -90,7 +90,7 @@ export class ContextMenuSubMenu extends Component {
     }
 
     render() {
-        let { disabled, children, title, icon, customIcon } = this.props, { visible } = this.state;
+        let { disabled, children, title, icon, customIcon, tabIndex } = this.props, { visible } = this.state;
 
         let menuClasses = "context-menu-item submenu";
         let subMenuClasses = miscUtil.generateStringFromSet({
@@ -115,6 +115,7 @@ export class ContextMenuSubMenu extends Component {
                 onMouseEnter={() => this.handleMouseEnter()}
                 onMouseLeave={() => this.handleMouseLeave()} >
                 <Button
+                    tabIndex={tabIndex}
                     primary={visible}
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}

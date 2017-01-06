@@ -164,11 +164,12 @@ export class MapControlsContainer extends Component {
                     />
                 </div>
                 <div id="mapToolsMenu" className={toolsMenuClasses}>
-                    <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
+                    <ContextMenuSubMenu tabIndex={this.props.mapControlsToolsOpen ? 0 : -1} title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}}>
                         <Button
                             primary={measuringDistance}
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_LINE_STRING, appStrings.MEASURE_DISTANCE);}}
+                            tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                             className="context-menu-item" >
                             <i className="ms ms-measure-distance context-menu-icon" />
                             <span className="context-menu-label">Distance</span>
@@ -177,6 +178,7 @@ export class MapControlsContainer extends Component {
                     <MenuItem data={{}}>
                         <Button
                             primary={measuringArea}
+                            tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableMeasuring(appStrings.GEOMETRY_POLYGON, appStrings.MEASURE_AREA);}}
                             className="context-menu-item" >
                             <i className="ms ms-measure-area context-menu-icon" />
@@ -187,15 +189,17 @@ export class MapControlsContainer extends Component {
                     <MenuItem data={{}}>
                         <Button
                             label="Clear Measurements"
+                            tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                             icon="delete"
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.removeAllMeasurements();}}
                             className="context-menu-item" />
                     </MenuItem>
                     </ContextMenuSubMenu>
-                    <ContextMenuSubMenu title="Draw" icon="mode_edit" customIcon="">
+                    <ContextMenuSubMenu tabIndex={this.props.mapControlsToolsOpen ? 0 : -1} title="Draw" icon="mode_edit" customIcon="">
                         <MenuItem data={{}}>
                             <Button
                                 primary={drawingCircle}
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 label="Circle"
                                 icon="radio_button_unchecked"
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_CIRCLE);}}
@@ -204,6 +208,7 @@ export class MapControlsContainer extends Component {
                         <MenuItem data={{}}>
                             <Button
                                 primary={drawingLineString}
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_LINE_STRING);}}
                                 className="context-menu-item" >
                                 <i className="ms ms-line context-menu-icon" />
@@ -213,6 +218,7 @@ export class MapControlsContainer extends Component {
                         <MenuItem data={{}}>
                             <Button
                                 primary={drawingPolygon}
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.enableDrawing(appStrings.GEOMETRY_POLYGON);}}
                                 className="context-menu-item" >
                                 <i className="ms ms-polygon context-menu-icon" />
@@ -223,6 +229,7 @@ export class MapControlsContainer extends Component {
                         <MenuItem data={{}}>
                             <Button
                                 label="Clear Drawings"
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 icon="delete"
                                 onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.props.actions.removeAllDrawings();}}
                                 className="context-menu-item" />
@@ -233,6 +240,7 @@ export class MapControlsContainer extends Component {
                         <Button
                             label="Clear Map"
                             icon="delete"
+                            tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                             onClick={() => {this.props.appActions.setMapControlsToolsOpen(false); this.handleClearMap();}}
                             className="context-menu-item" />
                     </MenuItem>
