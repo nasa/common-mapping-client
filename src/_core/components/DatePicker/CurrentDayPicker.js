@@ -8,7 +8,7 @@ export class CurrentDayPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let nextDate = moment(nextProps.date);
         let currentDate = moment(this.props.date);
-        return nextDate.format("DD") !== currentDate.format("DD");
+        return nextDate.day() !== currentDate.day();
     }
     render() {
         let date = moment(this.props.date);

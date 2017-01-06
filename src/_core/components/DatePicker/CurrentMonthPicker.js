@@ -8,7 +8,7 @@ export class CurrentMonthPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let nextDate = moment(nextProps.date);
         let currentDate = moment(this.props.date);
-        return nextDate.format("MMM") !== currentDate.format("MMM");
+        return nextDate.month() !== currentDate.month();
     }
     render() {
         let date = moment(this.props.date);

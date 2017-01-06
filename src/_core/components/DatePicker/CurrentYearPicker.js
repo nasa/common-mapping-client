@@ -8,7 +8,7 @@ export class CurrentYearPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let nextDate = moment(nextProps.date);
         let currentDate = moment(this.props.date);
-        return nextDate.format("YYYY") !== currentDate.format("YYYY");
+        return nextDate.year() !== currentDate.year();
     }
     render() {
         let date = moment(this.props.date);
