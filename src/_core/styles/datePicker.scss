@@ -30,6 +30,12 @@
     }
 }
 
+.date-picker {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
 .date-picker .date-picker-selection-increment {
     opacity: 0;
     transition: opacity 0.1s linear 0s;
