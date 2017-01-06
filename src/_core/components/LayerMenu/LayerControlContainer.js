@@ -166,6 +166,7 @@ export class LayerControlContainer extends Component {
                                 className="no-padding mini-xs-waysmall"
                                 data-tip={!this.props.layer.get("isChangingPosition") ? "Adjust layer positioning" : null}
                                 data-place="left"
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingPosition()}>
                                 <i className="button-icon ms ms-fw ms-layers-overlay" />
                             </IconButton>
@@ -176,6 +177,7 @@ export class LayerControlContainer extends Component {
                                 className="no-padding mini-xs-waysmall"
                                 data-tip={!this.props.layer.get("isChangingOpacity") ? "Adjust layer opacity" : null}
                                 data-place="left"
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingOpacity()}
                             />
                             <IconButton
@@ -183,6 +185,7 @@ export class LayerControlContainer extends Component {
                                 className="no-padding mini-xs-waysmall"
                                 data-tip="Layer information"
                                 data-place="left"
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.openLayerInfo()}
                             />
                         </div>
