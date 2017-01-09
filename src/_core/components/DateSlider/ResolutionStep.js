@@ -35,6 +35,14 @@ export class ResolutionStep extends Component {
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
+                <IconButton
+                    primary={this.props.isSelectingResolution}
+                    onClick={() => this.toggleResolutionSelector()}
+                    className="timeline-zoom"
+                    icon="filter_list"
+                    data-tip="Adjust the slider resolution"
+                    data-place="left"
+                />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
                 <div className={resolutionSelectorClasses}>
@@ -57,14 +65,6 @@ export class ResolutionStep extends Component {
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}
                     />
                 </div>
-                <IconButton
-                    primary={this.props.isSelectingResolution}
-                    onClick={() => this.toggleResolutionSelector()}
-                    className="timeline-zoom"
-                    icon="filter_list"
-                    data-tip="Adjust the slider resolution"
-                    data-place="left"
-                />
             </div>
         );
     }
