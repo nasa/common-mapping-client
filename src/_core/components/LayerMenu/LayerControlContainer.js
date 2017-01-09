@@ -170,6 +170,12 @@ export class LayerControlContainer extends Component {
                                 onClick={() => this.toggleChangingPosition()}>
                                 <i className="button-icon ms ms-fw ms-layers-overlay" />
                             </IconButton>
+                            <div className={positionContainerClasses}>
+                                <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
+                                <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
+                                <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
+                                <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                            </div>
                             <IconButton
                                 icon="opacity"
                                 primary={this.props.layer.get("isChangingOpacity")}
@@ -180,6 +186,12 @@ export class LayerControlContainer extends Component {
                                 tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingOpacity()}
                             />
+                            <div className={sliderContainerClasses}>
+                                <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
+                                <span className="opacity-label col-xs-3 no-padding">
+                                    {currOpacity}%
+                                </span>
+                            </div>
                             <IconButton
                                 icon="info_outline"
                                 className="no-padding mini-xs-waysmall"
@@ -205,18 +217,6 @@ export class LayerControlContainer extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className={sliderContainerClasses}>
-                    <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
-                    <span className="opacity-label col-xs-3 no-padding">
-                        {currOpacity}%
-                    </span>
-                </div>
-                <div className={positionContainerClasses}>
-                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
-                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
-                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
-                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                 </div>
             </div>
         );

@@ -117,6 +117,7 @@ export class ContextMenuSubMenu extends Component {
                 <Button
                     tabIndex={tabIndex}
                     primary={visible}
+                    aria-label={title}
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}
                     label={icon ? title : ""}
