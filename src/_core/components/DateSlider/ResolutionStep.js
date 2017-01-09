@@ -48,18 +48,21 @@ export class ResolutionStep extends Component {
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
                         primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
                         primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}

@@ -79,6 +79,7 @@ export class AppContainer extends Component {
         });
         return (
             <div id="appContainer" className={containerClasses}>
+                <DatePickerContainer />
                 <HelpContainer />
                 <MapContainer />
                 <MapControlsContainer />
@@ -88,7 +89,6 @@ export class AppContainer extends Component {
                 <LayerInfoContainer />
                 <LayerMenuContainer />
                 <DateSliderContainer />
-                <DatePickerContainer />
                 <AlertsContainer />
                 <LoadingContainer />
                 <MapContextMenu />
