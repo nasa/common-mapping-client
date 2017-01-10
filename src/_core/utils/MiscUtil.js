@@ -186,4 +186,12 @@ export default class MiscUtil {
     mailTo(address) {
         window.location.href = "mailto:" + address;
     }
+
+    padNumber(num, length, pad = "0") {
+        num = num + "";
+        while(num.length < length) {
+            num = pad + num;
+        }
+        return num;
+    }
 }
