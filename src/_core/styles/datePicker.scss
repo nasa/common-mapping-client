@@ -61,11 +61,10 @@
     position: absolute;
     bottom: 0px;
     left: 0px;
-    z-index: 1;
+    z-index: 2;
     width: 200px;
     padding: 0px 0.5rem;
     height: 6rem;
-    // background: $color-primary;
     background: white;
     border-top-right-radius: 2px;
     @include medium-shadow();

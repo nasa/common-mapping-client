@@ -5,6 +5,9 @@
     transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
     opacity: 0;
     pointer-events: none;
+    &:not(.active) { 
+        // visibility: hidden;
+    }
     &.active {
         opacity: 1;
         transition: opacity 0s linear 0s, top 0s linear 0s;
@@ -99,12 +102,6 @@
         }
         &:last-child {
             border-bottom-right-radius: 2px;
-        }
-        // &:nth-child(even) {
-        //     border-left: 1px solid #e5e5df;
-        // }
-        &:nth-child(n+3) {
-            // border-top: 1px solid #e5e5df;
         }
         &:focus {
             background: rgb(209, 209, 209);
@@ -252,7 +249,6 @@
     background: white;
     border-radius: 2px;
     padding: 4px 8px;
-    // opacity: 0.7;
     white-space: nowrap;
     font-family: "Roboto Mono";
     color: $color-text-secondary;
