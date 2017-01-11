@@ -257,6 +257,8 @@ button.position-control-button {
     background: $color-light;
     overflow: visible;
     padding: 0px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     @include light-shadow();
     .row {
         margin: 0px;
@@ -265,10 +267,10 @@ button.position-control-button {
 
 #layerHeaderRow {
     z-index: 1;
-    position: absolute;
+    position: relative;
     padding: 0.3rem;
-    top: 0px;
-    left: 0px;
+    /*top: 0px;
+    left: 0px;*/
     width: 100%;
     height: 31px;
     color: $color-light;
@@ -280,21 +282,22 @@ button.position-control-button {
 
 #layerMenuContent {
     z-index: 0;
-    position: absolute;
-    top: calc(-80vh - 130px);
-    left: 0px;
+    /*position: absolute;*/
+    /*top: calc(-80vh - 130px);*/
+    /*left: 0px;*/
     display: block;
     height: initial;
     min-height: 0px;
-    max-height: calc(80vh - 130px);
+    max-height: 0px;
+    opacity: 0;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    /*max-height: calc(80vh - 130px);*/
     width: 100%;
     overflow: hidden;
     overflow-y: scroll;
     background: $color-light;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    -webkit-transition: top 0.3s ease-out 0s;
-    transition: top 0.3s ease-out 0s;
+    transition: max-height 0.3s ease-out 0s, opacity 0.2s linear 0s;
     @include light-shadow();
     .toggle {
         padding-left: 1.3rem;
@@ -320,5 +323,8 @@ button.position-control-button {
 }
 
 #layerMenu.open #layerMenuContent {
-    top: 31px;
+    /*top: 31px;*/
+    max-height: calc(80vh - 130px);
+    opacity: 1;
+    transition: max-height 0.5s ease-out 0s, opacity 0.2s linear 0s;
 }

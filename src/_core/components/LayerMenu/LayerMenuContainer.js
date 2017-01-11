@@ -41,6 +41,8 @@ export class LayerMenuContainer extends Component {
                         <IconButton
                             neutral
                             inverse
+                            data-tip={this.props.layerMenuOpen ? "Close layer menu" : "Open layer menu"}
+                            data-place="left"
                             icon={this.props.layerMenuOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}
                             className="no-padding mini-xs-waysmall"
                             onClick={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
