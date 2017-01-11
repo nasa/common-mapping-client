@@ -8,9 +8,6 @@ const MAX_LENGTH = 2;
 const miscUtil = new MiscUtil();
 
 export class DayPicker extends Component {
-    componentWillMount() {
-        this.setState({ renderToggle: false });
-    }
     componentDidMount() {
         this.day = this.props.day;
         this.error = false;
@@ -37,7 +34,7 @@ export class DayPicker extends Component {
         }
         this.error = false;
         this.updateFromInternal = true;
-        this.setState({ renderToggle: !this.state.renderToggle });
+        this.forceUpdate();
     }
     submitDay(dayStr) {
         this.props.onUpdate(dayStr);
@@ -46,7 +43,7 @@ export class DayPicker extends Component {
         // force a re-render the go back to previous valid state
         if (this.day !== this.props.day) {
             this.error = true;
-            this.setState({ renderToggle: !this.state.renderToggle });
+            this.forceUpdate();
         }
     }
     render() {

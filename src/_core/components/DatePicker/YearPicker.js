@@ -8,9 +8,6 @@ const MAX_LENGTH = 4;
 const miscUtil = new MiscUtil();
 
 export class YearPicker extends Component {
-    componentWillMount() {
-        this.setState({ renderToggle: false });
-    }
     componentDidMount() {
         this.year = this.props.year;
         this.error = false;
@@ -35,7 +32,7 @@ export class YearPicker extends Component {
         }
         this.error = false;
         this.updateFromInternal = true;
-        this.setState({ renderToggle: !this.state.renderToggle });
+        this.forceUpdate();
     }
     submitYear(yearStr) {
         this.props.onUpdate(yearStr);
@@ -44,7 +41,7 @@ export class YearPicker extends Component {
         // force a re-render the go back to previous valid state
         if (this.year !== this.props.year) {
             this.error = true;
-            this.setState({ renderToggle: !this.state.renderToggle });
+            this.forceUpdate();
         }
     }
     render() {

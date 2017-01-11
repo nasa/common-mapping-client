@@ -8,9 +8,6 @@ const MAX_LENGTH = 3;
 const miscUtil = new MiscUtil();
 
 export class MonthPicker extends Component {
-    componentWillMount() {
-        this.setState({ renderToggle: false });
-    }
     componentDidMount() {
         this.month = this.props.month;
         this.error = false;
@@ -35,7 +32,7 @@ export class MonthPicker extends Component {
         }
         this.error = false;
         this.updateFromInternal = true;
-        this.setState({ renderToggle: !this.state.renderToggle });
+        this.forceUpdate();
     }
     submitMonth(monthStr) {
         this.props.onUpdate(monthStr);
@@ -44,7 +41,7 @@ export class MonthPicker extends Component {
         // force a re-render the go back to previous valid state
         if (this.month !== this.props.month) {
             this.error = true;
-            this.setState({ renderToggle: !this.state.renderToggle });
+            this.forceUpdate();
         }
     }
     render() {
