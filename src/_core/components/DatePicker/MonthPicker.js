@@ -9,52 +9,54 @@ const miscUtil = new MiscUtil();
 
 export class MonthPicker extends Component {
     componentWillMount() {
-        this.setState({ month: this.props.month, error: false });
+        this.setState({ renderToggle: false });
     }
     componentDidMount() {
+        this.month = this.props.month;
+        this.error = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.month !== this.props.month || nextProps.month !== this.state.month;
+        return (nextProps.month !== this.props.month) || (nextProps.month !== this.month);
     }
     handleKeyPress(evt) {
-        let monthStr = this.state.month;
+        let monthStr = this.month;
         if (evt.charCode === 13) { // enter key
             this.submitMonth(monthStr);
         }
     }
     handleBlur(evt) {
-        let monthStr = this.state.month;
+        let monthStr = this.month;
         this.submitMonth(monthStr);
     }
     handleChange(monthStr) {
-        let newState = {...this.state };
-        newState.error = false;
         if (monthStr.length <= MAX_LENGTH) {
-            newState.month = monthStr;
+            this.month = monthStr;
         }
-        this.setState(newState);
+        this.error = false;
         this.updateFromInternal = true;
-    }
-    isMonthValid(monthStr) {
-        return appConfig.MONTH_ARRAY.indexOf(monthStr.toLowerCase()) !== -1;
+        this.setState({ renderToggle: !this.state.renderToggle });
     }
     submitMonth(monthStr) {
-        if (this.isMonthValid(monthStr)) {
-            this.props.onUpdate(monthStr);
-        } else {
-            this.setState({ error: true });
+        this.props.onUpdate(monthStr);
+
+        // if the update failed because date was invalid
+        // force a re-render the go back to previous valid state
+        if (this.month !== this.props.month) {
+            this.error = true;
+            this.setState({ renderToggle: !this.state.renderToggle });
         }
     }
     render() {
-        let monthStr = this.updateFromInternal ? this.state.month : this.props.month;
+        let monthStr = this.updateFromInternal ? this.month : this.props.month;
+        this.month = monthStr;
         this.updateFromInternal = false;
         let containerClasses = miscUtil.generateStringFromSet({
             "date-picker-selection col-xs-4": true,
-            "error": this.state.error
+            "error": this.error
         });
         return (
-             <div className={containerClasses}>
+            <div className={containerClasses}>
                 <Input
                     ref="input"
                     type="text"

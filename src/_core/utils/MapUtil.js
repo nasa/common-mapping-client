@@ -4,6 +4,7 @@ import turfArea from 'turf-area';
 import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
+import moment from 'moment';
 import { GreatCircle } from 'assets/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
@@ -455,5 +456,32 @@ export default class MapUtil {
             console.warn("could not find label placement, unsupported geometry type: ", geometry.type);
             return false;
         }
+    }
+
+    // USUSED - get max selectable year index in the appConfig.YEAR_ARRAY given current date and max date
+    getMaxYearConstraintIndex(date, maxDate) {
+        date = moment(date);
+        maxDate = moment(maxDate);
+        let dateIndex = appConfig.YEAR_ARRAY.indexOf(date.format("YYYY").toLowerCase());
+        let diff = Math.floor(maxDate.diff(date, "years", true));
+        return Math.min(appConfig.YEAR_ARRAY.length - 1, dateIndex + diff);
+    }
+
+    // USUSED - get max selectable month index in the appConfig.MONTH_ARRAY given current date and max date
+    getMaxMonthConstraintIndex(date, maxDate) {
+        date = moment(date);
+        maxDate = moment(maxDate);
+        let dateIndex = appConfig.MONTH_ARRAY.indexOf(date.format("MMM").toLowerCase());
+        let diff = Math.floor(maxDate.diff(date, "months", true));
+        return Math.min(appConfig.MONTH_ARRAY.length - 1, dateIndex + diff);
+    }
+
+    // USUSED - get max selectable day index in the appConfig.DAY_ARRAY given current date and max date
+    getMaxDayConstraintIndex(date, maxDate) {
+        date = moment(date);
+        maxDate = moment(maxDate);
+        let dateIndex = appConfig.DAY_ARRAY.indexOf(date.format("DD").toLowerCase());
+        let diff = Math.floor(maxDate.diff(date, "days", true));
+        return Math.min(appConfig.DAY_ARRAY.length - 1, dateIndex + diff);
     }
 }

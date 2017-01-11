@@ -46,7 +46,7 @@ export class CurrentDatePicker extends Component {
         let minDate = moment(appConfig.MIN_DATE);
         let maxDate = moment(appConfig.MAX_DATE);
 
-        if (newDate.isBetween(minDate, maxDate)) {
+        if (newDate.isValid() && newDate.isBetween(minDate, maxDate)) {
             this.props.setDate(newDate.toDate());
         } else {
             this.props.setDate(date.toDate());

@@ -9,49 +9,51 @@ const miscUtil = new MiscUtil();
 
 export class YearPicker extends Component {
     componentWillMount() {
-        this.setState({ year: this.props.year, error: false });
+        this.setState({ renderToggle: false });
     }
     componentDidMount() {
+        this.year = this.props.year;
+        this.error = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.year !== this.props.year || nextProps.year !== this.state.year;
+        return (nextProps.year !== this.props.year) || (nextProps.year !== this.year);
     }
     handleKeyPress(evt) {
-        let yearStr = this.state.year;
+        let yearStr = this.year;
         if (evt.charCode === 13) { // enter key
             this.submitYear(yearStr);
         }
     }
     handleBlur(evt) {
-        let yearStr = this.state.year;
+        let yearStr = this.year;
         this.submitYear(yearStr);
     }
     handleChange(yearStr) {
-        let newState = {...this.state };
-        newState.error = false;
         if (yearStr.length <= MAX_LENGTH) {
-            newState.year = yearStr;
+            this.year = yearStr;
         }
-        this.setState(newState);
+        this.error = false;
         this.updateFromInternal = true;
-    }
-    isYearValid(yearStr) {
-        return appConfig.YEAR_ARRAY.indexOf(yearStr) !== -1;
+        this.setState({ renderToggle: !this.state.renderToggle });
     }
     submitYear(yearStr) {
-        if (this.isYearValid(yearStr)) {
-            this.props.onUpdate(yearStr);
-        } else {
-            this.setState({ error: true });
+        this.props.onUpdate(yearStr);
+
+        // if the update failed because date was invalid
+        // force a re-render the go back to previous valid state
+        if (this.year !== this.props.year) {
+            this.error = true;
+            this.setState({ renderToggle: !this.state.renderToggle });
         }
     }
     render() {
-        let yearStr = this.updateFromInternal ? this.state.year : this.props.year;
+        let yearStr = this.updateFromInternal ? this.year : this.props.year;
+        this.year = yearStr;
         this.updateFromInternal = false;
         let containerClasses = miscUtil.generateStringFromSet({
             "date-picker-selection col-xs-5": true,
-            "error": this.state.error
+            "error": this.error
         });
         return (
             <div className={containerClasses}>
