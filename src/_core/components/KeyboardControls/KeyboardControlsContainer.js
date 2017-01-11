@@ -114,7 +114,7 @@ export class KeyboardControlsContainer extends Component {
         let focusEl = document.activeElement.getAttribute("data-react-toolbox");
         // If we're focused on slider, do not adjust timeline
         if (focusEl !== "slider") {
-            this.adjustDateSliderTimeResolution(false);
+            this.adjustDateSliderTimeResolution(true);
         }
     }
     handleKeyDown_ArrowDown() {
@@ -122,7 +122,7 @@ export class KeyboardControlsContainer extends Component {
         let focusEl = document.activeElement.getAttribute("data-react-toolbox");
         // If we're focused on slider, do not adjust timeline
         if (focusEl !== "slider") {
-            this.adjustDateSliderTimeResolution(true);
+            this.adjustDateSliderTimeResolution(false);
         }
     }
     render() {
