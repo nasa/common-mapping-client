@@ -5,7 +5,7 @@ import moment from 'moment';
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
-import DatePicker from '_core/components/DatePicker/DatePicker';
+import CurrentDatePicker from '_core/components/DatePicker/CurrentDate/CurrentDatePicker';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
@@ -19,7 +19,7 @@ export class DatePickerContainer extends Component {
         });
         return (
             <div id="datePickerContainer" className={containerClasses}>
-                <DatePicker date={this.props.date} setDate={this.props.actions.setDate} />
+                <CurrentDatePicker setDate={this.props.actions.setDate} />
             </div>
         );
     }
@@ -27,13 +27,11 @@ export class DatePickerContainer extends Component {
 
 DatePickerContainer.propTypes = {
     actions: PropTypes.object.isRequired,
-    date: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        date: state.map.get("date"),
         distractionFreeMode: state.view.get("distractionFreeMode")
     };
 }

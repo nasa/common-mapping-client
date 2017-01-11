@@ -5,7 +5,6 @@ import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
-import KeyHandler, { KEYUP } from 'react-key-handler';
 
 const miscUtil = new MiscUtil();
 

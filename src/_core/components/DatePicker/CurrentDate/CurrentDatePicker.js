@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Button } from 'react-toolbox/lib/button';
-import YearPicker from '_core/components/DatePicker/YearPicker';
-import MonthPicker from '_core/components/DatePicker/MonthPicker';
-import DayPicker from '_core/components/DatePicker/DayPicker';
+import CurrentYearPicker from '_core/components/DatePicker/CurrentDate/CurrentYearPicker';
+import CurrentMonthPicker from '_core/components/DatePicker/CurrentDate/CurrentMonthPicker';
+import CurrentDayPicker from '_core/components/DatePicker/CurrentDate/CurrentDayPicker';
 import * as appConfig from 'constants/appConfig';
 
-export class DatePicker extends Component {
+export class CurrentDatePicker extends Component {
+    shouldComponentUpdate(nextProps) {
+        return false;
+    }
+
     incrementDate(resolution, increment = true) {
         let newDate = moment(this.props.date);
         if (increment) {
@@ -50,10 +54,6 @@ export class DatePicker extends Component {
     }
     
     render() {
-        let date = moment(this.props.date);
-        let year = date.format("YYYY");
-        let month = date.format("MMM");
-        let day = date.format("DD");
         return (
             <div className="date-picker">
                 <div className="row middle-xs no-margin">
@@ -68,9 +68,9 @@ export class DatePicker extends Component {
                     </div>
                 </div>
                 <div className="row middle-xs no-margin">
-                    <YearPicker year={year} onUpdate={(value) => this.updateDate("years", value)} />
-                    <MonthPicker month={month} onUpdate={(value) => this.updateDate("months", value)} />
-                    <DayPicker day={day} onUpdate={(value) => this.updateDate("days", value)} />
+                    <CurrentYearPicker onUpdate={(value) => this.updateDate("years", value)} />
+                    <CurrentMonthPicker onUpdate={(value) => this.updateDate("months", value)} />
+                    <CurrentDayPicker onUpdate={(value) => this.updateDate("days", value)} />
                 </div>
                 <div className="row middle-xs no-margin">
                     <div className="date-picker-selection-increment col-xs-5">
@@ -88,9 +88,18 @@ export class DatePicker extends Component {
     }
 }
 
-DatePicker.propTypes = {
+CurrentDatePicker.propTypes = {
     setDate: PropTypes.func.isRequired,
     date: PropTypes.object.isRequired
 };
 
-export default connect()(DatePicker);
+function mapStateToProps(state) {
+    return {
+        date: state.map.get("date")
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(CurrentDatePicker);

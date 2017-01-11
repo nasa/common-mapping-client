@@ -76,12 +76,14 @@ export const MAX_DATE = moment(new Date()).add(1, 'month').toDate();
 export const YEAR_ARRAY = (() => {
     // generate array of years spanning configured range
     let yearArr = [];
-    for (let tmpYr = parseInt(moment(MIN_DATE).format("YYYY")); tmpYr <= moment(MAX_DATE).format("YYYY"); ++tmpYr) {
+    let startYr = parseInt(moment(MIN_DATE).format("YYYY"));
+    let endYr = parseInt(moment(MAX_DATE).format("YYYY"));
+    for (let tmpYr = startYr; tmpYr <= endYr; ++tmpYr) {
         yearArr.push("" + tmpYr);
     }
     return yearArr;
 })();
-export const MONTH_ARRAY = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const MONTH_ARRAY = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
 export const DAY_ARRAY = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 export const DATE_SLIDER_RESOLUTIONS = {
     DAYS: { label: "Days", resolution: 512 },
