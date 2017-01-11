@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Button } from 'react-toolbox/lib/button';
-import CurrentYearPicker from '_core/components/DatePicker/CurrentYearPicker';
-import CurrentMonthPicker from '_core/components/DatePicker/CurrentMonthPicker';
-import CurrentDayPicker from '_core/components/DatePicker/CurrentDayPicker';
+import CurrentYearPicker from '_core/components/DatePicker/CurrentDate/CurrentYearPicker';
+import CurrentMonthPicker from '_core/components/DatePicker/CurrentDate/CurrentMonthPicker';
+import CurrentDayPicker from '_core/components/DatePicker/CurrentDate/CurrentDayPicker';
 import * as appConfig from 'constants/appConfig';
 
 export class CurrentDatePicker extends Component {

@@ -5,7 +5,7 @@ import moment from 'moment';
 import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
-import CurrentDatePicker from '_core/components/DatePicker/CurrentDatePicker';
+import CurrentDatePicker from '_core/components/DatePicker/CurrentDate/CurrentDatePicker';
 import DateKeyboardControls from '_core/components/DatePicker/DateKeyboardControls';
 import MiscUtil from '_core/utils/MiscUtil';
 
