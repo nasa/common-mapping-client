@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import KeyHandler, { KEYPRESS, KEYUP } from 'react-key-handler';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 import * as appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
@@ -10,21 +9,6 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class ResolutionStep extends Component {
-    adjustResolution(up) {
-        if(up) {
-            if(this.props.resolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label) {
-                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
-            } else {
-                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS);
-            }
-        } else {
-            if(this.props.resolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label) {
-                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
-            } else {
-                this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS);
-            }
-        }
-    }
     toggleResolutionSelector() {
         this.props.actions.setIsSelectionResolution(!this.props.isSelectingResolution);
     }
@@ -43,8 +27,6 @@ export class ResolutionStep extends Component {
                     data-tip="Adjust the slider resolution"
                     data-place="left"
                 />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary

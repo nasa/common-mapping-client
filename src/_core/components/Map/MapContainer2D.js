@@ -5,7 +5,6 @@ import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
 import * as appStrings from '_core/constants/appStrings';
 import MiscUtil from '_core/utils/MiscUtil';
-import KeyHandler, { KEYUP } from 'react-key-handler';
 
 const miscUtil = new MiscUtil();
 
@@ -82,18 +81,6 @@ export class MapContainer2D extends Component {
         this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
 
-    handleEnterKeyPress() {
-        let map = this.props.maps.get(appStrings.MAP_LIB_2D);
-        if (typeof map !== "undefined") {
-            if (this.props.isDrawingEnabled) {
-                map.completeDrawing();
-            }
-            if (this.props.isMeasuringEnabled) {
-                map.completeMeasuring();
-            }
-        }
-    }
-
     render() {
         // need to get some sort of stored state value
         if (this.props.initialLoadComplete && !this.listenersInitialized) {
@@ -110,7 +97,6 @@ export class MapContainer2D extends Component {
         return (
             <div id="mapContainer2D" className={containerClass}>
                 <div id="map2D" />
-                <KeyHandler keyEventName={KEYUP} keyValue="Enter" onKeyHandle={(evt) => this.handleEnterKeyPress()} />
             </div>
         );
     }

@@ -6,7 +6,6 @@ import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/MapActions';
 import CurrentDatePicker from '_core/components/DatePicker/CurrentDate/CurrentDatePicker';
-import DateKeyboardControls from '_core/components/DatePicker/DateKeyboardControls';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
@@ -20,7 +19,6 @@ export class DatePickerContainer extends Component {
         });
         return (
             <div id="datePickerContainer" className={containerClasses}>
-                <DateKeyboardControls />
                 <CurrentDatePicker setDate={this.props.actions.setDate} />
             </div>
         );
