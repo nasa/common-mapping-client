@@ -144,7 +144,6 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    // font-family: "Roboto Mono";
     font-weight: 300;
     z-index: 1;
     width: 60px;
@@ -155,15 +154,15 @@
         font-size: 1.15rem;
         padding-left: 1px;
         padding-right: 1px;
-        // font-family: "Roboto Mono";
     }
     .resolution-selector {
         position: absolute;
         width: 56px;
         height: auto;
         opacity: 0;
+        pointer-events: none;
         background: $color-light;
-        top: 200%;
+        top: -140%;
         left: 50%;
         transform: translate(-50%, 0px);
         border-radius: 2px;
@@ -193,8 +192,8 @@
             margin-left: -11px;
         }
         &.active {
-            top: calc(0px - (100% + 20px));
             opacity: 1;
+            pointer-events: inherit;
             transition: opacity 0s linear 0s, top 0s linear 0s;
         }
     }

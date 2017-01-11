@@ -43,7 +43,7 @@ export class LayerMenuContainer extends Component {
                             inverse
                             icon={this.props.layerMenuOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}
                             className="no-padding mini-xs-waysmall"
-                            onMouseUp={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
+                            onClick={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
                         />
                     </div>
                 </div>

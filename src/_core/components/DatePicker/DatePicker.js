@@ -60,7 +60,7 @@ export class DatePicker extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("years", value)}
                       label=""
-                      tabIndex="1"
+                      tabIndex="0"
                       multiple={false}
                       source={appConfig.YEAR_ARRAY}
                       value={year}
@@ -77,7 +77,7 @@ export class DatePicker extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("months", value)}
                       label=""
-                      tabIndex="2"
+                      tabIndex="0"
                       multiple={false}
                       source={appConfig.MONTH_ARRAY}
                       value={month}
@@ -94,7 +94,7 @@ export class DatePicker extends Component {
                       direction="up"
                       onChange={(value) => this.updateDate("days", value)}
                       label=""
-                      tabIndex="3"
+                      tabIndex="0"
                       multiple={false}
                       source={appConfig.DAY_ARRAY}
                       value={day}

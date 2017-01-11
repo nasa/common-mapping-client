@@ -35,28 +35,6 @@ export class ResolutionStep extends Component {
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
-                <div className={resolutionSelectorClasses}>
-                    <Button
-                        primary
-                        label={appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label}
-                        className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS)}
-                    />
-                    <Button
-                        primary
-                        label={appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
-                        className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS)}
-                    />
-                    <Button
-                        primary
-                        label={appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label}
-                        className="no-padding resolution-step small"
-                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}
-                    />
-                </div>
                 <IconButton
                     primary={this.props.isSelectingResolution}
                     onClick={() => this.toggleResolutionSelector()}
@@ -65,6 +43,31 @@ export class ResolutionStep extends Component {
                     data-tip="Adjust the slider resolution"
                     data-place="left"
                 />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.adjustResolution(true)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.adjustResolution(false)} />
+                <div className={resolutionSelectorClasses}>
+                    <Button
+                        primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS)}
+                    />
+                    <Button
+                        primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS)}
+                    />
+                    <Button
+                        primary
+                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        label={appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label}
+                        className="no-padding resolution-step small"
+                        onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}
+                    />
+                </div>
             </div>
         );
     }
