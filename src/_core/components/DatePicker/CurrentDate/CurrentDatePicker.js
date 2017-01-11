@@ -52,18 +52,19 @@ export class CurrentDatePicker extends Component {
             this.props.setDate(date.toDate());
         }
     }
+    
     render() {
         return (
             <div className="date-picker">
                 <div className="row middle-xs no-margin">
                     <div className="date-picker-selection-increment col-xs-5">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
                     </div>
                     <div className="date-picker-selection-increment col-xs-4">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
                     </div>
                     <div className="date-picker-selection-increment col-xs-3">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
                     </div>
                 </div>
                 <div className="row middle-xs no-margin">
@@ -73,13 +74,13 @@ export class CurrentDatePicker extends Component {
                 </div>
                 <div className="row middle-xs no-margin">
                     <div className="date-picker-selection-increment col-xs-5">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
                     </div>
                     <div className="date-picker-selection-increment col-xs-4">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
                     </div>
                     <div className="date-picker-selection-increment col-xs-3">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
                     </div>
                 </div>
             </div>

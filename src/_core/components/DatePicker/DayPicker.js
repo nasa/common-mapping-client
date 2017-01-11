@@ -62,6 +62,7 @@ export class DayPicker extends Component {
                 <Input
                     ref="input"
                     type="text"
+                    tabIndex="0"
                     value={dayStr}
                     onBlur={(evt) => this.handleBlur(evt)}
                     onKeyPress={(evt) => this.handleKeyPress(evt)}

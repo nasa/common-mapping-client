@@ -60,6 +60,7 @@ export class MonthPicker extends Component {
                 <Input
                     ref="input"
                     type="text"
+                    tabIndex="0"
                     value={monthStr}
                     onBlur={(evt) => this.handleBlur(evt)}
                     onKeyPress={(evt) => this.handleKeyPress(evt)}

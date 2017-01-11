@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import Autocomplete from 'react-toolbox/lib/autocomplete';
 import { Button } from 'react-toolbox/lib/button';
+import YearPicker from '_core/components/DatePicker/YearPicker';
+import MonthPicker from '_core/components/DatePicker/MonthPicker';
+import DayPicker from '_core/components/DatePicker/DayPicker';
 import * as appConfig from 'constants/appConfig';
 
 export class DatePicker extends Component {
-  incrementDate(resolution, increment = true) {
+    incrementDate(resolution, increment = true) {
         let newDate = moment(this.props.date);
         if (increment) {
             newDate = newDate.add(1, resolution);
@@ -22,6 +24,7 @@ export class DatePicker extends Component {
             this.props.setDate(newDate.toDate());
         }
     }
+
     updateDate(resolution, value) {
         // Update the application date based off 
         // Autocomplete incomplete date string
@@ -39,68 +42,45 @@ export class DatePicker extends Component {
         let minDate = moment(appConfig.MIN_DATE);
         let maxDate = moment(appConfig.MAX_DATE);
 
-        if (newDate.isBetween(minDate, maxDate)) {
+        if (newDate.isValid() && newDate.isBetween(minDate, maxDate)) {
             this.props.setDate(newDate.toDate());
         } else {
             this.props.setDate(date.toDate());
         }
     }
+    
     render() {
         let date = moment(this.props.date);
         let year = date.format("YYYY");
         let month = date.format("MMM");
         let day = date.format("DD");
         return (
-            <div className="row middle-xs date-picker">
-                <div className="date-picker-selection col-xs-5">
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
+            <div className="date-picker">
+                <div className="row middle-xs no-margin">
+                    <div className="date-picker-selection-increment col-xs-5">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
                     </div>
-                    <Autocomplete
-                      direction="up"
-                      onChange={(value) => this.updateDate("years", value)}
-                      label=""
-                      tabIndex="0"
-                      multiple={false}
-                      source={appConfig.YEAR_ARRAY}
-                      value={year}
-                    />
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
+                    <div className="date-picker-selection-increment col-xs-4">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
+                    </div>
+                    <div className="date-picker-selection-increment col-xs-3">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
                     </div>
                 </div>
-                <div className="date-picker-selection col-xs-4">
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
-                    </div>
-                    <Autocomplete
-                      direction="up"
-                      onChange={(value) => this.updateDate("months", value)}
-                      label=""
-                      tabIndex="0"
-                      multiple={false}
-                      source={appConfig.MONTH_ARRAY}
-                      value={month}
-                    />
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
-                    </div>
+                <div className="row middle-xs no-margin">
+                    <YearPicker year={year} onUpdate={(value) => this.updateDate("years", value)} />
+                    <MonthPicker month={month} onUpdate={(value) => this.updateDate("months", value)} />
+                    <DayPicker day={day} onUpdate={(value) => this.updateDate("days", value)} />
                 </div>
-                <div className="date-picker-selection col-xs-3">
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
+                <div className="row middle-xs no-margin">
+                    <div className="date-picker-selection-increment col-xs-5">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
                     </div>
-                    <Autocomplete
-                      direction="up"
-                      onChange={(value) => this.updateDate("days", value)}
-                      label=""
-                      tabIndex="0"
-                      multiple={false}
-                      source={appConfig.DAY_ARRAY}
-                      value={day}
-                    />
-                    <div className="date-picker-selection-increment">
-                        <Button neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
+                    <div className="date-picker-selection-increment col-xs-4">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
+                    </div>
+                    <div className="date-picker-selection-increment col-xs-3">
+                        <Button tabIndex="-1" neutral primary icon="arrow_drop_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
                     </div>
                 </div>
             </div>

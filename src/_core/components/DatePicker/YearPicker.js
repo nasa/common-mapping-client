@@ -60,6 +60,7 @@ export class YearPicker extends Component {
                 <Input
                     ref="input"
                     type="text"
+                    tabIndex="0"
                     value={yearStr}
                     onBlur={(evt) => this.handleBlur(evt)}
                     onKeyPress={(evt) => this.handleKeyPress(evt)}
