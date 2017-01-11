@@ -140,6 +140,7 @@ ContextMenuSubMenu.propTypes = {
     customIcon: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     showDelay: PropTypes.number,
+    tabIndex: PropTypes.number,
     hideDelay: PropTypes.number,
     children: PropTypes.array
 };
