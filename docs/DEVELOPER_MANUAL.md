@@ -91,14 +91,14 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   │	  ├── components        # Core React components
 │   │	  ├── constants         # Core application constants including constants for Redux
 │   │	  ├── reducers          # Core Redux reducers. Your state is altered here based on actions
-│	  │   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
-│	  │   │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
+│	  │	  │	  ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
+│	  │	  │	  └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
 │   │	  ├── styles        	  # Core CSS Styles, typically written in Sass
 │	  │	  │	  └── resources     # Style media resources like favicons and images required by core 
 │   │	  ├── store        	  # Redux store configuration, modifications usually unnecessary
 │   │	  ├── tests         	  # All Core tests
 │	  │	  │	  └── data   		  # Any dummy data core tests may need
-│   │	  ├── utils         	  # Application constants including constants for Redux
+│   │	  └── utils         	  # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
 │   ├── default-data          # Default data for the application
