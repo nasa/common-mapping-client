@@ -49,6 +49,7 @@
     "url-loader": "0.5.7"
   },
   "devDependencies": {
+    "autoprefixer": "6.6.1",
     "babel-cli": "6.11.4",
     "babel-core": "6.11.4",
     "babel-eslint": "6.0.2",
@@ -95,6 +96,7 @@
     "npm-run-all": "2.3.0",
     "nyc": "8.3.2",
     "openlayers": "3.17.1",
+    "postcss-loader": "1.2.2",
     "proj4": "2.3.14",
     "raw-loader": "0.5.1",
     "react-addons-test-utils": "15.3.0",
