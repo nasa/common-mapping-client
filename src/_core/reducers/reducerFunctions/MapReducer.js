@@ -294,55 +294,87 @@ export default class MapReducer {
     }
 
     static startChangingOpacity(state, action) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("isChangingOpacity", true).set("isChangingPosition", false);
-            let index = action.layer.get("id");
-            return state.setIn(["layers", action.layer.get("type"), index], newLayer);
+            let newLayer = actionLayer.set("isChangingOpacity", true).set("isChangingPosition", false);
+            let index = actionLayer.get("id");
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
         return state;
     }
 
     static stopChangingOpacity(state, action) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("isChangingOpacity", false);
-            let index = action.layer.get("id");
-            return state.setIn(["layers", action.layer.get("type"), index], newLayer);
+            let newLayer = actionLayer.set("isChangingOpacity", false);
+            let index = actionLayer.get("id");
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
         return state;
     }
 
     static startChangingPosition(state, action) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("isChangingPosition", true).set("isChangingOpacity", false);
-            let index = action.layer.get("id");
-            return state.setIn(["layers", action.layer.get("type"), index], newLayer);
+            let newLayer = actionLayer.set("isChangingPosition", true).set("isChangingOpacity", false);
+            let index = actionLayer.get("id");
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
         return state;
     }
 
     static stopChangingPosition(state, action) {
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("isChangingPosition", false);
-            let index = action.layer.get("id");
-            return state.setIn(["layers", action.layer.get("type"), index], newLayer);
+            let newLayer = actionLayer.set("isChangingPosition", false);
+            let index = actionLayer.get("id");
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
         return state;
     }
 
     static setLayerPalette(state, action) {
         // TODO
-        let layerList = state.getIn(["layers", action.layer.get("type")]);
+
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
+        let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = action.layer.set("palette", action.palette);
-            let index = action.layer.get("id");
-            return state.setIn(["layers", action.layer.get("type"), index], newLayer);
+            let newLayer = actionLayer.set("palette", action.palette);
+            let index = actionLayer.get("id");
+            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
         return state;
     }
+
     static setBasemap(state, action) {
         let alerts = state.get("alerts");
 
@@ -629,28 +661,52 @@ export default class MapReducer {
     }
 
     static moveLayerToTop(state, action) {
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
         state.get("maps").map((map) => {
-            map.moveLayerToTop(action.layer);
+            map.moveLayerToTop(actionLayer);
         });
         return state;
     }
 
 
     static moveLayerToBottom(state, action) {
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
         state.get("maps").map((map) => {
-            map.moveLayerToBottom(action.layer);
+            map.moveLayerToBottom(actionLayer);
         });
         return state;
     }
     static moveLayerUp(state, action) {
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
         state.get("maps").map((map) => {
-            map.moveLayerUp(action.layer);
+            map.moveLayerUp(actionLayer);
         });
         return state;
     }
     static moveLayerDown(state, action) {
+        // resolve layer from id if necessary
+        let actionLayer = action.layer;
+        if (typeof actionLayer === "string") {
+            actionLayer = this.findLayerById(state, actionLayer);
+        }
+
         state.get("maps").map((map) => {
-            map.moveLayerDown(action.layer);
+            map.moveLayerDown(actionLayer);
         });
         return state;
     }
@@ -904,14 +960,15 @@ export default class MapReducer {
     /****************/
 
     static findLayerById(state, layerId) {
-        return state.get("layers").reduce((acc, layerList) => {
-            if (!acc) {
-                return layerList.find((layer) => {
-                    return layer.get("id") === layerId;
-                });
+        let layer = false;
+        state.get("layers").forEach((layerList) => {
+            let layerCheck = layerList.get(layerId);
+            if(typeof layerCheck !== "undefined") {
+                layer = layerCheck;
+                return false;
             }
-            return acc;
-        }, false);
+        });
+        return layer;
     }
 
     static readPalette(palette) {

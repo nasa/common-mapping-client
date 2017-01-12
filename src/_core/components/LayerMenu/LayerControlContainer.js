@@ -46,11 +46,11 @@ export class LayerControlContainer extends Component {
     }
 
     startChangingOpacity() {
-        this.props.actions.startChangingLayerOpacity(this.props.layer);
+        this.props.actions.startChangingLayerOpacity(this.props.layer.get("id"));
     }
 
     stopChangingOpacity() {
-        this.props.actions.stopChangingLayerOpacity(this.props.layer);
+        this.props.actions.stopChangingLayerOpacity(this.props.layer.get("id"));
     }
 
     toggleChangingPosition() {
@@ -62,11 +62,11 @@ export class LayerControlContainer extends Component {
     }
 
     startChangingPosition() {
-        this.props.actions.startChangingLayerPosition(this.props.layer);
+        this.props.actions.startChangingLayerPosition(this.props.layer.get("id"));
     }
 
     stopChangingPosition() {
-        this.props.actions.stopChangingLayerPosition(this.props.layer);
+        this.props.actions.stopChangingLayerPosition(this.props.layer.get("id"));
     }
 
     openLayerInfo() {
@@ -75,20 +75,20 @@ export class LayerControlContainer extends Component {
     }
 
     changePalette() {
-        this.props.actions.changeLayerPalette(this.props.layer, {});
+        this.props.actions.changeLayerPalette(this.props.layer.get("id"), {});
     }
 
     moveToTop() {
-        this.props.actions.moveLayerToTop(this.props.layer);
+        this.props.actions.moveLayerToTop(this.props.layer.get("id"));
     }
     moveToBottom() {
-        this.props.actions.moveLayerToBottom(this.props.layer);
+        this.props.actions.moveLayerToBottom(this.props.layer.get("id"));
     }
     moveUp() {
-        this.props.actions.moveLayerUp(this.props.layer);
+        this.props.actions.moveLayerUp(this.props.layer.get("id"));
     }
     moveDown() {
-        this.props.actions.moveLayerDown(this.props.layer);
+        this.props.actions.moveLayerDown(this.props.layer.get("id"));
     }
 
     render() {
@@ -126,7 +126,7 @@ export class LayerControlContainer extends Component {
                             <Switch
                                 className={switchClasses}
                                 checked={this.props.layer.get("isActive")}
-                                onChange={(active) => this.props.actions.setLayerActive(this.props.layer, active)}
+                                onChange={(active) => this.props.actions.setLayerActive(this.props.layer.get("id"), active)}
                             />
                         </div>
                     </div>
