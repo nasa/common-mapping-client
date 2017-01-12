@@ -84,21 +84,21 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── distServer.js         # Starts webserver and opens final built app that's in dist in your default browser
 │   ├── postbuild.sh          # Shell script that runs after npm build to copy over certain libs to certain places in the distribution
 │   ├── postinstall.sh        # Shell script that copies over certain node_module files, libraries, sets up other stuff, etc.
-│   ├── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
+│   └── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
 ├── src                       # Source code
 │   ├── _core                 # Folder containing all cmc-core files that should not need to be modified by external developer
 │   │   ├── actions           # Core Flux/Redux actions. List of distinct actions that can occur in the app.  
-│   │	├── components        # Core React components
-│   │	├── constants         # Core application constants including constants for Redux
-│   │	├── reducers          # Core Redux reducers. Your state is altered here based on actions
-│	│   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
-│	│   │   ├── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
-│   │	├── styles        	  # Core CSS Styles, typically written in Sass
-│	│	│	├── resources     # Style media resources like favicons and images required by core 
-│   │	├── store        	  # Redux store configuration, modifications usually unnecessary
-│   │	├── tests         	  # All Core tests
-│	│	│	├── data   		  # Any dummy data core tests may need
-│   │	├── utils         	  # Application constants including constants for Redux
+│   │	  ├── components        # Core React components
+│   │	  ├── constants         # Core application constants including constants for Redux
+│   │	  ├── reducers          # Core Redux reducers. Your state is altered here based on actions
+│	  │   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
+│	  │   │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
+│   │	  ├── styles        	  # Core CSS Styles, typically written in Sass
+│	  │	  │	  └── resources     # Style media resources like favicons and images required by core 
+│   │	  ├── store        	  # Redux store configuration, modifications usually unnecessary
+│   │	  ├── tests         	  # All Core tests
+│	  │	  │	  └── data   		  # Any dummy data core tests may need
+│   │	  ├── utils         	  # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
 │   ├── default-data          # Default data for the application
@@ -107,9 +107,9 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
-│	│   ├── _theme.scss   	  # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│	│   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│	│   ├── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
+│	  │   ├── _theme.scss   	  # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│	  │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│	  │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
 │   │   
 │   └── utils                 # Plain ES6 JS objects. Pure logic. No framework.
 ├── test-results   		      # Karma test results output folder
