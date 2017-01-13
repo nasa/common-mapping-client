@@ -90,7 +90,7 @@ export function runUrlConfig(params) {
     };
 }
 
-function translateUrlParamToActionDispatch(param) {
+export function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
         case appConfig.URL_KEYS.ACTIVE_LAYERS:
             return setLayersActive(param.value.split(","), true);
