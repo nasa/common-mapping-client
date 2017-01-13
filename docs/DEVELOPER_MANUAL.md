@@ -1,5 +1,7 @@
 # Developer Manual
 
+[test](#test)
+
 ### Installation guide
 Make sure you have `Node` and `npm` installed before continuing.
 
@@ -15,6 +17,7 @@ Your default browser should open to localhost:3000 and you should see a default 
 
 Now get building!
 
+<a name="headers"/>
 ### Overview of various start, build, etc., commands from package.json
 | **Script** | **Description** |
 |----------|-------|
