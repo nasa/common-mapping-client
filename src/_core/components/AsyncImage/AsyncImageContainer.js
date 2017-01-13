@@ -41,7 +41,7 @@ export class AsyncImageContainer extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="async-image-container">
                 <img style={{"display":"none"}} src={this.props.src} ref="imgLoader" />
                 <div style={{"transition":"opacity 0.3s"}} className={this.props.className} ref="imgDest" />
             </div>
