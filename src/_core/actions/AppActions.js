@@ -50,13 +50,13 @@ export function setFullScreenMode(enabled) {
     return { type: types.SET_FULL_SCREEN, enabled };
 }
 export function setDistractionFreeMode(enabled) {
-    return {type: types.SET_DISTRACTION_FREE_MODE, enabled};
+    return { type: types.SET_DISTRACTION_FREE_MODE, enabled };
 }
 export function hideMapControls(hidden) {
-    return {type: types.HIDE_MAP_CONTROLS, hidden};
+    return { type: types.HIDE_MAP_CONTROLS, hidden };
 }
 export function setMapControlsToolsOpen(open) {
-    return {type: types.SET_MAP_CONTROL_TOOLS_OPEN, open};
+    return { type: types.SET_MAP_CONTROL_TOOLS_OPEN, open };
 }
 export function openSettings() {
     return { type: types.OPEN_SETTINGS };
@@ -107,7 +107,7 @@ function translateUrlParamToActionDispatch(param) {
         case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
             return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
         case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
-            return setTerrainEnabled(param.value === "true");
+            return setTerrainEnabled(param.value.toString() === "true");
         case appConfig.URL_KEYS.DATE:
             return setDate(param.value);
         default:
@@ -152,16 +152,30 @@ function setBasemap(basemapId) {
     };
 }
 
-function setExtent(extent) {
-    return (dispatch) => {
-        return new Promise(() => {
-            dispatch(MapActions.setMapView({
-                extent: extent.map((numStr) => {
-                    return parseFloat(numStr);
-                })
-            }));
-        });
-    };
+function setExtent(extentStrArr) {
+    let extent = extentStrArr.reduce((acc, numStr) => {
+        if(typeof acc === "object") {
+            let num = parseFloat(numStr);
+            if(isNaN(num)) {
+                return false;
+            } else {
+                acc.push(num);
+            }
+        }
+        return acc;
+    }, []);
+
+    if(extent) {
+        return (dispatch) => {
+            return new Promise(() => {
+                dispatch(MapActions.setMapView({
+                    extent: extent
+                }));
+            });
+        };
+    } else {
+        return { type: types.NO_ACTION };
+    }
 }
 
 function setTerrainEnabled(enabled) {
@@ -174,19 +188,20 @@ function setTerrainEnabled(enabled) {
 
 function setDate(dateStr) {
     let date = false;
-    if(dateStr.toLowerCase() === "today") {
+    if (dateStr.toLowerCase() === "today") {
         date = moment(new Date()).startOf("day");
     } else {
         date = moment(dateStr, 'YYYY-MM-DD');
     }
 
-    if(date.isValid()) {
+    if (date.isValid()) {
         date = date.toDate();
         return (dispatch) => {
             return new Promise(() => {
                 dispatch(MapActions.setDate(date));
             });
         };
+    } else {
+        return { type: types.NO_ACTION };
     }
-    
 }

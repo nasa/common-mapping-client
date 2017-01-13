@@ -213,6 +213,14 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                    body: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString.replace("{LAYER}", action.layer).replace("{MAP}", "the"),
+                    severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
+                    time: new Date()
+                }));
+            }
         }
 
         if (typeof actionLayer !== "undefined") {
@@ -254,6 +262,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         if (typeof actionLayer !== "undefined") {
@@ -275,10 +286,19 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
+        }
+
+        // validate opacity
+        let opacity = parseFloat(action.opacity);
+        if(isNaN(opacity)) {
+            return state;
         }
 
         let anyFail = state.get("maps").reduce((acc, map) => {
-            if (!map.setLayerOpacity(actionLayer, action.opacity)) {
+            if (!map.setLayerOpacity(actionLayer, opacity)) {
                 return true;
             }
             return acc;
@@ -286,7 +306,7 @@ export default class MapReducer {
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("opacity", action.opacity);
+            let newLayer = actionLayer.set("opacity", opacity);
             let index = actionLayer.get("id");
             return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }
@@ -298,6 +318,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
@@ -314,6 +337,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
@@ -330,6 +356,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
@@ -346,6 +375,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
@@ -364,6 +396,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
@@ -382,6 +417,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         let anySucceed = state.get("maps").reduce((acc, map) => {
@@ -665,6 +703,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         state.get("maps").map((map) => {
@@ -679,6 +720,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         state.get("maps").map((map) => {
@@ -691,6 +735,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         state.get("maps").map((map) => {
@@ -703,6 +750,9 @@ export default class MapReducer {
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
+            if (typeof actionLayer === "undefined") {
+                return state;
+            }
         }
 
         state.get("maps").map((map) => {
@@ -960,14 +1010,17 @@ export default class MapReducer {
     /****************/
 
     static findLayerById(state, layerId) {
-        let layer = false;
+        let layer = undefined;
         state.get("layers").forEach((layerList) => {
             let layerCheck = layerList.get(layerId);
-            if(typeof layerCheck !== "undefined") {
+            if (typeof layerCheck !== "undefined") {
                 layer = layerCheck;
                 return false;
             }
         });
+        if (typeof layer === "undefined") {
+            console.warn("Error in MapReducer.findLayerById: Could not resolve layer from id - ", layerId);
+        }
         return layer;
     }
 
