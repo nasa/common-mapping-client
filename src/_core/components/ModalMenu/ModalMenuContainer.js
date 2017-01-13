@@ -10,11 +10,13 @@ const miscUtil = new MiscUtil();
 
 export class ModalMenuContainer extends Component {
     render() {
-        let modalMenuClasses = miscUtil.generateStringFromSet({
+        let classNameSet = {
             "modal-menu no-padding": true,
             "modal-menu-subpage": this.props.back,
             "small": this.props.small
-        });
+        };
+        classNameSet[this.props.className] = true;
+        let modalMenuClasses = miscUtil.generateStringFromSet(classNameSet);
         return (
             <Dialog className={modalMenuClasses}
                     active={this.props.active} 
