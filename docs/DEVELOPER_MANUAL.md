@@ -142,7 +142,10 @@ Github pages are a great way to host static content right out of your github rep
 1. Run `npm run test:cover`
 2. Run `npm run build` (you may want to verify that your build works using `npm run open:dist`)
 3. Make a copy of your entire repository folder and `cd` into the copy
-4. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
+4. Run `chmod a+x scripts/deploy.bash` to give the deploy script correct permissions
+5. Run `git branch -D gh-pages` to ensure that your locally gh-pages branch does not exist
+6. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
+7. Cleanup by removing the folder you were just in
 
 ### Bundled Packages
 Main tech under the hood
