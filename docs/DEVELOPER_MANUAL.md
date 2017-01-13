@@ -87,7 +87,7 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   └── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
 ├── src                       # Source code
 │   ├── _core                 # Folder containing all cmc-core files that should not need to be modified by external developer
-│   │   ├── actions           # Core Flux/Redux actions. List of distinct actions that can occur in the app.  
+│   │   └── actions           # Core Flux/Redux actions. List of distinct actions that can occur in the app.  
 │   │     ├── components        # Core React components
 │   │     ├── constants         # Core application constants including constants for Redux
 │   │     ├── reducers          # Core Redux reducers. Your state is altered here based on actions
@@ -107,9 +107,9 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
-│     │   ├── _theme.scss         # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│     │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│     │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
+│   │   ├── _theme.scss         # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│   │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│   │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
 │   │   
 │   └── utils                 # Plain ES6 JS objects. Pure logic. No framework.
 ├── test-results              # Karma test results output folder
