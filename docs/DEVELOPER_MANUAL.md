@@ -91,13 +91,13 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   │     ├── components        # Core React components
 │   │     ├── constants         # Core application constants including constants for Redux
 │   │     ├── reducers          # Core Redux reducers. Your state is altered here based on actions
-│     │   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
-│     │   │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
+│   │     │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
+│   │     │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
 │   │     ├── styles              # Core CSS Styles, typically written in Sass
-│     │   │   └── resources     # Style media resources like favicons and images required by core 
+│   │     │   └── resources     # Style media resources like favicons and images required by core 
 │   │     ├── store           # Redux store configuration, modifications usually unnecessary
 │   │     ├── tests               # All Core tests
-│     │   │   └── data            # Any dummy data core tests may need
+│   │     │   └── data            # Any dummy data core tests may need
 │   │     └── utils               # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
@@ -139,6 +139,7 @@ the currenly buffered actions are sent as a JSON string to the defined endpoint 
 
 ### Deployment to Github pages
 Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
+
 1. Run `npm run test:cover`
 2. Run `npm run build` (you may want to verify that your build works using `npm run open:dist`)
 3. Make a copy of your entire repository folder and `cd` into the copy
