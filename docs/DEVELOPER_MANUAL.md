@@ -1,6 +1,6 @@
 # Developer Manual
 
-[test](#test)
+[test](#overview-of-various-start-build-etc-commands-from-packagejson)
 
 ### Installation guide
 Make sure you have `Node` and `npm` installed before continuing.
