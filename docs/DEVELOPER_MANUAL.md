@@ -88,17 +88,17 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 ├── src                       # Source code
 │   ├── _core                 # Folder containing all cmc-core files that should not need to be modified by external developer
 │   │   ├── actions           # Core Flux/Redux actions. List of distinct actions that can occur in the app.  
-│   │	  ├── components        # Core React components
-│   │	  ├── constants         # Core application constants including constants for Redux
-│   │	  ├── reducers          # Core Redux reducers. Your state is altered here based on actions
-│	  │	  │	  ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
-│	  │	  │	  └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
-│   │	  ├── styles        	  # Core CSS Styles, typically written in Sass
-│	  │	  │	  └── resources     # Style media resources like favicons and images required by core 
-│   │	  ├── store        	  # Redux store configuration, modifications usually unnecessary
-│   │	  ├── tests         	  # All Core tests
-│	  │	  │	  └── data   		  # Any dummy data core tests may need
-│   │	  └── utils         	  # Application constants including constants for Redux
+│   │     ├── components        # Core React components
+│   │     ├── constants         # Core application constants including constants for Redux
+│   │     ├── reducers          # Core Redux reducers. Your state is altered here based on actions
+│     │   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
+│     │   │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
+│   │     ├── styles              # Core CSS Styles, typically written in Sass
+│     │   │   └── resources     # Style media resources like favicons and images required by core 
+│   │     ├── store           # Redux store configuration, modifications usually unnecessary
+│   │     ├── tests               # All Core tests
+│     │   │   └── data            # Any dummy data core tests may need
+│   │     └── utils               # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
 │   ├── default-data          # Default data for the application
@@ -107,17 +107,17 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
-│	  │   ├── _theme.scss   	  # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│	  │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
-│	  │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
+│     │   ├── _theme.scss         # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│     │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│     │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
 │   │   
 │   └── utils                 # Plain ES6 JS objects. Pure logic. No framework.
-├── test-results   		      # Karma test results output folder
+├── test-results              # Karma test results output folder
 ├── webpack.config.dev.js     # Configures dev webpack
 └── webpack.config.prod.js    # Configures production webpack
 ```
 
-### How to write tests
+### How to write tests for CMC
 Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`)
 try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format.
 For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
@@ -136,6 +136,13 @@ Please refer to their respective documentation for syntactic aid etc.
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
 the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
+
+### Deployment to Github pages
+Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
+1. Run `npm run test:cover`
+2. Run `npm run build` (you may want to verify that your build works using `npm run open:dist`)
+3. Make a copy of your entire repository folder and `cd` into the copy
+4. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
 
 ### Bundled Packages
 Main tech under the hood
