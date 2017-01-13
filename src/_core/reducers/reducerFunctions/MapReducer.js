@@ -933,7 +933,7 @@ export default class MapReducer {
         // set view extent to global
         newState = this.setMapView(newState, {
             viewInfo: {
-                extent: [-180, -90, 180, 90]
+                extent: appConfig.DEFAULT_BBOX_EXTENT
             }
         });
 
