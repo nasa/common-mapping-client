@@ -109,7 +109,7 @@ function translateUrlParamToActionDispatch(param) {
         case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value === "true");
         case appConfig.URL_KEYS.DATE:
-            return setDate(moment(param.value, 'YYYY-MM-DD').toDate());
+            return setDate(param.value);
         default:
             return { type: types.NO_ACTION };
     }
@@ -172,10 +172,21 @@ function setTerrainEnabled(enabled) {
     };
 }
 
-function setDate(date) {
-    return (dispatch) => {
-        return new Promise(() => {
-            dispatch(MapActions.setDate(date));
-        });
-    };
+function setDate(dateStr) {
+    let date = false;
+    if(dateStr.toLowerCase() === "today") {
+        date = moment(new Date()).startOf("day");
+    } else {
+        date = moment(dateStr, 'YYYY-MM-DD');
+    }
+
+    if(date.isValid()) {
+        date = date.toDate();
+        return (dispatch) => {
+            return new Promise(() => {
+                dispatch(MapActions.setDate(date));
+            });
+        };
+    }
+    
 }
