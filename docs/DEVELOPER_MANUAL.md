@@ -103,7 +103,7 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
 │   ├── default-data          # Default data for the application
 │   │   ├── help              # In-app help markdown documentation files
-│   │   ├── layer-metadata    # Metadata files for each layer
+│   │   └── layer-metadata    # Metadata files for each layer
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
