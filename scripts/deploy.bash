@@ -12,8 +12,8 @@ TARGET_BRANCH="gh-pages"
 if [ ! "$CI" ]; then
   echo "Travis environment not detected, proceeding with a locally sourced deployment."
   if [ ! "$1" ]; then
-    echo "Local deployment passed no BUILD_HOMEPAGE, exiting."
-    exit 0
+    BUILD_HOMEPAGE="unknownBuildHomepage"
+    SOURCE_BRANCH="master"
   else
     BUILD_HOMEPAGE=$1
     SOURCE_BRANCH="master"
