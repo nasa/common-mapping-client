@@ -1,7 +1,40 @@
 # Developer Manual
 
+## Table of Contents
+1. [Installation Guide](#installation-guide)
+2. [Package.json Scripts Overview](#overview-of-various-start-build-etc-commands-from-packagejson)
+3. [Installing & Removing Modules via npm](#third-example)
+4. [The CMC _core Philosphy](#example)
+4. [CMC Build Process](#third-example)
+5. [Styling CMC](#third-example)
+    1. [React UI Component Library (React-Toolbox)](#third-example)
+    2. [SASS Usage](#third-example)
+    3. [Overriding Core Styles](#third-example)
+    4. [Overriding React-Toolbox SASS Variables](#third-example)
+    5. [postCSS](#third-example)
+    6. [Theming](#third-example)
+6. [React & Redux](#third-example)
+    1. [Brief Overview](#third-example)
+    2. [CMC React & Redux Architecture](#third-example)
+    3. [Using D3 in React](#third-example)
+    4. [Usage of ImmutableJS for Redux State Objects](#example)
+9. [Application Directory Overview](#third-example)
+10. [Writing Tests in CMC](#third-example)
+    1. [Testing Tools](#third-example)
+    2. [Writing a Test for Your Application](#third-example)
+    3. [Overriding, Modifying, or Ignoring a CMC Core Test](#third-example)
+11. [User Analytics](#third-example)
+    1. [CMC Custom User Analytics](#third-example)
+    2. [Google Analytics](#third-example)
+14. [Upgrading your Project to Latest Version of CMC](#example)
+17. [CMC Scripts](#example)
+19. [Main Technologies Under the Hood](#example)
+20. [Deployment to Github pages](#example)
+
+***
+
 ### Installation guide
-Make sure you have `Node` and `npm` installed before continuing.
+Make sure you have [NodeJS](https://nodejs.org/en/) 4.4 or higher installed before continuing.
 
 Once you have a copy of the project, install all the dependencies and prep the project for development by running:
 
@@ -11,9 +44,7 @@ Next, start the development server by running:
 
 * `npm start`
 
-Your default browser should open to localhost:3000 and you should see a default mapping application.
-
-Now get building!
+Your default browser should open to `localhost:3000` and you should see a default mapping application. Now get building!
 
 ### Overview of various start, build, etc., commands from package.json
 | **Script** | **Description** |
@@ -22,18 +53,23 @@ Now get building!
 | start | Runs tests, lints, starts dev webserver, and opens the app in your default browser. |
 | open:src | Serve development version of the app using babel-node |
 | open:dist | Serve production version of the app using babel-node |
-| lint:tools | Runs ESLint on build related JS files. (eslint-loader lints src files via webpack when `npm start` is run) |
+| lint:scripts | Runs ESLint on build related JS files. (eslint-loader lints src files via webpack when `npm start` is run) |
 | clean-dist | Removes everything from the dist folder. |
 | remove-dist | Deletes the dist folder. |
 | build:html | Copies src/index.html into /dist/index.html |
 | prebuild | Runs automatically before build script (due to naming convention). Cleans dist folder, builds html, and builds sass. |
 | build | Bundles all JavaScript using webpack and writes it to /dist. |
+| build:open | Bundles all JavaScript using webpack and writes it to /dist and opens the built app in browser. |
 | test | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line. |
 | test:watch | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line.  Watches all files so tests are re-run upon save. |
+| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. |
+| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. Watches all files so tests are re-run upon save. |
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
+| postbuild | Runs the postbuild script |
+| deploy | Runs the deploy script |
 
-### Installing/removing modules via npm
-NPM modules are installed and removed using the following commands
+### Installing/removing packages via npm
+NPM packages are installed and removed using the following commands. The `--save` flag tells NPM to save/remove the specified packages from your `package.json` file.
 * Install a package : `npm install <package_name> --save`
 * Remove a package : `npm remove <package_name> --save`
 
@@ -51,8 +87,8 @@ that state machine and creates a single data flow path to keep everything cohere
 every aspect of the rendering located and editable in the state.
 
 ### Quick React Toolbox overview
-[React-Toolbox](http://react-toolbox.com/) is a library of what I will call "React-Compliant" UI components
-that follow [Google's Material Design Standards](https://material.google.com/). We use it to make things look nice easily
+[React-Toolbox](http://react-toolbox.com/) is a React UI Component library
+that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
 
 ### Quick D3 overview (regarding how we use it)
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for 
@@ -71,7 +107,7 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 ├── .npmrc                    # Configures npm to save exact by default
 ├── .travis.yml               # Travis configuration file
 ├── README.md                 # This file.
-├── assets/assets             # Folder created during postinstall to house Cesium, Cesium-Drawhelper, arcJS, flexboxgrid, mapskin, and normalize libraries that won't play well with webpack and have to be requested post load
+├── assets/assets             # Folder created during postinstall to house Cesium, Cesium-Drawhelper, arcJS, flexboxgrid, mapskin, and normalize libraries that won't play well with webpack and have to be requested post load. Note: the assets/assets nesting is _not_ by mistake, it's actually used at the moment to resolve some build system alias issues.
 ├── coverage                  # Karma code coverage output folder
 ├── dist                      # Folder where the build script places the built app. Use this in prod.
 ├── docs                      # All documentation
@@ -132,10 +168,22 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
 Please refer to their respective documentation for syntactic aid etc.
 
-### How the analytics work (briefly, will be covered in separate example)
+### How CMC analytics work (briefly, will be covered in separate example)
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
 the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
+
+### Google Analytics
+In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics component that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga)
+
+### ImmutableJS for State Objects
+### The CMC _core Philosphy
+### Upgrading your Project to Latest Version of CMC
+### The CMC Build Process
+### SASS, Style Overrides, postCSS, and Theming
+### CMC Scripts
+### Test Coverage and Test Results
+
 
 ### Deployment to Github pages
 Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
@@ -144,7 +192,7 @@ Github pages are a great way to host static content right out of your github rep
 2. Run `npm run build` (you may want to verify that your build works using `npm run open:dist`)
 3. Make a copy of your entire repository folder and `cd` into the copy
 4. Run `chmod a+x scripts/deploy.bash` to give the deploy script correct permissions
-5. Run `git branch -D gh-pages` to ensure that your locally gh-pages branch does not exist
+5. Run `git branch -D gh-pages` to ensure that your local gh-pages branch does not exist
 6. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
 7. Cleanup by removing the folder you were just in
 
@@ -175,3 +223,4 @@ Main tech under the hood
 | [npm Scripts](https://docs.npmjs.com/misc/scripts)| Glues all this together in a handy automated build. | [Why not Gulp?](https://medium.com/@housecor/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8#.vtaziro8n)  |
 | [postCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |
 | [showdown](http://postcss.org/)| A Markdown to HTML converter written in Javascript |
+| [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
