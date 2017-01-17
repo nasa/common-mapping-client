@@ -20,11 +20,11 @@ export default {
         filename: 'bundle.js' // Output JS filename, imported in index.html
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(), // Tell webpack to optimize id name length in your minified JS by occurence (see https://github.com/webpack/docs/wiki/optimization)
         new webpack.DefinePlugin(GLOBALS), //Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
-        new ExtractTextPlugin('styles.css'), 
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin()
+        new ExtractTextPlugin('styles.css'),  // All imported styles are separated out from bundle and moved into a styles.css file which can be loaded in parallel with JS bundle during app load (see https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)
+        new webpack.optimize.DedupePlugin(), // Tell webpack to find and remove duplicate module dependencies from minified code bundle
+        new webpack.optimize.UglifyJsPlugin() // Minimize scripts and css in output
     ],
     resolve: {
         modulesDirectories: ["src", "assets", "node_modules"],
