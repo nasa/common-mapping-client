@@ -76,6 +76,8 @@ NPM packages are installed and removed using the following commands. The `--save
 ### Build system overview via webpack including Cesium loading
 [It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup)
 
+https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
+
 ### Quick SASS overview
 It's like CSS, but better. You can define variables and stuff. No really, [check it out](http://sass-lang.com/)
 
