@@ -15,7 +15,9 @@ export class ModalMenuContainer extends Component {
             "modal-menu-subpage": this.props.back,
             "small": this.props.small
         };
-        classNameSet[this.props.className] = true;
+        if(typeof this.props.className !== "undefined") {
+            classNameSet[this.props.className] = true;
+        }
         let modalMenuClasses = miscUtil.generateStringFromSet(classNameSet);
         return (
             <Dialog className={modalMenuClasses}

@@ -49,6 +49,20 @@ p {
     line-height: 2rem;
 }
 
+a {
+    color: $color-primary;
+    text-decoration: none;
+}
+
+code {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+    background: $color-medium-light;
+    border: 1px solid $color-medium;
+    border-radius: 2px;
+    padding: 2px 5px;
+}
+
 hr.divider {
     height: 0.1rem;
     background-color: $color-medium-light;
@@ -66,6 +80,10 @@ hr.divider.medium {
 
 hr.divider.dark {
     background-color: $color-dark;
+}
+
+.no-background {
+    background: none;
 }
 
 .hidden {

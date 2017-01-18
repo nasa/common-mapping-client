@@ -55,9 +55,6 @@ No, use the button at the far right of the slider to adjust the resolution betwe
 | `x` + `Arrow-Right` | Jump forward 1 month |
 | `Arrow-Left/Right` (Hold) | Continuous date changes |
 | `z` + `Arrow-Left/Right` (Hold) | Fast continuous date changes |
-| `t` | Jump to today |
-| `Space` | Animation play/pause |
-| `Esc` | Animation Stop |
 
 
 

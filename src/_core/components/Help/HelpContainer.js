@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
+import * as appConfig from 'constants/appConfig';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
+showdown.setFlavor('github');
 
 export class HelpContainer extends Component {
     componentWillMount() {
@@ -34,7 +36,8 @@ export class HelpContainer extends Component {
     render() {
         return (
             <ModalMenuContainer
-                small
+                small={this.props.helpPage === ""}
+                className="no-background"
                 title={!this.props.helpPage ? "Help" : this.helpPageHeaders[this.props.helpPage]}
                 active={this.props.helpOpen}
                 closeFunc={() => this.props.actions.closeHelp()}
@@ -78,6 +81,9 @@ export class HelpContainer extends Component {
                      // eslint-disable-next-line react/no-danger
                      dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} 
                 />
+                <div id="helpVersionTagContainer" className={this.props.helpPage ? 'hidden': ''} >
+                    <h4 className="version-tag">Version: {appConfig.APP_VERSION}</h4>
+                </div>
             </ModalMenuContainer>
         );
     }
