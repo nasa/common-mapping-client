@@ -5,15 +5,13 @@
     max-height: 100%;
     letter-spacing: normal;
     @include selectable(auto);
-    h1,
-    h2 {
-        margin: 0;
-    }
     h1 {
         font-size: 2.7rem;
+        margin: 2rem 0px 0.5rem 0px;
     }
     h2 {
         font-size: 2.4rem;
+        margin: 2rem 0px 0.5rem 0px;
     }
     h3 {
         font-size: 2.1rem;
