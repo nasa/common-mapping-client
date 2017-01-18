@@ -60,7 +60,7 @@ export class HelpContainer extends Component {
                         leftIcon="play_arrow"
                     />
                     <ListItem
-                        caption="System Recommendation"
+                        caption="System Requirements"
                         leftIcon="description"
                         onClick={() => this.props.actions.selectHelpPage(this.pageKeys.SYS_REQ)}
                     />
