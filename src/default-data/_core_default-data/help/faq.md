@@ -6,14 +6,16 @@
 
 ### Why can't I see an active layer?
 
-Some possible options are:
+_Some possible options are:_
 
-* The layer does not have data for the selected day.
-  * Try switching to a date you are sure has data.
-* The layer is beneath other active layer with similar spatial coverage.
-  * Try using the **LAYER CONTROLS** to move this layer to the top
-* The layer does not have spatial coverage in your current view.
-  * Try zooming out to view the entire globe.
+#### The layer does not have data for the selected day
+Try switching to a date you are sure has data.
+
+#### The layer is beneath other active layer with similar spatial coverage
+Try using the **LAYER CONTROLS** to move this layer to the top
+
+#### The layer does not have spatial coverage in your current view.
+Try zooming out to view the entire globe.
 
 ### How do I adjust the ordering of layers on the map?
 
