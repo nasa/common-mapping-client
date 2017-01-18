@@ -6,19 +6,19 @@ import * as appStrings from '_core/constants/appStrings';
 /* APP DISPLAY */
 export const APP_TITLE = 'Common Mapping Client';
 export const APP_VERSION = __VERSION__ || 'Unknown Version'; // __VERSION__ is a plugin defined in webpack config. Use eslint global flag for this global excpetion.
-export const APP_SUBTITLE = APP_VERSION;
+export const APP_SUBTITLE = APP_VERSION.split(".").slice(0,2).join(".");
 /* END APP DISPLAY */
 
 /* VARIOUS URLS */
 export const URLS = {
     layerConfig: [{
-        url: "default-data/capabilities.xml",
+        url: "default-data/_core_default-data/capabilities.xml",
         type: "wmts/xml"
     }, {
-        url: "default-data/layers.json",
+        url: "default-data/_core_default-data/layers.json",
         type: "json"
     }],
-    paletteConfig: "default-data/palettes.json",
+    paletteConfig: "default-data/_core_default-data/palettes.json",
     analyticsEndpoint: "http://localhost:3050/analyticsEndpoint"
 };
 /* END VARIOUS URLS */

@@ -1,5 +1,5 @@
 .modal-menu {
-    max-width: 500px;
+    max-width: 550px;
     h6 {
         margin-top: 0px;
         margin-bottom: 0px;
@@ -50,6 +50,7 @@
     .modal-menu-content {
         overflow: hidden;
         overflow-y: auto;
+        background: $color-white;
     }
     &.small {
         max-width: 350px;

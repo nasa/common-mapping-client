@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
+import * as appConfig from 'constants/appConfig';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
+showdown.setFlavor('github');
 
 export class HelpContainer extends Component {
     componentWillMount() {
@@ -26,15 +28,16 @@ export class HelpContainer extends Component {
         // get markdown and parse it
         let cvt = new showdown.Converter();
         this.helpPageContent = {};
-        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('default-data/help/about.md'));
-        this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('default-data/help/faq.md'));
-        this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('default-data/help/systemReqs.md'));
+        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('default-data/_core_default-data/help/about.md'));
+        this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('default-data/_core_default-data/help/faq.md'));
+        this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('default-data/_core_default-data/help/systemReqs.md'));
     }
 
     render() {
         return (
             <ModalMenuContainer
-                small
+                small={this.props.helpPage === ""}
+                className="no-background"
                 title={!this.props.helpPage ? "Help" : this.helpPageHeaders[this.props.helpPage]}
                 active={this.props.helpOpen}
                 closeFunc={() => this.props.actions.closeHelp()}
@@ -57,7 +60,7 @@ export class HelpContainer extends Component {
                         leftIcon="play_arrow"
                     />
                     <ListItem
-                        caption="System Recommendation"
+                        caption="System Requirements"
                         leftIcon="description"
                         onClick={() => this.props.actions.selectHelpPage(this.pageKeys.SYS_REQ)}
                     />
@@ -78,6 +81,9 @@ export class HelpContainer extends Component {
                      // eslint-disable-next-line react/no-danger
                      dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} 
                 />
+                <div id="helpVersionTagContainer" className={this.props.helpPage ? 'hidden': ''} >
+                    <h4 className="version-tag">Version: {appConfig.APP_VERSION}</h4>
+                </div>
             </ModalMenuContainer>
         );
     }
