@@ -12,13 +12,13 @@ export const APP_SUBTITLE = APP_VERSION.split(".").slice(0,2).join(".");
 /* VARIOUS URLS */
 export const URLS = {
     layerConfig: [{
-        url: "default-data/capabilities.xml",
+        url: "default-data/_core_default-data/capabilities.xml",
         type: "wmts/xml"
     }, {
-        url: "default-data/layers.json",
+        url: "default-data/_core_default-data/layers.json",
         type: "json"
     }],
-    paletteConfig: "default-data/palettes.json",
+    paletteConfig: "default-data/_core_default-data/palettes.json",
     analyticsEndpoint: "http://localhost:3050/analyticsEndpoint"
 };
 /* END VARIOUS URLS */

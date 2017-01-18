@@ -25,14 +25,14 @@
         "type": "data",
         "handleAs": "vector_topojson",
         "updateParameters": { "time": false },
-        "url": "default-data/ne_10m_us_states.topojson"
+        "url": "default-data/_core_default-data/ne_10m_us_states.topojson"
     }, {
         "id": "facilities_kml",
         "title": "Facilities - KML",
         "type": "data",
         "handleAs": "vector_kml",
         "updateParameters": { "time": false },
-        "url": "default-data/facilities.kml"
+        "url": "default-data/_core_default-data/facilities.kml"
     }, {
         "id": "Reference_Labels",
         "title": "Reference Labels",
