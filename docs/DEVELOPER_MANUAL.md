@@ -116,7 +116,7 @@ After `npm install` runs successfully, npm automatically looks for a script call
 ### Webpack
 Webpack is one of the most popular build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better. 
 
-Webpack is complicated
+Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack driven from a JS configuration file (or multiple files in our case for development and production).
 
 
 #### Brief Overview
