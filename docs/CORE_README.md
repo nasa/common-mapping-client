@@ -34,7 +34,7 @@ part of CMC-Core.
 - GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/code-coverage
 - GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/unit-tests
 
-![Preview](https://github.jpl.nasa.gov/raw/CommonMappingClient/cmc-design/master/screenshots/core.png?token=AAAILehBUeCu1_IIZoByiFhc1eqms_rYks5YPK54wA%3D%3D)
+![Preview](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/core.png)
 
 #### Getting Started
 

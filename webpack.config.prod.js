@@ -27,8 +27,8 @@ export default {
         new webpack.optimize.UglifyJsPlugin() // Minimize scripts and css in output
     ],
     resolve: {
-        modulesDirectories: ["src", "assets", "node_modules"],
-        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
+        modulesDirectories: ["src", "assets", "node_modules"], // Tell webpack to look for imports using these prefixes
+        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'] // Tell webpack that these extensions are optionally specified in the import statements
     },
     module: {
         loaders: [
