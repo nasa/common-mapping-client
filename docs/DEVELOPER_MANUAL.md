@@ -1,11 +1,23 @@
 # Developer Manual
+A detailed guide on getting starting with the Common Mapping Client.
 
 ## Table of Contents
 1. [Installation Guide](#installation-guide)
 2. [Package.json Scripts Overview](#overview-of-various-start-build-etc-commands-from-packagejson)
 3. [Installing & Removing Modules via npm](#third-example)
-4. [The CMC _core Philosphy](#example)
-4. [CMC Build Process](#third-example)
+4. [The CMC "_core" Philosphy](#example)
+    1. [General](#third-example)
+    2. ["_core" Directory ](#third-example)
+    3. [Adding, Overriding, and Removing "_core" Functionality & Components](#third-example)
+4. [The CMC Build Process](#third-example)
+    1. [Post-Install](#third-example)
+    2. [Build Command](#third-example)
+    3. [Webpack](#third-example)
+        1. [Brief Overview](#third-example)
+        2. [Development Mode](#third-example)
+        3. [Production Mode](#third-example)
+    4. [Post-Build](#third-example)
+    5. [Brief Note on Serving CMC](#third-example)
 5. [Styling CMC](#third-example)
     1. [React UI Component Library (React-Toolbox)](#third-example)
     2. [SASS Usage](#third-example)
@@ -13,9 +25,12 @@
     4. [Overriding React-Toolbox SASS Variables](#third-example)
     5. [postCSS](#third-example)
     6. [Theming](#third-example)
-6. [React & Redux](#third-example)
+6. [Components and State with React & Redux](#third-example)
     1. [Brief Overview](#third-example)
     2. [CMC React & Redux Architecture](#third-example)
+        1. [Where the Relevant Files Are](#third-example)
+        2. [Example State Update Cycle](#third-example)
+        3. [Notes on Optimizing React/Redux Performance](#third-example)
     3. [Using D3 in React](#third-example)
     4. [Usage of ImmutableJS for Redux State Objects](#example)
 9. [Application Directory Overview](#third-example)
@@ -27,13 +42,11 @@
     1. [CMC Custom User Analytics](#third-example)
     2. [Google Analytics](#third-example)
 14. [Upgrading your Project to Latest Version of CMC](#example)
-17. [CMC Scripts](#example)
-19. [Main Technologies Under the Hood](#example)
 20. [Deployment to Github pages](#example)
+19. [Main Technologies Under the Hood](#example)
 
-***
-
-### Installation guide
+<a id="installation-guide"/>
+## Installation guide
 Make sure you have [NodeJS](https://nodejs.org/en/) 4.4 or higher installed before continuing.
 
 Once you have a copy of the project, install all the dependencies and prep the project for development by running:
@@ -46,7 +59,11 @@ Next, start the development server by running:
 
 Your default browser should open to `localhost:3000` and you should see a default mapping application. Now get building!
 
-### Overview of various start, build, etc., commands from package.json
+<a id="overview-of-commands-from-packagejson"/>
+## Package.json Scripts Overview
+
+The scripts defined in `package.json` are used to control various aspects of application installation, development, testing, and building.
+
 | **Script** | **Description** |
 |----------|-------|
 | prestart | Runs automatically before start. Calls remove-dist script which deletes the dist folder. This helps remind you to run the build script before committing since the dist folder will be deleted if you don't. ;) |
@@ -62,44 +79,76 @@ Your default browser should open to `localhost:3000` and you should see a defaul
 | build:open | Bundles all JavaScript using webpack and writes it to /dist and opens the built app in browser. |
 | test | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line. |
 | test:watch | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line.  Watches all files so tests are re-run upon save. |
-| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. |
+| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. | 
 | test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. Watches all files so tests are re-run upon save. |
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
 | postbuild | Runs the postbuild script |
 | deploy | Runs the deploy script |
 
-### Installing/removing packages via npm
+## Installing/removing packages via npm
 NPM packages are installed and removed using the following commands. The `--save` flag tells NPM to save/remove the specified packages from your `package.json` file.
 * Install a package : `npm install <package_name> --save`
 * Remove a package : `npm remove <package_name> --save`
 
-### Build system overview via webpack including Cesium loading
-[It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup)
+## The CMC "_core" Philosphy
 
+### General
+As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex map based applications. To avoid bloat and feature creep, if a capability or widget is needed in the majority of mapping applications, it will not be part of CMC. CMC Core, the bulk of which is located in the "/_core" directory, is all of the code that the application developer should only need to reference, duplicate and modify, or exclude. Separating Core code out from the future developers' code is helpful for maintaining a lean Core codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the other developers' work.
+
+### The "_core" Directory
+Inside of the `src/_core` directory lives the bulk of the CMC Core application code. All of the React components, Redux-related code, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `components/App/AppContainer.js` which is the root level React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the _core imports are done in `src/reducers/index.js`. 
+
+
+### Adding, Overriding, and Removing "_core" Functionality & Components
+You as the developer can choose to use AppContainer.js as it is and merely change config files to point at other layers, remove certain core components from AppContainer, duplicate core components and modify them, and/or add your own entirely new components to AppContainer. However, it is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Already, there is a `src/components` and several other folders seen in core in the `src` directory. Similar to components, you can override utilities Reducer functions by changing imports in `src/reducers/index.js`, override styles by either overriding styles in SASS or changing the `src/styles.scss` import of _core styles. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class.
+
+## The CMC Build Process
+[It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
+
+### Post-Install
+### Build Command
+### Webpack
+#### Brief Overview
 https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
+#### Development Mode
+#### Production Mode
+### Post-Build
+### Brief Note on Serving CMC
 
-### Quick SASS overview
-It's like CSS, but better. You can define variables and stuff. No really, [check it out](http://sass-lang.com/)
 
-### Quick React/Redux overview (in general + our set up)
+## Styling CMC
+### React UI Component Library (React-Toolbox)
+[React-Toolbox](http://react-toolbox.com/) is a React UI Component library
+that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+### SASS Usage
+### Overriding Core Styles
+### Overriding React-Toolbox SASS Variables
+### postCSS
+### Theming
+
+## Components and State with React & Redux
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
 modules. Those modules then base their rendering on a state machine you define for them and React takes care of
 efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes
 that state machine and creates a single data flow path to keep everything coherent. In general, try to keep
 every aspect of the rendering located and editable in the state.
 
-### Quick React Toolbox overview
-[React-Toolbox](http://react-toolbox.com/) is a React UI Component library
-that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
-
-### Quick D3 overview (regarding how we use it)
+### Brief Overview
+### CMC React & Redux Architecture
+#### Where the Relevant Files Are
+#### Example State Update Cycle
+### Notes on Optimizing React/Redux Performance
+### Using D3 in React
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for 
 renering the TimeAxis and assocaited components, though it has capabilities far beyond that which we encourage you to use.
 In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We
 create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
 sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
+### Usage of ImmutableJS for Redux State Objects
+### Quick D3 overview (regarding how we use it)
 
-### Brief Overview of Application Directory 
+
+## Brief Overview of Application Directory 
 ```
 .
 ├── .babelrc                  # Configures Babel
@@ -155,7 +204,12 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 └── webpack.config.prod.js    # Configures production webpack
 ```
 
-### How to write tests for CMC
+## How to write tests for CMC
+### Testing Tools
+Mocha, Chai, Enzyme, Karma, Istanbul, nyc, etc etc. Reporters and such too.
+CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
+Please refer to their respective documentation for syntactic aid etc.
+### Writing a Test for your Application
 Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`)
 try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format.
 For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
@@ -167,10 +221,11 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identitcal Openlayers map instances)
 6. Compare the actual and expected states using `TestUtil.compareFullStates`
 
-CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
-Please refer to their respective documentation for syntactic aid etc.
+### Overriding, Modifying, or Ignoring a CMC Core Test
+### Test Coverage and Test Results
 
-### How CMC analytics work (briefly, will be covered in separate example)
+## User Analytics
+### CMC Custom User Analytics
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
 the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
@@ -178,16 +233,10 @@ the currenly buffered actions are sent as a JSON string to the defined endpoint 
 ### Google Analytics
 In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics component that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga)
 
-### ImmutableJS for State Objects
-### The CMC _core Philosphy
-### Upgrading your Project to Latest Version of CMC
-### The CMC Build Process
-### SASS, Style Overrides, postCSS, and Theming
-### CMC Scripts
-### Test Coverage and Test Results
+## Upgrading your Project to Latest Version of CMC
 
 
-### Deployment to Github pages
+## Deployment to Github pages
 Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
 
 1. Run `npm run test:cover`
@@ -198,8 +247,8 @@ Github pages are a great way to host static content right out of your github rep
 6. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
 7. Cleanup by removing the folder you were just in
 
-### Bundled Packages
-Main tech under the hood
+## Main Technologies Under the Hood
+Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, d3, react-ga, etc.)
 
 
 | **Tech** | **Description** |**Learn More**|
@@ -226,3 +275,4 @@ Main tech under the hood
 | [postCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |
 | [showdown](http://postcss.org/)| A Markdown to HTML converter written in Javascript |
 | [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
+| [react-slingshot](https://github.com/coryhouse/react-slingshot)| The React/Redux/Webpack starter kit CMC is based off of. CMC has diverged a fair bit from React-Slingshot in many respects but still owes a great deal of its webpack structure, config, npm scripts, and dev server code to react-slingshot.
