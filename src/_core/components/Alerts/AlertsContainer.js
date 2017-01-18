@@ -69,7 +69,7 @@ export class AlertsContainer extends Component {
 
         return (
             <ModalMenuContainer
-                title="Errors Occured"
+                title="Errors Occurred"
                 active={alerstPresent}
                 closeFunc={() => {this.props.actions.dismissAllAlerts(this.props.alerts);}}>
                     {alertGroups.map((severityGroup, severityIndex) =>

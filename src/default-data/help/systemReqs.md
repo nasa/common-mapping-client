@@ -1,5 +1,7 @@
-# System Requirements
+To best experience SOTO, we recommend using one of the following browsers:
 
-A good machine. Like doesn't have to be great, but not crap.
+ 1. Google Chrome 18+
+ 2. Mozilla Firefox 40.0+
+ 3. Apple Safari 8+
 
-Also Chrome. Just use it, its better.
+*Internet Explorer is not currently supported. We suggest using a modern version of Chrome, Firefox or Safari.*
