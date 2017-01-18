@@ -1,4 +1,4 @@
-To best experience SOTO, we recommend using one of the following browsers:
+To best experience the CMC, we recommend using one of the following browsers:
 
  1. Google Chrome 18+
  2. Mozilla Firefox 40.0+
