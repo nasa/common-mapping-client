@@ -11,7 +11,6 @@ A detailed guide on getting starting with the Common Mapping Client.
     3. [Adding, Overriding, and Removing "_core" Functionality & Components](#third-example)
 4. [The CMC Build Process](#third-example)
     1. [Post-Install](#third-example)
-    2. [Build Command](#third-example)
     3. [Webpack](#third-example)
         1. [Brief Overview](#third-example)
         2. [Development Mode](#third-example)
@@ -57,7 +56,12 @@ Next, start the development server by running:
 
 * `npm start`
 
-Your default browser should open to `localhost:3000` and you should see a default mapping application. Now get building!
+Your default browser should open to `localhost:3000` and you should see a default mapping application.
+
+To create a production build run:
+
+* `npm run build` (may take a few minutes)
+* `npm run open:dist` (to open the build using the included distribution server)
 
 <a id="overview-of-commands-from-packagejson"/>
 ## Package.json Scripts Overview
@@ -104,10 +108,17 @@ You as the developer can choose to use AppContainer.js as it is and merely chang
 
 ## The CMC Build Process
 [It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
+The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, non-core developers may never actually need to modify most of these steps. 
 
 ### Post-Install
-### Build Command
+After `npm install` runs successfully, npm automatically looks for a script called `postinstall`. The `package.json` file contains a script called `postinstall` which points to a shell script `scripts/postinstall.sh`, so npm sees this and runs this script. This `scripts/postinstall.sh` script is used to add the `assets/assets` folder for serving static files asyncronously in production. After the folder is added, several libraries and images from `node_modules`, `src/_core`, and `lib` are added into `assets/assets`. Serving files from `assets/assets` is a useful last resort approach for files that aren't behaving well with webpack, libraries that require asyncronous loading of files and data (like Cesium), etc.
+
 ### Webpack
+Webpack is one of the most popular build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better. 
+
+Webpack is complicated
+
+
 #### Brief Overview
 https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
 #### Development Mode
