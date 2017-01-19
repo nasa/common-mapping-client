@@ -15,7 +15,6 @@ A detailed guide on getting starting with the Common Mapping Client.
         1. [Brief Overview](#third-example)
         2. [Development Mode](#third-example)
         3. [Production Mode](#third-example)
-    4. [Post-Build](#third-example)
     5. [Brief Note on Serving CMC](#third-example)
 5. [Styling CMC](#third-example)
     1. [React UI Component Library (React-Toolbox)](#third-example)
@@ -121,18 +120,30 @@ Webpack is one of the most popular moduler bundlers, or, build systems for web a
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack driven from a JS configuration file (or multiple files in our case for development and production).
 
-
 ##### Brief Overview
 CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now). One configuration, `webpack.config.js`, is used for development versions of CMC and is configured to provide [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. The other configuration, `webpack.prod.js`, is used for production and produces the optimized, minified, uglified, duplicate dependency reduced, static application output. 
+
 ##### Development Mode
 When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. The final production bundle will be much smaller so not to worry! When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (say if you change and save some imported CSS in your editor, you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration pleease view [https://webpack.github.io/docs/](webpack documentation). The development configuration is also thoroughly commented.
-##### Production Mode
-The development configuration is `webpack.prod.js` and is thoroughly commented. 
-### Post-Build
-### Brief Note on Cesium + Webpack Integration
-https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
-### Brief Note on Serving CMC
 
+##### Production Mode
+The production webpack configuration is useful for creating optimized static builds of your application. As a result, all of the development tools like sourcemaps, hot reloading, etc., are not used. The main use of this configuration is for when you want to deploy your application out to your users, so you won't usually be running it very often yourself (although your Continuous Integration Service might be!) since the build can take up to a few minutes to complete. However, it can be useful to run the build yourself every so often (even if you have a CI/CD service) to:
+- Verify that the build works
+- Determine the final file size of output resources like bundle.js and styles.css
+- Profile and performance-critical parts of your application since the built version of the app will generally be slightly more performant than the development version
+
+The production configuration is most easily used by running `npm run build`. However, npm is aware of the keyword `build` and will run the `prebuild` command if one exists. In our case we use `prebuid` to clean the output distribution area using `npm run clean-dist` and then run `npm run build:html` which runs `scripts/buildHtml.js` which reads in `src/index.html` and prepends a link to `styles.css` to the head (`styles.css` is the combined styles output by production webpack).  
+
+After `prebuild` has successfully run, npm will run `scripts/build.js`. This script configures webpack using the production configuration and runs webpack to create the final bundled output. 
+
+After the build has run, npm automatically looks for a script called `postbuild` which we also have specified in `package.json`. Now `scripts/postbuild.sh` runs and copies over `src/default-data` and `assets/*` into the output `dist` directory so they can be accessed asyncronously after application load.
+
+Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
+
+### Brief Note on Cesium + Webpack Integration
+Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mould of a javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/. In short, webpack recieves a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, and Cesium requests extra static resources on demand from the assets folder.
+
+### Brief Note on Serving CMC
 
 ## Styling CMC
 ### React UI Component Library (React-Toolbox)
@@ -242,6 +253,7 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 ### Overriding, Modifying, or Ignoring a CMC Core Test
 ### Test Coverage and Test Results
 ### Karma.config.js
+### GPU Enabled Testing (For Cesium)
 
 ## User Analytics
 ### CMC Custom User Analytics
