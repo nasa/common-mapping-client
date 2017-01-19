@@ -20,7 +20,7 @@ A detailed guide on getting starting with the Common Mapping Client.
     1. [React UI Component Library (React-Toolbox)](#third-example)
     2. [SASS Usage](#third-example)
     3. [Overriding Core Styles](#third-example)
-    4. [Overriding React-Toolbox SASS Variables](#third-example)
+    4. [Overriding React-Toolbox SCSS Variables](#third-example)
     5. [postCSS](#third-example)
     6. [Theming](#third-example)
 6. [Components and State with React & Redux](#third-example)
@@ -103,7 +103,7 @@ Inside of the `src/_core` directory lives the bulk of the CMC Core application c
 
 
 ### Adding, Overriding, and Removing "_core" Functionality & Components
-You as the developer can choose to use AppContainer.js as it is and merely change config files to point at other layers, remove certain core components from AppContainer, duplicate core components and modify them, and/or add your own entirely new components to AppContainer. However, it is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Already, there is a `src/components` and several other folders seen in core in the `src` directory. Similar to components, you can override utilities Reducer functions by changing imports in `src/reducers/index.js`, override styles by either overriding styles in SASS or changing the `src/styles.scss` import of _core styles. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class.
+You as the developer can choose to use AppContainer.js as it is and merely change config files to point at other layers, remove certain core components from AppContainer, duplicate core components and modify them, and/or add your own entirely new components to AppContainer. However, it is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Already, there is a `src/components` and several other folders seen in core in the `src` directory. Similar to components, you can override utilities Reducer functions by changing imports in `src/reducers/index.js`, override styles by either overriding styles in SASS or changing the `src/styles/styles.scss` import of _core styles. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class.
 
 ## The CMC Build Process
 [It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
@@ -140,19 +140,52 @@ After the build has run, npm automatically looks for a script called `postbuild`
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
-### Brief Note on Cesium + Webpack Integration
+##### Brief Note on Cesium + Webpack Integration
 Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mould of a javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/. In short, webpack recieves a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, and Cesium requests extra static resources on demand from the assets folder.
 
 ### Brief Note on Serving CMC
+CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
 
 ## Styling CMC
+The following sections outline how CMC is styled, how CMC styles are written, organized, and overwritten. 
+
 ### React UI Component Library (React-Toolbox)
 [React-Toolbox](http://react-toolbox.com/) is a React UI Component library
-that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+
 ### SASS Usage
+CMC uses SASS which is a popular CSS extension language. From SASS's [site](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
+
+>Sass is an extension of CSS that adds power and elegance to the basic language. It allows you to use variables, nested rules, mixins, inline imports, and more, all with a fully CSS-compatible syntax. Sass helps keep large stylesheets well-organized, and get small stylesheets up and running quickly...
+
+### CMC Style Architecture
+CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also containins all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
+
+- [normalize.css](http://necolas.github.io/normalize.css/) - Used for more consistent cross-browser element rendering
+- [flexboxgrid.min.css](http://flexboxgrid.com/) - A responsive grid system based on the CSS `flex` property
+- [Google's Material Icon font](https://material.io/icons/) - used as primary application icons, note that not all icons on the site are included in the icon font
+
+Note that some styles and fonts _are_ loaded outside of these stylesheets. In `index.html` there are imports of:
+
+- [mapskin.min.css](http://mapsk.in/) – A collection of scalable geospatial vector icons
+- [Roboto](https://fonts.google.com/specimen/Roboto) & [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) – The two fonts used in CMC
+
+Other important SASS files are:
+
+- `src/styles/_theme.scss` - Used to override certain React-Toolbox variables
+- `src/styles/_variables.scss` - Used to define non-React-Toolbox variables for use in all CMC SASS files
+- `src/styles/styles.scss` - Used for non-Core style imports
+
 ### Overriding Core Styles
+As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the `src/styles/styles.scss` import of Core styles and importing only certain Core SASS files. 
+
 ### Overriding React-Toolbox SASS Variables
+### Fonts
+Roboto (what weights?) and Roboto Monospace (what weights) and for what types of type?
 ### postCSS
+### Favicon Generation
+### Custom Icons
+How generated, where put, etc.
 ### Theming
 
 ## Components and State with React & Redux
