@@ -20,7 +20,7 @@ A detailed guide on getting starting with the Common Mapping Client.
     1. [React UI Component Library (React-Toolbox)](#third-example)
     2. [SASS Usage](#third-example)
     3. [Overriding Core Styles](#third-example)
-    4. [Overriding React-Toolbox SASS Variables](#third-example)
+    4. [Overriding React-Toolbox SCSS Variables](#third-example)
     5. [postCSS](#third-example)
     6. [Theming](#third-example)
 6. [Components and State with React & Redux](#third-example)
@@ -141,20 +141,61 @@ After the build has run, npm automatically looks for a script called `postbuild`
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
-### Brief Note on Cesium + Webpack Integration
+##### Brief Note on Cesium + Webpack Integration
 Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mould of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack recieves a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and we tend to map the global cesium variable to instance variables for consistency.
 
 ### Brief Note on Serving CMC
+CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
 
 ## Styling CMC
+The following sections outline how CMC is styled, how CMC styles are written, organized, and overwritten. 
+
 ### React UI Component Library (React-Toolbox)
 [React-Toolbox](http://react-toolbox.com/) is a React UI Component library
-that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+
 ### SASS Usage
+CMC uses SASS which is a popular CSS extension language. From SASS's [site](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
+
+>Sass is an extension of CSS that adds power and elegance to the basic language. It allows you to use variables, nested rules, mixins, inline imports, and more, all with a fully CSS-compatible syntax. Sass helps keep large stylesheets well-organized, and get small stylesheets up and running quickly...
+
+### CMC Style Architecture
+CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also containins all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
+
+- [normalize.css](http://necolas.github.io/normalize.css/) - Used for more consistent cross-browser element rendering
+- [flexboxgrid.min.css](http://flexboxgrid.com/) - A responsive grid system based on the CSS `flex` property
+- [Google's Material Icon font](https://material.io/icons/) - used as primary application icons, note that not all icons on the site are included in the icon font
+
+Note that some styles and fonts _are_ loaded outside of these stylesheets. In `index.html` there are imports of:
+
+- [mapskin.min.css](http://mapsk.in/) – A collection of scalable geospatial vector icons
+- [Roboto](https://fonts.google.com/specimen/Roboto) & [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) – The two fonts used in CMC
+
+Other important SASS files are:
+
+- `src/styles/_theme.scss` - Used to override certain React-Toolbox variables
+- `src/styles/_variables.scss` - Used to define non-React-Toolbox variables for use in all CMC SASS files
+- `src/styles/styles.scss` - Used for non-Core style imports
+
 ### Overriding Core Styles
+As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the `src/styles/styles.scss` import of Core styles and importing only certain Core SASS files. 
+
 ### Overriding React-Toolbox SASS Variables
+Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overriden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
+
+### Fonts
+CMC tries to stay within the Material Design theme by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
+
+##### When to use Roboto 
+Roboto is recommended for everything from titles to labels, to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
+
+##### When to use Roboto 
+Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
+
 ### postCSS
-### Theming
+### Favicon Generation
+### Custom Icons
+How generated, where put, etc.
 
 ## Components and State with React & Redux
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
