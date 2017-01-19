@@ -213,6 +213,18 @@ transition: opacity 0.1s linear 0s;
 ```
 
 ### Favicon Generation
+CMC uses the NASA meatball favicon by default. The favicon is specified in `index.html` using the following imports:
+```
+<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/img/manifest.json">
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/img/favicon.ico">
+<meta name="msapplication-config" content="/img/browserconfig.xml">
+```
+Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used http://www.favicon-generator.org/ to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full ouput).
+
 ### Custom Icons
 How generated, where put, etc.
 
