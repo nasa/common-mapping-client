@@ -1,5 +1,8 @@
 # FAQ
 
+### PreRequisites
+* NodeJS
+
 ### Quick Installation
 * `npm install`
 
