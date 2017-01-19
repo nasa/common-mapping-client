@@ -202,7 +202,7 @@ Other important SASS files are:
 - `src/styles/styles.scss` - Used for non-Core style imports
 
 ### Overriding Core Styles
-As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the `src/styles/styles.scss` import of Core styles and importing only certain Core SASS files. 
+As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the import of `src/_core/styles/styles.scss` in `src/styles/styles.scss` and importing only certain Core SASS files. 
 
 ### Overriding React-Toolbox SASS Variables
 Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overridden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
@@ -217,7 +217,7 @@ Roboto is recommended for everything from titles to labels to paragraphs. CMC on
 Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
 
 ### postCSS
-CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
+CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS provides a framework for CSS plugins that make writing CSS easier. We use [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
 
 ```CSS
 transition: opacity 0.1s linear 0s;
@@ -238,6 +238,8 @@ This is a huge pain and it means you have to constantly change multiple copies o
 transition: opacity 0.1s linear 0s;
 ```
 
+There are many other PostCSS compatible plugins that you may find useful so feel free to add more.
+
 ### Favicon Generation
 CMC uses the NASA meatball favicon by default. The favicon is specified in `index.html` using the following imports:
 
@@ -250,7 +252,7 @@ CMC uses the NASA meatball favicon by default. The favicon is specified in `inde
 <link rel="shortcut icon" href="/img/favicon.ico">
 <meta name="msapplication-config" content="/img/browserconfig.xml">
 ```
-Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used http://www.favicon-generator.org/ to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full output).
+Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used [http://www.favicon-generator.org/](http://www.favicon-generator.org/) to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full output).
 
 ### Custom Icons
 When Material icons or Mapskin icons do not contain the icon you are looking for, you can easily add your own svg icon. CMC uses several custom icons and you can look in `src/_core/components/Share/ShareContainer.js` for a complete example, but in short the process involves declaring your icon  as shown below and tweaking the CSS, viewBox, and svg parameters.
