@@ -180,13 +180,21 @@ Other important SASS files are:
 As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the `src/styles/styles.scss` import of Core styles and importing only certain Core SASS files. 
 
 ### Overriding React-Toolbox SASS Variables
+Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overriden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
+
 ### Fonts
-Roboto (what weights?) and Roboto Monospace (what weights) and for what types of type?
+CMC tries to stay within the Material Design theme by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
+
+##### When to use Roboto 
+Roboto is recommended for everything from titles to labels, to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
+
+##### When to use Roboto 
+Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
+
 ### postCSS
 ### Favicon Generation
 ### Custom Icons
 How generated, where put, etc.
-### Theming
 
 ## Components and State with React & Redux
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
