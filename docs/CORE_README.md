@@ -10,14 +10,15 @@ The Common Mapping Client (CMC) aims to solve the problem of redundant and unsha
 code in scientific web mapping applications.
 
 Over the years, there have been many projects that try to solve the same issue:
-put data on a map and explore it. There is an increasingly steep hill to climb
-when it comes to deciding: Which framework should I start from? Which library
-will give me all the features I need? How to I glue all these together with 
+put data on a map and explore it. Unfortunately, there is an increasingly steep
+hill to climb when it comes to actually starting one of these projects. All of
+them have to decide: Which framework should I start from? Which library
+will give me the features I need? How to I glue all these together with 
 a code layout that I won't want to burn next week? CMC solves this by bundling
-together a solid and modular base framework with an extensive mapping library,
+together a solid and modular base framework with an robust mapping library,
 a well thought out component structure, and a thick shield against feature-creep
 to deliver you what is essentially a starter project for mapping that will let
-you start building the cool sh** faster.
+you start building the cool stuff faster.
 
 We maintain a list of further example projects and projects that began from CMC
 so that you can easily get examples of building intricate and detailed workflows
@@ -36,13 +37,16 @@ part of CMC-Core.
 
 ![Preview](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/core.png)
 
-#### Getting Started
+#### Getting Started 
 
-1. Head over to our [release page](LINK TO RELEASE PAGE) and grab the tag
-that suits you best.
-2. Run `npm install`
-3. Run `npm start`
-4. Start building.
+1. Install `NodeJS`
+2. Get the code
+   1. Option A: Grab a tag that suits you: [release page](LINK TO RELEASE PAGE)
+   2. Option B: Fork the repo into your new project and get the cutting edge goodness
+   3. Option C: Clone the repo, contribute back, and get the cutting edge goodness
+3. Run `npm install`
+4. Run `npm start`
+5. Start building.
 
 #### Contributing to the Project
 
@@ -66,8 +70,3 @@ who have the same problem down the road may find a solution faster.
 * [FAQ](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/FAQ.md)
 * [Developer Guide](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
 * [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
-
-
-#### Legacy Repository
-
-This repository was migrated from a GitLab repository hosted by PO.DAAC. Old issues can be viewed at https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core.
