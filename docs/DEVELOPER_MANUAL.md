@@ -5,7 +5,7 @@ A detailed guide on getting starting with the Common Mapping Client.
 1. [Installation Guide](#installation-guide)
 2. [Package.json Scripts Overview](#overview-of-various-start-build-etc-commands-from-packagejson)
 3. [Installing & Removing Modules via npm](#third-example)
-4. [The CMC "_core" Philosphy](#example)
+4. [The CMC "_core" Philosophy](#example)
     1. [General](#third-example)
     2. ["_core" Directory ](#third-example)
     3. [Adding, Overriding, and Removing "_core" Functionality & Components](#third-example)
@@ -93,7 +93,7 @@ NPM packages are installed and removed using the following commands. The `--save
 * Install a package : `npm install <package_name> --save`
 * Remove a package : `npm remove <package_name> --save`
 
-## The CMC "_core" Philosphy
+## The CMC "_core" Philosophy
 
 ### General
 As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex map based applications. To avoid bloat and feature creep, if a capability or widget is needed in the majority of mapping applications, it will not be part of CMC. CMC Core, the bulk of which is located in the "/_core" directory, is all of the code that the application developer should only need to reference, duplicate and modify, or exclude. Separating Core code out from the future developers' code is helpful for maintaining a lean Core codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the other developers' work.
@@ -105,20 +105,20 @@ Inside of the `src/_core` directory lives the bulk of the CMC Core application c
 ### Adding, Overriding, and Removing "_core" Functionality & Components
 You as the developer can choose to use CMC-Core's AppContainer.js as it is and merely change config files to point at other layers or you can build your own AppContainer.js to remove core components, duplicate core components and modify them, or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly. It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Similar to components, you can swap out utilities Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class.
 
-In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overriden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) to see this in action.
+In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) to see this in action.
 
 ## The CMC Build Process
 [It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, non-core developers may never actually need to modify most of these steps. 
 
 ### Post-Install
-After `npm install` runs successfully, npm automatically looks for a script called `postinstall`. The `package.json` file contains a script called `postinstall` which points to a shell script `scripts/postinstall.sh`, so npm sees this and runs this script. This `scripts/postinstall.sh` script is used to add the `assets/assets` folder for serving static files asyncronously in production. After the folder is added, several libraries and images from `node_modules`, `src/_core`, and `lib` are added into `assets/assets`. Serving files from `assets/assets` is a useful last resort approach for files that aren't behaving well with webpack, libraries that require asyncronous loading of files and data (like Cesium), etc.
+After `npm install` runs successfully, npm automatically looks for a script called `postinstall`. The `package.json` file contains a script called `postinstall` which points to a shell script `scripts/postinstall.sh`, so npm sees this and runs this script. This `scripts/postinstall.sh` script is used to add the `assets/assets` folder for serving static files asynchronously in production. After the folder is added, several libraries and images from `node_modules`, `src/_core`, and `lib` are added into `assets/assets`. Serving files from `assets/assets` is a useful last resort approach for files that aren't behaving well with webpack, libraries that require asynchronous  loading of files and data (like Cesium), etc.
 
 ### Webpack
 In short:
 > webpack takes modules with dependencies and generates static assets representing those modules.
 
-Webpack is one of the most popular moduler bundlers, or, build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better. CMC uses webpack version 1 for now although weback version 2 is coming out as of early 2017 so CMC may upgrade to the new version if time and stability permit. Read more about webpack version 1 over in the docs [https://webpack.github.io/docs/](here).
+Webpack is one of the most popular module bundlers, or, build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better. CMC uses webpack version 1 for now although weback version 2 is coming out as of early 2017 so CMC may upgrade to the new version if time and stability permit. Read more about webpack version 1 over in the docs [https://webpack.github.io/docs/](here).
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack driven from a JS configuration file (or multiple files in our case for development and production).
 
@@ -126,7 +126,7 @@ Webpack is complicated and does a lot but once you get over the learning curve (
 CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now). One configuration, `webpack.config.js`, is used for development versions of CMC and is configured to provide [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. The other configuration, `webpack.prod.js`, is used for production and produces the optimized, minified, uglified, duplicate dependency reduced, static application output. 
 
 ##### Development Mode
-When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. The final production bundle will be much smaller so not to worry! When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (say if you change and save some imported CSS in your editor, you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration pleease view [https://webpack.github.io/docs/](webpack documentation). The development configuration is also thoroughly commented.
+When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. The final production bundle will be much smaller so not to worry! When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (say if you change and save some imported CSS in your editor, you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration please view [https://webpack.github.io/docs/](webpack documentation). The development configuration is also thoroughly commented.
 
 ##### Production Mode
 The production webpack configuration is useful for creating optimized static builds of your application. As a result, all of the development tools like sourcemaps, hot reloading, etc., are not used. The main use of this configuration is for when you want to deploy your application out to your users, so you won't usually be running it very often yourself (although your Continuous Integration Service might be!) since the build can take up to a few minutes to complete. However, it can be useful to run the build yourself every so often (even if you have a CI/CD service) to:
@@ -134,16 +134,16 @@ The production webpack configuration is useful for creating optimized static bui
 - Determine the final file size of output resources like bundle.js and styles.css
 - Profile and performance-critical parts of your application since the built version of the app will generally be slightly more performant than the development version
 
-The production configuration is most easily used by running `npm run build`. However, npm is aware of the keyword `build` and will run the `prebuild` command if one exists. In our case we use `prebuid` to clean the output distribution area using `npm run clean-dist` and then run `npm run build:html` which runs `scripts/buildHtml.js` which reads in `src/index.html` and prepends a link to `styles.css` to the head (`styles.css` is the combined styles output by production webpack).  
+The production configuration is most easily used by running `npm run build`. However, npm is aware of the keyword `build` and will run the `prebuild` command if one exists. In our case we use `prebuild` to clean the output distribution area using `npm run clean-dist` and then run `npm run build:html` which runs `scripts/buildHtml.js` which reads in `src/index.html` and prepends a link to `styles.css` to the head (`styles.css` is the combined styles output by production webpack).  
 
 After `prebuild` has successfully run, npm will run `scripts/build.js`. This script configures webpack using the production configuration and runs webpack to create the final bundled output. 
 
-After the build has run, npm automatically looks for a script called `postbuild` which we also have specified in `package.json`. Now `scripts/postbuild.sh` runs and copies over `src/default-data` and `assets/*` into the output `dist` directory so they can be accessed asyncronously after application load.
+After the build has run, npm automatically looks for a script called `postbuild` which we also have specified in `package.json`. Now `scripts/postbuild.sh` runs and copies over `src/default-data` and `assets/*` into the output `dist` directory so they can be accessed asynchronously after application load.
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
 ##### Brief Note on Cesium + Webpack Integration
-Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mould of a javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/. In short, webpack recieves a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, and Cesium requests extra static resources on demand from the assets folder.
+Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/. In short, webpack receives a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, and Cesium requests extra static resources on demand from the assets folder.
 
 ### Brief Note on Serving CMC
 CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
@@ -161,7 +161,7 @@ CMC uses SASS which is a popular CSS extension language. From SASS's [site](http
 >Sass is an extension of CSS that adds power and elegance to the basic language. It allows you to use variables, nested rules, mixins, inline imports, and more, all with a fully CSS-compatible syntax. Sass helps keep large stylesheets well-organized, and get small stylesheets up and running quickly...
 
 ### CMC Style Architecture
-CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also containins all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
+CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also contains all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
 
 - [normalize.css](http://necolas.github.io/normalize.css/) - Used for more consistent cross-browser element rendering
 - [flexboxgrid.min.css](http://flexboxgrid.com/) - A responsive grid system based on the CSS `flex` property
@@ -182,24 +182,43 @@ Other important SASS files are:
 As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the `src/styles/styles.scss` import of Core styles and importing only certain Core SASS files. 
 
 ### Overriding React-Toolbox SASS Variables
-Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overriden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
+Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overridden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
 
 ### Fonts
-CMC tries to stay within the Material Design theme by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
+CMC tries to stay within the Material Design specification by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
 
 ##### When to use Roboto 
-Roboto is recommended for everything from titles to labels, to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
+Roboto is recommended for everything from titles to labels to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
 
-##### When to use Roboto 
+##### When to use Roboto Mono
 Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
 
 ### postCSS
+CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
+
+```
+transition: opacity 0.1s linear 0s;
+```
+
+Normally to ensure cross-browser compatibility you'd want to look up and add all of the different browser prefixes for the `transition` property. (Note that this example is a little overkill since CMC does not support many of these older browser versions)
+```
+-webkit-transition: opacity 0.1s linear 0s; /* Chrome < 26, Safari < 7 */
+   -moz-transition: opacity 0.1s linear 0s; /* Firefox < 16 */
+     -o-transition: opacity 0.1s linear 0s; /* Opera < 12.10 */
+        transition: opacity 0.1s linear 0s; /* IE10+, Firefox 16+, Chrome 36+, Opera 12.10 */
+```
+
+This is a huge pain and it means you have to constantly change multiple copies of the same CSS property over and over. Luckily, postCSS solves this problem by automatically adding these browser prefixes to your CSS, meaning you can stick to only writing the standard version of the property:
+```
+transition: opacity 0.1s linear 0s;
+```
+
 ### Favicon Generation
 ### Custom Icons
 How generated, where put, etc.
 
 ## Components and State with React & Redux
-[The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independant
+[The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independent
 modules. Those modules then base their rendering on a state machine you define for them and React takes care of
 efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes
 that state machine and creates a single data flow path to keep everything coherent. In general, try to keep
@@ -211,10 +230,7 @@ every aspect of the rendering located and editable in the state.
 #### Example State Update Cycle
 ### Notes on Optimizing React/Redux Performance
 ### Using D3 in React
-[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for 
-renering the TimeAxis and assocaited components, though it has capabilities far beyond that which we encourage you to use.
-In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We
-create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
+[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
 sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
 ### Usage of ImmutableJS for Redux State Objects
 ### Quick D3 overview (regarding how we use it)
@@ -289,8 +305,8 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 1. Define an initial state/store object
 2. Define an array of actions to affect that store
 3. Dispatch the actions
-4. Define an expected state by cloning then manipulating the inital state
-5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identitcal Openlayers map instances)
+4. Define an expected state by cloning then manipulating the initial state
+5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identical Openlayers map instances)
 6. Compare the actual and expected states using `TestUtil.compareFullStates`
 
 ### Overriding, Modifying, or Ignoring a CMC Core Test
@@ -302,7 +318,7 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 ### CMC Custom User Analytics
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
-the currenly buffered actions are sent as a JSON string to the defined endpoint as a POST request.
+the currently buffered actions are sent as a JSON string to the defined endpoint as a POST request.
 
 ### Google Analytics
 In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics component that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga)
