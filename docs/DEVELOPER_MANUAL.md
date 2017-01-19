@@ -103,7 +103,7 @@ Inside of the `src/_core` directory lives the bulk of the CMC Core application c
 
 
 ### Adding, Overriding, and Removing "_core" Functionality & Components
-You as the developer can choose to use CMC-Core's AppContainer.js as it is and merely change config files to point at other layers or you can build your own AppContainer.js to remove core components, duplicate core components and modify them, or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly. It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Similar to components, you can swap out utilities Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class.
+You as the developer can choose to use CMC-Core's AppContainer.js as it is and merely change config files to point at other layers or you can build your own AppContainer.js to remove core components, duplicate core components and modify them, or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly. It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Similar to components, you can swap out utilities Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that Core is by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
 
 In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) to see this in action.
 
@@ -141,8 +141,32 @@ After the build has run, npm automatically looks for a script called `postbuild`
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
+
 ##### Brief Note on Cesium + Webpack Integration
-Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mould of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack recieves a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and we tend to map the global cesium variable to instance variables for consistency.
+Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and we tend to map the global cesium variable to instance variables for consistency.
+
+##### Brief Note on ESLint
+CMC uses [ESLint](http://eslint.org/) to report JS syntax and style issues. ESLint is configured via a file at the root of the repository called `.eslintrc` which contains many configuration items that tell ESLint what plugins, rules, and exceptions to use when linting your JS code. Some of these rules you may may want to alter globally from this file if you have different preferences. For example if you want to remove the ESLint rule warning against using `var` in your JS (since you use `const` and `let` instead in ES6) you can set
+```JSON
+"no-var": 1 
+```
+to 
+```JSON
+"no-var": 0
+```
+_Please, please, don't disable this rule though. Use `const` and `let`! Embrace ES6!_
+
+
+There may also be situations in which you only want to ignore certain cases in your code where you are forced to break certain rules. In this case, you can use ESLint comments in your code to tell ESLint to ignore a certain rules in certain places. For example, in the CMC Core Help component `/src/_core/components/Help/HelpContainer.js` ignores the `react/no-danger` ESLint rule that is normally active to warn developers against using the risky-if-not-used-properly React [dangerouslySetInnerHTML](https://facebook.github.io/react/docs/dom-elements.html#dangerouslysetinnerhtml). In this case, CMC uses the attribute since it needs to insert some HTML (from Markdown files) in string form without explicitly parsing content and building HTML elements. To suppress the ESLint warning for this particular case, CMC uses the following ESLint inline comment syntax: 
+
+```JSX
+<div className={!this.props.helpPage ? 'hidden' : 'help-page'} 
+    // eslint-disable-next-line react/no-danger
+    dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} 
+/>
+```
+
+Other forms of ESLint ignore comments are used in CMC. Learn more about ESLint and the different ways to suppress rules [http://eslint.org/docs/user-guide/configuring](http://eslint.org/docs/user-guide/configuring).
 
 ### Brief Note on Serving CMC
 CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
@@ -152,7 +176,7 @@ The following sections outline how CMC is styled, how CMC styles are written, or
 
 ### React UI Component Library (React-Toolbox)
 [React-Toolbox](http://react-toolbox.com/) is a React UI Component library
-that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline css, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline CSS, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
 
 ### SASS Usage
 CMC uses SASS which is a popular CSS extension language. From SASS's [site](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
@@ -195,12 +219,13 @@ Roboto Mono is recommended for use as a contrasting font in limited cases includ
 ### postCSS
 CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
 
-```
+```CSS
 transition: opacity 0.1s linear 0s;
 ```
 
 Normally to ensure cross-browser compatibility you'd want to look up and add all of the different browser prefixes for the `transition` property. (Note that this example is a little overkill since CMC does not support many of these older browser versions)
-```
+
+```CSS
 -webkit-transition: opacity 0.1s linear 0s; /* Chrome < 26, Safari < 7 */
    -moz-transition: opacity 0.1s linear 0s; /* Firefox < 16 */
      -o-transition: opacity 0.1s linear 0s; /* Opera < 12.10 */
@@ -208,13 +233,15 @@ Normally to ensure cross-browser compatibility you'd want to look up and add all
 ```
 
 This is a huge pain and it means you have to constantly change multiple copies of the same CSS property over and over. Luckily, postCSS solves this problem by automatically adding these browser prefixes to your CSS, meaning you can stick to only writing the standard version of the property:
-```
+
+```CSS
 transition: opacity 0.1s linear 0s;
 ```
 
 ### Favicon Generation
 CMC uses the NASA meatball favicon by default. The favicon is specified in `index.html` using the following imports:
-```
+
+```HTML
 <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
@@ -223,10 +250,18 @@ CMC uses the NASA meatball favicon by default. The favicon is specified in `inde
 <link rel="shortcut icon" href="/img/favicon.ico">
 <meta name="msapplication-config" content="/img/browserconfig.xml">
 ```
-Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used http://www.favicon-generator.org/ to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full ouput).
+Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used http://www.favicon-generator.org/ to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full output).
 
 ### Custom Icons
-How generated, where put, etc.
+When Material icons or Mapskin icons do not contain the icon you are looking for, you can easily add your own svg icon. CMC uses several custom icons and you can look in `src/_core/components/Share/ShareContainer.js` for a complete example, but in short the process involves declaring your icon  as shown below and tweaking the CSS, viewBox, and svg parameters.
+
+```JSX
+const FacebookIcon = () => (
+    <svg className="shareIcon FacebookIcon" viewBox="0 0 24 24">
+        <path fill="white" d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z" /> 
+    </svg>
+);
+```
 
 ## Components and State with React & Redux
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independent
@@ -240,12 +275,15 @@ every aspect of the rendering located and editable in the state.
 #### Where the Relevant Files Are
 #### Example State Update Cycle
 ### Notes on Optimizing React/Redux Performance
+- Explain major performance bottlenecks and common mistakes/issues
+- Links to some articles explaining more about perf in React/Redux
+- Maybe talk about Chrome timeline tool?
+
 ### Using D3 in React
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
 sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
-### Usage of ImmutableJS for Redux State Objects
-### Quick D3 overview (regarding how we use it)
 
+### Usage of ImmutableJS for Redux State Objects
 
 ## Brief Overview of Application Directory 
 ```
@@ -288,12 +326,13 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
 │   ├── default-data          # Default data for the application
-│   │   ├── help              # In-app help markdown documentation files
-│   │   └── layer-metadata    # Metadata files for each layer
+│   │   └── _core_default-data    # Default data for Core, not to be modified by user
+│   │       ├── help              # Core in-app help markdown documentation files
+│   │       └── layer-metadata    # Core metadata files for each layer
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
-│   │   ├── _theme.scss         # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
+│   │   ├── _theme.scss           # High level SCSS variables used for setting various application colors (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
 │   │   ├── _variables.scss   # SCSS variables, mixin and animation definitions (Note: this is an scss partial file, see http://stackoverflow.com/questions/31311147/underscore-in-partial-sass-file)
 │   │   └── styles.scss       # SCSS top level file used for importing _variables and Core styles.scss
 │   │   
@@ -303,8 +342,30 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 └── webpack.config.prod.js    # Configures production webpack
 ```
 
-## How to write tests for CMC
+## How to Write Tests in CMC
+The following sections outline the testing concepts, tools, and configuration necessary for testing both CMC Core and your own application.
+
 ### Testing Tools
+The testing tools and their dependencies used are:
+- Karma
+- Chai
+- Mocha
+- Karma-chai
+- Karma-chrome-launcher
+- Karma-cli
+- Karma-mocha
+- Karma-htmlfile-reporter
+- Karma-coverage
+- Karma-requirejs
+- Karma-sourcemap-loader
+- Karma-webpack
+- Sinon
+- Enzyme
+- Sinon-chai
+- Nyc
+
+That's a lot, but not to worry. The ones you really need to be aware of are Karma, 
+
 Mocha, Chai, Enzyme, Karma, Istanbul, nyc, etc etc. Reporters and such too.
 CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
 Please refer to their respective documentation for syntactic aid etc.
@@ -323,6 +384,7 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 ### Overriding, Modifying, or Ignoring a CMC Core Test
 ### Test Coverage and Test Results
 ### Karma.config.js
+### Note about default-data copied over/initial states etc.
 ### GPU Enabled Testing (For Cesium)
 
 ## User Analytics
