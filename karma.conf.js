@@ -24,7 +24,7 @@ module.exports = function(config) {
             'src/tests/**/*.spec.js',
             // 'src/_core/tests/**/*.spec.js',
             './node_modules/es6-promise/dist/es6-promise.js', {
-                pattern: "src/_core/tests/data/*",
+                pattern: "src/_core/tests/data/**/*",
                 included: false,
                 served: true
             }
