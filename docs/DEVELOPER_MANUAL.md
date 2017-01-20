@@ -1,5 +1,5 @@
-# Developer Manual
-A detailed guide on getting starting with the Common Mapping Client.
+# Developer Manual (CMC Version 1.0)
+A detailed guide on getting starting with the Common Mapping Client. This guide is aimed at developers  who may not be familiar with many of these technologies and concepts but have used other JS frameworks before to build complex web applications. It is our hope that this document can serve as useful reference for the major aspects of the CMC system for CMC and non-CMC developers as well as some justification for why certain technology and architectural decisions were made.
 
 ## Table of Contents
 1. [Installation Guide](#installation-guide)
@@ -41,6 +41,8 @@ A detailed guide on getting starting with the Common Mapping Client.
     2. [Google Analytics](#third-example)
 14. [Upgrading your Project to Latest Version of CMC](#example)
 20. [Deployment to Github pages](#example)
+19. [Something about Layers and Layer Ingestion?](#example)
+19. [Something about OL and Cesium performance (not rendering when not in view, just a note)](#example)
 19. [Main Technologies Under the Hood](#example)
 
 <a id="installation-guide"/>
@@ -285,6 +287,18 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 
 ### Usage of ImmutableJS for Redux State Objects
 
+
+
+# Intermission
+
+So at this point you're probably feeling like:
+
+![](https://media.giphy.com/media/3o6UBpHgaXFDNAuttm/giphy.gif)
+
+and it is, everything is going to be fine, yes this is a lot of stuff, but you'll eventually work through it all and build something really awesome, so keep powering through this stuff!
+
+
+
 ## Brief Overview of Application Directory 
 ```
 .
@@ -346,33 +360,264 @@ sane DOM entry point for D3. D3 then takes the DOM node and data from the state 
 The following sections outline the testing concepts, tools, and configuration necessary for testing both CMC Core and your own application.
 
 ### Testing Tools
-The testing tools and their dependencies used are:
-- Karma
-- Chai
-- Mocha
-- Karma-chai
-- Karma-chrome-launcher
-- Karma-cli
-- Karma-mocha
-- Karma-htmlfile-reporter
-- Karma-coverage
-- Karma-requirejs
-- Karma-sourcemap-loader
-- Karma-webpack
-- Sinon
-- Enzyme
-- Sinon-chai
-- Nyc
+The testing tools and their main dependencies used are:
+- [Karma](https://karma-runner.github.io/1.0/index.html) - Test runner for Javascript
+- [Chai](http://chaijs.com/) - An assertion library for NodeJS and browser
+- [Mocha](https://mochajs.org/) - JS test framework for NodeJS and browser for async testing
+- [Karma-chai](https://github.com/xdissent/karma-chai) - Chai for Karma
+- [Karma-mocha](https://github.com/karma-runner/karma-mocha) - Mocha for Karma
+- [Karma-chrome-launcher](https://github.com/karma-runner/karma-chrome-launcher) - Launcher for Google Chrome, Google Chrome Canary and Google Chromium
+- [Karma-htmlfile-reporter](https://www.npmjs.com/package/karma-html-reporter) - Reports tests results in pretty HTML format
+- [Karma-coverage](https://github.com/karma-runner/karma-coverage) - Generates code coverage reports using [Istanbul](https://github.com/gotwarlost/istanbul)
+- [Nyc](https://github.com/istanbuljs/nyc) - Istanbul Command Line Interface
+- [Enzyme](https://github.com/airbnb/enzyme) – JS testing utilities for React (not currently used but can be very useful)
+- [Sinon](http://sinonjs.org/) - Test spies, stubs, and mocks for JS (not currently used but can be very useful)
+- [Sinon-chai](https://github.com/domenic/sinon-chai) - Extends Chai with assertions for the Sinon.JS mocking framework (not currently used but can be very useful)
 
-That's a lot, but not to worry. The ones you really need to be aware of are Karma, 
+That's a lot, but not to worry. The ones you really need to be aware of are Karma, Chai, and Karma Coverage. Additionally, you shouldn't need to do anything drastically different from what's been set up here already so for the most part you can base your tests off of existing tests and structures in CMC Core.
 
-Mocha, Chai, Enzyme, Karma, Istanbul, nyc, etc etc. Reporters and such too.
-CMC uses the [Mocha testing framework](https://mochajs.org/) with the [Chai assertion library](http://chaijs.com/).
-Please refer to their respective documentation for syntactic aid etc.
-### Writing a Test for your Application
-Tests are placed under `src/tests` and must be named `*.spec.js`. For non-framework bound classes/functions (i.e. anything under `src/utils`)
-try to maintain a 1-to-1 mapping of `*.js` to `*.spec.js` files. These tests should be in a familiar unit test format.
-For framework bound classes/functions (i.e. anything under `src/reducers`) the general flow of any given test is as follows:
+### Running Tests
+The following `package.json` scripts can be used to run tests in a variety of ways. 
+
+- `npm run test` - Run tests once and generate html test report
+- `npm run test:watch` - Run tests on every file change (is a little fragile, try to space out your saves so you don't thrash this thing) and generate html test report
+- `npm run test:cover` - Run tests once and generate html test report and a test coverage report
+- `npm run test:cover:watch` - Run tests on every file change and generate html test report and a test coverage report
+
+### Writing Tests for CMC
+Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your *.js files to *.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own if you have complex components with finnicky behavior. 
+
+##### Simple Tests
+Let's begin with an example test from a CMC Core utility test file `/src/_core/tests/Cache.spec.js`.
+
+```JSX
+import { expect } from 'chai';
+import Cache from '_core/utils/Cache';
+
+export const CacheSpec = {
+    name: "CacheSpec",
+    tests: {
+        setAndGet: {
+            test1: () => {
+                it('Set adds an arbitrary key/value mapped entry to the cache.' +
+                    'Get takes a key and retrieves the mapped value if it hasn\'t ' +
+                    'been ejected, false otherwise', () => {
+                        let limit = 3;
+                        let cache = new Cache(limit);
+                        cache.set("a", 1);
+                        cache.set(3, [1]);
+                        cache.set("c", { a: 1 });
+
+                        //assert
+                        expect(cache.get("a")).to.equal(1);
+                        expect(cache.get(3)).to.deep.equal([1]);
+                        expect(cache.get("c")).to.deep.equal({ a: 1 });
+                        expect(cache.get("d")).to.deep.equal(false);
+                        expect(cache.getSize()).to.equal(limit);
+                    });
+            }
+        },
+        ejection: {
+            test1: () => {
+                it('Adds key/value pairs up the specified limit then ejects entries in FIFO order', () => {
+                    let limit = 3;
+                    ...
+```
+
+This file imports the `Cache` module from Core as well as the `expect` assertion function from Chai. The testing structure below is not strictly the minimal testing setup as it contains some abstraction that CMC uses to be able to provide overridable/ignorable Core tests for the user. For now we'll ignore these extra bits and focus on the test content. 
+
+In the first test, we use the Mocha syntax `it` to describe a single test. Here, we test the setting and getting of the Cache class.
+
+```JSX
+it('Set adds an arbitrary key/value mapped entry to the cache.' +
+    'Get takes a key and retrieves the mapped value if it hasn\'t ' +
+    'been ejected, false otherwise', () => {
+        let limit = 3;
+        let cache = new Cache(limit);
+        cache.set("a", 1);
+        cache.set(3, [1]);
+        cache.set("c", { a: 1 });
+
+        //assert
+        expect(cache.get("a")).to.equal(1);
+        expect(cache.get(3)).to.deep.equal([1]);
+        expect(cache.get("c")).to.deep.equal({ a: 1 });
+        expect(cache.get("d")).to.deep.equal(false);
+        expect(cache.getSize()).to.equal(limit);
+    });
+```
+
+First we construct our cache and add some things to it.
+
+```JSX
+let limit = 3;
+let cache = new Cache(limit);
+cache.set("a", 1);
+cache.set(3, [1]);
+cache.set("c", { a: 1 });
+```
+
+Then we declare our assertions using Chai's `expect` syntax (which you can learn more about [here](http://chaijs.com/api/bdd/)).
+
+```JSX
+//assert
+expect(cache.get("a")).to.equal(1);
+expect(cache.get(3)).to.deep.equal([1]);
+expect(cache.get("c")).to.deep.equal({ a: 1 });
+expect(cache.get("d")).to.deep.equal(false);
+expect(cache.getSize()).to.equal(limit);
+```
+
+Note that you can use `expect` whenever you wish and however many times you wish, but that it's good to keep tests focused on a particular input/output, or, set of expected behaviors.
+
+##### Tests using the Redux Store
+
+Now let's move on to a more complex test that involves using the Redux store. Here's a test from `src/_core/tests/store.map.spec.js` that tests initialization of the 2D and 3D maps.
+
+```JSX
+it('initializes 2D and 3D maps', function() {
+    const store = createStore(rootReducer, initialState);
+
+    const actions = [
+        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+    ];
+    actions.forEach(action => store.dispatch(action));
+
+    const state = store.getState();
+    const actualNumMaps = state.map.get("maps").size;
+    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+
+    const actual = {...state };
+    actual.map = actual.map.remove("maps");
+
+    const expected = {...initialState };
+    expected.map = expected.map.remove("maps");
+
+    expect(actualNumMaps).to.equal(2);
+    expect(actualMap2D).to.not.equal(undefined);
+    expect(actualMap3D).to.not.equal(undefined);
+    TestUtil.compareFullStates(actual, expected);
+});
+```
+
+In this test we first create the Redux store that we will use to test state changes:
+
+```JSX
+const store = createStore(rootReducer, initialState);
+```
+
+We then define an array of actions to affect this store. In this case we specify actions to initialize the 2D and 3D maps.
+
+```JSX
+const actions = [
+    mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+    mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+];
+```
+
+Next we dispatch the actions to the store. Note that these action dispatches are **synchronous**! This is a guarantee provided by Redux as was mentioned in a previous section. In testing this fact is handy since it allows us to examine the state with a higher degree of certainty regarding what the state of the state is. 
+
+```JSX
+actions.forEach(action => store.dispatch(action));
+```
+
+Now we pull out a few items out of the state that we wish to examine. This step is performed since these items live in the `maps` part of state which in this case holds Openlayers and Cesium objects which cannot be compared to themselves and are therefore removed later on.
+
+```JSX
+const state = store.getState();
+const actualNumMaps = state.map.get("maps").size;
+const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+```
+
+Next we make a copy of the state object for no reason (this will be fixed in a later update by [@fplatt](https://github.jpl.nasa.gov/fplatt) who is responsible for this abomination). To do this we use the [JS spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) to expand the state object in place into a new object. This _can_ be useful if you're trying to capture snapshots of the state object to do complex tests but so far it hasn't been used in CMC tests. We also remove the "maps" object from state for reasons stated in the previous paragraph.
+
+```JSX
+const actual = {...state };
+actual.map = actual.map.remove("maps");
+```
+
+Next we make a copy of our expected state from the initialState object we defined at the top of the file that all tests in this file use. To do this we use the [JS spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator).
+
+```JSX
+const expected = {...initialState };
+expected.map = expected.map.remove("maps");
+```
+
+where initialState is defined as an object mirroring the state model you've previously defined and the individual state values like `mapState` are imported from your actual model files, in this case `_core/reducers/models/map`.
+
+```JSX
+const initialState = {
+    map: mapState,
+    view: viewState,
+    asyncronous: asyncState,
+    help: helpState,
+    settings: settingsState,
+    share: shareState,
+    dateSlider: dateSliderState,
+    analytics: analyticsState,
+    layerInfo: layerInfoState
+};
+```
+
+Next we check some actual values of the state versus expected values.
+
+```JSX
+expect(actualNumMaps).to.equal(2);
+expect(actualMap2D).to.not.equal(undefined);
+expect(actualMap3D).to.not.equal(undefined);
+```
+
+Finally, we use a utility function in `TestUtil` to convert the state object parts into JS and compare them. 
+
+```JSX
+TestUtil.compareFullStates(actual, expected);
+```
+
+### Writing Tests for CMC Core
+If you are developing tests for CMC Core there's a bit of extra structure you need to use on top of the standard tests. This structure allows non-CMC developers to override or exclude certain CMC Core tests from their application testing setup while still allowing CMC Core tests to be upgraded in the future. 
+
+Each Core test file exports a *Spec object containing a `name` property, used as a label when logging the test ouput, and an object containing test suites. Let's take a look at the `setAndGet` test suite again.
+
+```JSX
+import { expect } from 'chai';
+import Cache from '_core/utils/Cache';
+
+export const CacheSpec = {
+    name: "CacheSpec",
+    tests: {
+        setAndGet: {
+            test1: () => {
+                it('Set adds an arbitrary key/value mapped entry to the cache.' +
+                    'Get takes a key and retrieves the mapped value if it hasn\'t ' +
+                    'been ejected, false otherwise', () => {
+                        let limit = 3;
+                        let cache = new Cache(limit);
+                        cache.set("a", 1);
+                        cache.set(3, [1]);
+                        cache.set("c", { a: 1 });
+
+                        //assert
+                        expect(cache.get("a")).to.equal(1);
+                        expect(cache.get(3)).to.deep.equal([1]);
+                        expect(cache.get("c")).to.deep.equal({ a: 1 });
+                        expect(cache.get("d")).to.deep.equal(false);
+                        expect(cache.getSize()).to.equal(limit);
+                    });
+            }
+        },
+        ejection: {
+            test1: () => {
+                it('Adds key/value pairs up the specified limit then ejects entries in FIFO order', () => {
+                    let limit = 3;
+                    ...
+```
+
+Each test suite (like setAndGet) contains one or more tests pertaining to the title of the test suite. As a convention CMC Core tests are labeled test + number-ascending but any unique identifier can be used. These test names will eventually be used by non-Core developers if the wish to ignore certain tests.
+
+### Writing Tests for your Application
 
 1. Define an initial state/store object
 2. Define an array of actions to affect that store
@@ -383,9 +628,11 @@ For framework bound classes/functions (i.e. anything under `src/reducers`) the g
 
 ### Overriding, Modifying, or Ignoring a CMC Core Test
 ### Test Coverage and Test Results
+### Using beforeEach and afterEach in and outside of Core.
 ### Karma.config.js
+### GPU Enabled Testing (For Cesium) MENTION CHROME VS PHANTOMJS
 ### Note about default-data copied over/initial states etc.
-### GPU Enabled Testing (For Cesium)
+### Note about testing async stuff
 
 ## User Analytics
 ### CMC Custom User Analytics

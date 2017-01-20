@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Wed Jun 22 2016 10:25:33 GMT-0700 (PDT)
 var webpack = require('webpack');
 var path = require('path');
 // const GLOBALS = {
