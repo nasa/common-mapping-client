@@ -272,14 +272,80 @@ efficiently determining when and how much to edit the DOM. [Redux](http://redux.
 that state machine and creates a single data flow path to keep everything coherent. In general, try to keep
 every aspect of the rendering located and editable in the state.
 
-### Brief Overview
-### CMC React & Redux Architecture
+Most of the syntax for components and the filestructure paradigm are driven by Redux more than React. Here are the main
+pieces of React/Redux that we deal with:
+
+* **Store** - Wraps the application state and provides an api to dispatch _actions_ that create a new state. The store will then pass that new state to React to render the new applcation state in the DOM.
+* **State** - One big object that represents the current state of the application. The combination of this and the reducer constitutes the application's state machine.
+* **Reducers** - These functions accept the current state of the applicaiton and an action object. They then perform an update to create the new applicaiton state that will be passed back to the store.
+* **ReducerFunctions** - These are the actual function definitions that the Reducer will call to modify the state. This layer of indirection was developed in CMC to make overrides and expansion of Core reducers cleaner.
+* **Actions** - These are JS objects, or functions that return JS objects, that contain action definition data. In CMC Core, the functions under `Actions/` create these objects.
+* **Components** - These are the React objects that define a component's render logic within the DOM. They track some subset of the application state to base their rendering on and can dispatch actions to modify the application state.
+* **Containers** - These are Components that primarily aggregate smaller components. They will often track very little state but may define a common action abstraction that is passed to children components. They let you group related components together while isolating their rendering.
+  * _Note_: CMC Core does not strictly adhere to this definition at present but is slowly migrating to this paradigm
+* **Models** - These are smaller pieces of the application state that let you modularlize state and create re-usable object models.
+  * _Note_: This is not strictly a React/Redux idiom
+* **Constants/ActionTypes** - These are constant strings that are used to uniquely identify actions. They are not strictly necessary but are useful to avoid simple errors.
+
+### Things to Know about React/Redux
+
+#### A diagram of the data flow
+
+[INSERT DATA FLOW DIAGRAM]
+
+#### Render time matters
+After a state change, React will find all components that are affected (i.e. those components that track the changed piece of state), perform a render of those components in their virtualDOM, performs a diff between their virtualDOM and the current DOM to determin which pieces of the DOM need changing, then update the DOM accordingly. If you have many sequential state updates, your application can quickly become bogged down in this cycle. Some steps to optimize this process are:
+
+ * Break up your components into more isolated pieces (wrapping them in a container lets you continue to think of them as a whole)
+ * Reduce the amount of state each component tracks
+ * Make liberal use of `shouldComponentUpdate()` in your components to skip unnecessary renders
+ * Track pieces of state as instance variables within components and use `forceRender()` to shortcut the entire process
+   * **Note**: this is not often recommended as it circumvents the Redux paradigm of a single state, but CMC Core has found this approach useful when performance becomes bottlenecked
+
+#### Dispatched state updates are syncronous
+When a component dispatches an action to the Redux store, the store will update the state and push the update to React. React will then go through it's render process. Once completed the call to the dispatch will return. 
+
+#### Components get updated props even if shouldComponentUpdate returns false
+If a component needs to track a piece of state to dispatch actions but doesn't need it to determine its rendering, `shouldComponentUpdate()` can return false when that piece of state changes but it will still have the updated piece of state when dispatching the action.
+
+#### Asyncronous actions use functions taht return Promises
+Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a Promise. The Promise will be tracked by the Thunk middleware in the CMC store. For an example of this, look at `src/_core/Actions/LayerActions.js:loadInitialData()`
+
+### CMC React & Redux Idioms
+
+#### In the Store
+CMC uses [thunk middleware](github.com/gaearon/redux-thunk) in its store to allow for actions that perform asyncronous operations (such as fetching external resources). In a future version, we may also include something like [Redux Batched Updates](github.com/acdlite/redux-batched-updates) to remove unwanted renderings.
+
+#### With maps
+In its purest the form, React and Redux would have the currently displayed DOM be simply a reflection of what is in the state. This places a heavy burden on Rect as it must perform a diff between the current and next DOM on each state update. This also means that you are expected to place all rendered components in the React/Redux cycle so that React can take care of those changes for you. However, this paradigm breaks for thinks like maps because their rendering is handled by mapping libraries and are often rendered directly on a canvas element, which has no dicernable DOM updates to manage. Now a very React approach would be:
+
+1. On each state change, read the expected state of the map and the current state of the map
+    1. e.g. Which layers are active? What are their opacities? Their order? What is the current view BBox?
+2. Compare the two states
+3. Perform the necessary updates on the map to conform it to the expected state
+
+The issue with this approach simpley of scale. There are so many aspects of map rendering that may or may not be library specific that building out this diffing ability would be beyond cumbersome and slow. Instead, CMC takes the following approach:
+
+1. Dispatch a map update to the store (e.g. turn on a layer)
+2. Perform the update on the map object
+3. Update the state accordingly
+  1. If the update succeeded, set the layer object in the state to active
+  2. If the update failed, do not update the layer object in the state but add an error alert
+4. Return the updated state
+
+This allows CMC to avoid tracking any map state except for what is needed by components to render as well as skip large amounts state comparisons.
+
+This deviation in data flow is decribed here:
+
+[INSERT DATA FLOW DIAGRAM]
+
 #### Where the Relevant Files Are
 #### Example State Update Cycle
 ### Notes on Optimizing React/Redux Performance
 - Explain major performance bottlenecks and common mistakes/issues
 - Links to some articles explaining more about perf in React/Redux
 - Maybe talk about Chrome timeline tool?
+- When to use component state vs application state
 
 ### Using D3 in React
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
