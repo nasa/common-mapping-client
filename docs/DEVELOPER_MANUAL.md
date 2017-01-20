@@ -43,6 +43,8 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
 20. [Deployment to Github pages](#example)
 19. [Something about Layers and Layer Ingestion?](#example)
 19. [Something about OL and Cesium performance (not rendering when not in view, just a note)](#example)
+19. [Known Issues (just say see issues!)](#example)
+19. [Contributing to CMC / Who to contact](#example)
 19. [Main Technologies Under the Hood](#example)
 
 <a id="installation-guide"/>
@@ -532,6 +534,8 @@ const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 ```
 
+TODO [Issue #89](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/88)
+
 Next we make a copy of the state object for no reason (this will be fixed in a later update by [@fplatt](https://github.jpl.nasa.gov/fplatt) who is responsible for this abomination). To do this we use the [JS spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) to expand the state object in place into a new object. This _can_ be useful if you're trying to capture snapshots of the state object to do complex tests but so far it hasn't been used in CMC tests. We also remove the "maps" object from state for reasons stated in the previous paragraph.
 
 ```JSX
@@ -617,16 +621,45 @@ export const CacheSpec = {
 
 Each test suite (like setAndGet) contains one or more tests pertaining to the title of the test suite. As a convention CMC Core tests are labeled test + number-ascending but any unique identifier can be used. These test names will eventually be used by non-Core developers if the wish to ignore certain tests.
 
+The testing flow for Core tests is as follows – 
+
+1. Inside of `karma.conf.js` (more about this later) we specify the list of files/patterns to use for testing. Here we specify `src/tests/**/*.spec.js`. Note that this is _not_ the Core directory of files.
+2. In `src/tests/core-test-overrides.spec.js`, the only *.spec.js in the folder, we import all Core tests and use a utility from `TestUtil` to run each test suite. If you write a new Core test suite be sure to add it to this file or else the test will not be run. 
+
 ### Writing Tests for your Application
+##### Normal Non-Core Test File (TODO Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
+Eventually this description will just point to a stub file, but for now, a non-Core test file should live in the `src/tests` directory and should end in *.spec.js. Inside of this file you should have something looking like:
 
-1. Define an initial state/store object
-2. Define an array of actions to affect that store
-3. Dispatch the actions
-4. Define an expected state by cloning then manipulating the initial state
-5. Remove those pieces of the state that cannot be compared directly (i.e. pointers to otherwise identical Openlayers map instances)
-6. Compare the actual and expected states using `TestUtil.compareFullStates`
+```JSX
+import { expect } from 'chai';
+import Immutable from 'immutable';
+import MiscUtil from '_core/utils/MiscUtil';
 
-### Overriding, Modifying, or Ignoring a CMC Core Test
+const miscUtil = new MiscUtil();
+
+describe('Misc Utils', () => {
+    describe('generateStringFromSet', () => {
+        it('returns a space separated string from a set of strings mapped to booleans', () => {
+            let varIn = {
+                "foo": true,
+                "bar": false,
+                "fubar": true
+            };
+            let varOut = 'foo fubar';
+
+            //assert
+            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+        });
+        it ('...')
+    }),
+    describe('findObjectInArray', () => {...})
+```
+
+Where all you need to do is use [Mocha `describe` syntax](https://mochajs.org/#getting-started), essentially writing tests in the same way as is described in the Mocha docs. These tests will match the pattern in `karma.conf.js` and will be run through the testing framework.
+
+##### Overriding, Modifying, or Ignoring a CMC Core Test
+There many be times as a non-Core developer when you wish to modify or override a Core test. For example, let's say you want to build an application that does not use a 3D map and you want to exclude all Core tests that test and rely on the 3D map. 
+
 ### Test Coverage and Test Results
 ### Using beforeEach and afterEach in and outside of Core.
 ### Karma.config.js
