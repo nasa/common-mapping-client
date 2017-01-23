@@ -955,7 +955,7 @@ Upgrading CMC can range from almost painless (one or two merge conflicts) to a b
 This separation between Core and Non-Core is still being tweaked now and then to improve the upgrading process.
 
 <a id=""/>
-###### Upgrade Steps
+##### Upgrade Steps
 1. Add cmc-core as a git remote if you haven't done so already by running `git remote add core https://github.jpl.nasa.gov/CommonMappingClient/cmc-core`
 2. Fetch the latest from cmc-core by running `git fetch --tags core`
 3. Make a new branch (optional)
@@ -976,9 +976,12 @@ TODO
 
 <a id=""/>
 ## Contributing to CMC
-TODO
-- Fork and PR or direct contributors or branches or what or combo?
-- Reporting issues on issues page https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues
+The main contributors to CMC are Flynn Platt _flynn.platt@jpl.nasa.gov_ and Aaron Plave _aaron.plave@jpl.nasa.gov_. Please get in contact with us via email or chat if you have any questions, are considering using CMC, or if you would like to contribute to CMC.
+We contributions and ask that you submit pull requests through a fork of cmc-core. If you would like to be a more direct contributor to cmc-core then please contact us and we will discuss adding you to the core repository.
+
+For issue reporting please visit the github issues page for cmc-core [here](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues).
+
+If you use CMC for your project please let us know, we'd love to see what you're doing and add you to our list of projects that use CMC.
 
 <a id=""/>
 ## Deployment to Github Pages
