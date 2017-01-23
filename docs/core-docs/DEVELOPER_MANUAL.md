@@ -355,7 +355,7 @@ Take the example of loading an external file, `file.json`. A component would dis
 CMC uses [thunk middleware](github.com/gaearon/redux-thunk) in its store to allow for actions that perform asyncronous operations (such as fetching external resources). In a future version, we may also include something like [Redux Batched Updates](github.com/acdlite/redux-batched-updates) to remove unwanted renderings.
 
 <a id=""/>
-#### With maps
+#### With Maps
 In its purest the form, React and Redux would have the currently displayed DOM be simply a reflection of what is in the state. This places a heavy burden on Rect as it must perform a diff between the current and next DOM on each state update. This also means that you are expected to place all rendered components in the React/Redux cycle so that React can take care of those changes for you. However, this paradigm breaks for thinks like maps because their rendering is handled by mapping libraries and are often rendered directly on a canvas element, which has no dicernable DOM updates to manage. Now a very React approach would be:
 
 1. On each state change, read the expected state of the map and the current state of the map
@@ -379,8 +379,20 @@ This deviation in data flow is shown below. In this diagram, we use the same pre
 ![Data flow diagram - map](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_maps.png)
 
 <a id=""/>
+#### With D3
+
+[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
+sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
+
+This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the d3 component that it creates as an instance variable.
+
+Here is a data flow diagram to demonstrate this flow. In this example we are again toggling on a switch, however here we are assuming the switch is a d3 component. Notice how the render cycle behaves normally all the way until component render time at which point the changes to the DOM are offloaded to the d3 component and React does not need to do anything.
+
+![Data flow diagram - d3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
+
+<a id=""/>
 ### Notes on Optimizing React/Redux Performance
-Quick note, this is a collection of things CMC has run into in its development but there is a wealth of information out there on optimizing React/Redux applications so please don't stop here if you're interested in boosting your application's performance.
+This is a collection of things CMC has run into in its development but there is a wealth of information out there on optimizing React/Redux applications so please don't stop here if you're interested in boosting your application's performance.
 
 <a id=""/>
 #### Key Performance Areas
@@ -405,20 +417,36 @@ Quick note, this is a collection of things CMC has run into in its development b
   * **React-DevTools**: This offers many tools for quickly checking your application state during runtime and tracking changes as they occur to find extraneous renderings/state tracking.
 
 <a id=""/>
-### Using D3 in React
-
-[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
-sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
-
-This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the d3 component that it creates as an instance variable.
-
-Here is a data flow diagram to demonstrate this flow. In this example we are again toggling on a switch, however here we are assuming the switch is a d3 component. Notice how the render cycle behaves normally all the way until component render time at which point the changes to the DOM are offloaded to the d3 component and React does not need to do anything.
-
-![Data flow diagram - d3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
+#### Usage of ImmutableJS
+[ImmutableJS](facebook.github.io/immutable-js/) offers a set of high-performance, immutable data structures. Since Redux/React has such a functional paradigm and so much of the application relies on a single, shared state that is passed by reference throughout, it is very important to make sure that the state is treated as immutable. ImmutableJS also provides a coherent and powerful api for dealing with Arrays, Maps, Sets, and more.
 
 <a id=""/>
-### Usage of ImmutableJS
-[ImmutableJS](facebook.github.io/immutable-js/) offers a set of high-performance, immutable data structures. Since Redux/React has such a functional paradigm and so much of the application relies on a single, shared state that is passed by reference throughout, it is very important to make sure that the state is treated as immutable. ImmutableJS also provides a coherent and powerful api for dealing with Arrays, Maps, Sets, and more.
+## Mapping With CMC
+CMC uses [Openlayers3](openlayers.org) and [Cesium](http://cesiumjs.org) as their default mapping libraries. As noted in the diagram above, these mapping libraries sit slightly removed from the normal React/Redux cycle and are interacted with through an abstraction layer called a **MapWrapper** (`src/_core/utils/MapWrapper.js`). The MapWrapper abstraction is used so that the actual mapping library used can be changed to suit any given applications needs.
+
+<a id=""/>
+### Why did we choose Ol3 and Cesium?
+These two libraries were chosen for a few reasons:
+
+* They each provide a large and robust feature set that will accomodate most applications' needs
+* Strong community involvement for both libraries
+* Together they demonstrate the flexibility of the MapWrapper abstraction
+* Cesium is by far the best WebGL based, open sourced 3D mapping library
+* Why not leaflet or ArcGIS JS?
+  * Leaflet relies too much on third-party plugins to provide a rich feature set. These plugins are often not well maintained and managing them can easily become overwhelming
+  * ArcGIS JS is closed source and built with Dojo in mind and does not meet the flexibility requirements we needed to support many unique projects
+
+<a id=""/>
+### Replacing these libraries
+If an application wants to use Leaflet for its own purposes, they need only create their own `MapWrapper_Leaflet.js` class that extends our base class, modify the `MapCreator.js` file to instantiate that class instead of the default and that's it. You can see examples of this here: [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md). 
+
+<a id=""/>
+### Overview of the MapWrapper classes
+The MapWrapper class provides an abstracted API for the Reducer functions to interact with the map objects. This allows the reducers to be completely ignorant of what kind of map they are operating on (2D or 3D or WebGL or DOM based etc). Each individual MapWrapper class inherits from the base MapWrapper abstract class (we say abstract though JS really has no such thing) and uses Composition to maintain a backing instance of a map object from the library it uses. Then for each abstracted method, the MapWrapper operates on this map instance, catches any errors that occur and returns a success or failure to the caller. In addition, the MapWrapper class can be extended to build complex features around the mapping library. This includes things like extracting data from tiles which involves overriding the mapping library's method for requesting image tiles, reading the data from the fetched resources, and storing that off within the MapWrapper for later reference.
+
+<a id=""/>
+### Notes on Map Performance
+Openlayers and Cesium are both aware of their visibility to some extent. This means that they will delay rendering if thier containing domNodes have `display: none;` styling. This allows MapReducers and the MapWrapper to operate on the map while it is not displayed without fear of it rendering in the background. Note however that the instance does not simply dissappear and that, once initiated, Cesium can become a resource hog.
 
 # Intermission
 
@@ -955,12 +983,8 @@ This separation between Core and Non-Core is still being tweaked now and then to
     - 
 
 <a id=""/>
-## Something about Layers, Layer Ingestion, Default Data and how it should really be served async from Solr?
-TODO
-
-<a id=""/>
-## Something about OL and Cesium performance (not rendering when not in view, just a note)
-TODO
+## Layer Ingestion Additional Services
+As mentioned before, CMC is not expected to be a final product. This extends not only to the front-end application itself, but also the services that power it. With CMC Core, we use a directory called `default-data` that contains numerous static files that provide CMC with something to work with. This includes lists of layers, color palettes, vector data, etc. In a real world application, we would not expect this directory to be referenced. Instead, we would expect that all of the static data within that directory to be replaced by a dynamic service on the backend with some sort of REST API (this could be a solr catalogue or similar). However, for small projects and local development, static file usage is more than adequate.
 
 <a id=""/>
 ## Contributing to CMC
@@ -1007,6 +1031,6 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [SASS](http://sass-lang.com/) | Compiled CSS styles with variables, functions, and more. |
 | [npm Scripts](https://docs.npmjs.com/misc/scripts)| Glues all this together in a handy automated build. | [Why not Gulp?](https://medium.com/@housecor/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8#.vtaziro8n)  |
 | [postCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |
-| [showdown](http://postcss.org/)| A Markdown to HTML converter written in Javascript |
+| [showdown](https://github.com/showdownjs/showdown)| A Markdown to HTML converter written in Javascript |
 | [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
 | [react-slingshot](https://github.com/coryhouse/react-slingshot)| The React/Redux/Webpack starter kit CMC is based off of. CMC has diverged a fair bit from React-Slingshot in many respects but still owes a great deal of its webpack structure, config, npm scripts, and dev server code to react-slingshot.
