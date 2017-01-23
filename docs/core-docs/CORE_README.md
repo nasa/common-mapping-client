@@ -5,9 +5,7 @@
 ## Welcome to the Common Mapping Client 2.0!
 
 #### Overview
-
-The Common Mapping Client (CMC) aims to solve the problem of redundant and unshared
-code in web-based scientific mapping applications.
+The Common Mapping Client (CMC) is a foundation for web-based mapping applications that leverages, combines, and abstracts certain commonly used mapping functionalities, enabling developers to spend less time reinventing the wheel and more time solving their specific problems.
 
 Over the years, there have been many projects that try to solve the same issue:
 put data on a map and explore it. Unfortunately, there is an increasingly steep
