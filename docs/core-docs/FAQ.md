@@ -22,7 +22,7 @@
 * `npm run open:dist`
 
 ### What is CMC?
-The Common Mapping Client is a foundation for web based mapping applications that leverages, combines, and abstracts certain commonly used mapping functionalities, enabling developers to spend less time reinventing the wheel and more time solving their specific problems.
+The Common Mapping Client is a foundation for web-based mapping applications that leverages, combines, and abstracts certain commonly used mapping functionalities, enabling developers to spend less time reinventing the wheel and more time solving their specific problems.
 
 ### Where did this project start?
 CMC was born in 2014 and used Dojo as its underlying framework. After much
