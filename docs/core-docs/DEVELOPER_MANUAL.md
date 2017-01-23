@@ -321,9 +321,9 @@ pieces of React/Redux that we deal with:
 <a id=""/>
 #### A diagram of the data flow
 
-This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on an off.
+This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on an off. Notice how the actual DOM that the user sees isn't updated until the end.
 
-[INSERT DATA FLOW DIAGRAM]
+![Data flow diagram](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow.png)
 
 <a id=""/>
 #### Render time matters
@@ -374,9 +374,9 @@ The issue with this approach simpley of scale. There are so many aspects of map 
 
 This allows CMC to avoid tracking any map state except for what is needed by components to render as well as skip large amounts state comparisons.
 
-This deviation in data flow is decribed here:
+This deviation in data flow is shown below. In this diagram, we use the same premise as the data flow diagram above with one change, the switch will now toggle a layer on the map on or off. Notice how the DOM for the switch is again not updated until the end but the map is updated from within the reducer itself.
 
-[INSERT DATA FLOW DIAGRAM]
+![Data flow diagram - map](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_maps.png)
 
 <a id=""/>
 #### Where the Relevant Files Are
