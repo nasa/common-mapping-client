@@ -35,7 +35,7 @@ as a starting point.
 CMC is not a final, user-facing application. CMC is a foundation on which to build more specific applications. Because of that, what is and is not part of the CMC core is an ongoing discussion, but the general idea is that if the majority of applications CMC is intended to support require a certain functionality, (such as shareable urls or adjusting layer opacity), then CMC should include it. It is important to be able to exclude certain functionalities from CMC in order to keep CMC as thin as possible, that way developers can spend more time creating and less time removing unwanted features.
 
 ### When to use CMC?
-CMC is suitable for complex production applications centered around maps and geospatial data. Ideally, these applications build on top of CMC without having to re-write a significant portion of the core code. See our [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) for more.
+CMC is suitable for complex production applications centered around maps and geospatial data. Ideally, these applications build on top of CMC without having to re-write a significant portion of the core code. See our [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) for more.
 
 ### When not to use CMC?
 Unless you are already fairly comfortable with CMC architechture and development practices, small and very experimental demo projects would be more easily and more quickly developed without CMC.
