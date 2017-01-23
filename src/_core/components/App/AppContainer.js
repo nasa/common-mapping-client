@@ -6,6 +6,7 @@ import * as actions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
 import * as appStrings from '_core/constants/appStrings';
+import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapContainer from '_core/components/Map/MapContainer';
 import MapContextMenu from '_core/components/Map/MapContextMenu';
@@ -22,7 +23,8 @@ import AppBarContainer from '_core/components/AppBar/AppBarContainer';
 import LayerMenuContainer from '_core/components/LayerMenu/LayerMenuContainer';
 import MouseFollowerContainer from '_core/components/MouseFollower/MouseFollowerContainer';
 import AnalyticsContainer from '_core/components/Analytics/AnalyticsContainer';
-import '_core/styles/styles.scss';
+import KeyboardControlsContainer from '_core/components/KeyboardControls/KeyboardControlsContainer';
+import 'styles/styles.scss';
 
 const miscUtil = new MiscUtil();
 
@@ -54,6 +56,9 @@ export class AppContainer extends Component {
                     this.props.actions.initializeMap(appStrings.MAP_LIB_2D, "map2D");
                     this.props.actions.initializeMap(appStrings.MAP_LIB_3D, "map3D");
 
+                    // set initial view
+                    this.props.actions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT });
+
                     // activate default/url params
                     if (this.urlParams.length === 0) {
                         this.props.actions.activateDefaultLayers();
@@ -69,8 +74,13 @@ export class AppContainer extends Component {
     }
 
     render() {
+        let containerClasses = miscUtil.generateStringFromSet({
+            "mouse-hidden": this.props.mapControlsHidden && this.props.distractionFreeMode,
+            "mouse-shown": !this.props.mapControlsHidden && this.props.distractionFreeMode
+        });
         return (
-            <div id="appContainer">
+            <div id="appContainer" className={containerClasses}>
+                <DatePickerContainer />
                 <HelpContainer />
                 <MapContainer />
                 <MapControlsContainer />
@@ -80,12 +90,12 @@ export class AppContainer extends Component {
                 <LayerInfoContainer />
                 <LayerMenuContainer />
                 <DateSliderContainer />
-                <DatePickerContainer />
                 <AlertsContainer />
                 <LoadingContainer />
                 <MapContextMenu />
                 <MouseFollowerContainer />
                 <AnalyticsContainer />
+                <KeyboardControlsContainer />
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={600} />
             </div>
         );
@@ -93,8 +103,17 @@ export class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    distractionFreeMode: PropTypes.bool.isRequired,
+    mapControlsHidden: PropTypes.bool.isRequired
 };
+
+function mapStateToProps(state) {
+    return {
+        distractionFreeMode: state.view.get("distractionFreeMode"),
+        mapControlsHidden: state.view.get("mapControlsHidden")
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -103,12 +122,13 @@ function mapDispatchToProps(dispatch) {
             loadInitialData: bindActionCreators(layerActions.loadInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
             runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),
-            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch)
+            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch),
+            setMapView: bindActionCreators(mapActions.setMapView, dispatch)
         }
     };
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(AppContainer);
