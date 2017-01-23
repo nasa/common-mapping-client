@@ -7,7 +7,7 @@
 #### Overview
 
 The Common Mapping Client (CMC) aims to solve the problem of redundant and unshared
-code in scientific web mapping applications.
+code in web-based scientific mapping applications.
 
 Over the years, there have been many projects that try to solve the same issue:
 put data on a map and explore it. Unfortunately, there is an increasingly steep
@@ -15,9 +15,9 @@ hill to climb when it comes to actually starting one of these projects. All of
 them have to decide: Which framework should I start from? Which library
 will give me the features I need? How to I glue all these together with 
 a code layout that I won't want to burn next week? CMC solves this by bundling
-together a solid and modular base framework with an robust mapping library,
-a well thought out component structure, and a thick shield against feature-creep
-to deliver you what is essentially a starter project for mapping that will let
+together a solid and modular base framework with robust mapping libraries,
+a well thought out structure, and a thick shield against feature-creep
+to deliver what is essentially a starter project for mapping that will let
 you start building the cool stuff faster.
 
 We maintain a list of further example projects and projects that began from CMC
@@ -41,7 +41,7 @@ part of CMC-Core.
 
 1. Install `NodeJS`
 2. Get the code
-   1. Option A: Grab a tag that suits you: [release page](LINK TO RELEASE PAGE)
+   1. Option A: Grab a tag that suits you
    2. Option B: Fork the repo into your new project and get the cutting edge goodness
    3. Option C: Clone the repo, contribute back, and get the cutting edge goodness
 3. Run `npm install`
@@ -58,8 +58,7 @@ enhancements or otherwise improve the tool.
 *Contributing to the CMC Ecosystem*
 
 If you use CMC for your own project, please let us know so that we may list it
-under our [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) for others to find
-inspiration in.
+under our [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) for others to find inspiration in.
 
 If you create a particularly useful or robust widget in your own CMC descendant,
 please create an example project demonstrating just that widget so that others
@@ -67,6 +66,6 @@ who have the same problem down the road may find a solution faster.
 
 #### Documentation Shortcut
 
-* [FAQ](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/FAQ.md)
-* [Developer Guide](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/DEVELOPER_MANUAL.md)
-* [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md)
+* [FAQ](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/FAQ.md)
+* [Developer Guide](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/DEVELOPER_MANUAL.md)
+* [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md)
