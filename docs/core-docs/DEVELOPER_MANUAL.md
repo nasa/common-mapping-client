@@ -43,7 +43,6 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
 20. [Deployment to Github pages](#example)
 19. [Something about Layers and Layer Ingestion?](#example)
 19. [Something about OL and Cesium performance (not rendering when not in view, just a note)](#example)
-19. [Known Issues (just say see issues!)](#example)
 19. [Contributing to CMC / Who to contact](#example)
 19. [Main Technologies Under the Hood](#example)
 
@@ -92,32 +91,39 @@ The scripts defined in `package.json` are used to control various aspects of app
 | postbuild | Runs the postbuild script |
 | deploy | Runs the deploy script |
 
+<a id=""/>
 ## Installing/removing packages via npm
 NPM packages are installed and removed using the following commands. The `--save` flag tells NPM to save/remove the specified packages from your `package.json` file.
 * Install a package : `npm install <package_name> --save`
 * Remove a package : `npm remove <package_name> --save`
 
+<a id=""/>
 ## The CMC "_core" Philosophy
 
+<a id=""/>
 ### General
 As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex map based applications. To avoid bloat and feature creep, if a capability or widget is needed in the majority of mapping applications, it will not be part of CMC. CMC Core, the bulk of which is located in the "/_core" directory, is all of the code that the application developer should only need to reference, duplicate and modify, or exclude. Separating Core code out from the future developers' code is helpful for maintaining a lean Core codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the other developers' work.
 
+<a id=""/>
 ### The "_core" Directory
 Inside of the `src/_core` directory lives the bulk of the CMC Core application code. All of the React components, Redux-related code, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `_core/components/App/AppContainer.js` which is the root level React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the _core imports are done in `src/reducers/index.js`. 
 
-
+<a id=""/>
 ### Adding, Overriding, and Removing "_core" Functionality & Components
 You as the developer can choose to use CMC-Core's AppContainer.js as it is and merely change config files to point at other layers or you can build your own AppContainer.js to remove core components, duplicate core components and modify them, or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly. It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Similar to components, you can swap out utilities Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that Core is by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
 
 In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) to see this in action.
 
+<a id=""/>
 ## The CMC Build Process
 [It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, non-core developers may never actually need to modify most of these steps. 
 
+<a id=""/>
 ### Post-Install
 After `npm install` runs successfully, npm automatically looks for a script called `postinstall`. The `package.json` file contains a script called `postinstall` which points to a shell script `scripts/postinstall.sh`, so npm sees this and runs this script. This `scripts/postinstall.sh` script is used to add the `assets/assets` folder for serving static files asynchronously in production. After the folder is added, several libraries and images from `node_modules`, `src/_core`, and `lib` are added into `assets/assets`. Serving files from `assets/assets` is a useful last resort approach for files that aren't behaving well with webpack, libraries that require asynchronous  loading of files and data (like Cesium), etc.
 
+<a id=""/>
 ### Webpack
 In short:
 > webpack takes modules with dependencies and generates static assets representing those modules.
@@ -126,12 +132,15 @@ Webpack is one of the most popular module bundlers or build systems for web appl
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack is driven from a JS configuration file (or multiple files in our case for development and production).
 
+<a id=""/>
 ##### Brief Overview
 CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now). One configuration, `webpack.config.dev.js`, is used for development versions of CMC and is configured to provide [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. The other configuration, `webpack.config.prod.js`, is used for production and produces the optimized, minified, uglified, duplicate dependency reduced, static application output. 
 
+<a id=""/>
 ##### Development Mode
 When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. Not to worry though, the final production bundle will be much smaller. When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (e.g. if you change and save some CSS you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration please view [https://webpack.github.io/docs/](webpack documentation). The development configuration is also thoroughly commented.
 
+<a id=""/>
 ##### Production Mode
 The production webpack configuration is useful for creating optimized static builds of your application. As a result, all of the development tools like sourcemaps, hot reloading, etc., are not used. The main use of this configuration is for when you want to deploy your application out to your users, so you won't be running it very often yourself (although your Continuous Integration Service might be) since the build can take up to a few minutes to complete. However, it can be useful to run the build every so often (even if you have a CI/CD service) to:
 - Determine the final file size of output resources like bundle.js and styles.css
@@ -145,10 +154,11 @@ After the build has run, npm automatically looks for a script called `postbuild`
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
-
+<a id=""/>
 ##### Brief Note on Cesium + Webpack Integration
 Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and we tend to map the global cesium variable to instance variables for consistency.
 
+<a id=""/>
 ##### Brief Note on ESLint
 CMC uses [ESLint](http://eslint.org/) to report JS syntax and style issues. ESLint is configured via a file at the root of the repository called `.eslintrc` which contains many configuration items that tell ESLint what plugins, rules, and exceptions to use when linting your JS code. Some of these rules you may may want to alter globally from this file if you have different preferences. For example if you want to remove the ESLint rule warning against using `var` in your JS (since you use `const` and `let` instead in ES6) you can set
 ```JSON
@@ -172,21 +182,26 @@ There may also be situations in which you only want to ignore certain cases in y
 
 Other forms of ESLint ignore comments are used in CMC. Learn more about ESLint and the different ways to suppress rules [http://eslint.org/docs/user-guide/configuring](http://eslint.org/docs/user-guide/configuring).
 
+<a id=""/>
 ### Brief Note on Serving CMC
 CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
 
+<a id=""/>
 ## Styling CMC
 The following sections outline how CMC is styled, how CMC styles are written, organized, and overwritten. 
 
+<a id=""/>
 ### React UI Component Library (React-Toolbox)
 [React-Toolbox](http://react-toolbox.com/) is a React UI Component library
 that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline CSS, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
 
+<a id=""/>
 ### SASS Usage
 CMC uses SASS which is a popular CSS extension language. From SASS's [site](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
 
 >Sass is an extension of CSS that adds power and elegance to the basic language. It allows you to use variables, nested rules, mixins, inline imports, and more, all with a fully CSS-compatible syntax. Sass helps keep large stylesheets well-organized, and get small stylesheets up and running quickly...
 
+<a id=""/>
 ### CMC Style Architecture
 CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also contains all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
 
@@ -205,21 +220,27 @@ Other important SASS files are:
 - `src/styles/_variables.scss` - Used to define non-React-Toolbox variables for use in all CMC SASS files
 - `src/styles/styles.scss` - Used for non-Core style imports
 
+<a id=""/>
 ### Overriding Core Styles
 As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the import of `src/_core/styles/styles.scss` in `src/styles/styles.scss` and importing only certain Core SASS files. 
 
+<a id=""/>
 ### Overriding React-Toolbox SASS Variables
 Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overridden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
 
+<a id=""/>
 ### Fonts
 CMC tries to stay within the Material Design specification by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
 
+<a id=""/>
 ##### When to use Roboto 
 Roboto is recommended for everything from titles to labels to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
 
+<a id=""/>
 ##### When to use Roboto Mono
 Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
 
+<a id=""/>
 ### postCSS
 CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS provides a framework for CSS plugins that make writing CSS easier. We use [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
 
@@ -244,6 +265,7 @@ transition: opacity 0.1s linear 0s;
 
 There are many other PostCSS compatible plugins that you may find useful so feel free to add more.
 
+<a id=""/>
 ### Favicon Generation
 CMC uses the NASA meatball favicon by default. The favicon is specified in `index.html` using the following imports:
 
@@ -258,6 +280,7 @@ CMC uses the NASA meatball favicon by default. The favicon is specified in `inde
 ```
 Favicons specification varies quite a lot based on browser, device, and screen size and pixel density, so CMC used [http://www.favicon-generator.org/](http://www.favicon-generator.org/) to generate all of the necessary favicons (note that the list CMC uses may be a subset of the full output).
 
+<a id=""/>
 ### Custom Icons
 When Material icons or Mapskin icons do not contain the icon you are looking for, you can easily add your own svg icon. CMC uses several custom icons and you can look in `src/_core/components/Share/ShareContainer.js` for a complete example, but in short the process involves declaring your icon  as shown below and tweaking the CSS, viewBox, and svg parameters.
 
@@ -269,6 +292,7 @@ const FacebookIcon = () => (
 );
 ```
 
+<a id=""/>
 ## Components and State with React & Redux
 [The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independent
 modules. Those modules then base their rendering on a state machine you define for them and React takes care of
@@ -291,14 +315,17 @@ pieces of React/Redux that we deal with:
   * _Note_: This is not strictly a React/Redux idiom
 * **Constants/ActionTypes** - These are constant strings that are used to uniquely identify actions. They are not strictly necessary but are useful to avoid simple errors.
 
+<a id=""/>
 ### Things to Know about React/Redux
 
+<a id=""/>
 #### A diagram of the data flow
 
 This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on an off.
 
 [INSERT DATA FLOW DIAGRAM]
 
+<a id=""/>
 #### Render time matters
 After a state change, React will find all components that are affected (i.e. those components that track the changed piece of state), perform a render of those components in their virtualDOM, performs a diff between their virtualDOM and the current DOM to determin which pieces of the DOM need changing, then update the DOM accordingly. If you have many sequential state updates, your application can quickly become bogged down in this cycle. Some steps to optimize this process are:
 
@@ -308,20 +335,26 @@ After a state change, React will find all components that are affected (i.e. tho
  * Track pieces of state as instance variables within components and use `forceRender()` to shortcut the entire process
    * **Note**: this is not often recommended as it circumvents the Redux paradigm of a single state, but CMC Core has found this approach useful when performance becomes bottlenecked
 
+<a id=""/>
 #### Dispatched state updates are syncronous
 When a component dispatches an action to the Redux store, the store will update the state and push the update to React. React will then go through it's render process. Once completed the call to the dispatch will return. 
 
+<a id=""/>
 #### Components get updated props even if shouldComponentUpdate returns false
 If a component needs to track a piece of state to dispatch actions but doesn't need it to determine its rendering, `shouldComponentUpdate()` can return false when that piece of state changes but it will still have the updated piece of state when dispatching the action.
 
+<a id=""/>
 #### Asyncronous actions use functions taht return Promises
 Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a Promise. The Promise will be tracked by the Thunk middleware in the CMC store. For an example of this, look at `src/_core/Actions/LayerActions.js:loadInitialData()`
 
+<a id=""/>
 ### CMC React & Redux Idioms
 
+<a id=""/>
 #### In the Store
 CMC uses [thunk middleware](github.com/gaearon/redux-thunk) in its store to allow for actions that perform asyncronous operations (such as fetching external resources). In a future version, we may also include something like [Redux Batched Updates](github.com/acdlite/redux-batched-updates) to remove unwanted renderings.
 
+<a id=""/>
 #### With maps
 In its purest the form, React and Redux would have the currently displayed DOM be simply a reflection of what is in the state. This places a heavy burden on Rect as it must perform a diff between the current and next DOM on each state update. This also means that you are expected to place all rendered components in the React/Redux cycle so that React can take care of those changes for you. However, this paradigm breaks for thinks like maps because their rendering is handled by mapping libraries and are often rendered directly on a canvas element, which has no dicernable DOM updates to manage. Now a very React approach would be:
 
@@ -345,22 +378,29 @@ This deviation in data flow is decribed here:
 
 [INSERT DATA FLOW DIAGRAM]
 
+<a id=""/>
 #### Where the Relevant Files Are
+
+<a id=""/>
 #### Example State Update Cycle
+
+<a id=""/>
 ### Notes on Optimizing React/Redux Performance
 - Explain major performance bottlenecks and common mistakes/issues
 - Links to some articles explaining more about perf in React/Redux
 - Maybe talk about Chrome timeline tool?
 - When to use component state vs application state
 
+<a id=""/>
 ### Using D3 in React
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
 sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
 
+<a id=""/>
 ### Usage of ImmutableJS for Redux State Objects
 
 
-
+<a id=""/>
 # Intermission
 
 So at this point you're probably feeling like:
@@ -369,8 +409,7 @@ So at this point you're probably feeling like:
 
 and it is, everything is going to be fine, yes this is a lot of stuff, but you'll eventually work through it all and build something really awesome, so keep powering through this stuff!
 
-
-
+<a id=""/>
 ## Brief Overview of Application Directory 
 ```
 .
@@ -428,9 +467,11 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 └── webpack.config.prod.js    # Configures production webpack
 ```
 
+<a id=""/>
 ## How to Write Tests in CMC
 The following sections outline the testing concepts, tools, and configuration necessary for testing both CMC Core and your own application.
 
+<a id=""/>
 ### Testing Tools
 The testing tools and their main dependencies used are:
 - [Karma](https://karma-runner.github.io/1.0/index.html) - Test runner for Javascript
@@ -448,6 +489,7 @@ The testing tools and their main dependencies used are:
 
 That's a lot, but not to worry. The ones you really need to be aware of are Karma, Chai, and Karma Coverage. Additionally, you shouldn't need to do anything drastically different from what's been set up here already so for the most part you can base your tests off of existing tests and structures in CMC Core.
 
+<a id=""/>
 ### Running Tests
 The following `package.json` scripts can be used to run tests in a variety of ways. 
 
@@ -456,9 +498,11 @@ The following `package.json` scripts can be used to run tests in a variety of wa
 - `npm run test:cover` - Run tests once and generate html test report and a test coverage report
 - `npm run test:cover:watch` - Run tests on every file change and generate html test report and a test coverage report
 
+<a id=""/>
 ### Writing Tests for CMC
 Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your *.js files to *.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own if you have complex components with finnicky behavior. 
 
+<a id=""/>
 ##### Simple Tests
 Let's begin with an example test from a CMC Core utility test file `/src/_core/tests/Cache.spec.js`.
 
@@ -542,6 +586,7 @@ expect(cache.getSize()).to.equal(limit);
 
 Note that you can use `expect` whenever you wish and however many times you wish, but that it's good to keep tests focused on a particular input/output, or, set of expected behaviors.
 
+<a id=""/>
 ##### Tests using the Redux Store
 
 Now let's move on to a more complex test that involves using the Redux store. Here's a test from `src/_core/tests/store.map.spec.js` that tests initialization of the 2D and 3D maps.
@@ -696,7 +741,10 @@ The testing flow for Core tests is as follows –
 1. Inside of `karma.conf.js` (more about this later) we specify the list of files/patterns to use for testing. Here we specify `src/tests/**/*.spec.js`. Note that this is _not_ the Core directory of files.
 2. In `src/tests/core-test-overrides.spec.js`, the only *.spec.js in the folder, we import all Core tests and use a utility from `TestUtil` to run each test suite. If you write a new Core test suite be sure to add it to this file or else the test will not be run. 
 
+<a id=""/>
 ### Writing Tests for your Application
+
+<a id=""/>
 ##### Normal Non-Core Test File (TODO Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
 Eventually this description will just point to a stub file, but for now, a non-Core test file should live in the `src/tests` directory and should end in *.spec.js. Inside of this file you should have something looking like:
 
@@ -727,6 +775,7 @@ describe('Misc Utils', () => {
 
 Where all you need to do is use [Mocha `describe` syntax](https://mochajs.org/#getting-started), essentially writing tests in the same way as is described in the Mocha docs. These tests will match the pattern in `karma.conf.js` and will be run through the testing framework.
 
+<a id=""/>
 ##### Overriding, Modifying, or Ignoring a CMC Core Test
 There many be times as a non-Core developer when you wish to modify or override a Core test. For example, let's say you want to build an application that does not use a 3D map and you want to exclude all Core tests that test and rely on the 3D map. To override these tests, you would want to find the relevant (failing) tests in `_core/tests/MapUtil.spec` and remove them by overriding the imported object in `core-test-overrides.spec.js`. For example:
 
@@ -736,18 +785,59 @@ MiscUtilSpec.generateStringFromSet.test3 = () => {};
 
 excludes that test by overriding the test contents. You can also choose to exclude some or all imported Core test suites by changing what's inside the `testSuites` array in `core-test-overrides.spec.js`.
 
+<a id=""/>
 ### Local, Asynchonously Loaded Testing Data
 Core tests sometimes make use of use of asynchronous, locally loaded data from `src/_core/tests/data`. This folder contains several files copied over from `src/default-data/_core_default-data` (if you're developing Core tests you will need to make note of this) and some intermediate state object definitions for use in testing. For non-Core tests feel free to import any of the files from `src/_core/tests/data` and/or add your own folder in `src/tests/YOUR_DATA` with your own files.
 
+<a id=""/>
 ### Using beforeEach and afterEach
 CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of the Mocha [`beforeEach` and `afterEach` hooks](https://mochajs.org/#hooks) in order to provide an html fixture from the DOM so that the maps have a place to render. In Core, these `beforeEach` and `afterEach` functions are defined in the exported testSuite objects. In non-core tests feel free to use these functions and any other Mocha hooks according to the normal Mocha paradigm.
 
-### Note about testing async stuff
+<a id=""/>
+### Testing Asyncronous Behaviors
+Testing asynchronous functions is accomplished by making use of the [done](https://mochajs.org/#asynchronous-code) callback paradigm in Mocha. We can use this `done` callback to tell Mocha to wait for this callback to be called to complete the test. In Core we make use of this paradigm and also make use of timeouts for certain map behaviors that do not have easily trackable async success or failure values. For example in `StoreMapSpec.test16` in `src/_core/tests/store.map.spec.js` we use async testing to test the 2D and 3D map zooming out behavior. To do this, we give a generous (because of low-spec Travis CI machines) timeout in the beginning, initialize maps, wait for maps to initialize, do some zooming, wait a bit, and then check some state and map properties.
 
+```JSX
+test16: () => {
+    it('can zoom out', function(done) {
+        this.timeout(30000);
 
+        const store = createStore(rootReducer, initialState);
 
+        const actions = [
+            mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+            mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+        ];
+        actions.forEach(action => store.dispatch(action));
 
+        setTimeout(() => {
+            const zoomActions = [
+                mapActions.zoomIn(),
+                mapActions.zoomOut()
+            ];
+            zoomActions.forEach(action => store.dispatch(action));
+            setTimeout(() => {
+                const state = store.getState();
 
+                const actual = {...state };
+                const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                actual.map = actual.map.remove("maps");
+
+                const expected = {...initialState };
+                expected.map = expected.map.remove("maps");
+
+                expect(actualMap2D.getZoom()).to.equal(2);
+                TestUtil.compareFullStates(actual, expected);
+                done();
+            }, 1000);
+        }, 1000);
+    });
+},
+```
+
+If your async functions have promises or callbacks then you should be able avoid using timeouts, but in this case when we have neither callbacks or promises we are forced into using timeouts.
+
+<a id=""/>
 ### Test Coverage and Test Results
 Every command used to run tests (e.g. `npm run test`, `npm run test:watch`, etc.) makes use of Karma test reporters (usually in the form of plugins). All tests by default use:
 
@@ -757,6 +847,7 @@ Every command used to run tests (e.g. `npm run test`, `npm run test:watch`, etc.
 
 These default reporters are specified in the `karma.conf.js` configuration but some commands are overridden at runtime using flags. For example, `npm run test` uses the `--reporters=progress,html` to skip code coverage generation. Code coverage does take a bit of extra time so if you're running tests often or using a watched test (like `test:watch`) then it makes sense to skip coverage.
 
+<a id=""/>
 ### Karma.conf.js
 CMC Karma testing is configured using a file called `karma.conf.js`. This configuration shouldn't need much tweaking and is heavily commented but there are several important parts to note. 
 
@@ -802,7 +893,10 @@ Using real browsers can be useful since it allows us to test CMC in environments
 
 Learn more about Karma and Karma configuration [here](http://karma-runner.github.io/1.0/config/configuration-file.html).
 
+<a id=""/>
 ## User Analytics
+
+<a id=""/>
 ### CMC Custom User Analytics
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
@@ -818,19 +912,41 @@ the currently buffered actions are sent as a JSON string to the defined endpoint
 
 To learn more about this analytics system and view a simple example of a server to collect and analyze these actions, check out our [CMC Analytics Example](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-analytics).
 
+<a id="google-analytics"/>
 ### Google Analytics
 In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics module that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga). The CMC Core component containing the React-GA plugin is `src/_core/components/Analytics/AnalyticsContainer.js`.
 
+<a id=""/>
 ## Upgrading your Project to Latest Version of CMC
+- General Idea (we built it so this would be easier)
+
+CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work. These files and folders include:
 
 
-## Something about Layers and Layer Ingestion?
+This separation between Core and Non-Core is still being tweaked now and then to improve the upgrading process.
+
+- Why / why not upgrade, read release notes
+- Danger Files (files that might be in conflict)
+- Upgrade Guide:
+    - How to upgrade (git remote add core ... fetch .., merge but probs into a new branch, then merge that branch into master?)
+    - 
+
+<a id=""/>
+## Something about Layers, Layer Ingestion, Default Data and how it should really be served async from Solr?
+TODO
+
+<a id=""/>
 ## Something about OL and Cesium performance (not rendering when not in view, just a note)
-## Known Issues (just say see issues!)
+TODO
+
+<a id=""/>
 ## Contributing to CMC
+TODO
+- Fork and PR or direct contributors or branches or what or combo?
+- Reporting issues on issues page https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues
 
-
-## Deployment to Github pages
+<a id=""/>
+## Deployment to Github Pages
 Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
 
 1. Run `npm run test:cover`
@@ -841,6 +957,7 @@ Github pages are a great way to host static content right out of your github rep
 6. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
 7. Cleanup by removing the folder you were just in
 
+<a id=""/>
 ## Main Technologies Under the Hood
 Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, d3, react-ga, etc.)
 
