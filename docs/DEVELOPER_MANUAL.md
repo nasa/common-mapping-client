@@ -736,12 +736,24 @@ Learn more about Karma and Karma configuration [here](http://karma-runner.github
 ### CMC Custom User Analytics
 The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
 each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
-the currently buffered actions are sent as a JSON string to the defined endpoint as a POST request.
+the currently buffered actions are sent as a JSON string to the defined endpoint as a POST request. This means if you set up some server to capture these actions you can ask and answer various questions based on these actions such as:
+
+- "What is the most popular layer?"
+- "How often do people use this layer"
+- "How often do people use 3D mode?"
+- "How many people change the date?"
+- "How soon do most people change the date?"
+- "What percentage of people change the basemap?"
+- _and so on_
+
+To learn more about this analytics system and view a simple example of a server to collect and analyze these actions, check out our [CMC Analytics Example](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-analytics).
 
 ### Google Analytics
-In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics component that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga)
+In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics module that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga). The CMC Core component containing the React-GA plugin is `src/_core/components/Analytics/AnalyticsContainer.js`.
 
 ## Upgrading your Project to Latest Version of CMC
+
+
 ## Something about Layers and Layer Ingestion?
 ## Something about OL and Cesium performance (not rendering when not in view, just a note)
 ## Known Issues (just say see issues!)
