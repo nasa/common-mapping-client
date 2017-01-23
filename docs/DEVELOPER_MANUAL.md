@@ -291,6 +291,8 @@ pieces of React/Redux that we deal with:
 
 #### A diagram of the data flow
 
+This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on an off.
+
 [INSERT DATA FLOW DIAGRAM]
 
 #### Render time matters
