@@ -1,6 +1,7 @@
 .layer-info {
     width: 450px;
     position: relative;
+    overflow: hidden;
     h2 {
         color: $color-text;
         margin-bottom: 0px;
@@ -15,9 +16,8 @@
     }
     section {
         padding: 0px;
-        @include flex();
-        @include flex-col();
         overflow: hidden;
+        overflow-y: auto;
     }
     nav {
         display: none;
@@ -55,19 +55,6 @@
         border-top-right-radius: 0.2rem;
         border-top-left-radius: 0.2rem;
     }
-    // .modal-menu-close {
-    //     position: absolute;
-    //     top: 0px;
-    //     right: 0px;
-    //     z-index: 2;
-    //     color: white;
-    //     margin-top: 1.2rem;
-    //     margin-right: 1.2rem;
-    //     [data-react-toolbox="font-icon"] {
-    //         font-size: 2.5rem;
-    //         line-height: 3.3rem;
-    //     }
-    // }
     .layer-info-list > li > span {
         padding-left: 0.1rem;
         & > span > span {
@@ -76,10 +63,5 @@
     }
     .layer-info-content {
         padding: 1rem 1.6rem;
-        @include flex();
-        @include flex-col();
-        @include flex-grow(1);
-        overflow: hidden;
-        overflow-y: auto;
     }
 }
