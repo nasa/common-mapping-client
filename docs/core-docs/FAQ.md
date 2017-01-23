@@ -1,6 +1,6 @@
 # FAQ
 
-### PreRequisites
+### Prerequisites
 * NodeJS
 
 ### Quick Installation
