@@ -379,28 +379,47 @@ This deviation in data flow is shown below. In this diagram, we use the same pre
 ![Data flow diagram - map](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_maps.png)
 
 <a id=""/>
-#### Where the Relevant Files Are
-
-<a id=""/>
-#### Example State Update Cycle
-
-<a id=""/>
 ### Notes on Optimizing React/Redux Performance
-- Explain major performance bottlenecks and common mistakes/issues
-- Links to some articles explaining more about perf in React/Redux
-- Maybe talk about Chrome timeline tool?
-- When to use component state vs application state
+Quick note, this is a collection of things CMC has run into in its development but there is a wealth of information out there on optimizing React/Redux applications so please don't stop here if you're interested in boosting your application's performance.
+
+<a id=""/>
+#### Key Performance Areas
+  * **React's Render Cycle**: this is the section of the application after the reducers have updated the state and React is now updating the components and UI. As explained above, React has to do a fair amount of work to decide what needs updating, how to update it, and to actually update the DOM accordingly. Methods to improve this section is to:
+    * Use logging or React-DevTools to profile which components are rendering when
+    * Reduce the number of props and amount of state components rely on
+    * Use smaller, more isolated components
+    * Use `shouldComponentUpdate()` to cut down on unnecessary renders
+    * Use instance variables and `forceUpdate()` within components to skip the Redux/React cycle entirely. This will force React to go straight to a render of the component, skipping all the steps in between. Note that this technique is not often recommended as it circumvents the Redux paradigm of a single state. The only times this technique is really appropriate is with state changes/renderings that can safely live outside the central state without harm to the user. These should be very small things and there is no hard and fast rule for defining them.
+    * Use middleware to batch your updates. In some cases, there are several state updates that happen sequentially. It may not be necessary to render the states in between these actions so using middleware to roll all the state updates into one avoids this issue entirely in some cases.
+    * Delay/Batch updates for the component. For this, we'll use the example of the `src/_core/components/Share/ShareContainer.js` component. It needs to remain constantly up to date with the state of the application so that at any time the user can copy the url from the browser to share the application with someone else. That means that on each state update, the ShareContainer has to update. With certain action sequences (such as adjusting layer opacity) it's very possible for that call to render to come 100+ times in under 0.5sec. The actual render time for this component is far from trivial as it is reading a large amount of the state and constructing a string to represent that state. To cut down on the need for rendering this component, CMC implemented a timeout that waits 0.5s from when a render is first fired to actually read the state and render itself. That effectively batches all the state updates that occur within that 0.5s together so that the number of renders required for that component has been cut from 100+ to 1.
+  * **Reducer Functions**: State updates can be costly, depending on your data structures and the extent of changes needed. CMC uses ImmutableJS to keep state updates isolated from each other and to provide high performance data structures. Some tips to improve in this section are:
+    * Use Maps over Lists when possible. ImmutableJS provides nearly identical APIs for Maps and Lists. It may not always make sense to use a Map but they provide constant time data access which can be a major boon in many cases.
+    * Make state changes as functional as possible. The fewer extraneous actions that occur in each reducer, the better.
+  * **Layer Rendering on the Map**: For a layer to render, the mapping library will need to fetch the resources (images/data files) necessary, decode those resources, then draw them onto the canvas. It must repeat that process whenever the map view changes or layers are added/removed. Ways to improve this are:
+    * Use tiled datasets. This allows the library to parallelize resource gathering and cache resources more efficiently
+    * Don't use large vector datasets. This goes along with tiling but large vector datasets require a greater amount of computation to render.
+
+<a id=""/>
+#### Additional techniques in improving performance
+  * **Chrome Timeline Tool**: Learn to use this and you will quickly be able to narrow in on which actions cost you the most and where to focus your efforts.
+  * **React-DevTools**: This offers many tools for quickly checking your application state during runtime and tracking changes as they occur to find extraneous renderings/state tracking.
 
 <a id=""/>
 ### Using D3 in React
+
 [D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
 sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
 
-<a id=""/>
-### Usage of ImmutableJS for Redux State Objects
+This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the d3 component that it creates as an instance variable.
 
+Here is a data flow diagram to demonstrate this flow. In this example we are again toggling on a switch, however here we are assuming the switch is a d3 component. Notice how the render cycle behaves normally all the way until component render time at which point the changes to the DOM are offloaded to the d3 component and React does not need to do anything.
+
+![Data flow diagram - d3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
 
 <a id=""/>
+### Usage of ImmutableJS
+[ImmutableJS](facebook.github.io/immutable-js/) offers a set of high-performance, immutable data structures. Since Redux/React has such a functional paradigm and so much of the application relies on a single, shared state that is passed by reference throughout, it is very important to make sure that the state is treated as immutable. ImmutableJS also provides a coherent and powerful api for dealing with Arrays, Maps, Sets, and more.
+
 # Intermission
 
 So at this point you're probably feeling like:
