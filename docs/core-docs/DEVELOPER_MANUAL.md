@@ -918,10 +918,14 @@ In addition to the custom analytics solution mentioned previously, CMC includes 
 
 <a id=""/>
 ## Upgrading your Project to Latest Version of CMC
-- General Idea (we built it so this would be easier)
+CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC version in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work. These files and folders include:
 
-CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work. These files and folders include:
-
+- `scripts` - These scripts may change in Core. You shouldn't need to tweak these scripts too much and you probably won't have conflicts here. That said, you should probably use your own deploy.sh script customized for your own CI/deployment environment.
+- `AppContainer.js` - 
+- `.travis.yml` - CMC Core .travis.yml file may change from time to time, be careful with this one if you're using Travis CI.
+- `package.json` - 
+- `webpack.config.dev.js` - 
+- `webpack.config.prod.js` - 
 
 This separation between Core and Non-Core is still being tweaked now and then to improve the upgrading process.
 
