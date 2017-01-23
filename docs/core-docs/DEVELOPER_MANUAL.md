@@ -325,6 +325,19 @@ This data flow demonstrates how an interaction flows from the user through Redux
 
 ![Data flow diagram](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow.png)
 
+#### When should I separate a large component into smaller components?
+Of course keeping your code modular and reusable is paramount. However, the overhead involved in making any component
+(defining their proptypes, rendering methods, update conditions, etc) can often overweigh their utility as an independant module.
+Here are some guidelines we've come up with for knowing whether or not it's worth creating a new module.
+
+_Minimum recommendations for a component_:
+* The component returns more than 1 node in the `render` method
+* The component performs 1 or more actions
+* The component has more than 1 display state
+* The component includes logic that would unduely clutter to parent/sibling components
+
+Read up on [ReactJS](facebook.github.io/react/) and [ReduxJS](http://redux.js.org) for more detailed information.
+
 <a id=""/>
 #### Render time matters
 After a state change, React will find all components that are affected (i.e. those components that track the changed piece of state), perform a render of those components in their virtualDOM, performs a diff between their virtualDOM and the current DOM to determin which pieces of the DOM need changing, then update the DOM accordingly. If you have many sequential state updates, your application can quickly become bogged down in this cycle. Some steps to optimize this process are:
