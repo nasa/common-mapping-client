@@ -666,12 +666,71 @@ MiscUtilSpec.generateStringFromSet.test3 = () => {};
 
 excludes that test by overriding the test contents. You can also choose to exclude some or all imported Core test suites by changing what's inside the `testSuites` array in `core-test-overrides.spec.js`.
 
-### Test Coverage and Test Results
-### Using beforeEach and afterEach in and outside of Core.
-### Karma.config.js
-### GPU Enabled Testing (For Cesium) MENTION CHROME VS PHANTOMJS
-### Note about default-data copied over/initial states etc.
+### Local, Asynchonously Loaded Testing Data
+Core tests sometimes make use of use of asynchronous, locally loaded data from `src/_core/tests/data`. This folder contains several files copied over from `src/default-data/_core_default-data` (if you're developing Core tests you will need to make note of this) and some intermediate state object definitions for use in testing. For non-Core tests feel free to import any of the files from `src/_core/tests/data` and/or add your own folder in `src/tests/YOUR_DATA` with your own files.
+
+### Using beforeEach and afterEach
+CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of the Mocha [`beforeEach` and `afterEach` hooks](https://mochajs.org/#hooks) in order to provide an html fixture from the DOM so that the maps have a place to render. In Core, these `beforeEach` and `afterEach` functions are defined in the exported testSuite objects. In non-core tests feel free to use these functions and any other Mocha hooks according to the normal Mocha paradigm.
+
 ### Note about testing async stuff
+
+
+
+
+
+### Test Coverage and Test Results
+Every command used to run tests (e.g. `npm run test`, `npm run test:watch`, etc.) makes use of Karma test reporters (usually in the form of plugins). All tests by default use:
+
+- Progress reporter - Report test progress in console
+- [Karma HTML Reporter](https://www.npmjs.com/package/karma-htmlfile-reporter) - For reporting test results in styled HTML format. The default output folder for these test results is `test-results`, configuration of which will be covered in the next section.
+- [Karma Coverage Reporter](https://github.com/karma-runner/karma-coverage) - For generating code coverage reports in several formats including HTML and lcov. The default output folder for these test results is `coverage`, configuration of which will be covered in the next section. Test coverage is a very handy tool for identifying untested statements, branches, and functions. Learn more about it [here](https://istanbul.js.org/). Note that the coverage plugin will only be aware of files that are run through Karma so if you don't have `spec.js` files for, say, components and none of these components are imported then none of the components will be analyzed in the coverage report. This is something to be aware of when you're trying to estimate the _real_ code coverage of your project. That said, take the overall code coverage percent with a grain of salt. Try to be smart with how you prioritize _what_ you test. Knowing that 100% of your critical math and utility functions are correct with other files only at 25% coverage is probably more valuable than 50% code coverage throughout the entire project.
+
+These default reporters are specified in the `karma.conf.js` configuration but some commands are overridden at runtime using flags. For example, `npm run test` uses the `--reporters=progress,html` to skip code coverage generation. Code coverage does take a bit of extra time so if you're running tests often or using a watched test (like `test:watch`) then it makes sense to skip coverage.
+
+### Karma.conf.js
+CMC Karma testing is configured using a file called `karma.conf.js`. This configuration shouldn't need much tweaking and is heavily commented but there are several important parts to note. 
+
+Karma uses webpack to preprocess the files and must be configured using roughly the same method as the `webpack.config.dev`. If you add more `module` rules or `resolve` rules to your `webpack.config.dev`, you _must_ add these rules to the webpack section in `karma.conf.js` or else Karma will not be able to load your files. This system is something that may be improved upon in the future with some common webpack config shared between webpack configurations but for now that's what needs to be done.
+
+The Karma config options: 
+
+```JSX
+browserNoActivityTimeout: 60000,
+browserDisconnectTolerance: 1,
+browserDisconnectTimeout: 20000,
+```
+are used to control browser timeouts and disconnects while testing. These numbers can be tweaked to allow for some wiggle room when you're testing on lower end machines, say a CI server, and need more time to run tests above the default limits. If you're noticing timeout issues in your testing try playing with these config options.
+
+The Karma config options:
+
+```JSX
+browsers: process.env.TRAVIS ? ['Chrome_travis_ci'] : ['Chrome'],
+
+// Custom launcher for headless CI testing (Travis)
+customLaunchers: {
+    Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox', "--enable-webgl", "--ignore-gpu-blacklist"]
+    }
+},
+```
+relate to the configuration of which browser Karma uses to run tests. Some options include:
+- [Chrome](https://github.com/karma-runner/karma-chrome-launcher)
+- [Firefox](https://github.com/karma-runner/karma-firefox-launcher)
+- [Safari](https://www.npmjs.com/package/karma-safari-launcher)
+- [PhantomJS](https://github.com/karma-runner/karma-phantomjs-launcher)
+
+To run Chrome, Firefox, Safari, and any other standard browsers outside of a standard environment you must run [X Virtual Framebuffer](https://www.x.org/archive/X11R7.6/doc/man/man1/Xvfb.1.xhtml). For example, in the CMC Core `.travis.yml` file (for Travis CI), the following commands are run before package install:
+- `export CHROME_BIN=chromium-browser` - Tell Karma the Chrome path in the Travis Environment
+- `export DISPLAY=:99.0` - Export the display variable used for xvfb
+- `sh -e /etc/init.d/xvfb start` - Start xvfb
+- `sleep 3` - give xvfb some time to start
+
+In the Karma config, we check for the `process.env.TRAVIS` environment variable set in the Travis environment and if it exists we specify a particular browser to use. Otherwise, we use standard native Chrome. Below in `customLaunchers` we configure the Travis Chrome browser base path as well as a few flags to enable WebGL so that we can run CesiumJS.
+
+Using real browsers can be useful since it allows us to test CMC in environments closer to the real end-user environment. Additionally, using a real browser allows us to run all of our tests, including those that utilize WebGL which is something many thin or headless testing browsers don't support well or at all. That said, running Chrome or any of the other standard browsers is slightly more complicated (since it requires xvfb setup and some browser flags which can vary from CI to CI) and a little less performant than using something like [PhantomJS](http://phantomjs.org/), which is a Webkit framework for running headless tests. If you don't need to run WebGL tests or just want to simplify your testing setup you can use PhantomJS, but do note that all tests that rely on the rendering of the CesiumJS 3D map will fail, so you will have to override or ignore these tests.
+
+Learn more about Karma and Karma configuration [here](http://karma-runner.github.io/1.0/config/configuration-file.html).
 
 ## User Analytics
 ### CMC Custom User Analytics
@@ -683,6 +742,10 @@ the currently buffered actions are sent as a JSON string to the defined endpoint
 In addition to the custom analytics solution mentioned previously, CMC includes a React-based Google Analytics component that can be enabled/disabled and configured from appConfig.js. The default behavior is to register the app using a root pageview of '/' but adding more specific pageviews is as easy as calling `ReactGA.pageview('ROUTE')` when desired. For more on the React Google Analytics module please refer to the [React-GA repository](https://github.com/react-ga/react-ga)
 
 ## Upgrading your Project to Latest Version of CMC
+## Something about Layers and Layer Ingestion?
+## Something about OL and Cesium performance (not rendering when not in view, just a note)
+## Known Issues (just say see issues!)
+## Contributing to CMC
 
 
 ## Deployment to Github pages

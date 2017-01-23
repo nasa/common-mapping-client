@@ -40,7 +40,6 @@ module.exports = function(config) {
         preprocessors: {
             // add webpack as preprocessor
             'src/tests/**/*.spec.js': ['webpack'],
-            // 'src/_core/tests/**/*.spec.js': ['webpack']
         },
 
         webpack: {
