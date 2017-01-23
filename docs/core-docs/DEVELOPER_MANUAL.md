@@ -918,22 +918,34 @@ In addition to the custom analytics solution mentioned previously, CMC includes 
 
 <a id=""/>
 ## Upgrading your Project to Latest Version of CMC
-CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC version in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work. These files and folders include:
+CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC version in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work.
 
+##### When to Upgrade
+Upgrading CMC can range from almost painless (one or two merge conflicts) to a bit of work (several merge conflicts, new Core dependencies, etc.) which means that you should plan on giving yourself a bit of time to read up on what's changed in Core since your version (see `docs/core-docs/CHANGELOG.MD`), how much effort it will take to upgrade, and whether or not you really want/need to upgrade. If you're getting quite close to a release you may want to hold off until you have a little more time to upgrade so you can take your time and be careful.
+
+##### Files to Watch out For
 - `scripts` - These scripts may change in Core. You shouldn't need to tweak these scripts too much and you probably won't have conflicts here. That said, you should probably use your own deploy.sh script customized for your own CI/deployment environment.
-- `AppContainer.js` - 
+- `AppContainer.js` - This is just a stub file in Core so you shouldn't see any issues here.
 - `.travis.yml` - CMC Core .travis.yml file may change from time to time, be careful with this one if you're using Travis CI.
-- `package.json` - 
-- `webpack.config.dev.js` - 
-- `webpack.config.prod.js` - 
+- `constants/appConfig.js` - Core and non-Core developers use appConfig.js for various configuration items. This will be something you want to pay attention to when upgrading CMC versions, although [future work](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/39) will address this issue and hopefully keep Core and non-Core application configurations separate and give non-core easy overrides to core appConfig.
+- `tests/core-test-overrides.spec.js` - If Core adds a new Spec file it will need to add an import to this file which in theory shouldn't cause too much trouble. 
+- `package.json` - There's no getting around this one unfortunately with the current architecture. If Core modifies dependencies, updates it's version number (which it will do every time you upgrade), your package.json may be overridden. Make sure you look at what's changed in the Core package.json before upgrading and plan accordingly.
+- `webpack.config.dev.js` - This config will also change from time to time but in theory you shouldn't have to worry about this file too much and any conflicts should be easy to manage.
+- `webpack.config.prod.js` - Same as above.
 
 This separation between Core and Non-Core is still being tweaked now and then to improve the upgrading process.
 
-- Why / why not upgrade, read release notes
-- Danger Files (files that might be in conflict)
-- Upgrade Guide:
-    - How to upgrade (git remote add core ... fetch .., merge but probs into a new branch, then merge that branch into master?)
-    - 
+<a id=""/>
+###### Upgrade Steps
+1. Add cmc-core as a git remote if you haven't done so already by running `git remote add core https://github.jpl.nasa.gov/CommonMappingClient/cmc-core`
+2. Fetch the latest from cmc-core by running `git fetch --tags core`
+3. Make a new branch (optional)
+4. Review the changes that have been made to Core since your version by looking in `docs/core-docs/CHANGELOG.MD`.
+5. Merge in Core by running `git merge <LATEST_TAG>`
+6. Check your `package.json` to make sure Core didn't overwrite anything of yours in the merge.
+7. Run `npm install` to make sure that any packages added in the latest version of CMC get installed
+8. Run your tests with `npm run test` to verify that everything passes
+9. Load up your application and verify that everything works.
 
 <a id=""/>
 ## Something about Layers, Layer Ingestion, Default Data and how it should really be served async from Solr?
