@@ -126,7 +126,7 @@ In general, the best way to start altering a part of `_core` is to copy the piec
 
 <a id=""/>
 ## The CMC Build Process
-![It's really quite straight forward](http://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/black_box.png)
+![It's really quite straight forward](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/black_box.png)
 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, Application Developers may never actually need to modify most of these steps. 
 
