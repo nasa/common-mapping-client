@@ -16,7 +16,7 @@ import TestUtil from '_core/tests/TestUtil';
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,
@@ -42,7 +42,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous.set("loadingInitialData", true);
+                    expected.asynchronous = expected.asynchronous.set("loadingInitialData", true);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -62,7 +62,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous
+                    expected.asynchronous = expected.asynchronous
                         .set("loadingInitialData", false)
                         .set("initialLoadingAttempted", true);
 
@@ -84,7 +84,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous.set("loadingLayerPalettes", true);
+                    expected.asynchronous = expected.asynchronous.set("loadingLayerPalettes", true);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -104,7 +104,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous
+                    expected.asynchronous = expected.asynchronous
                         .set("loadingLayerPalettes", false)
                         .set("paletteLoadingAttempted", true);
 
@@ -126,7 +126,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous.set("loadingLayerSources", true);
+                    expected.asynchronous = expected.asynchronous.set("loadingLayerSources", true);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -146,7 +146,7 @@ export const StoreAsyncSpec = {
                     const actual = {...state };
 
                     const expected = {...initialState };
-                    expected.asyncronous = expected.asyncronous
+                    expected.asynchronous = expected.asynchronous
                         .set("loadingLayerSources", false)
                         .set("layerLoadingAttempted", true);
 

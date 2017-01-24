@@ -77,8 +77,8 @@ function mapStateToProps(state) {
         layerId: state.layerInfo.get("activeLayerId"),
         thumbnailUrl: state.layerInfo.get("activeThumbnailUrl"),
         metadata: state.layerInfo.get("metadata"),
-        dataLoading: state.asyncronous.get("loadingLayerMetadata"),
-        dataLoadingAttempted: state.asyncronous.get("loadingMetadataAttempted")
+        dataLoading: state.asynchronous.get("loadingLayerMetadata"),
+        dataLoadingAttempted: state.asynchronous.get("loadingMetadataAttempted")
     };
 }
 
