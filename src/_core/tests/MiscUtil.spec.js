@@ -622,6 +622,30 @@ export const MiscUtilSpec = {
             test1: () => {
                 expect(miscUtil.getUrlParams()).to.deep.equal([]);
             }
+        },
+        padNumber: {
+            test1: () => {
+                it('pads a number or string up the specified length', () => {
+                    let varIn = [1,"12",112,"1212"];
+                    let varOut = ["0001","0012","0112","1212"];
+                    let padLen = 4;
+
+                    for(let i = 0; i < varIn.length; ++i) {
+                        expect(miscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
+                    }
+                });
+            },
+            test2: () => {
+                it('pads float strings ignoring the .', () => {
+                    let varIn = ["1.0","12.1","112.0","1212.0"];
+                    let varOut = ["001.0","012.1","112.0","1212.0"];
+                    let padLen = 4;
+
+                    for(let i = 0; i < varIn.length; ++i) {
+                        expect(miscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
+                    }
+                });
+            }
         }
     }
 };

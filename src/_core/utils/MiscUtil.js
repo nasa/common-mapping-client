@@ -188,7 +188,15 @@ export default class MiscUtil {
     }
 
     padNumber(num, length, pad = "0") {
+        // convert the number to a string
         num = num + "";
+
+        // check for floating point
+        if(num.indexOf(".") !== -1) {
+            length += 1;   
+        }
+
+        // padd the string
         while(num.length < length) {
             num = pad + num;
         }
