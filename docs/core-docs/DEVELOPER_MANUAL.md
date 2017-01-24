@@ -828,15 +828,14 @@ The testing flow for Core tests is as follows –
 ### Writing Tests for your Application
 
 <a id="writing-tests-normal-non-core"/>
-##### Normal Non-Core Test File (Related Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
-Eventually this description will just point to a stub file, but for now, a non-Core test file should live in the `src/tests` directory and should end in *.spec.js. Inside of this file you should have something looking like:
+Non-Core test files should live in the `src/tests` directory and should end in *.spec.js. In this directory you will find a file named `non-core-test-stub.spec.js` which you should modify for your own use. Inside of this file and any other test files you write you should have something looking like:
 
 ```JSX
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MiscUtil from '_core/utils/MiscUtil';
+import MyUtils from '/utils/MyUtils';
 
-const miscUtil = new MiscUtil();
+const myUtils = new MyUtils();
 
 describe('Misc Utils', () => {
     describe('generateStringFromSet', () => {
@@ -849,7 +848,7 @@ describe('Misc Utils', () => {
             let varOut = 'foo fubar';
 
             //assert
-            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+            expect(myUtils.generateStringFromSet(varIn)).to.equal(varOut);
         });
         it ('...')
     }),

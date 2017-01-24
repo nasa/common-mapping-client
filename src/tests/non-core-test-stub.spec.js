@@ -16,7 +16,7 @@
 //             let varOut = true;
 
 //             //assert
-//             expect(MyUtils.generateHappyCat(varIn)).to.equal(varOut);
+//             expect(myUtils.generateHappyCat(varIn)).to.equal(varOut);
 //         });
 //         it('returns false after generating a non happy cat', () => {
 //             let varIn = {
@@ -25,7 +25,7 @@
 //             let varOut = false;
 
 //             //assert
-//             expect(MyUtils.generateHappyCat(varIn)).to.equal(varOut);
+//             expect(myUtils.generateHappyCat(varIn)).to.equal(varOut);
 //         });
 //     });
 //     describe('generateGrumpyCat', () => {})
