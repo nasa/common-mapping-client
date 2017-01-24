@@ -39,8 +39,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help.set("isOpen", true);
@@ -59,8 +58,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help.set("isOpen", false);
@@ -80,8 +78,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help.set("isOpen", false);
@@ -101,8 +98,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help.set("helpPage", helpPage);
@@ -123,8 +119,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help
@@ -148,8 +143,7 @@ export const StoreHelpSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.help = expected.help

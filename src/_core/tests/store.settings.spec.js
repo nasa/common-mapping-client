@@ -38,8 +38,7 @@ export const StoreSettingsSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.settings = expected.settings.set("isOpen", true);
@@ -56,8 +55,7 @@ export const StoreSettingsSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.settings = expected.settings.set("isOpen", false);
@@ -76,8 +74,7 @@ export const StoreSettingsSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.settings = expected.settings.set("isOpen", false);

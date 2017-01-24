@@ -39,8 +39,7 @@ export const StoreDateSliderSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.dateSlider = expected.dateSlider.set("isDragging", true);
@@ -58,8 +57,7 @@ export const StoreDateSliderSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.dateSlider = expected.dateSlider

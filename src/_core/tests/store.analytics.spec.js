@@ -39,8 +39,7 @@ export const StoreAnalyticsSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
                     actual.analytics = actual.analytics.remove("currentBatch");
 
                     const expected = {...initialState };
@@ -61,8 +60,7 @@ export const StoreAnalyticsSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
                     actual.analytics = actual.analytics.remove("currentBatch");
 
                     const expected = {...initialState };
