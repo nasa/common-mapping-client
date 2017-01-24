@@ -691,12 +691,11 @@ it('initializes 2D and 3D maps', function() {
     ];
     actions.forEach(action => store.dispatch(action));
 
-    const state = store.getState();
-    const actualNumMaps = state.map.get("maps").size;
-    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+    const actual = store.getState();
+    const actualNumMaps = actual.map.get("maps").size;
+    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-    const actual = {...state };
     actual.map = actual.map.remove("maps");
 
     const expected = {...initialState };
@@ -733,18 +732,11 @@ actions.forEach(action => store.dispatch(action));
 Now we pull out a few items out of the state that we wish to examine. This step is performed since these items live in the `maps` part of state which in this case holds Openlayers and Cesium objects which cannot be compared to themselves and are therefore removed later on.
 
 ```JSX
-const state = store.getState();
+const actual = store.getState();
 const actualNumMaps = state.map.get("maps").size;
 const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
-```
 
-Related Issue: [Issue #89](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/88)
-
-Next we make a copy of the state object for no reason (this will be fixed in a later update by [@fplatt](https://github.jpl.nasa.gov/fplatt) who is responsible for this abomination). To do this we use the [JS spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) to expand the state object in place into a new object. This _can_ be useful if you're trying to capture snapshots of the state object to do complex tests but so far it hasn't been used in CMC tests. We also remove the "maps" object from state for reasons stated in the previous paragraph.
-
-```JSX
-const actual = {...state };
 actual.map = actual.map.remove("maps");
 ```
 
@@ -836,15 +828,14 @@ The testing flow for Core tests is as follows –
 ### Writing Tests for your Application
 
 <a id="writing-tests-normal-non-core"/>
-##### Normal Non-Core Test File (Related Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
-Eventually this description will just point to a stub file, but for now, a non-Core test file should live in the `src/tests` directory and should end in *.spec.js. Inside of this file you should have something looking like:
+Non-Core test files should live in the `src/tests` directory and should end in *.spec.js. In this directory you will find a file named `non-core-test-stub.spec.js` which you should modify for your own use. Inside of this file and any other test files you write you should have something looking like:
 
 ```JSX
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import MiscUtil from '_core/utils/MiscUtil';
+import MyUtils from '/utils/MyUtils';
 
-const miscUtil = new MiscUtil();
+const myUtils = new MyUtils();
 
 describe('Misc Utils', () => {
     describe('generateStringFromSet', () => {
@@ -857,7 +848,7 @@ describe('Misc Utils', () => {
             let varOut = 'foo fubar';
 
             //assert
-            expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
+            expect(myUtils.generateStringFromSet(varIn)).to.equal(varOut);
         });
         it ('...')
     }),
