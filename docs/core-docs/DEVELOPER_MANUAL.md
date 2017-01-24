@@ -1,5 +1,5 @@
 # Developer Manual (CMC Version 1.0)
-A detailed guide on getting starting with the Common Mapping Client. This guide is aimed at developers  who may not be familiar with many of these technologies and concepts but have used other JS frameworks before to build complex web applications. It is our hope that this document can serve as useful reference for the major aspects of the CMC system for CMC and non-CMC developers as well as some justification for why certain technology and architectural decisions were made.
+A detailed guide on getting starting with the Common Mapping Client. This guide is aimed at developers who may not be familiar with many of these technologies and concepts but have used other JS frameworks before to build complex web applications. It is our hope that this document can serve as useful reference for the major aspects of the CMC system for CMC and non-CMC developers as well as some justification for why certain technology and architectural decisions were made.
 
 ## Table of Contents
 1. [Installation Guide](#installation-guide)
@@ -46,6 +46,12 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
 19. [Contributing to CMC / Who to contact](#example)
 19. [Main Technologies Under the Hood](#example)
 
+<a id="">
+## Terminology
+Some terms and synonyms that you will see throughout this document
+* **CMC Core**: This repository. Also known as "CMC" and "Core"
+* **Application Developer**: Developers using CMC to create their own applications and are not necessarily contributing to the CMC Core project. Also known as "Non-Core Developers".
+
 <a id="installation-guide"/>
 ## Installation guide
 Make sure you have [NodeJS](https://nodejs.org/en/) 4.4 or higher installed before continuing.
@@ -58,12 +64,12 @@ Next, start the development server by running:
 
 * `npm start`
 
-Your default browser should open to `localhost:3000` and you should see a default mapping application.
+Your default browser should open to `localhost:3000` and you should see the default CMC application.
 
 To create a production build run:
 
 * `npm run build` (may take a few minutes)
-* `npm run open:dist` (to open the build using the included distribution server)
+* `npm run open:dist` (to open the build using the included node server)
 
 <a id="overview-of-commands-from-packagejson"/>
 ## Package.json Scripts Overview
@@ -98,43 +104,56 @@ NPM packages are installed and removed using the following commands. The `--save
 * Remove a package : `npm remove <package_name> --save`
 
 <a id=""/>
-## The CMC "_core" Philosophy
+## The CMC Core Philosophy
 
 <a id=""/>
 ### General
-As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex map based applications. To avoid bloat and feature creep, if a capability or widget is needed in the majority of mapping applications, it will not be part of CMC. CMC Core, the bulk of which is located in the "/_core" directory, is all of the code that the application developer should only need to reference, duplicate and modify, or exclude. Separating Core code out from the future developers' code is helpful for maintaining a lean Core codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the other developers' work.
+As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex mapping applications. To avoid bloat and feature creep, if a capability or widget is not needed in the majority of mapping applications, it will not be part of CMC.
 
 <a id=""/>
 ### The "_core" Directory
-Inside of the `src/_core` directory lives the bulk of the CMC Core application code. All of the React components, Redux-related code, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `_core/components/App/AppContainer.js` which is the root level React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the _core imports are done in `src/reducers/index.js`. 
+Inside of the `src/_core` directory lives the bulk of the CMC Core application code. This is code that an Application Developer should only need to reference, duplicate and modify, or exclude. Separating Core code out is helpful for maintaining a lean codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the Application Developer's work.
 
 <a id=""/>
 ### Adding, Overriding, and Removing "_core" Functionality & Components
-You as the developer can choose to use CMC-Core's AppContainer.js as it is and merely change config files to point at other layers or you can build your own AppContainer.js to remove core components, duplicate core components and modify them, or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly. It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from core in the parent `src` folder. Similar to components, you can swap out utilities Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override certain MapWrappers (map functionality implementation classes for specific map libraries like Openlayers and Cesium) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that Core is by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
+All of the Core Components, Reducers, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `_core/components/App/AppContainer.js` which is the root React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the Core imports are done in `src/reducers/index.js`.
 
-In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md) to see this in action.
+An Application Developer can choose to use CMC Core's AppContainer as it is and merely change config files to fetch different map layers or you can build your own AppContainer to remove/duplicate/modify Core components or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly.
+
+It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC Core (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from Core in the parent `src` folder. Similar to components, you can swap out utility Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override MapWrapper classes (which are described in more detail later) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that CMC Core by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data/`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
+
+In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) to see this in action.
 
 <a id=""/>
 ## The CMC Build Process
-[It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup). 
-The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, non-core developers may never actually need to modify most of these steps. 
+![It's really quite straight forward](http://chucksblog.typepad.com/.a/6a00d83451be8f69e201bb07e83109970d-popup)
+
+The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, Application Developers may never actually need to modify most of these steps. 
 
 <a id=""/>
 ### Post-Install
 After `npm install` runs successfully, npm automatically looks for a script called `postinstall`. The `package.json` file contains a script called `postinstall` which points to a shell script `scripts/postinstall.sh`, so npm sees this and runs this script. This `scripts/postinstall.sh` script is used to add the `assets/assets` folder for serving static files asynchronously in production. After the folder is added, several libraries and images from `node_modules`, `src/_core`, and `lib` are added into `assets/assets`. Serving files from `assets/assets` is a useful last resort approach for files that aren't behaving well with webpack, libraries that require asynchronous  loading of files and data (like Cesium), etc.
+
+**Why `assets/assets`?** Good question. Our development node server serves multiple directories as if they were contained in one root directory. We created this assets structure in order to mimic what the production environment really looks like.
 
 <a id=""/>
 ### Webpack
 In short:
 > webpack takes modules with dependencies and generates static assets representing those modules.
 
-Webpack is one of the most popular module bundlers or build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better. CMC uses webpack version 1 for now although weback version 2 is coming out as of early 2017 so CMC may upgrade to the new version if time and stability permit. Read more about webpack version 1 over in the docs [https://webpack.github.io/docs/](here).
+Webpack is one of the most popular module bundlers or build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better.
+
+CMC uses webpack version 1 for now although weback version 2 is coming out as of early 2017 so CMC may upgrade to the new version if time and stability permit. Read more about webpack version 1 over in the docs [here](https://webpack.github.io/docs/).
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack is driven from a JS configuration file (or multiple files in our case for development and production).
 
 <a id=""/>
-##### Brief Overview
-CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now). One configuration, `webpack.config.dev.js`, is used for development versions of CMC and is configured to provide [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. The other configuration, `webpack.config.prod.js`, is used for production and produces the optimized, minified, uglified, duplicate dependency reduced, static application output. 
+##### How CMC Uses Webpack
+CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now).
+
+`webpack.config.dev.js`, is used for development versions of CMC and is configured to provide [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page.
+
+`webpack.config.prod.js`, is used for production and creates the optimized, minified, uglified, duplicate dependency reduced, static application output under `dist`. 
 
 <a id=""/>
 ##### Development Mode
@@ -152,11 +171,11 @@ After `prebuild` has successfully run, npm will run `scripts/build.js`. This scr
 
 After the build has run, npm automatically looks for a script called `postbuild` which we also have specified in `package.json`. Now `scripts/postbuild.sh` runs and copies over `src/default-data` and `assets/*` into the output `dist` directory so they can be accessed asynchronously after application load.
 
-Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
+Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm run open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
 <a id=""/>
 ##### Brief Note on Cesium + Webpack Integration
-Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS javascript file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and we tend to map the global cesium variable to instance variables for consistency.
+Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and CMC maps the global cesium variable to a instance variables for consistency.
 
 <a id=""/>
 ##### Brief Note on ESLint
@@ -171,7 +190,7 @@ to
 _Please, please, don't disable this rule though. Use `const` and `let`! Embrace ES6!_
 
 
-There may also be situations in which you only want to ignore certain cases in your code where you are forced to break certain rules. In this case, you can use ESLint comments in your code to tell ESLint to ignore a certain rules in certain places. For example, in the CMC Core Help component `/src/_core/components/Help/HelpContainer.js` ignores the `react/no-danger` ESLint rule that is normally active to warn developers against using the risky-if-not-used-properly React [dangerouslySetInnerHTML](https://facebook.github.io/react/docs/dom-elements.html#dangerouslysetinnerhtml). In this case, CMC uses the attribute since it needs to insert some HTML (from Markdown files) in string form without explicitly parsing content and building HTML elements. To suppress the ESLint warning for this particular case, CMC uses the following ESLint inline comment syntax: 
+There may also be situations in which you only want to ignore certain cases in your code where you are forced to break certain rules. In this case, you can use ESLint comments in your code to tell ESLint to ignore a certain rules in certain places. For example, the CMC Core Help component `/src/_core/components/Help/HelpContainer.js` ignores the `react/no-danger` ESLint rule that is normally active to warn developers against using the risky-if-not-used-properly React [dangerouslySetInnerHTML](https://facebook.github.io/react/docs/dom-elements.html#dangerouslysetinnerhtml). In this case, CMC uses the attribute since it needs to insert some HTML (from Markdown files) in string form without explicitly parsing content and building HTML elements. To suppress the ESLint warning for this particular case, CMC uses the following ESLint inline comment syntax: 
 
 ```JSX
 <div className={!this.props.helpPage ? 'hidden' : 'help-page'} 
@@ -184,7 +203,7 @@ Other forms of ESLint ignore comments are used in CMC. Learn more about ESLint a
 
 <a id=""/>
 ### Brief Note on Serving CMC
-CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production /dist bundle.
+CMC ships with a BrowserSync server used to serve development and production versions locally. BrowserSync is great for development and testing but is not ideal for real world production use. Instead, use whatever static file server you're comfortable with like NGINX or Apache to serve your production `dist/` directory.
 
 <a id=""/>
 ## Styling CMC
@@ -194,6 +213,8 @@ The following sections outline how CMC is styled, how CMC styles are written, or
 ### React UI Component Library (React-Toolbox)
 [React-Toolbox](http://react-toolbox.com/) is a React UI Component library
 that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline CSS, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+
+**Why don't you like inline CSS**? Inline CSS is very difficult to override. The only option is to use `!important` which creates very brittle style structures. CMC was unable to find any component library that required no style modifications to suit it's needs (which is quite a common problem) and so the ability to modify styles cleanly and consistently was paramount.
 
 <a id=""/>
 ### SASS Usage
@@ -222,7 +243,7 @@ Other important SASS files are:
 
 <a id=""/>
 ### Overriding Core Styles
-As was mentioned in a previous section, you can override Core styles by either overriding certain styles in your own SASS that you import in `src/styles/styles.scss` or by removing the import of `src/_core/styles/styles.scss` in `src/styles/styles.scss` and importing only certain Core SASS files. 
+You can override Core styles by modifying `src/styles/styles.scss` to either override Core styles or by removing the import of `src/_core/styles/styles.scss` and importing only certain Core SASS files.
 
 <a id=""/>
 ### Overriding React-Toolbox SASS Variables
@@ -242,7 +263,7 @@ Roboto Mono is recommended for use as a contrasting font in limited cases includ
 
 <a id=""/>
 ### postCSS
-CMC uses [postCSS](http://postcss.org/) as part of it's webpack build process (both development and production). PostCSS provides a framework for CSS plugins that make writing CSS easier. We use [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
+CMC uses [postCSS](http://postcss.org/) in both it's development and production webpack build processes. PostCSS provides a framework for CSS plugins that make writing CSS easier. CMC uses [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
 
 ```CSS
 transition: opacity 0.1s linear 0s;
@@ -257,7 +278,7 @@ Normally to ensure cross-browser compatibility you'd want to look up and add all
         transition: opacity 0.1s linear 0s; /* IE10+, Firefox 16+, Chrome 36+, Opera 12.10 */
 ```
 
-This is a huge pain and it means you have to constantly change multiple copies of the same CSS property over and over. Luckily, postCSS solves this problem by automatically adding these browser prefixes to your CSS, meaning you can stick to only writing the standard version of the property:
+This is a huge pain and it means you have to constantly change multiple copies of the same CSS property over and over. Luckily, autoprefixer solves this problem by automatically adding these browser prefixes to your CSS, meaning you can stick to only writing the standard version of the property:
 
 ```CSS
 transition: opacity 0.1s linear 0s;
@@ -294,24 +315,20 @@ const FacebookIcon = () => (
 
 <a id=""/>
 ## Components and State with React & Redux
-[The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independent
-modules. Those modules then base their rendering on a state machine you define for them and React takes care of
-efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes
-that state machine and creates a single data flow path to keep everything coherent. In general, try to keep
-every aspect of the rendering located and editable in the state.
+[The React framework](https://facebook.github.io/react/) let's you break all of your UI components up into independent modules. Those modules then base their rendering on a state machine you define for them and React takes care of
+efficiently determining when and how much to edit the DOM. [Redux](http://redux.js.org/) centralizes that state machine and creates a single data flow path to keep everything coherent. In general, try to keep every aspect of the rendering located and editable in the state.
 
-Most of the syntax for components and the filestructure paradigm are driven by Redux more than React. Here are the main
-pieces of React/Redux that we deal with:
+Most of the syntax for components and the file structure paradigm are driven by Redux more than React. Here are the main pieces of React/Redux that we deal with:
 
-* **Store** - Wraps the application state and provides an api to dispatch _actions_ that create a new state. The store will then pass that new state to React to render the new applcation state in the DOM.
-* **State** - One big object that represents the current state of the application. The combination of this and the reducer constitutes the application's state machine.
-* **Reducers** - These functions accept the current state of the applicaiton and an action object. They then perform an update to create the new applicaiton state that will be passed back to the store.
+* **Store** - Wraps the application state and provides an API to dispatch _actions_ that create a new state. The store will then pass that new state to React to render the new application state in the DOM.
+* **State** - One big object that represents the current state of the application. The combination of this and the reducers constitutes the application's state machine.
+* **Reducers** - These functions accept the current state of the application and an action object. They then perform an update to create the new application state that will be passed back to the store.
 * **ReducerFunctions** - These are the actual function definitions that the Reducer will call to modify the state. This layer of indirection was developed in CMC to make overrides and expansion of Core reducers cleaner.
 * **Actions** - These are JS objects, or functions that return JS objects, that contain action definition data. In CMC Core, the functions under `Actions/` create these objects.
 * **Components** - These are the React objects that define a component's render logic within the DOM. They track some subset of the application state to base their rendering on and can dispatch actions to modify the application state.
 * **Containers** - These are Components that primarily aggregate smaller components. They will often track very little state but may define a common action abstraction that is passed to children components. They let you group related components together while isolating their rendering.
   * _Note_: CMC Core does not strictly adhere to this definition at present but is slowly migrating to this paradigm
-* **Models** - These are smaller pieces of the application state that let you modularlize state and create re-usable object models.
+* **Models** - These are smaller pieces of the application state that let you modularize state and create re-usable object models.
   * _Note_: This is not strictly a React/Redux idiom
 * **Constants/ActionTypes** - These are constant strings that are used to uniquely identify actions. They are not strictly necessary but are useful to avoid simple errors.
 
@@ -321,26 +338,15 @@ pieces of React/Redux that we deal with:
 <a id=""/>
 #### A diagram of the data flow
 
-This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on an off. Notice how the actual DOM that the user sees isn't updated until the end.
+This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on and off. Notice how the actual DOM that the user sees isn't updated until the end.
 
 ![Data flow diagram](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow.png)
-
-#### When should I separate a large component into smaller components?
-Of course keeping your code modular and reusable is paramount. However, the overhead involved in making any component
-(defining their proptypes, rendering methods, update conditions, etc) can often overweigh their utility as an independant module.
-Here are some guidelines we've come up with for knowing whether or not it's worth creating a new module.
-
-_Minimum recommendations for a component_:
-* The component returns more than 1 node in the `render` method
-* The component performs 1 or more actions
-* The component has more than 1 display state
-* The component includes logic that would unduely clutter to parent/sibling components
 
 Read up on [ReactJS](facebook.github.io/react/) and [ReduxJS](http://redux.js.org) for more detailed information.
 
 <a id=""/>
-#### Render time matters
-After a state change, React will find all components that are affected (i.e. those components that track the changed piece of state), perform a render of those components in their virtualDOM, performs a diff between their virtualDOM and the current DOM to determin which pieces of the DOM need changing, then update the DOM accordingly. If you have many sequential state updates, your application can quickly become bogged down in this cycle. Some steps to optimize this process are:
+#### Render Time Matters
+After a state change, React will find all components that are affected (i.e. those components that track the changed piece of state), perform a render of those components in their virtualDOM, performs a diff between their virtualDOM and the current DOM to determine which pieces of the DOM need changing, then update the DOM accordingly. If you have many sequential state updates, your application can quickly become bogged down in this cycle. Some steps to optimize this process are:
 
  * Break up your components into more isolated pieces (wrapping them in a container lets you continue to think of them as a whole)
  * Reduce the amount of state each component tracks
@@ -349,43 +355,43 @@ After a state change, React will find all components that are affected (i.e. tho
    * **Note**: this is not often recommended as it circumvents the Redux paradigm of a single state, but CMC Core has found this approach useful when performance becomes bottlenecked
 
 <a id=""/>
-#### Dispatched state updates are syncronous
+#### Dispatched State Updates are Synchronous
 When a component dispatches an action to the Redux store, the store will update the state and push the update to React. React will then go through it's render process. Once completed the call to the dispatch will return. 
 
 <a id=""/>
-#### Components get updated props even if shouldComponentUpdate returns false
+#### Components Get Updated Props Even if `shouldComponentUpdate()` Returns `false`
 If a component needs to track a piece of state to dispatch actions but doesn't need it to determine its rendering, `shouldComponentUpdate()` can return false when that piece of state changes but it will still have the updated piece of state when dispatching the action.
 
 <a id=""/>
-#### Asyncronous actions use functions taht return Promises
-Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a Promise. The Promise will be tracked by the Thunk middleware in the CMC store. For an example of this, look at `src/_core/Actions/LayerActions.js:loadInitialData()`
+#### Asynchronous Actions use Functions that Return Promises
+Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a Promise. The Promise will be tracked by the Thunk middleware in the CMC store. For an example of this, look at `loadInitialData()` in `src/_core/Actions/LayerActions.js`.
 
 <a id=""/>
 ### CMC React & Redux Idioms
 
 <a id=""/>
 #### In the Store
-CMC uses [thunk middleware](github.com/gaearon/redux-thunk) in its store to allow for actions that perform asyncronous operations (such as fetching external resources). In a future version, we may also include something like [Redux Batched Updates](github.com/acdlite/redux-batched-updates) to remove unwanted renderings.
+CMC uses [Thunk Middleware](github.com/gaearon/redux-thunk) in its store to allow for actions that perform asynchronous operations (such as fetching external resources). In a future version, we may also include something like [Redux Batched Updates](github.com/acdlite/redux-batched-updates) to remove unwanted renderings.
 
 <a id=""/>
 #### With Maps
-In its purest the form, React and Redux would have the currently displayed DOM be simply a reflection of what is in the state. This places a heavy burden on Rect as it must perform a diff between the current and next DOM on each state update. This also means that you are expected to place all rendered components in the React/Redux cycle so that React can take care of those changes for you. However, this paradigm breaks for thinks like maps because their rendering is handled by mapping libraries and are often rendered directly on a canvas element, which has no dicernable DOM updates to manage. Now a very React approach would be:
+In its purest the form, React and Redux would have the currently displayed DOM be simply a reflection of what is in the state. This places a heavy burden on React as it must perform a diff between the current and next DOM on each state update. This also means that you are expected to place all rendered components in the React/Redux cycle so that React can take care of those changes for you. However, this paradigm breaks for thinks like maps because their rendering is handled by mapping libraries and are often rendered directly on a canvas element, which has no discernible DOM updates to manage. A React idiomatic approach would be:
 
 1. On each state change, read the expected state of the map and the current state of the map
-    1. e.g. Which layers are active? What are their opacities? Their order? What is the current view BBox?
+    1. e.g. Which layers are active? What are their opacities? Their order? What are the current lat/lon bounds on the view?
 2. Compare the two states
 3. Perform the necessary updates on the map to conform it to the expected state
 
-The issue with this approach simpley of scale. There are so many aspects of map rendering that may or may not be library specific that building out this diffing ability would be beyond cumbersome and slow. Instead, CMC takes the following approach:
+The issue with this approach simply one of scale. There are so many aspects of map rendering which may or may not be library specific that building out this diffing ability would be beyond cumbersome and slow. Instead, CMC takes the following approach:
 
-1. Dispatch a map update to the store (e.g. turn on a layer)
+1. On each dispatch to the store (e.g. to turn on a layer)
 2. Perform the update on the map object
 3. Update the state accordingly
   1. If the update succeeded, set the layer object in the state to active
   2. If the update failed, do not update the layer object in the state but add an error alert
 4. Return the updated state
 
-This allows CMC to avoid tracking any map state except for what is needed by components to render as well as skip large amounts state comparisons.
+This allows CMC to avoid tracking any map state except for what is needed by components to render correctly as well as skip large amounts state comparisons.
 
 This deviation in data flow is shown below. In this diagram, we use the same premise as the data flow diagram above with one change, the switch will now toggle a layer on the map on or off. Notice how the DOM for the switch is again not updated until the end but the map is updated from within the reducer itself.
 
@@ -394,72 +400,72 @@ This deviation in data flow is shown below. In this diagram, we use the same pre
 <a id=""/>
 #### With D3
 
-[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially takes care of the dynamic renderings we don't care to keep in the global state. We create a React/Redux component to manage the data flow between D3 and the rest of the application as well as provide a
-sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
+[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially replaces the React rendering functions. We create a React component to manage the data flow between D3 and the rest of the application as well as provide a sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
 
-This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the d3 component that it creates as an instance variable.
+This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the D3 component that it creates as an instance variable.
 
-Here is a data flow diagram to demonstrate this flow. In this example we are again toggling on a switch, however here we are assuming the switch is a d3 component. Notice how the render cycle behaves normally all the way until component render time at which point the changes to the DOM are offloaded to the d3 component and React does not need to do anything.
+Here is a data flow diagram to demonstrate this. In this example we are again toggling on a switch, however here we are assuming the switch is a D3 component. Notice how the render cycle behaves normally up until component render time at which point the changes to the DOM are offloaded to D3 and React does not need to do anything.
 
-![Data flow diagram - d3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
+![Data flow diagram - D3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
 
 <a id=""/>
 ### Notes on Optimizing React/Redux Performance
-This is a collection of things CMC has run into in its development but there is a wealth of information out there on optimizing React/Redux applications so please don't stop here if you're interested in boosting your application's performance.
+This is a collection of things CMC has run into in its development but there is a wealth of information out there on optimizing React/Redux applications so please don't stop here if you're interested in boosting your application's performance. And remember kids, **Measure First, Optimize Later**
 
 <a id=""/>
 #### Key Performance Areas
-  * **React's Render Cycle**: this is the section of the application after the reducers have updated the state and React is now updating the components and UI. As explained above, React has to do a fair amount of work to decide what needs updating, how to update it, and to actually update the DOM accordingly. Methods to improve this section is to:
+  * **React's Render Cycle**: Specifically the section after the reducers have updated the state and React is now updating the components and UI. As explained above, React has to do a fair amount of work to decide what needs updating, how to update it, and to actually update the DOM. This section if likely to be the most profitable in terms of increasing performance. Methods to improve this section are:
     * Use logging or React-DevTools to profile which components are rendering when
     * Reduce the number of props and amount of state components rely on
     * Use smaller, more isolated components
     * Use `shouldComponentUpdate()` to cut down on unnecessary renders
     * Use instance variables and `forceUpdate()` within components to skip the Redux/React cycle entirely. This will force React to go straight to a render of the component, skipping all the steps in between. Note that this technique is not often recommended as it circumvents the Redux paradigm of a single state. The only times this technique is really appropriate is with state changes/renderings that can safely live outside the central state without harm to the user. These should be very small things and there is no hard and fast rule for defining them.
     * Use middleware to batch your updates. In some cases, there are several state updates that happen sequentially. It may not be necessary to render the states in between these actions so using middleware to roll all the state updates into one avoids this issue entirely in some cases.
-    * Delay/Batch updates for the component. For this, we'll use the example of the `src/_core/components/Share/ShareContainer.js` component. It needs to remain constantly up to date with the state of the application so that at any time the user can copy the url from the browser to share the application with someone else. That means that on each state update, the ShareContainer has to update. With certain action sequences (such as adjusting layer opacity) it's very possible for that call to render to come 100+ times in under 0.5sec. The actual render time for this component is far from trivial as it is reading a large amount of the state and constructing a string to represent that state. To cut down on the need for rendering this component, CMC implemented a timeout that waits 0.5s from when a render is first fired to actually read the state and render itself. That effectively batches all the state updates that occur within that 0.5s together so that the number of renders required for that component has been cut from 100+ to 1.
+    * Delay/Batch updates for individual components. For this, we'll use the example of the `src/_core/components/Share/ShareContainer.js` component. It needs to remain constantly up to date with the state of the application so that at any time the user can copy the url from the browser to share the application with someone else. That means that on each state update, the ShareContainer has to update. With certain action sequences (such as adjusting layer opacity) it's very possible for the call to render to come 100+ times in under 0.5sec. The actual render time for this component is non-trivial as it is reading a large amount of the state and constructing a string to represent that state. To cut down on the need for rendering this component, CMC implemented a timeout that waits 0.5s from when a render is first fired to actually read the state and render itself. That effectively batches all the state updates that occur within that 0.5s together so that the number of renders required for that component has been reduced from 100+ to 1.
   * **Reducer Functions**: State updates can be costly, depending on your data structures and the extent of changes needed. CMC uses ImmutableJS to keep state updates isolated from each other and to provide high performance data structures. Some tips to improve in this section are:
-    * Use Maps over Lists when possible. ImmutableJS provides nearly identical APIs for Maps and Lists. It may not always make sense to use a Map but they provide constant time data access which can be a major boon in many cases.
+    * Use Immutable.Maps instead of Immutable.Lists when possible. ImmutableJS provides nearly identical APIs for Maps and Lists. It may not always make sense to use a Map but they provide constant time data access which can be a major boon in many cases.
     * Make state changes as functional as possible. The fewer extraneous actions that occur in each reducer, the better.
   * **Layer Rendering on the Map**: For a layer to render, the mapping library will need to fetch the resources (images/data files) necessary, decode those resources, then draw them onto the canvas. It must repeat that process whenever the map view changes or layers are added/removed. Ways to improve this are:
     * Use tiled datasets. This allows the library to parallelize resource gathering and cache resources more efficiently
     * Don't use large vector datasets. This goes along with tiling but large vector datasets require a greater amount of computation to render.
+  * **Beware D3 Renderings**: Rendering in D3, if done too often with fancy transitions can easily hog CPU power since (unlike React) there is no DOM diffing done to avoid unnecessary renderings. Pay attention to your D3 components to ensure they render only when needed and that your svg transitions are simple.
 
 <a id=""/>
-#### Additional techniques in improving performance
+#### Additional Techniques in Improving Performance
   * **Chrome Timeline Tool**: Learn to use this and you will quickly be able to narrow in on which actions cost you the most and where to focus your efforts.
-  * **React-DevTools**: This offers many tools for quickly checking your application state during runtime and tracking changes as they occur to find extraneous renderings/state tracking.
+  * **React-DevTools**: This browser extension offers many tools for quickly checking your application state during runtime and tracking changes as they occur to find extraneous renderings.
 
 <a id=""/>
 #### Usage of ImmutableJS
-[ImmutableJS](facebook.github.io/immutable-js/) offers a set of high-performance, immutable data structures. Since Redux/React has such a functional paradigm and so much of the application relies on a single, shared state that is passed by reference throughout, it is very important to make sure that the state is treated as immutable. ImmutableJS also provides a coherent and powerful api for dealing with Arrays, Maps, Sets, and more.
+[ImmutableJS](facebook.github.io/immutable-js/) offers a set of high-performance, immutable data structures. Since Redux/React emphasizes a functional paradigm and so much of the application relies on a single, shared state that is passed by reference throughout, it is very important to make sure that the state is treated as immutable. ImmutableJS also provides a coherent and powerful API for dealing with Arrays, Maps, Sets, and more.
 
 <a id=""/>
 ## Mapping With CMC
-CMC uses [Openlayers3](openlayers.org) and [Cesium](http://cesiumjs.org) as their default mapping libraries. As noted in the diagram above, these mapping libraries sit slightly removed from the normal React/Redux cycle and are interacted with through an abstraction layer called a **MapWrapper** (`src/_core/utils/MapWrapper.js`). The MapWrapper abstraction is used so that the actual mapping library used can be changed to suit any given applications needs.
+CMC uses [Openlayers3](openlayers.org) and [Cesium](http://cesiumjs.org) as its default mapping libraries. As noted in the diagram above, these mapping libraries sit slightly removed from the normal React/Redux cycle and are interacted with through an abstraction layer called a **MapWrapper** (`src/_core/utils/MapWrapper.js`). The MapWrapper abstraction is used so that the actual mapping library used can be changed to suit any given applications needs.
 
 <a id=""/>
-### Why did we choose Ol3 and Cesium?
+### Why Did CMC Choose Ol3 and Cesium?
 These two libraries were chosen for a few reasons:
 
-* They each provide a large and robust feature set that will accomodate most applications' needs
-* Strong community involvement for both libraries
+* They each provide a large and robust feature set that will accommodate most applications' needs
+* Strong community involvement for both
 * Together they demonstrate the flexibility of the MapWrapper abstraction
 * Cesium is by far the best WebGL based, open sourced 3D mapping library
 * Why not leaflet or ArcGIS JS?
   * Leaflet relies too much on third-party plugins to provide a rich feature set. These plugins are often not well maintained and managing them can easily become overwhelming
-  * ArcGIS JS is closed source and built with Dojo in mind and does not meet the flexibility requirements we needed to support many unique projects
+  * ArcGIS JS is closed source and built with Dojo in mind and does not meet the flexibility requirements CMC needed to support many unique projects
 
 <a id=""/>
 ### Replacing these libraries
-If an application wants to use Leaflet for its own purposes, they need only create their own `MapWrapper_Leaflet.js` class that extends our base class, modify the `MapCreator.js` file to instantiate that class instead of the default and that's it. You can see examples of this here: [Example Projects](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-core/blob/master/docs/EXAMPLE_PROJECTS.md). 
+If an Application Developer wants to use Leaflet for their project, they need only create their own `MapWrapper_Leaflet.js` class that extends CMC Core's base `MapWrapper` class, modify the `MapCreator.js` file to instantiate that class instead of the default and that's it. You can see examples of this here: [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md). 
 
 <a id=""/>
 ### Overview of the MapWrapper classes
-The MapWrapper class provides an abstracted API for the Reducer functions to interact with the map objects. This allows the reducers to be completely ignorant of what kind of map they are operating on (2D or 3D or WebGL or DOM based etc). Each individual MapWrapper class inherits from the base MapWrapper abstract class (we say abstract though JS really has no such thing) and uses Composition to maintain a backing instance of a map object from the library it uses. Then for each abstracted method, the MapWrapper operates on this map instance, catches any errors that occur and returns a success or failure to the caller. In addition, the MapWrapper class can be extended to build complex features around the mapping library. This includes things like extracting data from tiles which involves overriding the mapping library's method for requesting image tiles, reading the data from the fetched resources, and storing that off within the MapWrapper for later reference.
+The MapWrapper class provides an abstracted API for the Reducer functions to interact with the map objects. This allows the reducers to be completely ignorant of what kind of map they are operating on (2D or 3D or WebGL or DOM based etc). Each individual MapWrapper class inherits from the base MapWrapper abstract class (we say abstract though JS really has no such thing) and uses Composition to maintain a backing instance of a map object from the library it uses. For each abstracted method, the MapWrapper operates on this map instance, catches any errors that occur and returns a success or failure to the caller. In addition, the MapWrapper class can be extended to build complex features around the mapping library. For example, extracting data from tiles involves overriding the mapping library's method for requesting image tiles, reading the data from the fetched resources, and storing that off within the MapWrapper for later reference.
 
 <a id=""/>
 ### Notes on Map Performance
-Openlayers and Cesium are both aware of their visibility to some extent. This means that they will delay rendering if thier containing domNodes have `display: none;` styling. This allows MapReducers and the MapWrapper to operate on the map while it is not displayed without fear of it rendering in the background. Note however that the instance does not simply dissappear and that, once initiated, Cesium can become a resource hog.
+Openlayers and Cesium are both aware of their visibility in the DOM to some extent. This means that they will delay rendering if their containing domNodes have `display: none;` styling. This allows MapReducers and the MapWrapper to operate on the map while it is not displayed without fear of it rendering in the background. Note however that the instance does not easily give up resources and once initiated Cesium in particular can become a resource hog.
 
 # Intermission
 
@@ -731,7 +737,7 @@ where initialState is defined as an object mirroring the state model you've prev
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,
