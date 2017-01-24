@@ -42,8 +42,7 @@ export const StoreLayerInfoSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.layerInfo = expected.layerInfo
@@ -69,8 +68,7 @@ export const StoreLayerInfoSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.layerInfo = expected.layerInfo

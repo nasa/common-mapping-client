@@ -62,12 +62,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     const actualAlerts = actual.map.get("alerts").toJS().map(x => {
                         delete x.time;
                         return x
@@ -102,12 +101,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -129,12 +127,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -157,12 +154,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -185,12 +181,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -213,10 +208,9 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -239,10 +233,9 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -266,10 +259,9 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -292,11 +284,10 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -321,11 +312,10 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -349,11 +339,10 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -379,11 +368,10 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -408,11 +396,10 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -443,12 +430,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -477,12 +463,11 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actualNumMaps = state.map.get("maps").size;
-                    const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const actual = store.getState();
+                    const actualNumMaps = actual.map.get("maps").size;
+                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -508,8 +493,7 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.map = expected.map.set("date", newDate);
@@ -537,9 +521,8 @@ export const StoreMapSpec = {
                         ];
                         zoomActions.forEach(action => store.dispatch(action));
                         setTimeout(() => {
-                            const state = store.getState();
+                            const actual = store.getState();
 
-                            const actual = {...state };
                             const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
                             actual.map = actual.map.remove("maps");
 
@@ -575,9 +558,8 @@ export const StoreMapSpec = {
                         ];
                         zoomActions.forEach(action => store.dispatch(action));
                         setTimeout(() => {
-                            const state = store.getState();
+                            const actual = store.getState();
 
-                            const actual = {...state };
                             const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
                             actual.map = actual.map.remove("maps");
 
@@ -615,9 +597,8 @@ export const StoreMapSpec = {
                         ];
                         zoomActions.forEach(action => store.dispatch(action));
                         setTimeout(() => {
-                            const state = store.getState();
+                            const actual = store.getState();
 
-                            const actual = {...state };
                             const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
                             actual.map = actual.map.remove("maps");
 
@@ -642,9 +623,8 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -680,9 +660,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -721,9 +700,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -760,9 +738,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -799,9 +776,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -840,9 +816,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -881,9 +856,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -923,9 +897,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -965,9 +938,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -1052,9 +1024,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -1143,9 +1114,8 @@ export const StoreMapSpec = {
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -1199,9 +1169,8 @@ export const StoreMapSpec = {
                     ];
                     nextActions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -1297,9 +1266,8 @@ export const StoreMapSpec = {
                     finalActions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        const state = store.getState();
+                        const actual = store.getState();
 
-                        const actual = {...state };
                         actual.map = actual.map.remove("maps");
 
                         const expected = {...initialState };
@@ -1373,9 +1341,8 @@ export const StoreMapSpec = {
                     setTimeout(() => {
                         store.dispatch(mapActions.removeAllMeasurements());
                         setTimeout(() => {
-                            const state = store.getState();
+                            const actual = store.getState();
 
-                            const actual = {...state };
                             actual.map = actual.map.remove("maps");
 
                             const expected = {...initialState };
@@ -1410,8 +1377,7 @@ export const StoreMapSpec = {
                     const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
 
                     store.dispatch(layerActions.loadInitialData(function() {
-                        const state = store.getState();
-                        const actual = {...state };
+                        const actual = store.getState();
                         actual.map = actual.map.remove("maps");
 
                         const expected = {...initialState };
@@ -1453,9 +1419,8 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
+                    const actual = store.getState();
 
-                    const actual = {...state };
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -1493,9 +1458,8 @@ export const StoreMapSpec = {
                     setTimeout(() => {
                         store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false))
                         setTimeout(() => {
-                            const state = store.getState();
+                            const actual = store.getState();
 
-                            const actual = {...state };
                             actual.map = actual.map.remove("maps");
 
                             const expected = {...initialState };

@@ -69,8 +69,7 @@ export const StoreSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
                     actual.map = actual.map.remove("maps");
 
                     const expected = {...initialState };
@@ -89,8 +88,7 @@ export const StoreSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
 

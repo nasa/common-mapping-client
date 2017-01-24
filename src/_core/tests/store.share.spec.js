@@ -38,8 +38,7 @@ export const StoreShareSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.share = expected.share.set("autoUpdateUrl", true);
@@ -58,8 +57,7 @@ export const StoreShareSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.share = expected.share.set("autoUpdateUrl", false);
@@ -76,8 +74,7 @@ export const StoreShareSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.share = expected.share.set("isOpen", true);
@@ -94,8 +91,7 @@ export const StoreShareSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.share = expected.share.set("isOpen", false);
@@ -114,8 +110,7 @@ export const StoreShareSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.share = expected.share.set("isOpen", false);

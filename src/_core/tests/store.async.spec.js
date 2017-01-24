@@ -38,8 +38,7 @@ export const StoreAsyncSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous.set("loadingInitialData", true);
@@ -58,8 +57,7 @@ export const StoreAsyncSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous
@@ -80,8 +78,7 @@ export const StoreAsyncSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous.set("loadingLayerPalettes", true);
@@ -100,8 +97,7 @@ export const StoreAsyncSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous
@@ -122,8 +118,7 @@ export const StoreAsyncSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous.set("loadingLayerSources", true);
@@ -142,8 +137,7 @@ export const StoreAsyncSpec = {
 
                     actions.forEach(action => store.dispatch(action));
 
-                    const state = store.getState();
-                    const actual = {...state };
+                    const actual = store.getState();
 
                     const expected = {...initialState };
                     expected.asynchronous = expected.asynchronous
