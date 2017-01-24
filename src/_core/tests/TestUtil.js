@@ -4,7 +4,7 @@ export default class TestUtil {
     static compareFullStates(actual, expected, includeAnalytics = false) {
         expect(actual.view.toJS()).to.deep.equal(expected.view.toJS());
         expect(actual.map.toJS()).to.deep.equal(expected.map.toJS());
-        expect(actual.asyncronous.toJS()).to.deep.equal(expected.asyncronous.toJS());
+        expect(actual.asynchronous.toJS()).to.deep.equal(expected.asynchronous.toJS());
         expect(actual.help.toJS()).to.deep.equal(expected.help.toJS());
         expect(actual.settings.toJS()).to.deep.equal(expected.settings.toJS());
         expect(actual.share.toJS()).to.deep.equal(expected.share.toJS());

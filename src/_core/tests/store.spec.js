@@ -21,7 +21,7 @@ import TestUtil from '_core/tests/TestUtil';
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,

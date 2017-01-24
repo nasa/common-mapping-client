@@ -17,7 +17,7 @@ import moment from 'moment';
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,

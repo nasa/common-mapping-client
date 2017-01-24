@@ -25,7 +25,7 @@ import moment from 'moment';
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,
@@ -1421,7 +1421,7 @@ export const StoreMapSpec = {
                             .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
                             .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                             .removeIn(["layers", "partial"]);
-                        expected.asyncronous = expected.asyncronous
+                        expected.asynchronous = expected.asynchronous
                             .set("loadingInitialData", false)
                             .set("initialLoadingAttempted", true)
                             .set("loadingLayerSources", false)

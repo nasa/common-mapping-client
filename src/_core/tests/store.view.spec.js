@@ -21,7 +21,7 @@ const miscUtil = new MiscUtil();
 const initialState = {
     map: mapState,
     view: viewState,
-    asyncronous: asyncState,
+    asynchronous: asyncState,
     help: helpState,
     settings: settingsState,
     share: shareState,
