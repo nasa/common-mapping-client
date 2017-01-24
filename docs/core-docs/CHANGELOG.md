@@ -1,4 +1,4 @@
-# [1.0 Release](RELEASE LINK) (2016-10-15)
+# [1.0 Release](RELEASE LINK) (TBD)
 
 ### Features
 

@@ -17,6 +17,8 @@ export default class TestUtil {
     }
 
     static runTestSuite(testSuite) {
+        // Run an array of Core test sets with Mocha and execute the beforeEach and 
+        // afterEach functions if defined.
         Object.keys(testSuite.tests).map(testSet => {
             describe("_core." + testSuite.name + " -> " + testSet + " ->", () => {
                 if (testSuite.beforeEach) {

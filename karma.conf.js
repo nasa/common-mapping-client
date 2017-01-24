@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Wed Jun 22 2016 10:25:33 GMT-0700 (PDT)
 var webpack = require('webpack');
 var path = require('path');
 // const GLOBALS = {
@@ -22,7 +21,6 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'src/tests/**/*.spec.js',
-            // 'src/_core/tests/**/*.spec.js',
             './node_modules/es6-promise/dist/es6-promise.js', {
                 pattern: "src/_core/tests/data/**/*",
                 included: false,
@@ -42,7 +40,6 @@ module.exports = function(config) {
         preprocessors: {
             // add webpack as preprocessor
             'src/tests/**/*.spec.js': ['webpack'],
-            // 'src/_core/tests/**/*.spec.js': ['webpack']
         },
 
         webpack: {
