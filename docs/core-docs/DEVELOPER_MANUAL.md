@@ -1,5 +1,5 @@
 # Developer Manual (CMC Version 1.0)
-A detailed guide on getting starting with the Common Mapping Client. This guide is aimed at developers who may not be familiar with many of these technologies and concepts but have used other JS frameworks before to build complex web applications. It is our hope that this document can serve as useful reference for the major aspects of the CMC system for CMC and non-CMC developers as well as some justification for why certain technology and architectural decisions were made.
+A detailed guide on getting starting with the Common Mapping Client. This guide is aimed at developers who may not be familiar with many of these technologies and concepts but have used other JS frameworks before to build complex web applications. It is our hope that this document can serve as useful reference for the major aspects of the CMC system for CMC and Application Developers as well as some justification for why certain technology and architectural decisions were made.
 
 ## Table of Contents
 1. [Installation Guide](#installation-guide)
@@ -566,7 +566,7 @@ The following `package.json` scripts can be used to run tests in a variety of wa
 
 <a id=""/>
 ### Writing Tests for CMC
-Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your *.js files to *.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own if you have complex components with finnicky behavior. 
+Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your *.js files to *.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own. 
 
 <a id=""/>
 ##### Simple Tests
@@ -650,7 +650,7 @@ expect(cache.get("d")).to.deep.equal(false);
 expect(cache.getSize()).to.equal(limit);
 ```
 
-Note that you can use `expect` whenever you wish and however many times you wish, but that it's good to keep tests focused on a particular input/output, or, set of expected behaviors.
+Note that you can use `expect` whenever you wish and however many times you wish but it's good to keep tests focused on a particular input/output or set of expected behaviors.
 
 <a id=""/>
 ##### Tests using the Redux Store
@@ -700,7 +700,7 @@ const actions = [
 ];
 ```
 
-Next we dispatch the actions to the store. Note that these action dispatches are **synchronous**! This is a guarantee provided by Redux as was mentioned in a previous section. In testing this fact is handy since it allows us to examine the state with a higher degree of certainty regarding what the state of the state is. 
+Next we dispatch the actions to the store. Note that these action dispatches are **synchronous**! This is a guarantee provided by Redux as was mentioned in a previous section. In testing, this allows us to string together an arbitrary number of actions together and deterministically arrive at an expected final state. Note that this is somewhat incorrect for asynchronous actions (which will be covered later).
 
 ```JSX
 actions.forEach(action => store.dispatch(action));
@@ -715,7 +715,7 @@ const actualMap2D = state.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 const actualMap3D = state.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 ```
 
-TODO [Issue #89](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/88)
+Related Issue: [Issue #89](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/88)
 
 Next we make a copy of the state object for no reason (this will be fixed in a later update by [@fplatt](https://github.jpl.nasa.gov/fplatt) who is responsible for this abomination). To do this we use the [JS spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) to expand the state object in place into a new object. This _can_ be useful if you're trying to capture snapshots of the state object to do complex tests but so far it hasn't been used in CMC tests. We also remove the "maps" object from state for reasons stated in the previous paragraph.
 
@@ -762,9 +762,9 @@ TestUtil.compareFullStates(actual, expected);
 ```
 
 ### Writing Tests for CMC Core
-If you are developing tests for CMC Core there's a bit of extra structure you need to use on top of the standard tests. This structure allows non-CMC developers to override or exclude certain CMC Core tests from their application testing setup while still allowing CMC Core tests to be upgraded in the future. 
+If you are developing tests for CMC Core there's a bit of extra structure you need to use on top of the standard tests. This structure allows Application Developers to override or exclude certain CMC Core tests from their application testing setup while still allowing CMC Core tests to be upgraded in the future. 
 
-Each Core test file exports a *Spec object containing a `name` property, used as a label when logging the test ouput, and an object containing test suites. Let's take a look at the `setAndGet` test suite again.
+Each Core test file exports an object containing a `name` property, used as a label when logging the test output, and an object containing test suites. Let's take a look at the `setAndGet` test suite again.
 
 ```JSX
 import { expect } from 'chai';
@@ -800,7 +800,7 @@ export const CacheSpec = {
                     ...
 ```
 
-Each test suite (like setAndGet) contains one or more tests pertaining to the title of the test suite. As a convention CMC Core tests are labeled test + number-ascending but any unique identifier can be used. These test names will eventually be used by non-Core developers if the wish to ignore certain tests.
+Each test suite (like setAndGet) contains one or more tests pertaining to the title of the test suite. As a convention, CMC Core tests are labeled test + number-ascending but any unique identifier can be used. These test names will eventually be used by Application Developers if the wish to ignore certain tests.
 
 The testing flow for Core tests is as follows – 
 
@@ -811,7 +811,7 @@ The testing flow for Core tests is as follows –
 ### Writing Tests for your Application
 
 <a id=""/>
-##### Normal Non-Core Test File (TODO Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
+##### Normal Non-Core Test File (Related Issue [#90](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/90))
 Eventually this description will just point to a stub file, but for now, a non-Core test file should live in the `src/tests` directory and should end in *.spec.js. Inside of this file you should have something looking like:
 
 ```JSX
@@ -843,7 +843,7 @@ Where all you need to do is use [Mocha `describe` syntax](https://mochajs.org/#g
 
 <a id=""/>
 ##### Overriding, Modifying, or Ignoring a CMC Core Test
-There many be times as a non-Core developer when you wish to modify or override a Core test. For example, let's say you want to build an application that does not use a 3D map and you want to exclude all Core tests that test and rely on the 3D map. To override these tests, you would want to find the relevant (failing) tests in `_core/tests/MapUtil.spec` and remove them by overriding the imported object in `core-test-overrides.spec.js`. For example:
+There many be times as an Application Developer when you wish to modify or override a Core test. For example, let's say you want to build an application that does not use a 3D map and you want to exclude all Core tests that test and rely on the 3D map. To override these tests, you would want to find the relevant (failing) tests in `_core/tests/MapUtil.spec` and remove them by overriding the imported object in `core-test-overrides.spec.js`. For example:
 
 ```JSX
 MiscUtilSpec.generateStringFromSet.test3 = () => {};
@@ -852,16 +852,16 @@ MiscUtilSpec.generateStringFromSet.test3 = () => {};
 excludes that test by overriding the test contents. You can also choose to exclude some or all imported Core test suites by changing what's inside the `testSuites` array in `core-test-overrides.spec.js`.
 
 <a id=""/>
-### Local, Asynchonously Loaded Testing Data
-Core tests sometimes make use of use of asynchronous, locally loaded data from `src/_core/tests/data`. This folder contains several files copied over from `src/default-data/_core_default-data` (if you're developing Core tests you will need to make note of this) and some intermediate state object definitions for use in testing. For non-Core tests feel free to import any of the files from `src/_core/tests/data` and/or add your own folder in `src/tests/YOUR_DATA` with your own files.
+### Asynchronous Local Data Loading in Tests
+Core tests sometimes make use of use of asynchronously loaded data from `src/_core/tests/data`. This folder contains several files copied over from `src/default-data/_core_default-data` (if you're developing Core tests you will need to make note of this) and some intermediate state object definitions for use in testing. For non-Core tests feel free to import any of the files from `src/_core/tests/data` and/or add your own folder in `src/tests/YOUR_DATA` with your own files.
 
 <a id=""/>
 ### Using beforeEach and afterEach
-CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of the Mocha [`beforeEach` and `afterEach` hooks](https://mochajs.org/#hooks) in order to provide an html fixture from the DOM so that the maps have a place to render. In Core, these `beforeEach` and `afterEach` functions are defined in the exported testSuite objects. In non-core tests feel free to use these functions and any other Mocha hooks according to the normal Mocha paradigm.
+CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of the Mocha [`beforeEach` and `afterEach` hooks](https://mochajs.org/#hooks) in order to provide an html fixture from the DOM so that the maps have a place to render. In Core, these `beforeEach` and `afterEach` functions are defined in the exported testSuite objects. In non-Core tests feel free to use these functions and any other Mocha hooks according to the normal Mocha paradigm.
 
 <a id=""/>
-### Testing Asyncronous Behaviors
-Testing asynchronous functions is accomplished by making use of the [done](https://mochajs.org/#asynchronous-code) callback paradigm in Mocha. We can use this `done` callback to tell Mocha to wait for this callback to be called to complete the test. In Core we make use of this paradigm and also make use of timeouts for certain map behaviors that do not have easily trackable async success or failure values. For example in `StoreMapSpec.test16` in `src/_core/tests/store.map.spec.js` we use async testing to test the 2D and 3D map zooming out behavior. To do this, we give a generous (because of low-spec Travis CI machines) timeout in the beginning, initialize maps, wait for maps to initialize, do some zooming, wait a bit, and then check some state and map properties.
+### Testing Asynchronous Behaviors
+Testing asynchronous functions is accomplished by making use of the [done](https://mochajs.org/#asynchronous-code) callback paradigm in Mocha. We can use this `done` callback to tell Mocha to wait for this callback to be called to complete the test. In Core we make use of this paradigm and also make use of timeouts for certain map behaviors that do not have easily trackable async success or failure values. For example in `StoreMapSpec.test16` in `src/_core/tests/store.map.spec.js` we use async testing to test the 2D and 3D map zooming out behavior. This is because the call to zoom on the map may return true but the zoom will not be accomplished until after a final render which uses an unknown number of frames. To accommodate this, we give a generous timeout in the beginning, initialize maps, wait for maps to initialize, do some zooming, wait a bit, and then check the relevant state and map properties.
 
 ```JSX
 test16: () => {
@@ -909,7 +909,7 @@ Every command used to run tests (e.g. `npm run test`, `npm run test:watch`, etc.
 
 - Progress reporter - Report test progress in console
 - [Karma HTML Reporter](https://www.npmjs.com/package/karma-htmlfile-reporter) - For reporting test results in styled HTML format. The default output folder for these test results is `test-results`, configuration of which will be covered in the next section.
-- [Karma Coverage Reporter](https://github.com/karma-runner/karma-coverage) - For generating code coverage reports in several formats including HTML and lcov. The default output folder for these test results is `coverage`, configuration of which will be covered in the next section. Test coverage is a very handy tool for identifying untested statements, branches, and functions. Learn more about it [here](https://istanbul.js.org/). Note that the coverage plugin will only be aware of files that are run through Karma so if you don't have `spec.js` files for, say, components and none of these components are imported then none of the components will be analyzed in the coverage report. This is something to be aware of when you're trying to estimate the _real_ code coverage of your project. That said, take the overall code coverage percent with a grain of salt. Try to be smart with how you prioritize _what_ you test. Knowing that 100% of your critical math and utility functions are correct with other files only at 25% coverage is probably more valuable than 50% code coverage throughout the entire project.
+- [Karma Coverage Reporter](https://github.com/karma-runner/karma-coverage) - For generating code coverage reports in several formats including HTML and lcov. The default output folder for these test results is `coverage`, configuration of which will be covered in the next section. Test coverage is a very handy tool for identifying untested statements, branches, and functions. Learn more about it [here](https://istanbul.js.org/). Note that the coverage plugin will only be aware of files that are run through Karma so if you don't have `.spec.js` files for, say, components and none of these components are imported then none of the components will be analyzed in the coverage report. This is something to be aware of when you're trying to estimate the _real_ code coverage of your project. That said, take the overall code coverage percent with a grain of salt. Try to be smart with how you prioritize _what_ you test. Knowing that 100% of your critical math and utility functions are correct with other files only at 25% coverage is probably more valuable than 50% code coverage throughout the entire project.
 
 These default reporters are specified in the `karma.conf.js` configuration but some commands are overridden at runtime using flags. For example, `npm run test` uses the `--reporters=progress,html` to skip code coverage generation. Code coverage does take a bit of extra time so if you're running tests often or using a watched test (like `test:watch`) then it makes sense to skip coverage.
 
@@ -955,7 +955,7 @@ To run Chrome, Firefox, Safari, and any other standard browsers outside of a sta
 
 In the Karma config, we check for the `process.env.TRAVIS` environment variable set in the Travis environment and if it exists we specify a particular browser to use. Otherwise, we use standard native Chrome. Below in `customLaunchers` we configure the Travis Chrome browser base path as well as a few flags to enable WebGL so that we can run CesiumJS.
 
-Using real browsers can be useful since it allows us to test CMC in environments closer to the real end-user environment. Additionally, using a real browser allows us to run all of our tests, including those that utilize WebGL which is something many thin or headless testing browsers don't support well or at all. That said, running Chrome or any of the other standard browsers is slightly more complicated (since it requires xvfb setup and some browser flags which can vary from CI to CI) and a little less performant than using something like [PhantomJS](http://phantomjs.org/), which is a Webkit framework for running headless tests. If you don't need to run WebGL tests or just want to simplify your testing setup you can use PhantomJS, but do note that all tests that rely on the rendering of the CesiumJS 3D map will fail, so you will have to override or ignore these tests.
+Using real browsers can be useful since it allows us to test CMC in environments closer to the real end-user environment. Additionally, using a real browser allows us to run all of our tests, including those that utilize WebGL which is something many thin or headless testing browsers don't support well or at all. That said, running Chrome or any of the other standard browsers is slightly more complicated (since it requires xvfb setup and some browser flags which can vary from CI to CI) and are a little less performant than using something like [PhantomJS](http://phantomjs.org/), which is a Webkit framework for running headless tests. If you don't need to run WebGL tests or just want to simplify your testing setup you can use PhantomJS, but do note that all tests that rely on the rendering of the CesiumJS 3D map will fail, so you will have to override or ignore these tests.
 
 Learn more about Karma and Karma configuration [here](http://karma-runner.github.io/1.0/config/configuration-file.html).
 
@@ -964,9 +964,7 @@ Learn more about Karma and Karma configuration [here](http://karma-runner.github
 
 <a id=""/>
 ### CMC Custom User Analytics
-The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers
-each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed,
-the currently buffered actions are sent as a JSON string to the defined endpoint as a POST request. This means if you set up some server to capture these actions you can ask and answer various questions based on these actions such as:
+The analytics operates as a "silent reducer". It watches every action dispatched to the store and buffers each action that it is defined to include. Every time 10 actions are buffered or 5 seconds have passed, the currently buffered actions are sent as a JSON string to the defined endpoint as a POST request. This means if you set up some server to capture these actions you can ask and answer various questions based on these actions such as:
 
 - "What is the most popular layer?"
 - "How often do people use this layer"
@@ -987,15 +985,15 @@ In addition to the custom analytics solution mentioned previously, CMC includes 
 CMC was architected so that developers using CMC as a base for their applications would be able to easily upgrade the underlying CMC version in their applications. That said, there isn't a huge abstraction layer separating CMC Core from non-Core – a deliberate choice made by the Core developers – which means that there are some files and areas that Core and non-Core developers must share and be aware of to avoid nasty merge conflicts or blowing away work.
 
 ##### When to Upgrade
-Upgrading CMC can range from almost painless (one or two merge conflicts) to a bit of work (several merge conflicts, new Core dependencies, etc.) which means that you should plan on giving yourself a bit of time to read up on what's changed in Core since your version (see `docs/core-docs/CHANGELOG.MD`), how much effort it will take to upgrade, and whether or not you really want/need to upgrade. If you're getting quite close to a release you may want to hold off until you have a little more time to upgrade so you can take your time and be careful.
+Upgrading CMC can range from almost painless (0 - 2 simple merge conflicts) to a bit of work (3+ large merge conflicts, new Core dependencies, etc.) which means that you should plan on giving yourself a bit of time to read up on what's changed in Core since your version (see `docs/core-docs/CHANGELOG.md`), how much effort it will take to upgrade, and whether or not you really want/need to upgrade. If you're getting quite close to a release you may want to hold off until you have a little more time to upgrade so you can take your time and be careful.
 
 ##### Files to Watch out For
 - `scripts` - These scripts may change in Core. You shouldn't need to tweak these scripts too much and you probably won't have conflicts here. That said, you should probably use your own deploy.sh script customized for your own CI/deployment environment.
 - `AppContainer.js` - This is just a stub file in Core so you shouldn't see any issues here.
 - `.travis.yml` - CMC Core .travis.yml file may change from time to time, be careful with this one if you're using Travis CI.
-- `constants/appConfig.js` - Core and non-Core developers use appConfig.js for various configuration items. This will be something you want to pay attention to when upgrading CMC versions, although [future work](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/39) will address this issue and hopefully keep Core and non-Core application configurations separate and give non-core easy overrides to core appConfig.
+- `constants/appConfig.js` - Core and non-Core developers use appConfig.js for various configuration items. This will be something you want to pay attention to when upgrading CMC versions, although [Issue 39](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/39) will address this problem and hopefully keep Core and non-Core application configurations separate and give non-Core easy overrides to Core appConfig.
 - `tests/core-test-overrides.spec.js` - If Core adds a new Spec file it will need to add an import to this file which in theory shouldn't cause too much trouble. 
-- `package.json` - There's no getting around this one unfortunately with the current architecture. If Core modifies dependencies, updates it's version number (which it will do every time you upgrade), your package.json may be overridden. Make sure you look at what's changed in the Core package.json before upgrading and plan accordingly.
+- `package.json` - There's no getting around this one unfortunately with the current architecture. If Core modifies dependencies, updates it's version number (which it will do every time you upgrade to a tagged version), your package.json may conflict/be overridden. Make sure you look at what's changed in the Core package.json before upgrading and plan accordingly.
 - `webpack.config.dev.js` - This config will also change from time to time but in theory you shouldn't have to worry about this file too much and any conflicts should be easy to manage.
 - `webpack.config.prod.js` - Same as above.
 
@@ -1015,31 +1013,26 @@ This separation between Core and Non-Core is still being tweaked now and then to
 
 <a id=""/>
 ## Layer Ingestion Additional Services
-As mentioned before, CMC is not expected to be a final product. This extends not only to the front-end application itself, but also the services that power it. With CMC Core, we use a directory called `default-data` that contains numerous static files that provide CMC with something to work with. This includes lists of layers, color palettes, vector data, etc. In a real world application, we would not expect this directory to be referenced. Instead, we would expect that all of the static data within that directory to be replaced by a dynamic service on the backend with some sort of REST API (this could be a solr catalogue or similar). However, for small projects and local development, static file usage is more than adequate.
-
-<a id=""/>
-## Contributing to CMC
-The main contributors to CMC are Flynn Platt _flynn.platt@jpl.nasa.gov_ and Aaron Plave _aaron.plave@jpl.nasa.gov_. Please get in contact with us via email or chat if you have any questions, are considering using CMC, or if you would like to contribute to CMC.
-We contributions and ask that you submit pull requests through a fork of cmc-core. If you would like to be a more direct contributor to cmc-core then please contact us and we will discuss adding you to the core repository.
-
-For issue reporting please visit the github issues page for cmc-core [here](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues).
-
-If you use CMC for your project please let us know, we'd love to see what you're doing and add you to our list of projects that use CMC.
+As mentioned before, CMC is not expected to be a final product. This extends not only to the front-end application itself, but also the services that power it. CMC Core uses a directory called `default-data` that contains numerous static files that provide CMC with something to display by default. This includes lists of layers, color palettes, vector data, etc. In a real world application, we would not expect this directory to be referenced. Instead, we would expect all of the static data to be replaced by a dynamic service on the backend with some sort of REST API (this could be a solr catalogue or similar). However, for small projects and local development, static file usage is more than adequate.
 
 <a id=""/>
 ## Deployment to Github Pages
-Github pages are a great way to host static content right out of your github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the deploy.bash script found in the `scripts` directory to push a built version of your application to github pages. Note, you'll need to enable github pages for your repository. Also note that all github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
+Github pages are a great way to host static content right out of your Github repos. One simple way to deploy to Github pages if you don't have a continuous integration service set up or available is to use the `deploy.bash` script found in the `scripts` directory to push a built version of your application to Github pages. Note, you'll need to enable Github pages for your repository. Also note that all Github pages are public even if your repository is private. Follow these steps below to deploy. The deploy script included works with multiple branches as well which can be useful for comparing built branches, sharing testable branches with others, etc.
 
 1. Run `npm run test:cover`
 2. Run `npm run build` (you may want to verify that your build works using `npm run open:dist`)
 3. Make a copy of your entire repository folder and `cd` into the copy
 4. Run `chmod a+x scripts/deploy.bash` to give the deploy script correct permissions
 5. Run `git branch -D gh-pages` to ensure that your local gh-pages branch does not exist
-6. Run `npm run deploy` and verify that the deployment was successful by navigating to, for example, `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
+6. Run `npm run deploy` and verify that the deployment was successful by navigating to:`https://github.jpl.nasa.gov/pages/[USER_OR_ORG]/[REPO]/branches/[BRANCH]/`
+  1. Example: `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
 7. Cleanup by removing the folder you were just in
 
 <a id=""/>
 ## Main Technologies Under the Hood
+
+![Node dependencies](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/node_dependencies.png)
+
 Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, d3, react-ga, etc.)
 
 
@@ -1068,3 +1061,13 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [showdown](https://github.com/showdownjs/showdown)| A Markdown to HTML converter written in Javascript |
 | [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
 | [react-slingshot](https://github.com/coryhouse/react-slingshot)| The React/Redux/Webpack starter kit CMC is based off of. CMC has diverged a fair bit from React-Slingshot in many respects but still owes a great deal of its webpack structure, config, npm scripts, and dev server code to react-slingshot.
+
+<a id=""/>
+## Contributing to CMC
+The main contributors to CMC are Flynn Platt _flynn.platt@jpl.nasa.gov_ and Aaron Plave _aaron.plave@jpl.nasa.gov_. Please get in contact with us via email or chat if you have any questions, are considering using CMC, or if you would like to contribute to CMC.
+
+We welcome contributions and ask that you submit pull requests through a fork of cmc-core. If you would like to be a more direct contributor to cmc-core then please contact us and we will discuss adding you to the cmc-core repository.
+
+For issue reporting please visit the github issues page for cmc-core [here](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues).
+
+If you use CMC for your project please let us know, we'd love to see what you're doing and add you to our list of projects that use CMC.
