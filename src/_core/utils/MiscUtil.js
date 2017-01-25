@@ -200,7 +200,7 @@ export default class MiscUtil {
         let padSize = length - num.length;
         if(padSize > 0) {
             // create the padding string
-            let padStr = new Array(padSize).fill(pad);
+            let padStr = Array(padSize).fill(pad);
 
             // pad the string
             num = padStr.join("") + num;

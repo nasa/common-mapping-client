@@ -85,11 +85,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     minZoom: viewOptions.minZoom,
                     projection: mapProjection
                 }),
-                controls: [
-                    new ol.control.ScaleLine({
-                        className: "map-scale-container"
-                    })
-                ],
+                controls: [],
                 interactions: ol.interaction.defaults({
                     altShiftDragRotate: false,
                     pinchRotate: false,
