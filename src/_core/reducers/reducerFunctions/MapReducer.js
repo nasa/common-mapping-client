@@ -115,6 +115,7 @@ export default class MapReducer {
 
         return state;
     }
+    
     static setMapView(state, action) {
         let alerts = state.get("alerts");
         let anySucceed = state.get("maps").reduce((acc, map) => {
@@ -143,6 +144,7 @@ export default class MapReducer {
         }
         return state;
     }
+    
     static setViewInfo(state, action) {
         let alerts = state.get("alerts");
         // TODO split out projection changes?
@@ -169,6 +171,7 @@ export default class MapReducer {
             .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
             .set("alerts", alerts);
     }
+    
     static zoomIn(state, action) {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.isActive) {
@@ -184,6 +187,7 @@ export default class MapReducer {
         // }
         return state;
     }
+    
     static zoomOut(state, action) {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.isActive) {
@@ -199,6 +203,7 @@ export default class MapReducer {
         // }
         return state;
     }
+    
     static resetOrientation(state, action) {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.isActive) {
@@ -255,12 +260,8 @@ export default class MapReducer {
                         .set("isActive", action.active)
                         .set("isChangingOpacity", false)
                         .set("isChangingPosition", false);
-                    let index = actionLayer.get("id");
-                    return state
-                        .setIn(["layers", actionLayer.get("type"), index], newLayer)
-                        .set("alerts", alerts);
+                    state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
                 }
-                return state.set("alerts", alerts);
             }
         }
         return state.set("alerts", alerts);
@@ -283,8 +284,7 @@ export default class MapReducer {
                     .set("isDisabled", action.disabled)
                     .set("isChangingOpacity", false)
                     .set("isChangingPosition", false);
-                let index = actionLayer.get("id");
-                return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+                state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
             }
         }
         return state;
@@ -302,7 +302,7 @@ export default class MapReducer {
 
         // validate opacity
         let opacity = parseFloat(action.opacity);
-        if (isNaN(opacity)) {
+        if (isNaN(opacity) || actionLayer.get("opacity") === opacity) {
             return state;
         }
 
@@ -316,8 +316,7 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("opacity", opacity);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
@@ -335,8 +334,7 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("isChangingOpacity", true).set("isChangingPosition", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
@@ -354,8 +352,7 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("isChangingOpacity", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
@@ -373,8 +370,7 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("isChangingPosition", true).set("isChangingOpacity", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
@@ -392,15 +388,13 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("isChangingPosition", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
 
+    // TODO
     static setLayerPalette(state, action) {
-        // TODO
-
         // resolve layer from id if necessary
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
@@ -413,8 +407,7 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("palette", action.palette);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
+            return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
     }
@@ -455,14 +448,12 @@ export default class MapReducer {
                     }
                     return layer.set("isActive", false);
                 });
-                return state
-                    .setIn(["layers", actionLayer.get("type")], layerList)
-                    .set("alerts", alerts);
+                state = state.setIn(["layers", actionLayer.get("type")], layerList);
             }
-            return state.set("alerts", alerts);
         }
         return state.set("alerts", alerts);
     }
+    
     static hideBasemap(state, action) {
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.hideBasemap()) {
@@ -483,6 +474,7 @@ export default class MapReducer {
         }
         return state;
     }
+    
     static ingestLayerConfig(state, action) {
         if (action.options.type === appStrings.LAYER_CONFIG_JSON) {
             let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
@@ -497,6 +489,7 @@ export default class MapReducer {
         }
         return state;
     }
+    
     static mergeLayers(state, action) {
         let partials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let refPartial = null;
@@ -540,53 +533,30 @@ export default class MapReducer {
     static activateDefaultLayers(state, action) {
         // we use an explicit group order to avoid issues with draw initialization
 
-        // activate basemap
-        state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]).map((layer) => {
-            if (layer.get("isDefault")) {
-                let anySucceed = state.get("maps").reduce((acc, map) => {
-                    if (map.setBasemap(layer)) {
-                        return true;
-                    }
-                    return acc;
-                }, false);
-                if (anySucceed) {
-                    return layer.set("isActive", true);
-                }
-            }
-            return layer;
-        }));
+        let defaultBasemaps = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP]).filter((layer) => {
+            return layer.get("isDefault");
+        });
 
-        // activate data layers
-        state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).map((layer) => {
-            if (layer.get("isDefault")) {
-                let anySucceed = state.get("maps").reduce((acc, map) => {
-                    if (map.setLayerActive(layer, true)) {
-                        return true;
-                    }
-                    return acc;
-                }, false);
-                if (anySucceed) {
-                    return layer.set("isActive", true);
-                }
-            }
-            return layer;
-        }));
+        let defaultDataLayers = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).filter((layer) => {
+            return layer.get("isDefault");
+        });
 
-        // activate reference layers
-        state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE], state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).map((layer) => {
-            if (layer.get("isDefault")) {
-                let anySucceed = state.get("maps").reduce((acc, map) => {
-                    if (map.setLayerActive(layer, true)) {
-                        return true;
-                    }
-                    return acc;
-                }, false);
-                if (anySucceed) {
-                    return layer.set("isActive", true);
-                }
-            }
-            return layer;
-        }));
+        let defaultReferenceLayers = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).filter((layer) => {
+            return layer.get("isDefault");
+        });
+
+
+        defaultBasemaps.forEach((layer) => {
+            state = this.setBasemap(state, {layer: layer});
+        });
+
+        defaultDataLayers.forEach((layer) => {
+            state = this.setLayerActive(state, {layer: layer, active: true});
+        });
+
+        defaultReferenceLayers.forEach((layer) => {
+            state = this.setLayerActive(state, {layer: layer, active: true});
+        });
 
         return state;
     }
@@ -739,6 +709,7 @@ export default class MapReducer {
         });
         return state;
     }
+    
     static moveLayerUp(state, action) {
         // resolve layer from id if necessary
         let actionLayer = action.layer;
@@ -754,6 +725,7 @@ export default class MapReducer {
         });
         return state;
     }
+    
     static moveLayerDown(state, action) {
         // resolve layer from id if necessary
         let actionLayer = action.layer;
