@@ -196,10 +196,16 @@ export default class MiscUtil {
             length += 1;   
         }
 
-        // padd the string
-        while(num.length < length) {
-            num = pad + num;
+        // get amount of padding needed
+        let padSize = length - num.length;
+        if(padSize > 0) {
+            // create the padding string
+            let padStr = new Array(padSize).fill(pad);
+
+            // pad the string
+            num = padStr.join("") + num;
         }
+
         return num;
     }
 }
