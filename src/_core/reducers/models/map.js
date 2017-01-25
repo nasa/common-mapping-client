@@ -60,6 +60,7 @@ export const layerModel = Immutable.fromJS({
     isChangingOpacity: false,
     isChangingPosition: false,
     opacity: 1.0,
+    displayIndex: 0,
     url: "",
     palette: {
         name: "",

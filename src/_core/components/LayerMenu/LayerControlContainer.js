@@ -30,7 +30,8 @@ export class LayerControlContainer extends Component {
             nextLayer.get("palette") !== currLayer.get("palette") ||
             nextLayer.get("min") !== currLayer.get("min") ||
             nextLayer.get("max") !== currLayer.get("max") ||
-            nextLayer.get("units") !== currLayer.get("units"));
+            nextLayer.get("units") !== currLayer.get("units") ||
+            nextLayer.get("displayIndex") !== currLayer.get("displayIndex"));
     }
     changeOpacity(value) {
         let opacity = value / 100.00;

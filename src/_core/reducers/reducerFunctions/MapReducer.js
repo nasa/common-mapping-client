@@ -173,50 +173,32 @@ export default class MapReducer {
     }
     
     static zoomIn(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
+        state.get("maps").forEach((map) => {
             if (map.isActive) {
-                if (map.zoomIn()) {
-                    return true;
-                }
+                map.zoomIn();
             }
-            return acc;
-        }, false);
+        });
 
-        // if (anySucceed) {
-        //     return state.setIn(["view", "zoom"], state.getIn(["view", "zoom"]) + 1);
-        // }
         return state;
     }
     
     static zoomOut(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
+        state.get("maps").forEach((map) => {
             if (map.isActive) {
-                if (map.zoomOut()) {
-                    return true;
-                }
+                map.zoomOut();
             }
-            return acc;
-        }, false);
+        });
 
-        // if (anySucceed) {
-        //     return state.setIn(["view", "zoom"], state.getIn(["view", "zoom"]) - 1);
-        // }
         return state;
     }
     
     static resetOrientation(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
+        state.get("maps").forEach((map) => {
             if (map.isActive) {
-                if (map.resetOrientation(action.duration)) {
-                    return true;
-                }
+                map.resetOrientation(action.duration);
             }
-            return acc;
-        }, false);
+        });
 
-        if (anySucceed) {
-            return state;
-        }
         return state;
     }
 
@@ -263,7 +245,10 @@ export default class MapReducer {
                     state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
                 }
             }
+
+            state = this.updateLayerOrder(state, {});
         }
+
         return state.set("alerts", alerts);
     }
 
@@ -690,6 +675,9 @@ export default class MapReducer {
         state.get("maps").map((map) => {
             map.moveLayerToTop(actionLayer);
         });
+
+        state = this.updateLayerOrder(state, {});
+
         return state;
     }
 
@@ -707,6 +695,9 @@ export default class MapReducer {
         state.get("maps").map((map) => {
             map.moveLayerToBottom(actionLayer);
         });
+
+        state = this.updateLayerOrder(state, {});
+
         return state;
     }
     
@@ -723,6 +714,9 @@ export default class MapReducer {
         state.get("maps").map((map) => {
             map.moveLayerUp(actionLayer);
         });
+
+        state = this.updateLayerOrder(state, {});
+
         return state;
     }
     
@@ -739,6 +733,21 @@ export default class MapReducer {
         state.get("maps").map((map) => {
             map.moveLayerDown(actionLayer);
         });
+
+        state = this.updateLayerOrder(state, {});
+
+        return state;
+    }
+
+    static updateLayerOrder(state, action) {
+        // use the 2D map as it sorts all layer types together
+        const map2D = state.getIn(["maps", appStrings.MAP_LIB_2D]);
+
+        let layerOrder = map2D.getActiveLayerIds();
+        for (let i = 0; i < layerOrder.length; ++i) {
+            state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA, layerOrder[i], "displayIndex"], layerOrder.length - i);
+        }
+
         return state;
     }
 
