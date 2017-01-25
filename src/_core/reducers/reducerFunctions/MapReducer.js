@@ -62,48 +62,57 @@ export default class MapReducer {
     }
 
     static setTerrainEnabled(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
-            if (map.is3D) {
-                if (map.enableTerrain(action.enabled)) {
-                    return true;
+        if (state.getIn(["displaySettings", "enableTerrain"]) !== action.enabled) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.is3D) {
+                    if (map.enableTerrain(action.enabled)) {
+                        return true;
+                    }
                 }
-            }
-            return acc;
-        }, false);
+                return acc;
+            }, false);
 
-        if (anySucceed) {
-            return state.setIn(["displaySettings", "enableTerrain"], action.enabled);
+            if (anySucceed) {
+                return state.setIn(["displaySettings", "enableTerrain"], action.enabled);
+            }
         }
+
         return state;
     }
 
     static setTerrainExaggeration(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
-            if (map.is3D) {
-                if (map.setTerrainExaggeration(action.terrainExaggeration)) {
-                    return true;
+        if (state.getIn(["displaySettings", "selectedTerrainExaggeration"]) !== action.terrainExaggeration) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.is3D) {
+                    if (map.setTerrainExaggeration(action.terrainExaggeration)) {
+                        return true;
+                    }
                 }
-            }
-            return acc;
-        }, false);
+                return acc;
+            }, false);
 
-        if (anySucceed) {
-            return state.setIn(["displaySettings", "selectedTerrainExaggeration"], action.terrainExaggeration);
+            if (anySucceed) {
+                return state.setIn(["displaySettings", "selectedTerrainExaggeration"], action.terrainExaggeration);
+            }
         }
+
         return state;
     }
 
     static setScaleUnits(state, action) {
-        let anySucceed = state.get("maps").reduce((acc, map) => {
-            if (map.setScaleUnits(action.units)) {
-                return true;
-            }
-            return acc;
-        }, false);
+        if(state.getIn(["displaySettings", "selectedScaleUnits"]) !== action.units) {
+            let anySucceed = state.get("maps").reduce((acc, map) => {
+                if (map.setScaleUnits(action.units)) {
+                    return true;
+                }
+                return acc;
+            }, false);
 
-        if (anySucceed) {
-            return state.setIn(["displaySettings", "selectedScaleUnits"], action.units);
+            if (anySucceed) {
+                return state.setIn(["displaySettings", "selectedScaleUnits"], action.units);
+            }
         }
+
         return state;
     }
     static setMapView(state, action) {
@@ -223,7 +232,7 @@ export default class MapReducer {
             }
         }
 
-        if (typeof actionLayer !== "undefined") {
+        if (typeof actionLayer !== "undefined" && actionLayer.get("isActive") !== action.active) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setLayerActive(actionLayer, action.active)) {
                     return true;
@@ -267,7 +276,7 @@ export default class MapReducer {
             }
         }
 
-        if (typeof actionLayer !== "undefined") {
+        if (typeof actionLayer !== "undefined" && actionLayer.get("isDisabled") !== action.disabled) {
             let layerList = state.getIn(["layers", actionLayer.get("type")]);
             if (typeof layerList !== "undefined") {
                 let newLayer = actionLayer
@@ -293,7 +302,7 @@ export default class MapReducer {
 
         // validate opacity
         let opacity = parseFloat(action.opacity);
-        if(isNaN(opacity)) {
+        if (isNaN(opacity)) {
             return state;
         }
 
