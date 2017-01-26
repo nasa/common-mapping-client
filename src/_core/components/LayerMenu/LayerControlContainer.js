@@ -8,6 +8,7 @@ import Slider from 'react-toolbox/lib/slider';
 import * as layerActions from '_core/actions/LayerActions';
 import ColorbarContainer from '_core/components/LayerMenu/ColorbarContainer';
 import MiscUtil from '_core/utils/MiscUtil';
+import { OpacityIcon0, OpacityIcon25, OpacityIcon50, OpacityIcon75, OpacityIcon100 } from '_core/components/Reusables/CustomIcons';
 
 const miscUtil = new MiscUtil();
 
@@ -117,6 +118,13 @@ export class LayerControlContainer extends Component {
             "active": this.props.layer.getIn(["palette", "handleAs"]) !== ""
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
+
+        let opacityIcon = currOpacity === 0 ? <OpacityIcon0/> : 
+                          currOpacity < 50 ? <OpacityIcon25/> :
+                          currOpacity < 75 ? <OpacityIcon50/> :
+                          currOpacity < 100 ? <OpacityIcon75/> :
+                          <OpacityIcon100/>
+
         return (
             <div className={containerClasses}>
                 <div className="row middle-xs">
@@ -177,15 +185,16 @@ export class LayerControlContainer extends Component {
                                 <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                             </div>
                             <IconButton
-                                icon="opacity"
+                                // icon="opacity"
                                 primary={this.props.layer.get("isChangingOpacity")}
                                 disabled={!this.props.layer.get("isActive")}
                                 className="no-padding mini-xs-waysmall"
                                 data-tip={!this.props.layer.get("isChangingOpacity") ? "Adjust layer opacity" : null}
                                 data-place="left"
                                 tabIndex={this.props.layer.get("isActive") ? 0 : -1}
-                                onClick={() => this.toggleChangingOpacity()}
-                            />
+                                onClick={() => this.toggleChangingOpacity()}>
+                                {opacityIcon}
+                            </IconButton>
                             <div className={sliderContainerClasses}>
                                 <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
                                 <span className="opacity-label col-xs-3 no-padding">
