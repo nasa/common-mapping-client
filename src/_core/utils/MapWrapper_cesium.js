@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MapWrapper from '_core/utils/MapWrapper';
 import MiscUtil from '_core/utils/MiscUtil';
 import CesiumTilingScheme_GIBS from '_core/utils/CesiumTilingScheme_GIBS';
@@ -18,6 +19,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.tileHandler = new TileHandler();
         this.mapUtil = new MapUtil();
         this.miscUtil = new MiscUtil();
+
+        this.mapDate = appConfig.DEFAULT_DATE;
 
         // Create cesium scene 
         window.CESIUM_BASE_URL = 'assets/cesium';
@@ -851,6 +854,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 mapLayer._layerId = layer.get("id");
                 mapLayer._layerType = layer.get("type");
                 mapLayer._layerHandleAs = layer.get("handleAs");
+                mapLayer._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
 
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
@@ -878,6 +882,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     mapLayer._layerId = layer.get("id");
                     mapLayer._layerType = layer.get("type");
                     mapLayer._layerHandleAs = layer.get("handleAs");
+                    mapLayer._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
                     setTimeout(() => {
                         this.setLayerOpacity(layer, layer.get("opacity"));
                     }, 0);
@@ -887,6 +892,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                 layerSource._layerId = layer.get("id");
                 layerSource._layerType = layer.get("type");
                 layerSource._layerHandleAs = layer.get("handleAs");
+                layerSource._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
 
                 return layerSource;
             }
@@ -996,6 +1002,11 @@ export default class MapWrapper_cesium extends MapWrapper {
             console.warn("Error in MapWrapper_cesium.getPixelFromClickEvent:", err);
             return false;
         }
+    }
+
+    setMapDate(date) {
+        this.mapDate = date;
+        return true;
     }
 
 
@@ -1160,7 +1171,8 @@ export default class MapWrapper_cesium extends MapWrapper {
                 return new Promise((resolve, reject) => {
                     // get the customized url
                     let tileUrl = customUrlFunction.call(this.tileHandler, {
-                        layer,
+                        layer: layer,
+                        mapLayer: mapLayer,
                         origUrl: layer.getIn(["wmtsOptions", "url"]),
                         tileCoord: [level, x, y],
                         context: appStrings.MAP_LIB_3D
@@ -1170,6 +1182,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                     if (typeof customTileFunction === "function") {
                         customTileFunction.call(this.tileHandler, {
                             layer: layer,
+                            mapLayer: mapLayer,
                             url: tileUrl,
                             success: resolve,
                             fail: reject

@@ -405,8 +405,10 @@ export default class MapReducer {
             }, refPartial);
             // merge in the default values
             mergedLayer = layerModel.mergeDeep(mergedLayer);
+
             // update layer time
-            mergedLayer = mergedLayer.set("time", moment(appConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
+            // mergedLayer = mergedLayer.set("time", moment(appConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
+
             // put the newly minted layer into state storage
             if (typeof mergedLayer.get("id") !== "undefined" && typeof state.getIn(["layers", mergedLayer.get("type")]) !== "undefined") {
                 state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
@@ -465,38 +467,38 @@ export default class MapReducer {
             date = appConfig.MAX_DATE;
         }
 
-        // update each layer
-        state = state.set("layers", state.get("layers").map((layerSection) => {
-            return layerSection.map((layer) => {
-                // change the time for each layer
-                let updatedLayer = layer.set("time", moment(date).format(layer.get("timeFormat")));
-                // if the layer is active, time dependant, and a data layer then update it on the map(s)
-                // TODO - should we update basemaps and reference layers too?
-                if (updatedLayer.get("isActive") &&
-                    updatedLayer.get("updateParameters").get("time") &&
-                    updatedLayer.get("type") === appStrings.LAYER_GROUP_TYPE_DATA) {
-                    // track if any maps fail to update
-                    state.get("maps").forEach((map) => {
-                        // update the layer
-                        if (!map.updateLayer(updatedLayer)) {
-                            // store alert if the map fails to udpate
-                            let contextStr = map.is3D ? "3D" : "2D";
-                            alerts = alerts.push(alert.merge({
-                                title: appStrings.ALERTS.SET_DATE_FAILED.title,
-                                body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
-                                severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
-                                time: new Date()
-                            }));
-
-                            // track the failure
-                            anyMapFail = true;
+        // update each map
+        state.get("maps").forEach((map) => {
+            if (map.setMapDate(date)) {
+                // update each layer on the map
+                state.get("layers").forEach((layerSection) => {
+                    layerSection.forEach((layer) => {
+                        if (layer.get("isActive") && layer.get("updateParameters").get("time")) {
+                            // update the layer and track if any fail
+                            if (!map.updateLayer(layer)) {
+                                let contextStr = map.is3D ? "3D" : "2D";
+                                alerts = alerts.push(alert.merge({
+                                    title: appStrings.ALERTS.SET_DATE_FAILED.title,
+                                    body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
+                                    severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
+                                    time: new Date()
+                                }));
+                                anyMapFail = true;
+                            }
                         }
                     });
-                }
-                // return the updated layer
-                return updatedLayer;
-            });
-        }));
+                });
+            } else {
+                let contextStr = map.is3D ? "3D" : "2D";
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.SET_DATE_FAILED.title,
+                    body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", contextStr),
+                    severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
+                    time: new Date()
+                }));
+                anyMapFail = true;
+            }
+        });
 
         // only update date if everything went well
         if (!anyMapFail) {

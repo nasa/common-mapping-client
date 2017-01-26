@@ -14,7 +14,8 @@ export default class TileHandler {
     /** Tile Url Function Parameters
 	OPENLAYERS
 	options: object containing the following...
-	    layer: the ImmutbleJS layer object from the store
+        layer: the ImmutbleJS layer object from the store
+	    mapLayer: the openlayers map layer object
 	    origUrl: the original url (template or base endpoint) for the layer
 	    tileCoord: the coordinates of the tile currently requested [z,x,y]
 	    tileMatrixIds: array of tile matrix ids mapped by zoom level
@@ -24,7 +25,8 @@ export default class TileHandler {
 
 	CESIUM
 	options: object containing the following...
-	    layer: the ImmutbleJS layer object from the store
+        layer: the ImmutbleJS layer object from the store
+	    mapLayer: the cesium map layer object
 	    origUrl: the original url (template or base endpoint) for the layer
 	    tileCoord: the coordinates of the tile currently requested [z,x,y]
 	    context: "cesium"
@@ -48,7 +50,8 @@ export default class TileHandler {
     /** Tile Load Function Parameters
 	OPENLAYERS
 	options: object containing the following...
-		layer: the ImmutbleJS layer object from the store
+        layer: the ImmutbleJS layer object from the store
+        maplayer: the openlayers map layer object
 		url: the url for the retrieved tile
 		tile: the openlayers3 tile object
 		processedTile: the returned object from openlayers3 default tile load function
@@ -56,7 +59,8 @@ export default class TileHandler {
 
 	CESIUM
 	options: object containing the following...
-	    layer: the ImmutbleJS layer object from the store
+        layer: the ImmutbleJS layer object from the store
+        maplayer: the cesium map layer object
 	    url: the url for the retrieved tile
 	    success: the function to call once the tile has been successfully generated, passing the resulting tile as the only arg
 	    fail: the function to call once the tile has failed to be generated, passing the resulting error as the only arg
@@ -102,14 +106,15 @@ export default class TileHandler {
     }
 
     _kvpTimeParamUrl(options) {
-        let layer = options.layer;
+        let mapLayer = options.mapLayer;
         let url = this._defaultKVPUrl(options);
 
-        if (layer.get("time")) {
+        let timeStr = typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
+        if(typeof timeStr !== "undefined") {
             if (url.indexOf('{') >= 0) {
-                url = url.replace('{Time}', layer.get("time"));
+                url = url.replace('{Time}', timeStr);
             } else {
-                url = url + "&TIME=" + layer.get("time");
+                url = url + "&TIME=" + timeStr;
             }
         }
 

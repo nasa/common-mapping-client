@@ -10,12 +10,6 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class LayerMenuContainer extends Component {
-    shouldComponentUpdate(nextProps) {
-        if(nextProps.date - this.props.date !== 0) {
-            return false;
-        }
-        return true;
-    }
     render() {
         let layerList = this.props.layers.filter((layer) => !layer.get("isDisabled")).toList().sort(miscUtil.getImmutableObjectSort("title"));
         let totalNum = layerList.size;
@@ -68,8 +62,7 @@ LayerMenuContainer.propTypes = {
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    palettes: PropTypes.object.isRequired,
-    date: PropTypes.object.isRequired
+    palettes: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -77,8 +70,7 @@ function mapStateToProps(state) {
         layerMenuOpen: state.view.get("layerMenuOpen"),
         layers: state.map.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]),
         palettes: state.map.get("palettes"),
-        distractionFreeMode: state.view.get("distractionFreeMode"),
-        date: state.map.get("date")
+        distractionFreeMode: state.view.get("distractionFreeMode")
     };
 }
 

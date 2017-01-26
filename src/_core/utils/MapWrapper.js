@@ -23,7 +23,7 @@ export default class MapWrapper {
         console.warn("enableDrawing not implemented in subclass");
         return false;
     }
-    enableActiveListeners(active){
+    enableActiveListeners(active) {
         console.warn("enableActiveListeners not implemented in subclass");
         return false;
     }
@@ -47,11 +47,11 @@ export default class MapWrapper {
         console.warn("addLabelToGeometry not implemented in subclass");
         return false;
     }
-    removeAllDrawings(){
+    removeAllDrawings() {
         console.warn("removeAllDrawings not implemented in subclass");
         return false;
     }
-    removeAllMeasurements(){
+    removeAllMeasurements() {
         console.warn("removeAllMeasurements not implemented in subclass");
         return false;
     }
@@ -185,6 +185,10 @@ export default class MapWrapper {
     }
     clearCache() {
         console.warn("clearCache not implemented in subclass");
+        return false;
+    }
+    setMapDate() {
+        console.warn("setMapDate not implemented in subclass");
         return false;
     }
 }
