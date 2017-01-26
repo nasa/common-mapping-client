@@ -118,6 +118,10 @@ export class LayerControlContainer extends Component {
             "active": this.props.layer.getIn(["palette", "handleAs"]) !== ""
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
+        let layerOrderClassName = miscUtil.generateStringFromSet({
+            "layer-order-label": true,
+            "active": this.props.layer.get("isChangingPosition")
+        });
         return (
             <div className={containerClasses}>
                 <div className="row middle-xs">
@@ -171,6 +175,7 @@ export class LayerControlContainer extends Component {
                                 onClick={() => this.toggleChangingPosition()}>
                                 <i className="button-icon ms ms-fw ms-layers-overlay" />
                             </IconButton>
+                            <span className={layerOrderClassName}>3</span>
                             <div className={positionContainerClasses}>
                                 <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
                                 <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
