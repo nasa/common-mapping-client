@@ -24,6 +24,7 @@ import LayerMenuContainer from '_core/components/LayerMenu/LayerMenuContainer';
 import MouseFollowerContainer from '_core/components/MouseFollower/MouseFollowerContainer';
 import AnalyticsContainer from '_core/components/Analytics/AnalyticsContainer';
 import KeyboardControlsContainer from '_core/components/KeyboardControls/KeyboardControlsContainer';
+import CoordinateTracker from '_core/components/Map/CoordinateTracker';
 import 'styles/styles.scss';
 
 const miscUtil = new MiscUtil();
@@ -96,6 +97,7 @@ export class AppContainer extends Component {
                 <MouseFollowerContainer />
                 <AnalyticsContainer />
                 <KeyboardControlsContainer />
+                <CoordinateTracker />
                 <ReactTooltip effect="solid" globalEventOff="click" delayShow={600} />
             </div>
         );
