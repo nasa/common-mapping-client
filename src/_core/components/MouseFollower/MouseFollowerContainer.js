@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DrawingTooltip from '_core/components/MouseFollower/DrawingTooltip';
 import MiscUtil from '_core/utils/MiscUtil';
+import MouseCoordinates from '_core/components/MouseFollower/MouseCoordinates';
 
 const miscUtil = new MiscUtil();
 
@@ -23,8 +24,6 @@ export class MouseFollowerContainer extends Component {
 
         let drawOrMeasure = this.props.drawing.get("isDrawingEnabled") || this.props.measuring.get("isMeasuringEnabled");
 
-        let currCoord = this.props.pixelCoordinate.get("lat").toFixed(3) + "," + this.props.pixelCoordinate.get("lon").toFixed(3);
-
         let containerClasses = miscUtil.generateStringFromSet({
             "mouse-follower-container dark": true,
             "active": drawOrMeasure,
@@ -40,9 +39,7 @@ export class MouseFollowerContainer extends Component {
                         measuring={this.props.measuring}
                     />
                 </div>
-                <div className="current-coordinate">
-                    {currCoord}
-                </div>
+                <MouseCoordinates />
             </div>
         );
     }
