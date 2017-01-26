@@ -118,11 +118,11 @@ export class LayerControlContainer extends Component {
                           currOpacity < 50 ? <OpacityIcon25/> :
                           currOpacity < 75 ? <OpacityIcon50/> :
                           currOpacity < 100 ? <OpacityIcon75/> :
-                          <OpacityIcon100/>
+                          <OpacityIcon100/>;
 
         let layerOrderIcon = this.props.layer.get("displayIndex") === 1 ? <LayerIconTop/> :
                              this.props.layer.get("displayIndex") === this.props.activeNum ? <LayerIconBottom/> : 
-                             <LayerIconMiddle/>
+                             <LayerIconMiddle/>;
 
         return (
             <div className={containerClasses}>
