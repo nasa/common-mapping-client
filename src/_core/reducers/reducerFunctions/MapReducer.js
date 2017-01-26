@@ -224,10 +224,7 @@ export default class MapReducer {
             if (anySucceed) {
                 let layerList = state.getIn(["layers", actionLayer.get("type")]);
                 if (typeof layerList !== "undefined") {
-                    let newLayer = actionLayer
-                        .set("isActive", action.active)
-                        .set("isChangingOpacity", false)
-                        .set("isChangingPosition", false);
+                    let newLayer = actionLayer.set("isActive", action.active);
                     state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
                 }
             }
@@ -251,10 +248,7 @@ export default class MapReducer {
         if (typeof actionLayer !== "undefined") {
             let layerList = state.getIn(["layers", actionLayer.get("type")]);
             if (typeof layerList !== "undefined") {
-                let newLayer = actionLayer
-                    .set("isDisabled", action.disabled)
-                    .set("isChangingOpacity", false)
-                    .set("isChangingPosition", false);
+                let newLayer = actionLayer.set("isDisabled", action.disabled);
                 let index = actionLayer.get("id");
                 return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
             }
@@ -288,82 +282,6 @@ export default class MapReducer {
         let layerList = state.getIn(["layers", actionLayer.get("type")]);
         if (typeof layerList !== "undefined") {
             let newLayer = actionLayer.set("opacity", opacity);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
-        }
-        return state;
-    }
-
-    static startChangingOpacity(state, action) {
-        // resolve layer from id if necessary
-        let actionLayer = action.layer;
-        if (typeof actionLayer === "string") {
-            actionLayer = this.findLayerById(state, actionLayer);
-            if (typeof actionLayer === "undefined") {
-                return state;
-            }
-        }
-
-        let layerList = state.getIn(["layers", actionLayer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("isChangingOpacity", true).set("isChangingPosition", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
-        }
-        return state;
-    }
-
-    static stopChangingOpacity(state, action) {
-        // resolve layer from id if necessary
-        let actionLayer = action.layer;
-        if (typeof actionLayer === "string") {
-            actionLayer = this.findLayerById(state, actionLayer);
-            if (typeof actionLayer === "undefined") {
-                return state;
-            }
-        }
-
-        let layerList = state.getIn(["layers", actionLayer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("isChangingOpacity", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
-        }
-        return state;
-    }
-
-    static startChangingPosition(state, action) {
-        // resolve layer from id if necessary
-        let actionLayer = action.layer;
-        if (typeof actionLayer === "string") {
-            actionLayer = this.findLayerById(state, actionLayer);
-            if (typeof actionLayer === "undefined") {
-                return state;
-            }
-        }
-
-        let layerList = state.getIn(["layers", actionLayer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("isChangingPosition", true).set("isChangingOpacity", false);
-            let index = actionLayer.get("id");
-            return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
-        }
-        return state;
-    }
-
-    static stopChangingPosition(state, action) {
-        // resolve layer from id if necessary
-        let actionLayer = action.layer;
-        if (typeof actionLayer === "string") {
-            actionLayer = this.findLayerById(state, actionLayer);
-            if (typeof actionLayer === "undefined") {
-                return state;
-            }
-        }
-
-        let layerList = state.getIn(["layers", actionLayer.get("type")]);
-        if (typeof layerList !== "undefined") {
-            let newLayer = actionLayer.set("isChangingPosition", false);
             let index = actionLayer.get("id");
             return state.setIn(["layers", actionLayer.get("type"), index], newLayer);
         }

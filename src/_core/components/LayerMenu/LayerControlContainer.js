@@ -12,6 +12,10 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class LayerControlContainer extends Component {
+    componentWillMount() {
+        this.isChangingOpacity = false;
+        this.isChangingPosition = false;
+    }
     shouldComponentUpdate(nextProps) {
         // Here we prevent unnecessary renderings by explicitly 
         // ignoring certain pieces of the layer state. We do this
@@ -25,54 +29,38 @@ export class LayerControlContainer extends Component {
             nextLayer.get("title") !== currLayer.get("title") ||
             nextLayer.get("opacity") !== currLayer.get("opacity") ||
             nextLayer.get("isActive") !== currLayer.get("isActive") ||
-            nextLayer.get("isChangingPosition") !== currLayer.get("isChangingPosition") ||
-            nextLayer.get("isChangingOpacity") !== currLayer.get("isChangingOpacity") ||
             nextLayer.get("palette") !== currLayer.get("palette") ||
             nextLayer.get("min") !== currLayer.get("min") ||
             nextLayer.get("max") !== currLayer.get("max") ||
             nextLayer.get("units") !== currLayer.get("units") ||
             nextLayer.get("displayIndex") !== currLayer.get("displayIndex"));
     }
+
+    setLayerActive(active) {
+        this.isChangingPosition = false;
+        this.isChangingOpacity = false;
+        this.props.actions.setLayerActive(this.props.layer.get("id"), active);
+    }
+
     changeOpacity(value) {
         let opacity = value / 100.00;
         this.props.actions.setLayerOpacity(this.props.layer, opacity);
     }
 
     toggleChangingOpacity() {
-        if (this.props.layer.get("isChangingOpacity")) {
-            this.stopChangingOpacity();
-        } else {
-            this.startChangingOpacity();
-        }
-    }
-
-    startChangingOpacity() {
-        this.props.actions.startChangingLayerOpacity(this.props.layer.get("id"));
-    }
-
-    stopChangingOpacity() {
-        this.props.actions.stopChangingLayerOpacity(this.props.layer.get("id"));
+        this.isChangingOpacity = !this.isChangingOpacity;
+        this.isChangingPosition = false;
+        this.forceUpdate();
     }
 
     toggleChangingPosition() {
-        if (this.props.layer.get("isChangingPosition")) {
-            this.stopChangingPosition();
-        } else {
-            this.startChangingPosition();
-        }
-    }
-
-    startChangingPosition() {
-        this.props.actions.startChangingLayerPosition(this.props.layer.get("id"));
-    }
-
-    stopChangingPosition() {
-        this.props.actions.stopChangingLayerPosition(this.props.layer.get("id"));
+        this.isChangingPosition = !this.isChangingPosition;
+        this.isChangingOpacity = false;
+        this.forceUpdate();
     }
 
     openLayerInfo() {
         this.props.actions.loadLayerMetadata(this.props.layer);
-        // this.props.actions.openLayerInfo(this.props.layer);
     }
 
     changePalette() {
@@ -82,12 +70,15 @@ export class LayerControlContainer extends Component {
     moveToTop() {
         this.props.actions.moveLayerToTop(this.props.layer.get("id"));
     }
+
     moveToBottom() {
         this.props.actions.moveLayerToBottom(this.props.layer.get("id"));
     }
+
     moveUp() {
         this.props.actions.moveLayerUp(this.props.layer.get("id"));
     }
+
     moveDown() {
         this.props.actions.moveLayerDown(this.props.layer.get("id"));
     }
@@ -107,11 +98,11 @@ export class LayerControlContainer extends Component {
         });
         let sliderContainerClasses = miscUtil.generateStringFromSet({
             "opacity-slider-container row middle-xs": true,
-            "active": this.props.layer.get("isChangingOpacity")
+            "active": this.isChangingOpacity
         });
         let positionContainerClasses = miscUtil.generateStringFromSet({
             "position-controls-container text-wrap row middle-xs": true,
-            "active": this.props.layer.get("isChangingPosition")
+            "active": this.isChangingPosition
         });
         let colorbarRangeClasses = miscUtil.generateStringFromSet({
             "row middle-xs colorbar-range-wrapper": true,
@@ -127,7 +118,7 @@ export class LayerControlContainer extends Component {
                             <Switch
                                 className={switchClasses}
                                 checked={this.props.layer.get("isActive")}
-                                onChange={(active) => this.props.actions.setLayerActive(this.props.layer.get("id"), active)}
+                                onChange={(active) => this.setLayerActive(active)}
                             />
                         </div>
                     </div>
