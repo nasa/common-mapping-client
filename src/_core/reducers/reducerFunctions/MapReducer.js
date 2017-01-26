@@ -406,9 +406,6 @@ export default class MapReducer {
             // merge in the default values
             mergedLayer = layerModel.mergeDeep(mergedLayer);
 
-            // update layer time
-            // mergedLayer = mergedLayer.set("time", moment(appConfig.DEFAULT_DATE).format(mergedLayer.get("timeFormat")));
-
             // put the newly minted layer into state storage
             if (typeof mergedLayer.get("id") !== "undefined" && typeof state.getIn(["layers", mergedLayer.get("type")]) !== "undefined") {
                 state = state.setIn(["layers", mergedLayer.get("type"), mergedLayer.get("id")], mergedLayer);
