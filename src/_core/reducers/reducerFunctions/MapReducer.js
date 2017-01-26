@@ -257,8 +257,7 @@ export default class MapReducer {
         }
 
         if (typeof actionLayer !== "undefined" && actionLayer.get("isDisabled") !== action.disabled) {
-            let newLayer = actionLayer
-                .set("isDisabled", action.disabled);
+            let newLayer = actionLayer.set("isDisabled", action.disabled);
             state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
         }
         return state;
