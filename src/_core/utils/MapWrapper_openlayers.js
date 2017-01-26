@@ -1268,6 +1268,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return i + 1;
                 }
             }
+            index = 0;
         }
         return index;
     }
