@@ -71,7 +71,6 @@ export const layerModel = Immutable.fromJS({
     max: 0,
     units: "",
     timeFormat: "YYYY-MM-DD",
-    time: moment(appConfig.DEFAULT_DATE).format("YYYY-MM-DD"),
     type: "",
     isDefault: false,
     wmtsOptions: {

@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import moment from 'moment';
 import ol from 'openlayers';
 // import olDebug from 'openlayers/dist/ol-debug.js';
 import proj4js from 'proj4';
@@ -152,8 +153,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
         if (mapLayer) {
             mapLayer.set("_layerId", layer.get("id"));
-            mapLayer.set("_layerCacheHash", layer.get("id") + layer.get("time"));
             mapLayer.set("_layerType", layer.get("type"));
+            mapLayer.set("_layerCacheHash", this.getCacheHash(layer));
+            mapLayer.set("_layerTime", moment(this.mapDate).format(layer.get("timeFormat")));
         }
         return mapLayer;
     }
@@ -163,7 +165,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (layer && layer.get("wmtsOptions")) {
 
                 // pull from cache if possible
-                let cacheHash = layer.get("id") + layer.get("time");
+                let cacheHash = this.getCacheHash(layer);
                 if (fromCache && this.layerCache.get(cacheHash)) {
                     let cachedLayer = this.layerCache.get(cacheHash);
                     cachedLayer.setOpacity(layer.get("opacity"));
@@ -174,25 +176,27 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let options = layer.get("wmtsOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options);
 
-                // override tile url and load functions
-                let origTileUrlFunc = layerSource.getTileUrlFunction();
-                let origTileLoadFunc = layerSource.getTileLoadFunction();
-                layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
-                    return this.generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origTileUrlFunc);
-                });
-                layerSource.setTileLoadFunction((tile, url) => {
-                    return this.handleTileLoad(layer, tile, url, origTileLoadFunc);
-                });
-
                 // set up wrap around extents
-                let mapProjExtent = this.map.getView().getProjection().getExtent();
-                return new ol.layer.Tile({
+                // let mapProjExtent = this.map.getView().getProjection().getExtent();
+                let mapLayer = new ol.layer.Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
                     // extent: mapProjExtent,
                     source: layerSource
                 });
+
+                // override tile url and load functions
+                let origTileUrlFunc = layerSource.getTileUrlFunction();
+                let origTileLoadFunc = layerSource.getTileLoadFunction();
+                layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
+                    return this.generateTileUrl(layer, mapLayer, layerSource, tileCoord, pixelRatio, projectionString, origTileUrlFunc);
+                });
+                layerSource.setTileLoadFunction((tile, url) => {
+                    return this.handleTileLoad(layer, mapLayer, tile, url, origTileLoadFunc);
+                });
+
+                return mapLayer;
             }
             return false;
         } catch (err) {
@@ -204,7 +208,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createVectorLayer(layer, fromCache = true) {
         try {
             // pull from cache if possible
-            let cacheHash = layer.get("id") + layer.get("time");
+            let cacheHash = this.getCacheHash(layer);
             if (fromCache && this.layerCache.get(cacheHash)) {
                 let cachedLayer = this.layerCache.get(cacheHash);
                 cachedLayer.setOpacity(layer.get("opacity"));
@@ -1081,8 +1085,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    setMapDate(date) {
+        this.mapDate = date;
+        return true;
+    }
+
     /* functions for openlayers only */
-    generateTileUrl(layer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
+    generateTileUrl(layer, mapLayer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
             let customUrlFunction = this.tileHandler.getUrlFunction(layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D]));
@@ -1091,6 +1100,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             if (typeof customUrlFunction === "function") {
                 return customUrlFunction.call(this.tileHandler, {
                     layer,
+                    mapLayer,
                     origUrl,
                     tileCoord,
                     tileMatrixIds,
@@ -1106,13 +1116,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    handleTileLoad(layer, tile, url, origFunc) {
+    handleTileLoad(layer, mapLayer, tile, url, origFunc) {
         try {
             let customTileFunction = this.tileHandler.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D]));
             let processedTile = origFunc(tile, url);
             if (typeof customTileFunction === "function") {
                 return customTileFunction.call(this.tileHandler, {
                     layer,
+                    mapLayer,
                     tile,
                     url,
                     processedTile
@@ -1271,6 +1282,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
             index = 0;
         }
         return index;
+    }
+
+    getCacheHash(layer) {
+        return layer.get("id") + moment(this.mapDate).format(layer.get("timeFormat"));
     }
 
     static prepProjection() {

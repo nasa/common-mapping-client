@@ -102,12 +102,14 @@
         "id": "Reference_Labels",
         "title": "Reference Labels",
         "type": "reference",
-        "handleAs": "GIBS_raster"
+        "handleAs": "GIBS_raster",
+        "updateParameters": { "time": false }
     }, {
         "id": "Reference_Features",
         "title": "Reference Features",
         "type": "reference",
-        "handleAs": "GIBS_raster"
+        "handleAs": "GIBS_raster",
+        "updateParameters": { "time": false }
     }, {
         "id": "ESRI_World_Imagery",
         "title": "ESRI High Resolution World Imagery",
@@ -115,6 +117,7 @@
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
         "isDefault": true,
         "handleAs": "xyz_raster",
+        "updateParameters": { "time": false },
         "wmtsOptions": {
             "projection": "EPSG:4326",
             "layer": "ESRI_World_Imagery",
@@ -136,12 +139,14 @@
         "title": "GIBS Blue Marble, Shaded Relief w/Bathymetry",
         "type": "basemap",
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS_raster"
+        "handleAs": "GIBS_raster",
+        "updateParameters": { "time": false }
     }, {
         "id": "OSM_Land_Water_Map",
         "title": "GIBS Land/Water Map (data from OSM)",
         "type": "basemap",
         "thumbnailImage": "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=OSM_Land_Water_Map&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
-        "handleAs": "GIBS_raster"
+        "handleAs": "GIBS_raster",
+        "updateParameters": { "time": false }
     }]
 }
