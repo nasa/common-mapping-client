@@ -1415,7 +1415,8 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
+                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                        layerActions.setLayerActive("facilities_kml", true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
