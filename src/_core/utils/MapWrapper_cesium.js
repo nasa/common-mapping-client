@@ -527,8 +527,8 @@ export default class MapWrapper_cesium extends MapWrapper {
         let canvas = document.createElement('canvas');
         canvas.width = 300;
         canvas.height = 85;
-        let tooltipStyles = "padding-top:60px; top: -60px; text-align:center; position:relative; display:block; text-rendering: optimizeLegibility; font-family:'Roboto Mono, sans-serif'; font-size:14px; white-space: nowrap; color:black; letter-spacing:1px";
-        let tooltipContentStyles = "font-family:Roboto Mono, Helvetica Neue, Helvetica !important; font-weight:400; !important; top: 0px; position:relative; display: inline-block; background: white; border-radius: 2px;padding: 5px 9px;";
+        let tooltipStyles = "-webkit-font-smoothing: auto; padding-top:60px; top: -60px; text-align:center; position:relative; display:block; text-rendering: optimizeLegibility; font-family:'Roboto Mono, sans-serif'; font-size:14px; white-space: nowrap; color:black; letter-spacing:1px";
+        let tooltipContentStyles = "-webkit-font-smoothing: auto; font-family:Roboto Mono, Helvetica Neue, Helvetica !important; font-weight:400; !important; top: 0px; position:relative; display: inline-block; background: white; border-radius: 2px;padding: 5px 9px;";
         let tooltipAfterStyles = "border-top: 8px solid #eeeeee;border-right: 8px solid transparent;border-left: 8px solid transparent;content: '';position: absolute;bottom: -8px;margin-left: -9px;left: 50%;";
 
         let svgString = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="85">' +

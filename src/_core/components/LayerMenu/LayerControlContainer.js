@@ -8,7 +8,7 @@ import Slider from 'react-toolbox/lib/slider';
 import * as layerActions from '_core/actions/LayerActions';
 import ColorbarContainer from '_core/components/LayerMenu/ColorbarContainer';
 import MiscUtil from '_core/utils/MiscUtil';
-import { OpacityIcon0, OpacityIcon25, OpacityIcon50, OpacityIcon75, OpacityIcon100 } from '_core/components/Reusables/CustomIcons';
+import { OpacityIcon0, OpacityIcon25, OpacityIcon50, OpacityIcon75, OpacityIcon100, LayerIconTop, LayerIconMiddle, LayerIconBottom } from '_core/components/Reusables/CustomIcons';
 
 const miscUtil = new MiscUtil();
 
@@ -110,12 +110,19 @@ export class LayerControlContainer extends Component {
             "active": this.props.layer.getIn(["palette", "handleAs"]) !== ""
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
-
+        let layerOrderClassName = miscUtil.generateStringFromSet({
+            "layer-order-label": true,
+            "active": this.isChangingPosition
+        });
         let opacityIcon = currOpacity === 0 ? <OpacityIcon0/> : 
                           currOpacity < 50 ? <OpacityIcon25/> :
                           currOpacity < 75 ? <OpacityIcon50/> :
                           currOpacity < 100 ? <OpacityIcon75/> :
                           <OpacityIcon100/>
+
+        let layerOrderIcon = this.props.layer.get("displayIndex") === 1 ? <LayerIconTop/> :
+                             this.props.layer.get("displayIndex") === this.props.activeNum ? <LayerIconBottom/> : 
+                             <LayerIconMiddle/>
 
         return (
             <div className={containerClasses}>
@@ -168,7 +175,9 @@ export class LayerControlContainer extends Component {
                                 data-place="left"
                                 tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingPosition()}>
-                                <i className="button-icon ms ms-fw ms-layers-overlay" />
+                                {/*<i className="button-icon ms ms-fw ms-layers-overlay" />*/}
+                                {layerOrderIcon}
+                                <span className={layerOrderClassName}>{this.props.layer.get("displayIndex")}</span>
                             </IconButton>
                             <div className={positionContainerClasses}>
                                 <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
@@ -226,6 +235,7 @@ export class LayerControlContainer extends Component {
 LayerControlContainer.propTypes = {
     actions: PropTypes.object.isRequired,
     layer: PropTypes.object.isRequired,
+    activeNum: PropTypes.number.isRequired,
     palette: PropTypes.object
 };
 

@@ -15,6 +15,27 @@
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s linear 0.1s, height 0.2s linear 0s;
+        .layer-order-label {
+            position: relative;
+            text-shadow: 1px 1px 0px white, -1px -1px 0px white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            left: -22px;
+            top: -13px;
+            color: rgb(0, 0, 0);
+            font-size: 1.3rem;
+            font-weight: 600;
+            width: 2px;
+            height: 8px;
+            display: inline-block;
+            -webkit-font-smoothing: subpixel-antialiased;
+            background: white;
+            transition: color 0.2s $animation-curve-default;
+            &.active {
+                color: $color-primary;
+            }
+        }
     }
     .inactive-info-btn {
         display: block;
