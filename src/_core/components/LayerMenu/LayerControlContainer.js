@@ -72,7 +72,6 @@ export class LayerControlContainer extends Component {
 
     openLayerInfo() {
         this.props.actions.loadLayerMetadata(this.props.layer);
-        // this.props.actions.openLayerInfo(this.props.layer);
     }
 
     changePalette() {
@@ -185,7 +184,6 @@ export class LayerControlContainer extends Component {
                                 <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
                             </div>
                             <IconButton
-                                // icon="opacity"
                                 primary={this.props.layer.get("isChangingOpacity")}
                                 disabled={!this.props.layer.get("isActive")}
                                 className="no-padding mini-xs-waysmall"
