@@ -42,19 +42,7 @@ export default function map(state = mapState, action) {
 
         case actionTypes.SET_LAYER_OPACITY:
             return MapReducer.setLayerOpacity(state, action);
-
-        case actionTypes.START_CHANGING_OPACITY:
-            return MapReducer.startChangingOpacity(state, action);
-
-        case actionTypes.STOP_CHANGING_OPACITY:
-            return MapReducer.stopChangingOpacity(state, action);
-
-        case actionTypes.START_CHANGING_POSITION:
-            return MapReducer.startChangingPosition(state, action);
-
-        case actionTypes.STOP_CHANGING_POSITION:
-            return MapReducer.stopChangingPosition(state, action);
-
+            
         case actionTypes.SET_LAYER_PALETTE:
             return MapReducer.setLayerPalette(state, action);
 

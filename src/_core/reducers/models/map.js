@@ -57,8 +57,6 @@ export const layerModel = Immutable.fromJS({
     title: "",
     isActive: false,
     isDisabled: false,
-    isChangingOpacity: false,
-    isChangingPosition: false,
     opacity: 1.0,
     displayIndex: 0,
     url: "",
