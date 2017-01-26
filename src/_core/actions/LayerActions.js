@@ -20,22 +20,6 @@ export function setLayerOpacity(layer, opacity) {
     return { type: types.SET_LAYER_OPACITY, layer, opacity };
 }
 
-export function startChangingLayerOpacity(layer) {
-    return { type: types.START_CHANGING_OPACITY, layer };
-}
-
-export function stopChangingLayerOpacity(layer) {
-    return { type: types.STOP_CHANGING_OPACITY, layer };
-}
-
-export function startChangingLayerPosition(layer) {
-    return { type: types.START_CHANGING_POSITION, layer };
-}
-
-export function stopChangingLayerPosition(layer) {
-    return { type: types.STOP_CHANGING_POSITION, layer };
-}
-
 export function changeLayerPalette(layer, palette) {
     return { type: types.SET_LAYER_PALETTE, layer, palette };
 }

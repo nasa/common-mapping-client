@@ -3,7 +3,6 @@ import moment from 'moment';
 export const LAYERS = {
     "data": {
         "facilities_kml": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 0,
             "isDisabled": false,
@@ -20,7 +19,6 @@ export const LAYERS = {
             "min": 0,
             "fromJson": true,
             "updateParameters": { "time": false },
-            "isChangingOpacity": false,
             "isDefault": false,
             "title": "Facilities - KML",
             "handleAs": "vector_kml",
@@ -30,7 +28,6 @@ export const LAYERS = {
             "clusterVector": false
         },
         "us_state_outline_topojson": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 0,
             "isDisabled": false,
@@ -47,7 +44,6 @@ export const LAYERS = {
             "min": 0,
             "fromJson": true,
             "updateParameters": { "time": false },
-            "isChangingOpacity": false,
             "isDefault": false,
             "title": "US State Outline - TopoJSON",
             "handleAs": "vector_topojson",
@@ -57,7 +53,6 @@ export const LAYERS = {
             "clusterVector": false
         },
         "GHRSST_L4_G1SST_Sea_Surface_Temperature": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 32,
             "isDisabled": false,
@@ -74,7 +69,6 @@ export const LAYERS = {
             "min": 2,
             "fromJson": true,
             "updateParameters": { "time": true },
-            "isChangingOpacity": false,
             "isDefault": true,
             "title": "Sea Surface Temperature",
             "handleAs": "GIBS_raster",
@@ -86,7 +80,6 @@ export const LAYERS = {
     },
     "reference": {
         "Reference_Labels": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 0,
             "isDisabled": false,
@@ -103,7 +96,6 @@ export const LAYERS = {
             "min": 0,
             "fromJson": true,
             "updateParameters": { "time": true },
-            "isChangingOpacity": false,
             "isDefault": false,
             "title": "Reference Labels",
             "handleAs": "GIBS_raster",
@@ -115,7 +107,6 @@ export const LAYERS = {
     },
     "basemap": {
         "BlueMarble_ShadedRelief_Bathymetry": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 0,
             "isDisabled": false,
@@ -132,7 +123,6 @@ export const LAYERS = {
             "min": 0,
             "fromJson": true,
             "updateParameters": { "time": true },
-            "isChangingOpacity": false,
             "isDefault": false,
             "title": "GIBS Blue Marble, Shaded Relief w/Bathymetry",
             "handleAs": "GIBS_raster",
@@ -142,7 +132,6 @@ export const LAYERS = {
             "clusterVector": false
         },
         "ESRI_World_Imagery": {
-            "isChangingPosition": false,
             "timeFormat": "YYYY-MM-DD",
             "max": 0,
             "isDisabled": false,
@@ -159,7 +148,6 @@ export const LAYERS = {
             "min": 0,
             "fromJson": true,
             "updateParameters": { "time": true },
-            "isChangingOpacity": false,
             "isDefault": true,
             "title": "ESRI High Resolution World Imagery",
             "handleAs": "xyz",
