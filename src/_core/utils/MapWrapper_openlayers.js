@@ -126,6 +126,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createLayer(layer, fromCache = true) {
         let mapLayer = false;
+
+        // pull from cache if possible
+        let cacheHash = this.getCacheHash(layer);
+        if (fromCache && this.layerCache.get(cacheHash)) {
+            let cachedLayer = this.layerCache.get(cacheHash);
+            cachedLayer.setOpacity(layer.get("opacity"));
+            cachedLayer.setVisible(layer.get("isActive"));
+            return cachedLayer;
+        }
+
         switch (layer.get("handleAs")) {
             case appStrings.LAYER_GIBS_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
@@ -164,15 +174,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             if (layer && layer.get("wmtsOptions")) {
 
-                // pull from cache if possible
-                let cacheHash = this.getCacheHash(layer);
-                if (fromCache && this.layerCache.get(cacheHash)) {
-                    let cachedLayer = this.layerCache.get(cacheHash);
-                    cachedLayer.setOpacity(layer.get("opacity"));
-                    cachedLayer.setVisible(layer.get("isActive"));
-                    return cachedLayer;
-                }
-
                 let options = layer.get("wmtsOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options);
 
@@ -207,15 +208,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createVectorLayer(layer, fromCache = true) {
         try {
-            // pull from cache if possible
-            let cacheHash = this.getCacheHash(layer);
-            if (fromCache && this.layerCache.get(cacheHash)) {
-                let cachedLayer = this.layerCache.get(cacheHash);
-                cachedLayer.setOpacity(layer.get("opacity"));
-                cachedLayer.setVisible(layer.get("isActive"));
-                return cachedLayer;
-            }
-
             let layerSource = this.createLayerSource(layer, {
                 url: layer.get("url")
             });
@@ -1299,7 +1291,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             global: epsg4326Proj.isGlobal(),
             metersPerUnit: epsg4326Proj.getMetersPerUnit(),
             worldExtent: epsg4326Proj.getWorldExtent(),
-            getPointResolution: function(res, point) { return ol.proj.get('EPSG:4326').getPointResolution(res, point); }
+            getPointResolution: function(res, point) {
+                return ol.proj.get('EPSG:4326').getPointResolution(res, point); }
 
         });
         ol.proj.addProjection(ogcCrs84Proj);
