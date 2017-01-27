@@ -1,8 +1,11 @@
+import * as appConfig from 'constants/appConfig';
+
 export default class MapWrapper {
     constructor(container, options) {
         this.map = null;
         this.is3D = false;
         this.isActive = false;
+        this.mapDate = appConfig.DEFAULT_DATE;
     }
 
     createMap(container, options) {
@@ -187,8 +190,8 @@ export default class MapWrapper {
         console.warn("clearCache not implemented in subclass");
         return false;
     }
-    setMapDate() {
-        console.warn("setMapDate not implemented in subclass");
-        return false;
+    setMapDate(date) {
+        this.mapDate = date;
+        return true;
     }
 }

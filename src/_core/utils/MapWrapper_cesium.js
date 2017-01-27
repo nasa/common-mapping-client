@@ -20,8 +20,6 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.mapUtil = new MapUtil();
         this.miscUtil = new MiscUtil();
 
-        this.mapDate = appConfig.DEFAULT_DATE;
-
         // Create cesium scene 
         window.CESIUM_BASE_URL = 'assets/cesium';
         this.cesium = window.Cesium;
@@ -1003,12 +1001,6 @@ export default class MapWrapper_cesium extends MapWrapper {
             return false;
         }
     }
-
-    setMapDate(date) {
-        this.mapDate = date;
-        return true;
-    }
-
 
     /* methods for Cesium only */
     cartesianToLatLon(point) {

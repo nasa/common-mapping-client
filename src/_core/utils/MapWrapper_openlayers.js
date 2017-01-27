@@ -1085,11 +1085,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
-    setMapDate(date) {
-        this.mapDate = date;
-        return true;
-    }
-
     /* functions for openlayers only */
     generateTileUrl(layer, mapLayer, layerSource, tileCoord, pixelRatio, projectionString, origFunc) {
         try {
