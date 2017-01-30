@@ -401,7 +401,7 @@ export default class MapUtil {
     // returns a string measurement of that geometry
     measureGeometry(geometry, measurementType) {
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
-            console.warn("could not measure geometry, unsupported geometry type: ", geometry.type);
+            console.warn("Error in MapUtil.measureGeometry: Could not measure geometry, unsupported geometry type: ", geometry.type);
             return false;
         }
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
@@ -410,18 +410,18 @@ export default class MapUtil {
             if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
                 return this.calculatePolylineDistance(coords, geometry.proj);
             } else {
-                console.warn("could not measure distance, unsupported geometry type: ", geometry.type);
+                console.warn("Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ", geometry.type);
                 return false;
             }
         } else if (measurementType === appStrings.MEASURE_AREA) {
             if (geometry.type === appStrings.GEOMETRY_POLYGON) {
                 return this.calculatePolygonArea(coords, geometry.proj);
             } else {
-                console.warn("could not measure area, unsupported geometry type: ", geometry.type);
+                console.warn("Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ", geometry.type);
                 return false;
             }
         } else {
-            console.warn("could not measure geometry, unsupported measurement type: ", measurementType);
+            console.warn("Error in MapUtil.measureGeometry: Could not measure geometry, unsupported measurement type: ", measurementType);
             return false;
         }
     }
@@ -433,7 +433,7 @@ export default class MapUtil {
         } else if (measurementType === appStrings.MEASURE_AREA) {
             return this.formatArea(measurement, units);
         } else {
-            console.warn("could not format measurement, unsupported measurement type: ", measurementType);
+            console.warn("Error in MapUtil.formatMeasurement: Could not format measurement, unsupported measurement type: ", measurementType);
             return false;
         }
     }
@@ -445,7 +445,7 @@ export default class MapUtil {
             if (lastCoord) {
                 return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
             } else {
-                console.warn("could not find label placement, no coordinates in geometry.");
+                console.warn("Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry.");
                 return false;
             }
         } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
@@ -453,7 +453,7 @@ export default class MapUtil {
             coords = this.generateGeodesicArcsForLineString(coords);
             return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
         } else {
-            console.warn("could not find label placement, unsupported geometry type: ", geometry.type);
+            console.warn("Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ", geometry.type);
             return false;
         }
     }

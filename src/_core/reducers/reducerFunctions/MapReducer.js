@@ -372,7 +372,7 @@ export default class MapReducer {
             let newPartials = this.generatePartialsListFromWmtsXml(action.config);
             return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL], currPartials.concat(newPartials));
         } else {
-            console.warn("could not ingest layer config");
+            console.warn("Error in MapReducer.ingestLayerConfig: Could not ingest layer config");
         }
         return state;
     }
