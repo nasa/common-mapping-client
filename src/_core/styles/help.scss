@@ -37,12 +37,10 @@
         font-style: italic;
     }
     p {
-        // font-size: 1.4rem;
         font-weight: 400;
         padding: 0px 1.5rem;
         padding-left: 0px;
         margin: 0px;
-        // color: lighten($color-dark, 10%);
         color: $color-dark;
         margin-bottom: 1.4rem;
     }
@@ -69,7 +67,6 @@
         }
     }
     li {
-        // font-size: 1.4rem;
         font-weight: 400;
         margin-bottom: 0.5rem;
         line-height: 1.6rem;
@@ -99,7 +96,6 @@
 }
 
 .help-list {
-    // @include light-shadow();
     border-bottom: 1px solid #e3e3e3;
     background: $color-white;
     overflow: hidden;
@@ -110,7 +106,6 @@
 #helpVersionTagContainer {
     width: 100%;
     background: $color-medium-light;
-    // background: #f2f2f2;
     .version-tag {
         text-align: right;
         font-size: 1.2rem;

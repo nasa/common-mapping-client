@@ -71,7 +71,6 @@
     .timeAxis {
         cursor: pointer;
         &.dragging {
-            cursor: -webkit-grabbing;
             cursor: grabbing;
         }
     }
@@ -122,10 +121,8 @@
         stroke: $color-primary, 10%;
         stroke-width: 1;
         stroke-opacity: 1;
-        cursor: -webkit-grab;
         cursor: grab;
         &.dragging {
-            cursor: -webkit-grabbing;
             cursor: grabbing;
         }
     }
