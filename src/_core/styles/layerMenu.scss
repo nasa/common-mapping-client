@@ -124,27 +124,23 @@
     .colorbar-label-container {
         margin-left: 1.3rem;
         height: 1rem;
-        font-size: 1rem;
         line-height: 1rem;
         width: 255px;
         font-family: "Roboto Mono";
     }
     .colorbar-label {
-        font-size: 1rem;
+        font-size: 1.1rem;
         position: absolute;
         top: 0px;
     }
     .colorbar-label.min {
-        font-size: 1rem;
         left: 0px;
     }
     .colorbar-label.mid {
-        font-size: 1rem;
         left: 50%;
         transform: translate(-50%, 0px);
     }
     .colorbar-label.max {
-        font-size: 1rem;
         right: 0px;
     }
     .opacity-slider-container {

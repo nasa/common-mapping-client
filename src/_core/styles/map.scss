@@ -49,10 +49,7 @@
     width: 76px;
     bottom: 75px;
     left: 15px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     flex-flow: column wrap;
     align-content: flex-start;
@@ -63,11 +60,7 @@
         border-radius: 0px;
         display: inline-block;
         display: -webkit-box;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
         justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
         align-items: center;
         background: white;
         width: 38px;
