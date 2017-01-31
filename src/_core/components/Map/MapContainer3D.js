@@ -8,7 +8,9 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class MapContainer3D extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+        
         this.listenersInitialized = false;
     }
 

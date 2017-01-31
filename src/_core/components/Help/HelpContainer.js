@@ -12,7 +12,9 @@ const miscUtil = new MiscUtil();
 showdown.setFlavor('github');
 
 export class HelpContainer extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+
         // TODO - move these to a config or something
         this.pageKeys = {
             ABOUT: "about",

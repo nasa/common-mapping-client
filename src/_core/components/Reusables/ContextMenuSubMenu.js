@@ -9,39 +9,33 @@ import { Button } from 'react-toolbox/lib/button';
 import FontIcon from 'react-toolbox/lib/font_icon';
 import MiscUtil from '_core/utils/MiscUtil';
 
-const menuStyles = {
+const MENU_STYLES = {
     position: "relative",
     zIndex: "auto"
 };
 const initialState = {
     visible: false
 };
-const initialPosition = {
+const INITIAL_POSITION = {
     top: false,
     bottom: false,
     left: false,
     right: false
 };
-const showDelay = 500;
-const hideDelay = 250;
-const edgePadding = 50;
+const SHOW_DELAY = 500;
+const HIDE_DELAY = 250;
+const EDGE_PADDING = 50;
 
 const miscUtil = new MiscUtil();
 
 export class ContextMenuSubMenu extends Component {
-    componentWillMount() {
-        this.setState({...initialState }); // eslint-disable-line react/no-set-state
-        this.position = {...initialPosition };
+    constructor(props) {
+        super(props);
+
+        this.visible = false;
+        this.position = {...INITIAL_POSITION };
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state.isVisible !== nextState.visible;
-    }
-    componentWillUpdate() {
-        // Skip re-evaluating position if submenu already open
-        if (!this.state.visible) {
-            this.position = this.getMenuPosition();
-        }
-    }
+   
     componentWillUnmount() {
         if (this.opentimer) clearTimeout(this.opentimer);
 
@@ -51,18 +45,19 @@ export class ContextMenuSubMenu extends Component {
         let { innerWidth, innerHeight } = window;
         let menuRect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
         let submenuRect = ReactDOM.findDOMNode(this.refs.submenu).getBoundingClientRect();
-        let position = {...initialPosition };
-        if ((menuRect.top + submenuRect.height + edgePadding) > innerHeight) {
+        let position = {...INITIAL_POSITION };
+        if ((menuRect.top + submenuRect.height + EDGE_PADDING) > innerHeight) {
             position.bottom = true;
         } else {
             position.top = true;
         }
 
-        if ((menuRect.right + submenuRect.width + edgePadding) > innerWidth) {
+        if ((menuRect.right + submenuRect.width + EDGE_PADDING) > innerWidth) {
             position.left = true;
         } else {
             position.right = true;
         }
+
         return position;
     }
     handleClick(e) {
@@ -70,32 +65,41 @@ export class ContextMenuSubMenu extends Component {
         if (this.closetimer) clearTimeout(this.closetimer);
         if (this.opentimer) clearTimeout(this.opentimer);
 
-        this.setState({ visible: true }); // eslint-disable-line react/no-set-state
+        this.open();
     }
     handleMouseEnter() {
         if (this.closetimer) clearTimeout(this.closetimer);
 
-        if (this.props.disabled || this.state.visible) return;
+        if (this.props.disabled || this.visible) return;
 
-        let delay = typeof this.props.showDelay !== "undefined" ? this.props.showDelay : showDelay;
-        this.opentimer = setTimeout(() => this.setState({ visible: true }), delay); // eslint-disable-line react/no-set-state
+        let delay = typeof this.props.showDelay !== "undefined" ? this.props.showDelay : SHOW_DELAY;
+        this.opentimer = setTimeout(() => this.open(), delay);
     }
     handleMouseLeave() {
         if (this.opentimer) clearTimeout(this.opentimer);
 
-        if (!this.state.visible) return;
+        if (!this.visible) return;
 
-        let delay = typeof this.props.hideDelay !== "undefined" ? this.props.hideDelay : hideDelay;
-        this.closetimer = setTimeout(() => this.setState({ visible: false }), delay); // eslint-disable-line react/no-set-state
+        let delay = typeof this.props.hideDelay !== "undefined" ? this.props.hideDelay : HIDE_DELAY;
+        this.closetimer = setTimeout(() => this.close(), delay);
+    }
+    open() {
+        this.visible = true;
+        this.position = this.getMenuPosition();
+        this.forceUpdate();
+    }
+    close() {
+        this.visible = false;
+        this.forceUpdate();
     }
 
     render() {
-        let { disabled, children, title, icon, customIcon, tabIndex } = this.props, { visible } = this.state;
+        let { disabled, children, title, icon, customIcon, tabIndex } = this.props;
 
         let menuClasses = "context-menu-item submenu";
         let subMenuClasses = miscUtil.generateStringFromSet({
             "context-menu-sub-menu": true,
-            "active": visible,
+            "active": this.visible,
             "top": this.position.top,
             "bottom": this.position.bottom,
             "left": this.position.left,
@@ -104,19 +108,19 @@ export class ContextMenuSubMenu extends Component {
         let labelClasses = miscUtil.generateStringFromSet({
             "context-menu-item context-menu-sub-menu-label": true,
             "disabled": disabled,
-            "active": visible
+            "active": this.visible
         });
 
         return (
             <div
                 ref="menu"
                 className={menuClasses}
-                style={menuStyles}
+                style={MENU_STYLES}
                 onMouseEnter={() => this.handleMouseEnter()}
                 onMouseLeave={() => this.handleMouseLeave()} >
                 <Button
                     tabIndex={tabIndex}
-                    primary={visible}
+                    primary={this.visible}
                     aria-label={title}
                     className={labelClasses}
                     onClick={(e) => this.handleClick(e)}

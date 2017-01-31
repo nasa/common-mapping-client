@@ -10,7 +10,7 @@ const CANVAS_HEIGHT = 12;
 
 const miscUtil = new MiscUtil();
 
-export class ColorbarContainer extends Component {
+export class Colorbar extends Component {
     componentDidMount() {
         if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
             this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
@@ -72,7 +72,7 @@ export class ColorbarContainer extends Component {
     }
 }
 
-ColorbarContainer.propTypes = {
+Colorbar.propTypes = {
     actions: PropTypes.object.isRequired,
     palette: PropTypes.object,
     min: PropTypes.number,
@@ -92,4 +92,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     null,
     mapDispatchToProps
-)(ColorbarContainer);
+)(Colorbar);
