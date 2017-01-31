@@ -19,7 +19,11 @@ export class LayerControlContainer extends Component {
         this.isChangingOpacity = false;
         this.isChangingPosition = false;
     }
-
+    componentDidMount() {
+        // ReactTooltip needs to be rebuilt on render for this type
+        // of dynamic content
+        ReactTooltip.rebuild();
+    }
     shouldComponentUpdate(nextProps) {
         // Here we prevent unnecessary renderings by explicitly 
         // ignoring certain pieces of the layer state. We do this
@@ -88,10 +92,6 @@ export class LayerControlContainer extends Component {
     }
 
     render() {
-        // ReactTooltip needs to be rebuilt on render for this type
-        // of dynamic content
-        ReactTooltip.rebuild();
-        
         let containerClasses = miscUtil.generateStringFromSet({
             "layer-control pos-rel": true,
             "active": this.props.layer.get("isActive")
