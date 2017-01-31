@@ -9,7 +9,9 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class MapContainer2D extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+        
         // We need this instance variable because the map will take an unknown number of
         // render cycles as the map is initialized in appContainer
         this.listenersInitialized = false;

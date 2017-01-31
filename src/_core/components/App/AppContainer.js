@@ -30,7 +30,9 @@ import 'styles/styles.scss';
 const miscUtil = new MiscUtil();
 
 export class AppContainer extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+
         // Setting urlParams as a local variable avoids setting application state before
         // we know if we want to set state via urlParams. If you set urlParams in state, 
         // you'd need to set app state to default and then check for urlParams and configure,
@@ -40,6 +42,7 @@ export class AppContainer extends Component {
         // components since they lie outside of the application state and Redux paradigm.
         this.urlParams = miscUtil.getUrlParams();
     }
+
     componentDidMount() {
         // disable the right click listener
         document.addEventListener("contextmenu", function(e) {

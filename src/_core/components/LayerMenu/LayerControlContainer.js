@@ -6,17 +6,20 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import Switch from 'react-toolbox/lib/switch';
 import Slider from 'react-toolbox/lib/slider';
 import * as layerActions from '_core/actions/LayerActions';
-import ColorbarContainer from '_core/components/LayerMenu/ColorbarContainer';
+import Colorbar from '_core/components/LayerMenu/Colorbar';
 import MiscUtil from '_core/utils/MiscUtil';
 import { OpacityIcon0, OpacityIcon25, OpacityIcon50, OpacityIcon75, OpacityIcon100, LayerIconTop, LayerIconMiddle, LayerIconBottom } from '_core/components/Reusables/CustomIcons';
 
 const miscUtil = new MiscUtil();
 
 export class LayerControlContainer extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+
         this.isChangingOpacity = false;
         this.isChangingPosition = false;
     }
+
     shouldComponentUpdate(nextProps) {
         // Here we prevent unnecessary renderings by explicitly 
         // ignoring certain pieces of the layer state. We do this
@@ -88,7 +91,7 @@ export class LayerControlContainer extends Component {
         // ReactTooltip needs to be rebuilt on render for this type
         // of dynamic content
         ReactTooltip.rebuild();
-
+        
         let containerClasses = miscUtil.generateStringFromSet({
             "layer-control pos-rel": true,
             "active": this.props.layer.get("isActive")
@@ -156,7 +159,7 @@ export class LayerControlContainer extends Component {
                 <div className="lower-content">
                     <div className="row middle-xs">
                         <div className="col-xs-9 text-left no-padding">
-                            <ColorbarContainer
+                            <Colorbar
                                 palette={this.props.palette}
                                 min={this.props.layer.get("min")}
                                 max={this.props.layer.get("max")}
