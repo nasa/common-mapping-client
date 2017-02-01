@@ -10,67 +10,64 @@ const miscUtil = new MiscUtil();
 export class MapContainer3D extends Component {
     constructor(props) {
         super(props);
-        
+
+        // We need this instance variable because the map will take an unknown number of
+        // render cycles as the map is initialized in appContainer
         this.listenersInitialized = false;
-    }
-
-    initializeMapDrawHandlers() {
-        let map = this.props.maps.get(appStrings.MAP_LIB_3D);
-        if (typeof map !== "undefined") {
-            map.addDrawHandler(appStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
-            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
-            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
-        } else {
-            console.error("Cannot initialize 3D draw listeners: MAP NOT AVAILABLE");
-        }
-    }
-
-    initializeMapMeasurementHandlers() {
-        let map = this.props.maps.get(appStrings.MAP_LIB_3D);
-        if (typeof map !== "undefined") {
-            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE), appStrings.INTERACTION_MEASURE);
-            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA), appStrings.INTERACTION_MEASURE);
-        } else {
-            console.error("Cannot initialize 3D measurement listeners: MAP NOT AVAILABLE");
-        }
     }
 
     initializeMapListeners() {
         let map = this.props.maps.get(appStrings.MAP_LIB_3D);
         if (typeof map !== "undefined") {
-            map.addEventListener(appStrings.EVENT_MOVE_END, () => {
-                // Only fire move event if this map is active
-                // and target inactive map
-                if (map.isActive) {
-                    this.props.actions.setMapView({
-                        extent: map.getExtent()
-                    }, false);
-                }
-            });
-            map.addEventListener(appStrings.EVENT_MOUSE_HOVER, (pixel) => {
-                if (map.isActive) {
-                    this.props.actions.pixelHover(pixel);
-                }
-            });
-            map.addEventListener(appStrings.EVENT_MOUSE_CLICK, (pixel) => {
-                if (map.isActive) {
-                    this.props.actions.pixelClick(pixel);
-                }
-            });
+            // mouse event listeners
+            map.addEventListener(appStrings.EVENT_MOVE_END, () => this.handleMapMoveEnd(map));
+            map.addEventListener(appStrings.EVENT_MOUSE_HOVER, (pixel) => this.handlePixelHover(map, pixel));
+            map.addEventListener(appStrings.EVENT_MOUSE_CLICK, (pixel) => this.handlePixelClick(map, pixel));
+
+            // draw handlers
+            map.addDrawHandler(appStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+
+            // measurement listeners
+            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE), appStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA), appStrings.INTERACTION_MEASURE);
         } else {
-            console.error("MAP NOT AVAILABLE");
+            console.error("Cannot initialize event listeners: 3D MAP NOT AVAILABLE");
+        }
+    }
+
+    handleMapMoveEnd(map) {
+        // Only fire move event if this map is active
+        // and target inactive map
+        if (map.isActive) {
+            this.props.actions.setMapView({
+                extent: map.getExtent()
+            }, false);
+        }
+    }
+
+    handlePixelHover(map, pixel) {
+        // Only fire move event if this map is active
+        if (map.isActive) {
+            this.props.actions.pixelHover(pixel);
+        }
+    }
+
+    handlePixelClick(map, pixel) {
+        // Only fire move event if this map is active
+        if (map.isActive) {
+            this.props.actions.pixelClick(pixel);
         }
     }
 
     handleDrawEnd(geometry) {
         // Disable drawing
         this.props.actions.disableDrawing();
-        // Add geometry to other maps
-        // this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_DRAW);
     }
 
     handleMeasureEnd(geometry, measurementType) {
-        // Disable drawing
+        // Disable measurement
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, true);
@@ -82,14 +79,13 @@ export class MapContainer3D extends Component {
         // need to get some sort of stored state value
         if (this.props.initialLoadComplete && !this.listenersInitialized) {
             this.initializeMapListeners();
-            this.initializeMapDrawHandlers();
-            this.initializeMapMeasurementHandlers();
             this.listenersInitialized = true;
         }
 
         let containerClass = miscUtil.generateStringFromSet({
             "inactive": !this.props.in3DMode
         });
+
         return (
             <div id="mapContainer3D" className={containerClass}>
                 <div id="map3D" />
