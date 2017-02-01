@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ContextMenuLayer } from "react-contextmenu";
 import { bindActionCreators } from 'redux';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import * as actions from '_core/actions/AnalyticsActions';
 import ReactGA from 'react-ga';
 

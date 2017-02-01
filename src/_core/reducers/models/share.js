@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 // pull autoUpdateUrl from local storage, default to appConfig value if missing
 let localStorageAutoUpdateUrl = window.localStorage.getItem("autoUpdateUrl");

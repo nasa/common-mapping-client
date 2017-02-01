@@ -6,7 +6,7 @@ import { Button } from 'react-toolbox/lib/button';
 import YearPicker from '_core/components/DatePicker/YearPicker';
 import MonthPicker from '_core/components/DatePicker/MonthPicker';
 import DayPicker from '_core/components/DatePicker/DayPicker';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export class DatePicker extends Component {
     incrementDate(resolution, increment = true) {

@@ -7,7 +7,7 @@ import proj4js from 'proj4';
 import moment from 'moment';
 import { GreatCircle } from 'assets/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
 
@@ -475,32 +475,5 @@ export default class MapUtil {
             }
             return acc;
         }, []);
-    }
-
-    // USUSED - get max selectable year index in the appConfig.YEAR_ARRAY given current date and max date
-    getMaxYearConstraintIndex(date, maxDate) {
-        date = moment(date);
-        maxDate = moment(maxDate);
-        let dateIndex = appConfig.YEAR_ARRAY.indexOf(date.format("YYYY").toLowerCase());
-        let diff = Math.floor(maxDate.diff(date, "years", true));
-        return Math.min(appConfig.YEAR_ARRAY.length - 1, dateIndex + diff);
-    }
-
-    // USUSED - get max selectable month index in the appConfig.MONTH_ARRAY given current date and max date
-    getMaxMonthConstraintIndex(date, maxDate) {
-        date = moment(date);
-        maxDate = moment(maxDate);
-        let dateIndex = appConfig.MONTH_ARRAY.indexOf(date.format("MMM").toLowerCase());
-        let diff = Math.floor(maxDate.diff(date, "months", true));
-        return Math.min(appConfig.MONTH_ARRAY.length - 1, dateIndex + diff);
-    }
-
-    // USUSED - get max selectable day index in the appConfig.DAY_ARRAY given current date and max date
-    getMaxDayConstraintIndex(date, maxDate) {
-        date = moment(date);
-        maxDate = moment(maxDate);
-        let dateIndex = appConfig.DAY_ARRAY.indexOf(date.format("DD").toLowerCase());
-        let diff = Math.floor(maxDate.diff(date, "days", true));
-        return Math.min(appConfig.DAY_ARRAY.length - 1, dateIndex + diff);
     }
 }

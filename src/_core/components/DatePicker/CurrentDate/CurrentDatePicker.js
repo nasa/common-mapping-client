@@ -6,7 +6,7 @@ import { Button } from 'react-toolbox/lib/button';
 import CurrentYearPicker from '_core/components/DatePicker/CurrentDate/CurrentYearPicker';
 import CurrentMonthPicker from '_core/components/DatePicker/CurrentDate/CurrentMonthPicker';
 import CurrentDayPicker from '_core/components/DatePicker/CurrentDate/CurrentDayPicker';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export class CurrentDatePicker extends Component {
     shouldComponentUpdate(nextProps) {

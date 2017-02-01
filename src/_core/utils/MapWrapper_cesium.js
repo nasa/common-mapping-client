@@ -3,7 +3,7 @@ import MapWrapper from '_core/utils/MapWrapper';
 import MiscUtil from '_core/utils/MiscUtil';
 import CesiumTilingScheme_GIBS from '_core/utils/CesiumTilingScheme_GIBS';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MapUtil from '_core/utils/MapUtil';
 import TileHandler from '_core/utils/TileHandler';
 import 'assets/cesium/Cesium.js';

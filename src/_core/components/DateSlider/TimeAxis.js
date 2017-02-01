@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as MapActions from '_core/actions/MapActions';
 import TimeAxisD3 from '_core/utils/TimeAxisD3';

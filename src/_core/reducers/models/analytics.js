@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 // pull analyticsEnabled from local storage, default to appConfig default value if missing
 let localStorageAnalyticsEnabled = window.localStorage.getItem("analyticsEnabled");

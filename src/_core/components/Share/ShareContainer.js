@@ -5,7 +5,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import moment from 'moment';

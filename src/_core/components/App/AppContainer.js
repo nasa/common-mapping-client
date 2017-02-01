@@ -6,7 +6,7 @@ import * as actions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapContainer from '_core/components/Map/MapContainer';
 import MapContextMenu from '_core/components/Map/MapContextMenu';
@@ -86,26 +86,26 @@ export class AppContainer extends Component {
             "mouse-hidden": this.props.mapControlsHidden && this.props.distractionFreeMode,
             "mouse-shown": !this.props.mapControlsHidden && this.props.distractionFreeMode
         });
-        return ( 
-            <div id="appContainer" className={containerClasses}>
-                <DatePickerContainer/>
-                <HelpContainer/>
-                <MapContainer/>
-                <MapControlsContainer/>
-                <AppBarContainer/>
-                <SettingsContainer/>
-                <ShareContainer/>
-                <LayerInfoContainer/>
-                <LayerMenuContainer/>
-                <DateSliderContainer/>
-                <AlertsContainer/>
-                <LoadingContainer/>
-                <MapContextMenu/>
-                <MouseFollowerContainer/>
-                <AnalyticsContainer/>
-                <KeyboardControlsContainer/>
-                <CoordinateTracker/>
-                <ReactTooltip effect="solid" globalEventOff="click" delayShow={600}/> 
+        return (
+            <div id="appContainer" className={containerClasses} >
+                <DatePickerContainer />
+                <HelpContainer />
+                <MapContainer />
+                <MapControlsContainer />
+                <AppBarContainer />
+                <SettingsContainer />
+                <ShareContainer />
+                <LayerInfoContainer />
+                <LayerMenuContainer />
+                <DateSliderContainer />
+                <AlertsContainer />
+                <LoadingContainer />
+                <MapContextMenu />
+                <MouseFollowerContainer />
+                <AnalyticsContainer />
+                <KeyboardControlsContainer />
+                <CoordinateTracker />
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={600} />
             </div>
         );
     }
