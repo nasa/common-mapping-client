@@ -72,6 +72,10 @@ export class AppContainer extends Component {
 
                     // signal complete
                     this.props.actions.completeInitialLoad();
+
+                    // ReactTooltip needs to be rebuilt to account
+                    // for dynamic lists in LayerMenuContainer
+                    ReactTooltip.rebuild();
                 }, 0);
             });
         });
