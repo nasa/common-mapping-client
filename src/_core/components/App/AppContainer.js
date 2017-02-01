@@ -96,7 +96,7 @@ export class AppContainer extends Component {
                 <SettingsContainer/>
                 <ShareContainer/>
                 <LayerInfoContainer/>
-                <La yerMenuContainer/>
+                <LayerMenuContainer/>
                 <DateSliderContainer/>
                 <AlertsContainer/>
                 <LoadingContainer/>
