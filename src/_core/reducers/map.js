@@ -22,9 +22,6 @@ export default function map(state = mapState, action) {
         case actionTypes.SET_MAP_VIEW:
             return MapReducer.setMapView(state, action);
 
-        case actionTypes.SET_MAP_VIEW_INFO:
-            return MapReducer.setViewInfo(state, action);
-
         case actionTypes.ZOOM_IN:
             return MapReducer.zoomIn(state, action);
 

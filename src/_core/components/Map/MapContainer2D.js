@@ -43,11 +43,12 @@ export class MapContainer2D extends Component {
         if (typeof map !== "undefined") {
             map.addEventListener(appStrings.EVENT_MOVE_END, () => {
                 // Only fire move event if this map is active
+                // and target inactive map
                 if (map.isActive) {
-                    this.props.actions.setMapViewInfo({
+                    this.props.actions.setMapView({
                         extent: map.getExtent(),
                         projection: map.getProjection()
-                    });
+                    }, false);
                 }
             });
             map.addEventListener(appStrings.EVENT_MOUSE_HOVER, (pixel) => {

@@ -10,7 +10,6 @@ import * as appStrings from '_core/constants/appStrings';
 import * as appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
-// import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
 
 export default class MapUtil {
     constructor() {
@@ -276,7 +275,6 @@ export default class MapUtil {
         return parseFloat(value).toString();
     }
 
-
     // Calculates distance of a polyline using turf
     // Expects an array of coordinates in form
     // [ [lon,lat], ... ]
@@ -456,6 +454,27 @@ export default class MapUtil {
             console.warn("Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ", geometry.type);
             return false;
         }
+    }
+
+    // Takes in an extent as an array of strings or floats and returns an array with float representations of the strings or floats. 
+    // Returns false if Array is wrong type or does not contain exactly four floats.
+    parseStringExtent(extentStrArr) {
+        // Check extentStrArr type
+        if (!extentStrArr || !Array.isArray(extentStrArr) || extentStrArr.length !== 4) {
+            return false;
+        }
+
+        return extentStrArr.reduce((acc, numStr) => {
+            if (typeof acc === "object") {
+                let num = parseFloat(numStr);
+                if (isNaN(num)) {
+                    return false;
+                } else {
+                    acc.push(num);
+                }
+            }
+            return acc;
+        }, []);
     }
 
     // USUSED - get max selectable year index in the appConfig.YEAR_ARRAY given current date and max date

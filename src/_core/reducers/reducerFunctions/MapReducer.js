@@ -31,16 +31,30 @@ export default class MapReducer {
     }
 
     static setMapViewMode(state, action) {
+        let alerts = state.get("alerts");
+
         // rendering issues in cesium
         state = this.disableDrawing(state, action);
         state = this.disableMeasuring(state, action);
 
-        let mode_3D = action.mode === appStrings.MAP_VIEW_MODE_3D;
+        // Check validity of action.mode
+        if (action.mode !== appStrings.MAP_VIEW_MODE_2D &&
+            action.mode !== appStrings.MAP_VIEW_MODE_3D) {
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.VIEW_MODE_CHANGE_FAILED.title,
+                body: appStrings.ALERTS.VIEW_MODE_CHANGE_FAILED.formatString.replace("{MAP_VIEW_MODE}", action.mode),
+                severity: appStrings.ALERTS.VIEW_MODE_CHANGE_FAILED.severity,
+                time: new Date()
+            }));
+            return state.set("alerts", alerts);
+        }
+
+        let mode3D = action.mode === appStrings.MAP_VIEW_MODE_3D;
         state = state.set("maps", state.get("maps").map((map) => {
             if (map.is3D) {
-                map.isActive = mode_3D;
+                map.isActive = mode3D;
             } else {
-                map.isActive = !mode_3D;
+                map.isActive = !mode3D;
             }
             if (map.isActive) {
                 // delay for next animation frame
@@ -58,7 +72,7 @@ export default class MapReducer {
             }
             return map;
         }));
-        return state.setIn(["view", "in3DMode"], mode_3D);
+        return state.setIn(["view", "in3DMode"], mode3D);
     }
 
     static setTerrainEnabled(state, action) {
@@ -118,10 +132,20 @@ export default class MapReducer {
 
     static setMapView(state, action) {
         let alerts = state.get("alerts");
+        let validatedExtent = this.mapUtil.parseStringExtent(action.viewInfo.extent);
+        if (!validatedExtent) {
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
+                body: appStrings.ALERTS.VIEW_SYNC_FAILED.formatString.replace("{MAP}", "2D & 3D"),
+                severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
+                time: new Date()
+            }));
+            state = state.set("alerts", alerts);
+        }
         let anySucceed = state.get("maps").reduce((acc, map) => {
-            // Only apply view to active map
-            if (map.isActive) {
-                if (map.setExtent(action.viewInfo.extent)) {
+            // Apply view to active/inactive maps depending on targetActiveMap
+            if (map.isActive === action.targetActiveMap) {
+                if (map.setExtent(validatedExtent)) {
                     return true;
                 } else {
                     let contextStr = map.is3D ? "3D" : "2D";
@@ -138,38 +162,11 @@ export default class MapReducer {
 
         if (anySucceed) {
             return state
-                .setIn(["view", "extent"], typeof action.viewInfo.extent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
+                .setIn(["view", "extent"], typeof validatedExtent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
                 .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
                 .set("alerts", alerts);
         }
         return state;
-    }
-
-    static setViewInfo(state, action) {
-        let alerts = state.get("alerts");
-        // TODO split out projection changes?
-        let anySucceed = state.get("maps").reduce((acc, map) => {
-            // Only apply view to inactive maps
-            if (!map.isActive) {
-                if (map.setExtent(action.viewInfo.extent)) {
-                    return true;
-                } else {
-                    let contextStr = map.is3D ? "3D" : "2D";
-                    alerts = alerts.push(alert.merge({
-                        title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
-                        body: appStrings.ALERTS.VIEW_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
-                        severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
-                        time: new Date()
-                    }));
-                }
-            }
-            return acc;
-        }, false);
-
-        return state
-            .setIn(["view", "extent"], typeof action.viewInfo.extent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
-            .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
-            .set("alerts", alerts);
     }
 
     static zoomIn(state, action) {
@@ -264,18 +261,37 @@ export default class MapReducer {
     }
 
     static setLayerOpacity(state, action) {
+        let alerts = state.get("alerts");
+
         // resolve layer from id if necessary
         let actionLayer = action.layer;
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
             if (typeof actionLayer === "undefined") {
-                return state;
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
+                    body: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.formatString.replace("{LAYER}", action.layer),
+                    severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
+                    time: new Date()
+                }));
+                return state.set("alerts", alerts);
             }
         }
 
         // validate opacity
         let opacity = parseFloat(action.opacity);
-        if (isNaN(opacity) || actionLayer.get("opacity") === opacity) {
+        if (isNaN(opacity)) {
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
+                body: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.formatString.replace("{LAYER}", action.layer),
+                severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
+                time: new Date()
+            }));
+            return state.set("alerts", alerts);
+        }
+
+        // If opacity has not changed, do not continue
+        if (actionLayer.get("opacity") === opacity) {
             return state;
         }
 
@@ -311,7 +327,13 @@ export default class MapReducer {
         if (typeof actionLayer === "string") {
             actionLayer = this.findLayerById(state, actionLayer);
             if (typeof actionLayer === "undefined") {
-                return state;
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.title,
+                    body: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.formatString.replace("{LAYER}", action.layer).replace("{MAP}", "2D & 3D"),
+                    severity: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.severity,
+                    time: new Date()
+                }));
+                return state.set("alerts", alerts);
             }
         }
 
@@ -455,6 +477,28 @@ export default class MapReducer {
         // shortcut non-updates
         if (date === state.get("date")) {
             return state;
+        }
+
+        // type check, if string we need to do certain validations
+        if (typeof date === "string") {
+            // If the date is a today string we always convert to start of local today
+            if (date.toLowerCase() === "today") {
+                date = moment(new Date()).startOf("day");
+            } else {
+                date = moment(date, 'YYYY-MM-DD');
+            }
+            // Now check date validity after being momentified
+            if (date.isValid()) {
+                date = date.toDate();
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.SET_DATE_FAILED.title,
+                    body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace("{MAP}", "2D & 3D"),
+                    severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
+                    time: new Date()
+                }));
+                return state.set("alerts", alerts);
+            }
         }
 
         // make sure we are in bounds
@@ -861,7 +905,8 @@ export default class MapReducer {
         newState = this.setMapView(newState, {
             viewInfo: {
                 extent: appConfig.DEFAULT_BBOX_EXTENT
-            }
+            },
+            targetActiveMap: true
         });
 
         // set date to today

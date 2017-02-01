@@ -113,6 +113,11 @@ export const ALERTS = {
         formatString: "Activating {LAYER} as the basemap on the {MAP} map failed.",
         severity: 3
     },
+    LAYER_OPACITY_CHANGE_FAILED: {
+        title: "Layer Opacity Change Failed",
+        formatString: "Setting opacity for {LAYER} failed.",
+        severity: 3
+    },
     GEOMETRY_SYNC_FAILED: {
         title: "Geometry Sync Failed",
         formatString: "Synchronizing geometry on the {MAP} map failed.",
@@ -128,9 +133,14 @@ export const ALERTS = {
         formatString: "Removal of all measurements from the {MAP} map failed.",
         severity: 3
     },
+    VIEW_MODE_CHANGE_FAILED: {
+        title: "Map View Mode Change Failed",
+        formatString: "Changing of map view mode to {MAP_VIEW_MODE} failed.",
+        severity: 3
+    },
     VIEW_SYNC_FAILED: {
-        title: "View Sync Failed",
-        formatString: "Synchronizing the view on the {MAP} map failed.",
+        title: "Setting Map Extent Failed",
+        formatString: "Setting the extent of the {MAP} map failed.",
         severity: 2
     },
     SET_DATE_FAILED: {

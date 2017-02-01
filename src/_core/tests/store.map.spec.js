@@ -423,10 +423,10 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
-                        mapActions.setMapViewInfo({
+                        mapActions.setMapView({
                             extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752],
                             projection: appConfig.DEFAULT_PROJECTION
-                        })
+                        }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -457,9 +457,9 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                        mapActions.setMapViewInfo({
+                        mapActions.setMapView({
                             extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]
-                        })
+                        }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

@@ -845,6 +845,29 @@ export const MapUtilSpec = {
                     expect(mapUtil.getLabelPosition({ type: appStrings.GEOMETRY_LINE_STRING, coordinates: [] })).to.be.false;
                 });
             }
+        },
+        parseStringExtent: {
+            test1: () => {
+                it('returns false when extent is not of type Array', () => {
+                    expect(mapUtil.parseStringExtent()).to.be.false;
+                    expect(mapUtil.parseStringExtent("dog")).to.be.false;
+                    expect(mapUtil.parseStringExtent(1)).to.be.false;
+                    expect(mapUtil.parseStringExtent({ a: 1 })).to.be.false;
+                });
+                it('returns false when extent is not of length 4', () => {
+                    expect(mapUtil.parseStringExtent([])).to.be.false;
+                    expect(mapUtil.parseStringExtent([1, 2, 3])).to.be.false;
+                    expect(mapUtil.parseStringExtent([1, 2, 3, 5, 5])).to.be.false;
+                });
+                it('returns array of floats equivalent to extent.map(x => parseFloat(x)) when passed array of 4 of string floats', () => {
+                    expect(mapUtil.parseStringExtent(["1", "1", "1", "1"])).to.deep.equal([1, 1, 1, 1]);
+                    expect(mapUtil.parseStringExtent(["1.1234", "0.3123", "-0.2340192", "13234234.2911"])).to.deep.equal([1.1234, 0.3123, -0.2340192, 13234234.2911]);
+                });
+                it('returns array of floats equivalent to extent.map(x => parseFloat(x)) when passed array of 4 of float floats', () => {
+                    expect(mapUtil.parseStringExtent([1, 1, 1, 1])).to.deep.equal([1, 1, 1, 1]);
+                    expect(mapUtil.parseStringExtent([1.1234, 0.3123, -0.2340192, 13234234.2911])).to.deep.equal([1.1234, 0.3123, -0.2340192, 13234234.2911]);
+                });
+            }
         }
     }
 }

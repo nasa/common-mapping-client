@@ -12,12 +12,8 @@ export function resetOrientation(duration) {
     return { type: types.RESET_ORIENTATION, duration };
 }
 
-export function setMapView(viewInfo) {
-    return { type: types.SET_MAP_VIEW, viewInfo };
-}
-
-export function setMapViewInfo(viewInfo) {
-    return { type: types.SET_MAP_VIEW_INFO, viewInfo };
+export function setMapView(viewInfo, targetActiveMap = true) {
+    return { type: types.SET_MAP_VIEW, viewInfo, targetActiveMap };
 }
 
 export function setTerrainEnabled(enabled) {

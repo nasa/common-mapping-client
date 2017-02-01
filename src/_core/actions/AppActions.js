@@ -153,29 +153,11 @@ function setBasemap(basemapId) {
 }
 
 function setExtent(extentStrArr) {
-    let extent = extentStrArr.reduce((acc, numStr) => {
-        if(typeof acc === "object") {
-            let num = parseFloat(numStr);
-            if(isNaN(num)) {
-                return false;
-            } else {
-                acc.push(num);
-            }
-        }
-        return acc;
-    }, []);
-
-    if(extent) {
-        return (dispatch) => {
-            return new Promise(() => {
-                dispatch(MapActions.setMapView({
-                    extent: extent
-                }));
-            });
-        };
-    } else {
-        return { type: types.NO_ACTION };
-    }
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setMapView({ extent: extentStrArr }, true));
+        });
+    };
 }
 
 function setTerrainEnabled(enabled) {
@@ -187,21 +169,9 @@ function setTerrainEnabled(enabled) {
 }
 
 function setDate(dateStr) {
-    let date = false;
-    if (dateStr.toLowerCase() === "today") {
-        date = moment(new Date()).startOf("day");
-    } else {
-        date = moment(dateStr, 'YYYY-MM-DD');
-    }
-
-    if (date.isValid()) {
-        date = date.toDate();
-        return (dispatch) => {
-            return new Promise(() => {
-                dispatch(MapActions.setDate(date));
-            });
-        };
-    } else {
-        return { type: types.NO_ACTION };
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(MapActions.setDate(dateStr));
+        });
     }
 }

@@ -1,5 +1,5 @@
 .alert-severity-group  {
-    border-bottom: 1px solid $color-medium-dark;
+    border-bottom: 1px solid rgba($color-medium-dark, 0.3);
     &.severity-1 {
         border-left: 3rem solid $palette-yellow-400;
     }
@@ -12,14 +12,13 @@
 }
 
 .alert-group {
-    margin: 0px 1.5rem 3rem 1.5rem;
-    padding-top: 1rem;
+    margin: 0px 1.5rem 2.5rem 1.5rem;
+    padding-top: 1.5rem;
 }
 
 .alert-group-title {
     font-size: 1.8rem;
     font-weight: 500;
-    letter-spacing: 0.5px;
     color: $color-dark;
 }
 
