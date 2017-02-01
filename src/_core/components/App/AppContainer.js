@@ -86,29 +86,27 @@ export class AppContainer extends Component {
             "mouse-hidden": this.props.mapControlsHidden && this.props.distractionFreeMode,
             "mouse-shown": !this.props.mapControlsHidden && this.props.distractionFreeMode
         });
-        return ( < div id = "appContainer"
-            className = { containerClasses } >
-            < DatePickerContainer / >
-            < HelpContainer / >
-            < MapContainer / >
-            < MapControlsContainer / >
-            < AppBarContainer / >
-            < SettingsContainer / >
-            < ShareContainer / >
-            < LayerInfoContainer / >
-            < LayerMenuContainer / >
-            < DateSliderContainer / >
-            < AlertsContainer / >
-            < LoadingContainer / >
-            < MapContextMenu / >
-            < MouseFollowerContainer / >
-            < AnalyticsContainer / >
-            < KeyboardControlsContainer / >
-            < CoordinateTracker / >
-            < ReactTooltip effect = "solid"
-            globalEventOff = "click"
-            delayShow = { 600 }
-            /> < /div>
+        return ( 
+            <div id="appContainer" className={containerClasses}>
+                <DatePickerContainer/>
+                <HelpContainer/>
+                <MapContainer/>
+                <MapControlsContainer/>
+                <AppBarContainer/>
+                <SettingsContainer/>
+                <ShareContainer/>
+                <LayerInfoContainer/>
+                <La yerMenuContainer/>
+                <DateSliderContainer/>
+                <AlertsContainer/>
+                <LoadingContainer/>
+                <MapContextMenu/>
+                <MouseFollowerContainer/>
+                <AnalyticsContainer/>
+                <KeyboardControlsContainer/>
+                <CoordinateTracker/>
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={600}/> 
+            </div>
         );
     }
 }
