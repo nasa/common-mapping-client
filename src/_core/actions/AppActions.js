@@ -173,5 +173,5 @@ function setDate(dateStr) {
         return new Promise(() => {
             dispatch(MapActions.setDate(dateStr));
         });
-    }
+    };
 }
