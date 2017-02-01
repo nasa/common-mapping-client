@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import YearPicker from '_core/components/DatePicker/YearPicker';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export class CurrentYearPicker extends Component {
     shouldComponentUpdate(nextProps) {

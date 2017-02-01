@@ -6,7 +6,7 @@ import { ContextMenuSubMenu } from '_core/components/Reusables/ContextMenuSubMen
 import * as actions from '_core/actions/MapActions';
 import * as appActions from '_core/actions/AppActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import { EyeIcon, EyeOffIcon } from '_core/components/Reusables/CustomIcons';
 import { MenuItem } from 'react-toolbox/lib/menu';

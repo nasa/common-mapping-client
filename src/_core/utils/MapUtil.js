@@ -7,7 +7,7 @@ import proj4js from 'proj4';
 import moment from 'moment';
 import { GreatCircle } from 'assets/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
 

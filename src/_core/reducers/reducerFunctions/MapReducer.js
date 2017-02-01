@@ -5,7 +5,7 @@ import { alert } from '_core/reducers/models/alert';
 import MapUtil from '_core/utils/MapUtil';
 import MiscUtil from '_core/utils/MiscUtil';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import { createMap } from 'utils/MapCreator';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.

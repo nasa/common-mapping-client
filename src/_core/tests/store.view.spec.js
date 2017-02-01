@@ -1,6 +1,6 @@
 import * as AppActions from '_core/actions/AppActions';
 import * as LayerActions from '_core/actions/LayerActions';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '_core/reducers';

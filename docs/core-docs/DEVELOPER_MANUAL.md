@@ -539,11 +539,12 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 │   │     │   └── data            # Any dummy data core tests may need
 │   │     └── utils               # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
-│   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config. Note that core is also configured from this file.
+│   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config.
 │   ├── default-data          # Default data for the application
 │   │   └── _core_default-data    # Default data for Core, not to be modified by user
 │   │       ├── help              # Core in-app help markdown documentation files
 │   │       └── layer-metadata    # Core metadata files for each layer
+│   ├── config.js             # Ops configuration options
 │   ├── index.html            # Start page where the app bundle is included, also has loading screen written in vanilla JS.
 │   ├── index.js              # Entry point for your app
 │   ├── styles                # CSS Styles, typically written in Sass
@@ -1009,7 +1010,6 @@ Upgrading CMC can range from almost painless (0 - 2 simple merge conflicts) to a
 - `scripts` - These scripts may change in Core. You shouldn't need to tweak these scripts too much and you probably won't have conflicts here. That said, you should probably use your own deploy.sh script customized for your own CI/deployment environment.
 - `AppContainer.js` - This is just a stub file in Core so you shouldn't see any issues here.
 - `.travis.yml` - CMC Core .travis.yml file may change from time to time, be careful with this one if you're using Travis CI.
-- `constants/appConfig.js` - Core and non-Core developers use appConfig.js for various configuration items. This will be something you want to pay attention to when upgrading CMC versions, although [Issue 39](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues/39) will address this problem and hopefully keep Core and non-Core application configurations separate and give non-Core easy overrides to Core appConfig.
 - `tests/core-test-overrides.spec.js` - If Core adds a new Spec file it will need to add an import to this file which in theory shouldn't cause too much trouble. 
 - `package.json` - There's no getting around this one unfortunately with the current architecture. If Core modifies dependencies, updates it's version number (which it will do every time you upgrade to a tagged version), your package.json may conflict/be overridden. Make sure you look at what's changed in the Core package.json before upgrading and plan accordingly.
 - `webpack.config.dev.js` - This config will also change from time to time but in theory you shouldn't have to worry about this file too much and any conflicts should be easy to manage.

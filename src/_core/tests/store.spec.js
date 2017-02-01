@@ -3,7 +3,7 @@ import * as MapActions from '_core/actions/MapActions';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as actionTypes from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import rootReducer from '_core/reducers';

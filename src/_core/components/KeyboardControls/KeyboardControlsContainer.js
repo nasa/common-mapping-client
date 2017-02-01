@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import * as mapActions from '_core/actions/MapActions';
 import * as dateSliderActions from '_core/actions/DateSliderActions';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import * as appStrings from '_core/constants/appStrings';
 import KeyHandler, { KEYUP, KEYDOWN } from 'react-key-handler';
 

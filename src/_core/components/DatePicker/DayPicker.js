@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
 import MiscUtil from '_core/utils/MiscUtil';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 const MAX_LENGTH = 2;
 const miscUtil = new MiscUtil();

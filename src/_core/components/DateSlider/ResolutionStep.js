@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Button, IconButton} from 'react-toolbox/lib/button';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import MiscUtil from '_core/utils/MiscUtil';
 

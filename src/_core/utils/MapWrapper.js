@@ -1,4 +1,4 @@
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export default class MapWrapper {
     constructor(container, options) {

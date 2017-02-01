@@ -4,7 +4,7 @@ import ol from 'openlayers';
 // import olDebug from 'openlayers/dist/ol-debug.js';
 import proj4js from 'proj4';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MapWrapper from '_core/utils/MapWrapper';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapUtil from '_core/utils/MapUtil';

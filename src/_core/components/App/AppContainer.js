@@ -6,7 +6,7 @@ import * as actions from '_core/actions/AppActions';
 import * as mapActions from '_core/actions/MapActions';
 import * as layerActions from '_core/actions/LayerActions';
 import * as appStrings from '_core/constants/appStrings';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 import MiscUtil from '_core/utils/MiscUtil';
 import MapContainer from '_core/components/Map/MapContainer';
 import MapContextMenu from '_core/components/Map/MapContextMenu';

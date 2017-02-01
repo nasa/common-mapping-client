@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import DayPicker from '_core/components/DatePicker/DayPicker';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export class CurrentDayPicker extends Component {
     shouldComponentUpdate(nextProps) {

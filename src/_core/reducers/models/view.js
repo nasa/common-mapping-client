@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as appConfig from 'constants/appConfig';
+import appConfig from 'constants/appConfig';
 
 export const viewState = Immutable.fromJS({
     title: appConfig.APP_TITLE,
