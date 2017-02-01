@@ -10,6 +10,7 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
   1. [General](#cmc-core-philosophy-general)
   2. [The "_core" Directory](#cmc-core-philosophy-core-directory)
   3. [Adding, Overriding, and Removing "_core" Functionality & Components](#cmc-core-philosophy-modifying-core)
+  4. [Overriding configs](#cmc-core-philosophy-modifying-core-config)
 6. [The CMC Build Process](#cmc-build-process)
   1. [Post-Install](#cmc-build-process-post-install)
   2. [Webpack](#cmc-build-process-webpack)
@@ -152,6 +153,27 @@ An Application Developer can choose to use CMC Core's AppContainer as it is and 
 It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC Core (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from Core in the parent `src` folder. Similar to components, you can swap out utility Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override MapWrapper classes (which are described in more detail later) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that CMC Core by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data/`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
 
 In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) to see this in action.
+
+<a id="cmc-core-philosophy-modifying-core-config"/>
+### Overriding configs
+There are three areas of configuration:
+
+1. CMC Core: `src/_core/constants/appConfig.js`
+    * exports config parameters as individual variables
+    * overrides none
+    * built into `bundle.js` with webpack
+2. CMC App: `src/constants/appConfig.js`
+    * exports config parameters as a single, unified variable
+    * overrides CMC Core
+    * built into `bundle.js` with webpack
+3. Ops: `src/config.js`
+    * exports config parameters as a single unified variable
+    * overrides CMC App
+    * not built into `bundle.js`
+
+The goal of these different sections is to allow CMC Core and CMC App developers to create and modify configurations without stepping on eachother's toes and provide a mechanism for a build app to have it's configurations modified after deployment. Take the example of the `APP\_TITLE` and `APP\_VERSION` parameters. In Core they may be (`APP\_TITLE = "CMC Core"; APP\_VERSION = 2.6;`) but a subsequent application would want the configuration to be (`APP\_TITLE = "My App"; APP\_VERSION = 1.0;`) so they override those parameters int `src/constants/appConfig.js`. Let us then suppose that a backend service is updated and so the version of the app should be bumped to reflect that change. Since there is no reason to modify the frontend client, the Ops team can override those parameters to be (`APP\_TITLE = "My App"; APP\_VERSION = 1.1;`) in `dist/config.js` (which is a copy of `src/config.js` created at build time) without needing a new build or deployment of the app.
+
+These overrides/additions are accomplished by adding the parameters into the `APP_CONFIG` object in `src/constants/appConfig.js` and into the `APPLICATION_CONFIG` object in `src/config.js`.
 
 <a id="cmc-build-process"/>
 ## The CMC Build Process
