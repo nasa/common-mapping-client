@@ -9,6 +9,5 @@ export const dateSliderState = Immutable.fromJS({
 		isValid: false
 	},
 	resolution: appConfig.DATE_SLIDER_RESOLUTIONS.DAYS,
-	resolutionHack: false,
-	isSelectingResolution: false
+	resolutionHack: false
 });
