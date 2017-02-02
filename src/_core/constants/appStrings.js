@@ -34,6 +34,8 @@ export const COLORBAR_JSON_RELATIVE = "json-relative";
 // file formats
 export const FILE_TYPE_JSON = "json";
 export const FILE_TYPE_MARKDOWN = "markdown";
+export const FILE_TYPE_XML = 'xml';
+export const FILE_TYPE_TEXT = 'xml';
 
 // tile URL function
 export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
@@ -95,7 +97,7 @@ export const MAP_CONTEXT_MENU_ID = "mapContextMenu";
 export const ALERTS = {
     INITIAL_DATA_LOAD_FAILED: {
         title: "Data Loading Failed",
-        formatString: "Failed to load initial data for this application.",
+        formatString: "Failed to load data for this application.",
         severity: 3
     },
     URL_CONFIG_FAILED: {

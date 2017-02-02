@@ -1,7 +1,9 @@
 import Immutable from 'immutable';
-import fetch from 'isomorphic-fetch';
 import * as actionTypes from '_core/constants/actionTypes';
 import appConfig from 'constants/appConfig';
+import MiscUtil from '_core/utils/MiscUtil';
+
+const miscUtil = new MiscUtil();
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -78,19 +80,20 @@ export default class AnalyticsReducer {
             // convert the current batch to a string
             let batch = JSON.stringify({ data: state.get("currentBatch") });
             // post the batch
-            fetch(appConfig.URLS.analyticsEndpoint, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: batch
-            }).then(function(response) {
-                if (response.status >= 400) {
-                    throw new Error("Bad response from server");
+            miscUtil.asyncFetch({
+                url: appConfig.URLS.analyticsEndpoint,
+                options: {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: batch
                 }
-            }).catch((err) => {
-                console.warn("Error in analytics.sendAnalyticsBatch:", err);
+            }).then((data) => {
+                console.log("Anlytics push successful.");
+            }, (err) => {
+                console.warn("Error in analytics.sendAnalyticsBatch: ", err);
             });
 
             // clear the current batch and update the sent time

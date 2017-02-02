@@ -1,8 +1,10 @@
-import fetch from 'isomorphic-fetch';
 import appConfig from 'constants/appConfig';
 import * as types from '_core/constants/actionTypes';
 import * as appStrings from '_core/constants/appStrings';
 import * as AlertActions from '_core/actions/AlertActions';
+import MiscUtil from '_core/utils/MiscUtil';
+
+const miscUtil = new MiscUtil();
 
 export function setLayerMenuOpen(open) {
     return { type: types.SET_LAYER_MENU_OPEN, open };
@@ -58,36 +60,31 @@ export function setCurrentMetadata(layer, data) {
 
 export function loadLayerMetadata(layer) {
     return (dispatch) => {
-        if(layer.getIn(["metadata", "url"])) {
-            // signal loading
-            dispatch(layerMetadataLoading());
-            // open the display
-            dispatch(openLayerInfo(layer));
-            // fetch the metadata
-            return fetch(layer.getIn(["metadata", "url"])).then((response) => {
-                switch (layer.getIn(["metadata", "handleAs"])) {
-                    case appStrings.FILE_TYPE_JSON:
-                        return response.json();
-                    case appStrings.FILE_TYPE_MARKDOWN:
-                        return response.text();
-                }
-            }).then((resp) => {
-                // store the data for display
-                dispatch(setCurrentMetadata(layer, resp));
-                // signal loading complete
-                dispatch(layerMetadataLoaded());
-            }).catch((err) => {
-                console.warn("Error in LayerActions.openLayerInfo:", err);
-                throw err;
-            });
-        } else {
+        // signal loading
+        dispatch(layerMetadataLoading());
+        // open the display
+        dispatch(openLayerInfo(layer));
+        // fetch the metadata
+        return miscUtil.asyncFetch({
+            url: layer.getIn(["metadata", "url"]),
+            handleAs: layer.getIn(["metadata", "handleAs"])
+        }).then((data) => {
+            // store the data for display
+            dispatch(setCurrentMetadata(layer, data));
+            // signal loading complete
+            dispatch(layerMetadataLoaded());
+        }, (err) => {
+            console.warn("Error in LayerActions.openLayerInfo:", err);
+            // signal loading complete
+            dispatch(layerMetadataLoaded());
+            // display alert
             dispatch(AlertActions.addAlert({
                 title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
                 body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString.split("{LAYER}").join(layer.get("title")),
                 severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
                 time: new Date()
             }));
-        }
+        });
     };
 }
 
@@ -105,15 +102,15 @@ export function loadInitialData(callback = null) {
             if (typeof callback === "function") {
                 callback.call(this);
             }
-        }).catch((err) => {
+        }, (err) => {
             console.warn("Error in LayerActions.loadInitialData:", err);
-            dispatch(initialDataLoaded());
             dispatch(AlertActions.addAlert({
                 title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
                 body: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.formatString,
                 severity: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
                 time: new Date()
             }));
+            dispatch(initialDataLoaded());
             if (typeof callback === "function") {
                 callback.call(this);
             }
@@ -123,20 +120,20 @@ export function loadInitialData(callback = null) {
 
 export function loadPaletteData() {
     return (dispatch) => {
-        let url = appConfig.URLS.paletteConfig;
         dispatch(paletteDataLoading());
-        return fetch(url, { credentials: 'same-origin' }).then((response) => {
-            return response.json();
-        }).then((resp) => {
-            dispatch(ingestLayerPalettes(resp));
+        return miscUtil.asyncFetch({
+            url: appConfig.URLS.paletteConfig,
+            handleAs: appStrings.FILE_TYPE_JSON,
+            options: { credentials: 'same-origin' }
+        }).then((data) => {
+            dispatch(ingestLayerPalettes(data));
             dispatch(paletteDataLoaded());
-        }).catch((err) => {
+        }, (err) => {
             console.warn("Error in LayerActions.loadPaletteData:", err);
             throw err;
         });
     };
 }
-
 
 export function loadLayerData() {
     return (dispatch) => {
@@ -146,33 +143,27 @@ export function loadLayerData() {
         })).then(() => {
             dispatch(mergeLayers());
             dispatch(layerDataLoaded());
-        }).catch((err) => {
+        }, (err) => {
             console.warn("Error in LayerActions.loadLayerData:", err);
             throw err;
         });
     };
 }
+
 export function loadSingleLayerSource(options) {
     return (dispatch) => {
-        let url = options.url;
-        let type = options.type;
-        return fetch(url, { credentials: 'same-origin' }).then((response) => {
-            if (type === appStrings.LAYER_CONFIG_JSON) {
-                return response.json();
-            } else if (type === appStrings.LAYER_CONFIG_WMTS_XML) {
-                return response.text();
-            } else {
-                return response;
-            }
-        }).then((resp) => {
-            dispatch(ingestLayerConfig(resp, options));
-        }).catch((err) => {
-            console.warn("Error in LayerActions.loadSingleLayerSource:", err);
+        return miscUtil.asyncFetch({
+            url: options.url,
+            handleAs: options.type,
+            options: { credentials: 'same-origin' }
+        }).then((data) => {
+            dispatch(ingestLayerConfig(data, options));
+        }, (err) => {
+            console.warn("Error in LayerActions.loadSingleLayerSource: ", err);
             throw err;
         });
     };
 }
-
 
 // async action helpers
 
