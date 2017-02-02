@@ -123,7 +123,7 @@ export class ShareContainer extends Component {
                 small
                 title="Share"
                 active={this.props.isOpen}
-                closeFunc={() => this.props.actions.closeShare()} >
+                closeFunc={() => this.props.actions.setShareOpen(false)} >
                 <div className="share-container">
                     <p>
                         This URL contains the information to reproduce this current view of the map.

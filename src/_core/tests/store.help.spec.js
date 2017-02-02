@@ -26,7 +26,7 @@ const initialState = {
 };
 
 export const StoreHelpSpec = {
-    name: "StoreHelperSpec",
+    name: "StoreHelpSpec",
     tests: {
         default: {
             test1: () => {
@@ -34,7 +34,7 @@ export const StoreHelpSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        appActions.openHelp()
+                        appActions.setHelpOpen(true)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -53,7 +53,7 @@ export const StoreHelpSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        appActions.closeHelp()
+                        appActions.setHelpOpen(false)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -72,8 +72,8 @@ export const StoreHelpSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        appActions.openHelp(),
-                        appActions.closeHelp()
+                        appActions.setHelpOpen(true),
+                        appActions.setHelpOpen(false)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -113,7 +113,7 @@ export const StoreHelpSpec = {
 
                     let helpPage = "screaming eagles";
                     const actions = [
-                        appActions.openHelp(),
+                        appActions.setHelpOpen(true),
                         appActions.selectHelpPage(helpPage)
                     ];
 
@@ -131,14 +131,14 @@ export const StoreHelpSpec = {
             },
 
             test6: () => {
-                it('closing help resets the selected page', function() {
+                it('closing help does not reset the selected page', function() {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
                     const actions = [
-                        appActions.openHelp(),
+                        appActions.setHelpOpen(true),
                         appActions.selectHelpPage(helpPage),
-                        appActions.closeHelp()
+                        appActions.setHelpOpen(false)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -148,6 +148,31 @@ export const StoreHelpSpec = {
                     const expected = {...initialState };
                     expected.help = expected.help
                         .set("isOpen", false)
+                        .set("helpPage", helpPage);
+
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+
+            test7: () => {
+                it('opening help resets the selected page', function() {
+                    const store = createStore(rootReducer, initialState);
+
+                    let helpPage = "screaming eagles";
+                    const actions = [
+                        appActions.setHelpOpen(true),
+                        appActions.selectHelpPage(helpPage),
+                        appActions.setHelpOpen(false),
+                        appActions.setHelpOpen(true)
+                    ];
+
+                    actions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    const expected = {...initialState };
+                    expected.help = expected.help
+                        .set("isOpen", true)
                         .set("helpPage", "");
 
                     TestUtil.compareFullStates(actual, expected);

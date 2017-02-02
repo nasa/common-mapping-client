@@ -59,7 +59,7 @@ export class SettingsContainer extends Component {
             <ModalMenuContainer
                 title="Settings"
                 active={this.props.settingsOpen}
-                closeFunc={this.props.appActions.closeSettings} >
+                closeFunc={() => this.props.appActions.setSettingsOpen(false)} >
                 <List selectable ripple className="no-margin settings-content" >
                     <ListSubHeader className="list-sub-header" caption="Map Display" />
                     <BaseMapDropdown

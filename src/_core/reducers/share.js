@@ -4,11 +4,8 @@ import ShareReducer from '_core/reducers/reducerFunctions/ShareReducer';
 
 export default function share(state = shareState, action) {
     switch (action.type) {
-        case actionTypes.OPEN_SHARE:
-            return ShareReducer.openShare(state, action);
-
-        case actionTypes.CLOSE_SHARE:
-            return ShareReducer.closeShare(state, action);
+        case actionTypes.SET_SHARE_OPEN:
+            return ShareReducer.setShareOpen(state, action);
 
         case actionTypes.TOGGLE_SHARE_UPDATE_FLAG:
             return ShareReducer.toggleShareUpdateFlag(state, action);

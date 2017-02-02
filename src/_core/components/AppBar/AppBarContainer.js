@@ -39,7 +39,7 @@ export class AppBarContainer extends Component {
                             neutral
                             icon="help"
                             className="title-button mini-xs" 
-                            onClick={this.props.actions.openHelp} 
+                            onClick={() => this.props.actions.setHelpOpen(true)} 
                             data-tip="Help"
                             data-place="bottom"
                         />
@@ -47,7 +47,7 @@ export class AppBarContainer extends Component {
                             neutral
                             icon="share"
                             className="title-button mini-xs"
-                            onClick={this.props.actions.openShare} 
+                            onClick={() => this.props.actions.setShareOpen(true)} 
                             data-tip="Share"
                             data-place="bottom"
                         />
@@ -55,7 +55,7 @@ export class AppBarContainer extends Component {
                             neutral
                             icon="settings"
                             className="title-button mini-xs"
-                            onClick={this.props.actions.openSettings} 
+                            onClick={() => this.props.actions.setSettingsOpen(true)} 
                             data-tip="Settings"
                             data-place="bottom"
                         />

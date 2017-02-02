@@ -34,7 +34,7 @@ export const StoreSettingsSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.openSettings()
+                        AppActions.setSettingsOpen(true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -51,7 +51,7 @@ export const StoreSettingsSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.closeSettings()
+                        AppActions.setSettingsOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -69,8 +69,8 @@ export const StoreSettingsSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.openSettings(),
-                        AppActions.closeSettings()
+                        AppActions.setSettingsOpen(true),
+                        AppActions.setSettingsOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

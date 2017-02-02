@@ -22,17 +22,11 @@ export function openLayerInfo(param) {
 export function closeLayerInfo() {
     return { type: types.CLOSE_LAYER_INFO };
 }
-export function openHelp() {
-    return { type: types.OPEN_HELP };
+export function setHelpOpen(isOpen) {
+    return { type: types.SET_HELP_OPEN, isOpen };
 }
-export function closeHelp() {
-    return { type: types.CLOSE_HELP };
-}
-export function openShare() {
-    return { type: types.OPEN_SHARE };
-}
-export function closeShare() {
-    return { type: types.CLOSE_SHARE };
+export function setShareOpen(isOpen) {
+    return { type: types.SET_SHARE_OPEN, isOpen };
 }
 export function toggleShareUpdateFlag() {
     return { type: types.TOGGLE_SHARE_UPDATE_FLAG };
@@ -58,11 +52,8 @@ export function hideMapControls(hidden) {
 export function setMapControlsToolsOpen(open) {
     return { type: types.SET_MAP_CONTROL_TOOLS_OPEN, open };
 }
-export function openSettings() {
-    return { type: types.OPEN_SETTINGS };
-}
-export function closeSettings() {
-    return { type: types.CLOSE_SETTINGS };
+export function setSettingsOpen(isOpen) {
+    return { type: types.SET_SETTINGS_OPEN, isOpen };
 }
 export function setAutoUpdateUrl(autoUpdateUrl) {
     return { type: types.SET_AUTO_UPDATE_URL, autoUpdateUrl };

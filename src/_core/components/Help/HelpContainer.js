@@ -42,7 +42,7 @@ export class HelpContainer extends Component {
                 className="no-background"
                 title={!this.props.helpPage ? "Help" : this.helpPageHeaders[this.props.helpPage]}
                 active={this.props.helpOpen}
-                closeFunc={() => this.props.actions.closeHelp()}
+                closeFunc={() => this.props.actions.setHelpOpen(false)}
                 back={this.props.helpPage !== ""}
                 backFunc={() => this.props.actions.selectHelpPage("")} >
                 <List selectable ripple className={"no-margin help-list" + (!this.props.helpPage ? "" : " hidden")}>
