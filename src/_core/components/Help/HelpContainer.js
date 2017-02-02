@@ -2,45 +2,49 @@ import showdown from 'showdown';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
+import { List, ListItem, ListSubHeader, ListDivider } from 'react-toolbox/lib/list';
 import * as actions from '_core/actions/AppActions';
 import appConfig from 'constants/appConfig';
 import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
-showdown.setFlavor('github');
 
 export class HelpContainer extends Component {
     constructor(props) {
         super(props);
 
-        // TODO - move these to a config or something
-        this.pageKeys = {
-            ABOUT: "about",
-            FAQ: "faq",
-            SYS_REQ: "systemReqs"
-        };
-
-        this.helpPageHeaders = {};
-        this.helpPageHeaders[this.pageKeys.ABOUT] = 'About';
-        this.helpPageHeaders[this.pageKeys.FAQ] = 'FAQ';
-        this.helpPageHeaders[this.pageKeys.SYS_REQ] = 'System Requirements';
-
-        // get markdown and parse it
+        // set up our markdown converter
         let cvt = new showdown.Converter();
-        this.helpPageContent = {};
-        this.helpPageContent[this.pageKeys.ABOUT] = cvt.makeHtml(require('default-data/_core_default-data/help/about.md'));
-        this.helpPageContent[this.pageKeys.FAQ] = cvt.makeHtml(require('default-data/_core_default-data/help/faq.md'));
-        this.helpPageContent[this.pageKeys.SYS_REQ] = cvt.makeHtml(require('default-data/_core_default-data/help/systemReqs.md'));
+        cvt.setFlavor('github');
+
+        // set up our pages config
+        this.helpPageConfig = {
+            ABOUT: {
+                key: "ABOUT",
+                label: "About",
+                content: cvt.makeHtml(require('default-data/_core_default-data/help/about.md'))
+            },
+            FAQ: {
+                key: "FAQ",
+                label: "FAQ",
+                content: cvt.makeHtml(require('default-data/_core_default-data/help/faq.md'))
+            },
+            SYS_REQ: {
+                key: "SYS_REQ",
+                label: "System Requirements",
+                content: cvt.makeHtml(require('default-data/_core_default-data/help/systemReqs.md'))
+            }
+        };
     }
 
     render() {
+        let pageContent = this.props.helpPage ? this.helpPageConfig[this.props.helpPage].content : "";
         return (
             <ModalMenuContainer
                 small={this.props.helpPage === ""}
                 className="no-background"
-                title={!this.props.helpPage ? "Help" : this.helpPageHeaders[this.props.helpPage]}
+                title={!this.props.helpPage ? "Help" : this.helpPageConfig[this.props.helpPage].label}
                 active={this.props.helpOpen}
                 closeFunc={() => this.props.actions.setHelpOpen(false)}
                 back={this.props.helpPage !== ""}
@@ -48,23 +52,23 @@ export class HelpContainer extends Component {
                 <List selectable ripple className={"no-margin help-list" + (!this.props.helpPage ? "" : " hidden")}>
                     <ListSubHeader caption="General" />
                     <ListItem
-                        caption="About"
+                        caption={this.helpPageConfig.ABOUT.label}
                         leftIcon="description"
-                        onClick={() => this.props.actions.selectHelpPage(this.pageKeys.ABOUT)}
+                        onClick={() => this.props.actions.selectHelpPage(this.helpPageConfig.ABOUT.key)}
                     />
                     <ListItem
-                        caption="FAQ"
+                        caption={this.helpPageConfig.FAQ.label}
                         leftIcon="description"
-                        onClick={() => this.props.actions.selectHelpPage(this.pageKeys.FAQ)}
+                        onClick={() => this.props.actions.selectHelpPage(this.helpPageConfig.FAQ.key)}
+                    />
+                    <ListItem
+                        caption={this.helpPageConfig.SYS_REQ.label}
+                        leftIcon="description"
+                        onClick={() => this.props.actions.selectHelpPage(this.helpPageConfig.SYS_REQ.key)}
                     />
                     <ListItem
                         caption="Take a tour"
                         leftIcon="play_arrow"
-                    />
-                    <ListItem
-                        caption="System Requirements"
-                        leftIcon="description"
-                        onClick={() => this.props.actions.selectHelpPage(this.pageKeys.SYS_REQ)}
                     />
                     <ListDivider />
                     <ListSubHeader caption="Get More Help" />
@@ -81,7 +85,7 @@ export class HelpContainer extends Component {
                 </List>
                 <div className={!this.props.helpPage ? 'hidden' : 'help-page'} 
                      // eslint-disable-next-line react/no-danger
-                     dangerouslySetInnerHTML={{__html: this.helpPageContent[this.props.helpPage]}} 
+                     dangerouslySetInnerHTML={{__html: pageContent}} 
                 />
                 <div id="helpVersionTagContainer" className={this.props.helpPage ? 'hidden': ''} >
                     <h4 className="version-tag">Version: {appConfig.APP_VERSION}</h4>

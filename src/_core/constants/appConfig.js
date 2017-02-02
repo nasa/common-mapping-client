@@ -81,7 +81,6 @@ export const DATE_SLIDER_RESOLUTIONS = {
 /* END DATE */
 
 /* MAP */
-// Map View Config
 export const DEFAULT_PROJECTION = appStrings.PROJECTIONS.latlon;
 export const DEFAULT_BBOX_EXTENT = [-90,-45,90,45];
 export const DEFAULT_SCALE_UNITS = 'metric';

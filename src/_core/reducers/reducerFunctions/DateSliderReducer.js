@@ -23,7 +23,7 @@ export default class DateSliderReducer {
         return state.setIn(["hoverDate", "isValid"], false);
     }
     static setDateResolution(state, action) {
-        return state.set("resolution", Immutable.Map(action.resolution))
+        return state.set("resolution", Immutable.Map(action.resolution));
     }
     static resetApplicationState(state, action) {
         let newState = this.endDragging(state, action);
