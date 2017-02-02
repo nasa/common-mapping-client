@@ -3,13 +3,12 @@
 //create a copy of the state passed and set new values on the copy.
 
 export default class HelpReducer {
-    static openHelp(state, action) {
-        return state.set("isOpen", true).set("helpPage", "");
-    }
-
-    static closeHelp(state, action) {
-        return state.set("isOpen", false).set("helpPage", "");
-    }
+	static setHelpOpen(state, action) {
+		if(action.isOpen) {
+			state = state.set("helpPage", "");
+		}
+        return state.set("isOpen", action.isOpen);
+	}
 
     static selectHelpPage(state, action) {
         return state.set("helpPage", action.param);

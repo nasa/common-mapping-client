@@ -70,7 +70,7 @@ export const StoreShareSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.openShare()
+                        AppActions.setShareOpen(true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -87,7 +87,7 @@ export const StoreShareSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.closeShare()
+                        AppActions.setShareOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -105,8 +105,8 @@ export const StoreShareSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.openShare(),
-                        AppActions.closeShare()
+                        AppActions.setShareOpen(true),
+                        AppActions.setShareOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

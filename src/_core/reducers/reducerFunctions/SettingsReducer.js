@@ -3,13 +3,11 @@
 //create a copy of the state passed and set new values on the copy.
 
 export default class SettingsReducer {
-    static openSettings(state, action) {
-        return state.set("isOpen", true);
-    }
-    static closeSettings(state, action) {
-        return state.set("isOpen", false);
-    }
+	static setSettingsOpen(state, action) {
+        return state.set("isOpen", action.isOpen);
+	}
+
     static resetApplicationState(state, action) {
-        return this.closeSettings(state, action);
+        return this.setSettingsOpen(state, {isOpen: false});
     }
 }

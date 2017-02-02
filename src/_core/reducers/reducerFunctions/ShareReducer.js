@@ -3,12 +3,8 @@
 //create a copy of the state passed and set new values on the copy.
 
 export default class ShareReducer {
-    static openShare(state, action) {
-        return state.set("isOpen", true);
-    }
-
-    static closeShare(state, action) {
-        return state.set("isOpen", false);
+    static setShareOpen(state, action) {
+        return state.set("isOpen", action.isOpen);
     }
 
     static toggleShareUpdateFlag(state, action) {
