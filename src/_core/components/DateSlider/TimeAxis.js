@@ -54,10 +54,10 @@ export class TimeAxis extends Component {
 
     shouldComponentUpdate(nextProps) {
         if (nextProps.date !== this.props.date ||
-            nextProps.resolutionHack !== this.props.resolutionHack) {
+            nextProps.resolution !== this.props.resolution) {
             this.timeAxisD3.update({
                 date: nextProps.date,
-                scale: nextProps.resolutionHack !== this.props.resolutionHack ? nextProps.resolution.toJS() : undefined
+                scale: nextProps.resolution !== this.props.resolution ? nextProps.resolution.toJS() : undefined
             });
         }
 
@@ -167,16 +167,14 @@ TimeAxis.propTypes = {
     mapActions: PropTypes.object.isRequired,
     dateSliderActions: PropTypes.object.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    resolution: PropTypes.object.isRequired,
-    resolutionHack: PropTypes.bool.isRequired
+    resolution: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         date: state.map.get("date"),
         isDragging: state.dateSlider.get("isDragging"),
-        resolution: state.dateSlider.get("resolution"),
-        resolutionHack: state.dateSlider.get("resolutionHack")
+        resolution: state.dateSlider.get("resolution")
     };
 }
 

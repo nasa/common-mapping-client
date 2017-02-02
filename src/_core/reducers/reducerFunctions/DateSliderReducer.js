@@ -23,19 +23,11 @@ export default class DateSliderReducer {
         return state.setIn(["hoverDate", "isValid"], false);
     }
     static setDateResolution(state, action) {
-        let newState = state
-            .set("resolution", Immutable.Map(action.resolution))
-            .set("resolutionHack", !state.get("resolutionHack"));
-        newState = this.setChangingResolution(newState, { isSelectingResolution: false });
-        return newState;
-    }
-    static setChangingResolution(state, action) {
-        return state.set("isSelectingResolution", action.isSelectingResolution);
+        return state.set("resolution", Immutable.Map(action.resolution))
     }
     static resetApplicationState(state, action) {
         let newState = this.endDragging(state, action);
         newState = this.setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS.DAYS });
-        newState = this.setChangingResolution(newState, { isSelectingResolution: false });
         return newState;
     }
 }

@@ -9,18 +9,24 @@ import MiscUtil from '_core/utils/MiscUtil';
 const miscUtil = new MiscUtil();
 
 export class ResolutionStep extends Component {
+    constructor(props) {
+        super(props);
+
+        this.isSelectingResoltion = false;
+    }
     toggleResolutionSelector() {
-        this.props.actions.setIsSelectionResolution(!this.props.isSelectingResolution);
+        this.isSelectingResolution = !this.isSelectingResolution;
+        this.forceUpdate();
     }
     render() {
         let resolutionSelectorClasses = miscUtil.generateStringFromSet({
             "resolution-selector": true,
-            "active": this.props.isSelectingResolution
+            "active": this.isSelectingResolution
         });
         return (
             <div id="dateSliderResolutionStepContainer" className="text-wrap">
                 <IconButton
-                    primary={this.props.isSelectingResolution}
+                    primary={this.isSelectingResolution}
                     onClick={() => this.toggleResolutionSelector()}
                     className="timeline-zoom"
                     icon="filter_list"
@@ -30,21 +36,21 @@ export class ResolutionStep extends Component {
                 <div className={resolutionSelectorClasses}>
                     <Button
                         primary
-                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        tabIndex={this.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS)}
                     />
                     <Button
                         primary
-                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        tabIndex={this.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS)}
                     />
                     <Button
                         primary
-                        tabIndex={this.props.isSelectingResolution ? 0 : -1}
+                        tabIndex={this.isSelectingResolution ? 0 : -1}
                         label={appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label}
                         className="no-padding resolution-step small"
                         onClick={() => this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS)}
@@ -55,17 +61,8 @@ export class ResolutionStep extends Component {
     }
 }
 ResolutionStep.propTypes = {
-    resolution: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    isSelectingResolution: PropTypes.bool.isRequired
+    actions: PropTypes.object.isRequired
 };
-
-function mapStateToProps(state) {
-    return {
-        resolution: state.dateSlider.get("resolution"),
-        isSelectingResolution: state.dateSlider.get("isSelectingResolution")
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -74,6 +71,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(ResolutionStep);
