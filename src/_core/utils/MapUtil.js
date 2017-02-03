@@ -4,7 +4,6 @@ import turfArea from 'turf-area';
 import Qty from 'js-quantities';
 import turfCentroid from 'turf-centroid';
 import proj4js from 'proj4';
-import moment from 'moment';
 import { GreatCircle } from 'assets/arc/arc';
 import * as appStrings from '_core/constants/appStrings';
 import appConfig from 'constants/appConfig';

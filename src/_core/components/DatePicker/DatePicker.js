@@ -37,7 +37,7 @@ export class DatePicker extends Component {
         } else if (resolution === "years") {
             newDate = value + "-" + date.format("MMM-DD");
         }
-        newDate = moment(newDate, "YYYY-MMM-DD");
+        newDate = moment(newDate, "YYYY-MMM-DD", true);
 
         let minDate = moment(appConfig.MIN_DATE);
         let maxDate = moment(appConfig.MAX_DATE);

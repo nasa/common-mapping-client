@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export const ACTIVE_LAYERS = {
     "data": {
         "facilities_kml": {

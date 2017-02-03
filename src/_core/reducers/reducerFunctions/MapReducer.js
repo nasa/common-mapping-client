@@ -485,7 +485,7 @@ export default class MapReducer {
             if (date.toLowerCase() === "today") {
                 date = moment(new Date()).startOf("day");
             } else {
-                date = moment(date, 'YYYY-MM-DD');
+                date = moment(date, 'YYYY-MM-DD', true);
             }
             // Now check date validity after being momentified
             if (date.isValid()) {

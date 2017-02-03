@@ -12,7 +12,6 @@ import { analyticsState } from '_core/reducers/models/analytics';
 import { viewState } from '_core/reducers/models/view';
 import { layerInfoState } from '_core/reducers/models/layerInfo';
 import TestUtil from '_core/tests/TestUtil';
-import moment from 'moment';
 
 const initialState = {
     map: mapState,

@@ -486,7 +486,7 @@ export const StoreMapSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const dateFormat = "YYYY-MM-DD";
-                    const newDate = moment("2003-01-01", dateFormat).toDate();
+                    const newDate = moment("2003-01-01", dateFormat, true).toDate();
 
                     const actions = [
                         mapActions.setDate(newDate)

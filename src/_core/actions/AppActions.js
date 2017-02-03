@@ -6,7 +6,6 @@ import * as MapActions from '_core/actions/MapActions';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as AlertActions from '_core/actions/AlertActions';
 import MiscUtil from '_core/utils/MiscUtil';
-import moment from 'moment';
 
 const miscUtil = new MiscUtil();
 

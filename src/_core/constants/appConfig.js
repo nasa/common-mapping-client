@@ -71,7 +71,7 @@ export const SESSION_ID = (() => {
 
 /* DATE */
 export const DEFAULT_DATE = moment(new Date()).subtract(3, "d").startOf('d').toDate();
-export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD").toDate();
+export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD", true).toDate();
 export const MAX_DATE = moment(new Date()).add(1, 'month').toDate();
 export const DATE_SLIDER_RESOLUTIONS = {
     DAYS: { label: "Days", resolution: 512 },

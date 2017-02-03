@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-import moment from 'moment';
 import appConfig from 'constants/appConfig';
 
 export const mapState = Immutable.fromJS({
