@@ -286,9 +286,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 duration: 175,
                 easing: ol.easing.linear,
                 source: view.getCenter()
-            })
+            });
             this.map.beforeRender(pan);
-            view.setCenter(newCenter)
+            view.setCenter(newCenter);
             return true;
 
         } catch (err) {
@@ -991,15 +991,15 @@ export default class MapWrapper_openlayers extends MapWrapper {
     getLatLonFromPixelCoordinate(pixel) {
         try {
             let coordinate = this.map.getCoordinateFromPixel(pixel);
-            coordinate = this.mapUtil.constrainCoordinates(coordinate);
-            if (typeof coordinate[0] !== "undefined" &&
-                typeof coordinate[1] !== "undefined" &&
-                !isNaN(coordinate[0]) &&
-                !isNaN(coordinate[0])) {
+            let constrainCoordinate = this.mapUtil.constrainCoordinates(coordinate);
+            if (typeof constrainCoordinate[0] !== "undefined" &&
+                typeof constrainCoordinate[1] !== "undefined" &&
+                !isNaN(constrainCoordinate[0]) &&
+                !isNaN(constrainCoordinate[0])) {
                 return {
-                    lat: coordinate[0],
-                    lon: coordinate[1],
-                    isValid: true
+                    lat: constrainCoordinate[0],
+                    lon: constrainCoordinate[1],
+                    isValid: coordinate[1] <= 90 && coordinate[1] >= -90
                 };
             }
             return false;
