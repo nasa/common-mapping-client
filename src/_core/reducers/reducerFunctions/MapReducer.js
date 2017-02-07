@@ -142,12 +142,10 @@ export default class MapReducer {
             }));
             state = state.set("alerts", alerts);
         }
-        let anySucceed = state.get("maps").reduce((acc, map) => {
+        let anyFail = state.get("maps").reduce((acc, map) => {
             // Apply view to active/inactive maps depending on targetActiveMap
             if (map.isActive === action.targetActiveMap) {
-                if (map.setExtent(validatedExtent)) {
-                    return true;
-                } else {
+                if (!map.setExtent(validatedExtent)) {
                     let contextStr = map.is3D ? "3D" : "2D";
                     alerts = alerts.push(alert.merge({
                         title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
@@ -155,12 +153,13 @@ export default class MapReducer {
                         severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
                         time: new Date()
                     }));
+                    return true;
                 }
             }
             return acc;
         }, false);
 
-        if (anySucceed) {
+        if (!anyFail) {
             return state
                 .setIn(["view", "extent"], typeof validatedExtent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
                 .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
