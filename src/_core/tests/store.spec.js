@@ -74,6 +74,7 @@ export const StoreSpec = {
 
                     const expected = {...initialState };
                     expected.map = expected.map.remove("maps");
+                    expected.view = expected.view.set("appResetCounter", 1);
 
                     TestUtil.compareFullStates(actual, expected);
                 });

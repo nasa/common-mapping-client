@@ -11,5 +11,6 @@ export const viewState = Immutable.fromJS({
     distractionFreeMode: false,
     mapControlsHidden: false,
     mapControlsToolsOpen: false,
+    appResetCounter: 0,
     alerts: []
 });

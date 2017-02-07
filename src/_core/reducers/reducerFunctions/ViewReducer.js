@@ -36,7 +36,8 @@ export default class ViewReducer {
     }
 
     static resetApplicationState(state, action) {
-        return this.setLayerMenuOpen(state, { open: true });
+        state = this.setLayerMenuOpen(state, { open: true });
+        return state.set("appResetCounter", state.get("appResetCounter") + 1);
     }
 
     static setDistractionFreeMode(state, action) {
