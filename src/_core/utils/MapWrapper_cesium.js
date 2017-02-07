@@ -205,7 +205,7 @@ export default class MapWrapper_cesium extends MapWrapper {
     zoomIn() {
         try {
             let currPosition = this.map.scene.camera.positionCartographic;
-            let newH = currPosition.height - (currPosition.height / 2);
+            let newH = Math.max(currPosition.height - (currPosition.height / 2), appConfig.MIN_ZOOM_DISTANCE_3D);
             let newPosition = currPosition.clone();
             newPosition.height = newH;
             newPosition = this.map.scene.globe.ellipsoid.cartographicToCartesian(newPosition);
@@ -223,7 +223,7 @@ export default class MapWrapper_cesium extends MapWrapper {
     zoomOut() {
         try {
             let currPosition = this.map.scene.camera.positionCartographic;
-            let newH = currPosition.height + (currPosition.height);
+            let newH = Math.min(currPosition.height + (currPosition.height), appConfig.MAX_ZOOM_DISTANCE_3D);
             let newPosition = currPosition.clone();
             newPosition.height = newH;
             newPosition = this.map.scene.globe.ellipsoid.cartographicToCartesian(newPosition);
