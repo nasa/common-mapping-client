@@ -12,19 +12,31 @@ const SPEED_FAST = 100;
 const SPEED_SLOW = 500;
 
 export class KeyboardControlsContainer extends Component {
-    componentDidMount() {
+    constructor(props){
+        super(props);
+
         // Instance variables are used here since these variables are purely interaction
         // based and are never intended to be affected by application state or affect application state.
-        this.autoIncrementInterval = null;
-        this.shouldAutoIncrement = false;
-        this.autoIncrementSpeed = SPEED_SLOW;
-        this.autoIncrementResolution = "days";
-        this.shouldIntervalIncrement = true;
-        this.autoIncrementEnabled = true;
+        this.dateAutoIncrementInterval = null;
+        this.dateShouldAutoIncrement = false;
+        this.dateAutoIncrementSpeed = SPEED_SLOW;
+        this.dateAutoIncrementResolution = "days";
+        this.dateIncrementForward = true;
+        this.dateAutoIncrementEnabled = true;
+
+
+        this.panAutoIncrementInterval = null;
+        this.panShouldAutoIncrement = false;
+        this.panAutoIncrementSpeed = 200;
+        this.panExtraFar = false;
+        this.panAutoIncrementDirection = appStrings.MAP_PAN_DIRECTION_UP;
+        this.panAutoIncrementEnabled = true;
     }
+    
     shouldComponentUpdate(nextProps){
         return false;
     }
+    
     handleKeyUp_Escape() {
         if (this.props.isDrawingEnabled) {
             this.props.mapActions.disableDrawing();
@@ -33,6 +45,7 @@ export class KeyboardControlsContainer extends Component {
             this.props.mapActions.disableMeasuring();
         }
     }
+    
     handleKeyUp_Enter() {
         let map = this.props.maps.get(appStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
@@ -44,6 +57,7 @@ export class KeyboardControlsContainer extends Component {
             }
         }
     }
+    
     incrementDate(resolution, increment = true) {
         let newDate = moment(this.props.date);
         if (increment) {
@@ -59,41 +73,75 @@ export class KeyboardControlsContainer extends Component {
             this.props.mapActions.setDate(newDate.toDate());
         }
     }
-    autoIncrement() {
-        if(this.shouldAutoIncrement) {
-            clearTimeout(this.autoIncrementInterval);
-            this.incrementDate(this.autoIncrementResolution, this.shouldIntervalIncrement);
-            this.autoIncrementInterval = setTimeout(() => this.autoIncrement(), this.autoIncrementSpeed);
+    
+    dateAutoIncrement() {
+        if(this.dateShouldAutoIncrement) {
+            clearTimeout(this.dateAutoIncrementInterval);
+            this.incrementDate(this.dateAutoIncrementResolution, this.dateIncrementForward);
+            this.dateAutoIncrementInterval = setTimeout(() => this.dateAutoIncrement(), this.dateAutoIncrementSpeed);
         }
     }
-    beginAutoIncrement(increment) {
-        if(this.autoIncrementEnabled) {
-            this.shouldAutoIncrement = true;
-            this.shouldIntervalIncrement = increment;
-            if(this.autoIncrementInterval === null) {
-                this.autoIncrementInterval = setTimeout(() => this.autoIncrement(), this.autoIncrementSpeed);
-                this.incrementDate(this.autoIncrementResolution, this.shouldIntervalIncrement);
+    
+    beginDateAutoIncrement(increment) {
+        if(this.dateAutoIncrementEnabled) {
+            this.dateShouldAutoIncrement = true;
+            this.dateIncrementForward = increment;
+            if(this.dateAutoIncrementInterval === null) {
+                this.dateAutoIncrementInterval = setTimeout(() => this.dateAutoIncrement(), this.dateAutoIncrementSpeed);
+                this.incrementDate(this.dateAutoIncrementResolution, this.dateIncrementForward);
             }
         }
     }
-    endAutoIncrement() {
-        clearTimeout(this.autoIncrementInterval);
-        this.shouldAutoIncrement = false;
-        this.autoIncrementInterval = null;
+    
+    endDateAutoIncrement() {
+        clearTimeout(this.dateAutoIncrementInterval);
+        this.dateShouldAutoIncrement = false;
+        this.dateAutoIncrementInterval = null;
     }
-    setAutoIncrementResolution(resolution) {
-        this.autoIncrementResolution = resolution;
+   
+    setDateAutoIncrementResolution(resolution) {
+        this.dateAutoIncrementResolution = resolution;
     }
-    setAutoIncrementSpeed(speed) {
-        this.autoIncrementSpeed = speed;
+ 
+    setDateAutoIncrementSpeed(speed) {
+        this.dateAutoIncrementSpeed = speed;
     }
-    disableAutoIncrement() {
-        this.autoIncrementEnabled = false;
-        this.endAutoIncrement();
+ 
+    disableDateAutoIncrement() {
+        this.dateAutoIncrementEnabled = false;
+        this.endDateAutoIncrement();
     }
-    enableAutoIncrement() {
-        this.autoIncrementEnabled = true;
+ 
+    enableDateAutoIncrement() {
+        this.dateAutoIncrementEnabled = true;
     }
+
+    panAutoIncrement() {
+        if(this.panShouldAutoIncrement) {
+            clearTimeout(this.panAutoIncrementInterval);
+            this.panMap(this.panAutoIncrementDirection);
+            this.panAutoIncrementInterval = setTimeout(() => this.panAutoIncrement(), this.panAutoIncrementSpeed);
+        }
+    }
+
+    beginMapAutoPan(direction) {
+        if(this.panAutoIncrementEnabled) {
+            this.panShouldAutoIncrement = true;
+            this.panAutoIncrementDirection = direction;
+            if(this.panAutoIncrementInterval === null) {
+                this.panAutoIncrementInterval = setTimeout(() => this.panAutoIncrement(), this.panAutoIncrementSpeed);
+                this.panMap(this.panAutoIncrementDirection);
+            }
+        }
+
+    }
+
+    endMapAutoPan() {
+        clearTimeout(this.panAutoIncrementInterval);
+        this.panShouldAutoIncrement = false;
+        this.panAutoIncrementInterval = null;
+    }
+ 
     adjustDateSliderTimeResolution(up) {
         if(up) {
             if(this.props.dateSliderTimeResolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label) {
@@ -109,6 +157,7 @@ export class KeyboardControlsContainer extends Component {
             }
         }
     }
+    
     handleKeyDown_ArrowUp() {
         // Key conflicts: Timeline resolution and layer menu opacity slider
         let focusEl = document.activeElement.getAttribute("data-react-toolbox");
@@ -117,6 +166,7 @@ export class KeyboardControlsContainer extends Component {
             this.adjustDateSliderTimeResolution(true);
         }
     }
+    
     handleKeyDown_ArrowDown() {
         // Key conflicts: Timeline resolution and layer menu opacity slider
         let focusEl = document.activeElement.getAttribute("data-react-toolbox");
@@ -125,6 +175,29 @@ export class KeyboardControlsContainer extends Component {
             this.adjustDateSliderTimeResolution(false);
         }
     }
+
+    zoomIn() {
+        this.props.mapActions.zoomIn();
+    }
+
+    zoomOut() {
+        this.props.mapActions.zoomOut();
+    }
+
+    panMap(direction) {
+        this.props.mapActions.panMap(direction, this.panExtraFar);
+    }
+
+    speedUp() {
+        this.setDateAutoIncrementSpeed(SPEED_FAST);
+        this.panExtraFar = true;
+    }
+
+    speedDown() {
+        this.setDateAutoIncrementSpeed(SPEED_SLOW);
+        this.panExtraFar = false;
+    }
+
     render() {
         return (
             <div className="hidden">
@@ -132,24 +205,60 @@ export class KeyboardControlsContainer extends Component {
 
                 <KeyHandler keyEventName={KEYUP} keyValue="Enter" onKeyHandle={(evt) => this.handleKeyUp_Enter()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Meta" onKeyHandle={() => this.disableAutoIncrement()} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Meta" onKeyHandle={() => this.enableAutoIncrement()} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Meta" onKeyHandle={() => this.disableDateAutoIncrement()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Meta" onKeyHandle={() => this.enableDateAutoIncrement()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => this.beginAutoIncrement(false)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={() => this.endAutoIncrement()} />
+                {/* Speed Control */}
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Shift" onKeyHandle={() => this.speedUp()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Shift" onKeyHandle={() => this.speedDown()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowRight" onKeyHandle={() => this.beginAutoIncrement(true)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={() => this.endAutoIncrement()} />
+                {/* Date Changing */}
+                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowLeft" onKeyHandle={() => this.beginDateAutoIncrement(false)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowLeft" onKeyHandle={() => this.endDateAutoIncrement()} />
+
+                <KeyHandler keyEventName={KEYDOWN} keyValue="ArrowRight" onKeyHandle={() => this.beginDateAutoIncrement(true)} />
+                <KeyHandler keyEventName={KEYUP} keyValue="ArrowRight" onKeyHandle={() => this.endDateAutoIncrement()} />
 
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.handleKeyDown_ArrowUp()} />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.handleKeyDown_ArrowDown()} />
+                
+                <KeyHandler keyEventName={KEYDOWN} keyValue="z" onKeyHandle={() => this.setDateAutoIncrementResolution("months")} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="Z" onKeyHandle={() => this.setDateAutoIncrementResolution("months")} />
+                
+                <KeyHandler keyEventName={KEYUP} keyValue="z" onKeyHandle={() => this.setDateAutoIncrementResolution("days")} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Z" onKeyHandle={() => this.setDateAutoIncrementResolution("days")} />
+                
+                {/* Map Movement */}
+                <KeyHandler keyEventName={KEYUP} keyValue="q" onKeyHandle={() => this.zoomOut()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="Q" onKeyHandle={() => this.zoomOut()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="x" onKeyHandle={() => this.setAutoIncrementResolution("months")} />
-                <KeyHandler keyEventName={KEYUP} keyValue="x" onKeyHandle={() => this.setAutoIncrementResolution("days")} />
+                <KeyHandler keyEventName={KEYUP} keyValue="e" onKeyHandle={() => this.zoomIn()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="E" onKeyHandle={() => this.zoomIn()} />
 
-                <KeyHandler keyEventName={KEYDOWN} keyValue="z" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_FAST)} />
-                <KeyHandler keyEventName={KEYUP} keyValue="z" onKeyHandle={() => this.setAutoIncrementSpeed(SPEED_SLOW)} />
 
+                <KeyHandler keyEventName={KEYDOWN} keyValue="w" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_UP)} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="W" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_UP)} />
+
+                <KeyHandler keyEventName={KEYDOWN} keyValue="s" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_DOWN)} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="S" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_DOWN)} />
+
+                <KeyHandler keyEventName={KEYDOWN} keyValue="a" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_LEFT)} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="A" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_LEFT)} />
+
+                <KeyHandler keyEventName={KEYDOWN} keyValue="d" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_RIGHT)} />
+                <KeyHandler keyEventName={KEYDOWN} keyValue="D" onKeyHandle={() => this.beginMapAutoPan(appStrings.MAP_PAN_DIRECTION_RIGHT)} />
+
+                <KeyHandler keyEventName={KEYUP} keyValue="w" onKeyHandle={() => this.endMapAutoPan()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="W" onKeyHandle={() => this.endMapAutoPan()} />
+
+                <KeyHandler keyEventName={KEYUP} keyValue="s" onKeyHandle={() => this.endMapAutoPan()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="S" onKeyHandle={() => this.endMapAutoPan()} />
+
+                <KeyHandler keyEventName={KEYUP} keyValue="a" onKeyHandle={() => this.endMapAutoPan()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="A" onKeyHandle={() => this.endMapAutoPan()} />
+
+                <KeyHandler keyEventName={KEYUP} keyValue="d" onKeyHandle={() => this.endMapAutoPan()} />
+                <KeyHandler keyEventName={KEYUP} keyValue="D" onKeyHandle={() => this.endMapAutoPan()} />
             </div>
         );
     }

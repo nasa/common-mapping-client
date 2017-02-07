@@ -78,6 +78,11 @@ export default class MapWrapper {
         return false;
     }
 
+    panMap() {
+        console.warn("Error in MapWrapper.panMap: Method not implemented in subclass");
+        return false;
+    }
+
     getZoom() {
         console.warn("Error in MapWrapper.getZoom: Method not implemented in subclass");
         return false;

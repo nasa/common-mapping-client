@@ -168,6 +168,34 @@ export default class MapReducer {
         return state;
     }
 
+    static panMap(state, action) {
+        let alerts = state.get("alerts");
+        let anySucceed = state.get("maps").reduce((acc, map) => {
+            if (map.isActive) {
+                if (map.panMap(action.direction, action.extraFar)) {
+                    return true;
+                } else {
+                    let contextStr = map.is3D ? "3D" : "2D";
+                    alerts = alerts.push(alert.merge({
+                        title: appStrings.ALERTS.VIEW_SYNC_FAILED.title,
+                        body: appStrings.ALERTS.VIEW_SYNC_FAILED.formatString.replace("{MAP}", contextStr),
+                        severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
+                        time: new Date()
+                    }));
+                }
+            }
+            return acc;
+        }, false);
+
+        // if (anySucceed) {
+        //     return state
+        //         .setIn(["view", "extent"], typeof validatedExtent !== "undefined" ? Immutable.List(action.viewInfo.extent) : state.getIn(["view", "extent"]))
+        //         .setIn(["view", "projection"], typeof action.viewInfo.projection !== "undefined" ? action.viewInfo.projection : state.getIn(["view", "projection"]))
+        //         .set("alerts", alerts);
+        // }
+        return state;
+    }
+
     static zoomIn(state, action) {
         state.get("maps").forEach((map) => {
             if (map.isActive) {

@@ -33,6 +33,7 @@ export const SET_LAYER_OPACITY = 'SET_LAYER_OPACITY';
 export const SET_LAYER_PALETTE = 'SET_LAYER_PALETTE';
 export const INITIALIZE_MAP = 'INITIALIZE_MAP';
 export const SET_MAP_VIEW = 'SET_MAP_VIEW';
+export const PAN_MAP = 'PAN_MAP';
 export const ZOOM_IN = 'ZOOM_IN';
 export const ZOOM_OUT = 'ZOOM_OUT';
 export const SET_TERRAIN_ENABLED = 'SET_TERRAIN_ENABLED';

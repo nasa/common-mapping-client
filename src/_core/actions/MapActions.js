@@ -16,6 +16,10 @@ export function setMapView(viewInfo, targetActiveMap = true) {
     return { type: types.SET_MAP_VIEW, viewInfo, targetActiveMap };
 }
 
+export function panMap(direction, extraFar) {
+    return { type: types.PAN_MAP, direction, extraFar };
+}
+
 export function setTerrainEnabled(enabled) {
     return { type: types.SET_TERRAIN_ENABLED, enabled };
 }

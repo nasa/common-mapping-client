@@ -253,6 +253,50 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
     }
 
+    panMap(direction, extraFar) {
+        try {
+            let deltaX = 0;
+            let deltaY = 0;
+            let view = this.map.getView();
+            let pixelDelta = extraFar ? 200 : 100;
+
+            switch (direction) {
+                case appStrings.MAP_PAN_DIRECTION_UP:
+                    deltaY = pixelDelta;
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_DOWN:
+                    deltaY = -pixelDelta;
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_LEFT:
+                    deltaX = pixelDelta;
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_RIGHT:
+                    deltaX = -pixelDelta;
+                    break;
+                default:
+                    return false;
+            }
+
+            let delta = [deltaX, deltaY];
+            let centerInPx = this.map.getPixelFromCoordinate(view.getCenter());
+            let newCenterInPx = [centerInPx[0] - delta[0], centerInPx[1] - delta[1]];
+            let newCenter = this.map.getCoordinateFromPixel(newCenterInPx);
+
+            let pan = ol.animation.pan({
+                duration: 175,
+                easing: ol.easing.linear,
+                source: view.getCenter()
+            })
+            this.map.beforeRender(pan);
+            view.setCenter(newCenter)
+            return true;
+
+        } catch (err) {
+            console.warn("Error in MapWrapper_openlayers.panMap:", err);
+            return false;
+        }
+    }
+
     zoomIn(duration = 175) {
         try {
             if (typeof this.map !== "undefined" &&
@@ -1292,7 +1336,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             metersPerUnit: epsg4326Proj.getMetersPerUnit(),
             worldExtent: epsg4326Proj.getWorldExtent(),
             getPointResolution: function(res, point) {
-                return ol.proj.get('EPSG:4326').getPointResolution(res, point); }
+                return ol.proj.get('EPSG:4326').getPointResolution(res, point);
+            }
 
         });
         ol.proj.addProjection(ogcCrs84Proj);

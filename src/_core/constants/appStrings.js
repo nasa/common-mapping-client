@@ -7,6 +7,12 @@ export const MAP_LIB_3D = 'cesium';
 export const MAP_VIEW_MODE_2D = 'MAP_VIEW_MODE_2D';
 export const MAP_VIEW_MODE_3D = 'MAP_VIEW_MODE_3D';
 
+// map pan directions
+export const MAP_PAN_DIRECTION_UP = 'MAP_PAN_DIRECTION_UP';
+export const MAP_PAN_DIRECTION_DOWN = 'MAP_PAN_DIRECTION_DOWN';
+export const MAP_PAN_DIRECTION_LEFT = 'MAP_PAN_DIRECTION_LEFT';
+export const MAP_PAN_DIRECTION_RIGHT = 'MAP_PAN_DIRECTION_RIGHT';
+
 // layer group types
 export const LAYER_GROUP_TYPE_BASEMAP = "basemap";
 export const LAYER_GROUP_TYPE_DATA = "data";

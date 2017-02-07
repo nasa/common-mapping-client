@@ -53,11 +53,11 @@ No, use the button at the far right of the slider to adjust the resolution betwe
 | `Arrow-Down` | Zoom date slider towards years |
 | `Arrow-Left` | Jump backward 1 day |
 | `Arrow-Right` | Jump forward 1 day |
-| `x` + `Arrow-Left` | Jump backward 1 month |
-| `x` + `Arrow-Right` | Jump forward 1 month |
-| `Arrow-Left/Right` (Hold) | Continuous date changes |
-| `z` + `Arrow-Left/Right` (Hold) | Fast continuous date changes |
-
-
-
-
+| `z` + `Arrow-Left` | Jump backward 1 month |
+| `z` + `Arrow-Right` | Jump forward 1 month |
+| `Shift` + `Arrow-Left/Right` | Fast continuous date changes |
+| `w` | Pan map north |
+| `s` | Pan map south |
+| `a` | Pan map west |
+| `d` | Pan map east |
+| `Shift` + `w/a/s/d` | Fast map panning |

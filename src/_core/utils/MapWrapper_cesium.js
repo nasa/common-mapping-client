@@ -201,6 +201,57 @@ export default class MapWrapper_cesium extends MapWrapper {
         }
     }
 
+    panMap(direction, extraFar) {
+        try {
+            if (!direction) {
+                return false;
+            }
+            let horizontalDegreesAmt = extraFar ? 20.0 : 5.0;
+            let verticalDegreesAmt = extraFar ? 20.0 : 5.0;
+            let viewRect = this.map.camera.computeViewRectangle();
+            let horizontalDegrees = 0;
+            let verticalDegrees = 0;
+            if (this.cesium.defined(viewRect)) {
+                horizontalDegrees = horizontalDegreesAmt * this.cesium.Math.toDegrees(viewRect.east - viewRect.west) / 360.0;
+                verticalDegrees = verticalDegreesAmt * this.cesium.Math.toDegrees(viewRect.north - viewRect.south) / 180.0;
+            }
+            let currPosition = this.map.scene.camera.positionCartographic;
+            let newPosition = currPosition.clone();
+
+            switch (direction) {
+                case appStrings.MAP_PAN_DIRECTION_UP:
+                    newPosition.latitude = Math.min(newPosition.latitude + this.cesium.Math.toRadians(verticalDegrees), this.cesium.Math.PI_OVER_TWO);
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_DOWN:
+                    newPosition.latitude = Math.max(newPosition.latitude - this.cesium.Math.toRadians(verticalDegrees), -this.cesium.Math.PI_OVER_TWO);
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_LEFT:
+                    if (viewRect.west > viewRect.east) {
+                        horizontalDegrees = horizontalDegreesAmt * ((this.cesium.Math.toDegrees(viewRect.east) - (-180 - ((180 - this.cesium.Math.toDegrees(viewRect.west)) * 2))) / 360.0);
+                    }
+                    newPosition.longitude = newPosition.longitude - this.cesium.Math.toRadians(horizontalDegrees);
+                    break;
+                case appStrings.MAP_PAN_DIRECTION_RIGHT:
+                    if (viewRect.east < viewRect.west) {
+                        horizontalDegrees = horizontalDegreesAmt * (((180 + ((this.cesium.Math.toDegrees(viewRect.east) + 180) * 2)) - this.cesium.Math.toDegrees(viewRect.west)) / 360.0);
+                    }
+                    newPosition.longitude = newPosition.longitude + this.cesium.Math.toRadians(horizontalDegrees);
+                    break;
+                default:
+                    return false;
+            }
+
+            this.map.scene.camera.flyTo({
+                destination: this.map.scene.globe.ellipsoid.cartographicToCartesian(newPosition),
+                easingFunction: this.cesium.EasingFunction.LINEAR_NONE,
+                duration: 0.175
+            });
+            return true;
+        } catch (err) {
+            console.warn("Error in MapWrapper_cesium.panMap:", err);
+            return false;
+        }
+    }
 
     zoomIn() {
         try {
@@ -907,9 +958,10 @@ export default class MapWrapper_cesium extends MapWrapper {
             let cartesian = this.map.scene.camera.pickEllipsoid({ x: pixel[0], y: pixel[1] }, this.map.scene.globe.ellipsoid);
             if (cartesian) {
                 let cartographic = this.map.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
+                // Switching to lat/lon lines definition as opposed to distance in lat/lon direction
                 return {
-                    lat: this.cesium.Math.toDegrees(cartographic.latitude),
-                    lon: this.cesium.Math.toDegrees(cartographic.longitude),
+                    lat: this.cesium.Math.toDegrees(cartographic.longitude),
+                    lon: this.cesium.Math.toDegrees(cartographic.latitude),
                     isValid: true
                 };
             }
