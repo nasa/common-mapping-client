@@ -14,6 +14,8 @@ export class MouseCoordinates extends Component {
 
         let currCoord = miscUtil.padNumber(Math.abs(lonCoord).toFixed(3), 5, "&nbsp;") + lonUnit + "," + miscUtil.padNumber(Math.abs(latCoord).toFixed(3), 6, "&nbsp;") + latUnit;
 
+        let displayText = this.props.pixelCoordinate.get("isValid") ? currCoord : " ------" + lonUnit + ", ------" + latUnit;
+
         let containerClasses = miscUtil.generateStringFromSet({
             "current-coordinate": true
         });
@@ -21,7 +23,7 @@ export class MouseCoordinates extends Component {
         return (
             <div className={containerClasses}
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{__html: currCoord}} />
+                dangerouslySetInnerHTML={{__html: displayText}} />
         );
     }
 }
