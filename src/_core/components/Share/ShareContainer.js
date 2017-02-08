@@ -25,7 +25,7 @@ export class ShareContainer extends Component {
         }
 
         // delay updates to fix performance hit
-        if(this.updateTimeout === null) {
+        if (this.updateTimeout === null) {
             this.updateTimeout = setTimeout(() => {
                 this.props.actions.toggleShareUpdateFlag();
                 clearInterval(this.updateTimeout);
@@ -40,7 +40,6 @@ export class ShareContainer extends Component {
     }
     generateShareQuery() {
         let activeLayers = this.getActiveLayerString();
-        let opacities = this.getOpacitiesString();
         let viewMode = this.getViewModeString();
         let basemap = this.getBasemapString();
         let extent = this.getExtentString();
@@ -48,26 +47,22 @@ export class ShareContainer extends Component {
         let enablePoliticalBoundaries = this.getPoliticalBoundariesString();
         let enable3DTerrain = this.getTerrainString();
         let date = this.getDateString();
+        let dateSliderResolution = this.getDateSliderResolutionString();
 
-        return [basemap, activeLayers, opacities, viewMode, extent, enablePlaceLabels, enablePoliticalBoundaries, enable3DTerrain, date].join("&").split(" ").join("");
+        return [basemap, activeLayers, viewMode, extent, enablePlaceLabels, enablePoliticalBoundaries, enable3DTerrain, date, dateSliderResolution].join("&").split(" ").join("");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(appStrings.MAP_LIB_2D);
         if (map) {
             let layerIds = map.getActiveLayerIds();
             if (layerIds) {
-                return appConfig.URL_KEYS.ACTIVE_LAYERS + "=" + layerIds.join(",");
+                let idsWithOpacity = layerIds.map((layerId) => {
+                    return layerId + "(" + this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_DATA, layerId, "opacity"]) + ")";
+                });
+                return appConfig.URL_KEYS.ACTIVE_LAYERS + "=" + idsWithOpacity.join(",");
             }
         }
         return "";
-    }
-    getOpacitiesString() {
-        let dataLayers = this.props.layers.get(appStrings.LAYER_GROUP_TYPE_DATA);
-        return dataLayers.size > 0 ? appConfig.URL_KEYS.OPACITIES + "=" + dataLayers.reduce((acc, layer) => {
-            acc.push(layer.get("id"));
-            acc.push(layer.get("opacity"));
-            return acc;
-        }, []).join(",") : "";
     }
     getBasemapString() {
         return appConfig.URL_KEYS.BASEMAP + "=" + this.props.layers.get(appStrings.LAYER_GROUP_TYPE_BASEMAP).reduce((acc, layer) => {
@@ -97,6 +92,9 @@ export class ShareContainer extends Component {
     getDateString() {
         return appConfig.URL_KEYS.DATE + "=" + moment(this.props.mapDate).format("YYYY-MM-DD");
     }
+    getDateSliderResolutionString() {
+        return appConfig.URL_KEYS.TIMELINE_RES + "=" + this.props.dateSliderResolution.get("label").toLowerCase();
+    }
     shareEmail(url) {
         window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appConfig.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
     }
@@ -112,11 +110,11 @@ export class ShareContainer extends Component {
 
     render() {
         let shareQuery = this.generateShareQuery();
-        let shareUrl = window.location.protocol + "//" + window.location.host + "#" + shareQuery;
-        if(this.props.autoUpdateUrl) {
-            window.history.replaceState(undefined, undefined, "#" + shareQuery);
-        } else if(window.location.hash !== "") {
-            window.history.replaceState(undefined, undefined, "#");
+        let shareUrl = window.location.protocol + "//" + window.location.host + "?" + shareQuery;
+        if (this.props.autoUpdateUrl) {
+            window.history.replaceState(undefined, undefined, "?" + shareQuery);
+        } else if (window.location.hash !== "") {
+            window.history.replaceState(undefined, undefined, "?");
         }
         return (
             <ModalMenuContainer
@@ -154,7 +152,8 @@ ShareContainer.propTypes = {
     in3DMode: PropTypes.bool.isRequired,
     extent: PropTypes.object.isRequired,
     enableTerrain: PropTypes.bool.isRequired,
-    mapDate: PropTypes.object.isRequired
+    mapDate: PropTypes.object.isRequired,
+    dateSliderResolution: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -167,7 +166,8 @@ function mapStateToProps(state) {
         in3DMode: state.map.getIn(["view", "in3DMode"]),
         extent: state.map.getIn(["view", "extent"]),
         enableTerrain: state.map.getIn(["displaySettings", "enableTerrain"]),
-        mapDate: state.map.get("date")
+        mapDate: state.map.get("date"),
+        dateSliderResolution: state.dateSlider.get("resolution")
     };
 }
 

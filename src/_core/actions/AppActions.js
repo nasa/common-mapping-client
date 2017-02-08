@@ -61,12 +61,8 @@ export function runUrlConfig(params) {
     // Takes an array of key value pairs and dispatches associated actions for each
     // one.
 
-    // Sort url params according to appConfig.URL_KEY_ORDER
-    // After sorting, filter out false values (occur when there are keys with no values, e.g. 'basemap=')
-    let sortedParams = appConfig.URL_KEY_ORDER.map(key => miscUtil.findObjectInArray(params, "key", key)).filter(p => p);
-
     return (dispatch) => {
-        return Promise.all(sortedParams.map((param) => {
+        return Promise.all(params.map((param) => {
             return dispatch(translateUrlParamToActionDispatch(param));
         })).catch((err) => {
             console.warn("Error in AppActions.runUrlConfig:", err);
@@ -84,8 +80,6 @@ export function translateUrlParamToActionDispatch(param) {
     switch (param.key) {
         case appConfig.URL_KEYS.ACTIVE_LAYERS:
             return setLayersActive(param.value.split(","), true);
-        case appConfig.URL_KEYS.OPACITIES:
-            return setLayerOpacities(param.value.split(","));
         case appConfig.URL_KEYS.VIEW_MODE:
             return setViewMode(param.value);
         case appConfig.URL_KEYS.BASEMAP:
@@ -100,6 +94,8 @@ export function translateUrlParamToActionDispatch(param) {
             return setTerrainEnabled(param.value.toString() === "true");
         case appConfig.URL_KEYS.DATE:
             return setDate(param.value);
+        case appConfig.URL_KEYS.TIMELINE_RES:
+            return setTimelineRes(param.value);
         default:
             return { type: types.NO_ACTION };
     }
@@ -108,19 +104,15 @@ export function translateUrlParamToActionDispatch(param) {
 function setLayersActive(idArr, active) {
     return (dispatch) => {
         return new Promise(() => {
+            // array format is [id(opacity), id(opacity), ...]
             for (let i = 0; i < idArr.length; ++i) {
-                dispatch(LayerActions.setLayerActive(idArr[i], active));
-            }
-        });
-    };
-}
-
-function setLayerOpacities(opacitiesArr) {
-    return (dispatch) => {
-        return new Promise(() => {
-            // array format is [id, opacity, id, opacity, ...]
-            for (let i = 0; i < opacitiesArr.length; i += 2) {
-                dispatch(LayerActions.setLayerOpacity(opacitiesArr[i], opacitiesArr[i + 1]));
+                let splitId = idArr[i].split("(");
+                let id = splitId[0];
+                let opacity = splitId.length === 2 ? splitId[1].split(")")[0] : false;
+                if(opacity) {
+                    dispatch(LayerActions.setLayerOpacity(id, opacity));
+                }
+                dispatch(LayerActions.setLayerActive(id, active));
             }
         });
     };
@@ -162,6 +154,14 @@ function setDate(dateStr) {
     return (dispatch) => {
         return new Promise(() => {
             dispatch(MapActions.setDate(dateStr));
+        });
+    };
+}
+
+function setTimelineRes(resStr) {
+    return (dispatch) => {
+        return new Promise(() => {
+            dispatch(DateSliderActions.setDateResolution(resStr));
         });
     };
 }

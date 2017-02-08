@@ -556,11 +556,11 @@ export const MiscUtilSpec = {
                 });
             }
         },
-        parseUrlHashString: {
+        parseUrlQueryString: {
             test1: () => {
                 it('returns an array of objects representing the key/value pairs in a url format hash string', () => {
                     // DEFINE VARS
-                    let varIn = "#a=b&c=d&e=f";
+                    let varIn = "?a=b&c=d&e=f";
                     let varOut = [{
                         key: "a",
                         value: "b"
@@ -573,7 +573,7 @@ export const MiscUtilSpec = {
                     }];
 
                     //assert
-                    expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+                    expect(miscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             },
             test2: () => {
@@ -592,7 +592,7 @@ export const MiscUtilSpec = {
                     }];
 
                     //assert
-                    expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+                    expect(miscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             },
             test3: () => {
@@ -605,7 +605,7 @@ export const MiscUtilSpec = {
                     }];
 
                     //assert
-                    expect(miscUtil.parseUrlHashString(varIn)).to.deep.equal(varOut);
+                    expect(miscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             }
         },
@@ -620,28 +620,48 @@ export const MiscUtilSpec = {
         },
         getUrlParams: {
             test1: () => {
-                expect(miscUtil.getUrlParams()).to.deep.equal([]);
+                it('returns an empty array for no history', () => {
+
+                    expect(miscUtil.getUrlParams()).to.deep.equal([]);
+                });
+            },
+            test2: () => {
+                it('returns an array of key value objects for a valid query string url', () => {
+                    let varIn = "?a=b&c=d&f=1.23";
+                    let varOut = [{
+                        key: "a",
+                        value: "b"
+                    }, {
+                        key: "c",
+                        value: "d"
+                    }, {
+                        key: "f",
+                        value: "1.23"
+                    }];
+                    window.history.replaceState(undefined, undefined, varIn);
+                    expect(miscUtil.getUrlParams()).to.deep.equal(varOut);
+                });
             }
         },
         padNumber: {
             test1: () => {
                 it('pads a number or string up the specified length', () => {
-                    let varIn = [1,"12",112,"1212"];
-                    let varOut = ["0001","0012","0112","1212"];
+                    let varIn = [1, "12", 112, "1212"];
+                    let varOut = ["0001", "0012", "0112", "1212"];
                     let padLen = 4;
 
-                    for(let i = 0; i < varIn.length; ++i) {
+                    for (let i = 0; i < varIn.length; ++i) {
                         expect(miscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
                     }
                 });
             },
             test2: () => {
                 it('pads float strings ignoring the .', () => {
-                    let varIn = ["1.0","12.1","112.0","1212.0"];
-                    let varOut = ["001.0","012.1","112.0","1212.0"];
+                    let varIn = ["1.0", "12.1", "112.0", "1212.0"];
+                    let varOut = ["001.0", "012.1", "112.0", "1212.0"];
                     let padLen = 4;
 
-                    for(let i = 0; i < varIn.length; ++i) {
+                    for (let i = 0; i < varIn.length; ++i) {
                         expect(miscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
                     }
                 });

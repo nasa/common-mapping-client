@@ -6,7 +6,7 @@ import * as appStrings from '_core/constants/appStrings';
 /* APP DISPLAY */
 export const APP_TITLE = 'Common Mapping Client';
 export const APP_VERSION = __VERSION__ || 'Unknown Version'; // __VERSION__ is a plugin defined in webpack config. Use eslint global flag for this global excpetion.
-export const APP_SUBTITLE = APP_VERSION.split(".").slice(0,2).join(".");
+export const APP_SUBTITLE = APP_VERSION.split(".").slice(0, 2).join(".");
 /* END APP DISPLAY */
 
 /* VARIOUS URLS */
@@ -25,28 +25,17 @@ export const URLS = {
 
 /* SHAREABLE URL */
 export const URL_KEYS = {
-    ACTIVE_LAYERS: 'activeLayers',
-    OPACITIES: 'opacities',
-    VIEW_MODE: 'viewMode',
-    BASEMAP: 'basemap',
-    VIEW_EXTENT: 'extent',
-    ENABLE_PLACE_LABLES: 'enablePlaceLables',
-    ENABLE_POLITICAL_BOUNDARIES: 'enablePoliticalBoundaries',
-    ENABLE_3D_TERRAIN: 'enable3DTerrain',
-    DATE: 'date'
-};
+    ACTIVE_LAYERS: 'l',
+    VIEW_MODE: 'vm',
+    BASEMAP: 'b',
+    VIEW_EXTENT: 've',
+    ENABLE_PLACE_LABLES: 'pl',
+    ENABLE_POLITICAL_BOUNDARIES: 'pb',
+    ENABLE_3D_TERRAIN: 'tr',
+    DATE: 'd',
+    TIMELINE_RES: 'tlr'
 
-export const URL_KEY_ORDER = [
-    URL_KEYS.OPACITIES,
-    URL_KEYS.VIEW_MODE,
-    URL_KEYS.VIEW_EXTENT,
-    URL_KEYS.DATE,
-    URL_KEYS.ENABLE_3D_TERRAIN,
-    URL_KEYS.ENABLE_PLACE_LABLES,
-    URL_KEYS.ACTIVE_LAYERS,
-    URL_KEYS.BASEMAP,
-    URL_KEYS.ENABLE_POLITICAL_BOUNDARIES
-];
+};
 export const DEFAULT_AUTO_UPDATE_URL_ENABLED = true;
 /* END SHAREABLE URL */
 
@@ -82,7 +71,7 @@ export const DATE_SLIDER_RESOLUTIONS = {
 
 /* MAP */
 export const DEFAULT_PROJECTION = appStrings.PROJECTIONS.latlon;
-export const DEFAULT_BBOX_EXTENT = [-90,-45,90,45];
+export const DEFAULT_BBOX_EXTENT = [-90, -45, 90, 45];
 export const DEFAULT_SCALE_UNITS = 'metric';
 export const DEFAULT_TERRAIN_EXAGGERATION = 1;
 export const DEFAULT_TERRAIN_ENDPOINT = '//assets.agi.com/stk-terrain/world';

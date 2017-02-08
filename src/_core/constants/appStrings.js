@@ -4,8 +4,8 @@ export const MAP_LIB_2D = 'openlayers';
 export const MAP_LIB_3D = 'cesium';
 
 // map view modes
-export const MAP_VIEW_MODE_2D = 'MAP_VIEW_MODE_2D';
-export const MAP_VIEW_MODE_3D = 'MAP_VIEW_MODE_3D';
+export const MAP_VIEW_MODE_2D = '2D';
+export const MAP_VIEW_MODE_3D = '3D';
 
 // map pan directions
 export const MAP_PAN_DIRECTION_UP = 'MAP_PAN_DIRECTION_UP';
@@ -164,6 +164,11 @@ export const ALERTS = {
     FETCH_METADATA_FAILED: {
         title: "Loading Metadata Failed",
         formatString: "Could not retrieve metadata for {LAYER}.",
+        severity: 1
+    },
+    TIMELINE_RES_FAILED: {
+        title: "Setting Timeline Resolution Failed",
+        formatString: "Could not set the timeline resolution.",
         severity: 1
     }
 };

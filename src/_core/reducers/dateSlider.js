@@ -19,6 +19,12 @@ export default function dateSlider(state = dateSliderState, action) {
         case actionTypes.SET_DATE_RESOLUTION:
             return DateSliderReducer.setDateResolution(state, action);
 
+        case actionTypes.DISMISS_ALERT:
+            return DateSliderReducer.dismissAlert(state, action);
+
+        case actionTypes.DISMISS_ALL_ALERTS:
+            return DateSliderReducer.dismissAllAlerts(state, action);
+
         case actionTypes.RESET_APPLICATION_STATE:
             return DateSliderReducer.resetApplicationState(state, action);
 

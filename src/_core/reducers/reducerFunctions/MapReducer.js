@@ -314,21 +314,27 @@ export default class MapReducer {
                 severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
                 time: new Date()
             }));
-            return state.set("alerts", alerts);
+        } else {
+            if (opacity >= 0 && opacity <= 1) {
+                // If opacity has not changed, no need to update
+                if (actionLayer.get("opacity") !== opacity) {
+                    state.get("maps").forEach((map) => {
+                        map.setLayerOpacity(actionLayer, opacity);
+                    });
+
+                    state = state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id"), "opacity"], opacity);
+                }
+            } else {
+                alerts = alerts.push(alert.merge({
+                    title: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
+                    body: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.formatString.replace("{LAYER}", action.layer),
+                    severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
+                    time: new Date()
+                }));
+            }
         }
 
-        // If opacity has not changed, do not continue
-        if (actionLayer.get("opacity") === opacity) {
-            return state;
-        }
-
-        state.get("maps").forEach((map) => {
-            map.setLayerOpacity(actionLayer, opacity);
-        });
-
-        let newLayer = actionLayer.set("opacity", opacity);
-
-        return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
+        return state.set("alerts", alerts);
     }
 
     // TODO
