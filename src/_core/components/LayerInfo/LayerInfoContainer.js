@@ -26,6 +26,12 @@ export class LayerInfoContainer extends Component {
             "layer-info-loading": true,
             "active": this.props.dataLoading
         });
+
+        let errorClasses = miscUtil.generateStringFromSet({
+            "layer-info-error": true,
+            "active": !this.props.metadata.get("content") && !this.props.dataLoading && this.props.dataLoadingAttempted
+        });
+
         return (
             <Dialog
                 className="layer-info"
@@ -36,6 +42,14 @@ export class LayerInfoContainer extends Component {
                 <div className="layer-info-content">
                     <div className={loadingClasses}>
                         <ProgressBar type="circular" mode="indeterminate" className="layer-info-spinner" />
+                    </div>
+                    <div className={errorClasses}>
+                        <div className="error-content-container">
+                            <span data-react-toolbox="font-icon" className="material-icons">
+                                error_outline
+                            </span>
+                            <div className="error-message">No Metadata Available</div>
+                        </div>
                     </div>
                     <h2>{metadata.get("title")}</h2>
                     <List className="no-margin layer-info-list">

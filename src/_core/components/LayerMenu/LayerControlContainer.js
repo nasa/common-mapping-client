@@ -157,10 +157,10 @@ export class LayerControlContainer extends Component {
                         <div className="col-xs-9 text-left no-padding">
                             <Colorbar
                                 palette={this.props.palette}
-                                min={this.props.layer.get("min")}
-                                max={this.props.layer.get("max")}
-                                displayMin={this.props.layer.getIn(["palette", "min"])}
-                                displayMax={this.props.layer.getIn(["palette", "max"])}
+                                min={parseFloat(this.props.layer.get("min"))}
+                                max={parseFloat(this.props.layer.get("max"))}
+                                displayMin={parseFloat(this.props.layer.getIn(["palette", "min"]))}
+                                displayMax={parseFloat(this.props.layer.getIn(["palette", "max"]))}
                                 handleAs={this.props.layer.getIn(["palette", "handleAs"])}
                                 url={this.props.layer.getIn(["palette", "url"])}
                             />

@@ -19,7 +19,10 @@ export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTil
             { width: 40, height: 20, resolution: 0.00030679615757712823 },
             { width: 80, height: 40, resolution: 0.00015339807878856412 },
             { width: 160, height: 80, resolution: 0.00007669903939428206 },
-            { width: 320, height: 160, resolution: 0.00003834951969714103 }
+            { width: 320, height: 160, resolution: 0.00003834951969714103 },
+            { width: 640, height: 320, resolution: 0.000019174759848570515 },
+            { width: 1280, height: 640, resolution: 0.000009587379924285257 },
+            { width: 2560, height: 1280, resolution: 0.000004793689962142629 }
         ];
 
         // package the variables I'll need in the overrides below that will be used

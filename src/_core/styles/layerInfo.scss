@@ -22,7 +22,11 @@
     nav {
         display: none;
     }
-    .layer-info-loading{
+    span[data-react-toolbox="font-icon"]:not(.material-icons) {
+        line-height: 16.1px;
+    }
+    .layer-info-loading,
+    .layer-info-error {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -39,11 +43,30 @@
             pointer-events: auto;
             visibility: visible;
         }
+    }
+    .layer-info-loading {
         .layer-info-spinner {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+    }
+    .layer-info-error {
+        text-align: center;
+        color: $color-medium;
+        background: $color-medium-light;
+        .error-content-container {
+            top: 36%;
+            position: relative;
+        }
+        .error-message {
+            font-weight: 500;
+            font-size: 1.5rem;
+            padding-top: 1rem;
+        }
+        .material-icons {
+            font-size: 10rem;
         }
     }
     .thumbnail-image {

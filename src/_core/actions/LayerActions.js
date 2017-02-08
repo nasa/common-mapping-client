@@ -64,17 +64,29 @@ export function loadLayerMetadata(layer) {
         dispatch(layerMetadataLoading());
         // open the display
         dispatch(openLayerInfo(layer));
-        // fetch the metadata
-        return miscUtil.asyncFetch({
-            url: layer.getIn(["metadata", "url"]),
-            handleAs: layer.getIn(["metadata", "handleAs"])
-        }).then((data) => {
-            // store the data for display
-            dispatch(setCurrentMetadata(layer, data));
-            // signal loading complete
-            dispatch(layerMetadataLoaded());
-        }, (err) => {
-            console.warn("Error in LayerActions.openLayerInfo:", err);
+        if (layer.getIn(["metadata", "url"]) && layer.getIn(["metadata", "handleAs"])) {
+            // fetch the metadata
+            return miscUtil.asyncFetch({
+                url: layer.getIn(["metadata", "url"]),
+                handleAs: layer.getIn(["metadata", "handleAs"])
+            }).then((data) => {
+                // store the data for display
+                dispatch(setCurrentMetadata(layer, data));
+                // signal loading complete
+                dispatch(layerMetadataLoaded());
+            }, (err) => {
+                console.warn("Error in LayerActions.openLayerInfo:", err);
+                // signal loading complete
+                dispatch(layerMetadataLoaded());
+                // display alert
+                dispatch(AlertActions.addAlert({
+                    title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
+                    body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString.split("{LAYER}").join(layer.get("title")),
+                    severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
+                    time: new Date()
+                }));
+            });
+        } else {
             // signal loading complete
             dispatch(layerMetadataLoaded());
             // display alert
@@ -84,7 +96,7 @@ export function loadLayerMetadata(layer) {
                 severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
                 time: new Date()
             }));
-        });
+        }
     };
 }
 

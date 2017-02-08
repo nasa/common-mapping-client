@@ -1,7 +1,0 @@
-{
-	"title": "Sea Ice Extent (MODIS, Terra)",
-    "description": "The Advanced Microwave Scanning Radiometer 2 (AMSR2) was launched on 18 May 2012, onboard the Global Change Observation Mission satellite developed by the Japan Aerospace Exploration Agency (JAXA).",
-    "dateRange": "2012 – Present",
-    "platform": "MODIS, Terra",
-    "spatialResolution": "25km x 25km spatial resolution"
-}
