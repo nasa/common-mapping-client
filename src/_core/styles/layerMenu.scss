@@ -6,6 +6,7 @@
     overflow: hidden;
     border-bottom: 1px solid $color-medium-light;
     display: block;
+    letter-spacing: 0.02rem;
     &:last-child {
         border-bottom: none;
     }
