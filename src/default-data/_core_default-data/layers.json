@@ -4,6 +4,7 @@
         "title": "True Color",
         "type": "data",
         "handleAs": "GIBS_raster",
+        "isDefault": true,
         "wmtsOptions": {
             "urlFunctions": {
                 "openlayers": "kvpTimeParam",
@@ -60,8 +61,7 @@
             "name": "GHRSST_L4_Sea_Surface_Temperature",
             "handleAs": "json-relative"
         },
-        "thumbnailImage": "img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png",
-        "isDefault": true
+        "thumbnailImage": "img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png"
     }, {
         "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
         "title": "Brightness Temperature",
