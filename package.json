@@ -118,6 +118,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://podaac-git.jpl.nasa.gov:8443/fplatt/react-map.git"
+    "url": "https://github.jpl.nasa.gov/CommonMappingClient/cmc-core.git"
   }
 }
