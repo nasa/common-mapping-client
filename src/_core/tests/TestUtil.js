@@ -1,13 +1,21 @@
+/*global SKIP_WEBGL_TESTS*/
 import { expect } from 'chai';
 
 export default class TestUtil {
     static compareFullStates(actual, expected, includeAnalytics = false, includeAlerts = false) {
-        for(let key in actual) {
-            if(actual.hasOwnProperty(key)) {
-                if((key !== "alerts" || includeAlerts) && (key !== "analytics" || includeAnalytics)) {
+        for (let key in actual) {
+            if (actual.hasOwnProperty(key)) {
+                if ((key !== "alerts" || includeAlerts) && (key !== "analytics" || includeAnalytics)) {
                     expect(actual[key].toJS()).to.deep.equal(expected[key].toJS());
                 }
             }
+        }
+    }
+
+    static skipIfNoWebGL(test, _this) {
+        if (SKIP_WEBGL_TESTS === true) {
+            console.log("Skipping test:", test)
+            _this.skip();
         }
     }
 

@@ -1,12 +1,10 @@
 // Karma configuration
 var webpack = require('webpack');
 var path = require('path');
-// const GLOBALS = {
-//     'process.env.NODE_ENV': JSON.stringify('development'),
-//     __DEV__: true
-// };
 
-// if (!process.env.NODE_ENV) process.env.NODE_ENV = JSON.stringify('test')
+if (process.env.SKIP_WEBGL_TESTS === "true") {
+    console.log("Skipping WebGL tests");
+}
 
 module.exports = function(config) {
     config.set({
@@ -51,7 +49,10 @@ module.exports = function(config) {
                 extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
             },
             plugins: [
-                new webpack.DefinePlugin({ __VERSION__: JSON.stringify(require("./package.json").version) })
+                new webpack.DefinePlugin({
+                    __VERSION__: JSON.stringify(require("./package.json").version),
+                    SKIP_WEBGL_TESTS: JSON.stringify(process.env.SKIP_WEBGL_TESTS === "true")
+                })
             ],
             module: {
                 noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
@@ -109,7 +110,6 @@ module.exports = function(config) {
         // logLevel: config.LOG_DISABLE,
         logLevel: config.LOG_ERROR,
         // logLevel: config.LOG_DEBUG,
-        // logLevel: config.LOG_DEBUG,
         // logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
@@ -119,7 +119,8 @@ module.exports = function(config) {
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         // browsers: ['PhantomJS'],
         // browsers: ['PhantomJS','Chrome'],
-        browsers: process.env.TRAVIS ? ['Chrome_travis_ci'] : ['Chrome'],
+        // browsers: process.env.TRAVIS ? ['Chrome_travis_ci'] : ['Chrome'],
+        browsers: process.env.SKIP_WEBGL_TESTS === "true" ? ['PhantomJS'] : ['Chrome'],
 
         // Custom launcher for headless CI testing (Travis)
         customLaunchers: {
