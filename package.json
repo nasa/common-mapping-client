@@ -14,10 +14,14 @@
     "prebuild": "npm run clean-dist && npm run build:html",
     "build": "babel-node scripts/build.js > dist/build-report.txt && npm run postbuild",
     "build:open": "npm run build && npm run open:dist",
-    "test": "karma start karma.conf.js --singleRun=true --reporters=progress,html",
-    "test:watch": "karma start karma.conf.js --singleRun=false --reporters=progress,html",
+    "test": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=true --reporters=progress,html",
+    "test:watch": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=false --reporters=progress,html",
     "test:cover": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=true",
     "test:cover:watch": "cross-env NODE_ENV=test karma start karma.conf.js --singleRun=false",
+    "test:skipWebGLTests": "cross-env NODE_ENV=test SKIP_WEBGL_TESTS=true karma start karma.conf.js --singleRun=true --reporters=progress,html",
+    "test:skipWebGLTests:watch": "cross-env NODE_ENV=test SKIP_WEBGL_TESTS=true karma start karma.conf.js --singleRun=false --reporters=progress,html",
+    "test:skipWebGLTests:cover": "cross-env NODE_ENV=test SKIP_WEBGL_TESTS=true karma start karma.conf.js --singleRun=true",
+    "test:skipWebGLTests:cover:watch": "cross-env NODE_ENV=test SKIP_WEBGL_TESTS=true karma start karma.conf.js --singleRun=false",
     "postinstall": "scripts/postinstall.sh",
     "postbuild": "scripts/postbuild.sh",
     "deploy": "scripts/deploy.bash"
@@ -32,8 +36,10 @@
     "flexboxgrid": "6.3.0",
     "isomorphic-fetch": "2.2.1",
     "karma-coverage": "1.1.1",
+    "karma-phantomjs-launcher": "1.0.2",
     "normalize.css": "4.2.0",
     "object-assign": "4.0.1",
+    "phantomjs-prebuilt": "2.1.14",
     "react": "15.3.1",
     "react-addons-css-transition-group": "15.3.0",
     "react-addons-update": "15.3.0",
@@ -118,6 +124,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://podaac-git.jpl.nasa.gov:8443/fplatt/react-map.git"
+    "url": "https://github.jpl.nasa.gov/CommonMappingClient/cmc-core.git"
   }
 }
