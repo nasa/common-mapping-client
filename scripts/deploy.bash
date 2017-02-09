@@ -5,7 +5,7 @@
 set -e          # Exit with nonzero exit code if anything fails
 set -o verbose  # Print commands that are executed
 
-SOURCE_BRANCH=$TRAVIS_BRANCH
+SOURCE_BRANCH=$BRANCH_NAME
 TARGET_BRANCH="gh-pages"
 
 # Check if this is travis or local deployment
