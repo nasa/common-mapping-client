@@ -31,8 +31,8 @@ fi
 
 # clear old docker images and containers
 echo "Clearing old containers and images"
-sudo docker ps | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker stop {}
-sudo docker ps -a | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker rm {}
+sudo docker ps | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1 }' | xargs -I {} sudo docker stop {}
+sudo docker ps -a | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1 }' | xargs -I {} sudo docker rm {}
 sudo docker images | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1":"$2}' | xargs -I {} sudo docker rmi {}
 
 # create a docker ignore file to deal with some read-only issues
