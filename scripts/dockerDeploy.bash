@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# SOURCE_BRANCH=${BRANCH_NAME}
-SOURCE_BRANCH="master" # TODO - make this branch name
+SOURCE_BRANCH=$GIT_BRANCH
 
 if [ ! -d "dist" ]; then
   echo "The dist/ directory doesn't exist; you must \`npm run build\` before deploying."
