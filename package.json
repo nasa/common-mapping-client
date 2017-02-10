@@ -24,7 +24,8 @@
     "test:skipWebGLTests:cover:watch": "cross-env NODE_ENV=test SKIP_WEBGL_TESTS=true karma start karma.conf.js --singleRun=false",
     "postinstall": "scripts/postinstall.sh",
     "postbuild": "scripts/postbuild.sh",
-    "deploy": "scripts/deploy.bash"
+    "deploy": "scripts/deploy.bash",
+    "deploy:docker": "scripts/dockerDeploy.bash"
   },
   "author": "Flynn Platt",
   "license": "MIT",
