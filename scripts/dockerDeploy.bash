@@ -14,7 +14,7 @@ if [ ! -d "branches" ]; then
 fi
 
 # Move the built bundle into branches
-echo "Creating target branch directory"
+echo "Creating target branch directory $SOURCE_BRANCH noodle"
 rm -rf branches/$SOURCE_BRANCH && mv dist branches/$SOURCE_BRANCH
 
 # copy over test results if they exist
@@ -28,18 +28,18 @@ if [ -d "test-results" ]; then
 fi
 
 
-# clear old docker images and containers
-echo "Clearing old containers and images"
-sudo docker ps | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker stop {}
-sudo docker ps -a | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker rm {}
-sudo docker images | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1":"$2}' | xargs -I {} sudo docker rmi {}
+# # clear old docker images and containers
+# echo "Clearing old containers and images"
+# sudo docker ps | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker stop {}
+# sudo docker ps -a | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker rm {}
+# sudo docker images | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1":"$2}' | xargs -I {} sudo docker rmi {}
 
-# build the new container
-echo "Building new image"
-sudo docker build -t jenkins/cmc-core -f scripts/deployAssets/Dockerfile .
+# # build the new container
+# echo "Building new image"
+# sudo docker build -t jenkins/cmc-core -f scripts/deployAssets/Dockerfile .
 
-# run the new container
-echo "Starting container"
-sudo docker run -d -p 49160:80 --name cmc-core_auto-deploy jenkins/cmc-core;
+# # run the new container
+# echo "Starting container"
+# sudo docker run -d -p 49160:80 --name cmc-core_auto-deploy jenkins/cmc-core;
 
-echo "Deploy complete"
+# echo "Deploy complete"
