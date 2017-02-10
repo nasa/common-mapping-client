@@ -7,7 +7,7 @@ ENV SRV_DIR /usr/share/nginx/html/
 ENV NGINX_CONF /etc/nginx/
 
 # Move the source code into the container
-COPY ./branches/* ${SRV_DIR}
+COPY ./branches ${SRV_DIR}
 
 # Move over the server config
 COPY ./scripts/deployAssets/nginx.conf ${NGINX_CONF}
