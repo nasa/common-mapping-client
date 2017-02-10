@@ -52,7 +52,8 @@
     "redux": "3.5.2",
     "redux-thunk": "2.1.0",
     "script-loader": "0.7.0",
-    "url-loader": "0.5.7"
+    "url-loader": "0.5.7",
+    "uuid": "3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
