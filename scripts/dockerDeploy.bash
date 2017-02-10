@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SOURCE_BRANCH=${BRANCH_NAME}
+# SOURCE_BRANCH=${BRANCH_NAME}
+SOURCE_BRANCH="master" # TODO - make this branch name
 
 if [ ! -d "dist" ]; then
   echo "The dist/ directory doesn't exist; you must \`npm run build\` before deploying."
@@ -27,19 +28,21 @@ if [ -d "test-results" ]; then
   fi
 fi
 
+# clear old docker images and containers
+echo "Clearing old containers and images"
+sudo docker ps | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker stop {}
+sudo docker ps -a | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker rm {}
+sudo docker images | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1":"$2}' | xargs -I {} sudo docker rmi {}
 
-# # clear old docker images and containers
-# echo "Clearing old containers and images"
-# sudo docker ps | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker stop {}
-# sudo docker ps -a | awk '{ print $1,$2 }' | grep cmc-core_auto-deploy | awk '{print $1 }' | xargs -I {} sudo docker rm {}
-# sudo docker images | awk '{ print $1,$2 }' | grep jenkins/cmc-core | awk '{print $1":"$2}' | xargs -I {} sudo docker rmi {}
+# create a docker ignore file to deal with some read-only issues
+echo $'node_modules\nnpm-debug.log' > .dockerignore
 
-# # build the new container
-# echo "Building new image"
-# sudo docker build -t jenkins/cmc-core -f scripts/deployAssets/Dockerfile .
+# build the new container
+echo "Building new image"
+sudo docker build -t jenkins/cmc-core -f scripts/deployAssets/Dockerfile .
 
-# # run the new container
-# echo "Starting container"
-# sudo docker run -d -p 49160:80 --name cmc-core_auto-deploy jenkins/cmc-core;
+# run the new container
+echo "Starting container"
+sudo docker run -d -p 49160:80 --name cmc-core_auto-deploy jenkins/cmc-core;
 
-# echo "Deploy complete"
+echo "Deploy complete"
