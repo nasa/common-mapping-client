@@ -1,7 +1,7 @@
 FROM nginx:1.10.2
 
 
-# This Dockerfile assumes assets are pre-built
+# This Dockerfile assumes assets are pre-built and this is run from `cmc-core/`
 
 ENV SRV_DIR /usr/share/nginx/html/
 ENV NGINX_CONF /etc/nginx/
@@ -10,4 +10,4 @@ ENV NGINX_CONF /etc/nginx/
 COPY ./branches/* ${SRV_DIR}
 
 # Move over the server config
-COPY ./nginx.conf ${NGINX_CONF}
+COPY ./scripts/deployAssets/nginx.conf ${NGINX_CONF}
