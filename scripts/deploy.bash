@@ -43,8 +43,8 @@ fi
 
 
 # If user.(name|email) aren't set, use the values from the latest commit
-git config user.name > /dev/null || git config user.name 'Travis CI'
-git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
+# git config user.name > /dev/null || git config user.name 'Travis CI'
+# git config user.email > /dev/null || git config user.email 'travis@no-reply.jpl.nasa.gov'
 
 # Move everything over to the gh-pages branch
 git remote set-branches --add origin $TARGET_BRANCH
