@@ -28,9 +28,9 @@ If a capability or widget is not in 85% of mapping applications, it will not be
 part of CMC-Core.
 
 #### Live Demo
-- Check out our live demo http://graywhale:49160/
-- GHE code-coverage: http://graywhale:49160/test-results/coverage/
-- GHE unit test report: http://graywhale:49160/test-results/
+- Check out our live demo http://graywhale:49160/master/
+- GHE code-coverage: http://graywhale:49160/master/test-results/coverage/
+- GHE unit test report: http://graywhale:49160/master/test-results/
 - GHE gh-page demo (Not currently active): https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
 
 
