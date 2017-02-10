@@ -29,9 +29,10 @@ part of CMC-Core.
 
 #### Live Demo
 - Check out our live demo http://graywhale:49160/
-- GHE gh-page demo: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
-- GHE code-coverage: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/code-coverage
-- GHE unit test report: https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/unit-tests
+- GHE code-coverage: http://graywhale:49160/test-results/coverage/
+- GHE unit test report: http://graywhale:49160/test-results/
+- GHE gh-page demo (Not currently active): https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/
+
 
 ![Preview](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/core.png)
 
