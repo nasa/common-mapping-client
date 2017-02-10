@@ -1,6 +1,8 @@
 #!/bin/bash
 
-SOURCE_BRANCH=$GIT_BRANCH
+# http://stackoverflow.com/a/125340
+# remove origin/ from branch name
+SOURCE_BRANCH=${GIT_BRANCH#*/}
 
 if [ ! -d "dist" ]; then
   echo "The dist/ directory doesn't exist; you must \`npm run build\` before deploying."
@@ -14,7 +16,7 @@ if [ ! -d "branches" ]; then
 fi
 
 # Move the built bundle into branches
-echo "Creating target branch directory $SOURCE_BRANCH noodle"
+echo "Creating target branch directory $SOURCE_BRANCH"
 rm -rf branches/$SOURCE_BRANCH && mv dist branches/$SOURCE_BRANCH
 
 # copy over test results if they exist
