@@ -239,7 +239,7 @@ export default class TimeAxisD3 {
         let seconds = d.getSeconds();
         let milliseconds = d.getMilliseconds();
         let y1 = "0";
-        let y2 = "-18";
+        let y2 = "-17";
         let className = "default";
 
         // Year

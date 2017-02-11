@@ -55,9 +55,11 @@ export default class DateSliderReducer {
         }
 
         if (actionResolution) {
-            state = state
-                .setIn(["resolution", "label"], actionResolution.label)
-                .setIn(["resolution", "resolution"], actionResolution.resolution);
+            // Here we make a new copy of actionResolution instead of preserving original object in
+            // order to force an update of TimeAxis resolution since the state value may not have changed
+            // since last state *but* the user may have interacted with timeline using mouse zoom which does
+            // not get captured in state.
+            state = state.set("resolution", Immutable.Map(actionResolution));
         } else {
             alerts = alerts.push(alert.merge({
                 title: appStrings.ALERTS.TIMELINE_RES_FAILED.title,

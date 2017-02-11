@@ -124,8 +124,8 @@ export class TimeAxis extends Component {
                     <rect />
                 </clipPath>
                 <rect id="chart-bounds" />
-                <g id="x-axis" />
                 <line className="timeline-horiz-axis" y1="14" y2="14" />
+                <g id="x-axis" />
                 <CurrentDate
                     active={true}
                     beforeDrag={() => {
