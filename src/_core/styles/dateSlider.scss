@@ -108,7 +108,7 @@
             }
         }
         line {
-            stroke: $color-medium-dark;
+            stroke: lighten($color-medium, 5%);
             &.future_date {
                 stroke: $color-medium;
             }
@@ -128,9 +128,7 @@
     }
     .timeline-horiz-axis {
         position: absolute;
-        fill: $color-medium-dark;
-        fill-opacity: 1;
-        stroke: $color-medium-dark;
+        stroke: lighten($color-medium, 5%);
         stroke-width: 2;
         shape-rendering: crispEdges;
         stroke-opacity: 1;

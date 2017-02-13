@@ -540,9 +540,12 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 ├── karma.conf.js             # Configuration for karma test runner
 ├── package.json              # Package configuration. The list of 3rd party libraries and utilities
 ├── scripts                   # Node scripts that run build related tools
+│   ├── deployAssets          # Folder containing files used for deployment of CMC in a Dockerized NGINX server
 │   ├── build.js              # Runs the production build
 │   ├── buildHtml.js          # Builds index.html
 │   ├── distServer.js         # Starts webserver and opens final built app that's in dist in your default browser
+│   ├── deploy.bash           # Script for deploying built app to Github Pages
+│   ├── dockerDeploy.bash     # Script for deploying built app (with branch support) in Docker
 │   ├── postbuild.sh          # Shell script that runs after npm build to copy over certain libs to certain places in the distribution
 │   ├── postinstall.sh        # Shell script that copies over certain node_module files, libraries, sets up other stuff, etc.
 │   └── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
@@ -610,6 +613,10 @@ The following `package.json` scripts can be used to run tests in a variety of wa
 - `npm run test:watch` - Run tests on every file change (is a little fragile, try to space out your saves so you don't thrash this thing) and generate html test report
 - `npm run test:cover` - Run tests once and generate html test report and a test coverage report
 - `npm run test:cover:watch` - Run tests on every file change and generate html test report and a test coverage report
+- `npm run test:skipWebGLTests` - Run tests once and generate html test report and skip tests that require WebGL (an environment variable is passed in which tells certain tests to skip themselves via check from TestUtil)
+- `npm run test:skipWebGLTests:watch` - Run tests on every file change (is a little fragile, try to space out your saves so you don't thrash this thing) and generate html test report, skip WebGL tests
+- `npm run test:skipWebGLTests:cover` - Run tests once and generate html test report and a test skipWebGLTests:coverage report, skip WebGL tests
+- `npm run test:skipWebGLTests:cover:watch` - Run tests on every file change and generate html test report and a test coverage report, skip WebGL tests
 
 <a id="writing-tests-cmc"/>
 ### Writing Tests for CMC
@@ -897,6 +904,10 @@ Core tests sometimes make use of use of asynchronously loaded data from `src/_co
 <a id="writing-tests-beforeEach-afterEach"/>
 ### Using beforeEach and afterEach
 CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of the Mocha [`beforeEach` and `afterEach` hooks](https://mochajs.org/#hooks) in order to provide an html fixture from the DOM so that the maps have a place to render. In Core, these `beforeEach` and `afterEach` functions are defined in the exported testSuite objects. In non-Core tests feel free to use these functions and any other Mocha hooks according to the normal Mocha paradigm.
+
+<a id="skipping-webgl-tests"/>
+### Skipping WebGL Tests
+Certain CMC Core tests that test functionalities requiring WebGL are configured to skip themselves if a certain global variable is defined as true. This variable is included as a global variable in the test webpack build in `karma.conf.js` if a certain environment variable is set while running tests (`SKIP_WEBGL_TESTS`). Skipping WebGL tests is useful if you need to run your tests in an environment where configuring a WebGL enabled browser is difficult or impossible. Running tests on a continuous integration server that doesn't have anything besides PhantomJS available is one example where this functionality can be useful. Note that skipped tests will still be reported in the test output but will be labeled as skipped.
 
 <a id="writing-tests-async-behavior"/>
 ### Testing Asynchronous Behaviors
