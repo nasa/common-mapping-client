@@ -3,7 +3,7 @@ FROM nginx:1.10.2
 
 # This Dockerfile assumes assets are pre-built and this is run from `cmc-core/`
 
-ENV SRV_DIR /usr/share/nginx/html/cmc-core
+ENV SRV_DIR /usr/share/nginx/html/app
 ENV NGINX_CONF /etc/nginx/
 
 # Make the cmc-core serving directory
