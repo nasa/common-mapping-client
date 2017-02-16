@@ -113,7 +113,7 @@ export class ShareContainer extends Component {
         let shareUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + shareQuery;
         if (this.props.autoUpdateUrl) {
             window.history.replaceState(undefined, undefined, "?" + shareQuery);
-        } else if (window.location.hash !== "") {
+        } else if (window.location.search !== "") {
             window.history.replaceState(undefined, undefined, "?");
         }
         return (
