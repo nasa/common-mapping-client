@@ -12,11 +12,15 @@ export default class TestUtil {
         }
     }
 
-    static skipIfNoWebGL(test, _this) {
-        if (SKIP_WEBGL_TESTS === true) {
+    static skipIfNoWebGL(test, _this, done) {
+        if (SKIP_WEBGL_TESTS) {
             console.log("Skipping test:", test)
             _this.skip();
+            if (done) {
+                done();
+            }
         }
+        return SKIP_WEBGL_TESTS;
     }
 
     static runTestSuite(testSuite) {

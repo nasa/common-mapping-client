@@ -120,7 +120,9 @@ export const StoreMapSpec = {
 
             test2: () => {
                 it('initializes 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test2", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test2", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -147,7 +149,9 @@ export const StoreMapSpec = {
 
             test3: () => {
                 it('initializes 2D and 3D maps', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test3", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test3", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -175,7 +179,9 @@ export const StoreMapSpec = {
 
             test4: () => {
                 it('initializes 3D and 2D maps', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test4", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test4", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -203,7 +209,9 @@ export const StoreMapSpec = {
 
             test5: () => {
                 it('can enable 3D terrain', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test5", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test5", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -229,7 +237,9 @@ export const StoreMapSpec = {
 
             test6: () => {
                 it('can set 3D terrain exaggeration', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test6", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test6", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -255,7 +265,9 @@ export const StoreMapSpec = {
 
             test7: () => {
                 it('can disable 3D terrain', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test7", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test7", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -282,7 +294,9 @@ export const StoreMapSpec = {
 
             test8: () => {
                 it('can set map view mode to 3D without 2D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test8", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test8", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -310,7 +324,9 @@ export const StoreMapSpec = {
 
             test9: () => {
                 it('can set map view mode to 3D with 2D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test9", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test9", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -366,7 +382,9 @@ export const StoreMapSpec = {
 
             test11: () => {
                 it('can set map view mode to 2D with 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test11", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test11", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -396,7 +414,9 @@ export const StoreMapSpec = {
 
             test12: () => {
                 it('can reset 3D map orientation', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test12", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test12", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -427,7 +447,9 @@ export const StoreMapSpec = {
 
             test13: () => {
                 it('can set 2D map view info', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test13", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test13", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -462,7 +484,9 @@ export const StoreMapSpec = {
 
             test14: () => {
                 it('can set 3D map view info', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test14", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test14", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -516,7 +540,10 @@ export const StoreMapSpec = {
 
             test16: () => {
                 it('can zoom out', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test16", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test16", this, done)) {
+                        return;
+                    }
+
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -586,7 +613,9 @@ export const StoreMapSpec = {
 
             test17: () => {
                 it('can zoom in', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this, done)) {
+                        return;
+                    }
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -660,7 +689,9 @@ export const StoreMapSpec = {
 
             test18: () => {
                 it('can zoom in and out', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this, done)) {
+                        return;
+                    }
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -877,7 +908,9 @@ export const StoreMapSpec = {
 
             test23: () => {
                 it('can enable drawing a circle on a 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test23", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test23", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -918,7 +951,9 @@ export const StoreMapSpec = {
 
             test24: () => {
                 it('can enable drawing a line on a 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test24", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test24", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -959,7 +994,9 @@ export const StoreMapSpec = {
 
             test25: () => {
                 it('can enable drawing a polygon on a 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1041,7 +1078,9 @@ export const StoreMapSpec = {
 
             test27: () => {
                 it('can disable drawing on a 3D map and clear previous drawing type', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test27", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test27", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1173,7 +1212,9 @@ export const StoreMapSpec = {
 
             test29: () => {
                 it('can add geometry to 3D map', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test29", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test29", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1260,7 +1301,9 @@ export const StoreMapSpec = {
 
             test30: () => {
                 it('can remove all drawings from 2D and 3D maps', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test30", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test30", this)) {
+                        return;
+                    }
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1379,7 +1422,9 @@ export const StoreMapSpec = {
 
             test31: () => {
                 it('can add measurement label to geometry on 2D and 3D maps', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test31", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test31", this, done)) {
+                        return;
+                    }
 
                     // adjust default timeout
                     this.timeout(30000);
@@ -1563,7 +1608,9 @@ export const StoreMapSpec = {
 
             test32: () => {
                 it('can remove all measurements in 2D and 3D maps', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test32", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test32", this, done)) {
+                        return;
+                    }
                     // adjust default timeout
                     this.timeout(30000);
 
@@ -1742,7 +1789,9 @@ export const StoreMapSpec = {
 
             test34: () => {
                 it('can activate layers', function() {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test34", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test34", this)) {
+                        return;
+                    }
                     // create modified state to account for layer ingest
                     const modifiedState = {...initialState };
                     modifiedState.map = modifiedState.map
@@ -1808,7 +1857,9 @@ export const StoreMapSpec = {
 
             test35: () => {
                 it('can deactivate layers', function(done) {
-                    TestUtil.skipIfNoWebGL("StoreMapSpec.default.test35", this);
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test35", this, done)) {
+                        return;
+                    }
                     // adjust default timeout
                     this.timeout(30000);
 
