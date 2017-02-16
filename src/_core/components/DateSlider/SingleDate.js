@@ -53,7 +53,7 @@ export class SingleDate extends Component {
         });
         return (
             <g className={classNames}>
-                <circle className="single-date-inner" cx="0" cy="15" r="10" filter="url(#dropshadowFilter)"/>
+                <circle className="single-date-inner" cx="0" cy="15" r="10" filter="url('#dropshadowFilter')"/>
             </g>
         );
     }
