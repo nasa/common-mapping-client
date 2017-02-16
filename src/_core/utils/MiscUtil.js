@@ -151,7 +151,8 @@ export default class MiscUtil {
     }
 
     parseUrlQueryString(urlStr) {
-        return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
+        // return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
+        return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
             let paramParts = param.split('=');
             if (paramParts && paramParts.length === 2 && paramParts[0] !== "" && paramParts[1] !== "") {
                 acc.push({ key: paramParts[0], value: paramParts[1] });
@@ -161,7 +162,8 @@ export default class MiscUtil {
     }
 
     getUrlParams() {
-        return this.parseUrlQueryString(window.location.search);
+        // return this.parseUrlQueryString(window.location.search);
+        return this.parseUrlQueryString(window.location.hash);
     }
 
     urlIsCrossorigin(url) {

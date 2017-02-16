@@ -110,11 +110,11 @@ export class ShareContainer extends Component {
 
     render() {
         let shareQuery = this.generateShareQuery();
-        let shareUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + shareQuery;
+        let shareUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "#" + shareQuery;
         if (this.props.autoUpdateUrl) {
-            window.history.replaceState(undefined, undefined, "?" + shareQuery);
-        } else if (window.location.search !== "") {
-            window.history.replaceState(undefined, undefined, "?");
+            window.history.replaceState(undefined, undefined, "#" + shareQuery);
+        } else if (window.location.hash !== "") {
+            window.history.replaceState(undefined, undefined, "#");
         }
         return (
             <ModalMenuContainer

@@ -560,7 +560,7 @@ export const MiscUtilSpec = {
             test1: () => {
                 it('returns an array of objects representing the key/value pairs in a url format hash string', () => {
                     // DEFINE VARS
-                    let varIn = "?a=b&c=d&e=f";
+                    let varIn = "#a=b&c=d&e=f";
                     let varOut = [{
                         key: "a",
                         value: "b"
@@ -627,7 +627,7 @@ export const MiscUtilSpec = {
             },
             test2: () => {
                 it('returns an array of key value objects for a valid query string url', () => {
-                    let varIn = "?a=b&c=d&f=1.23";
+                    let varIn = "#a=b&c=d&f=1.23";
                     let varOut = [{
                         key: "a",
                         value: "b"
