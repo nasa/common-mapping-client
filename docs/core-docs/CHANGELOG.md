@@ -1,19 +1,10 @@
-# [1.0 Release](RELEASE LINK) (TBD)
+# 1.0.1 Release - Feb. 21, 2017
+Patch update to address some consistency issues.
 
-### Features
+CHANGES
+* #162 : Switched back to using a url hash string instead of a query string for shareable urls (fixed Firefox display issue)
+* #161 : Updated test WebGL test skipping for consistency across different platforms
+* #158 : Updated Dockerfile and deployAssets for CI deployment
 
-#### Feature 1
-
-Description 1
-
-#### Feature 2
-
-Description 2
-
-* **bullet:** bullet 
-* **bullet2:** bullet 2
-
-### Bug Fixes
-
-* **bullet:** bullet 
-* **bullet2:** bullet 2
+# 1.0.0 Release - Feb. 16, 2017
+Initial release 🎉🎉🎉
