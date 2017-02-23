@@ -1,3 +1,9 @@
+# 1.0.2 Release - Feb. 23, 2017
+Patch update to make overriding and extending core reducer functions easier and more concise.
+
+CHANGES
+* #164 : Reducer override changes
+
 # 1.0.1 Release - Feb. 21, 2017
 Patch update to address some consistency issues.
 
