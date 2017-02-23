@@ -2,31 +2,31 @@ import * as actionTypes from '_core/constants/actionTypes';
 import { dateSliderState } from '_core/reducers/models/dateSlider';
 import DateSliderReducer from '_core/reducers/reducerFunctions/DateSliderReducer';
 
-export default function dateSlider(state = dateSliderState, action) {
+export default function dateSlider(state = dateSliderState, action, opt_reducer = DateSliderReducer) {
     switch (action.type) {
         case actionTypes.BEGIN_DRAGGING:
-            return DateSliderReducer.beginDragging(state, action);
+            return opt_reducer.beginDragging(state, action);
 
         case actionTypes.END_DRAGGING:
-            return DateSliderReducer.endDragging(state, action);
+            return opt_reducer.endDragging(state, action);
 
         case actionTypes.HOVER_DATE:
-            return DateSliderReducer.hoverDate(state, action);
+            return opt_reducer.hoverDate(state, action);
 
         case actionTypes.TIMELINE_MOUSE_OUT:
-            return DateSliderReducer.timelineMouseOut(state, action);
+            return opt_reducer.timelineMouseOut(state, action);
 
         case actionTypes.SET_DATE_RESOLUTION:
-            return DateSliderReducer.setDateResolution(state, action);
+            return opt_reducer.setDateResolution(state, action);
 
         case actionTypes.DISMISS_ALERT:
-            return DateSliderReducer.dismissAlert(state, action);
+            return opt_reducer.dismissAlert(state, action);
 
         case actionTypes.DISMISS_ALL_ALERTS:
-            return DateSliderReducer.dismissAllAlerts(state, action);
+            return opt_reducer.dismissAllAlerts(state, action);
 
         case actionTypes.RESET_APPLICATION_STATE:
-            return DateSliderReducer.resetApplicationState(state, action);
+            return opt_reducer.resetApplicationState(state, action);
 
         default:
             return state;

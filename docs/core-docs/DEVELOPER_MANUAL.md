@@ -146,13 +146,93 @@ Inside of the `src/_core` directory lives the bulk of the CMC Core application c
 
 <a id="cmc-core-philosophy-modifying-core"/>
 ### Adding, Overriding, and Removing "_core" Functionality & Components
+It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC Core (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from Core in the parent `src` folder. Similar to components, you can swap out utility Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override MapWrapper classes (which are described in more detail later) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. By default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data/`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
+
 All of the Core Components, Reducers, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `_core/components/App/AppContainer.js` which is the root React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the Core imports are done in `src/reducers/index.js`.
 
 An Application Developer can choose to use CMC Core's AppContainer as it is and merely change config files to fetch different map layers or you can build your own AppContainer to remove/duplicate/modify Core components or add your own entirely new components. To do this, modify `src/index.js` to point at `src/components/App/AppContainer` instead of `src/_core/components/App/AppContainer` and edit the former accordingly.
 
-It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC Core (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from Core in the parent `src` folder. Similar to components, you can swap out utility Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override MapWrapper classes (which are described in more detail later) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. Also note that CMC Core by default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data/`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
+**To Override/Extend a Core Reducer**: Create a new reducer function that uses a new state model (if desired) or a new reducer class (if desired). For the reducer class, you must pass a reference of this class to the Core reducer function otherwise it will default to using the Core reducer class. Let's use the example of extending the map reducer to use a new state model that defaults the view to 3D mode and modifying the Core setLayerActive function. Create/modify the following files:
 
-In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Similarly, many pieces of `_core` (such as the reducers) can be overridden using composition (e.g. create a new reducer class that defers everything except the functions you care about to an instance of the `_core` reducer). Look through the [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) to see this in action.
+
+_reducers/models/map\_Extended.js_
+```JS
+import Immutable from 'immutable';
+import { mapState } from '_core/reducers/models/map';
+
+export const mapState_Extended = mapState.mergeDeep(Immutable.fromJS({
+    "view": {
+        "in3DMode": true
+    }
+}));
+```
+
+This new state model overrides the Core state model just enough to change the default view mode. It must still be imported in a reducer function to have any effect.
+
+_reducers/reducerFunctions/MapReducer\_Extended.js_
+```JS
+import MapReducer from '_core/reducers/reducerFunctions/MapReducer';
+import * as appStrings from '_core/constants/appStrings';
+
+export default class MapReducer_Extended extends MapReducer {
+    static setLayerActive(state, action) {
+        console.log("Modified Action");
+        return MapReducer.setLayerActive(state, action);
+    }
+}
+```
+
+This new reducer class extends the Core reducer class and overrides the `setLayerActive()` method just to add a log statement before executing normally. It must still be imported in a reducer function to have effect.
+
+_reducers/map\_Extended.js_
+```JS
+import { mapState_Extended } from 'reducers/models/map_Extended';
+import map from '_core/reducers/map';
+import MapReducer_Extended from 'reducers/reducerFunctions/MapReducer_Extended';
+
+export default function map_Extended(state = mapState_Extended, action, opt_reducer = MapReducer_Extended) {
+    switch (action.type) {
+        default:
+            return map.call(this, state, action, opt_reducer);
+    }
+}
+```
+ 
+This reducer function imports the new model and reducer class, it sets the new state model as the default and passes the new reducer class to the Core reducer function which will use that class reference for all of its actions. It must still be imported into the `index.js` reducer to have effect.
+
+_reducers/index.js_
+```JS
+import { combineReducers } from 'redux';
+import view from '_core/reducers/view';
+import map_Extended from 'reducers/map_Extended';
+import settings from '_core/reducers/settings';
+import help from '_core/reducers/help';
+import layerInfo from '_core/reducers/layerInfo';
+import share from '_core/reducers/share';
+import dateSlider from '_core/reducers/dateSlider';
+import asynchronous from '_core/reducers/async';
+import analytics from '_core/reducers/analytics';
+import alerts from '_core/reducers/alerts';
+
+const rootReducer = combineReducers({
+    view,
+    map: map_Extended,
+    settings,
+    help,
+    layerInfo,
+    share,
+    dateSlider,
+    asynchronous,
+    analytics,
+    alerts
+});
+
+export default rootReducer;
+```
+
+This new index reducer replaces the Core map reducer function with the new map_Extended reducer function. When this modfied application is run, the default view should now be in 3D and you should see a log statement of "Modified Action" every time a layer is activated/deactivated.
+
+In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance and composition, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Look through the [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) to see these approaches in action.
 
 <a id="cmc-core-philosophy-modifying-core-config"/>
 ### Overriding configs
