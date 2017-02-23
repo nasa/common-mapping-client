@@ -23,7 +23,7 @@
 * [CircleCI CI/CD](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-circleci)
 * [2D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-2D-only) – ([Demo](http://graywhale:49167/))
 * [3D map only](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-3D-only) – ([Demo](http://graywhale:49168/))
-* [Analytics Storage and Analysis](https://podaac-git.jpl.nasa.gov:8443/cmc/cmc-example-analytics) – ([Demo Client](http://graywhale:49161/), [Demo Server](http://graywhale:49162/))
+* [Analytics Storage and Analysis](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-analytics) – ([Demo Client](http://graywhale:49161/), [Demo Server](http://graywhale:49162/))
 * Walkthrough for a non-trivial app (ex. a viewer for CORAL data)
 
 # Tip for forking and merging in changes from cmc-core
