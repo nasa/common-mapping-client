@@ -1,6 +1,6 @@
 {
   "name": "cmc-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "making a mapping app with react, redux, and friends",
   "scripts": {
     "prestart": "npm-run-all --parallel remove-dist lint:scripts",
