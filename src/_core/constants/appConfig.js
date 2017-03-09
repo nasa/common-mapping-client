@@ -77,7 +77,7 @@ export const DEFAULT_TERRAIN_EXAGGERATION = 1;
 export const DEFAULT_TERRAIN_ENDPOINT = '//assets.agi.com/stk-terrain/world';
 export const DEFAULT_TERRAIN_ENABLED = true;
 export const MIN_ZOOM = 2;
-export const MAX_ZOOM = 10000;
+export const MAX_ZOOM = 16;
 export const MAX_ZOOM_DISTANCE_3D = 26000000.0;
 export const MIN_ZOOM_DISTANCE_3D = 500.0;
 
