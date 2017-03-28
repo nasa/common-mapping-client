@@ -9,11 +9,13 @@ import TileHandler from '_core/utils/TileHandler';
 import 'assets/cesium/Cesium.js';
 import '_core/utils/CesiumDrawHelper.js';
 import 'assets/cesium/Widgets/widgets.css';
+import Modernizr from 'modernizr';
 
 export default class MapWrapper_cesium extends MapWrapper {
 
     constructor(container, options) {
         super(container, options);
+
         this.is3D = true;
         this.isActive = options.getIn(["view", "in3DMode"]);
         this.tileHandler = new TileHandler();
@@ -26,28 +28,38 @@ export default class MapWrapper_cesium extends MapWrapper {
         this.drawHelper = window.DrawHelper;
         this.map = this.createMap(container, options);
 
-        // Create cesium-draw-helper
-        this.drawHandler = new this.drawHelper({
-            viewer: this.map,
-            fill: appConfig.GEOMETRY_FILL_COLOR,
-            stroke: appConfig.GEOMETRY_STROKE_COLOR
-        });
+        this.initializationSuccess = this.map ? true : false;
 
-        // Initialize custom draw-helper interactions array
-        this.drawHandler._customInteractions = {};
+        // Only continue if map was created
+        if (this.map) {
+            // Create cesium-draw-helper
+            this.drawHandler = new this.drawHelper({
+                viewer: this.map,
+                fill: appConfig.GEOMETRY_FILL_COLOR,
+                stroke: appConfig.GEOMETRY_STROKE_COLOR
+            });
 
-        // Set drawhandler inactive
-        this.drawHandler._isActive = false;
+            // Initialize custom draw-helper interactions array
+            this.drawHandler._customInteractions = {};
 
-        // store limits for zoom
-        this.zoomLimits = {
-            maxZoom: options.getIn(["view", "maxZoomDistance3D"]),
-            minZoom: options.getIn(["view", "minZoomDistance3D"])
-        };
+            // Set drawhandler inactive
+            this.drawHandler._isActive = false;
+
+            // store limits for zoom
+            this.zoomLimits = {
+                maxZoom: options.getIn(["view", "maxZoomDistance3D"]),
+                minZoom: options.getIn(["view", "minZoomDistance3D"])
+            };
+        }
+
     }
 
     createMap(container, options) {
         try {
+            // Check for webgl support
+            if (!Modernizr.webgl) {
+                throw "WebGL not available in this browser but is required by CesiumJS";
+            }
             let map = new this.cesium.Viewer(container, {
                 animation: false,
                 baseLayerPicker: false,

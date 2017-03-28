@@ -9,6 +9,9 @@ import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();
 
+export function checkBrowserFunctionalities() {
+    return { type: types.CHECK_BROWSER_FUNCTIONALITIES };
+}
 export function completeInitialLoad() {
     return { type: types.COMPLETE_INITIAL_LOAD };
 }

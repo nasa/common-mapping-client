@@ -17,7 +17,7 @@ export default class MapReducer {
 
     static initializeMap(state, action) {
         let map = createMap(action.mapType, action.container, state);
-        if (map) {
+        if (map && map.initializationSuccess) {
             return state.setIn(["maps", action.mapType], map);
         }
 

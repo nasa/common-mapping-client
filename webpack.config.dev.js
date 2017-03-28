@@ -27,11 +27,14 @@ export default {
     plugins: [
         new webpack.DefinePlugin(GLOBALS), // Tells React to build in dev mode. https://facebook.github.io/react/downloads.htmlnew webpack.HotModuleReplacementPlugin());
         new webpack.HotModuleReplacementPlugin(), // Used for Browsersync
-        new webpack.NoErrorsPlugin() 
+        new webpack.NoErrorsPlugin()
     ],
     resolve: {
         modulesDirectories: ["src", "assets", "node_modules"], // Tell webpack to look for imports using these prefixes
-        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'] // Tell webpack that these extensions are optionally specified in the import statements
+        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'], // Tell webpack that these extensions are optionally specified in the import statements
+        alias: {
+            modernizr$: path.resolve(__dirname, "lib/modernizr/.modernizrrc.js")
+        }
     },
     module: {
         unknownContextCritical: false, // Tells webpack to ignore some warnings due to the way Cesium dynamically builds module paths - https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
@@ -44,6 +47,7 @@ export default {
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'postcss-loader', 'sass?sourceMap'] }, // Load all css and scss except react-toolbox with the style loader, generate sourcemaps and run everything through postCSS for autoprefixing
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] }, // Load all react-toolbox css and scss with the style loader, generate sourcemaps and run everything through postCSS for autoprefixing. This uses loader magic, see https://github.com/coryhouse/react-slingshot/pull/55
             { test: /\.(eot|woff|woff2|ttf|svg|gif|ico|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' }, // Load all images, favicons, and fonts using the file-loader and output them into a directory named img with the original name and extensions.
+            { test: /\.modernizrrc.js$/, loader: 'modernizr' },
             { test: /\.md|\.json$/, loader: 'raw-loader' } // Load all markdown using the raw-loader
         ]
     },

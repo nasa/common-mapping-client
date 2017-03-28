@@ -4,6 +4,9 @@ import ViewReducer from '_core/reducers/reducerFunctions/ViewReducer';
 
 export default function view(state = viewState, action, opt_reducer = ViewReducer) {
     switch (action.type) {
+        case actionTypes.CHECK_BROWSER_FUNCTIONALITIES:
+            return opt_reducer.checkBrowserFunctionalities(state, action);
+
         case actionTypes.COMPLETE_INITIAL_LOAD:
             return opt_reducer.completeInitialLoad(state, action);
 

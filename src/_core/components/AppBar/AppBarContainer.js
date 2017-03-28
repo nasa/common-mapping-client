@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import * as actions from '_core/actions/AppActions';
 import MiscUtil from '_core/utils/MiscUtil';
+import Modernizr from 'modernizr';
 
 const miscUtil = new MiscUtil();
 
@@ -61,6 +62,7 @@ export class AppBarContainer extends Component {
                         />
                         <IconButton
                             neutral
+                            disabled={!Modernizr.fullscreen}
                             icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"} 
                             className="title-button mini-xs" 
                             onClick={() => this.props.actions.setFullScreenMode(!this.props.isFullscreen)} 

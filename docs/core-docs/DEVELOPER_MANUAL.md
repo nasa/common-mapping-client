@@ -616,7 +616,7 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 ├── coverage                  # Karma code coverage output folder
 ├── dist                      # Folder where the build script places the built app. Use this in prod.
 ├── docs                      # All documentation
-├── lib                       # Contains arcJS and mapskin libraries that are not available in npm
+├── lib                       # Contains arcJS and mapskin libraries that are not available in npm as well as a config file for Modernizr.
 ├── karma.conf.js             # Configuration for karma test runner
 ├── package.json              # Package configuration. The list of 3rd party libraries and utilities
 ├── scripts                   # Node scripts that run build related tools
@@ -1192,6 +1192,7 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [showdown](https://github.com/showdownjs/showdown)| A Markdown to HTML converter written in Javascript |
 | [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
 | [react-slingshot](https://github.com/coryhouse/react-slingshot)| The React/Redux/Webpack starter kit CMC is based off of. CMC has diverged a fair bit from React-Slingshot in many respects but still owes a great deal of its webpack structure, config, npm scripts, and dev server code to react-slingshot.
+| [Modernizr](https://modernizr.com/)| Modernizr tells you what HTML, CSS and JavaScript features the user’s browser has to offer. CMC uses Modernizr to detect certain browser features such as webgl and fullscreen and degrade gracefully if these features are not present.
 
 <a id="contributing-to-cmc"/>
 ## Contributing to CMC

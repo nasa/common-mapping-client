@@ -46,7 +46,10 @@ module.exports = function(config) {
             noInfo: true, // set to false to see a list of every file being bundled.
             resolve: {
                 modulesDirectories: ["src", "assets", "node_modules"],
-                extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md']
+                extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'],
+                alias: {
+                    modernizr$: path.resolve(__dirname, "lib/modernizr/.modernizrrc.js")
+                }
             },
             plugins: [
                 new webpack.DefinePlugin({
@@ -64,6 +67,7 @@ module.exports = function(config) {
                     { test: /CesiumDrawHelper\.js$/, loader: 'script' },
                     { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
                     { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
+                    { test: /\.modernizrrc.js$/, loader: 'modernizr' },
                     { test: /\.(eot|woff|woff2|ttf|svg|icon|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
                     { test: /\.md|\.json$/, loader: "raw-loader" }
                 ]

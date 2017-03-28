@@ -49,6 +49,9 @@ export class AppContainer extends Component {
             e.preventDefault();
         }, false);
 
+        // Perform initial browser functionality check
+        this.props.actions.checkBrowserFunctionalities();
+
         // load in initial data
         this.props.actions.loadInitialData(() => {
             // initialize the map. I know this is hacky, but there simply doesn't seem to be a good way to
@@ -128,6 +131,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
+            checkBrowserFunctionalities: bindActionCreators(actions.checkBrowserFunctionalities, dispatch),
             loadInitialData: bindActionCreators(layerActions.loadInitialData, dispatch),
             activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
             runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),

@@ -28,7 +28,10 @@ export default {
     ],
     resolve: {
         modulesDirectories: ["src", "assets", "node_modules"], // Tell webpack to look for imports using these prefixes
-        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'] // Tell webpack that these extensions are optionally specified in the import statements
+        extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'], // Tell webpack that these extensions are optionally specified in the import statements
+        alias: {
+            modernizr$: path.resolve(__dirname, "lib/modernizr/.modernizrrc.js")
+        }
     },
     module: {
         loaders: [
@@ -39,6 +42,7 @@ export default {
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css!postcss-loader!sass') }, // Load all css and scss except react-toolbox with the style loader, generate sourcemaps and run everything through postCSS for autoprefixing
             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox') }, // Load all react-toolbox css and scss with the style loader, generate sourcemaps and run everything through postCSS for autoprefixing. This uses loader magic, see https://github.com/coryhouse/react-slingshot/pull/55
             { test: /\.(eot|woff|woff2|ttf|svg|gif|ico|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' }, // Load all images, favicons, and fonts using the file-loader and output them into a directory named img with the original name and extensions.
+            { test: /\.modernizrrc.js$/, loader: 'modernizr' },
             { test: /\.md|\.json$/, loader: "raw-loader" } // Load all markdown using the raw-loader
         ]
     },

@@ -1,4 +1,7 @@
 import MiscUtil from '_core/utils/MiscUtil';
+import Modernizr from 'modernizr';
+import * as appStrings from '_core/constants/appStrings';
+import { alert } from '_core/reducers/models/alert';
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -6,6 +9,30 @@ import MiscUtil from '_core/utils/MiscUtil';
 
 export default class ViewReducer {
     static miscUtil = new MiscUtil();
+
+    static checkBrowserFunctionalities(state, action) {
+        // Here we check for any missing browser functionalities that we
+        // want to alert the user about. Note, Modernizr checks are used elsewhere
+        // but those are not intended to inform the user that functionality is missing
+        let alerts = state.get("alerts");
+        if (!Modernizr.fullscreen) {
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString.replace("{FUNCTIONALITY}", "Fullscreen").replace("{SYMPTOM}", "This application will not be able to enter fullscreen mode"),
+                severity: 2,
+                time: new Date()
+            }));
+        }
+        if (!Modernizr.webgl) {
+            alerts = alerts.push(alert.merge({
+                title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString.replace("{FUNCTIONALITY}", "WebGL").replace("{SYMPTOM}", "This application will not be able to use the 3D map"),
+                severity: 3,
+                time: new Date()
+            }));
+        }
+        return state.set("alerts", alerts);
+    }
 
     static completeInitialLoad(state, action) {
         return state.set("initialLoadComplete", true);

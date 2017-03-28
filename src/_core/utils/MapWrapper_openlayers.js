@@ -56,6 +56,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             })
         });
         this.map = this.createMap(container, options);
+
+        this.initializationSuccess = this.map ? true : false;
     }
 
     createMap(container, options) {

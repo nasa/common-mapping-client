@@ -3,6 +3,7 @@ import appConfig from 'constants/appConfig';
 export default class MapWrapper {
     constructor(container, options) {
         this.map = null;
+        this.initializationSuccess = false;
         this.is3D = false;
         this.isActive = false;
         this.mapDate = appConfig.DEFAULT_DATE;

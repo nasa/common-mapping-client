@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
+import Modernizr from 'modernizr';
 import { ContextMenuSubMenu } from '_core/components/Reusables/ContextMenuSubMenu';
 import * as actions from '_core/actions/MapActions';
 import * as appActions from '_core/actions/AppActions';
@@ -140,6 +141,7 @@ export class MapControlsContainer extends Component {
                     >{this.props.distractionFreeMode ? (<EyeIcon/>) : (<EyeOffIcon/>)}</Button>
                     <Button 
                         neutral
+                        disabled={(!Modernizr.webgl && !this.props.in3DMode) ? true : false}
                         label={this.props.in3DMode ? "2D" : "3D"} 
                         className="primary-map-button mini-xs" 
                         onClick={() => this.setViewMode()} 

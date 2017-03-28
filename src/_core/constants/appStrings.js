@@ -111,6 +111,11 @@ export const ALERTS = {
         formatString: "Failed to load application state configuration from url parameters.",
         severity: 2
     },
+    BROWSER_FUNCTIONALITY_MISSING: {
+        title: "Missing Browser Functionality",
+        formatString: "Browser does not support {FUNCTIONALITY}. {SYMPTOM}. Please refer to the System Requirements section in Help for a list of supported browsers.",
+        severity: 2
+    },
     LAYER_ACTIVATION_FAILED: {
         title: "Layer Activation Failed",
         formatString: "Activating {LAYER} on the {MAP} map failed.",
