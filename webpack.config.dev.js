@@ -38,9 +38,10 @@ export default {
     },
     module: {
         unknownContextCritical: false, // Tells webpack to ignore some warnings due to the way Cesium dynamically builds module paths - https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
-        noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js'), path.join(__dirname, 'node_modules/proj4/dist/proj4.js')], // Tells webpack not to parse these files and expects these fles will have no require, define, or similar, but can use exports and module.exports. See https://webpack.github.io/docs/configuration.html#module-noparse
+        noParse: [path.join(__dirname, 'node_modules/proj4/dist/proj4.js')], // Tells webpack not to parse these files and expects these fles will have no require, define, or similar, but can use exports and module.exports. See https://webpack.github.io/docs/configuration.html#module-noparse
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
+            { test: /\.js$/, include: path.join(__dirname, 'node_modules/ol'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
             { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] }, // Compile arcJS library in assets through Babel
             { test: /Cesium\.js$/, loader: 'script' }, // Load Cesium.js main JS file using webpack script loader which will not attempt to parse anything in the script
             { test: /CesiumDrawHelper\.js$/, loader: 'script' }, // Load CesiumDrawHelper using webpack script loader which will not attempt to parse anything in the script

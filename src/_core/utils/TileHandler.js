@@ -3,9 +3,9 @@ import MapUtil from "_core/utils/MapUtil";
 import MiscUtil from "_core/utils/MiscUtil";
 
 export default class TileHandler {
-    static CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
 
     constructor() {
+        this.CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
         this.mapUtil = new MapUtil();
         this.miscUtil = new MiscUtil();
     }
@@ -133,12 +133,9 @@ export default class TileHandler {
         if (typeof tile._origGetImageFunc === "undefined") {
             tile._origGetImageFunc = tile.getImage;
 
-            // $a() == getImage() in minified ol3 code
-            // TODO: this function must be updated if openlayers is updated
-            // do NOT use an arrow function (loses context)
             let tileSize = this.CAT_SIZES[Math.floor(Math.random() * (this.CAT_SIZES.length - 1)) + 1];
             let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
-            tile.getImage = tile.$a = function(optContext) {
+            tile.getImage = function(optContext) {
                 let node = this._origGetImageFunc(optContext);
                 node.src = url;
                 return node;

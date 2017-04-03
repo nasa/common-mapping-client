@@ -1,7 +1,33 @@
 import Immutable from 'immutable';
 import moment from 'moment';
-import ol from 'openlayers';
-// import olDebug from 'openlayers/dist/ol-debug.js';
+import Ol_Map from 'ol/map';
+import Ol_View from 'ol/view';
+import Ol_Layer_Vector from 'ol/layer/vector';
+import Ol_Layer_Tile from 'ol/layer/tile';
+import Ol_Source_WMTS from 'ol/source/wmts';
+import Ol_Source_Cluster from 'ol/source/cluster';
+import Ol_Source_Vector from 'ol/source/vector';
+import Ol_Source_XYZ from 'ol/source/xyz';
+import Ol_Tilegrid_WMTS from 'ol/tilegrid/wmts';
+import Ol_Style_Fill from 'ol/style/fill';
+import Ol_Style from 'ol/style/style';
+import Ol_Style_Circle from 'ol/style/circle';
+import Ol_Style_Stroke from 'ol/style/stroke';
+import Ol_Proj from 'ol/proj';
+import Ol_Proj_Projection from 'ol/proj/projection';
+import Ol_Interaction from 'ol/interaction';
+import Ol_Interaction_Draw from 'ol/interaction/draw';
+import Ol_Interaction_DoubleClickZoom from 'ol/interaction/doubleclickzoom';
+import Ol_Overlay from 'ol/overlay';
+import Ol_Feature from 'ol/feature';
+import Ol_Geom_Circle from 'ol/geom/circle';
+import Ol_Geom_Linestring from 'ol/geom/linestring';
+import Ol_Geom_Polygon from 'ol/geom/polygon';
+import Ol_Format_GeoJSON from 'ol/format/geojson';
+import Ol_Format_TopoJSON from 'ol/format/topojson';
+import Ol_Format_KML from 'ol/format/kml';
+import Ol_Format_WMTSCapabilities from 'ol/format/wmtscapabilities';
+import Ol_Easing from 'ol/easing';
 import proj4js from 'proj4';
 import * as appStrings from '_core/constants/appStrings';
 import appConfig from 'constants/appConfig';
@@ -21,36 +47,36 @@ export default class MapWrapper_openlayers extends MapWrapper {
         this.mapUtil = new MapUtil();
         this.miscUtil = new MiscUtil();
         this.cachedGeometry = null;
-        this.defaultGeometryStyle = new ol.style.Style({
-            fill: new ol.style.Fill({
+        this.defaultGeometryStyle = new Ol_Style({
+            fill: new Ol_Style_Fill({
                 color: appConfig.GEOMETRY_FILL_COLOR
             }),
-            stroke: new ol.style.Stroke({
+            stroke: new Ol_Style_Stroke({
                 color: appConfig.GEOMETRY_STROKE_COLOR,
                 width: appConfig.GEOMETRY_STROKE_WEIGHT
             }),
-            image: new ol.style.Circle({
+            image: new Ol_Style_Circle({
                 radius: 7,
-                fill: new ol.style.Fill({
+                fill: new Ol_Style_Fill({
                     color: '#ffcc33'
                 })
             })
         });
-        this.defaultMeasureStyle = new ol.style.Style({
-            fill: new ol.style.Fill({
+        this.defaultMeasureStyle = new Ol_Style({
+            fill: new Ol_Style_Fill({
                 color: appConfig.MEASURE_FILL_COLOR
             }),
-            stroke: new ol.style.Stroke({
+            stroke: new Ol_Style_Stroke({
                 color: appConfig.MEASURE_STROKE_COLOR,
                 lineDash: [10, 10],
                 width: 2
             }),
-            image: new ol.style.Circle({
+            image: new Ol_Style_Circle({
                 radius: 7,
-                stroke: new ol.style.Stroke({
+                stroke: new Ol_Style_Stroke({
                     color: 'rgba(255, 255, 255, 0.75)'
                 }),
-                fill: new ol.style.Fill({
+                fill: new Ol_Style_Fill({
                     color: 'rgba(255, 255, 255, 0.5)'
                 })
             })
@@ -63,8 +89,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     createMap(container, options) {
         try {
             // create default draw layer
-            let vectorSource = new ol.source.Vector({ wrapX: true });
-            let vectorLayer = new ol.layer.Vector({
+            let vectorSource = new Ol_Source_Vector({ wrapX: true });
+            let vectorLayer = new Ol_Layer_Vector({
                 source: vectorSource,
                 style: this.defaultGeometryStyle
             });
@@ -75,21 +101,21 @@ export default class MapWrapper_openlayers extends MapWrapper {
             // get the view options for the map
             let viewOptions = options.get("view").toJS();
 
-            let mapProjection = ol.proj.get(appConfig.DEFAULT_PROJECTION.code);
+            let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
 
             let center = viewOptions.center;
 
-            return new ol.Map({
+            return new Ol_Map({
                 target: container,
                 renderer: ['canvas', 'dom'],
                 layers: [vectorLayer],
-                view: new ol.View({
+                view: new Ol_View({
                     maxZoom: viewOptions.maxZoom,
                     minZoom: viewOptions.minZoom,
                     projection: mapProjection
                 }),
                 controls: [],
-                interactions: ol.interaction.defaults({
+                interactions: Ol_Interaction.defaults({
                     altShiftDragRotate: false,
                     pinchRotate: false,
                     shiftDragZoom: false,
@@ -181,7 +207,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // set up wrap around extents
                 // let mapProjExtent = this.map.getView().getProjection().getExtent();
-                let mapLayer = new ol.layer.Tile({
+                let mapLayer = new Ol_Layer_Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
@@ -214,10 +240,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 url: layer.get("url")
             });
             if (layer.get("clusterVector")) {
-                layerSource = new ol.source.Cluster({ source: layerSource });
+                layerSource = new Ol_Source_Cluster({ source: layerSource });
             }
 
-            return new ol.layer.Vector({
+            return new Ol_Layer_Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
                 visible: layer.get("isActive")
@@ -236,7 +262,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             if (extent) {
                 let mapSize = this.map.getSize() || [];
-                this.map.getView().fit(extent, mapSize);
+                this.map.getView().fit(extent, {size: mapSize});
                 return true;
             }
             return false;
@@ -283,14 +309,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let centerInPx = this.map.getPixelFromCoordinate(view.getCenter());
             let newCenterInPx = [centerInPx[0] - delta[0], centerInPx[1] - delta[1]];
             let newCenter = this.map.getCoordinateFromPixel(newCenterInPx);
-
-            let pan = ol.animation.pan({
+            this.map.getView().setCenter(this.map.getView().getCenter());
+            let pan = this.map.getView().animate({
                 duration: 175,
-                easing: ol.easing.linear,
-                source: view.getCenter()
+                easing: Ol_Easing.linear,
+                center: newCenter
             });
-            this.map.beforeRender(pan);
-            view.setCenter(newCenter);
             return true;
 
         } catch (err) {
@@ -303,11 +327,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             if (typeof this.map !== "undefined" &&
                 typeof this.map.getView() !== "undefined") {
-                this.map.beforeRender(ol.animation.zoom({
+                this.map.getView().setResolution(this.map.getView().getResolution());
+                this.map.getView().animate({
                     resolution: this.map.getView().getResolution(),
+                    zoom: this.map.getView().getZoom() + 1,
                     duration: duration
-                }));
-                this.map.getView().setZoom(this.map.getView().getZoom() + 1);
+                })
+                
                 return true;
             }
             return false;
@@ -320,11 +346,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             if (typeof this.map !== "undefined" &&
                 typeof this.map.getView() !== "undefined") {
-                this.map.beforeRender(ol.animation.zoom({
+                this.map.getView().setResolution(this.map.getView().getResolution());
+                this.map.getView().animate({
                     resolution: this.map.getView().getResolution(),
+                    zoom: this.map.getView().getZoom() - 1,
                     duration: duration
-                }));
-                this.map.getView().setZoom(this.map.getView().getZoom() - 1);
+                })
                 return true;
             }
             return false;
@@ -462,7 +489,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     setDoubleClickZoomEnabled(enabled) {
         try {
             let dblClickInteraction = this.miscUtil.findObjectInArray(this.map.getInteractions().getArray(), (interaction) => {
-                return interaction instanceof ol.interaction.DoubleClickZoom;
+                return interaction instanceof Ol_Interaction_DoubleClickZoom;
             });
             if (dblClickInteraction) {
                 dblClickInteraction.setActive(enabled);
@@ -487,12 +514,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                circleGeom = new ol.geom.Circle([geometry.center.lon, geometry.center.lat], geometry.radius / ol.proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
+                circleGeom = new Ol_Geom_Circle([geometry.center.lon, geometry.center.lat], geometry.radius / Ol_Proj.METERS_PER_UNIT[this.map.getView().getProjection().getUnits()]);
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers circle");
                 return false;
             }
-            let circleFeature = new ol.Feature({
+            let circleFeature = new Ol_Feature({
                 geometry: circleGeom
             });
             circleFeature.set("interactionType", interactionType);
@@ -512,13 +539,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     geomCoords = this.mapUtil.generateGeodesicArcsForLineString(geomCoords);
                 }
 
-                lineStringGeom = new ol.geom.LineString(geomCoords);
+                lineStringGeom = new Ol_Geom_Linestring(geomCoords);
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers lineString");
                 return false;
             }
 
-            let lineStringFeature = new ol.Feature({
+            let lineStringFeature = new Ol_Feature({
                 geometry: lineStringGeom
             });
             lineStringFeature.set("interactionType", interactionType);
@@ -542,12 +569,12 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 }
 
                 // Put these coordinates into a ring by adding to array
-                polygonGeom = new ol.geom.Polygon([geomCoords]);
+                polygonGeom = new Ol_Geom_Polygon([geomCoords]);
             } else {
                 console.warn("Unsupported geometry coordinateType ", geometry.coordinateType, " for openlayers polygon");
                 return false;
             }
-            let polygonFeature = new ol.Feature({
+            let polygonFeature = new Ol_Feature({
                 geometry: polygonGeom
             });
             polygonFeature.set("interactionType", interactionType);
@@ -566,7 +593,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             measureLabelEl.innerHTML = label;
 
             // create ol overlay
-            let measureLabel = new ol.Overlay({
+            let measureLabel = new Ol_Overlay({
                 element: measureLabelEl,
                 offset: [0, -15],
                 positioning: 'bottom-center'
@@ -633,7 +660,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
-                    let geom = opt_geom ? opt_geom : new ol.geom.LineString();
+                    let geom = opt_geom ? opt_geom : new Ol_Geom_Linestring();
 
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
@@ -652,7 +679,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 };
                 let measureAreaGeom = (coords, opt_geom) => {
                     coords = coords[0]; // TODO: find case where this isn't what we want
-                    let geom = opt_geom ? opt_geom : new ol.geom.Polygon();
+                    let geom = opt_geom ? opt_geom : new Ol_Geom_Polygon();
 
                     // remove duplicates
                     let newCoords = coords.reduce((acc, el, i) => {
@@ -678,7 +705,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         geometryFunction = measureAreaGeom;
                     }
                 }
-                let drawInteraction = new ol.interaction.Draw({
+                let drawInteraction = new Ol_Interaction_Draw({
                     source: mapLayer.getSource(),
                     type: geometryType,
                     geometryFunction: geometryFunction,
@@ -1191,14 +1218,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     createWMTSSource(layer, options) {
-        return new ol.source.WMTS({
+        return new Ol_Source_WMTS({
             url: options.url,
             layer: options.layer,
             format: options.format,
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            tileGrid: new ol.tilegrid.WMTS({
+            tileGrid: new Ol_Tilegrid_WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions,
@@ -1211,14 +1238,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     createGIBSWMTSSource(layer, options) {
         let gibsResolutions = [0.5625, 0.28125, 0.140625, 0.0703125, 0.03515625, 0.017578125, 0.0087890625, 0.00439453125, 0.002197265625, 0.0010986328125, 0.00054931640625, 0.00027465820313];
-        return new ol.source.WMTS({
+        return new Ol_Source_WMTS({
             url: options.url,
             layer: options.layer,
             format: options.format,
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            tileGrid: new ol.tilegrid.WMTS({
+            tileGrid: new Ol_Tilegrid_WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
                 resolutions: options.tileGrid.resolutions.slice(2, gibsResolutions.length),
@@ -1232,7 +1259,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     createXYZSource(layer, options) {
-        return new ol.source.XYZ({
+        return new Ol_Source_XYZ({
             url: options.url,
             projection: options.projection,
             maxZoom: options.tileGrid.maxZoom,
@@ -1252,9 +1279,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
         }
 
-        return new ol.source.Vector({
+        return new Ol_Source_Vector({
             url: options.url,
-            format: new ol.format.GeoJSON()
+            format: new Ol_Format_GeoJSON()
         });
     }
 
@@ -1268,9 +1295,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
         }
 
-        return new ol.source.Vector({
+        return new Ol_Source_Vector({
             url: options.url,
-            format: new ol.format.TopoJSON()
+            format: new Ol_Format_TopoJSON()
         });
     }
 
@@ -1284,14 +1311,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
         }
 
-        return new ol.source.Vector({
+        return new Ol_Source_Vector({
             url: options.url,
-            format: new ol.format.KML()
+            format: new Ol_Format_KML()
         });
     }
 
     createVectorDrawingSource(options) {
-        return new ol.source.Vector({
+        return new Ol_Source_Vector({
             wrapX: false
         });
     }
@@ -1323,14 +1350,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     static prepProjection() {
         // define the projection for this application and reproject defaults
-        ol.proj.setProj4(proj4js);
+        Ol_Proj.setProj4(proj4js);
         proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
 
         // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
         // string in getCapabilities and parses it into "OGC:CRS84". This
         // hopefully adds that as an equivalent projection
-        let epsg4326Proj = ol.proj.get('EPSG:4326');
-        let ogcCrs84Proj = new ol.proj.Projection({
+        let epsg4326Proj = Ol_Proj.get('EPSG:4326');
+        let ogcCrs84Proj = new Ol_Proj_Projection({
             code: 'OGC:CRS84',
             units: epsg4326Proj.getUnits(),
             extent: epsg4326Proj.getExtent(),
@@ -1338,14 +1365,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
             metersPerUnit: epsg4326Proj.getMetersPerUnit(),
             worldExtent: epsg4326Proj.getWorldExtent(),
             getPointResolution: function(res, point) {
-                return ol.proj.get('EPSG:4326').getPointResolution(res, point);
+                return Ol_Proj.getPointResolution('EPSG:4326', res, point);
             }
 
         });
-        ol.proj.addProjection(ogcCrs84Proj);
-        ol.proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
+        Ol_Proj.addProjection(ogcCrs84Proj);
+        Ol_Proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
 
-        let mapProjection = ol.proj.get(appConfig.DEFAULT_PROJECTION.code);
+        let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
         mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
 
         return mapProjection;
@@ -1353,7 +1380,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     static parseCapabilities(xmlString) {
         try {
-            let parser = new ol.format.WMTSCapabilities();
+            let parser = new Ol_Format_WMTSCapabilities();
             return parser.read(xmlString);
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.parseCapabilities:", err);
@@ -1364,7 +1391,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     static getWmtsOptions(options) {
         try {
-            let parseOptions = ol.source.WMTS.optionsFromCapabilities(options.capabilities, options.options);
+            let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(options.capabilities, options.options);
             return {
                 url: parseOptions.urls[0],
                 layer: options.options.layer,

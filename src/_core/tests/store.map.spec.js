@@ -550,16 +550,13 @@ export const StoreMapSpec = {
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
-
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomOut()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomOut());
                         setTimeout(() => {
                             const actual = store.getState();
 
@@ -569,7 +566,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(2);
+                            expect(actualMap2D.getZoom()).to.equal(initialZoom - 1);
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -584,28 +581,28 @@ export const StoreMapSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
-
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomOut()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
-                            const actual = store.getState();
+                            store.dispatch(mapActions.zoomOut());
+                            setTimeout(() => {
+                                const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                            actual.map = actual.map.remove("maps");
+                                const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
-                            expected.map = expected.map.remove("maps");
+                                const expected = {...initialState };
+                                expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(2);
-                            TestUtil.compareFullStates(actual, expected);
-                            done();
+                                expect(actualMap2D.getZoom()).to.equal(initialZoom);
+                                TestUtil.compareFullStates(actual, expected);
+                                done();
+                            }, 1000);
                         }, 1000);
                     }, 1000);
                 });
@@ -622,18 +619,14 @@ export const StoreMapSpec = {
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             const actual = store.getState();
 
@@ -643,7 +636,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(5);
+                            expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -658,18 +651,14 @@ export const StoreMapSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             const actual = store.getState();
 
@@ -679,7 +668,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(5);
+                            expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -698,33 +687,33 @@ export const StoreMapSpec = {
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomOut(),
-                            mapActions.zoomOut()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
-                            const actual = store.getState();
+                            store.dispatch(mapActions.zoomIn());
+                            setTimeout(() => {
+                                store.dispatch(mapActions.zoomOut());
+                                setTimeout(() => {
+                                    const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                            actual.map = actual.map.remove("maps");
+                                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                    actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
-                            expected.map = expected.map.remove("maps");
+                                    const expected = {...initialState };
+                                    expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(3);
-                            TestUtil.compareFullStates(actual, expected);
-                            done();
-                        }, 1000);
+                                    expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                                    TestUtil.compareFullStates(actual, expected);
+                                    done();
+                                }, 1000);
+                            }, 1000);
+                        }, 1000)
                     }, 1000);
                 });
             },
@@ -736,33 +725,33 @@ export const StoreMapSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        const zoomActions = [
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomIn(),
-                            mapActions.zoomOut(),
-                            mapActions.zoomOut()
-                        ];
-                        zoomActions.forEach(action => store.dispatch(action));
+                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
-                            const actual = store.getState();
+                            store.dispatch(mapActions.zoomIn());
+                            setTimeout(() => {
+                                store.dispatch(mapActions.zoomOut());
+                                setTimeout(() => {
+                                    const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                            actual.map = actual.map.remove("maps");
+                                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                    actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
-                            expected.map = expected.map.remove("maps");
+                                    const expected = {...initialState };
+                                    expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(3);
-                            TestUtil.compareFullStates(actual, expected);
-                            done();
-                        }, 1000);
+                                    expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                                    TestUtil.compareFullStates(actual, expected);
+                                    done();
+                                }, 1000);
+                            }, 1000);
+                        }, 1000)
                     }, 1000);
                 });
             },
@@ -797,6 +786,7 @@ export const StoreMapSpec = {
                     // initial map
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -837,6 +827,7 @@ export const StoreMapSpec = {
                     // initial map
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -875,6 +866,7 @@ export const StoreMapSpec = {
                     // initial map
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -1127,6 +1119,7 @@ export const StoreMapSpec = {
                     // initial map
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -1310,6 +1303,7 @@ export const StoreMapSpec = {
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -1372,7 +1366,8 @@ export const StoreMapSpec = {
 
                     // initial map
                     const initalActions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                     ];
                     initalActions.forEach(action => store.dispatch(action));
 
@@ -1435,6 +1430,7 @@ export const StoreMapSpec = {
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -1529,7 +1525,8 @@ export const StoreMapSpec = {
 
                     // initial map
                     const initalActions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
 
@@ -1620,6 +1617,7 @@ export const StoreMapSpec = {
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
@@ -1695,7 +1693,8 @@ export const StoreMapSpec = {
 
                     // initial map
                     const initalActions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
 
@@ -1803,6 +1802,7 @@ export const StoreMapSpec = {
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         layerActions.setLayerActive("facilities_kml", true),
                         layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
                         layerActions.setLayerActive("facilities_kml", true)

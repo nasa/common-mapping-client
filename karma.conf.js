@@ -58,9 +58,9 @@ module.exports = function(config) {
                 })
             ],
             module: {
-                noParse: [path.join(__dirname, 'node_modules/openlayers/dist/ol.js')],
                 loaders: [
                     { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] },
+                    { test: /\.js$/, include: path.join(__dirname, 'node_modules/ol'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
                     { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] },
                     { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
                     { test: /Cesium\.js$/, loader: 'script' },

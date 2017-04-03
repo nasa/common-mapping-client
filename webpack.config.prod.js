@@ -37,6 +37,7 @@ export default {
         loaders: [
             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'], exclude: path.join(__dirname, 'src/lib') }, // Standard ES6 compilation of JS through Babel, run past ESLint
             { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] }, // Compile arcJS library in assets through Babel, run past ESLint
+            { test: /\.js$/, include: path.join(__dirname, 'node_modules/ol'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
             { test: /Cesium\.js$/, loader: 'script' }, // Load Cesium.js main JS file using webpack script loader which will not attempt to parse anything in the script
             { test: /CesiumDrawHelper\.js$/, loader: 'script' }, // Load CesiumDrawHelper using webpack script loader which will not attempt to parse anything in the script
             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loader: ExtractTextPlugin.extract('css!postcss-loader!sass') }, // Load all css and scss except react-toolbox with the style loader, generate sourcemaps and run everything through postCSS for autoprefixing
