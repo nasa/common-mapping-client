@@ -112,7 +112,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 view: new Ol_View({
                     maxZoom: viewOptions.maxZoom,
                     minZoom: viewOptions.minZoom,
-                    projection: mapProjection
+                    projection: mapProjection,
+                    maxResolution: viewOptions.maxResolution
                 }),
                 controls: [],
                 interactions: Ol_Interaction.defaults({
@@ -1240,7 +1241,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     createGIBSWMTSSource(layer, options) {
-        let gibsResolutions = [0.5625, 0.28125, 0.140625, 0.0703125, 0.03515625, 0.017578125, 0.0087890625, 0.00439453125, 0.002197265625, 0.0010986328125, 0.00054931640625, 0.00027465820313];
         return new Ol_Source_WMTS({
             url: options.url,
             layer: options.layer,
@@ -1251,7 +1251,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             tileGrid: new Ol_Tilegrid_WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
-                resolutions: options.tileGrid.resolutions.slice(2, gibsResolutions.length),
+                resolutions: options.tileGrid.resolutions.slice(2, appConfig.GIBS_IMAGERY_RESOLUTIONS.length),
                 // resolutions: options.tileGrid.resolutions,
                 matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
                 // matrixIds: options.tileGrid.matrixIds,

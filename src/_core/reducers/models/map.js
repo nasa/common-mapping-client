@@ -15,6 +15,7 @@ export const mapState = Immutable.fromJS({
         in3DMode: false,
         maxZoom: appConfig.MAX_ZOOM,
         minZoom: appConfig.MIN_ZOOM,
+        maxResolution: appConfig.MAX_RESOLUTION,
         maxZoomDistance3D: appConfig.MAX_ZOOM_DISTANCE_3D,
         minZoomDistance3D: appConfig.MIN_ZOOM_DISTANCE_3D,
         projection: appConfig.DEFAULT_PROJECTION,

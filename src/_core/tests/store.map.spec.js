@@ -636,7 +636,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -668,7 +668,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -746,7 +746,7 @@ export const StoreMapSpec = {
                                     const expected = {...initialState };
                                     expected.map = expected.map.remove("maps");
 
-                                    expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
                                     TestUtil.compareFullStates(actual, expected);
                                     done();
                                 }, 1000);
