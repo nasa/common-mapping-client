@@ -262,7 +262,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             if (extent) {
                 let mapSize = this.map.getSize() || [];
-                this.map.getView().fit(extent, {size: mapSize});
+                this.map.getView().fit(extent, {
+                    size: mapSize,
+                    constrainResolution: false
+                });
                 return true;
             }
             return false;
@@ -332,7 +335,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     resolution: this.map.getView().getResolution(),
                     zoom: this.map.getView().getZoom() + 1,
                     duration: duration
-                })
+                });
                 
                 return true;
             }
@@ -351,7 +354,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     resolution: this.map.getView().getResolution(),
                     zoom: this.map.getView().getZoom() - 1,
                     duration: duration
-                })
+                });
                 return true;
             }
             return false;
