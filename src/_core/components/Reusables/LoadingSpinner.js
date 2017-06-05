@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import MiscUtil from '_core/utils/MiscUtil';
 
 const miscUtil = new MiscUtil();

@@ -245,6 +245,9 @@ button .button-icon-right {
 
 .list-item-dropdown {
     padding: 0px 1.6rem 0.2rem 1.6rem;
+    &:focus {
+        outline: none;
+    }
     ul {
         padding: 0px;
         width: calc(100% - 3.2rem)
@@ -296,20 +299,20 @@ button .button-icon-right {
     color: $color-primary;
 }
 
-.react-context-menu-wrapper {
+.react-contextmenu-wrapper {
     width: 100%;
     height: 100%;
     position: relative;
 }
 
-.react-context-menu {
+.react-contextmenu {
     background: $color-light;
     color: $color-dark;
     padding: 0px;
     @include light-shadow();
 }
 
-.react-context-menu:focus {
+.react-contextmenu:focus {
     outline: none;
 }
 

@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Button, IconButton} from 'react-toolbox/lib/button';

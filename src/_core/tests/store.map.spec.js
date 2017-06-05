@@ -69,7 +69,7 @@ export const StoreMapSpec = {
                     const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
                     const actualAlerts = actual.map.get("alerts").toJS().map(x => {
                         delete x.time;
-                        return x
+                        return x;
                     });
                     actual.map = actual.map.remove("maps").remove("alerts");
 
@@ -82,7 +82,7 @@ export const StoreMapSpec = {
                         title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
                         body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", "2D"),
                         severity: appStrings.ALERTS.CREATE_MAP_FAILED.severity
-                    }
+                    };
 
                     expect(actualNumMaps).to.equal(0);
                     expect(actualMap2D).to.equal(undefined);
@@ -566,7 +566,7 @@ export const StoreMapSpec = {
                             const expected = {...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom()).to.equal(initialZoom - 1);
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom - 1.0).toFixed(7));
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -599,7 +599,7 @@ export const StoreMapSpec = {
                                 const expected = {...initialState };
                                 expected.map = expected.map.remove("maps");
 
-                                expect(actualMap2D.getZoom()).to.equal(initialZoom);
+                                expect(actualMap2D.getZoom().toFixed(7)).to.equal(initialZoom.toFixed(7));
                                 TestUtil.compareFullStates(actual, expected);
                                 done();
                             }, 1000);
@@ -713,7 +713,7 @@ export const StoreMapSpec = {
                                     done();
                                 }, 1000);
                             }, 1000);
-                        }, 1000)
+                        }, 1000);
                     }, 1000);
                 });
             },
@@ -751,7 +751,7 @@ export const StoreMapSpec = {
                                     done();
                                 }, 1000);
                             }, 1000);
-                        }, 1000)
+                        }, 1000);
                     }, 1000);
                 });
             },
@@ -1668,7 +1668,6 @@ export const StoreMapSpec = {
                                 .setIn(["view", "in3DMode"], false)
                                 .setIn(["drawing", "geometryType"], "");
 
-
                             // Get 2D overlays
                             let overlays2D = actualMap2D.map.getOverlays().getArray();
 
@@ -1680,7 +1679,7 @@ export const StoreMapSpec = {
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 2000);
-                    }, 2000)
+                    }, 2000);
                 });
             },
 
@@ -1748,7 +1747,7 @@ export const StoreMapSpec = {
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 2000);
-                    }, 2000)
+                    }, 2000);
                 });
             },
 
@@ -1881,7 +1880,7 @@ export const StoreMapSpec = {
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
-                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false))
+                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false));
                         setTimeout(() => {
                             const actual = store.getState();
 
@@ -1922,7 +1921,7 @@ export const StoreMapSpec = {
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
-                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false))
+                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false));
                         setTimeout(() => {
                             const actual = store.getState();
 
@@ -1942,4 +1941,4 @@ export const StoreMapSpec = {
             }
         }
     }
-}
+};

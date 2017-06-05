@@ -14,7 +14,7 @@ export default class TestUtil {
 
     static skipIfNoWebGL(test, _this, done) {
         if (SKIP_WEBGL_TESTS) {
-            console.log("Skipping test:", test)
+            console.log("Skipping test:", test);
             _this.skip();
             if (done) {
                 done();

@@ -6,6 +6,15 @@ if (process.env.SKIP_WEBGL_TESTS === "true") {
     console.log("Skipping WebGL tests");
 }
 
+const webpackConfig = require('./webpack.config.helper')({
+    isProduction: false,
+    devtool: 'inline-source-map',
+    globals: {
+        SKIP_WEBGL_TESTS: JSON.stringify(process.env.SKIP_WEBGL_TESTS === "true")
+    }
+});
+
+
 module.exports = function(config) {
     config.set({
 
@@ -41,38 +50,45 @@ module.exports = function(config) {
         },
 
         webpack: {
-            devtool: 'inline-source-map', //just do inline source maps instead of the default
-            debug: false,
-            noInfo: true, // set to false to see a list of every file being bundled.
-            resolve: {
-                modulesDirectories: ["src", "assets", "node_modules"],
-                extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'],
-                alias: {
-                    modernizr$: path.resolve(__dirname, "lib/modernizr/.modernizrrc.js")
-                }
-            },
-            plugins: [
-                new webpack.DefinePlugin({
-                    __VERSION__: JSON.stringify(require("./package.json").version),
-                    SKIP_WEBGL_TESTS: JSON.stringify(process.env.SKIP_WEBGL_TESTS === "true")
-                })
-            ],
-            module: {
-                loaders: [
-                    { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] },
-                    { test: /\.js$/, include: path.join(__dirname, 'node_modules/ol'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
-                    { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] },
-                    { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
-                    { test: /Cesium\.js$/, loader: 'script' },
-                    { test: /CesiumDrawHelper\.js$/, loader: 'script' },
-                    { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
-                    { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
-                    { test: /\.modernizrrc.js$/, loader: 'modernizr' },
-                    { test: /\.(eot|woff|woff2|ttf|svg|icon|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
-                    { test: /\.md|\.json$/, loader: "raw-loader" }
-                ]
-            }
+            devtool: webpackConfig.devtool,
+            resolve: webpackConfig.resolve,
+            plugins: webpackConfig.plugins,
+            module: webpackConfig.module
         },
+
+        // webpack: {
+        //     devtool: 'inline-source-map', //just do inline source maps instead of the default
+        //     debug: false,
+        //     noInfo: true, // set to false to see a list of every file being bundled.
+        //     resolve: {
+        //         modulesDirectories: ["src", "assets", "node_modules"],
+        //         extensions: ['', '.jsx', '.scss', '.css', '.js', '.json', '.md'],
+        //         alias: {
+        //             modernizr$: path.resolve(__dirname, "lib/modernizr/.modernizrrc.js")
+        //         }
+        //     },
+        //     plugins: [
+        //         new webpack.DefinePlugin({
+        //             __VERSION__: JSON.stringify(require("./package.json").version),
+        //             SKIP_WEBGL_TESTS: JSON.stringify(process.env.SKIP_WEBGL_TESTS === "true")
+        //         })
+        //     ],
+        //     module: {
+        //         loaders: [
+        //             { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] },
+        //             { test: /\.js$/, include: path.join(__dirname, 'node_modules/ol'), loaders: ['babel', 'eslint'] }, // Standard ES6 compilation of JS through Babel
+        //             { test: /\.js$/, include: path.join(__dirname, 'assets/assets/arc'), loaders: ['babel', 'eslint'] },
+        //             { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
+        //             { test: /Cesium\.js$/, loader: 'script' },
+        //             { test: /CesiumDrawHelper\.js$/, loader: 'script' },
+        //             { test: /(\.css|\.scss)$/, exclude: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
+        //             { test: /(\.css|\.scss)$/, include: path.join(__dirname, 'node_modules/react-toolbox'), loaders: ['style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap!toolbox'] },
+        //             { test: /\.modernizrrc.js$/, loader: 'modernizr' },
+        //             { test: /\.(eot|woff|woff2|ttf|svg|icon|gif|png|jpe?g)$/, loader: 'file-loader?name=img/[name].[ext]' },
+        //             { test: /\.md|\.json$/, loader: "raw-loader" }
+        //         ]
+        //     }
+        // },
 
         webpackServer: {
             stats: 'errors-only',
@@ -141,5 +157,5 @@ module.exports = function(config) {
         // Concurrency level
         // how many browser should be started simultaneous
         concurrency: Infinity
-    })
-}
+    });
+};

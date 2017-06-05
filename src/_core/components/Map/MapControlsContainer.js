@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from 'react-toolbox/lib/button';
@@ -88,7 +89,7 @@ export class MapControlsContainer extends Component {
         });
         let toolsMenuClasses = miscUtil.generateStringFromSet({
             "active": this.props.mapControlsToolsOpen,
-            "react-context-menu": true
+            "react-contextmenu": true
         });
         let drawingCircle = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_CIRCLE;
         let drawingLineString = this.props.drawing.get("isDrawingEnabled") && this.props.drawing.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;

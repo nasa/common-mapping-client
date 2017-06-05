@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ContextMenuLayer } from "react-contextmenu";
 import { bindActionCreators } from 'redux';
 import appConfig from 'constants/appConfig';
 import * as actions from '_core/actions/AnalyticsActions';

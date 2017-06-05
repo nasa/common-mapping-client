@@ -120,4 +120,4 @@ export const StoreShareSpec = {
             }
         }
     }
-}
+};

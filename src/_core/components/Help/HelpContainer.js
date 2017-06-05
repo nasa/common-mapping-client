@@ -1,5 +1,6 @@
 import showdown from 'showdown';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem, ListSubHeader, ListDivider } from 'react-toolbox/lib/list';

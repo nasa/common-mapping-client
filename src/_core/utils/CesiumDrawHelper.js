@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // copied from: https://github.com/leforthomas/cesium-drawhelper
 // edited by Aaron Plave and Flynn Platt
 

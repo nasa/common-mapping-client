@@ -722,7 +722,7 @@ export const MapUtilSpec = {
                             lat: -20
                         }],
                         id: Math.random()
-                    }
+                    };
                     expect(mapUtil.measureGeometry(geometryPolygon, "beepbloop")).to.be.false;
                 });
             },
@@ -743,7 +743,7 @@ export const MapUtilSpec = {
                             lat: -20
                         }],
                         id: Math.random()
-                    }
+                    };
                     expect(mapUtil.measureGeometry(geometryPolygon, appStrings.MEASURE_DISTANCE)).to.be.false;
                 });
             },
@@ -764,7 +764,7 @@ export const MapUtilSpec = {
                             lat: -20
                         }],
                         id: Math.random()
-                    }
+                    };
                     expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA)).to.be.false;
                 });
             },
@@ -788,7 +788,7 @@ export const MapUtilSpec = {
                             lat: 0
                         }],
                         id: Math.random()
-                    }
+                    };
                     expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_AREA).toFixed(1)).to.equal(2509284697628.792.toFixed(1));
                 });
             },
@@ -812,7 +812,7 @@ export const MapUtilSpec = {
                             lat: 0
                         }],
                         id: Math.random()
-                    }
+                    };
                     expect(mapUtil.measureGeometry(geometryLineString, appStrings.MEASURE_DISTANCE).toFixed(6)).to.equal(8194386.058827784.toFixed(6));
                 });
             }
@@ -870,4 +870,4 @@ export const MapUtilSpec = {
             }
         }
     }
-}
+};

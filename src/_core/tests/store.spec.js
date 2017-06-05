@@ -38,45 +38,51 @@ export const StoreSpec = {
                 it('resets application state correctly', function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        MapActions.initializeMap(appStrings.MAP_LIB_2D),
-                        MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
-                        MapActions.zoomIn(),
-                        MapActions.addGeometryToMap({
-                            type: appStrings.GEOMETRY_CIRCLE,
-                            center: { lon: 0, lat: 0 },
-                            radius: 500,
-                            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                        }),
-                        MapActions.removeAllDrawings(),
-                        MapActions.removeAllMeasurements(),
-                        MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                        MapActions.addGeometryToMap({
-                            type: appStrings.GEOMETRY_CIRCLE,
-                            center: { lon: 10, lat: -20 },
-                            radius: 52200,
-                            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-                        }),
-                        MapActions.zoomIn(),
-                        MapActions.setTerrainEnabled(false),
-                        MapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
-                        MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
-                        MapActions.zoomOut(),
-                        MapActions.resetOrientation(0),
-                        DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
-                        AppActions.resetApplicationState()
+                    const initActions = [
+                        MapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        MapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
+                    initActions.forEach(action => store.dispatch(action));
+                    setTimeout(() => {
+                        const actions = [
+                            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
+                            MapActions.zoomIn(),
+                            MapActions.addGeometryToMap({
+                                type: appStrings.GEOMETRY_CIRCLE,
+                                center: { lon: 0, lat: 0 },
+                                radius: 500,
+                                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                            }),
+                            MapActions.removeAllDrawings(),
+                            MapActions.removeAllMeasurements(),
+                            MapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
+                            MapActions.addGeometryToMap({
+                                type: appStrings.GEOMETRY_CIRCLE,
+                                center: { lon: 10, lat: -20 },
+                                radius: 52200,
+                                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                            }),
+                            MapActions.zoomIn(),
+                            MapActions.setTerrainEnabled(false),
+                            MapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value),
+                            MapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
+                            MapActions.zoomOut(),
+                            MapActions.resetOrientation(0),
+                            DateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS),
+                            AppActions.resetApplicationState()
+                        ];
 
-                    actions.forEach(action => store.dispatch(action));
+                        actions.forEach(action => store.dispatch(action));
 
-                    const actual = store.getState();
-                    actual.map = actual.map.remove("maps");
+                        const actual = store.getState();
+                        actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map.remove("maps");
-                    expected.view = expected.view.set("appResetCounter", 1);
+                        const expected = {...initialState };
+                        expected.map = expected.map.remove("maps");
+                        expected.view = expected.view.set("appResetCounter", 1);
 
-                    TestUtil.compareFullStates(actual, expected);
+                        TestUtil.compareFullStates(actual, expected);
+                    }, 1000);
                 });
             },
 
@@ -98,4 +104,4 @@ export const StoreSpec = {
             }
         }
     }
-}
+};

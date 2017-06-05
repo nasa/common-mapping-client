@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContextMenu, MenuItem } from "react-contextmenu";
@@ -27,7 +28,7 @@ export class MapContextMenu extends Component {
         let measuringDistance = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
         let measuringArea = this.props.measuring.get("isMeasuringEnabled") && this.props.measuring.get("geometryType") === appStrings.GEOMETRY_POLYGON;
         return (
-            <ContextMenu identifier={appStrings.MAP_CONTEXT_MENU_ID}>
+            <ContextMenu id={appStrings.MAP_CONTEXT_MENU_ID}>
                 <ContextMenuSubMenu title="Measure" icon="" customIcon="ms ms-measure-distance context-menu-icon">
                     <MenuItem data={{}} onClick={this.dummyHandleClick}>
                         <Button

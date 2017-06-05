@@ -78,7 +78,6 @@ export default class MapWrapper_cesium extends MapWrapper {
                 terrainExaggeration: 1,
                 navigationInstructionsInitiallyVisible: false,
                 scene3DOnly: true,
-                clock: this.createClock(),
                 //initialize an empty layer so Cesium doesn't load bing maps
                 imageryProvider: new this.cesium.WebMapServiceImageryProvider({ url: " ", layers: 0 })
             });
@@ -1275,15 +1274,6 @@ export default class MapWrapper_cesium extends MapWrapper {
             }
         }
         return false;
-    }
-    createClock() {
-        return new this.cesium.Clock({
-            startTime: this.cesium.JulianDate.fromIso8601("2014-09-24T04:38Z"),
-            currentTime: this.cesium.JulianDate.fromIso8601("2014-09-24T04:38Z"),
-            stopTime: this.cesium.JulianDate.fromIso8601("2014-09-25T08:38Z"),
-            clockRange: this.cesium.ClockRange.LOOP_STOP,
-            clockStep: 1
-        });
     }
 
     findTopInsertIndexForLayer(mapLayers, mapLayer) {

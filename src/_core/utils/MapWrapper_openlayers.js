@@ -337,7 +337,6 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     zoom: this.map.getView().getZoom() + 1,
                     duration: duration
                 });
-                
                 return true;
             }
             return false;
