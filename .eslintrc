@@ -28,6 +28,7 @@
     "no-trailing-spaces": 0,
     "eol-last": 0,
     "no-unused-vars": 0,
+    "no-use-before-define": ["error", { "functions": false, "classes": false }],
     "no-underscore-dangle": 0,
     "no-alert": 0,
     "no-lone-blocks": 0,

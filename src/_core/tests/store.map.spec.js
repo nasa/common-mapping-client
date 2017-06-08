@@ -708,7 +708,7 @@ export const StoreMapSpec = {
                                     const expected = {...initialState };
                                     expected.map = expected.map.remove("maps");
 
-                                    expect(actualMap2D.getZoom()).to.equal(initialZoom + 1);
+                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
                                     TestUtil.compareFullStates(actual, expected);
                                     done();
                                 }, 1000);
@@ -792,8 +792,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
                     actualMap2D.addDrawHandler(appStrings.GEOMETRY_CIRCLE, () => {}, appStrings.INTERACTION_DRAW);
@@ -808,7 +808,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -833,8 +832,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
                     actualMap2D.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, () => {}, appStrings.INTERACTION_DRAW);
@@ -849,7 +848,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -872,8 +870,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
                     actualMap2D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
@@ -888,7 +886,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -913,8 +910,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
                     actualMap3D.addDrawHandler(appStrings.GEOMETRY_CIRCLE, () => {}, appStrings.INTERACTION_DRAW);
@@ -929,7 +926,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
@@ -956,8 +952,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
                     actualMap3D.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, () => {}, appStrings.INTERACTION_DRAW);
@@ -972,7 +968,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
@@ -999,8 +994,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
                     actualMap3D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
@@ -1015,7 +1010,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
@@ -1039,8 +1033,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
                     actualMap2D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
@@ -1056,7 +1050,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -1083,8 +1076,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
                     actualMap3D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
@@ -1100,7 +1093,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
@@ -1125,8 +1117,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // Create dummy geometry
                     let geometryCircle = {
@@ -1187,7 +1179,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
@@ -1218,8 +1209,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // Create dummy geometry
                     let geometryCircle = {
@@ -1280,7 +1271,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -1309,9 +1299,9 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // Create dummy geometry
                     let geometryCircle = {
@@ -1339,7 +1329,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
@@ -1372,8 +1361,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // Create dummy geometry
                     let geometryCircle = {
@@ -1399,7 +1388,6 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["drawing", "geometryType"], "");
@@ -1436,9 +1424,9 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // Create dummy geometry
                     let geometryLineString = {
@@ -1496,7 +1484,6 @@ export const StoreMapSpec = {
 
                         actual.map = actual.map.remove("maps");
 
-                        const expected = {...initialState };
                         expected.map = expected.map
                             .remove("maps")
                             .setIn(["view", "in3DMode"], false)
@@ -1531,8 +1518,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // Create dummy geometry
                     let geometryLineString = {
@@ -1587,7 +1574,6 @@ export const StoreMapSpec = {
 
                         actual.map = actual.map.remove("maps");
 
-                        const expected = {...initialState };
                         expected.map = expected.map
                             .remove("maps")
                             .setIn(["view", "in3DMode"], false)
@@ -1623,9 +1609,9 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
-                    const actualMap3D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // Create dummy geometry
                     let geometryLineString = {
@@ -1662,7 +1648,6 @@ export const StoreMapSpec = {
 
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
                             expected.map = expected.map
                                 .remove("maps")
                                 .setIn(["view", "in3DMode"], false)
@@ -1698,8 +1683,8 @@ export const StoreMapSpec = {
                     initalActions.forEach(action => store.dispatch(action));
 
                     // retrieve map object
-                    const initialState = store.getState();
-                    const actualMap2D = initialState.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // Create dummy geometry
                     let geometryLineString = {
@@ -1734,7 +1719,6 @@ export const StoreMapSpec = {
 
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
                             expected.map = expected.map
                                 .remove("maps")
                                 .setIn(["drawing", "geometryType"], "");
