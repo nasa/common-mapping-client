@@ -144,20 +144,36 @@
     .colorbar-label.max {
         right: 0px;
     }
+    .popover-label {
+        background: $color-primary;
+        color: white;
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 4px 9px;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 1.3rem;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+    }
     .opacity-slider-container {
+        .opacity-slider-content {
+            padding: 0.5rem;
+            padding-right: 1rem;
+            width: 100%;
+            height: auto;
+        }
         width: 18rem;
-        height: auto;
         position: absolute;
-        top: 2.5rem;
+        top: 0.5rem;
         right: 6.7rem;
-        padding: 0.5rem;
-        padding-right: 1rem;
     }
     .position-controls-container {
-        width: 12rem;
-        height: 5.5rem;
+        width: 16rem;
+        height: 7rem;
         position: absolute;
-        top: 1.8rem;
+        top: 0.2rem;
         right: 9.3rem;
         padding: 0px !important;
         text-align: center;
@@ -198,14 +214,14 @@
         border-color: rgba(0, 0, 0, 0);
         border-left-color: $color-light;
         border-width: 10px;
-        margin-top: -10px;
+        margin-top: -1px;
     }
     .opacity-slider-container:before,
     .position-controls-container:before {
         border-color: rgba(194, 225, 245, 0);
         border-left-color: rgba(0, 0, 0, 0.2);
         border-width: 11px;
-        margin-top: -11px;
+        margin-top: -1px;
     }
     // Gross Slider overrides
     .opacity-slider-container {
@@ -262,7 +278,7 @@
 
 button.position-control-button {
     font-size: 1.2rem;
-    height: 50%;
+    height: 2.4rem;
     min-width: initial;
 }
 
