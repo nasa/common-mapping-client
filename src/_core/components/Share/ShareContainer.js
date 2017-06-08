@@ -35,9 +35,14 @@ export class ShareContainer extends Component {
         }
         return false;
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.isOpen && !prevProps.isOpen) {
+            this.focusTextArea();
+        }
+    }
     focusTextArea() {
-        this.urlText.focus();
         this.urlText.select();
+        this.urlText.focus();
     }
     generateShareQuery() {
         let activeLayers = this.getActiveLayerString();
