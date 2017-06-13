@@ -32,10 +32,10 @@ export class ResolutionStep extends Component {
             >
                 <div className="no-margin">
                     <div className="increment-button">
-                        <Button
-                            neutral
+                        <Button 
+                            neutral 
                             disabled={!canIncrementStep}
-                            icon="keyboard_arrow_up"
+                            icon="keyboard_arrow_up" 
                             className="no-padding"
                             onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1], false);}
                         }/>

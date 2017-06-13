@@ -102,7 +102,7 @@ export class LayerControlContainer extends Component {
             "active": this.isChangingOpacity
         });
         let positionContainerClasses = miscUtil.generateStringFromSet({
-            "position-controls-container text-wrap row middle-xs": true,
+            "position-controls-container": true,
             "active": this.isChangingPosition
         });
         let colorbarRangeClasses = miscUtil.generateStringFromSet({
@@ -180,10 +180,13 @@ export class LayerControlContainer extends Component {
                                 <span className={layerOrderClassName}>{this.props.layer.get("displayIndex")}</span>
                             </IconButton>
                             <div className={positionContainerClasses}>
-                                <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
-                                <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
-                                <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
-                                <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                                <div className="popover-label">Layer Positioning</div>
+                                <div className="position-control-content row middle-xs">
+                                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
+                                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
+                                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
+                                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                                </div>
                             </div>
                             <IconButton
                                 primary={this.isChangingOpacity}
@@ -196,10 +199,13 @@ export class LayerControlContainer extends Component {
                                 {opacityIcon}
                             </IconButton>
                             <div className={sliderContainerClasses}>
-                                <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="opacity-slider col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
-                                <span className="opacity-label col-xs-3 no-padding">
-                                    {currOpacity}%
-                                </span>
+                                <div className="popover-label">Layer Opacity</div>
+                                <div className="opacity-slider-content row middle-xs">
+                                    <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="react-toolbox-slider-overrides col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
+                                    <span className="opacity-label col-xs-3 no-padding">
+                                        {currOpacity}%
+                                    </span>
+                                </div>
                             </div>
                             <IconButton
                                 icon="info_outline"

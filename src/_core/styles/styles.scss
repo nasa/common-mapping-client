@@ -357,6 +357,20 @@ button .button-icon-right {
     vertical-align: middle;
 }
 
+.popover-label {
+    background: $color-primary;
+    color: white;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 4px 9px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.3rem;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
 button.context-menu-item {
     padding: 0px 1.2rem;
 }
@@ -367,6 +381,24 @@ button.context-menu-item {
     height: 100%;
     overflow: hidden;
     white-space: nowrap;
+}
+
+// Gross Slider overrides
+.react-toolbox-slider-overrides {
+    &[data-react-toolbox="slider"] {
+        & div > div:first-child > div {
+            background: $color-primary;
+        }
+        & [data-react-toolbox="progress-bar"] {
+            display: block;
+            [data-ref="buffer"] {
+                background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(to right, $color-primary, $color-primary);
+            }
+            [data-ref="value"] {
+                background-color: $color-primary;
+            }
+        }
+    }
 }
 
 .increment-button {
