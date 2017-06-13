@@ -14,14 +14,14 @@ export class SingleDate extends Component {
         // get D3 wrapper
         this.singleDateD3 = new SingleDateD3({
             selectNode: ReactDOM.findDOMNode(this),
-            symbolWidth: 20,
+            symbolWidth: 16,
             symbolWidthLarge: 26,
             maxX: this.props.maxX,
             minX: this.props.minX,
             beforeDrag: this.props.beforeDrag,
             onDrag: this.props.onDrag,
             afterDrag: this.props.afterDrag,
-            getDateFromX: this.props.getDateFromX,
+            getNearestDate: this.props.getNearestDate,
             getXFromDate: this.props.getXFromDate
         });
 
@@ -54,7 +54,7 @@ export class SingleDate extends Component {
         });
         return (
             <g className={classNames}>
-                <circle className="single-date-inner" cx="0" cy="15" r="10" filter="url('#dropshadowFilter')"/>
+                <circle className="single-date-inner" cx="0" cy="15" r="8" filter="url('#dropshadowFilter')"/>
             </g>
         );
     }
@@ -62,7 +62,7 @@ export class SingleDate extends Component {
 SingleDate.propTypes = {
     active: PropTypes.bool.isRequired,
     date: PropTypes.object.isRequired,
-    getDateFromX: PropTypes.func.isRequired,
+    getNearestDate: PropTypes.func.isRequired,
     getXFromDate: PropTypes.func.isRequired,
     isDragging: PropTypes.bool,
     onDrag: PropTypes.func,

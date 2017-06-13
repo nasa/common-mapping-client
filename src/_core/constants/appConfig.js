@@ -60,13 +60,16 @@ export const SESSION_ID = (() => {
 
 /* DATE */
 export const DEFAULT_DATE = moment(new Date()).subtract(3, "d").startOf('d').toDate();
-export const MIN_DATE = moment("2000-06-01", "YYYY-MM-DD", true).toDate();
+export const MIN_DATE = moment("1900-01-01", "YYYY-MM-DD", true).toDate();
 export const MAX_DATE = moment(new Date()).add(1, 'month').toDate();
-export const DATE_SLIDER_RESOLUTIONS = {
-    DAYS: { label: "Days", resolution: 512 },
-    MONTHS: { label: "Months", resolution: 16 },
-    YEARS: { label: "Years", resolution: 1 }
-};
+export const DATE_SLIDER_RESOLUTIONS = [
+    { label: appStrings.SECONDS, resolution: 55900000, format: "YYYY MMM DD, hh:mm:ssa" },
+    { label: appStrings.MINUTES, resolution: 960000, format: "YYYY MMM DD, hh:mm:ssa" },
+    { label: appStrings.HOURS, resolution: 23500, format: "YYYY MMM DD, hh:mm:ssa" },
+    { label: appStrings.DAYS, resolution: 640, format: "YYYY MMM DD" },
+    { label: appStrings.MONTHS, resolution: 22, format: "YYYY MMM DD" },
+    { label: appStrings.YEARS, resolution: 1.6, format: "YYYY MMM DD" }
+];
 /* END DATE */
 
 /* MAP */

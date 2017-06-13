@@ -1,5 +1,7 @@
 import d3 from 'd3';
+import TimeScaleD3 from '_core/utils/TimeScaleD3';
 import moment from 'moment';
+import appConfig from 'constants/appConfig';
 import * as appStrings from '_core/constants/appStrings';
 
 export default class TimeAxisD3 {
@@ -31,40 +33,23 @@ export default class TimeAxisD3 {
         // grab d3 selection if needed
         this._selection = typeof this._selection !== "undefined" ? this._selection : d3.select(this._selectNode);
 
-        // time format function
-        this._timeFormat = typeof this._timeFormat !== "undefined" ? this._timeFormat : d3.time.format.multi([
-            [".%L", (d) => {
-                return d.getMilliseconds();
-            }],
-            [":%S", (d) => {
-                return d.getSeconds();
-            }],
-            ["%-I:%M %p", (d) => {
-                return d.getMinutes();
-            }],
-            ["%-I %p", (d) => {
-                return d.getHours();
-            }],
-            ["%b %-d", (d) => {
-                return d.getDate() != 1;
-            }],
-            ["%b", (d) => {
-                return d.getMonth();
-            }],
-            ["%Y", () => {
-                return true;
-            }]
-        ]);
-
         // prep the axis functions if needed
-        this._xFn = typeof this._xFn !== "undefined" ? this._xFn : d3.time.scale()
+        this._xFn = typeof this._xFn !== "undefined" ? this._xFn : TimeScaleD3()
             .domain([this._minDt, this._maxDt])
             .range([this._margin.left, this._margin.left + this._width]);
+        this._hiddenXFn = this._xFn.copy();
+
         this._xAxis = typeof this._xAxis !== "undefined" ? this._xAxis : d3.svg.axis()
             .scale(this._xFn)
             .orient('bottom')
             .innerTickSize(-this._height)
             .tickFormat(this._timeFormat);
+
+        // track zoom level/direction
+        this._forceAxisUpdate = false;
+        this._prevZoomScale = 0;
+        this._prevZoomDomain = [0, 0];
+        this._prevZoomTranslate = [0, 0];
     }
 
     enter(options = false) {
@@ -73,22 +58,22 @@ export default class TimeAxisD3 {
         // configure the zoom
         this._selection.zoom = d3.behavior.zoom()
             .x(this._xFn)
-            .scaleExtent([0, 512])
+            .scaleExtent([1, appConfig.DATE_SLIDER_RESOLUTIONS[0].resolution])
             .on('zoom', () => {
                 this.zoomed();
+            })
+            .on('zoomstart', () => {
+                this.zoomstart();
             });
 
-        // configure the drag
-        this._selection.drag = d3.behavior.drag()
-            .on('dragstart', () => {
-                d3.event.sourceEvent.stopPropagation();
-            });
+        this._prevZoomDomain = this._xFn.domain();
+        this._prevZoomScale = this._selection.zoom.scale();
+        this._prevZoomTranslate = this._selection.zoom.translate();
 
         // enable the zooming
         this._selection
             .call(this._selection.zoom)
             .on("dblclick.zoom", null)
-            .call(this._selection.drag)
             .on("click", () => {
                 if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
                     let date = this.getNearestDate(d3.event.clientX);
@@ -131,12 +116,10 @@ export default class TimeAxisD3 {
             .attr('y', 0)
             .attr('height', this._height)
             .attr('width', this._width);
-        // not sure why this is displaced by 5px, I'm assuming some padding somewhere...
         this._selection.select(".timeline-horiz-axis")
-            .attr("x1", this._margin.left - 5)
+            .attr("x1", this._margin.left - 5) // TODO: find cause of 5px displacement
             .attr("x2", this._margin.left + this._width);
 
-        // configure the axis
         this._selection.select('#x-axis')
             .call(this._xAxis);
 
@@ -163,7 +146,7 @@ export default class TimeAxisD3 {
 
     updateResolution(options) {
         let _context = this;
-        if (options && options.date && options.scale && options.scale !== this._selection.zoom.scale()) {
+        if (options && options.date && options.scale && options.scale.resolution !== this._selection.zoom.scale()) {
             // See: http://bl.ocks.org/mbostock/7ec977c95910dd026812
             this._selection.call(this._selection.zoom.event);
 
@@ -171,7 +154,6 @@ export default class TimeAxisD3 {
             let scale = options.scale && typeof options.scale.resolution !== "undefined" ? options.scale.resolution : this._selection.zoom.scale();
 
             // Record the coordinates (in data space) of the center( in screen space).
-            // let scale = options.scale ? options.scale : this._selection.zoom.scale();
             let center0 = [this._xFn(options.date), 0];
             let translate0 = this._selection.zoom.translate();
             let coordinates0 = this.coordinates(center0);
@@ -184,6 +166,7 @@ export default class TimeAxisD3 {
             let xOffset = ((this._xFn.range()[1] - (this._width / 2)) - this._xFn(options.date));
             this._selection.zoom.translate([translate1[0] + xOffset, translate1[1]]);
 
+            this._forceAxisUpdate = true;
             this._selection.call(this._selection.zoom.event);
         }
     }
@@ -232,59 +215,28 @@ export default class TimeAxisD3 {
     }
 
     formatTick(selection, d) {
-        let month = d.getMonth();
-        let day = d.getDate();
-        let hour = d.getHours();
-        let minutes = d.getMinutes();
-        let seconds = d.getSeconds();
-        let milliseconds = d.getMilliseconds();
         let y1 = "0";
         let y2 = "-17";
         let className = "default";
 
-        // Year
-        if (month === 0 &&
-            day === 1 &&
-            hour === 0 &&
-            minutes === 0 &&
-            seconds === 0 &&
-            milliseconds === 0) {
-            className = "year";
-        } // Month
-        else if (day === 1 &&
-            hour === 0 &&
-            minutes === 0 &&
-            seconds === 0 &&
-            milliseconds === 0) {
-            className = "month";
-        } else if (hour === 0 &&
-            minutes === 0 &&
-            seconds === 0 &&
-            milliseconds === 0) {
-            className = "day";
-        } else if (minutes === 0 &&
-            seconds === 0 &&
-            milliseconds === 0) {
-            className = "hour";
-        } else if (seconds === 0 &&
-            milliseconds === 0) {
-            className = "minutes";
-        } else if (milliseconds === 0) {
-            className = "milliseconds";
+        // unlabeled tick
+        if (selection.select("text").text() === "") {
+            y1 = "-7";
+            className = "no-label";
         }
 
         // check if its in the future
         if (moment(d).isAfter(moment(new Date()))) {
-            className += " future_date";
+            className += " future-date";
         }
 
         selection.select("text")
-            .classed("tick-text-" + className, true);
+            .classed("tick-text " + className, true);
 
         selection.select("line")
             .attr("y1", y1)
             .attr("y2", y2)
-            .classed("tick-line-" + className, true);
+            .classed("tick-line " + className, true);
     }
 
     zoomed() {
@@ -292,10 +244,10 @@ export default class TimeAxisD3 {
 
         // Check that the domain is not larger than bounds
         if (this._xFn.domain()[1] - this._xFn.domain()[0] > this._maxDt - this._minDt) {
-            // Constrain scale to 1
             this._selection.zoom.scale(1);
         }
 
+        // keep the domain within bounds
         if (this._xFn.domain()[0] <= this._minDt) {
             this._selection.zoom.translate([this._selection.zoom.translate()[0] - this._xFn(this._minDt) + this._xFn.range()[0], this._selection.zoom.translate()[1]]);
         }
@@ -303,17 +255,28 @@ export default class TimeAxisD3 {
             this._selection.zoom.translate([this._selection.zoom.translate()[0] - this._xFn(this._maxDt) + this._xFn.range()[1], this._selection.zoom.translate()[1]]);
         }
 
-        // configure the axis
-        this._selection.select('#x-axis')
-            .call(this._xAxis);
+        // check what sort of event triggered this
+        let currDomain = this._selection.zoom.x().domain();
+        let scaleChange = this._selection.zoom.scale() !== this._prevZoomScale;
+        let domainChange = currDomain[0] !== this._prevZoomDomain[0] || currDomain[1] !== this._prevZoomDomain[1];
 
+        // do not update the scale if this is a zoom
+        if (!this._forceAxisUpdate && (scaleChange)) {
+            this._selection.zoom.scale(this._prevZoomScale);
+            this._selection.zoom.translate(this._prevZoomTranslate);
+        }
+
+        // update the axis display
+        this.updateAxis();
         this.updateSingleDate();
 
-        this._selection.selectAll(".tick")
-            .each(function(d, i) {
-                let tick = d3.select(this);
-                _context.formatTick(tick, d);
-            });
+        this._forceAxisUpdate = false;
+    }
+
+    zoomstart() {
+        this._prevZoomDomain = this._xFn.domain();
+        this._prevZoomScale = this._selection.zoom.scale();
+        this._prevZoomTranslate = this._selection.zoom.translate();
     }
 
     getDateFromX(value) {
@@ -328,10 +291,10 @@ export default class TimeAxisD3 {
         // get current translation
         let currTrans = this._selection.zoom.translate();
 
-        // if unset, determine autoscroll amount (one-fifth tick)
+        // if unset, determine autoscroll amount
         if (typeof scrollDiff !== "number") {
             let currTicks = this._xFn.ticks();
-            scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0])) / 5;
+            scrollDiff = (this._xFn(currTicks[1]) - this._xFn(currTicks[0]));
         }
 
         // prep the timeline
@@ -343,12 +306,21 @@ export default class TimeAxisD3 {
         } else {
             this._selection.call(this._selection.zoom.translate([currTrans[0] + scrollDiff, currTrans[1]]).event);
         }
+
+        this._forceAxisUpdate = true;
+        this._selection.call(this._selection.zoom.event);
+        // this.zoomed();
     }
 
     resize(options) {
 
         // update the dimension values
         this.initValues(options);
+
+        // get current scale
+        this._prevZoomDomain = this._xFn.domain();
+        this._prevZoomScale = this._selection.zoom.scale();
+        this._prevZoomTranslate = this._selection.zoom.translate();
 
         // Manually reset the zoom
         this._selection.zoom.scale(1).translate([0, 0]);
@@ -360,6 +332,8 @@ export default class TimeAxisD3 {
         this._selection.zoom.x(this._xFn);
 
         this.updateAxis();
+
+        options.scale.resolution = this._prevZoomScale;
         this.update(options);
     }
 
@@ -368,14 +342,18 @@ export default class TimeAxisD3 {
     }
 
     getNearestDate(x) {
-        let date = this.getDateFromX(x);
-        let lowDate = moment(date).startOf("d").toDate();
-        let highDate = moment(lowDate).add(1, "d").toDate();
-        if ((date - lowDate) > (highDate - date)) {
-            date = highDate;
-        } else {
-            date = lowDate;
-        }
-        return date;
+        let currTicks = this._xFn.ticks();
+        return currTicks.reduce((acc, tickEntry) => {
+            let tickX = this.getXFromDate(tickEntry);
+            let accX = this.getXFromDate(acc);
+            if (Math.abs(x - tickX) < Math.abs(x - accX)) {
+                return tickEntry;
+            }
+            return acc;
+        }, currTicks[0]);
+    }
+
+    getTickResolution() {
+        return this._xFn.getTickResolution();
     }
 }

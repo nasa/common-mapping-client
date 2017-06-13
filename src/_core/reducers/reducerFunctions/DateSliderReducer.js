@@ -33,25 +33,12 @@ export default class DateSliderReducer {
         let actionResolution = action.resolution;
         if (typeof actionResolution === "string") {
             actionResolution = actionResolution.toLowerCase();
-            switch (actionResolution) {
-                case "days":
-                    actionResolution = appConfig.DATE_SLIDER_RESOLUTIONS.DAYS;
-                    break;
-                case "months":
-                    actionResolution = appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS;
-                    break;
-                case "years":
-                    actionResolution = appConfig.DATE_SLIDER_RESOLUTIONS.YEARS;
-                    break;
-                default:
-                    alerts = alerts.push(alert.merge({
-                        title: appStrings.ALERTS.TIMELINE_RES_FAILED.title,
-                        body: appStrings.ALERTS.TIMELINE_RES_FAILED.formatString,
-                        severity: appStrings.ALERTS.TIMELINE_RES_FAILED.severity,
-                        time: new Date()
-                    }));
-                    actionResolution = state.get("resolution").toJS();
-            }
+            actionResolution = appConfig.DATE_SLIDER_RESOLUTIONS.reduce((acc, res) => {
+                if(actionResolution === res.label) {
+                    return res;
+                }
+                return acc;
+            }, state.get("resolution").toJS());
         }
 
         if (actionResolution) {
@@ -85,7 +72,7 @@ export default class DateSliderReducer {
 
     static resetApplicationState(state, action) {
         let newState = this.endDragging(state, action);
-        newState = this.setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS.DAYS });
+        newState = this.setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS[3] });
         return newState;
     }
 }

@@ -21,7 +21,6 @@ export class KeyboardControlsContainer extends Component {
         this.dateAutoIncrementInterval = null;
         this.dateShouldAutoIncrement = false;
         this.dateAutoIncrementSpeed = SPEED_SLOW;
-        this.dateAutoIncrementResolution = "days";
         this.dateIncrementForward = true;
         this.dateAutoIncrementEnabled = true;
 
@@ -78,7 +77,7 @@ export class KeyboardControlsContainer extends Component {
     dateAutoIncrement() {
         if (this.dateShouldAutoIncrement) {
             clearTimeout(this.dateAutoIncrementInterval);
-            this.incrementDate(this.dateAutoIncrementResolution, this.dateIncrementForward);
+            this.incrementDate(this.props.dateSliderTimeResolution.get("label"), this.dateIncrementForward);
             this.dateAutoIncrementInterval = setTimeout(() => this.dateAutoIncrement(), this.dateAutoIncrementSpeed);
         }
     }
@@ -89,7 +88,7 @@ export class KeyboardControlsContainer extends Component {
             this.dateIncrementForward = increment;
             if (this.dateAutoIncrementInterval === null) {
                 this.dateAutoIncrementInterval = setTimeout(() => this.dateAutoIncrement(), this.dateAutoIncrementSpeed);
-                this.incrementDate(this.dateAutoIncrementResolution, this.dateIncrementForward);
+                this.incrementDate(this.props.dateSliderTimeResolution.get("label"), this.dateIncrementForward);
             }
         }
     }
@@ -98,10 +97,6 @@ export class KeyboardControlsContainer extends Component {
         clearTimeout(this.dateAutoIncrementInterval);
         this.dateShouldAutoIncrement = false;
         this.dateAutoIncrementInterval = null;
-    }
-
-    setDateAutoIncrementResolution(resolution) {
-        this.dateAutoIncrementResolution = resolution;
     }
 
     setDateAutoIncrementSpeed(speed) {
@@ -144,19 +139,16 @@ export class KeyboardControlsContainer extends Component {
     }
 
     adjustDateSliderTimeResolution(up) {
-        if (up) {
-            if (this.props.dateSliderTimeResolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.YEARS.label) {
-                this.props.dateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
-            } else {
-                this.props.dateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.DAYS);
+        let currResLabel = this.props.dateSliderTimeResolution.get("label");
+        let currResIndex = appConfig.DATE_SLIDER_RESOLUTIONS.reduce((acc, res, i) => {
+            if(res.label === currResLabel) {
+                return  i;
             }
-        } else {
-            if (this.props.dateSliderTimeResolution.get("label") === appConfig.DATE_SLIDER_RESOLUTIONS.DAYS.label) {
-                this.props.dateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.MONTHS);
-            } else {
-                this.props.dateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS.YEARS);
-            }
-        }
+            return acc;
+        }, 0);
+        let newResIndex = currResIndex + (up ? -1 : 1); 
+        newResIndex = Math.min(Math.max(newResIndex, 0), appConfig.DATE_SLIDER_RESOLUTIONS.length - 1);
+        this.props.dateSliderActions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[newResIndex]);
     }
 
     handleKeyDown_ArrowUp() {
@@ -203,7 +195,6 @@ export class KeyboardControlsContainer extends Component {
         this.endDateAutoIncrement();
         this.endMapAutoPan();
         this.speedDown();
-        this.setDateAutoIncrementResolution("days");
     }
 
     render() {
@@ -229,12 +220,6 @@ export class KeyboardControlsContainer extends Component {
 
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowUp" onKeyHandle={() => this.handleKeyDown_ArrowUp()} />
                 <KeyHandler keyEventName={KEYUP} keyValue="ArrowDown" onKeyHandle={() => this.handleKeyDown_ArrowDown()} />
-                
-                <KeyHandler keyEventName={KEYDOWN} keyValue="z" onKeyHandle={() => this.setDateAutoIncrementResolution("months")} />
-                <KeyHandler keyEventName={KEYDOWN} keyValue="Z" onKeyHandle={() => this.setDateAutoIncrementResolution("months")} />
-                
-                <KeyHandler keyEventName={KEYUP} keyValue="z" onKeyHandle={() => this.setDateAutoIncrementResolution("days")} />
-                <KeyHandler keyEventName={KEYUP} keyValue="Z" onKeyHandle={() => this.setDateAutoIncrementResolution("days")} />
                 
                 {/* Map Movement */}
                 <KeyHandler keyEventName={KEYUP} keyValue="q" onKeyHandle={() => this.zoomOut()} />

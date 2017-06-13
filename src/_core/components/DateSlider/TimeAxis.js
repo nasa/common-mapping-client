@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import appConfig from 'constants/appConfig';
 import * as DateSliderActions from '_core/actions/DateSliderActions';
 import * as MapActions from '_core/actions/MapActions';
+import * as appStrings from '_core/constants/appStrings';
 import TimeAxisD3 from '_core/utils/TimeAxisD3';
 import MiscUtil from '_core/utils/MiscUtil';
 import CurrentDate from '_core/components/DateSlider/CurrentDate';
@@ -13,6 +15,11 @@ import CurrentDate from '_core/components/DateSlider/CurrentDate';
 const miscUtil = new MiscUtil();
 
 export class TimeAxis extends Component {
+    constructor(options) {
+        super(options);
+        this.autoScrollInterval = null;
+    }
+
     componentDidMount() {
         let sizes = this.getSizes();
         this.resizeTimeout = null;
@@ -66,9 +73,9 @@ export class TimeAxis extends Component {
     handleTimeLineMouseOut() {
         this.props.dateSliderActions.timelineMouseOut();
     }
-     handleTimelineHover(xValue, date) {
+    handleTimelineHover(xValue, date) {
         if (!this.props.isDragging) {
-            // let date = this.timeAxisD3.getDateFromX(xValue);
+            date = this.getMaskedDate(this.props.date, date);
             this.props.dateSliderActions.hoverDate(date, xValue);
         }
     }
@@ -76,15 +83,44 @@ export class TimeAxis extends Component {
         this.props.dateSliderActions.beginDragging();
     }
     handleSingleDateDragEnd(xValue) {
-        let date = this.timeAxisD3.getDateFromX(xValue);
+        let date = this.timeAxisD3.getNearestDate(xValue);
+        date = this.getMaskedDate(this.props.date, date);
         this.props.dateSliderActions.dragEnd(date);
     }
     handleSingleDateDragUpdate(xValue, date) {
-        // let date = this.timeAxisD3.getDateFromX(xValue);
+        date = this.getMaskedDate(this.props.date, date);
         this.props.dateSliderActions.hoverDate(date, xValue);
-        if(date - this.props.date !== 0) {
+        if (date - this.props.date !== 0) {
             this.props.mapActions.setDate(date);
         }
+    }
+    getMaskedDate(date, maskDate) {
+        let resolution = this.timeAxisD3.getTickResolution();
+        date = moment(date);
+        maskDate = moment(maskDate);
+        switch(resolution) {
+            case appStrings.SECONDS:
+                date.second(maskDate.second());
+                // falls through
+            case appStrings.MINUTES:
+                date.minute(maskDate.minute());
+                // falls through
+            case appStrings.HOURS:
+                date.hour(maskDate.hour());
+                // falls through
+            case appStrings.DAYS:
+                date.date(maskDate.date());
+                // falls through
+            case appStrings.MONTHS:
+                date.month(maskDate.month());
+                // falls through
+            case appStrings.YEARS:
+                date.year(maskDate.year());
+                break;
+            default:
+                console.warn("Error in TimeAxis.getMaskedDate: unknown date resolution. ", resolution);
+        }
+        return date.toDate();
     }
     autoScroll(toLeft) {
         this.timeAxisD3.autoScroll(toLeft);
@@ -96,7 +132,7 @@ export class TimeAxis extends Component {
         let elementHeight = 50;
         let margin = {
             top: 0,
-            right: 60,
+            right: 70,
             bottom: 18,
             left: 200 // there is a bug where auto-scrolling breaks to the left with left == 0, so keep it >= 1
         };
@@ -113,7 +149,6 @@ export class TimeAxis extends Component {
         };
     }
     render() {
-        let autoScrollInterval = null;
         let sizes = this.getSizes();
         let axisClassNames = miscUtil.generateStringFromSet({
             timeAxis: true,
@@ -130,30 +165,30 @@ export class TimeAxis extends Component {
                 <CurrentDate
                     active={true}
                     beforeDrag={() => {
-                        clearInterval(autoScrollInterval);
+                        clearInterval(this.autoScrollInterval);
                         this.handleSingleDateDragStart();
                     }} 
                     onDrag={(x, date, scrollFlag) => {
-                        clearInterval(autoScrollInterval);
+                        clearInterval(this.autoScrollInterval);
 
                         this.handleSingleDateDragUpdate(x, date);
 
                         // handle auto-scrolling
                         if(scrollFlag > 0) {
-                            autoScrollInterval = setInterval(() => {
+                            this.autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
                             }, 50);
                         } else if(scrollFlag < 0) {
-                            autoScrollInterval = setInterval(() => {
+                            this.autoScrollInterval = setInterval(() => {
                                 this.autoScroll(false);
                             }, 50);
                         }
                     }}
                     afterDrag={(value) => {
-                        clearInterval(autoScrollInterval);
+                        clearInterval(this.autoScrollInterval);
                         this.handleSingleDateDragEnd(value);
                     }}
-                    getDateFromX={(x) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getDateFromX(x) : 0}
+                    getNearestDate={(x) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getNearestDate(x) : 0}
                     getXFromDate={(date) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getXFromDate(date) : 0}
                     maxX={sizes.margin.left + sizes.width}
                     minX={sizes.margin.left}

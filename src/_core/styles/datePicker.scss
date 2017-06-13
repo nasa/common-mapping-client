@@ -1,12 +1,12 @@
 .date-picker-selection {
     position: relative;
     text-align: center;
-    padding: 0px 0.3rem;
+    padding: 0.25rem 1rem;
     input {
         font-family: "Roboto Mono";
         text-align: center;
-        font-weight: 300;
-        padding: 0.2rem 0px;
+        font-weight: 400;
+        padding: 0px;
     }
     [data-react-toolbox="input"] {
         padding: 0px;
@@ -35,32 +35,11 @@
     height: 100%;
     padding: 0px;
     margin: 0px;
-}
-.date-picker .date-picker-selection-increment {
-    opacity: 0;
-    transition: opacity 0.1s linear 0s;
-}
-.date-picker:hover .date-picker-selection-increment {
-    opacity: 1;
-}
-
-.date-picker-selection-increment button {
-    font-size: 1.15rem;
-    padding: 0.3rem 0px;
-    line-height: 1rem;
-    min-width: initial;
-    max-width: 100%;
-    width: 100%;
-    height: initial;
-    text-align: center;
-}
-
-.date-picker-selection-increment button > [data-react-toolbox="font-icon"] {
-    margin: 0px;
-    height: auto;
-    font-size: 3rem;
-    line-height: 1rem !important;
-    max-width: 100%;
+    &:hover {
+        .increment-button {
+            opacity: 1;
+        }
+    }
 }
 
 #datePickerContainer {
@@ -69,10 +48,9 @@
     left: 0px;
     z-index: 2;
     width: 200px;
-    padding: 0px 0.5rem;
+    padding: 0px;
     height: 6rem;
     background: white;
     border-top-right-radius: 2px;
     @include medium-shadow();
 }
-

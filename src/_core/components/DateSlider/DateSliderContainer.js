@@ -24,7 +24,7 @@ export class DateSliderContainer extends Component {
         let hoverDateStyles = {
             left: this.props.hoverDate.get("x") + "px"
         };
-        let hoverDate = moment(this.props.hoverDate.get("date")).format("YYYY MMM DD");
+        let hoverDate = moment(this.props.hoverDate.get("date")).format(this.props.dateSliderTimeResolution.get("format"));
         return (
             <div id="dateSliderContainer" className={containerClasses}>
                 <div className={hoverDateClasses} style={hoverDateStyles}>
@@ -56,13 +56,15 @@ export class DateSliderContainer extends Component {
 
 DateSliderContainer.propTypes = {
     hoverDate: PropTypes.object.isRequired,
-    distractionFreeMode: PropTypes.bool.isRequired
+    distractionFreeMode: PropTypes.bool.isRequired,
+    dateSliderTimeResolution: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         hoverDate: state.dateSlider.get("hoverDate"),
-        distractionFreeMode: state.view.get("distractionFreeMode")
+        distractionFreeMode: state.view.get("distractionFreeMode"),
+        dateSliderTimeResolution: state.dateSlider.get("resolution")
     };
 }
 

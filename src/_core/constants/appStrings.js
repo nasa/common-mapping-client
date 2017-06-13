@@ -75,6 +75,14 @@ export const EVENT_MOUSE_CLICK = 'click';
 export const COORDINATE_TYPE_CARTESIAN = 'Cartesian';
 export const COORDINATE_TYPE_CARTOGRAPHIC = 'Cartographic';
 
+// timeline resolutions
+export const SECONDS = "seconds";
+export const MINUTES = "minutes";
+export const HOURS = "hours";
+export const DAYS = "days";
+export const MONTHS = "months";
+export const YEARS = "years";
+
 // projections
 export const PROJECTIONS = {
     northpolar: {

@@ -16,6 +16,7 @@ export default class SingleDateD3 {
         this._beforeDrag = typeof options.beforeDrag !== "undefined" ? options.beforeDrag : this._beforeDrag;
         this._onDrag = typeof options.onDrag !== "undefined" ? options.onDrag : this._onDrag;
         this._afterDrag = typeof options.afterDrag !== "undefined" ? options.afterDrag : this._afterDrag;
+        this._getNearestDate = typeof options.getNearestDate !== "undefined" ? options.getNearestDate : this._getNearestDate;
         this._getDateFromX = typeof options.getDateFromX !== "undefined" ? options.getDateFromX : this._getDateFromX;
         this._getXFromDate = typeof options.getXFromDate !== "undefined" ? options.getXFromDate : this._getXFromDate;
 
@@ -111,7 +112,7 @@ export default class SingleDateD3 {
                         });
                 }
                 if (typeof this._onDrag === "function") {
-                    let date = this.getNearestDate(x);
+                    let date = this._getNearestDate(x);
                     this._onDrag(x, date, scrollFlag);
                 }
             })
@@ -122,7 +123,7 @@ export default class SingleDateD3 {
                     .attr("r", this._symbolWidth / 2);
                 if (typeof this._afterDrag === "function") {
                     let x = this._selection.attr('x');
-                    let date = this.getNearestDate(x);
+                    let date = this._getNearestDate(x);
                     x = this._getXFromDate(date);
 
                     this._afterDrag(x);
@@ -130,18 +131,5 @@ export default class SingleDateD3 {
             });
 
         this._selection.call(drag);
-    }
-
-    getNearestDate(x) {
-        // snap to nearest date
-        let date = this._getDateFromX(x);
-        let lowDate = moment(date).startOf("d").toDate();
-        let highDate = moment(lowDate).add(1, "d").toDate();
-        if ((date - lowDate) > (highDate - date)) {
-            date = highDate;
-        } else {
-            date = lowDate;
-        }
-        return date;
     }
 }

@@ -16,7 +16,7 @@ export class CurrentDate extends Component {
                 beforeDrag={this.props.beforeDrag}
                 onDrag={this.props.onDrag}
                 afterDrag={this.props.afterDrag}
-                getDateFromX={this.props.getDateFromX}
+                getNearestDate={this.props.getNearestDate}
                 getXFromDate={this.props.getXFromDate}
                 maxX={this.props.maxX}
                 minX={this.props.minX}
@@ -27,7 +27,7 @@ export class CurrentDate extends Component {
 CurrentDate.propTypes = {
     active: PropTypes.bool.isRequired,
     date: PropTypes.object.isRequired,
-    getDateFromX: PropTypes.func.isRequired,
+    getNearestDate: PropTypes.func.isRequired,
     getXFromDate: PropTypes.func.isRequired,
     isDragging: PropTypes.bool,
     onDrag: PropTypes.func,
