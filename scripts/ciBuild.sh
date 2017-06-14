@@ -20,7 +20,7 @@ if [ ! $? -eq 0 ]; then
 fi
 
 echo "Testing..."
-npm run test:skipWebGLTests:cover
+npm run test --nowebgl --includecoretests
 
 if [ ! $? -eq 0 ]; then
   echo "Test failed."
@@ -42,13 +42,8 @@ if [ ! -d "test-results" ]; then
   exit 1
 fi
 
-if [ ! -d "coverage" ]; then
-  echo "No coverage available."
-  exit 1
-fi
 
 echo "Moving test results..."
-mv coverage test-results/
 mv test-results dist/
 
 echo "Checking branches dir..."

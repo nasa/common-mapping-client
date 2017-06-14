@@ -1,3 +1,4 @@
+/*global INCLUDE_CORE_TESTS*/
 import 'babel-polyfill';
 import TestUtil from '_core/tests/TestUtil';
 import { CacheSpec } from '_core/tests/Cache.spec';
@@ -47,4 +48,7 @@ const testSuites = [
     StoreSpec,
     StoreViewSpec
 ];
-testSuites.map(testSuite => TestUtil.runTestSuite(testSuite));
+
+if(INCLUDE_CORE_TESTS) {
+    testSuites.map(testSuite => TestUtil.runTestSuite(testSuite));
+}

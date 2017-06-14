@@ -1,4 +1,5 @@
 const config = require('./webpack.config.helper')({
+    node_env: 'development',
     isProduction: false,
     devtool: 'eval-source-map',
     entry: [

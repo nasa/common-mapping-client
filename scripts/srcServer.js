@@ -17,7 +17,7 @@ const bundler = webpack(config);
 browserSync({
     notify: false,
     server: {
-        baseDir: ['src', 'assets'],
+        baseDir: ['dist', 'src', 'assets'],
         middleware: [
             webpackDevMiddleware(bundler, {
                 // Dev middleware can't access config, so we provide publicPath

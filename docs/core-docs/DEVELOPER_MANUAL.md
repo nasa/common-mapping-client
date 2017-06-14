@@ -108,24 +108,21 @@ The scripts defined in `package.json` are used to control various aspects of app
 
 | **Script** | **Description** |
 |----------|-------|
-| prestart | Runs automatically before start. Calls remove-dist script which deletes the dist folder. This helps remind you to run the build script before committing since the dist folder will be deleted if you don't. ;) |
-| start | Runs tests, lints, starts dev webserver, and opens the app in your default browser. |
-| open:src | Serve development version of the app using babel-node |
-| open:dist | Serve production version of the app using babel-node |
-| lint:scripts | Runs ESLint on build related JS files. (eslint-loader lints src files via webpack when `npm start` is run) |
-| clean-dist | Removes everything from the dist folder. |
-| remove-dist | Deletes the dist folder. |
-| build:html | Copies src/index.html into /dist/index.html |
-| prebuild | Runs automatically before build script (due to naming convention). Cleans dist folder, builds html, and builds sass. |
-| build | Bundles all JavaScript using webpack and writes it to /dist. |
-| build:open | Bundles all JavaScript using webpack and writes it to /dist and opens the built app in browser. |
-| test | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line. |
-| test:watch | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line.  Watches all files so tests are re-run upon save. |
-| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. | 
-| test:cover | Runs tests (files ending in .spec.js) using Mocha and outputs results to the command line and generates a test coverage report, saved in the `coverage` folder. Watches all files so tests are re-run upon save. |
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
-| postbuild | Runs the postbuild script |
-| deploy | Runs the deploy script |
+| prestart | Runs automatically before start. Cleans previous build and builds `index.html` for serving. |
+| start | Builds a development version of the app in memory and serves it from a local node server. |
+| start:dist | Builds a production version of the app and serves it from a local node server. |
+| open:src | Serve development version of the app from a local node server |
+| open:dist | Serve production version of the app using a local node server|
+| prebuild | Runs automatically before build script. Cleans the previous build and builds `index.html` for serving |
+| build | Bundles all JavaScript using webpack and writes it to `/dist` |
+| postbuild | Runs the postbuild script moving external assets into dist |
+| build:html | Copies `src/index.html` into `dist/index.html` and inlines `src/styles/inline_style.css` |
+| prep:dist | Deletes the `dist/` and creates a new one |
+| clean:dist | Removes `dist/` |
+| clean:test | Removes `test-results/` |
+| pretest | Runs automatically before test. Cleans previous test results |
+| test | Runs all tests using karma js |
 | analyze-bundle | Analyzes webpack bundles for production and gives you a breakdown of where modules are used and their sizes via a convenient interactive zoomable treemap |
 
 <a id="installing-uninstalling-npm"/>
@@ -686,16 +683,13 @@ That's a lot, but not to worry. The ones you really need to be aware of are Karm
 
 <a id="writing-tests-running-tests"/>
 ### Running Tests
-The following `package.json` scripts can be used to run tests in a variety of ways. 
+Run tests using `npm run test` with the following (optional) flags:
 
-- `npm run test` - Run tests once and generate html test report
-- `npm run test:watch` - Run tests on every file change (is a little fragile, try to space out your saves so you don't thrash this thing) and generate html test report
-- `npm run test:cover` - Run tests once and generate html test report and a test coverage report
-- `npm run test:cover:watch` - Run tests on every file change and generate html test report and a test coverage report
-- `npm run test:skipWebGLTests` - Run tests once and generate html test report and skip tests that require WebGL (an environment variable is passed in which tells certain tests to skip themselves via check from TestUtil)
-- `npm run test:skipWebGLTests:watch` - Run tests on every file change (is a little fragile, try to space out your saves so you don't thrash this thing) and generate html test report, skip WebGL tests
-- `npm run test:skipWebGLTests:cover` - Run tests once and generate html test report and a test skipWebGLTests:coverage report, skip WebGL tests
-- `npm run test:skipWebGLTests:cover:watch` - Run tests on every file change and generate html test report and a test coverage report, skip WebGL tests
+- `--nowebgl` - Do not run tests that require webgl
+- `--includecoretests` - Include tests from the cmc-core test suite
+- `--watch` - keep the karma test runner active so that changes to test files are automatically reloaded when they change
+
+Whenever you run tests, a `test-results` directory will be generated that contains the results and code coverage in html format. 
 
 <a id="writing-tests-cmc"/>
 ### Writing Tests for CMC
@@ -986,7 +980,7 @@ CMC Core tests (`src/_core/tests/store.map.spec.js` in particular) make use of t
 
 <a id="skipping-webgl-tests"/>
 ### Skipping WebGL Tests
-Certain CMC Core tests that test functionalities requiring WebGL are configured to skip themselves if a certain global variable is defined as true. This variable is included as a global variable in the test webpack build in `karma.conf.js` if a certain environment variable is set while running tests (`SKIP_WEBGL_TESTS`). Skipping WebGL tests is useful if you need to run your tests in an environment where configuring a WebGL enabled browser is difficult or impossible. Running tests on a continuous integration server that doesn't have anything besides PhantomJS available is one example where this functionality can be useful. Note that skipped tests will still be reported in the test output but will be labeled as skipped.
+Certain CMC Core tests that test functionalities requiring WebGL are configured to skip themselves if a certain global variable is defined as true. This variable is included as a global variable in the test webpack build in `karma.conf.js` if a certain environment variable is set while running tests (`NO_WEB_GL`). Skipping WebGL tests is useful if you need to run your tests in an environment where configuring a WebGL enabled browser is difficult or impossible. Running tests on a continuous integration server that doesn't have anything besides PhantomJS available is one example where this functionality can be useful. Note that skipped tests will still be reported in the test output but will be labeled as skipped.
 
 <a id="writing-tests-async-behavior"/>
 ### Testing Asynchronous Behaviors

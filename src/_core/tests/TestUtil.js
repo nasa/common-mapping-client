@@ -1,4 +1,4 @@
-/*global SKIP_WEBGL_TESTS*/
+/*global NO_WEB_GL*/
 import { expect } from 'chai';
 
 export default class TestUtil {
@@ -13,14 +13,14 @@ export default class TestUtil {
     }
 
     static skipIfNoWebGL(test, _this, done) {
-        if (SKIP_WEBGL_TESTS) {
+        if (NO_WEB_GL) {
             console.log("Skipping test:", test);
             _this.skip();
             if (done) {
                 done();
             }
         }
-        return SKIP_WEBGL_TESTS;
+        return NO_WEB_GL;
     }
 
     static runTestSuite(testSuite) {

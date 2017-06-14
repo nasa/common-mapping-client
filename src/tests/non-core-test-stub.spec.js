@@ -1,32 +1,21 @@
-// This is a stub file for non-Core Application tests.
-// Your tests should look something like this:
+// This is a stub file for application tests.
+// See developer manual for more
 
 
-// import { expect } from 'chai';
-// import MyUtils from 'utils/MyUtils';
+import { expect } from 'chai';
 
-// const myUtils = new MyUtils();
+function stubFunction(input) {
+    return !input;
+}
 
-// describe('My Utils', () => {
-//     describe('generateHappyCat', () => {
-//         it('returns true after generating a happy cat', () => {
-//             let varIn = {
-//                 "yes": true
-//             };
-//             let varOut = true;
+describe('STUB TEST', () => {
+    describe('a stub for your tests', () => {
+        it('returns false for true', () => {
+            let varIn = true;
+            let varOut = false;
 
-//             //assert
-//             expect(myUtils.generateHappyCat(varIn)).to.equal(varOut);
-//         });
-//         it('returns false after generating a non happy cat', () => {
-//             let varIn = {
-//                 "no": true
-//             };
-//             let varOut = false;
-
-//             //assert
-//             expect(myUtils.generateHappyCat(varIn)).to.equal(varOut);
-//         });
-//     });
-//     describe('generateGrumpyCat', () => {})
-// })
+            //assert
+            expect(stubFunction(varIn)).to.equal(varOut);
+        });
+    });
+});

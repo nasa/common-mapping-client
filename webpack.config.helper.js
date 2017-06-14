@@ -8,15 +8,16 @@ module.exports = (options) => {
 
     const GLOBALS = Object.assign({
         __DEV__: !options.isProduction, // signal for nodejs build process
-        __VERSION__: JSON.stringify(require("./package.json").version), // Make package.json version available as a global variable in CMC, used in appConfig.js
+        __VERSION__: JSON.stringify(require("./package.json").version), // Make package.json version available as a global variable
+        __NAME__: JSON.stringify(require("./package.json").name), // Make package title version available as a global variable
         'process.env': {
-            NODE_ENV: JSON.stringify(options.isProduction ? 'production' : 'development')
+            NODE_ENV: JSON.stringify(options.node_env)
         }
     }, options.globals);
 
     // extract style modules into a single file
     const ExtractSASS = new ExtractTextPlugin({
-        filename: 'styles.css'
+        filename: 'bundle.css'
     });
 
     // set of rules for building style modules
