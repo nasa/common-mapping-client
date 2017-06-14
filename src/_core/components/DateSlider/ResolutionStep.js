@@ -34,20 +34,20 @@ export class ResolutionStep extends Component {
                     <div className="increment-button">
                         <Button 
                             neutral 
-                            disabled={!canIncrementStep}
+                            disabled={!canDecrementStep}
                             icon="keyboard_arrow_up" 
                             className="no-padding"
-                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1], false);}
+                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index - 1], false);}
                         }/>
                     </div>
                     <div>{this.props.resolution.get("label")}</div>
                     <div className="increment-button">
                         <Button 
                             neutral
-                            disabled={!canDecrementStep}
+                            disabled={!canIncrementStep}
                             icon="keyboard_arrow_down"
                             className="no-padding"
-                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index - 1], false);}
+                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1], false);}
                         }/>
                     </div>
                 </div>
