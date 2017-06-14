@@ -25,7 +25,8 @@
     "postinstall": "scripts/postinstall.sh",
     "postbuild": "scripts/postbuild.sh",
     "deploy": "scripts/deploy.bash",
-    "deploy:docker": "scripts/dockerDeploy.bash"
+    "deploy:docker": "scripts/dockerDeploy.bash",
+    "analyze-bundle": "babel-node ./scripts/analyzeBundle.js"
   },
   "author": "Flynn Platt",
   "license": "MIT",
@@ -123,6 +124,7 @@
     "url-loader": "0.5.8",
     "uuid": "3.0.1",
     "webpack": "2.6.1",
+    "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.10.2",
     "webpack-hot-middleware": "2.18.0"
   },

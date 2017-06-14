@@ -126,6 +126,7 @@ The scripts defined in `package.json` are used to control various aspects of app
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
 | postbuild | Runs the postbuild script |
 | deploy | Runs the deploy script |
+| analyze-bundle | Analyzes webpack bundles for production and gives you a breakdown of where modules are used and their sizes via a convenient interactive zoomable treemap |
 
 <a id="installing-uninstalling-npm"/>
 ## Installing/removing packages via npm
