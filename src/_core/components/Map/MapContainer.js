@@ -18,7 +18,7 @@ export class MapContainer extends Component {
     render() {
         return (
             <div id="mapContainer" ref="container">
-                <ContextMenuTrigger id={appStrings.MAP_CONTEXT_MENU_ID} >
+                <ContextMenuTrigger id={appStrings.MAP_CONTEXT_MENU_ID} holdToDisplay={-1} >
                     <MapContainer2D />
                     <MapContainer3D />
                 </ContextMenuTrigger>
