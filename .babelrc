@@ -15,7 +15,8 @@
         ["istanbul", {
           "exclude": [
             "**/*.spec.js",
-            "src/lib/*"
+            "src/lib/*",
+            "src/_core/tests/data/*"
           ]
         }]
       ]
