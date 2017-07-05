@@ -75,6 +75,7 @@ export const DATE_SLIDER_RESOLUTIONS = [
 /* MAP */
 export const DEFAULT_PROJECTION = appStrings.PROJECTIONS.latlon;
 export const DEFAULT_BBOX_EXTENT = [-90, -45, 90, 45];
+export const DEFAULT_MAP_EXTENT = undefined; // Ex: [-360, -90, 360, 90]
 export const DEFAULT_SCALE_UNITS = 'metric';
 export const DEFAULT_TERRAIN_EXAGGERATION = 1;
 export const DEFAULT_TERRAIN_ENDPOINT = '//assets.agi.com/stk-terrain/world';

@@ -90,19 +90,18 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             // create default draw layer
             let vectorSource = new Ol_Source_Vector({ wrapX: true });
+
             let vectorLayer = new Ol_Layer_Vector({
                 source: vectorSource,
-                style: this.defaultGeometryStyle
+                style: this.defaultGeometryStyle,
+                extent: appConfig.DEFAULT_MAP_EXTENT
             });
             vectorLayer.set("_layerId", "_vector_drawings");
             vectorLayer.set("_layerType", appStrings.LAYER_GROUP_TYPE_REFERENCE);
 
-
             // get the view options for the map
             let viewOptions = options.get("view").toJS();
-
             let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
-
             let center = viewOptions.center;
 
             return new Ol_Map({
@@ -208,12 +207,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // set up wrap around extents
                 // let mapProjExtent = this.map.getView().getProjection().getExtent();
+
                 let mapLayer = new Ol_Layer_Tile({
                     opacity: layer.get("opacity"),
                     visible: layer.get("isActive"),
                     crossOrigin: "anonymous",
-                    // extent: mapProjExtent,
-                    source: layerSource
+                    source: layerSource,
+                    extent: appConfig.DEFAULT_MAP_EXTENT
                 });
 
                 // override tile url and load functions
@@ -247,8 +247,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
             return new Ol_Layer_Vector({
                 source: layerSource,
                 opacity: layer.get("opacity"),
-                visible: layer.get("isActive")
+                visible: layer.get("isActive"),
+                extent: appConfig.DEFAULT_MAP_EXTENT
             });
+
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.createVectorLayer:", err);
             return false;
@@ -708,13 +710,27 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         geometryFunction = measureAreaGeom;
                     }
                 }
+                let drawStyle = interactionType === appStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle;
                 let drawInteraction = new Ol_Interaction_Draw({
                     source: mapLayer.getSource(),
                     type: geometryType,
                     geometryFunction: geometryFunction,
-                    style: interactionType === appStrings.INTERACTION_MEASURE ? this.defaultMeasureStyle : this.defaultGeometryStyle,
+                    style: drawStyle,
                     wrapX: true
                 });
+
+                if (appConfig.DEFAULT_MAP_EXTENT) {
+                    // Override creation of overlay_ so we can pass in an extent
+                    // since OL doesn't let you do this via options
+                    drawInteraction.overlay_ = new Ol_Layer_Vector({
+                        extent: appConfig.DEFAULT_MAP_EXTENT,
+                        source: new Ol_Source_Vector({
+                            useSpatialIndex: false,
+                            wrapX: true
+                        }),
+                        style: drawStyle
+                    });
+                }
 
                 // Set callback
                 drawInteraction.on('drawend', (event) => {
