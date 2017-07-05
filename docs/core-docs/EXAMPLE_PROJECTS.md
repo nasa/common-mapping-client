@@ -30,3 +30,10 @@
 http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository/3903835#3903835
 
 # Projects that used CMC to get started
+* [SOTO (State of the Ocean)](podaac.jpl.nasa.gov/soto/)
+  + SOTO implements advanced animation functionality
+  + https://podaac-git.jpl.nasa.gov:8443/fplatt/soto-ui
+* [HiTIDE (High-level Tool for Interactive Data Extraction)](http://graywhale:49151/develop/)
+  + HiTIDE implements many new asynchronous workflows, UI elements, map interactions.
+  + https://podaac-git.jpl.nasa.gov:8443/hiTIDE-UI-Components/hitide-ui-cmc2
+ 
