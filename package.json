@@ -82,7 +82,7 @@
     "npm-run-all": "4.0.2",
     "nyc": "11.0.1",
     "object-assign": "4.1.1",
-    "ol": "4.1.1",
+    "ol": "4.2.0",
     "phantomjs-prebuilt": "2.1.14",
     "postcss": "6.0.1",
     "postcss-cssnext": "2.11.0",
