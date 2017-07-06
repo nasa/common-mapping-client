@@ -68,24 +68,17 @@
         margin: 0px;
         height: 2rem;
         display: inline-block;
-    }
-    .layer-toggle > span {
-        width: 3rem;
-        height: 1rem;
-        margin-top: 0.5rem;
-    }
-    .layer-toggle.active > span {
-        background: rgba($color-primary, .5);
-    }
-    .layer-toggle span[role="thumb"] {
-        top: -0.26rem;
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 0rem;
-    }
-    .layer-toggle.active span[role="thumb"] {
-        left: 1.5rem;
-        background: $color-primary;
+        .switch-thumb-on,
+        .switch-thumb-off {
+            width: 3rem;
+            height: 1rem;
+            margin-top: 0.5rem;
+        }
+        .switch-thumb {
+            top: -0.26rem;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
     }
     .layer-pallete-icon {
         padding: 0px;
@@ -172,7 +165,6 @@
         visibility: hidden;
         border-radius: 2px;
         background: $color-light;
-        // border: 1px solid $color-primary;
         transition: opacity 0.2s linear 0s, visibility 0s linear 0.21s, z-index 0.21s linear 0s;
         @include medium-shadow();
     }
@@ -273,8 +265,6 @@ button.position-control-button {
     z-index: 1;
     position: relative;
     padding: 0.3rem;
-    /*top: 0px;
-    left: 0px;*/
     width: 100%;
     height: 31px;
     color: $color-light;
@@ -286,9 +276,6 @@ button.position-control-button {
 
 #layerMenuContent {
     z-index: 0;
-    /*position: absolute;*/
-    /*top: calc(-80vh - 130px);*/
-    /*left: 0px;*/
     display: block;
     height: initial;
     min-height: 0px;
@@ -296,7 +283,6 @@ button.position-control-button {
     opacity: 0;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    /*max-height: calc(80vh - 130px);*/
     width: 100%;
     overflow: hidden;
     overflow-y: scroll;
@@ -327,7 +313,6 @@ button.position-control-button {
 }
 
 #layerMenu.open #layerMenuContent {
-    /*top: 31px;*/
     max-height: calc(80vh - 130px);
     opacity: 1;
     transition: max-height 0.5s ease-out 0s, opacity 0.2s linear 0s;

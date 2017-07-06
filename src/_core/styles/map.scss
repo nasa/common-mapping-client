@@ -5,9 +5,6 @@
     transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
     opacity: 0;
     pointer-events: none;
-    &:not(.active) { 
-        // visibility: hidden;
-    }
     &.active {
         opacity: 1;
         transition: opacity 0s linear 0s, top 0s linear 0s;
@@ -228,13 +225,10 @@
 }
 
 .cesium-viewer-vrContainer {
-    // position: absolute;
     bottom: 5%;
     left: 8%;
-    // padding: 0;
     width: 29px;
     height: 29px;
-    // overflow: hidden;
 }
 
 .tooltip {

@@ -134,6 +134,11 @@ export class LayerControlContainer extends Component {
                                 className={switchClasses}
                                 checked={this.props.layer.get("isActive")}
                                 onChange={(active) => this.setLayerActive(active)}
+                                theme={{
+                                    on: "switch-thumb-on",
+                                    off: "switch-thumb-off",
+                                    thumb: "switch-thumb"
+                                }}
                             />
                         </div>
                     </div>

@@ -171,34 +171,6 @@
         border-radius: 2px;
         transition: opacity 0.2s linear 0s, top 0s linear 0.21s;
         @include medium-shadow();
-        // &:after,
-        // &:before {
-        //     top: 100%;
-        //     left: 50%;
-        //     border: solid;
-        //     content: " ";
-        //     height: 0;
-        //     width: 0;
-        //     position: absolute;
-        //     pointer-events: none;
-        // }
-        // &:after {
-        //     border-color: rgba(0, 0, 0, 0);
-        //     border-top-color: $color-light;
-        //     border-width: 10px;
-        //     margin-left: -10px;
-        // }
-        // &:before {
-        //     border-color: rgba(0, 0, 0, 0);
-        //     border-top-color: rgba(0, 0, 0, 0.12);
-        //     border-width: 11px;
-        //     margin-left: -11px;
-        // }
-        // &.active {
-        //     opacity: 1;
-        //     pointer-events: inherit;
-        //     transition: opacity 0s linear 0s, top 0s linear 0s;
-        // }
     }
     .timeline-zoom {
         position: absolute;

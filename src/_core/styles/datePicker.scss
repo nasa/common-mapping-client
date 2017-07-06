@@ -14,20 +14,6 @@
     [data-react-toolbox="input"]::after {
         display: none;
     }
-    [data-react-toolbox="autocomplete"] {
-        padding: 0px;
-    }
-    [data-react-toolbox="autocomplete"] ul {
-        color: $color-dark;
-        list-style-type: none;
-        padding: 0px;
-        margin-bottom: 2.5rem;
-        font-family: "Roboto Mono";
-        li {
-            padding: 0.5rem 0px;
-            text-align: center;
-        }
-    }
 }
 
 .date-picker {
