@@ -14,9 +14,6 @@ We've upgraded to Openlayers 4. The biggest difference in OL4 is that we can now
 #### NPM Scripts
 Several modifications to the scripts in `package.json` have been made for consistency as well as flexibility. Most importantly, instead of listing out all `test` script combinations, there is now a single `test` command that must be passed arguments such as `--includecoretests`, `--watch`, and `--nowebgl`. For a complete reference, please see the developer manual.
 
-#### NPM Scripts
-Several modifications to the scripts in `package.json` have been made for consistency as well as flexibility. Most importantly, instead of listing out all `test` script combinations, there is now a single `test` command that must be passed arguments such as `--includecoretests`, `--watch`, and `--nowebgl`. For a complete reference, please see the developer manual.
-
 #### Timeline Updates
 We've improved the behavior and rendering of the timeline and timeline resolution stepper. The timeline should now have more consistent tick behavior and formatting. We've also removed scroll-zoom in favor of discrete zoom levels accessible by resolution stepper and keyboard arrows.
 
