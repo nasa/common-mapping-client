@@ -72,7 +72,7 @@ export default class DateSliderReducer {
 
     static resetApplicationState(state, action) {
         let newState = this.endDragging(state, action);
-        newState = this.setDateResolution(newState, { resolution: appConfig.DATE_SLIDER_RESOLUTIONS[3] });
+        newState = this.setDateResolution(newState, { resolution: appConfig.DEFAULT_DATE_SLIDER_RESOLUTION });
         return newState;
     }
 }

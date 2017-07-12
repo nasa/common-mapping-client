@@ -70,6 +70,7 @@ export const DATE_SLIDER_RESOLUTIONS = [
     { label: appStrings.MONTHS, resolution: 22, format: "YYYY MMM DD" },
     { label: appStrings.YEARS, resolution: 1.6, format: "YYYY MMM DD" }
 ];
+export const DEFAULT_DATE_SLIDER_RESOLUTION = DATE_SLIDER_RESOLUTIONS[3];
 /* END DATE */
 
 /* MAP */
