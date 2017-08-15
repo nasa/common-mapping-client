@@ -75,21 +75,24 @@ export default class TimeAxisD3 {
             .call(this._selection.zoom)
             .on("dblclick.zoom", null)
             .on("click", () => {
-                if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
-                    let date = this.getNearestDate(d3.event.clientX);
-                    this._onClick(d3.event.clientX, date);
-                }
+                this.handleClick(d3.event);
+                // if (!d3.event.defaultPrevented && typeof this._onClick === "function") {
+                //     let date = this.getNearestDate(d3.event.clientX);
+                //     this._onClick(d3.event.clientX, date);
+                // }
             })
             .on("mousemove", () => {
-                if (typeof this._onHover === "function") {
-                    let date = this.getNearestDate(d3.event.clientX);
-                    this._onHover(d3.event.clientX, date);
-                }
+                this.handleHover(d3.event);
+                // if (typeof this._onHover === "function") {
+                //     let date = this.getNearestDate(d3.event.clientX);
+                //     this._onHover(d3.event.clientX, date);
+                // }
             })
             .on("mouseleave", () => {
-                if (typeof this._onMouseOut === "function") {
-                    this._onMouseOut();
-                }
+                this.handleMouseOut(d3.event);
+                // if (typeof this._onMouseOut === "function") {
+                //     this._onMouseOut();
+                // }
             });
 
         // configure the axis
@@ -100,6 +103,26 @@ export default class TimeAxisD3 {
         // done entering time to update
         this.updateAxis();
         this.update(options);
+    }
+
+    handleClick(event) {
+        if (!event.defaultPrevented && typeof this._onClick === "function") {
+            let date = this.getNearestDate(event.clientX);
+            this._onClick(event.clientX, date);
+        }
+    }
+
+    handleHover(event) {
+        if (typeof this._onHover === "function") {
+            let date = this.getNearestDate(event.clientX);
+            this._onHover(event.clientX, date);
+        }
+    }
+
+    handleMouseOut(event) {
+        if (typeof this._onMouseOut === "function") {
+            this._onMouseOut();
+        }
     }
 
     updateAxis() {

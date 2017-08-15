@@ -109,6 +109,7 @@ export class TimeAxis extends Component {
                 date.hour(maskDate.hour());
                 // falls through
             case appStrings.DAYS:
+                date.month(maskDate.month()); // handle 31/30 day wrap
                 date.date(maskDate.date());
                 // falls through
             case appStrings.MONTHS:
