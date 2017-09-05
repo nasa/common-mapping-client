@@ -39,4 +39,14 @@ export default class Cache {
     clear() {
         this._activeMap = this._activeMap.clear();
     }
+    
+    clearByKeyMatch(key) {
+        if(this._activeMap.contains(key)) {
+            this._activeMap = this._activeMap.delete(key);
+        } else if(key) {
+            this._activeMap = this._activeMap.filterNot((v, k) => {
+                return k.includes(key);
+            });
+        }
+    }
 }

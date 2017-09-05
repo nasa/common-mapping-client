@@ -42,7 +42,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         super(container, options);
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
-        this.layerCache = new Cache(50); // TODO - move this number into a config?
+        this.layerCache = new Cache(appConfig.MAX_LAYER_CACHE);
         this.tileHandler = new TileHandler();
         this.mapUtil = new MapUtil();
         this.miscUtil = new MiscUtil();
@@ -1198,17 +1198,16 @@ export default class MapWrapper_openlayers extends MapWrapper {
     handleTileLoad(layer, mapLayer, tile, url, origFunc) {
         try {
             let customTileFunction = this.tileHandler.getTileFunction(layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D]));
-            let processedTile = origFunc(tile, url);
             if (typeof customTileFunction === "function") {
                 return customTileFunction.call(this.tileHandler, {
                     layer,
                     mapLayer,
                     tile,
                     url,
-                    processedTile
+                    defaultFunc: () => { return origFunc(tile, url); }
                 });
             }
-            return processedTile;
+            return origFunc(tile, url);
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.handleTileLoad:", err);
             return false;

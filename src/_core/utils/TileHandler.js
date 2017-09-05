@@ -54,7 +54,7 @@ export default class TileHandler {
         maplayer: the openlayers map layer object
 		url: the url for the retrieved tile
 		tile: the openlayers3 tile object
-		processedTile: the returned object from openlayers3 default tile load function
+		defaultFunc: function that will run the the openlayers3 default tile load function
 	RETURN: an ol3 tile object
 
 	CESIUM
@@ -142,7 +142,7 @@ export default class TileHandler {
             };
         }
 
-        return options.processedTile;
+        return options.defaultFunc();
     }
 
     _catsInterceptTile_CS(options) {
