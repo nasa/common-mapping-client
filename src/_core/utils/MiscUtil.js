@@ -154,8 +154,8 @@ export default class MiscUtil {
         // return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
         return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
             let paramParts = param.split('=');
-            if (paramParts && paramParts.length === 2 && paramParts[0] !== "" && paramParts[1] !== "") {
-                acc.push({ key: paramParts[0], value: paramParts[1] });
+            if (paramParts && paramParts.length >= 2 && paramParts[0] !== "" && paramParts[1] !== "") {
+                acc.push({ key: paramParts[0], value: paramParts.slice(1).join("=") });
             }
             return acc;
         }, []);

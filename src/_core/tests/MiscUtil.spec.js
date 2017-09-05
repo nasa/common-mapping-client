@@ -607,6 +607,22 @@ export const MiscUtilSpec = {
                     //assert
                     expect(miscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
+            },
+            test4: () => {
+                it('presrves key-value pairs within parameters', () => {
+                    // DEFINE VARS
+                    let varIn = "a=b&c=d,e=f,g=h";
+                    let varOut = [{
+                        key: "a",
+                        value: "b"
+                    }, {
+                        key: "c",
+                        value: "d,e=f,g=h"
+                    }];
+
+                    //assert
+                    expect(miscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
+                });
             }
         },
         getIsInFullScreenMode: {
