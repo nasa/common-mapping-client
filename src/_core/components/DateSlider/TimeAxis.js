@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import appConfig from 'constants/appConfig';
-import * as DateSliderActions from '_core/actions/DateSliderActions';
-import * as MapActions from '_core/actions/MapActions';
-import * as appStrings from '_core/constants/appStrings';
-import TimeAxisD3 from '_core/utils/TimeAxisD3';
-import MiscUtil from '_core/utils/MiscUtil';
-import CurrentDate from '_core/components/DateSlider/CurrentDate';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import moment from "moment";
+import appConfig from "constants/appConfig";
+import * as DateSliderActions from "_core/actions/DateSliderActions";
+import * as MapActions from "_core/actions/MapActions";
+import * as appStrings from "_core/constants/appStrings";
+import TimeAxisD3 from "_core/utils/TimeAxisD3";
+import MiscUtil from "_core/utils/MiscUtil";
+import CurrentDate from "_core/components/DateSlider/CurrentDate";
 
 export class TimeAxis extends Component {
     constructor(options) {
@@ -33,9 +31,15 @@ export class TimeAxis extends Component {
             elementHeight: sizes.elementHeight,
             margin: sizes.margin,
             symbolWidth: 0,
-            onClick: (x, date) => { this.handleSingleDateDragUpdate(x, date); },
-            onHover: (x, date) => { this.handleTimelineHover(x, date); },
-            onMouseOut: () => { this.handleTimeLineMouseOut(); }
+            onClick: (x, date) => {
+                this.handleSingleDateDragUpdate(x, date);
+            },
+            onHover: (x, date) => {
+                this.handleTimelineHover(x, date);
+            },
+            onMouseOut: () => {
+                this.handleTimeLineMouseOut();
+            }
         });
 
         // get it going
@@ -60,11 +64,16 @@ export class TimeAxis extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (nextProps.date !== this.props.date ||
-            nextProps.resolution !== this.props.resolution) {
+        if (
+            nextProps.date !== this.props.date ||
+            nextProps.resolution !== this.props.resolution
+        ) {
             this.timeAxisD3.update({
                 date: nextProps.date,
-                scale: nextProps.resolution !== this.props.resolution ? nextProps.resolution.toJS() : undefined
+                scale:
+                    nextProps.resolution !== this.props.resolution
+                        ? nextProps.resolution.toJS()
+                        : undefined
             });
         }
 
@@ -98,28 +107,31 @@ export class TimeAxis extends Component {
         let resolution = this.timeAxisD3.getTickResolution();
         date = moment(date);
         maskDate = moment(maskDate);
-        switch(resolution) {
+        switch (resolution) {
             case appStrings.SECONDS:
                 date.second(maskDate.second());
-                // falls through
+            // falls through
             case appStrings.MINUTES:
                 date.minute(maskDate.minute());
-                // falls through
+            // falls through
             case appStrings.HOURS:
                 date.hour(maskDate.hour());
-                // falls through
+            // falls through
             case appStrings.DAYS:
                 date.month(maskDate.month()); // handle 31/30 day wrap
                 date.date(maskDate.date());
-                // falls through
+            // falls through
             case appStrings.MONTHS:
                 date.month(maskDate.month());
-                // falls through
+            // falls through
             case appStrings.YEARS:
                 date.year(maskDate.year());
                 break;
             default:
-                console.warn("Error in TimeAxis.getMaskedDate: unknown date resolution. ", resolution);
+                console.warn(
+                    "Error in TimeAxis.getMaskedDate: unknown date resolution. ",
+                    resolution
+                );
         }
         return date.toDate();
     }
@@ -151,7 +163,7 @@ export class TimeAxis extends Component {
     }
     render() {
         let sizes = this.getSizes();
-        let axisClassNames = miscUtil.generateStringFromSet({
+        let axisClassNames = MiscUtil.generateStringFromSet({
             timeAxis: true,
             dragging: this.props.isDragging
         });
@@ -168,29 +180,35 @@ export class TimeAxis extends Component {
                     beforeDrag={() => {
                         clearInterval(this.autoScrollInterval);
                         this.handleSingleDateDragStart();
-                    }} 
+                    }}
                     onDrag={(x, date, scrollFlag) => {
                         clearInterval(this.autoScrollInterval);
 
                         this.handleSingleDateDragUpdate(x, date);
 
                         // handle auto-scrolling
-                        if(scrollFlag > 0) {
+                        if (scrollFlag > 0) {
                             this.autoScrollInterval = setInterval(() => {
                                 this.autoScroll(true);
                             }, 50);
-                        } else if(scrollFlag < 0) {
+                        } else if (scrollFlag < 0) {
                             this.autoScrollInterval = setInterval(() => {
                                 this.autoScroll(false);
                             }, 50);
                         }
                     }}
-                    afterDrag={(value) => {
+                    afterDrag={value => {
                         clearInterval(this.autoScrollInterval);
                         this.handleSingleDateDragEnd(value);
                     }}
-                    getNearestDate={(x) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getNearestDate(x) : 0}
-                    getXFromDate={(date) => typeof this.timeAxisD3 !== "undefined" ? this.timeAxisD3.getXFromDate(date) : 0}
+                    getNearestDate={x =>
+                        typeof this.timeAxisD3 !== "undefined"
+                            ? this.timeAxisD3.getNearestDate(x)
+                            : 0}
+                    getXFromDate={date =>
+                        typeof this.timeAxisD3 !== "undefined"
+                            ? this.timeAxisD3.getXFromDate(date)
+                            : 0}
                     maxX={sizes.margin.left + sizes.width}
                     minX={sizes.margin.left}
                 />
@@ -221,7 +239,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TimeAxis);
+export default connect(mapStateToProps, mapDispatchToProps)(TimeAxis);

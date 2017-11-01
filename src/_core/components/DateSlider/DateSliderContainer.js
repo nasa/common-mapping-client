@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import d3 from 'd3';
-import moment from 'moment';
-import MiscUtil from '_core/utils/MiscUtil';
-import TimeAxis from '_core/components/DateSlider/TimeAxis';
-import ResolutionStep from '_core/components/DateSlider/ResolutionStep';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import d3 from "d3";
+import moment from "moment";
+import MiscUtil from "_core/utils/MiscUtil";
+import TimeAxis from "_core/components/DateSlider/TimeAxis";
+import ResolutionStep from "_core/components/DateSlider/ResolutionStep";
 
 export class DateSliderContainer extends Component {
     render() {
-        let containerClasses = miscUtil.generateStringFromSet({
+        let containerClasses = MiscUtil.generateStringFromSet({
             "hidden-fade-out": this.props.distractionFreeMode,
             "hidden-fade-in": !this.props.distractionFreeMode
         });
-        let hoverDateClasses = miscUtil.generateStringFromSet({
+        let hoverDateClasses = MiscUtil.generateStringFromSet({
             "hover-date-display": true,
-            "hidden": !this.props.hoverDate.get("isValid")
+            hidden: !this.props.hoverDate.get("isValid")
         });
         let hoverDateStyles = {
             left: this.props.hoverDate.get("x") + "px"
         };
-        let hoverDate = moment(this.props.hoverDate.get("date")).format(this.props.dateSliderTimeResolution.get("format"));
+        let hoverDate = moment(this.props.hoverDate.get("date")).format(
+            this.props.dateSliderTimeResolution.get("format")
+        );
         return (
             <div id="dateSliderContainer" className={containerClasses}>
                 <div className={hoverDateClasses} style={hoverDateStyles}>
@@ -32,8 +32,17 @@ export class DateSliderContainer extends Component {
                 </div>
                 <svg className="date-slider-container">
                     <defs>
-                        <filter id="dropshadowFilter" x="-10%" y="-10%" height="150%" width="150%">
-                            <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" />
+                        <filter
+                            id="dropshadowFilter"
+                            x="-10%"
+                            y="-10%"
+                            height="150%"
+                            width="150%"
+                        >
+                            <feGaussianBlur
+                                in="SourceAlpha"
+                                stdDeviation="1.5"
+                            />
                             <feOffset dx="0" dy="2" />
                             <feComponentTransfer>
                                 <feFuncA type="linear" slope="0.45" />
@@ -68,7 +77,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(DateSliderContainer);
+export default connect(mapStateToProps, null)(DateSliderContainer);

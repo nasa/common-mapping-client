@@ -1,27 +1,37 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
-import { List, ListItem, ListSubHeader, ListCheckbox, ListDivider } from 'react-toolbox/lib/list';
-import * as actions from '_core/actions/AppActions';
-import * as appStrings from '_core/constants/appStrings';
-import appConfig from 'constants/appConfig';
-import MiscUtil from '_core/utils/MiscUtil';
-import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
-import moment from 'moment';
-import { FacebookIcon, GooglePlusIcon, TwitterIcon } from '_core/components/Reusables/CustomIcons';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Button, IconButton } from "react-toolbox/lib/button";
+import {
+    List,
+    ListItem,
+    ListSubHeader,
+    ListCheckbox,
+    ListDivider
+} from "react-toolbox/lib/list";
+import * as actions from "_core/actions/AppActions";
+import * as appStrings from "_core/constants/appStrings";
+import appConfig from "constants/appConfig";
+import MiscUtil from "_core/utils/MiscUtil";
+import ModalMenuContainer from "_core/components/ModalMenu/ModalMenuContainer";
+import moment from "moment";
+import {
+    FacebookIcon,
+    GooglePlusIcon,
+    TwitterIcon
+} from "_core/components/Reusables/CustomIcons";
 
 export class ShareContainer extends Component {
     componentDidMount() {
         this.updateTimeout = null;
     }
     shouldComponentUpdate(nextProps) {
-        if (this.props.updateFlag !== nextProps.updateFlag ||
+        if (
+            this.props.updateFlag !== nextProps.updateFlag ||
             this.props.isOpen !== nextProps.isOpen ||
-            this.props.autoUpdateUrl !== nextProps.autoUpdateUrl) {
+            this.props.autoUpdateUrl !== nextProps.autoUpdateUrl
+        ) {
             return true;
         }
 
@@ -55,68 +65,156 @@ export class ShareContainer extends Component {
         let date = this.getDateString();
         let dateSliderResolution = this.getDateSliderResolutionString();
 
-        return [basemap, activeLayers, viewMode, extent, enablePlaceLabels, enablePoliticalBoundaries, enable3DTerrain, date, dateSliderResolution].join("&").split(" ").join("");
+        return [
+            basemap,
+            activeLayers,
+            viewMode,
+            extent,
+            enablePlaceLabels,
+            enablePoliticalBoundaries,
+            enable3DTerrain,
+            date,
+            dateSliderResolution
+        ]
+            .join("&")
+            .split(" ")
+            .join("");
     }
     getActiveLayerString() {
         let map = this.props.maps.get(appStrings.MAP_LIB_2D);
         if (map) {
             let layerIds = map.getActiveLayerIds();
             if (layerIds) {
-                let idsWithOpacity = layerIds.map((layerId) => {
-                    return layerId + "(" + this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_DATA, layerId, "opacity"]) + ")";
+                let idsWithOpacity = layerIds.map(layerId => {
+                    return (
+                        layerId +
+                        "(" +
+                        this.props.layers.getIn([
+                            appStrings.LAYER_GROUP_TYPE_DATA,
+                            layerId,
+                            "opacity"
+                        ]) +
+                        ")"
+                    );
                 });
-                return appConfig.URL_KEYS.ACTIVE_LAYERS + "=" + idsWithOpacity.join(",");
+                return (
+                    appConfig.URL_KEYS.ACTIVE_LAYERS +
+                    "=" +
+                    idsWithOpacity.join(",")
+                );
             }
         }
         return "";
     }
     getBasemapString() {
-        return appConfig.URL_KEYS.BASEMAP + "=" + this.props.layers.get(appStrings.LAYER_GROUP_TYPE_BASEMAP).reduce((acc, layer) => {
-            if (layer.get("isActive")) {
-                acc = layer.get("id");
-            }
-            return acc;
-        }, "");
+        return (
+            appConfig.URL_KEYS.BASEMAP +
+            "=" +
+            this.props.layers
+                .get(appStrings.LAYER_GROUP_TYPE_BASEMAP)
+                .reduce((acc, layer) => {
+                    if (layer.get("isActive")) {
+                        acc = layer.get("id");
+                    }
+                    return acc;
+                }, "")
+        );
     }
     getPlaceLabelsString() {
-        let placeLabelsLayer = this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_REFERENCE, appConfig.REFERENCE_LABELS_LAYER_ID]);
-        return appConfig.URL_KEYS.ENABLE_PLACE_LABLES + "=" + (placeLabelsLayer && placeLabelsLayer.get("isActive"));
+        let placeLabelsLayer = this.props.layers.getIn([
+            appStrings.LAYER_GROUP_TYPE_REFERENCE,
+            appConfig.REFERENCE_LABELS_LAYER_ID
+        ]);
+        return (
+            appConfig.URL_KEYS.ENABLE_PLACE_LABLES +
+            "=" +
+            (placeLabelsLayer && placeLabelsLayer.get("isActive"))
+        );
     }
     getPoliticalBoundariesString() {
-        let politicalBoundariesLayer = this.props.layers.getIn([appStrings.LAYER_GROUP_TYPE_REFERENCE, appConfig.POLITICAL_BOUNDARIES_LAYER_ID]);
-        return appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES + "=" + (politicalBoundariesLayer && politicalBoundariesLayer.get("isActive"));
+        let politicalBoundariesLayer = this.props.layers.getIn([
+            appStrings.LAYER_GROUP_TYPE_REFERENCE,
+            appConfig.POLITICAL_BOUNDARIES_LAYER_ID
+        ]);
+        return (
+            appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES +
+            "=" +
+            (politicalBoundariesLayer &&
+                politicalBoundariesLayer.get("isActive"))
+        );
     }
     getViewModeString() {
-        return appConfig.URL_KEYS.VIEW_MODE + "=" + (this.props.in3DMode ? appStrings.MAP_VIEW_MODE_3D : appStrings.MAP_VIEW_MODE_2D);
+        return (
+            appConfig.URL_KEYS.VIEW_MODE +
+            "=" +
+            (this.props.in3DMode
+                ? appStrings.MAP_VIEW_MODE_3D
+                : appStrings.MAP_VIEW_MODE_2D)
+        );
     }
     getExtentString() {
-        return appConfig.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent.join(",");
+        return (
+            appConfig.URL_KEYS.VIEW_EXTENT + "=" + this.props.extent.join(",")
+        );
     }
     getTerrainString() {
-        return appConfig.URL_KEYS.ENABLE_3D_TERRAIN + "=" + this.props.enableTerrain;
+        return (
+            appConfig.URL_KEYS.ENABLE_3D_TERRAIN +
+            "=" +
+            this.props.enableTerrain
+        );
     }
     getDateString() {
-        return appConfig.URL_KEYS.DATE + "=" + moment(this.props.mapDate).format("YYYY-MM-DD");
+        return (
+            appConfig.URL_KEYS.DATE +
+            "=" +
+            moment(this.props.mapDate).format("YYYY-MM-DD")
+        );
     }
     getDateSliderResolutionString() {
-        return appConfig.URL_KEYS.TIMELINE_RES + "=" + this.props.dateSliderResolution.get("label").toLowerCase();
+        return (
+            appConfig.URL_KEYS.TIMELINE_RES +
+            "=" +
+            this.props.dateSliderResolution.get("label").toLowerCase()
+        );
     }
     shareEmail(url) {
-        window.location.href = "mailto:?subject=Check%20out%20what%20I%20found%20in%20" + appConfig.APP_TITLE + "&body=%0A%0A" + encodeURIComponent(url) + "%0A";
+        window.location.href =
+            "mailto:?subject=Check%20out%20what%20I%20found%20in%20" +
+            appConfig.APP_TITLE +
+            "&body=%0A%0A" +
+            encodeURIComponent(url) +
+            "%0A";
     }
     shareFacebook(url) {
-        miscUtil.openLinkInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
+        MiscUtil.openLinkInNewTab(
+            "https://www.facebook.com/sharer/sharer.php?u=" +
+                encodeURIComponent(url)
+        );
     }
     shareTwitter(url) {
-        miscUtil.openLinkInNewTab("https://www.twitter.com/share?url=" + encodeURIComponent(url) + "text=Check out what I found in " + appConfig.APP_TITLE);
+        MiscUtil.openLinkInNewTab(
+            "https://www.twitter.com/share?url=" +
+                encodeURIComponent(url) +
+                "text=Check out what I found in " +
+                appConfig.APP_TITLE
+        );
     }
     shareGooglePlus(url) {
-        miscUtil.openLinkInNewTab("https://plus.google.com/share?url=" + encodeURIComponent(url));
+        MiscUtil.openLinkInNewTab(
+            "https://plus.google.com/share?url=" + encodeURIComponent(url)
+        );
     }
 
     render() {
         let shareQuery = this.generateShareQuery();
-        let shareUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "#" + shareQuery;
+        let shareUrl =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            window.location.pathname +
+            "#" +
+            shareQuery;
         if (this.props.autoUpdateUrl) {
             window.history.replaceState(undefined, undefined, "#" + shareQuery);
         } else if (window.location.hash !== "") {
@@ -127,20 +225,56 @@ export class ShareContainer extends Component {
                 small
                 title="Share"
                 active={this.props.isOpen}
-                closeFunc={() => this.props.actions.setShareOpen(false)} >
+                closeFunc={() => this.props.actions.setShareOpen(false)}
+            >
                 <div className="share-container">
                     <p>
-                        This URL contains the information to reproduce this current view of the map.
+                        This URL contains the information to reproduce this
+                        current view of the map.
                     </p>
-                    <p>
-                        Please copy and share it to your heart's content.
-                    </p>
-                    <input type="text" ref={(ref) => this.urlText = ref} readOnly="readonly" defaultValue={shareUrl} className="permalink-text" onClick={() => this.focusTextArea()}/>
+                    <p>Please copy and share it to your heart's content.</p>
+                    <input
+                        type="text"
+                        ref={ref => (this.urlText = ref)}
+                        readOnly="readonly"
+                        defaultValue={shareUrl}
+                        className="permalink-text"
+                        onClick={() => this.focusTextArea()}
+                    />
                     <div className="text-center row">
-                        <Button floating neutral className="emailIcon" style={{color: "white", background: "#505050"}} icon="email" onClick={() => this.shareEmail(shareUrl)} />
-                        <Button floating neutral style={{background: "#3B5998"}} className="FacebookIcon" onClick={() => this.shareFacebook(shareUrl)}><FacebookIcon/></Button>
-                        <Button floating neutral style={{background: "#55ACEE"}} onClick={() => this.shareTwitter(shareUrl)}><TwitterIcon/></Button>
-                        <Button floating neutral style={{background: "#DD4B39"}} onClick={() => this.shareGooglePlus(shareUrl)}><GooglePlusIcon/></Button>
+                        <Button
+                            floating
+                            neutral
+                            className="emailIcon"
+                            style={{ color: "white", background: "#505050" }}
+                            icon="email"
+                            onClick={() => this.shareEmail(shareUrl)}
+                        />
+                        <Button
+                            floating
+                            neutral
+                            style={{ background: "#3B5998" }}
+                            className="FacebookIcon"
+                            onClick={() => this.shareFacebook(shareUrl)}
+                        >
+                            <FacebookIcon />
+                        </Button>
+                        <Button
+                            floating
+                            neutral
+                            style={{ background: "#55ACEE" }}
+                            onClick={() => this.shareTwitter(shareUrl)}
+                        >
+                            <TwitterIcon />
+                        </Button>
+                        <Button
+                            floating
+                            neutral
+                            style={{ background: "#DD4B39" }}
+                            onClick={() => this.shareGooglePlus(shareUrl)}
+                        >
+                            <GooglePlusIcon />
+                        </Button>
                     </div>
                 </div>
             </ModalMenuContainer>
@@ -183,7 +317,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ShareContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ShareContainer);

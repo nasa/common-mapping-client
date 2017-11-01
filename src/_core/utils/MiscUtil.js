@@ -1,31 +1,34 @@
-import fetch from 'isomorphic-fetch';
-import objectAssign from 'object-assign';
-import * as appStrings from '_core/constants/appStrings';
+import fetch from "isomorphic-fetch";
+import objectAssign from "object-assign";
+import * as appStrings from "_core/constants/appStrings";
 
 export default class MiscUtil {
-    constructor() {}
-
     // takes in an object mapping strings (as keys) to booleans
     // and returns a space separated string of those keys that map to true
-    generateStringFromSet(classSet) {
+    static generateStringFromSet(classSet) {
         if (typeof classSet === "object") {
-            return Object.keys(classSet).reduce((acc, key) => {
-                if (classSet[key] === true) {
-                    acc.push(key);
+            return Object.keys(classSet)
+                .reduce((acc, key) => {
+                    if (classSet[key] === true) {
+                        acc.push(key);
+                        return acc;
+                    }
                     return acc;
-                }
-                return acc;
-            }, []).join(' ');
+                }, [])
+                .join(" ");
         } else {
             return "";
         }
     }
 
-    findObjectInArray(array, key, val) {
+    static findObjectInArray(array, key, val) {
         if (typeof key === "string") {
             for (let i = 0; i < array.length; ++i) {
-                if (array[i][key] === val ||
-                    (typeof array[i].get === "function" && array[i].get(key) === val)) {
+                if (
+                    array[i][key] === val ||
+                    (typeof array[i].get === "function" &&
+                        array[i].get(key) === val)
+                ) {
                     return array[i];
                 }
             }
@@ -39,16 +42,22 @@ export default class MiscUtil {
         return false;
     }
 
-    findAllMatchingObjectsInArray(array, key, val) {
-        return array.filter((element) => {
-            return element[key] === val || (typeof element.get === "function" && element.get(key) === val);
+    static findAllMatchingObjectsInArray(array, key, val) {
+        return array.filter(element => {
+            return (
+                element[key] === val ||
+                (typeof element.get === "function" && element.get(key) === val)
+            );
         });
     }
 
-    findObjectWithIndexInArray(array, key, val) {
+    static findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
-            if (array[i][key] === val ||
-                (typeof array[i].get === "function" && array[i].get(key) === val)) {
+            if (
+                array[i][key] === val ||
+                (typeof array[i].get === "function" &&
+                    array[i].get(key) === val)
+            ) {
                 return {
                     value: array[i],
                     index: i
@@ -58,7 +67,7 @@ export default class MiscUtil {
         return false;
     }
 
-    getImmutableObjectSort(field) {
+    static getImmutableObjectSort(field) {
         return (objA, objB) => {
             let fieldA = objA.get(field);
             let fieldB = objB.get(field);
@@ -73,19 +82,19 @@ export default class MiscUtil {
         };
     }
 
-    getHexFromColorString(colorStr) {
+    static getHexFromColorString(colorStr) {
         let rgbExp = /[0-9]{1,3}(,|, | )[0-9]{1,3}(,|, | )[0-9]{1,3}/;
         let hexExp = /[0-9A-Fa-f]{6}/;
 
         if (rgbExp.test(colorStr)) {
-            return this.convertRgbToHex(colorStr);
+            return MiscUtil.convertRgbToHex(colorStr);
         } else if (hexExp.test(colorStr)) {
-            return this.formatHex(colorStr);
+            return MiscUtil.formatHex(colorStr);
         }
         return "";
     }
 
-    convertRgbToHex(colorStr) {
+    static convertRgbToHex(colorStr) {
         let rgbExp = /[0-9]{1,3}/g;
         let rgbParts = colorStr.match(rgbExp);
 
@@ -97,15 +106,16 @@ export default class MiscUtil {
             if (rgbPartsInt.some(x => x < 0 || x > 255)) {
                 return "";
             }
-            let hexStr = ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
+            let hexStr =
+                ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[1].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[2].toString(16)).slice(-2);
-            return this.formatHex(hexStr);
+            return MiscUtil.formatHex(hexStr);
         }
         return "";
     }
 
-    formatHex(colorStr) {
+    static formatHex(colorStr) {
         let hexExp = /[0-9A-Fa-f]{6}/;
         let hexParts = colorStr.match(hexExp);
 
@@ -115,7 +125,7 @@ export default class MiscUtil {
         return "";
     }
 
-    enterFullScreen() {
+    static enterFullScreen() {
         let element = document.documentElement;
         if (element.requestFullscreen) {
             element.requestFullscreen();
@@ -128,7 +138,7 @@ export default class MiscUtil {
         }
     }
 
-    exitFullscreen() {
+    static exitFullscreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -138,11 +148,15 @@ export default class MiscUtil {
         }
     }
 
-    getIsInFullScreenMode() {
-        return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+    static getIsInFullScreenMode() {
+        return (
+            document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement
+        );
     }
 
-    objectToUrlParams(params) {
+    static objectToUrlParams(params) {
         let arr = params.reduce((acc, el, i) => {
             acc.push(i + "=" + el);
             return acc;
@@ -150,24 +164,35 @@ export default class MiscUtil {
         return arr.join("&");
     }
 
-    parseUrlQueryString(urlStr) {
+    static parseUrlQueryString(urlStr) {
         // return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
-        return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
-            let paramParts = param.split('=');
-            if (paramParts && paramParts.length >= 2 && paramParts[0] !== "" && paramParts[1] !== "") {
-                acc.push({ key: paramParts[0], value: paramParts.slice(1).join("=") });
-            }
-            return acc;
-        }, []);
+        return urlStr
+            .replace(/^#\/?|\/$/g, "")
+            .split("&")
+            .reduce((acc, param) => {
+                let paramParts = param.split("=");
+                if (
+                    paramParts &&
+                    paramParts.length >= 2 &&
+                    paramParts[0] !== "" &&
+                    paramParts[1] !== ""
+                ) {
+                    acc.push({
+                        key: paramParts[0],
+                        value: paramParts.slice(1).join("=")
+                    });
+                }
+                return acc;
+            }, []);
     }
 
-    getUrlParams() {
-        // return this.parseUrlQueryString(window.location.search);
-        return this.parseUrlQueryString(window.location.hash);
+    static getUrlParams() {
+        // return MiscUtil.parseUrlQueryString(window.location.search);
+        return MiscUtil.parseUrlQueryString(window.location.hash);
     }
 
-    urlIsCrossorigin(url) {
-        let a = document.createElement('a');
+    static urlIsCrossorigin(url) {
+        let a = document.createElement("a");
 
         // copy window location into the anchor to get consistent results
         // when the port is default for the protocol (e.g. 80 for HTTP)
@@ -183,29 +208,29 @@ export default class MiscUtil {
         return protocol !== a.protocol || host !== a.host;
     }
 
-    openLinkInNewTab(url) {
+    static openLinkInNewTab(url) {
         window.open(url, "_blank");
     }
 
-    mailTo(address) {
+    static mailTo(address) {
         window.location.href = "mailto:" + address;
     }
 
-    padNumber(num, length, pad = "0") {
+    static padNumber(num, length, pad = "0") {
         // convert the number to a string
         num = num + "";
 
         // check for floating point
-        if(num.indexOf(".") !== -1) {
-            length += 1;   
+        if (num.indexOf(".") !== -1) {
+            length += 1;
         }
 
         // get amount of padding needed
         let padSize = length - num.length;
-        if(padSize > 0) {
+        if (padSize > 0) {
             // create the padding string
             let padStr = "";
-            for(let i = 0; i < padSize; ++i) {
+            for (let i = 0; i < padSize; ++i) {
                 padStr += pad;
             }
 
@@ -216,39 +241,42 @@ export default class MiscUtil {
         return num;
     }
 
-    asyncFetch(options) {
+    static asyncFetch(options) {
         let url = options.url;
         let handleAs = options.handleAs;
         let fetchOptions = options.options;
 
         return new Promise((resolve, reject) => {
-            fetch(url, fetchOptions).then((response) => {
-                if(response.status >= 400) {
-                    reject(new Error("Bad response from server"));
-                } else {
-                    switch (handleAs) {
-                        case appStrings.FILE_TYPE_JSON:
-                            return response.json();
-                        case appStrings.FILE_TYPE_XML:
-                            return response.text();
-                        case appStrings.FILE_TYPE_MARKDOWN:
-                            return response.text();
-                        case appStrings.LAYER_CONFIG_JSON:
-                            return response.json();
-                        case appStrings.LAYER_CONFIG_WMTS_XML:
-                            return response.text();
-                        case appStrings.FILE_TYPE_TEXT:
-                            return response.text();
-                        default:
-                            return response;
+            fetch(url, fetchOptions)
+                .then(response => {
+                    if (response.status >= 400) {
+                        reject(new Error("Bad response from server"));
+                    } else {
+                        switch (handleAs) {
+                            case appStrings.FILE_TYPE_JSON:
+                                return response.json();
+                            case appStrings.FILE_TYPE_XML:
+                                return response.text();
+                            case appStrings.FILE_TYPE_MARKDOWN:
+                                return response.text();
+                            case appStrings.LAYER_CONFIG_JSON:
+                                return response.json();
+                            case appStrings.LAYER_CONFIG_WMTS_XML:
+                                return response.text();
+                            case appStrings.FILE_TYPE_TEXT:
+                                return response.text();
+                            default:
+                                return response;
+                        }
                     }
-                }
-            }).then((parsedResponse) => {
-                resolve(parsedResponse);
-            }).catch((err) => {
-                console.warn("Error in asyncFetch: ", err);
-                reject(err);
-            });
+                })
+                .then(parsedResponse => {
+                    resolve(parsedResponse);
+                })
+                .catch(err => {
+                    console.warn("Error in asyncFetch: ", err);
+                    reject(err);
+                });
         });
     }
 }

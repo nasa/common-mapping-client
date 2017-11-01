@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Autocomplete from 'react-toolbox/lib/autocomplete';
-import { Button } from 'react-toolbox/lib/button';
-import * as actions from '_core/actions/MapActions';
-import CurrentDatePicker from '_core/components/DatePicker/CurrentDate/CurrentDatePicker';
-import MiscUtil from '_core/utils/MiscUtil';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Autocomplete from "react-toolbox/lib/autocomplete";
+import { Button } from "react-toolbox/lib/button";
+import * as actions from "_core/actions/MapActions";
+import CurrentDatePicker from "_core/components/DatePicker/CurrentDate/CurrentDatePicker";
+import MiscUtil from "_core/utils/MiscUtil";
 
 export class DatePickerContainer extends Component {
     render() {
-        let containerClasses = miscUtil.generateStringFromSet({
+        let containerClasses = MiscUtil.generateStringFromSet({
             "row middle-xs": true,
             "hidden-fade-out": this.props.distractionFreeMode,
             "hidden-fade-in": !this.props.distractionFreeMode
@@ -42,7 +40,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DatePickerContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    DatePickerContainer
+);

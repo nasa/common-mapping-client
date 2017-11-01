@@ -1,16 +1,14 @@
-import Immutable from 'immutable';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Dialog from 'react-toolbox/lib/dialog';
-import ProgressBar from 'react-toolbox/lib/progress_bar';
-import AsyncImageContainer from '_core/components/AsyncImage/AsyncImageContainer';
-import { List, ListItem, ListDivider } from 'react-toolbox/lib/list';
-import * as actions from '_core/actions/AppActions';
-import MiscUtil from '_core/utils/MiscUtil';
-
-const miscUtil = new MiscUtil();
+import Immutable from "immutable";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Dialog from "react-toolbox/lib/dialog";
+import ProgressBar from "react-toolbox/lib/progress_bar";
+import AsyncImageContainer from "_core/components/AsyncImage/AsyncImageContainer";
+import { List, ListItem, ListDivider } from "react-toolbox/lib/list";
+import * as actions from "_core/actions/AppActions";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const defaultData = Immutable.Map({
     title: "Title Unknown",
@@ -23,44 +21,60 @@ export class LayerInfoContainer extends Component {
     render() {
         let metadata = defaultData.merge(this.props.metadata.get("content"));
 
-        let loadingClasses = miscUtil.generateStringFromSet({
+        let loadingClasses = MiscUtil.generateStringFromSet({
             "layer-info-loading": true,
-            "active": this.props.dataLoading
+            active: this.props.dataLoading
         });
 
-        let errorClasses = miscUtil.generateStringFromSet({
+        let errorClasses = MiscUtil.generateStringFromSet({
             "layer-info-error": true,
-            "active": !this.props.metadata.get("content") && !this.props.dataLoading && this.props.dataLoadingAttempted
+            active:
+                !this.props.metadata.get("content") &&
+                !this.props.dataLoading &&
+                this.props.dataLoadingAttempted
         });
 
         return (
             <Dialog
                 className="layer-info"
                 active={this.props.isOpen}
-                onEscKeyDown={() => this.props.actions.closeLayerInfo()} 
-                onOverlayClick={() => this.props.actions.closeLayerInfo()} >
-                <AsyncImageContainer className="thumbnail-image" src={this.props.thumbnailUrl} />
+                onEscKeyDown={() => this.props.actions.closeLayerInfo()}
+                onOverlayClick={() => this.props.actions.closeLayerInfo()}
+            >
+                <AsyncImageContainer
+                    className="thumbnail-image"
+                    src={this.props.thumbnailUrl}
+                />
                 <div className="layer-info-content">
                     <div className={loadingClasses}>
-                        <ProgressBar type="circular" mode="indeterminate" className="layer-info-spinner" />
+                        <ProgressBar
+                            type="circular"
+                            mode="indeterminate"
+                            className="layer-info-spinner"
+                        />
                     </div>
                     <div className={errorClasses}>
                         <div className="error-content-container">
-                            <span data-react-toolbox="font-icon" className="material-icons">
+                            <span
+                                data-react-toolbox="font-icon"
+                                className="material-icons"
+                            >
                                 error_outline
                             </span>
-                            <div className="error-message">No Metadata Available</div>
+                            <div className="error-message">
+                                No Metadata Available
+                            </div>
                         </div>
                     </div>
                     <h2>{metadata.get("title")}</h2>
                     <List className="no-margin layer-info-list">
                         <ListItem
                             caption={metadata.get("platform")}
-                            leftIcon={(<i className="ms ms-satellite" />)}
+                            leftIcon={<i className="ms ms-satellite" />}
                         />
                         <ListItem
                             caption={metadata.get("spatialResolution")}
-                            leftIcon={(<i className="ms ms-merge" />)}
+                            leftIcon={<i className="ms ms-merge" />}
                         />
                         <ListItem
                             caption={metadata.get("dateRange")}
@@ -103,7 +117,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LayerInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LayerInfoContainer);

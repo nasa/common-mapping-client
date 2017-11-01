@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import DrawingTooltip from '_core/components/MouseFollower/DrawingTooltip';
-import MiscUtil from '_core/utils/MiscUtil';
-import MouseCoordinates from '_core/components/MouseFollower/MouseCoordinates';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import DrawingTooltip from "_core/components/MouseFollower/DrawingTooltip";
+import MiscUtil from "_core/utils/MiscUtil";
+import MouseCoordinates from "_core/components/MouseFollower/MouseCoordinates";
 
 export class MouseFollowerContainer extends Component {
     shouldComponentUpdate(nextProps) {
-        let nextDraworMeasure = nextProps.drawing.get("isDrawingEnabled") || nextProps.measuring.get("isMeasuringEnabled");
-        let currDrawOrMeasure = this.props.drawing.get("isDrawingEnabled") || this.props.measuring.get("isMeasuringEnabled");
-        return nextDraworMeasure || (nextDraworMeasure !== currDrawOrMeasure);
+        let nextDraworMeasure =
+            nextProps.drawing.get("isDrawingEnabled") ||
+            nextProps.measuring.get("isMeasuringEnabled");
+        let currDrawOrMeasure =
+            this.props.drawing.get("isDrawingEnabled") ||
+            this.props.measuring.get("isMeasuringEnabled");
+        return nextDraworMeasure || nextDraworMeasure !== currDrawOrMeasure;
     }
-    
+
     render() {
         let maxLeft = window.innerWidth - 300;
         let maxTop = window.innerHeight;
@@ -23,12 +25,14 @@ export class MouseFollowerContainer extends Component {
 
         let style = { top, left };
 
-        let drawOrMeasure = this.props.drawing.get("isDrawingEnabled") || this.props.measuring.get("isMeasuringEnabled");
+        let drawOrMeasure =
+            this.props.drawing.get("isDrawingEnabled") ||
+            this.props.measuring.get("isMeasuringEnabled");
 
-        let containerClasses = miscUtil.generateStringFromSet({
+        let containerClasses = MiscUtil.generateStringFromSet({
             "mouse-follower-container dark": true,
-            "active": drawOrMeasure,
-            "right": left > maxLeft
+            active: drawOrMeasure,
+            right: left > maxLeft
         });
 
         // TODO - make a data display component
@@ -60,7 +64,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(MouseFollowerContainer);
+export default connect(mapStateToProps, null)(MouseFollowerContainer);

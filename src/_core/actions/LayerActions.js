@@ -1,10 +1,8 @@
-import appConfig from 'constants/appConfig';
-import * as types from '_core/constants/actionTypes';
-import * as appStrings from '_core/constants/appStrings';
-import * as AlertActions from '_core/actions/AlertActions';
-import MiscUtil from '_core/utils/MiscUtil';
-
-const miscUtil = new MiscUtil();
+import appConfig from "constants/appConfig";
+import * as types from "_core/constants/actionTypes";
+import * as appStrings from "_core/constants/appStrings";
+import * as AlertActions from "_core/actions/AlertActions";
+import MiscUtil from "_core/utils/MiscUtil";
 
 export function setLayerMenuOpen(open) {
     return { type: types.SET_LAYER_MENU_OPEN, open };
@@ -59,121 +57,160 @@ export function setCurrentMetadata(layer, data) {
 }
 
 export function loadLayerMetadata(layer) {
-    return (dispatch) => {
+    return dispatch => {
         // signal loading
         dispatch(layerMetadataLoading());
         // open the display
         dispatch(openLayerInfo(layer));
-        if (layer.getIn(["metadata", "url"]) && layer.getIn(["metadata", "handleAs"])) {
+        if (
+            layer.getIn(["metadata", "url"]) &&
+            layer.getIn(["metadata", "handleAs"])
+        ) {
             // fetch the metadata
-            return miscUtil.asyncFetch({
+            return MiscUtil.asyncFetch({
                 url: layer.getIn(["metadata", "url"]),
                 handleAs: layer.getIn(["metadata", "handleAs"])
-            }).then((data) => {
-                // store the data for display
-                dispatch(setCurrentMetadata(layer, data));
-                // signal loading complete
-                dispatch(layerMetadataLoaded());
-            }, (err) => {
-                console.warn("Error in LayerActions.openLayerInfo:", err);
-                // signal loading complete
-                dispatch(layerMetadataLoaded());
-                // display alert
-                dispatch(AlertActions.addAlert({
-                    title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
-                    body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString.split("{LAYER}").join(layer.get("title")),
-                    severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
-                    time: new Date()
-                }));
-            });
+            }).then(
+                data => {
+                    // store the data for display
+                    dispatch(setCurrentMetadata(layer, data));
+                    // signal loading complete
+                    dispatch(layerMetadataLoaded());
+                },
+                err => {
+                    console.warn("Error in LayerActions.openLayerInfo:", err);
+                    // signal loading complete
+                    dispatch(layerMetadataLoaded());
+                    // display alert
+                    dispatch(
+                        AlertActions.addAlert({
+                            title:
+                                appStrings.ALERTS.FETCH_METADATA_FAILED.title,
+                            body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString
+                                .split("{LAYER}")
+                                .join(layer.get("title")),
+                            severity:
+                                appStrings.ALERTS.FETCH_METADATA_FAILED
+                                    .severity,
+                            time: new Date()
+                        })
+                    );
+                }
+            );
         } else {
             // signal loading complete
             dispatch(layerMetadataLoaded());
             // display alert
-            dispatch(AlertActions.addAlert({
-                title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
-                body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString.split("{LAYER}").join(layer.get("title")),
-                severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
-                time: new Date()
-            }));
+            dispatch(
+                AlertActions.addAlert({
+                    title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
+                    body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString
+                        .split("{LAYER}")
+                        .join(layer.get("title")),
+                    severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
+                    time: new Date()
+                })
+            );
         }
     };
 }
 
 export function loadInitialData(callback = null) {
-    return (dispatch) => {
+    return dispatch => {
         // Set flag that initial layer data has begun loading
         dispatch(initialDataLoading());
         // Fetch all initial layer data
         return Promise.all([
             dispatch(loadLayerData()),
             dispatch(loadPaletteData())
-        ]).then(() => {
-            // Set flag that initial layer data has finished loading
-            dispatch(initialDataLoaded());
-            if (typeof callback === "function") {
-                callback.call(this);
+        ]).then(
+            () => {
+                // Set flag that initial layer data has finished loading
+                dispatch(initialDataLoaded());
+                if (typeof callback === "function") {
+                    callback.call(this);
+                }
+            },
+            err => {
+                console.warn("Error in LayerActions.loadInitialData:", err);
+                dispatch(
+                    AlertActions.addAlert({
+                        title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
+                        body:
+                            appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED
+                                .formatString,
+                        severity:
+                            appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
+                        time: new Date()
+                    })
+                );
+                dispatch(initialDataLoaded());
+                if (typeof callback === "function") {
+                    callback.call(this);
+                }
             }
-        }, (err) => {
-            console.warn("Error in LayerActions.loadInitialData:", err);
-            dispatch(AlertActions.addAlert({
-                title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
-                body: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.formatString,
-                severity: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
-                time: new Date()
-            }));
-            dispatch(initialDataLoaded());
-            if (typeof callback === "function") {
-                callback.call(this);
-            }
-        });
+        );
     };
 }
 
 export function loadPaletteData() {
-    return (dispatch) => {
+    return dispatch => {
         dispatch(paletteDataLoading());
-        return miscUtil.asyncFetch({
+        return MiscUtil.asyncFetch({
             url: appConfig.URLS.paletteConfig,
             handleAs: appStrings.FILE_TYPE_JSON,
-            options: { credentials: 'same-origin' }
-        }).then((data) => {
-            dispatch(ingestLayerPalettes(data));
-            dispatch(paletteDataLoaded());
-        }, (err) => {
-            console.warn("Error in LayerActions.loadPaletteData:", err);
-            throw err;
-        });
+            options: { credentials: "same-origin" }
+        }).then(
+            data => {
+                dispatch(ingestLayerPalettes(data));
+                dispatch(paletteDataLoaded());
+            },
+            err => {
+                console.warn("Error in LayerActions.loadPaletteData:", err);
+                throw err;
+            }
+        );
     };
 }
 
 export function loadLayerData() {
-    return (dispatch) => {
+    return dispatch => {
         dispatch(layerDataLoading());
-        return Promise.all(appConfig.URLS.layerConfig.map((el) => {
-            return dispatch(loadSingleLayerSource(el));
-        })).then(() => {
-            dispatch(mergeLayers());
-            dispatch(layerDataLoaded());
-        }, (err) => {
-            console.warn("Error in LayerActions.loadLayerData:", err);
-            throw err;
-        });
+        return Promise.all(
+            appConfig.URLS.layerConfig.map(el => {
+                return dispatch(loadSingleLayerSource(el));
+            })
+        ).then(
+            () => {
+                dispatch(mergeLayers());
+                dispatch(layerDataLoaded());
+            },
+            err => {
+                console.warn("Error in LayerActions.loadLayerData:", err);
+                throw err;
+            }
+        );
     };
 }
 
 export function loadSingleLayerSource(options) {
-    return (dispatch) => {
-        return miscUtil.asyncFetch({
+    return dispatch => {
+        return MiscUtil.asyncFetch({
             url: options.url,
             handleAs: options.type,
-            options: { credentials: 'same-origin' }
-        }).then((data) => {
-            dispatch(ingestLayerConfig(data, options));
-        }, (err) => {
-            console.warn("Error in LayerActions.loadSingleLayerSource: ", err);
-            throw err;
-        });
+            options: { credentials: "same-origin" }
+        }).then(
+            data => {
+                dispatch(ingestLayerConfig(data, options));
+            },
+            err => {
+                console.warn(
+                    "Error in LayerActions.loadSingleLayerSource: ",
+                    err
+                );
+                throw err;
+            }
+        );
     };
 }
 

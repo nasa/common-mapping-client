@@ -1,13 +1,10 @@
-import * as types from '_core/constants/actionTypes';
-import * as appStrings from '_core/constants/appStrings';
-import appConfig from 'constants/appConfig';
-import * as LayerActions from '_core/actions/LayerActions';
-import * as MapActions from '_core/actions/MapActions';
-import * as DateSliderActions from '_core/actions/DateSliderActions';
-import * as AlertActions from '_core/actions/AlertActions';
-import MiscUtil from '_core/utils/MiscUtil';
-
-const miscUtil = new MiscUtil();
+import * as types from "_core/constants/actionTypes";
+import * as appStrings from "_core/constants/appStrings";
+import appConfig from "constants/appConfig";
+import * as LayerActions from "_core/actions/LayerActions";
+import * as MapActions from "_core/actions/MapActions";
+import * as DateSliderActions from "_core/actions/DateSliderActions";
+import * as AlertActions from "_core/actions/AlertActions";
 
 export function checkBrowserFunctionalities() {
     return { type: types.CHECK_BROWSER_FUNCTIONALITIES };
@@ -64,17 +61,21 @@ export function runUrlConfig(params) {
     // Takes an array of key value pairs and dispatches associated actions for each
     // one.
 
-    return (dispatch) => {
-        return Promise.all(params.map((param) => {
-            return dispatch(translateUrlParamToActionDispatch(param));
-        })).catch((err) => {
+    return dispatch => {
+        return Promise.all(
+            params.map(param => {
+                return dispatch(translateUrlParamToActionDispatch(param));
+            })
+        ).catch(err => {
             console.warn("Error in AppActions.runUrlConfig:", err);
-            dispatch(AlertActions.addAlert({
-                title: appStrings.ALERTS.URL_CONFIG_FAILED.title,
-                body: appStrings.ALERTS.URL_CONFIG_FAILED.formatString,
-                severity: appStrings.ALERTS.URL_CONFIG_FAILED.severity,
-                time: new Date()
-            }));
+            dispatch(
+                AlertActions.addAlert({
+                    title: appStrings.ALERTS.URL_CONFIG_FAILED.title,
+                    body: appStrings.ALERTS.URL_CONFIG_FAILED.formatString,
+                    severity: appStrings.ALERTS.URL_CONFIG_FAILED.severity,
+                    time: new Date()
+                })
+            );
         });
     };
 }
@@ -90,9 +91,15 @@ export function translateUrlParamToActionDispatch(param) {
         case appConfig.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
+            return setLayersActive(
+                [appConfig.REFERENCE_LABELS_LAYER_ID],
+                param.value === "true"
+            );
         case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-            return setLayersActive([appConfig.POLITICAL_BOUNDARIES_LAYER_ID], param.value === "true");
+            return setLayersActive(
+                [appConfig.POLITICAL_BOUNDARIES_LAYER_ID],
+                param.value === "true"
+            );
         case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
             return setTerrainEnabled(param.value.toString() === "true");
         case appConfig.URL_KEYS.DATE:
@@ -105,14 +112,15 @@ export function translateUrlParamToActionDispatch(param) {
 }
 
 function setLayersActive(idArr, active) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             // array format is [id(opacity), id(opacity), ...]
             for (let i = 0; i < idArr.length; ++i) {
                 let splitId = idArr[i].split("(");
                 let id = splitId[0];
-                let opacity = splitId.length === 2 ? splitId[1].split(")")[0] : false;
-                if(opacity) {
+                let opacity =
+                    splitId.length === 2 ? splitId[1].split(")")[0] : false;
+                if (opacity) {
                     dispatch(LayerActions.setLayerOpacity(id, opacity));
                 }
                 dispatch(LayerActions.setLayerActive(id, active));
@@ -122,7 +130,7 @@ function setLayersActive(idArr, active) {
 }
 
 function setViewMode(viewMode) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(MapActions.setMapViewMode(viewMode));
         });
@@ -130,7 +138,7 @@ function setViewMode(viewMode) {
 }
 
 function setBasemap(basemapId) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(MapActions.setBasemap(basemapId));
         });
@@ -138,7 +146,7 @@ function setBasemap(basemapId) {
 }
 
 function setExtent(extentStrArr) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(MapActions.setMapView({ extent: extentStrArr }, true));
         });
@@ -146,7 +154,7 @@ function setExtent(extentStrArr) {
 }
 
 function setTerrainEnabled(enabled) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(MapActions.setTerrainEnabled(enabled));
         });
@@ -154,7 +162,7 @@ function setTerrainEnabled(enabled) {
 }
 
 function setDate(dateStr) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(MapActions.setDate(dateStr));
         });
@@ -162,7 +170,7 @@ function setDate(dateStr) {
 }
 
 function setTimelineRes(resStr) {
-    return (dispatch) => {
+    return dispatch => {
         return new Promise(() => {
             dispatch(DateSliderActions.setDateResolution(resStr));
         });

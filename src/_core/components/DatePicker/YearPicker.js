@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Input } from 'react-toolbox/lib/input';
-import MiscUtil from '_core/utils/MiscUtil';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Input } from "react-toolbox/lib/input";
+import MiscUtil from "_core/utils/MiscUtil";
+import appConfig from "constants/appConfig";
 
 const MAX_LENGTH = 4;
-const miscUtil = new MiscUtil();
 
 export class YearPicker extends Component {
     componentDidMount() {
@@ -15,11 +14,14 @@ export class YearPicker extends Component {
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return (nextProps.year !== this.props.year) || (nextProps.year !== this.year);
+        return (
+            nextProps.year !== this.props.year || nextProps.year !== this.year
+        );
     }
     handleKeyPress(evt) {
         let yearStr = this.year;
-        if (evt.charCode === 13) { // enter key
+        if (evt.charCode === 13) {
+            // enter key
             this.submitYear(yearStr);
         }
     }
@@ -49,9 +51,9 @@ export class YearPicker extends Component {
         let yearStr = this.updateFromInternal ? this.year : this.props.year;
         this.year = yearStr;
         this.updateFromInternal = false;
-        let containerClasses = miscUtil.generateStringFromSet({
+        let containerClasses = MiscUtil.generateStringFromSet({
             "date-picker-selection col-xs-5": true,
-            "error": this.error
+            error: this.error
         });
         return (
             <div className={containerClasses}>
@@ -60,9 +62,10 @@ export class YearPicker extends Component {
                     type="text"
                     tabIndex="0"
                     value={yearStr}
-                    onBlur={(evt) => this.handleBlur(evt)}
-                    onKeyPress={(evt) => this.handleKeyPress(evt)}
-                    onChange={(evt) => this.handleChange(evt)} />
+                    onBlur={evt => this.handleBlur(evt)}
+                    onKeyPress={evt => this.handleKeyPress(evt)}
+                    onChange={evt => this.handleChange(evt)}
+                />
             </div>
         );
     }

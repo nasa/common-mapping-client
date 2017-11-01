@@ -1,6 +1,6 @@
-import * as appStrings from '_core/constants/appStrings';
-import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
-import MapWrapper_cesium from '_core/utils/MapWrapper_cesium';
+import * as appStrings from "_core/constants/appStrings";
+import MapWrapper_openlayers from "_core/utils/MapWrapper_openlayers";
+import MapWrapper_cesium from "_core/utils/MapWrapper_cesium";
 
 // creates a new object that abstracts a mapping library
 export function createMap(type, container, mapOptions) {

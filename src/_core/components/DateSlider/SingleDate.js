@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import d3 from 'd3';
-import SingleDateD3 from '_core/utils/SingleDateD3';
-import MiscUtil from '_core/utils/MiscUtil';
-
-const miscUtil = new MiscUtil();
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import d3 from "d3";
+import SingleDateD3 from "_core/utils/SingleDateD3";
+import MiscUtil from "_core/utils/MiscUtil";
 
 export class SingleDate extends Component {
     componentDidMount() {
@@ -33,10 +31,12 @@ export class SingleDate extends Component {
     }
     shouldComponentUpdate(nextProps) {
         // update the d3 component
-        if (nextProps.date !== this.props.date && !nextProps.isDragging ||
+        if (
+            (nextProps.date !== this.props.date && !nextProps.isDragging) ||
             nextProps.isDragging !== this.props.isDragging ||
             nextProps.maxX !== this.props.maxX ||
-            nextProps.minX !== this.props.minX) {
+            nextProps.minX !== this.props.minX
+        ) {
             this.singleDateD3.update({
                 date: nextProps.date,
                 isDragging: nextProps.isDragging,
@@ -44,17 +44,26 @@ export class SingleDate extends Component {
                 minX: nextProps.minX
             });
         }
-        return nextProps.isDragging !== this.props.isDragging || nextProps.active !== this.props.active;
+        return (
+            nextProps.isDragging !== this.props.isDragging ||
+            nextProps.active !== this.props.active
+        );
     }
     render() {
-        let classNames = miscUtil.generateStringFromSet({
+        let classNames = MiscUtil.generateStringFromSet({
             "single-date": true,
-            "dragging": this.props.isDragging,
-            "hidden": !this.props.active
+            dragging: this.props.isDragging,
+            hidden: !this.props.active
         });
         return (
             <g className={classNames}>
-                <circle className="single-date-inner" cx="0" cy="15" r="8" filter="url('#dropshadowFilter')"/>
+                <circle
+                    className="single-date-inner"
+                    cx="0"
+                    cy="15"
+                    r="8"
+                    filter="url('#dropshadowFilter')"
+                />
             </g>
         );
     }
