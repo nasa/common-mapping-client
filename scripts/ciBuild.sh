@@ -11,6 +11,13 @@ IMAGE_NAME="${PROJECT_NAME}:latest"
 IMAGE_NAME_TAG="${PROJECT_NAME}:${BUILD_VERSION}-${BUILD_NUMBER}"
 BUNDLE_NAME="cmc-core-${BUILD_VERSION}-${BUILD_NUMBER}"
 
+if [[ -z "${SOURCE_BRANCH// }" ]]; then
+  echo "Could not resolve branch. Exiting."
+  exit 0
+else
+  echo "Building branch: ${SOURCE_BRANCH}"
+fi
+
 echo "Installing dependencies..."
 npm install
 
@@ -41,7 +48,6 @@ if [ ! -d "test-results" ]; then
   echo "No test-results available."
   exit 1
 fi
-
 
 echo "Moving test results..."
 mv test-results dist/

@@ -16,6 +16,7 @@
     "prep:dist": "npm run clean:dist && mkdir dist",
     "clean:dist": "node_modules/.bin/rimraf ./dist",
     "clean:test": "node_modules/.bin/rimraf ./test-results",
+    "clean": "npm run clean:dist && npm run clean:test",
     "pretest": "npm run clean:test",
     "test": "cross-env NODE_ENV=test karma start karma.conf.js",
     "analyze-bundle": "babel-node ./scripts/analyzeBundle.js"
