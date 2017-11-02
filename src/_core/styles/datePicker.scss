@@ -3,7 +3,7 @@
     text-align: center;
     padding: 0.25rem 1rem;
     input {
-        font-family: "Roboto Mono";
+        @include font-roboto-mono();
         text-align: center;
         font-weight: 400;
         padding: 0px;

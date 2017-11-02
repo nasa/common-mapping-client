@@ -16,7 +16,7 @@
     font-size: 1.51rem;
     padding: 0.5rem 0.8rem;
     background: $color-primary;
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     border-radius: 2px;
     color: $color-light;
     border: none;
@@ -66,7 +66,7 @@
 }
 
 #dateSlider {
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     font-size: 1.4rem;
     .timeAxis {
         cursor: pointer;
@@ -139,7 +139,7 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     text-transform: capitalize;
     text-align: center;
     font-weight: 400;

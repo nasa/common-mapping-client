@@ -113,7 +113,7 @@
         margin: 0px;
         padding: 0.8rem 1.6rem;
         letter-spacing: -0.01rem;
-        font-family: Roboto Mono;
+        @include font-roboto-mono();
         font-weight: 600;
     }
 }

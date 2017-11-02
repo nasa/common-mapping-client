@@ -109,7 +109,7 @@
         color: $color-medium;
         letter-spacing: 0.075rem;
         font-weight: 600;
-        font-family: "Roboto Mono";
+        @include font-roboto-mono();
     }
     .colorbar {
         width: 255px;
@@ -120,7 +120,7 @@
         height: 1rem;
         line-height: 1rem;
         width: 255px;
-        font-family: "Roboto Mono";
+        @include font-roboto-mono();
     }
     .colorbar-label {
         font-size: 1.1rem;
@@ -204,7 +204,7 @@
     }
     .opacity-label {
         text-align: right;
-        font-family: "Roboto Mono";
+        @include font-roboto-mono();
     }
     .colorbar-range-wrapper {
         visibility: hidden;
@@ -222,7 +222,7 @@
 .layer-menu-note {
     letter-spacing: 0.09rem;
     background: $color-light;
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     font-size: 0.8em;
     line-height: 1rem;
     margin: 0px 15px;

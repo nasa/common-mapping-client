@@ -17,9 +17,9 @@
         margin-right: 0.7rem;
     }
     #appTitle {
+        @include font-roboto-mono();
         padding-left: 31px;
         display: inline-block;
-        font-family: "Roboto Mono";
         font-weight: 300;
         letter-spacing: 0.1rem;
         text-transform: uppercase;
@@ -27,7 +27,7 @@
         margin: 0px;
     }
     #appSubtitle {
-        font-family: "Roboto Mono";
+        @include font-roboto-mono();
         font-size: 1.2rem;
         color: $color-medium;
         margin-left: 9px;

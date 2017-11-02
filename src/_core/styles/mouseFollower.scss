@@ -1,6 +1,6 @@
 .current-coordinate {
     background: rgba($color-dark, 0.7);
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     font-weight: 600;
     font-size: 1.2rem;
     color: $color-light;

@@ -237,7 +237,7 @@
     border-radius: 2px;
     padding: 4px 8px;
     white-space: nowrap;
-    font-family: "Roboto Mono";
+    @include font-roboto-mono();
     color: $color-text-secondary;
     @include light-shadow();
 }
