@@ -42,12 +42,8 @@ export class ContextMenuSubMenu extends Component {
     }
     getMenuPosition() {
         let { innerWidth, innerHeight } = window;
-        let menuRect = ReactDOM.findDOMNode(
-            this.refs.menu
-        ).getBoundingClientRect();
-        let submenuRect = ReactDOM.findDOMNode(
-            this.refs.submenu
-        ).getBoundingClientRect();
+        let menuRect = ReactDOM.findDOMNode(this.refs.menu).getBoundingClientRect();
+        let submenuRect = ReactDOM.findDOMNode(this.refs.submenu).getBoundingClientRect();
         let position = { ...INITIAL_POSITION };
         if (menuRect.top + submenuRect.height + EDGE_PADDING > innerHeight) {
             position.bottom = true;
@@ -75,10 +71,7 @@ export class ContextMenuSubMenu extends Component {
 
         if (this.props.disabled || this.visible) return;
 
-        let delay =
-            typeof this.props.showDelay !== "undefined"
-                ? this.props.showDelay
-                : SHOW_DELAY;
+        let delay = typeof this.props.showDelay !== "undefined" ? this.props.showDelay : SHOW_DELAY;
         this.opentimer = setTimeout(() => this.open(), delay);
     }
     handleMouseLeave() {
@@ -86,10 +79,7 @@ export class ContextMenuSubMenu extends Component {
 
         if (!this.visible) return;
 
-        let delay =
-            typeof this.props.hideDelay !== "undefined"
-                ? this.props.hideDelay
-                : HIDE_DELAY;
+        let delay = typeof this.props.hideDelay !== "undefined" ? this.props.hideDelay : HIDE_DELAY;
         this.closetimer = setTimeout(() => this.close(), delay);
     }
     open() {
@@ -103,14 +93,7 @@ export class ContextMenuSubMenu extends Component {
     }
 
     render() {
-        let {
-            disabled,
-            children,
-            title,
-            icon,
-            customIcon,
-            tabIndex
-        } = this.props;
+        let { disabled, children, title, icon, customIcon, tabIndex } = this.props;
 
         let menuClasses = "context-menu-item submenu";
         let subMenuClasses = MiscUtil.generateStringFromSet({
@@ -145,13 +128,8 @@ export class ContextMenuSubMenu extends Component {
                     icon={icon || ""}
                 >
                     <i className={customIcon} />
-                    <span className="context-menu-label">
-                        {customIcon ? title : ""}
-                    </span>
-                    <FontIcon
-                        value="keyboard_arrow_right"
-                        className="button-icon-right"
-                    />
+                    <span className="context-menu-label">{customIcon ? title : ""}</span>
+                    <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
                 </Button>
                 <div className={subMenuClasses} ref="submenu">
                     {children}

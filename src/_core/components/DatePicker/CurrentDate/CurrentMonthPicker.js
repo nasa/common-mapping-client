@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import MonthPicker from '_core/components/DatePicker/MonthPicker';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import moment from "moment";
+import MonthPicker from "_core/components/DatePicker/MonthPicker";
+import appConfig from "constants/appConfig";
 
 export class CurrentMonthPicker extends Component {
     shouldComponentUpdate(nextProps) {
@@ -14,9 +14,7 @@ export class CurrentMonthPicker extends Component {
     render() {
         let date = moment(this.props.date);
         let month = date.format("MMM");
-        return (
-            <MonthPicker month={month} onUpdate={this.props.onUpdate} />
-        );
+        return <MonthPicker month={month} onUpdate={this.props.onUpdate} />;
     }
 }
 
@@ -31,7 +29,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(CurrentMonthPicker);
+export default connect(mapStateToProps, null)(CurrentMonthPicker);

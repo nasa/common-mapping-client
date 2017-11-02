@@ -1,5 +1,5 @@
-import * as types from '_core/constants/actionTypes';
-import { setDate } from '_core/actions/MapActions';
+import * as types from "_core/constants/actionTypes";
+import { setDate } from "_core/actions/MapActions";
 
 export function beginDragging() {
     return { type: types.BEGIN_DRAGGING };
@@ -22,11 +22,8 @@ export function setDateResolution(resolution) {
 }
 
 export function dragEnd(newDate) {
-    return (dispatch) => {
-        return Promise.all([
-            dispatch(endDragging()),
-            dispatch(setDate(newDate))
-        ]).catch((err) => {
+    return dispatch => {
+        return Promise.all([dispatch(endDragging()), dispatch(setDate(newDate))]).catch(err => {
             console.warn("Error in DateSliderActions.dragEnd:", err);
         });
     };

@@ -50,10 +50,7 @@ export class AppBarContainer extends Component {
                 <div className="row middle-xs">
                     <div className="col-xs-6">
                         <h1 id="appTitle">{this.props.title}</h1>
-                        <span
-                            id="appSubtitle"
-                            className={this.props.subtitle ? "" : "hidden"}
-                        >
+                        <span id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>
                             {this.props.subtitle}
                         </span>
                     </div>
@@ -70,8 +67,7 @@ export class AppBarContainer extends Component {
                             neutral
                             icon="share"
                             className="title-button mini-xs"
-                            onClick={() =>
-                                this.props.actions.setShareOpen(true)}
+                            onClick={() => this.props.actions.setShareOpen(true)}
                             data-tip="Share"
                             data-place="bottom"
                         />
@@ -79,33 +75,18 @@ export class AppBarContainer extends Component {
                             neutral
                             icon="settings"
                             className="title-button mini-xs"
-                            onClick={() =>
-                                this.props.actions.setSettingsOpen(true)}
+                            onClick={() => this.props.actions.setSettingsOpen(true)}
                             data-tip="Settings"
                             data-place="bottom"
                         />
                         <IconButton
                             neutral
                             disabled={!Modernizr.fullscreen}
-                            icon={
-                                this.props.isFullscreen ? (
-                                    "fullscreen_exit"
-                                ) : (
-                                    "fullscreen"
-                                )
-                            }
+                            icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"}
                             className="title-button mini-xs"
                             onClick={() =>
-                                this.props.actions.setFullScreenMode(
-                                    !this.props.isFullscreen
-                                )}
-                            data-tip={
-                                this.props.isFullscreen ? (
-                                    "Exit Fullscreen"
-                                ) : (
-                                    "Fullscreen"
-                                )
-                            }
+                                this.props.actions.setFullScreenMode(!this.props.isFullscreen)}
+                            data-tip={this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                             data-place="left"
                         />
                     </div>

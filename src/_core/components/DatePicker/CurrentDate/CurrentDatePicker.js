@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import moment from 'moment';
-import { Button } from 'react-toolbox/lib/button';
-import CurrentYearPicker from '_core/components/DatePicker/CurrentDate/CurrentYearPicker';
-import CurrentMonthPicker from '_core/components/DatePicker/CurrentDate/CurrentMonthPicker';
-import CurrentDayPicker from '_core/components/DatePicker/CurrentDate/CurrentDayPicker';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import moment from "moment";
+import { Button } from "react-toolbox/lib/button";
+import CurrentYearPicker from "_core/components/DatePicker/CurrentDate/CurrentYearPicker";
+import CurrentMonthPicker from "_core/components/DatePicker/CurrentDate/CurrentMonthPicker";
+import CurrentDayPicker from "_core/components/DatePicker/CurrentDate/CurrentDayPicker";
+import appConfig from "constants/appConfig";
 
 export class CurrentDatePicker extends Component {
     shouldComponentUpdate(nextProps) {
@@ -31,7 +31,7 @@ export class CurrentDatePicker extends Component {
     }
 
     updateDate(resolution, value) {
-        // Update the application date based off 
+        // Update the application date based off
         // Autocomplete incomplete date string
         let date = moment(this.props.date);
         let newDate = date.format("YYYY-MMM-DD");
@@ -53,35 +53,71 @@ export class CurrentDatePicker extends Component {
             this.props.setDate(date.toDate());
         }
     }
-    
+
     render() {
         return (
             <div className="date-picker">
                 <div className="row middle-xs no-margin">
                     <div className="increment-button col-xs-5">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_up" className="no-padding" onClick={() => this.incrementDate("years", true)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_up"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("years", true)}
+                        />
                     </div>
                     <div className="increment-button col-xs-4">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_up" className="no-padding" onClick={() => this.incrementDate("months", true)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_up"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("months", true)}
+                        />
                     </div>
                     <div className="increment-button col-xs-3">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_up" className="no-padding" onClick={() => this.incrementDate("days", true)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_up"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("days", true)}
+                        />
                     </div>
                 </div>
                 <div className="row middle-xs no-margin">
-                    <CurrentYearPicker onUpdate={(value) => this.updateDate("years", value)} />
-                    <CurrentMonthPicker onUpdate={(value) => this.updateDate("months", value)} />
-                    <CurrentDayPicker onUpdate={(value) => this.updateDate("days", value)} />
+                    <CurrentYearPicker onUpdate={value => this.updateDate("years", value)} />
+                    <CurrentMonthPicker onUpdate={value => this.updateDate("months", value)} />
+                    <CurrentDayPicker onUpdate={value => this.updateDate("days", value)} />
                 </div>
                 <div className="row middle-xs no-margin">
                     <div className="increment-button col-xs-5">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_down" className="no-padding" onClick={() => this.incrementDate("years", false)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_down"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("years", false)}
+                        />
                     </div>
                     <div className="increment-button col-xs-4">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_down" className="no-padding" onClick={() => this.incrementDate("months", false)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_down"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("months", false)}
+                        />
                     </div>
                     <div className="increment-button col-xs-3">
-                        <Button tabIndex="-1" neutral icon="keyboard_arrow_down" className="no-padding" onClick={() => this.incrementDate("days", false)}/>
+                        <Button
+                            tabIndex="-1"
+                            neutral
+                            icon="keyboard_arrow_down"
+                            className="no-padding"
+                            onClick={() => this.incrementDate("days", false)}
+                        />
                     </div>
                 </div>
             </div>
@@ -100,7 +136,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(CurrentDatePicker);
+export default connect(mapStateToProps, null)(CurrentDatePicker);

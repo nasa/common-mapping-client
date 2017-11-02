@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ModalMenuContainer from '_core/components/ModalMenu/ModalMenuContainer';
-import * as actions from '_core/actions/AppActions';
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ModalMenuContainer from "_core/components/ModalMenu/ModalMenuContainer";
+import * as actions from "_core/actions/AppActions";
 
 export class AlertsContainer extends Component {
     sortAlerts(alerts) {
@@ -48,9 +47,7 @@ export class AlertsContainer extends Component {
                     severityGroup.push([alert]);
                 }
             } else {
-                acc.push([
-                    [alert]
-                ]);
+                acc.push([[alert]]);
             }
             return acc;
         }, []);
@@ -65,28 +62,41 @@ export class AlertsContainer extends Component {
         let alerstPresent = numAlerts > 0;
 
         // cache the groups for dismissal
-        alertGroups = alerstPresent ? alertGroups : (this.prevGroups ? this.prevGroups : []);
+        alertGroups = alerstPresent ? alertGroups : this.prevGroups ? this.prevGroups : [];
         this.prevGroups = alertGroups;
 
         return (
             <ModalMenuContainer
                 title="Alert"
                 active={alerstPresent}
-                closeFunc={() => {this.props.actions.dismissAllAlerts(this.props.alerts);}}>
-                    {alertGroups.map((severityGroup, severityIndex) =>
-                        <div key={"severity-group" + severityIndex} className={"alert-severity-group severity-" + severityGroup[0][0].get("severity")}>
-                        {severityGroup.map((alertGroup, groupIndex) =>
+                closeFunc={() => {
+                    this.props.actions.dismissAllAlerts(this.props.alerts);
+                }}
+            >
+                {alertGroups.map((severityGroup, severityIndex) => (
+                    <div
+                        key={"severity-group" + severityIndex}
+                        className={
+                            "alert-severity-group severity-" + severityGroup[0][0].get("severity")
+                        }
+                    >
+                        {severityGroup.map((alertGroup, groupIndex) => (
                             <div key={"alert-group" + groupIndex} className="alert-group">
-                                <span className="alert-group-title">{alertGroup[0].get("title")}</span>
-                                {alertGroup.map((alert, alertIndex) =>
-                                    <div key={"alert-" + groupIndex + "-" + alertIndex} className="alert-listing">
+                                <span className="alert-group-title">
+                                    {alertGroup[0].get("title")}
+                                </span>
+                                {alertGroup.map((alert, alertIndex) => (
+                                    <div
+                                        key={"alert-" + groupIndex + "-" + alertIndex}
+                                        className="alert-listing"
+                                    >
                                         {alert.get("body")}
                                     </div>
-                                )}
+                                ))}
                             </div>
-                        )}
-                        </div>
-                    )}
+                        ))}
+                    </div>
+                ))}
             </ModalMenuContainer>
         );
     }
@@ -124,7 +134,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AlertsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AlertsContainer);

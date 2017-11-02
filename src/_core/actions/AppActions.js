@@ -91,10 +91,7 @@ export function translateUrlParamToActionDispatch(param) {
         case appConfig.URL_KEYS.VIEW_EXTENT:
             return setExtent(param.value.split(","));
         case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-            return setLayersActive(
-                [appConfig.REFERENCE_LABELS_LAYER_ID],
-                param.value === "true"
-            );
+            return setLayersActive([appConfig.REFERENCE_LABELS_LAYER_ID], param.value === "true");
         case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
             return setLayersActive(
                 [appConfig.POLITICAL_BOUNDARIES_LAYER_ID],
@@ -118,8 +115,7 @@ function setLayersActive(idArr, active) {
             for (let i = 0; i < idArr.length; ++i) {
                 let splitId = idArr[i].split("(");
                 let id = splitId[0];
-                let opacity =
-                    splitId.length === 2 ? splitId[1].split(")")[0] : false;
+                let opacity = splitId.length === 2 ? splitId[1].split(")")[0] : false;
                 if (opacity) {
                     dispatch(LayerActions.setLayerOpacity(id, opacity));
                 }

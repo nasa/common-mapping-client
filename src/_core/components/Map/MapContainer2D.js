@@ -19,9 +19,7 @@ export class MapContainer2D extends Component {
         let map = this.props.maps.get(appStrings.MAP_LIB_2D);
         if (typeof map !== "undefined") {
             // mouse event listeners
-            map.addEventListener(appStrings.EVENT_MOVE_END, () =>
-                this.handleMapMoveEnd(map)
-            );
+            map.addEventListener(appStrings.EVENT_MOVE_END, () => this.handleMapMoveEnd(map));
             map.addEventListener(appStrings.EVENT_MOUSE_HOVER, pixel =>
                 this.handlePixelHover(map, pixel)
             );
@@ -49,23 +47,16 @@ export class MapContainer2D extends Component {
             // measurement listeners
             map.addDrawHandler(
                 appStrings.GEOMETRY_LINE_STRING,
-                geometry =>
-                    this.handleMeasureEnd(
-                        geometry,
-                        appStrings.MEASURE_DISTANCE
-                    ),
+                geometry => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE),
                 appStrings.INTERACTION_MEASURE
             );
             map.addDrawHandler(
                 appStrings.GEOMETRY_POLYGON,
-                geometry =>
-                    this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA),
+                geometry => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA),
                 appStrings.INTERACTION_MEASURE
             );
         } else {
-            console.error(
-                "Cannot initialize event listeners: 2D MAP NOT AVAILABLE"
-            );
+            console.error("Cannot initialize event listeners: 2D MAP NOT AVAILABLE");
         }
     }
 
@@ -106,11 +97,7 @@ export class MapContainer2D extends Component {
         // Disable measurement
         this.props.actions.disableMeasuring();
         // Add geometry to other maps
-        this.props.actions.addGeometryToMap(
-            geometry,
-            appStrings.INTERACTION_MEASURE,
-            false
-        );
+        this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, false);
         // Add label to geometry
         this.props.actions.addMeasurementLabelToGeometry(
             geometry,

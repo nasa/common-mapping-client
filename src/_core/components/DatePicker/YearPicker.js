@@ -14,9 +14,7 @@ export class YearPicker extends Component {
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return (
-            nextProps.year !== this.props.year || nextProps.year !== this.year
-        );
+        return nextProps.year !== this.props.year || nextProps.year !== this.year;
     }
     handleKeyPress(evt) {
         let yearStr = this.year;

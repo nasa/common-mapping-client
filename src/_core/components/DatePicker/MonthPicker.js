@@ -14,10 +14,7 @@ export class MonthPicker extends Component {
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return (
-            nextProps.month !== this.props.month ||
-            nextProps.month !== this.month
-        );
+        return nextProps.month !== this.props.month || nextProps.month !== this.month;
     }
     handleKeyPress(evt) {
         let monthStr = this.month;

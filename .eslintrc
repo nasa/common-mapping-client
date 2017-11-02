@@ -33,6 +33,7 @@
     "no-alert": 0,
     "no-lone-blocks": 0,
     "jsx-quotes": 1,
+    "no-unexpected-multiline": 0,
     "react/display-name": [ 1, {"ignoreTranspilerName": false }],
     "react/forbid-prop-types": [1, {"forbid": ["any"]}],
     "react/jsx-boolean-value": 0,

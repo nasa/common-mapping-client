@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import YearPicker from '_core/components/DatePicker/YearPicker';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import moment from "moment";
+import YearPicker from "_core/components/DatePicker/YearPicker";
+import appConfig from "constants/appConfig";
 
 export class CurrentYearPicker extends Component {
     shouldComponentUpdate(nextProps) {
@@ -14,9 +14,7 @@ export class CurrentYearPicker extends Component {
     render() {
         let date = moment(this.props.date);
         let year = date.format("YYYY");
-        return (
-            <YearPicker year={year} onUpdate={this.props.onUpdate} />
-        );
+        return <YearPicker year={year} onUpdate={this.props.onUpdate} />;
     }
 }
 
@@ -31,7 +29,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(CurrentYearPicker);
+export default connect(mapStateToProps, null)(CurrentYearPicker);

@@ -40,6 +40,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-    DatePickerContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(DatePickerContainer);

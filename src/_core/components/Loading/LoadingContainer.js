@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ReactDOM from 'react-dom';
-import { bindActionCreators } from 'redux';
-import { ProgressBar } from 'react-toolbox';
-import * as actions from '_core/actions/AppActions';
-import AsyncImageContainer from '_core/components/AsyncImage/AsyncImageContainer';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import ReactDOM from "react-dom";
+import { bindActionCreators } from "redux";
+import { ProgressBar } from "react-toolbox";
+import * as actions from "_core/actions/AppActions";
+import AsyncImageContainer from "_core/components/AsyncImage/AsyncImageContainer";
 
 export class LoadingContainer extends Component {
     componentDidUpdate() {
@@ -16,9 +16,7 @@ export class LoadingContainer extends Component {
         }, 1300);
     }
     render() {
-        return (
-            <div/>
-        );
+        return <div />;
     }
 }
 
@@ -39,7 +37,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LoadingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingContainer);

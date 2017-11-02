@@ -41,10 +41,7 @@ export const StoreDateSliderSpec = {
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.dateSlider = expected.dateSlider.set(
-                        "isDragging",
-                        true
-                    );
+                    expected.dateSlider = expected.dateSlider.set("isDragging", true);
 
                     TestUtil.compareFullStates(actual, expected);
                 });

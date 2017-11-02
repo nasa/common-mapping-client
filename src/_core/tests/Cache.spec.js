@@ -1,14 +1,16 @@
-import { expect } from 'chai';
-import Cache from '_core/utils/Cache';
+import { expect } from "chai";
+import Cache from "_core/utils/Cache";
 
 export const CacheSpec = {
     name: "CacheSpec",
     tests: {
         setAndGet: {
             test1: () => {
-                it('Set adds an arbitrary key/value mapped entry to the cache.' +
-                    'Get takes a key and retrieves the mapped value if it hasn\'t ' +
-                    'been ejected, false otherwise', () => {
+                it(
+                    "Set adds an arbitrary key/value mapped entry to the cache." +
+                        "Get takes a key and retrieves the mapped value if it hasn't " +
+                        "been ejected, false otherwise",
+                    () => {
                         let limit = 3;
                         let cache = new Cache(limit);
                         cache.set("a", 1);
@@ -21,12 +23,13 @@ export const CacheSpec = {
                         expect(cache.get("c")).to.deep.equal({ a: 1 });
                         expect(cache.get("d")).to.deep.equal(false);
                         expect(cache.getSize()).to.equal(limit);
-                    });
+                    }
+                );
             }
         },
         ejection: {
             test1: () => {
-                it('Adds key/value pairs up the specified limit then ejects entries in FIFO order', () => {
+                it("Adds key/value pairs up the specified limit then ejects entries in FIFO order", () => {
                     let limit = 3;
                     let cache = new Cache(limit);
                     cache.set("a", 1);
@@ -49,7 +52,7 @@ export const CacheSpec = {
         },
         clearing: {
             test1: () => {
-                it('Clears all entries in the cache', () => {
+                it("Clears all entries in the cache", () => {
                     let limit = 3;
                     let cache = new Cache(limit);
                     cache.set("a", 1);
@@ -73,7 +76,7 @@ export const CacheSpec = {
         },
         limitAndSize: {
             test1: () => {
-                it('Allows for arbitrary limit', () => {
+                it("Allows for arbitrary limit", () => {
                     let limit = 4321;
                     let cache = new Cache(limit);
                     for (let i = 0; i < limit; ++i) {
@@ -88,7 +91,7 @@ export const CacheSpec = {
                 });
             },
             test2: () => {
-                it('defaults to a limit of 0 if given a non-number or negative limit', () => {
+                it("defaults to a limit of 0 if given a non-number or negative limit", () => {
                     let cacheA = new Cache(-1);
                     let cacheB = new Cache("aa");
 
@@ -107,7 +110,7 @@ export const CacheSpec = {
                 });
             },
             test3: () => {
-                it('size reflects current usage, limit is max usage', () => {
+                it("size reflects current usage, limit is max usage", () => {
                     let limit = 10;
                     let cache = new Cache(limit);
 

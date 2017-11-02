@@ -25,10 +25,7 @@ export class MapControlsContainer extends Component {
         if (!nextProps.distractionFreeMode) {
             this.stopListeningToMouseMovement();
             this._isInDistractionFreeMode = false;
-        } else if (
-            !this.props.distractionFreeMode &&
-            nextProps.distractionFreeMode
-        ) {
+        } else if (!this.props.distractionFreeMode && nextProps.distractionFreeMode) {
             // If we are transitioning to distractionFreeMode
             this._isInDistractionFreeMode = true;
         }
@@ -85,10 +82,8 @@ export class MapControlsContainer extends Component {
 
     render() {
         let containerClasses = MiscUtil.generateStringFromSet({
-            "hidden-fade-out":
-                this.props.mapControlsHidden && this.props.distractionFreeMode,
-            "hidden-fade-in":
-                !this.props.mapControlsHidden && this.props.distractionFreeMode
+            "hidden-fade-out": this.props.mapControlsHidden && this.props.distractionFreeMode,
+            "hidden-fade-in": !this.props.mapControlsHidden && this.props.distractionFreeMode
         });
         let toolsMenuClasses = MiscUtil.generateStringFromSet({
             active: this.props.mapControlsToolsOpen,
@@ -96,24 +91,19 @@ export class MapControlsContainer extends Component {
         });
         let drawingCircle =
             this.props.drawing.get("isDrawingEnabled") &&
-            this.props.drawing.get("geometryType") ===
-                appStrings.GEOMETRY_CIRCLE;
+            this.props.drawing.get("geometryType") === appStrings.GEOMETRY_CIRCLE;
         let drawingLineString =
             this.props.drawing.get("isDrawingEnabled") &&
-            this.props.drawing.get("geometryType") ===
-                appStrings.GEOMETRY_LINE_STRING;
+            this.props.drawing.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
         let drawingPolygon =
             this.props.drawing.get("isDrawingEnabled") &&
-            this.props.drawing.get("geometryType") ===
-                appStrings.GEOMETRY_POLYGON;
+            this.props.drawing.get("geometryType") === appStrings.GEOMETRY_POLYGON;
         let measuringDistance =
             this.props.measuring.get("isMeasuringEnabled") &&
-            this.props.measuring.get("geometryType") ===
-                appStrings.GEOMETRY_LINE_STRING;
+            this.props.measuring.get("geometryType") === appStrings.GEOMETRY_LINE_STRING;
         let measuringArea =
             this.props.measuring.get("isMeasuringEnabled") &&
-            this.props.measuring.get("geometryType") ===
-                appStrings.GEOMETRY_POLYGON;
+            this.props.measuring.get("geometryType") === appStrings.GEOMETRY_POLYGON;
         return (
             <div
                 className={containerClasses}
@@ -167,54 +157,28 @@ export class MapControlsContainer extends Component {
                             );
                         }}
                         data-tip={
-                            this.props.distractionFreeMode ? (
-                                "Disable distraction free mode"
-                            ) : (
-                                "Enable distraction free mode"
-                            )
+                            this.props.distractionFreeMode
+                                ? "Disable distraction free mode"
+                                : "Enable distraction free mode"
                         }
                         data-place="right"
                         aria-label={
-                            this.props.distractionFreeMode ? (
-                                "Disable distraction free mode"
-                            ) : (
-                                "Enable distraction free mode"
-                            )
+                            this.props.distractionFreeMode
+                                ? "Disable distraction free mode"
+                                : "Enable distraction free mode"
                         }
                     >
-                        {this.props.distractionFreeMode ? (
-                            <EyeIcon />
-                        ) : (
-                            <EyeOffIcon />
-                        )}
+                        {this.props.distractionFreeMode ? <EyeIcon /> : <EyeOffIcon />}
                     </Button>
                     <Button
                         neutral
-                        disabled={
-                            !Modernizr.webgl && !this.props.in3DMode ? (
-                                true
-                            ) : (
-                                false
-                            )
-                        }
+                        disabled={!Modernizr.webgl && !this.props.in3DMode ? true : false}
                         label={this.props.in3DMode ? "2D" : "3D"}
                         className="primary-map-button mini-xs"
                         onClick={() => this.setViewMode()}
-                        data-tip={
-                            this.props.in3DMode ? (
-                                "Switch to 2D map"
-                            ) : (
-                                "Switch to 3D map"
-                            )
-                        }
+                        data-tip={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"}
                         data-place="right"
-                        aria-label={
-                            this.props.in3DMode ? (
-                                "Switch to 2D map"
-                            ) : (
-                                "Switch to 3D map"
-                            )
-                        }
+                        aria-label={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"}
                     />
                     <Button
                         neutral
@@ -242,37 +206,27 @@ export class MapControlsContainer extends Component {
                             <Button
                                 primary={measuringDistance}
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
                                     this.props.actions.enableMeasuring(
                                         appStrings.GEOMETRY_LINE_STRING,
                                         appStrings.MEASURE_DISTANCE
                                     );
                                 }}
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 aria-label="Measure Distance"
                                 className="context-menu-item"
                             >
                                 <i className="ms ms-measure-distance context-menu-icon" />
-                                <span className="context-menu-label">
-                                    Distance
-                                </span>
+                                <span className="context-menu-label">Distance</span>
                             </Button>
                         </MenuItem>
                         <MenuItem data={{}}>
                             <Button
                                 primary={measuringArea}
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 aria-label="Measure Area"
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
                                     this.props.actions.enableMeasuring(
                                         appStrings.GEOMETRY_POLYGON,
                                         appStrings.MEASURE_AREA
@@ -289,14 +243,10 @@ export class MapControlsContainer extends Component {
                             <Button
                                 label="Clear Measurements"
                                 aria-label="Clear Measurements"
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 icon="delete"
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
                                     this.props.actions.removeAllMeasurements();
                                 }}
                                 className="context-menu-item"
@@ -312,19 +262,13 @@ export class MapControlsContainer extends Component {
                         <MenuItem data={{}}>
                             <Button
                                 primary={drawingCircle}
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 label="Circle"
                                 aria-label="Circle"
                                 icon="radio_button_unchecked"
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
-                                    this.props.actions.enableDrawing(
-                                        appStrings.GEOMETRY_CIRCLE
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
+                                    this.props.actions.enableDrawing(appStrings.GEOMETRY_CIRCLE);
                                 }}
                                 className="context-menu-item"
                             />
@@ -333,13 +277,9 @@ export class MapControlsContainer extends Component {
                             <Button
                                 primary={drawingLineString}
                                 aria-label="Polyline"
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
                                     this.props.actions.enableDrawing(
                                         appStrings.GEOMETRY_LINE_STRING
                                     );
@@ -347,32 +287,22 @@ export class MapControlsContainer extends Component {
                                 className="context-menu-item"
                             >
                                 <i className="ms ms-line context-menu-icon" />
-                                <span className="context-menu-label">
-                                    Polyline
-                                </span>
+                                <span className="context-menu-label">Polyline</span>
                             </Button>
                         </MenuItem>
                         <MenuItem data={{}}>
                             <Button
                                 primary={drawingPolygon}
                                 aria-label="Polygon"
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
-                                    this.props.actions.enableDrawing(
-                                        appStrings.GEOMETRY_POLYGON
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
+                                    this.props.actions.enableDrawing(appStrings.GEOMETRY_POLYGON);
                                 }}
                                 className="context-menu-item"
                             >
                                 <i className="ms ms-polygon context-menu-icon" />
-                                <span className="context-menu-label">
-                                    Polygon
-                                </span>
+                                <span className="context-menu-label">Polygon</span>
                             </Button>
                         </MenuItem>
                         <hr className="divider medium-light" />
@@ -380,14 +310,10 @@ export class MapControlsContainer extends Component {
                             <Button
                                 label="Clear Drawings"
                                 aria-label="Clear Drawings"
-                                tabIndex={
-                                    this.props.mapControlsToolsOpen ? 0 : -1
-                                }
+                                tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                                 icon="delete"
                                 onClick={() => {
-                                    this.props.appActions.setMapControlsToolsOpen(
-                                        false
-                                    );
+                                    this.props.appActions.setMapControlsToolsOpen(false);
                                     this.props.actions.removeAllDrawings();
                                 }}
                                 className="context-menu-item"
@@ -402,9 +328,7 @@ export class MapControlsContainer extends Component {
                             aria-label="Clear Map"
                             tabIndex={this.props.mapControlsToolsOpen ? 0 : -1}
                             onClick={() => {
-                                this.props.appActions.setMapControlsToolsOpen(
-                                    false
-                                );
+                                this.props.appActions.setMapControlsToolsOpen(false);
                                 this.handleClearMap();
                             }}
                             className="context-menu-item"
@@ -445,6 +369,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-    MapControlsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MapControlsContainer);

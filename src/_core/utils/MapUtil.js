@@ -111,9 +111,7 @@ export default class MapUtil {
                         shiftedLine.slice(1, shiftedLine.length)
                     );
                 } else {
-                    deconstrainedLine = deconstrainedLine.concat(
-                        line.slice(1, line.length)
-                    );
+                    deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                 }
             } else {
                 if (lineStart[0] <= 0) {
@@ -127,9 +125,7 @@ export default class MapUtil {
                         shiftedLine.slice(1, shiftedLine.length)
                     );
                 } else {
-                    deconstrainedLine = deconstrainedLine.concat(
-                        line.slice(1, line.length)
-                    );
+                    deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                 }
             }
         }
@@ -167,9 +163,7 @@ export default class MapUtil {
         }
 
         let tileMatrix =
-            typeof tileMatrixLabels !== "undefined"
-                ? tileMatrixLabels[level]
-                : level.toString();
+            typeof tileMatrixLabels !== "undefined" ? tileMatrixLabels[level] : level.toString();
 
         if (url.indexOf("{") >= 0) {
             // resolve tile-URL template
@@ -263,11 +257,7 @@ export default class MapUtil {
     // Converts area units
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertAreaUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(
-            appConfig.SCALE_OPTIONS,
-            "value",
-            units
-        );
+        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
@@ -278,11 +268,7 @@ export default class MapUtil {
     // Converts distance units
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertDistanceUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(
-            appConfig.SCALE_OPTIONS,
-            "value",
-            units
-        );
+        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
             return value / unitEntry.toMeters;
         } else {
@@ -385,18 +371,11 @@ export default class MapUtil {
             }
 
             // generate the arcs
-            let generator = new GreatCircle(
-                { x: start[0], y: start[1] },
-                { x: end[0], y: end[1] }
-            );
+            let generator = new GreatCircle({ x: start[0], y: start[1] }, { x: end[0], y: end[1] });
             let arcLines = generator.Arc(100, { offset: 180 }).geometries;
 
             // shift all the arcs as part of a polyline
-            if (
-                i >= 1 &&
-                lineCoords[lineCoords.length - 1][0] !==
-                    arcLines[0].coords[0][0]
-            ) {
+            if (i >= 1 && lineCoords[lineCoords.length - 1][0] !== arcLines[0].coords[0][0]) {
                 let initialShift = 1;
                 if (lineCoords[lineCoords.length - 1][0] < 0) {
                     initialShift = -1;
@@ -434,9 +413,7 @@ export default class MapUtil {
             if (arcLines.length >= 2) {
                 arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
             }
-            lineCoords = lineCoords.concat(
-                arcCoords.slice(0, arcCoords.length)
-            );
+            lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
         }
         return lineCoords;
     }
@@ -500,13 +477,9 @@ export default class MapUtil {
     // takes in a geometry and returns the coordinates for its label
     static getLabelPosition(geometry) {
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
-            let lastCoord =
-                geometry.coordinates[geometry.coordinates.length - 1];
+            let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {
-                return MapUtil.constrainCoordinates([
-                    lastCoord.lon,
-                    lastCoord.lat
-                ]);
+                return MapUtil.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
             } else {
                 console.warn(
                     "Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry."
@@ -532,11 +505,7 @@ export default class MapUtil {
     // Returns false if Array is wrong type or does not contain exactly four floats.
     static parseStringExtent(extentStrArr) {
         // Check extentStrArr type
-        if (
-            !extentStrArr ||
-            !Array.isArray(extentStrArr) ||
-            extentStrArr.length !== 4
-        ) {
+        if (!extentStrArr || !Array.isArray(extentStrArr) || extentStrArr.length !== 4) {
             return false;
         }
 

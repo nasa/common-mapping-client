@@ -87,8 +87,7 @@ export default class TileHandler {
             row: options.tileCoord[2],
             level:
                 typeof options.tileMatrixIds !== "undefined" &&
-                typeof options.tileMatrixIds[options.tileCoord[0]] !==
-                    "undefined"
+                typeof options.tileMatrixIds[options.tileCoord[0]] !== "undefined"
                     ? options.tileMatrixIds[options.tileCoord[0]]
                     : options.tileCoord[0],
             context: options.context
@@ -114,9 +113,7 @@ export default class TileHandler {
         let url = TileHandler._defaultKVPUrl(options);
 
         let timeStr =
-            typeof mapLayer.get === "function"
-                ? mapLayer.get("_layerTime")
-                : mapLayer._layerTime;
+            typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
         if (typeof timeStr !== "undefined") {
             if (url.indexOf("{") >= 0) {
                 url = url.replace("{Time}", timeStr);
@@ -129,11 +126,7 @@ export default class TileHandler {
     }
 
     static _catsInterceptUrl(options) {
-        let tileSize = options.layer.getIn([
-            "wmtsOptions",
-            "tileGrid",
-            "tileSize"
-        ]);
+        let tileSize = options.layer.getIn(["wmtsOptions", "tileGrid", "tileSize"]);
         return "http://placekitten.com/g/" + tileSize + "/" + tileSize;
     }
 
@@ -144,10 +137,7 @@ export default class TileHandler {
         if (typeof tile._origGetImageFunc === "undefined") {
             tile._origGetImageFunc = tile.getImage;
 
-            let tileSize =
-                CAT_SIZES[
-                    Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1
-                ];
+            let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
             let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
             tile.getImage = function(optContext) {
                 let node = tile._origGetImageFunc(optContext);
@@ -161,8 +151,7 @@ export default class TileHandler {
 
     static _catsInterceptTile_CS(options) {
         let imgTile = new Image();
-        let tileSize =
-            CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
+        let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
         let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
 
         imgTile.onload = () => {

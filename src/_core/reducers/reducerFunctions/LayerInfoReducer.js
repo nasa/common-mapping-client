@@ -12,9 +12,7 @@ export default class LayerInfoReducer {
     }
 
     static closeLayerInfo(state, action) {
-        return state
-            .set("isOpen", false)
-            .set("activeLayerId", "");
+        return state.set("isOpen", false).set("activeLayerId", "");
     }
 
     static setCurrentMetadata(state, action) {

@@ -97,10 +97,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 extent: appConfig.DEFAULT_MAP_EXTENT
             });
             vectorLayer.set("_layerId", "_vector_drawings");
-            vectorLayer.set(
-                "_layerType",
-                appStrings.LAYER_GROUP_TYPE_REFERENCE
-            );
+            vectorLayer.set("_layerType", appStrings.LAYER_GROUP_TYPE_REFERENCE);
 
             // get the view options for the map
             let viewOptions = options.get("view").toJS();
@@ -199,10 +196,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             mapLayer.set("_layerId", layer.get("id"));
             mapLayer.set("_layerType", layer.get("type"));
             mapLayer.set("_layerCacheHash", this.getCacheHash(layer));
-            mapLayer.set(
-                "_layerTime",
-                moment(this.mapDate).format(layer.get("timeFormat"))
-            );
+            mapLayer.set("_layerTime", moment(this.mapDate).format(layer.get("timeFormat")));
         }
         return mapLayer;
     }
@@ -227,37 +221,26 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 // override tile url and load functions
                 let origTileUrlFunc = layerSource.getTileUrlFunction();
                 let origTileLoadFunc = layerSource.getTileLoadFunction();
-                layerSource.setTileUrlFunction(
-                    (tileCoord, pixelRatio, projectionString) => {
-                        return this.generateTileUrl(
-                            layer,
-                            mapLayer,
-                            layerSource,
-                            tileCoord,
-                            pixelRatio,
-                            projectionString,
-                            origTileUrlFunc
-                        );
-                    }
-                );
-                layerSource.setTileLoadFunction((tile, url) => {
-                    return this.handleTileLoad(
+                layerSource.setTileUrlFunction((tileCoord, pixelRatio, projectionString) => {
+                    return this.generateTileUrl(
                         layer,
                         mapLayer,
-                        tile,
-                        url,
-                        origTileLoadFunc
+                        layerSource,
+                        tileCoord,
+                        pixelRatio,
+                        projectionString,
+                        origTileUrlFunc
                     );
+                });
+                layerSource.setTileLoadFunction((tile, url) => {
+                    return this.handleTileLoad(layer, mapLayer, tile, url, origTileLoadFunc);
                 });
 
                 return mapLayer;
             }
             return false;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.createWMTSLayer:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.createWMTSLayer:", err);
             return false;
         }
     }
@@ -278,10 +261,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 extent: appConfig.DEFAULT_MAP_EXTENT
             });
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.createVectorLayer:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.createVectorLayer:", err);
             return false;
         }
     }
@@ -342,10 +322,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
             let delta = [deltaX, deltaY];
             let centerInPx = this.map.getPixelFromCoordinate(view.getCenter());
-            let newCenterInPx = [
-                centerInPx[0] - delta[0],
-                centerInPx[1] - delta[1]
-            ];
+            let newCenterInPx = [centerInPx[0] - delta[0], centerInPx[1] - delta[1]];
             let newCenter = this.map.getCoordinateFromPixel(newCenterInPx);
             this.map.getView().setCenter(this.map.getView().getCenter());
             let pan = this.map.getView().animate({
@@ -362,13 +339,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     zoomIn(duration = 175) {
         try {
-            if (
-                typeof this.map !== "undefined" &&
-                typeof this.map.getView() !== "undefined"
-            ) {
-                this.map
-                    .getView()
-                    .setResolution(this.map.getView().getResolution());
+            if (typeof this.map !== "undefined" && typeof this.map.getView() !== "undefined") {
+                this.map.getView().setResolution(this.map.getView().getResolution());
                 this.map.getView().animate({
                     resolution: this.map.getView().getResolution(),
                     zoom: this.map.getView().getZoom() + 1,
@@ -384,13 +356,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
     zoomOut(duration = 175) {
         try {
-            if (
-                typeof this.map !== "undefined" &&
-                typeof this.map.getView() !== "undefined"
-            ) {
-                this.map
-                    .getView()
-                    .setResolution(this.map.getView().getResolution());
+            if (typeof this.map !== "undefined" && typeof this.map.getView() !== "undefined") {
+                this.map.getView().setResolution(this.map.getView().getResolution());
                 this.map.getView().animate({
                     resolution: this.map.getView().getResolution(),
                     zoom: this.map.getView().getZoom() - 1,
@@ -442,10 +409,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
                 // Check that handler is not active
                 if (handler.getActive()) {
-                    console.warn(
-                        "could not disable openlayers draw handler:",
-                        handler.get("_id")
-                    );
+                    console.warn("could not disable openlayers draw handler:", handler.get("_id"));
                 }
             });
 
@@ -478,10 +442,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.completeDrawing:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.completeDrawing:", err);
             return false;
         }
     }
@@ -505,10 +466,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.enableMeasuring:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.enableMeasuring:", err);
             return false;
         }
     }
@@ -542,10 +500,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return true;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.disableMeasuring:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.disableMeasuring:", err);
             return false;
         }
     }
@@ -564,10 +519,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             return true;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.completeMeasuring:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.completeMeasuring:", err);
             return false;
         }
     }
@@ -577,19 +529,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let dblClickInteraction = this.miscUtil.findObjectInArray(
                 this.map.getInteractions().getArray(),
                 interaction => {
-                    return (
-                        interaction instanceof Ol_Interaction_DoubleClickZoom
-                    );
+                    return interaction instanceof Ol_Interaction_DoubleClickZoom;
                 }
             );
             if (dblClickInteraction) {
                 dblClickInteraction.setActive(enabled);
             }
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.setDoubleClickZoomEnabled:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.setDoubleClickZoomEnabled:", err);
             return false;
         }
     }
@@ -600,21 +547,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     addGeometry(geometry, interactionType, geodesic = false) {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = this.miscUtil.findObjectInArray(
-            mapLayers,
-            "_layerId",
-            "_vector_drawings"
-        );
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not find drawing layer in openlayers map");
             return false;
         }
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
-            if (
-                geometry.coordinateType ===
-                appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-            ) {
+            if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 circleGeom = new Ol_Geom_Circle(
                     [geometry.center.lon, geometry.center.lat],
                     geometry.radius /
@@ -643,19 +583,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lineStringGeom = null;
-            if (
-                geometry.coordinateType ===
-                appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-            ) {
+            if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 let geomCoords = geometry.coordinates.map(x => {
                     return [x.lon, x.lat];
                 });
 
                 // generate geodesic arcs from points
                 if (geodesic) {
-                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(
-                        geomCoords
-                    );
+                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(geomCoords);
                 }
 
                 lineStringGeom = new Ol_Geom_Linestring(geomCoords);
@@ -678,25 +613,17 @@ export default class MapWrapper_openlayers extends MapWrapper {
         }
         if (geometry.type === appStrings.GEOMETRY_POLYGON) {
             let polygonGeom = null;
-            if (
-                geometry.coordinateType ===
-                appStrings.COORDINATE_TYPE_CARTOGRAPHIC
-            ) {
+            if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Map obj to array
                 let geomCoords = geometry.coordinates.map(x => {
                     return [x.lon, x.lat];
                 });
                 // Push the first point to close the ring
-                geomCoords.push([
-                    geometry.coordinates[0].lon,
-                    geometry.coordinates[0].lat
-                ]);
+                geomCoords.push([geometry.coordinates[0].lon, geometry.coordinates[0].lat]);
 
                 // generate geodesic arcs from points
                 if (geodesic) {
-                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(
-                        geomCoords
-                    );
+                    geomCoords = this.mapUtil.generateGeodesicArcsForLineString(geomCoords);
                 }
 
                 // Put these coordinates into a ring by adding to array
@@ -753,11 +680,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
 
     removeAllDrawings() {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = this.miscUtil.findObjectInArray(
-            mapLayers,
-            "_layerId",
-            "_vector_drawings"
-        );
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not remove all geometries in openlayers map");
             return false;
@@ -774,20 +697,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
             mapLayer
                 .getSource()
                 .getFeatures()
-                .filter(
-                    x =>
-                        x.get("interactionType") === appStrings.INTERACTION_DRAW
-                ).length === 0
+                .filter(x => x.get("interactionType") === appStrings.INTERACTION_DRAW).length === 0
         );
     }
 
     removeAllMeasurements() {
         let mapLayers = this.map.getLayers().getArray();
-        let mapLayer = this.miscUtil.findObjectInArray(
-            mapLayers,
-            "_layerId",
-            "_vector_drawings"
-        );
+        let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
         if (!mapLayer) {
             console.warn("could not remove all geometries in openlayers map");
             return false;
@@ -806,11 +722,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             mapLayer
                 .getSource()
                 .getFeatures()
-                .filter(
-                    x =>
-                        x.get("interactionType") ===
-                        appStrings.INTERACTION_MEASURE
-                ).length === 0 && this.map.getOverlays().getArray().length === 0
+                .filter(x => x.get("interactionType") === appStrings.INTERACTION_MEASURE).length ===
+                0 && this.map.getOverlays().getArray().length === 0
         );
     }
 
@@ -840,9 +753,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         return acc;
                     }, []);
 
-                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(
-                        newCoords
-                    );
+                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates(lineCoords);
                     geom.set("originalCoordinates", newCoords, true);
                     return geom;
@@ -861,9 +772,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                         return acc;
                     }, []);
 
-                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(
-                        newCoords
-                    );
+                    let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
                     geom.setCoordinates([lineCoords]);
                     geom.set("originalCoordinates", newCoords, true);
                     return geom;
@@ -906,10 +815,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 drawInteraction.on("drawend", event => {
                     if (typeof onDrawEnd === "function") {
                         // store type of feature and id for later reference
-                        let geometry = this.retrieveGeometryFromEvent(
-                            event,
-                            geometryType
-                        );
+                        let geometry = this.retrieveGeometryFromEvent(event, geometryType);
                         event.feature.set("interactionType", interactionType);
                         event.feature.setId(geometry.id);
                         onDrawEnd(geometry, event);
@@ -1018,25 +924,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             // Set measurement units
             this.map.getOverlays().forEach(overlay => {
-                if (
-                    overlay.get("measurementType") === appStrings.MEASURE_AREA
-                ) {
+                if (overlay.get("measurementType") === appStrings.MEASURE_AREA) {
                     overlay.getElement().innerHTML = this.mapUtil.formatArea(
-                        this.mapUtil.convertAreaUnits(
-                            overlay.get("meters"),
-                            units
-                        ),
+                        this.mapUtil.convertAreaUnits(overlay.get("meters"), units),
                         units
                     );
-                } else if (
-                    overlay.get("measurementType") ===
-                    appStrings.MEASURE_DISTANCE
-                ) {
+                } else if (overlay.get("measurementType") === appStrings.MEASURE_DISTANCE) {
                     overlay.getElement().innerHTML = this.mapUtil.formatDistance(
-                        this.mapUtil.convertDistanceUnits(
-                            overlay.get("meters"),
-                            units
-                        ),
+                        this.mapUtil.convertDistanceUnits(overlay.get("meters"), units),
                         units
                     );
                 } else {
@@ -1089,11 +984,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers().getArray();
 
             // check if layer already exists on map, just move to top
-            let mapLayer = this.miscUtil.findObjectInArray(
-                mapLayers,
-                "_layerId",
-                layer.get("id")
-            );
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 this.moveLayerToTop(layer);
                 return true;
@@ -1121,11 +1012,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             // find the layer on the map
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = this.miscUtil.findObjectInArray(
-                mapLayers,
-                "_layerId",
-                layer.get("id")
-            );
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
 
             // remove the layer
             if (mapLayer) {
@@ -1135,10 +1022,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             // Layer is already not active
             return true;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.deactivateLayer:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.deactivateLayer:", err);
             return false;
         }
     }
@@ -1154,21 +1038,14 @@ export default class MapWrapper_openlayers extends MapWrapper {
     setLayerOpacity(layer, opacity) {
         try {
             let mapLayers = this.map.getLayers().getArray();
-            let mapLayer = this.miscUtil.findObjectInArray(
-                mapLayers,
-                "_layerId",
-                layer.get("id")
-            );
+            let mapLayer = this.miscUtil.findObjectInArray(mapLayers, "_layerId", layer.get("id"));
             if (mapLayer) {
                 mapLayer.setOpacity(opacity);
                 return true;
             }
             return false;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.setLayerOpacity:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.setLayerOpacity:", err);
             return false;
         }
     }
@@ -1182,8 +1059,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                 let mapLayers = this.map.getLayers();
                 if (
                     mapLayers.getLength() > 0 &&
-                    mapLayers.item(0).get("_layerType") ===
-                        appStrings.LAYER_GROUP_TYPE_BASEMAP
+                    mapLayers.item(0).get("_layerType") === appStrings.LAYER_GROUP_TYPE_BASEMAP
                 ) {
                     mapLayers.setAt(0, newBasemap);
                 } else {
@@ -1217,12 +1093,9 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             switch (eventStr) {
                 case appStrings.EVENT_MOUSE_HOVER:
-                    return this.map.addEventListener(
-                        "pointermove",
-                        position => {
-                            callback(position.pixel);
-                        }
-                    );
+                    return this.map.addEventListener("pointermove", position => {
+                        callback(position.pixel);
+                    });
                 case appStrings.EVENT_MOUSE_CLICK:
                     return this.map.addEventListener("click", clickEvt => {
                         callback({ pixel: clickEvt.pixel });
@@ -1233,10 +1106,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     return this.map.addEventListener(eventStr, callback);
             }
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.addEventListener:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.addEventListener:", err);
             return false;
         }
     }
@@ -1284,9 +1154,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     getLatLonFromPixelCoordinate(pixel) {
         try {
             let coordinate = this.map.getCoordinateFromPixel(pixel);
-            let constrainCoordinate = this.mapUtil.constrainCoordinates(
-                coordinate
-            );
+            let constrainCoordinate = this.mapUtil.constrainCoordinates(coordinate);
             if (
                 typeof constrainCoordinate[0] !== "undefined" &&
                 typeof constrainCoordinate[1] !== "undefined" &&
@@ -1301,10 +1169,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.getLatLonFromPixelCoordinate:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.getLatLonFromPixelCoordinate:", err);
             return false;
         }
     }
@@ -1349,10 +1214,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return false;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.moveLayerToBottom:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.moveLayerToBottom:", err);
             return false;
         }
     }
@@ -1411,8 +1273,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let mapLayers = this.map.getLayers();
             mapLayers.forEach(mapLayer => {
                 if (
-                    mapLayer.get("_layerType") ===
-                        appStrings.LAYER_GROUP_TYPE_DATA &&
+                    mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_DATA &&
                     mapLayer.getVisible()
                 ) {
                     retList.push(mapLayer.get("_layerId"));
@@ -1420,10 +1281,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             });
             return retList;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.getActiveLayerIds:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.getActiveLayerIds:", err);
             return false;
         }
     }
@@ -1432,10 +1290,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             return clickEvt.pixel;
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.getPixelFromClickEvent:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.getPixelFromClickEvent:", err);
             return false;
         }
     }
@@ -1463,11 +1318,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         try {
             let origUrl = layer.getIn(["wmtsOptions", "url"]);
             let customUrlFunction = this.tileHandler.getUrlFunction(
-                layer.getIn([
-                    "wmtsOptions",
-                    "urlFunctions",
-                    appStrings.MAP_LIB_2D
-                ])
+                layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D])
             );
             let tileMatrixIds =
                 typeof layerSource.getTileGrid === "function" &&
@@ -1488,10 +1339,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
             return origFunc(tileCoord, pixelRatio, projectionString);
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.generateTileUrl:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.generateTileUrl:", err);
             return false;
         }
     }
@@ -1499,11 +1347,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
     handleTileLoad(layer, mapLayer, tile, url, origFunc) {
         try {
             let customTileFunction = this.tileHandler.getTileFunction(
-                layer.getIn([
-                    "wmtsOptions",
-                    "tileFunctions",
-                    appStrings.MAP_LIB_2D
-                ])
+                layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D])
             );
             if (typeof customTileFunction === "function") {
                 return customTileFunction({
@@ -1582,10 +1426,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
                     appConfig.GIBS_IMAGERY_RESOLUTIONS.length
                 ),
                 // resolutions: options.tileGrid.resolutions,
-                matrixIds: options.tileGrid.matrixIds.slice(
-                    2,
-                    options.tileGrid.matrixIds.length
-                ),
+                matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
                 // matrixIds: options.tileGrid.matrixIds,
                 tileSize: options.tileGrid.tileSize
             }),
@@ -1608,8 +1449,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         // customize the layer url if needed
         if (
             typeof options.url !== "undefined" &&
-            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !==
-                "undefined"
+            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined"
         ) {
             let urlFunction = this.tileHandler.getUrlFunction(
                 layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D])
@@ -1630,8 +1470,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         // customize the layer url if needed
         if (
             typeof options.url !== "undefined" &&
-            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !==
-                "undefined"
+            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined"
         ) {
             let urlFunction = this.tileHandler.getUrlFunction(
                 layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D])
@@ -1652,8 +1491,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
         // customize the layer url if needed
         if (
             typeof options.url !== "undefined" &&
-            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !==
-                "undefined"
+            typeof layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D]) !== "undefined"
         ) {
             let urlFunction = this.tileHandler.getUrlFunction(
                 layer.getIn(["urlFunctions", appStrings.MAP_LIB_2D])
@@ -1680,14 +1518,10 @@ export default class MapWrapper_openlayers extends MapWrapper {
         let mapLayers = this.map.getLayers();
         let index = mapLayers.getLength();
 
-        if (
-            mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_REFERENCE
-        ) {
+        if (mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_REFERENCE) {
             // referece layers always on top
             return index;
-        } else if (
-            mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_BASEMAP
-        ) {
+        } else if (mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_BASEMAP) {
             // basemaps always on bottom
             return 0;
         } else {
@@ -1695,10 +1529,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             for (let i = index - 1; i >= 0; --i) {
                 let compareLayer = mapLayers.item(i);
                 if (
-                    compareLayer.get("_layerType") ===
-                        appStrings.LAYER_GROUP_TYPE_DATA ||
-                    compareLayer.get("_layerType") ===
-                        appStrings.LAYER_GROUP_TYPE_BASEMAP
+                    compareLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_DATA ||
+                    compareLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_BASEMAP
                 ) {
                     return i + 1;
                 }
@@ -1709,19 +1541,13 @@ export default class MapWrapper_openlayers extends MapWrapper {
     }
 
     getCacheHash(layer) {
-        return (
-            layer.get("id") +
-            moment(this.mapDate).format(layer.get("timeFormat"))
-        );
+        return layer.get("id") + moment(this.mapDate).format(layer.get("timeFormat"));
     }
 
     static prepProjection() {
         // define the projection for this application and reproject defaults
         Ol_Proj.setProj4(proj4js);
-        proj4js.defs(
-            appConfig.DEFAULT_PROJECTION.code,
-            appConfig.DEFAULT_PROJECTION.proj4Def
-        );
+        proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
 
         // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
         // string in getCapabilities and parses it into "OGC:CRS84". This
@@ -1752,10 +1578,7 @@ export default class MapWrapper_openlayers extends MapWrapper {
             let parser = new Ol_Format_WMTSCapabilities();
             return parser.read(xmlString);
         } catch (err) {
-            console.warn(
-                "Error in MapWrapper_openlayers.parseCapabilities:",
-                err
-            );
+            console.warn("Error in MapWrapper_openlayers.parseCapabilities:", err);
             return false;
         }
     }

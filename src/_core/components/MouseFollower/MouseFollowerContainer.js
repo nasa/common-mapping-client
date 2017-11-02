@@ -39,10 +39,7 @@ export class MouseFollowerContainer extends Component {
         return (
             <div className={containerClasses} style={style}>
                 <div className="content-container">
-                    <DrawingTooltip
-                        drawing={this.props.drawing}
-                        measuring={this.props.measuring}
-                    />
+                    <DrawingTooltip drawing={this.props.drawing} measuring={this.props.measuring} />
                 </div>
                 <MouseCoordinates />
             </div>

@@ -62,10 +62,7 @@ export function loadLayerMetadata(layer) {
         dispatch(layerMetadataLoading());
         // open the display
         dispatch(openLayerInfo(layer));
-        if (
-            layer.getIn(["metadata", "url"]) &&
-            layer.getIn(["metadata", "handleAs"])
-        ) {
+        if (layer.getIn(["metadata", "url"]) && layer.getIn(["metadata", "handleAs"])) {
             // fetch the metadata
             return MiscUtil.asyncFetch({
                 url: layer.getIn(["metadata", "url"]),
@@ -84,14 +81,11 @@ export function loadLayerMetadata(layer) {
                     // display alert
                     dispatch(
                         AlertActions.addAlert({
-                            title:
-                                appStrings.ALERTS.FETCH_METADATA_FAILED.title,
+                            title: appStrings.ALERTS.FETCH_METADATA_FAILED.title,
                             body: appStrings.ALERTS.FETCH_METADATA_FAILED.formatString
                                 .split("{LAYER}")
                                 .join(layer.get("title")),
-                            severity:
-                                appStrings.ALERTS.FETCH_METADATA_FAILED
-                                    .severity,
+                            severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -120,10 +114,7 @@ export function loadInitialData(callback = null) {
         // Set flag that initial layer data has begun loading
         dispatch(initialDataLoading());
         // Fetch all initial layer data
-        return Promise.all([
-            dispatch(loadLayerData()),
-            dispatch(loadPaletteData())
-        ]).then(
+        return Promise.all([dispatch(loadLayerData()), dispatch(loadPaletteData())]).then(
             () => {
                 // Set flag that initial layer data has finished loading
                 dispatch(initialDataLoaded());
@@ -136,11 +127,8 @@ export function loadInitialData(callback = null) {
                 dispatch(
                     AlertActions.addAlert({
                         title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
-                        body:
-                            appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED
-                                .formatString,
-                        severity:
-                            appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
+                        body: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.formatString,
+                        severity: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -204,10 +192,7 @@ export function loadSingleLayerSource(options) {
                 dispatch(ingestLayerConfig(data, options));
             },
             err => {
-                console.warn(
-                    "Error in LayerActions.loadSingleLayerSource: ",
-                    err
-                );
+                console.warn("Error in LayerActions.loadSingleLayerSource: ", err);
                 throw err;
             }
         );

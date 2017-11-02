@@ -54,8 +54,7 @@ export default class MapReducer {
                         "{MAP_VIEW_MODE}",
                         action.mode
                     ),
-                    severity:
-                        appStrings.ALERTS.VIEW_MODE_CHANGE_FAILED.severity,
+                    severity: appStrings.ALERTS.VIEW_MODE_CHANGE_FAILED.severity,
                     time: new Date()
                 })
             );
@@ -76,15 +75,10 @@ export default class MapReducer {
                     window.requestAnimationFrame(() => {
                         let mapSize = map.getMapSize();
                         map.enableActiveListeners(true);
-                        if (
-                            mapSize &&
-                            (mapSize.width === 0 && mapSize.height === 0)
-                        ) {
+                        if (mapSize && (mapSize.width === 0 && mapSize.height === 0)) {
                             // If map size is 0,0 we resize and then set extent
                             map.resize();
-                            map.setExtent(
-                                state.getIn(["view", "extent"]).toJS()
-                            );
+                            map.setExtent(state.getIn(["view", "extent"]).toJS());
                         }
                     });
                 } else {
@@ -97,9 +91,7 @@ export default class MapReducer {
     }
 
     static setTerrainEnabled(state, action) {
-        if (
-            state.getIn(["displaySettings", "enableTerrain"]) !== action.enabled
-        ) {
+        if (state.getIn(["displaySettings", "enableTerrain"]) !== action.enabled) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.is3D) {
                     if (map.enableTerrain(action.enabled)) {
@@ -110,10 +102,7 @@ export default class MapReducer {
             }, false);
 
             if (anySucceed) {
-                return state.setIn(
-                    ["displaySettings", "enableTerrain"],
-                    action.enabled
-                );
+                return state.setIn(["displaySettings", "enableTerrain"], action.enabled);
             }
         }
 
@@ -127,9 +116,7 @@ export default class MapReducer {
         ) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.is3D) {
-                    if (
-                        map.setTerrainExaggeration(action.terrainExaggeration)
-                    ) {
+                    if (map.setTerrainExaggeration(action.terrainExaggeration)) {
                         return true;
                     }
                 }
@@ -148,10 +135,7 @@ export default class MapReducer {
     }
 
     static setScaleUnits(state, action) {
-        if (
-            state.getIn(["displaySettings", "selectedScaleUnits"]) !==
-            action.units
-        ) {
+        if (state.getIn(["displaySettings", "selectedScaleUnits"]) !== action.units) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setScaleUnits(action.units)) {
                     return true;
@@ -160,10 +144,7 @@ export default class MapReducer {
             }, false);
 
             if (anySucceed) {
-                return state.setIn(
-                    ["displaySettings", "selectedScaleUnits"],
-                    action.units
-                );
+                return state.setIn(["displaySettings", "selectedScaleUnits"], action.units);
             }
         }
 
@@ -199,8 +180,7 @@ export default class MapReducer {
                                 "{MAP}",
                                 contextStr
                             ),
-                            severity:
-                                appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
+                            severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -244,8 +224,7 @@ export default class MapReducer {
                                 "{MAP}",
                                 contextStr
                             ),
-                            severity:
-                                appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
+                            severity: appStrings.ALERTS.VIEW_SYNC_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -307,18 +286,14 @@ export default class MapReducer {
                         body: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString
                             .replace("{LAYER}", action.layer)
                             .replace("{MAP}", "the"),
-                        severity:
-                            appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
+                        severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
                         time: new Date()
                     })
                 );
             }
         }
 
-        if (
-            typeof actionLayer !== "undefined" &&
-            actionLayer.get("isActive") !== action.active
-        ) {
+        if (typeof actionLayer !== "undefined" && actionLayer.get("isActive") !== action.active) {
             let anySucceed = state.get("maps").reduce((acc, map) => {
                 if (map.setLayerActive(actionLayer, action.active)) {
                     return true;
@@ -326,14 +301,11 @@ export default class MapReducer {
                     let contextStr = map.is3D ? "3D" : "2D";
                     alerts = alerts.push(
                         alert.merge({
-                            title:
-                                appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
+                            title: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.title,
                             body: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.formatString
                                 .replace("{LAYER}", actionLayer.get("title"))
                                 .replace("{MAP}", contextStr),
-                            severity:
-                                appStrings.ALERTS.LAYER_ACTIVATION_FAILED
-                                    .severity,
+                            severity: appStrings.ALERTS.LAYER_ACTIVATION_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -388,15 +360,12 @@ export default class MapReducer {
             if (typeof actionLayer === "undefined") {
                 alerts = alerts.push(
                     alert.merge({
-                        title:
-                            appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
+                        title: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
                         body: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.formatString.replace(
                             "{LAYER}",
                             action.layer
                         ),
-                        severity:
-                            appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED
-                                .severity,
+                        severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -414,8 +383,7 @@ export default class MapReducer {
                         "{LAYER}",
                         action.layer
                     ),
-                    severity:
-                        appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
+                    severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
                     time: new Date()
                 })
             );
@@ -428,27 +396,19 @@ export default class MapReducer {
                     });
 
                     state = state.setIn(
-                        [
-                            "layers",
-                            actionLayer.get("type"),
-                            actionLayer.get("id"),
-                            "opacity"
-                        ],
+                        ["layers", actionLayer.get("type"), actionLayer.get("id"), "opacity"],
                         opacity
                     );
                 }
             } else {
                 alerts = alerts.push(
                     alert.merge({
-                        title:
-                            appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
+                        title: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.title,
                         body: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.formatString.replace(
                             "{LAYER}",
                             action.layer
                         ),
-                        severity:
-                            appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED
-                                .severity,
+                        severity: appStrings.ALERTS.LAYER_OPACITY_CHANGE_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -470,10 +430,7 @@ export default class MapReducer {
         }
 
         let newLayer = actionLayer.set("palette", action.palette);
-        return state.setIn(
-            ["layers", actionLayer.get("type"), actionLayer.get("id")],
-            newLayer
-        );
+        return state.setIn(["layers", actionLayer.get("type"), actionLayer.get("id")], newLayer);
     }
 
     static setBasemap(state, action) {
@@ -490,8 +447,7 @@ export default class MapReducer {
                         body: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.formatString
                             .replace("{LAYER}", action.layer)
                             .replace("{MAP}", "2D & 3D"),
-                        severity:
-                            appStrings.ALERTS.BASEMAP_UPDATE_FAILED.severity,
+                        severity: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -510,14 +466,11 @@ export default class MapReducer {
                     let contextStr = map.is3D ? "3D" : "2D";
                     alerts = alerts.push(
                         alert.merge({
-                            title:
-                                appStrings.ALERTS.BASEMAP_UPDATE_FAILED.title,
+                            title: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.title,
                             body: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.formatString
                                 .replace("{LAYER}", actionLayer.get("title"))
                                 .replace("{MAP}", contextStr),
-                            severity:
-                                appStrings.ALERTS.BASEMAP_UPDATE_FAILED
-                                    .severity,
+                            severity: appStrings.ALERTS.BASEMAP_UPDATE_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -534,10 +487,7 @@ export default class MapReducer {
                         }
                         return layer.set("isActive", false);
                     });
-                state = state.setIn(
-                    ["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP],
-                    basemapList
-                );
+                state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP], basemapList);
             }
         }
 
@@ -558,50 +508,34 @@ export default class MapReducer {
                 .map(layer => {
                     return layer.set("isActive", false);
                 });
-            state = state.setIn(
-                ["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP],
-                basemapList
-            );
+            state = state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_BASEMAP], basemapList);
         }
         return state;
     }
 
     static ingestLayerConfig(state, action) {
         if (action.options.type === appStrings.LAYER_CONFIG_JSON) {
-            let currPartials = state.getIn([
-                "layers",
-                appStrings.LAYER_GROUP_TYPE_PARTIAL
-            ]);
+            let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
             let newPartials = this.generatePartialsListFromJson(action.config);
             return state.setIn(
                 ["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL],
                 currPartials.concat(newPartials)
             );
         } else if (action.options.type === appStrings.LAYER_CONFIG_WMTS_XML) {
-            let currPartials = state.getIn([
-                "layers",
-                appStrings.LAYER_GROUP_TYPE_PARTIAL
-            ]);
-            let newPartials = this.generatePartialsListFromWmtsXml(
-                action.config
-            );
+            let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
+            let newPartials = this.generatePartialsListFromWmtsXml(action.config);
             return state.setIn(
                 ["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL],
                 currPartials.concat(newPartials)
             );
         } else {
-            console.warn(
-                "Error in MapReducer.ingestLayerConfig: Could not ingest layer config"
-            );
+            console.warn("Error in MapReducer.ingestLayerConfig: Could not ingest layer config");
         }
         return state;
     }
 
     static mergeLayers(state, action) {
-        let partials = state.getIn([
-            "layers",
-            appStrings.LAYER_GROUP_TYPE_PARTIAL
-        ]);
+        let partials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
         let refPartial = null;
         let matchingPartials = null;
         let mergedLayer = null;
@@ -632,8 +566,7 @@ export default class MapReducer {
             // put the newly minted layer into state storage
             if (
                 typeof mergedLayer.get("id") !== "undefined" &&
-                typeof state.getIn(["layers", mergedLayer.get("type")]) !==
-                    "undefined"
+                typeof state.getIn(["layers", mergedLayer.get("type")]) !== "undefined"
             ) {
                 state = state.setIn(
                     ["layers", mergedLayer.get("type"), mergedLayer.get("id")],
@@ -735,25 +668,18 @@ export default class MapReducer {
                 // update each layer on the map
                 state.get("layers").forEach(layerSection => {
                     layerSection.forEach(layer => {
-                        if (
-                            layer.get("isActive") &&
-                            layer.get("updateParameters").get("time")
-                        ) {
+                        if (layer.get("isActive") && layer.get("updateParameters").get("time")) {
                             // update the layer and track if any fail
                             if (!map.updateLayer(layer)) {
                                 let contextStr = map.is3D ? "3D" : "2D";
                                 alerts = alerts.push(
                                     alert.merge({
-                                        title:
-                                            appStrings.ALERTS.SET_DATE_FAILED
-                                                .title,
+                                        title: appStrings.ALERTS.SET_DATE_FAILED.title,
                                         body: appStrings.ALERTS.SET_DATE_FAILED.formatString.replace(
                                             "{MAP}",
                                             contextStr
                                         ),
-                                        severity:
-                                            appStrings.ALERTS.SET_DATE_FAILED
-                                                .severity,
+                                        severity: appStrings.ALERTS.SET_DATE_FAILED.severity,
                                         time: new Date()
                                     })
                                 );
@@ -788,9 +714,7 @@ export default class MapReducer {
     }
 
     static pixelHover(state, action) {
-        let pixelCoordinate = state
-            .getIn(["view", "pixelHoverCoordinate"])
-            .set("isValid", false);
+        let pixelCoordinate = state.getIn(["view", "pixelHoverCoordinate"]).set("isValid", false);
         state.get("maps").forEach(map => {
             if (map.isActive) {
                 let coords = map.getLatLonFromPixelCoordinate(action.pixel);
@@ -814,9 +738,7 @@ export default class MapReducer {
     }
 
     static pixelClick(state, action) {
-        let pixelCoordinate = state
-            .getIn(["view", "pixelClickCoordinate"])
-            .set("isValid", false);
+        let pixelCoordinate = state.getIn(["view", "pixelClickCoordinate"]).set("isValid", false);
         state.get("maps").forEach(map => {
             if (map.isActive) {
                 let pixel = map.getPixelFromClickEvent(action.clickEvt);
@@ -935,12 +857,7 @@ export default class MapReducer {
         let layerOrder = map2D.getActiveLayerIds();
         for (let i = 0; i < layerOrder.length; ++i) {
             state = state.setIn(
-                [
-                    "layers",
-                    appStrings.LAYER_GROUP_TYPE_DATA,
-                    layerOrder[i],
-                    "displayIndex"
-                ],
+                ["layers", appStrings.LAYER_GROUP_TYPE_DATA, layerOrder[i], "displayIndex"],
                 layerOrder.length - i
             );
         }
@@ -1007,12 +924,7 @@ export default class MapReducer {
         // For each map, enable measuring
         let anySucceed = state.get("maps").reduce((acc, map) => {
             if (map.isActive) {
-                if (
-                    map.enableMeasuring(
-                        action.geometryType,
-                        action.measurementType
-                    )
-                ) {
+                if (map.enableMeasuring(action.geometryType, action.measurementType)) {
                     return true;
                 }
             }
@@ -1023,10 +935,7 @@ export default class MapReducer {
             return state
                 .setIn(["measuring", "isMeasuringEnabled"], true)
                 .setIn(["measuring", "geometryType"], action.geometryType)
-                .setIn(
-                    ["measuring", "measurementType"],
-                    action.measurementType
-                );
+                .setIn(["measuring", "measurementType"], action.measurementType);
         }
         return state;
     }
@@ -1055,13 +964,7 @@ export default class MapReducer {
         state.get("maps").forEach(map => {
             // Only add geometry to inactive maps
             if (!map.isActive) {
-                if (
-                    !map.addGeometry(
-                        action.geometry,
-                        action.interactionType,
-                        action.geodesic
-                    )
-                ) {
+                if (!map.addGeometry(action.geometry, action.interactionType, action.geodesic)) {
                     let contextStr = map.is3D ? "3D" : "2D";
                     alerts = alerts.push(
                         alert.merge({
@@ -1070,8 +973,7 @@ export default class MapReducer {
                                 "{MAP}",
                                 contextStr
                             ),
-                            severity:
-                                appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
+                            severity: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
                             time: new Date()
                         })
                     );
@@ -1086,10 +988,7 @@ export default class MapReducer {
         let alerts = state.get("alerts");
 
         // calculate measurement and placement
-        let measurement = MapUtil.measureGeometry(
-            action.geometry,
-            action.measurementType
-        );
+        let measurement = MapUtil.measureGeometry(action.geometry, action.measurementType);
         let measurementLabel = MapUtil.formatMeasurement(
             measurement,
             action.measurementType,
@@ -1104,9 +1003,7 @@ export default class MapReducer {
 
         state.get("maps").forEach(map => {
             // add label to all maps since it's not done automatically for anyone
-            if (
-                !map.addLabel(measurementLabel, measurementPosition, labelMeta)
-            ) {
+            if (!map.addLabel(measurementLabel, measurementPosition, labelMeta)) {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(
                     alert.merge({
@@ -1115,8 +1012,7 @@ export default class MapReducer {
                             "{MAP}",
                             contextStr
                         ),
-                        severity:
-                            appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
+                        severity: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -1141,8 +1037,7 @@ export default class MapReducer {
                             "{MAP}",
                             contextStr
                         ),
-                        severity:
-                            appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.severity,
+                        severity: appStrings.ALERTS.GEOMETRY_REMOVAL_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -1162,15 +1057,12 @@ export default class MapReducer {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(
                     alert.merge({
-                        title:
-                            appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.title,
+                        title: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.title,
                         body: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.formatString.replace(
                             "{MAP}",
                             contextStr
                         ),
-                        severity:
-                            appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED
-                                .severity,
+                        severity: appStrings.ALERTS.MEASUREMENT_REMOVAL_FAILED.severity,
                         time: new Date()
                     })
                 );
@@ -1184,40 +1076,32 @@ export default class MapReducer {
         let newState = state;
 
         // set data/reference layers opacity to 1
-        newState
-            .getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA])
-            .forEach(layer => {
-                newState = this.setLayerOpacity(newState, {
-                    layer,
-                    opacity: 1
-                });
+        newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).forEach(layer => {
+            newState = this.setLayerOpacity(newState, {
+                layer,
+                opacity: 1
             });
-        newState
-            .getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE])
-            .forEach(layer => {
-                newState = this.setLayerOpacity(newState, {
-                    layer,
-                    opacity: 1
-                });
+        });
+        newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach(layer => {
+            newState = this.setLayerOpacity(newState, {
+                layer,
+                opacity: 1
             });
+        });
 
         // turn off data/reference layers
-        newState
-            .getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA])
-            .forEach(layer => {
-                newState = this.setLayerActive(newState, {
-                    layer,
-                    active: false
-                });
+        newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_DATA]).forEach(layer => {
+            newState = this.setLayerActive(newState, {
+                layer,
+                active: false
             });
-        newState
-            .getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE])
-            .forEach(layer => {
-                newState = this.setLayerActive(newState, {
-                    layer,
-                    active: false
-                });
+        });
+        newState.getIn(["layers", appStrings.LAYER_GROUP_TYPE_REFERENCE]).forEach(layer => {
+            newState = this.setLayerActive(newState, {
+                layer,
+                active: false
             });
+        });
 
         // set view to 2D
         newState = this.setMapViewMode(newState, {

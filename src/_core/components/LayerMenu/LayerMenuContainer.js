@@ -30,13 +30,10 @@ export class LayerMenuContainer extends Component {
             <div id="layerMenu" className={layerMenuClasses}>
                 <div id="layerHeaderRow" className="row middle-xs">
                     <div className="col-xs-8 text-left">
-                        <span className="layer-menu-header">
-                            LAYER CONTROLS
-                        </span>
+                        <span className="layer-menu-header">LAYER CONTROLS</span>
                         <span className="layer-menu-note">
-                            <span className="layer-menu-note-active">
-                                {activeNum}
-                            </span>/{totalNum} Active
+                            <span className="layer-menu-note-active">{activeNum}</span>/{totalNum}{" "}
+                            Active
                         </span>
                     </div>
                     <div className="col-xs-4 text-right">
@@ -44,25 +41,16 @@ export class LayerMenuContainer extends Component {
                             neutral
                             inverse
                             data-tip={
-                                this.props.layerMenuOpen ? (
-                                    "Close layer menu"
-                                ) : (
-                                    "Open layer menu"
-                                )
+                                this.props.layerMenuOpen ? "Close layer menu" : "Open layer menu"
                             }
                             data-place="left"
                             icon={
-                                this.props.layerMenuOpen ? (
-                                    "keyboard_arrow_up"
-                                ) : (
-                                    "keyboard_arrow_down"
-                                )
+                                this.props.layerMenuOpen
+                                    ? "keyboard_arrow_up"
+                                    : "keyboard_arrow_down"
                             }
                             className="no-padding mini-xs-waysmall"
-                            onClick={() =>
-                                this.props.setLayerMenuOpen(
-                                    !this.props.layerMenuOpen
-                                )}
+                            onClick={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
                         />
                     </div>
                 </div>
@@ -72,9 +60,7 @@ export class LayerMenuContainer extends Component {
                             key={layer.get("id") + "_layer_listing"}
                             layer={layer}
                             activeNum={activeNum}
-                            palette={this.props.palettes.get(
-                                layer.getIn(["palette", "name"])
-                            )}
+                            palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
                         />
                     ))}
                 </div>
@@ -102,10 +88,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerMenuOpen: bindActionCreators(
-            layerActions.setLayerMenuOpen,
-            dispatch
-        )
+        setLayerMenuOpen: bindActionCreators(layerActions.setLayerMenuOpen, dispatch)
     };
 }
 

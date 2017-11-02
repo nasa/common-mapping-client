@@ -40,10 +40,8 @@ export default class AnalyticsReducer {
         // skip items we don't care about or if analytics is not enabled
         if (
             !state.get("isEnabled") ||
-            (INCLUDED_ACTIONS.size > 0 &&
-                !INCLUDED_ACTIONS.contains(action.type)) ||
-            (EXCLUDED_ACTIONS.size > 0 &&
-                EXCLUDED_ACTIONS.contains(action.type))
+            (INCLUDED_ACTIONS.size > 0 && !INCLUDED_ACTIONS.contains(action.type)) ||
+            (EXCLUDED_ACTIONS.size > 0 && EXCLUDED_ACTIONS.contains(action.type))
         ) {
             return state;
         }
@@ -96,17 +94,12 @@ export default class AnalyticsReducer {
                     console.log("Anlytics push successful.");
                 },
                 err => {
-                    console.warn(
-                        "Error in analytics.sendAnalyticsBatch: ",
-                        err
-                    );
+                    console.warn("Error in analytics.sendAnalyticsBatch: ", err);
                 }
             );
 
             // clear the current batch and update the sent time
-            state = state
-                .set("currentBatch", Immutable.List())
-                .set("timeLastSent", new Date());
+            state = state.set("currentBatch", Immutable.List()).set("timeLastSent", new Date());
         }
         return state;
     }

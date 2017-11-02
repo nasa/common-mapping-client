@@ -63,20 +63,11 @@ export class AppContainer extends Component {
             window.requestAnimationFrame(() => {
                 setTimeout(() => {
                     // initialize the maps
-                    this.props.actions.initializeMap(
-                        appStrings.MAP_LIB_2D,
-                        "map2D"
-                    );
-                    this.props.actions.initializeMap(
-                        appStrings.MAP_LIB_3D,
-                        "map3D"
-                    );
+                    this.props.actions.initializeMap(appStrings.MAP_LIB_2D, "map2D");
+                    this.props.actions.initializeMap(appStrings.MAP_LIB_3D, "map3D");
 
                     // set initial view
-                    this.props.actions.setMapView(
-                        { extent: appConfig.DEFAULT_BBOX_EXTENT },
-                        true
-                    );
+                    this.props.actions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true);
 
                     // activate default/url params
                     if (this.urlParams.length === 0) {
@@ -98,10 +89,8 @@ export class AppContainer extends Component {
 
     render() {
         let containerClasses = MiscUtil.generateStringFromSet({
-            "mouse-hidden":
-                this.props.mapControlsHidden && this.props.distractionFreeMode,
-            "mouse-shown":
-                !this.props.mapControlsHidden && this.props.distractionFreeMode
+            "mouse-hidden": this.props.mapControlsHidden && this.props.distractionFreeMode,
+            "mouse-shown": !this.props.mapControlsHidden && this.props.distractionFreeMode
         });
         return (
             <div id="appContainer" className={containerClasses}>
@@ -122,11 +111,7 @@ export class AppContainer extends Component {
                 <AnalyticsContainer />
                 <KeyboardControlsContainer />
                 <CoordinateTracker />
-                <ReactTooltip
-                    effect="solid"
-                    globalEventOff="click"
-                    delayShow={600}
-                />
+                <ReactTooltip effect="solid" globalEventOff="click" delayShow={600} />
             </div>
         );
     }
@@ -148,27 +133,15 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            completeInitialLoad: bindActionCreators(
-                actions.completeInitialLoad,
-                dispatch
-            ),
+            completeInitialLoad: bindActionCreators(actions.completeInitialLoad, dispatch),
             checkBrowserFunctionalities: bindActionCreators(
                 actions.checkBrowserFunctionalities,
                 dispatch
             ),
-            loadInitialData: bindActionCreators(
-                layerActions.loadInitialData,
-                dispatch
-            ),
-            activateDefaultLayers: bindActionCreators(
-                layerActions.activateDefaultLayers,
-                dispatch
-            ),
+            loadInitialData: bindActionCreators(layerActions.loadInitialData, dispatch),
+            activateDefaultLayers: bindActionCreators(layerActions.activateDefaultLayers, dispatch),
             runUrlConfig: bindActionCreators(actions.runUrlConfig, dispatch),
-            initializeMap: bindActionCreators(
-                mapActions.initializeMap,
-                dispatch
-            ),
+            initializeMap: bindActionCreators(mapActions.initializeMap, dispatch),
             setMapView: bindActionCreators(mapActions.setMapView, dispatch)
         }
     };

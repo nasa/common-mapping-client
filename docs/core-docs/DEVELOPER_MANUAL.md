@@ -18,8 +18,9 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
         2. [Development Mode](#cmc-build-process-development-mode)
         3. [Production Mode](#cmc-build-process-production-mode)
         4. [Brief Note on Cesium + Webpack Integration](#cmc-build-process-cesium-integration)
-        5. [Brief Note on ESLint](#cmc-build-process-eslint)
-    3. [Brief Note on Serving CMC](#cmc-build-process-serving-cmc)
+    3. [Brief Note on ESLint](#cmc-build-process-eslint)
+    4. [Brief Note on Prettier](#cmc-build-process-prettier)
+    5. [Brief Note on Serving CMC](#cmc-build-process-serving-cmc)
 7. [Styling CMC](#styling-cmc)
     1. [React UI Component Library (React-Toolbox)](#styling-cmc-react-toolbox)
     2. [SASS Usage](#styling-cmc-sass)
@@ -113,6 +114,7 @@ The scripts defined in `package.json` are used to control various aspects of app
 |----------|-------|
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
 | prestart | Runs automatically before start. Cleans previous build and builds `index.html` for serving. |
+| precommit | Runs prettier code formatting automatically after commits have been staged. |
 | start | Builds a development version of the app in memory and serves it from a local node server. |
 | start:dist | Builds a production version of the app and serves it from a local node server. |
 | open:src | Serve development version of the app from a local node server |
@@ -125,6 +127,7 @@ The scripts defined in `package.json` are used to control various aspects of app
 | clean:dist | Removes `dist/` |
 | clean:test | Removes `test-results/` |
 | pretest | Runs automatically before test. Cleans previous test results |
+| prettier-all | Run prettier on all js/css/scss files under the `src` directory |
 | test | Runs all tests using karma js |
 | analyze-bundle | Analyzes webpack bundles for production and gives you a breakdown of where modules are used and their sizes via a convenient interactive zoomable treemap |
 
@@ -275,7 +278,7 @@ In short:
 
 Webpack is one of the most popular module bundlers or build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better.
 
-CMC uses webpack version 1 for now although weback version 2 is coming out as of early 2017 so CMC may upgrade to the new version if time and stability permit. Read more about webpack version 1 over in the docs [here](https://webpack.github.io/docs/).
+CMC uses webpack version 2. Read more about webpack version 2 over in the docs [here](https://webpack.github.io/docs/).
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack is driven from a JS configuration file (or multiple files in our case for development and production).
 
@@ -308,7 +311,7 @@ Now you should have a completed production application inside of `dist` that you
 Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and CMC maps the global cesium variable to a instance variables for consistency.
 
 <a id="cmc-build-process-eslint"></a>
-##### Brief Note on ESLint
+### Brief Note on ESLint
 CMC uses [ESLint](http://eslint.org/) to report JS syntax and style issues. ESLint is configured via a file at the root of the repository called `.eslintrc` which contains many configuration items that tell ESLint what plugins, rules, and exceptions to use when linting your JS code. Some of these rules you may may want to alter globally from this file if you have different preferences. For example if you want to remove the ESLint rule warning against using `var` in your JS (since you use `const` and `let` instead in ES6) you can set
 ```JSON
 "no-var": 1 
@@ -330,6 +333,11 @@ There may also be situations in which you only want to ignore certain cases in y
 ```
 
 Other forms of ESLint ignore comments are used in CMC. Learn more about ESLint and the different ways to suppress rules [http://eslint.org/docs/user-guide/configuring](http://eslint.org/docs/user-guide/configuring).
+
+<a id="cmc-build-process-prettier"></a>
+### Brief Note on Prettier
+CMC uses [Prettier](https://github.com/prettier/prettier) for consistent, automatic pre-commit-hook formatting of js/css/scss files. Prettier is run automatically on relevant files after commits have been staged. This formatting is purely stylistic and does not change any code (other than the occasional addition of missing semicolons). Prettier is used for all relevant Core files but Application Developers may choose to disable this behavior by removing the precommit hook in `package.json`, change the prettier settings included in the `.prettierrc` file, or substitute their own formatter. Prettier can also be invoked manually or on file save from within many editors such as VSCode, Sublime Text, etc. A convenience npm script called `prettier-all` is included for formatting all js/css/scss files located under `src`.
+
 
 <a id="cmc-build-process-serving-cmc"></a>
 ### Brief Note on Serving CMC
@@ -1249,6 +1257,7 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [Karma](https://karma-runner.github.io/1.0/index.html) | Test runner for Javascript. |
 | [Mocha](http://mochajs.org) | Automated tests with [Chai](http://chaijs.com/) for assertions and [Enzyme](https://github.com/airbnb/enzyme) for DOM testing without a browser using Node. |
 | [ESLint](http://eslint.org/)| Lint JS. Reports syntax and style issues. Using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) for additional React specific linting rules. | |
+| [Prettier](https://github.com/prettier/prettier)| Prettier is an opinionated code formatter.| |
 | [SASS](http://sass-lang.com/) | Compiled CSS styles with variables, functions, and more. |
 | [npm Scripts](https://docs.npmjs.com/misc/scripts)| Glues all this together in a handy automated build. | [Why not Gulp?](https://medium.com/@housecor/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8#.vtaziro8n)  |
 | [postCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |

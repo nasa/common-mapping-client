@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import DayPicker from '_core/components/DatePicker/DayPicker';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import moment from "moment";
+import DayPicker from "_core/components/DatePicker/DayPicker";
+import appConfig from "constants/appConfig";
 
 export class CurrentDayPicker extends Component {
     shouldComponentUpdate(nextProps) {
@@ -14,9 +14,7 @@ export class CurrentDayPicker extends Component {
     render() {
         let date = moment(this.props.date);
         let day = date.format("DD");
-        return (
-            <DayPicker day={day} onUpdate={this.props.onUpdate} />
-        );
+        return <DayPicker day={day} onUpdate={this.props.onUpdate} />;
     }
 }
 
@@ -31,7 +29,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(CurrentDayPicker);
+export default connect(mapStateToProps, null)(CurrentDayPicker);

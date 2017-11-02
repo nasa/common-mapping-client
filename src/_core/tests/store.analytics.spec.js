@@ -36,9 +36,7 @@ export const StoreAnalyticsSpec = {
                 it("enables user analytics", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        analyticsActions.setAnalyticsEnabled(true)
-                    ];
+                    const actions = [analyticsActions.setAnalyticsEnabled(true)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();

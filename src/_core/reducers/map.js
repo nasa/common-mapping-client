@@ -1,6 +1,6 @@
-import * as actionTypes from '_core/constants/actionTypes';
-import { mapState } from '_core/reducers/models/map';
-import MapReducer from '_core/reducers/reducerFunctions/MapReducer';
+import * as actionTypes from "_core/constants/actionTypes";
+import { mapState } from "_core/reducers/models/map";
+import MapReducer from "_core/reducers/reducerFunctions/MapReducer";
 
 export default function map(state = mapState, action, opt_reducer = MapReducer) {
     switch (action.type) {
@@ -42,7 +42,7 @@ export default function map(state = mapState, action, opt_reducer = MapReducer) 
 
         case actionTypes.SET_LAYER_OPACITY:
             return opt_reducer.setLayerOpacity(state, action);
-            
+
         case actionTypes.SET_LAYER_PALETTE:
             return opt_reducer.setLayerPalette(state, action);
 

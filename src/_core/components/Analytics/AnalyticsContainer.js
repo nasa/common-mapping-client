@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import appConfig from 'constants/appConfig';
-import * as actions from '_core/actions/AnalyticsActions';
-import ReactGA from 'react-ga';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import appConfig from "constants/appConfig";
+import * as actions from "_core/actions/AnalyticsActions";
+import ReactGA from "react-ga";
 
 export class AnalyticsContainer extends Component {
     componentDidMount() {
@@ -14,12 +14,12 @@ export class AnalyticsContainer extends Component {
             // Initialize basic google analytics tracking
             ReactGA.initialize(appConfig.GOOGLE_ANALYTICS_ID);
             // Initialize root page view to start collecting data
-            ReactGA.pageview('/');
+            ReactGA.pageview("/");
             // Can also use ReactGA.pageview elsewhere to note view changes
             // Can also use ReactGA.event to log custom events if desired
         }
     }
-    
+
     componentDidUpdate() {
         this.checkInterval();
     }
@@ -30,7 +30,10 @@ export class AnalyticsContainer extends Component {
                 // every 5 seconds, check to see if it's been more than 5 seconds since
                 // the last analytics batch was sent. If it has, send out the current batch
                 this.batchInterval = setInterval(() => {
-                    if (new Date() - this.props.timeLastSent >= appConfig.ANALYTICS_BATCH_WAIT_TIME_MS) {
+                    if (
+                        new Date() - this.props.timeLastSent >=
+                        appConfig.ANALYTICS_BATCH_WAIT_TIME_MS
+                    ) {
                         this.props.actions.sendAnalyticsBatch();
                     }
                 }, appConfig.ANALYTICS_BATCH_WAIT_TIME_MS);
@@ -44,9 +47,7 @@ export class AnalyticsContainer extends Component {
     }
 
     render() {
-        return (
-            <div id="analyticsContainer" />
-        );
+        return <div id="analyticsContainer" />;
     }
 }
 
@@ -69,7 +70,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AnalyticsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AnalyticsContainer);

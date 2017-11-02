@@ -20,7 +20,7 @@ body {
     color: white;
     display: flex;
     align-items: center;
-    font-family: 'Roboto Mono', Helvetica, Arial, sans-serif;
+    font-family: "Roboto Mono", Helvetica, Arial, sans-serif;
     color: #212121;
     letter-spacing: 4px;
     font-size: 10px !important;
@@ -33,7 +33,7 @@ body {
     height: 100%;
     top: 0px;
     left: 0px;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPklEQVQYV2NkYGD4z8DAwMhAAMAUEFSMbBJexehW4lSMzW1YFePyBIZifL5FUUwoWOCKCSkEhS5YMTEKwYoB/a0KCrF16vQAAAAASUVORK5CYII=);
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9aaaapkleqvqyv2nkygd4z8dawmhaamauefsmbbjexehw4lsmzw1yfepybizifl5fuuwowockcskehs5ymtekwyob/a0KCrF16vQAAAAASUVORK5CYII=);
 }
 
 .test {
@@ -99,7 +99,7 @@ body {
 }
 
 .loader:before {
-    content: '';
+    content: "";
     display: block;
     padding-top: 100%;
 }

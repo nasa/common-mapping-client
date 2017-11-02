@@ -139,8 +139,7 @@ export class LayerControlContainer extends Component {
         let layerOrderIcon =
             this.props.layer.get("displayIndex") === 1 ? (
                 <LayerIconTop />
-            ) : this.props.layer.get("displayIndex") ===
-            this.props.activeNum ? (
+            ) : this.props.layer.get("displayIndex") === this.props.activeNum ? (
                 <LayerIconBottom />
             ) : (
                 <LayerIconMiddle />
@@ -152,11 +151,7 @@ export class LayerControlContainer extends Component {
                     <div className="col-xs-2 text-left toggle">
                         <div
                             data-tip={
-                                this.props.layer.get("isActive") ? (
-                                    "Hide Layer"
-                                ) : (
-                                    "Show Layer"
-                                )
+                                this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"
                             }
                             data-place="left"
                         >
@@ -196,16 +191,9 @@ export class LayerControlContainer extends Component {
                                 palette={this.props.palette}
                                 min={parseFloat(this.props.layer.get("min"))}
                                 max={parseFloat(this.props.layer.get("max"))}
-                                displayMin={parseFloat(
-                                    this.props.layer.getIn(["palette", "min"])
-                                )}
-                                displayMax={parseFloat(
-                                    this.props.layer.getIn(["palette", "max"])
-                                )}
-                                handleAs={this.props.layer.getIn([
-                                    "palette",
-                                    "handleAs"
-                                ])}
+                                displayMin={parseFloat(this.props.layer.getIn(["palette", "min"]))}
+                                displayMax={parseFloat(this.props.layer.getIn(["palette", "max"]))}
+                                handleAs={this.props.layer.getIn(["palette", "handleAs"])}
                                 url={this.props.layer.getIn(["palette", "url"])}
                             />
                         </div>
@@ -215,14 +203,10 @@ export class LayerControlContainer extends Component {
                                 disabled={!this.props.layer.get("isActive")}
                                 className="no-padding mini-xs-waysmall"
                                 data-tip={
-                                    !this.isChangingPosition ? (
-                                        "Adjust layer positioning"
-                                    ) : null
+                                    !this.isChangingPosition ? "Adjust layer positioning" : null
                                 }
                                 data-place="left"
-                                tabIndex={
-                                    this.props.layer.get("isActive") ? 0 : -1
-                                }
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingPosition()}
                             >
                                 {/*<i className="button-icon ms ms-fw ms-layers-overlay" />*/}
@@ -232,9 +216,7 @@ export class LayerControlContainer extends Component {
                                 </span>
                             </IconButton>
                             <div className={positionContainerClasses}>
-                                <div className="popover-label">
-                                    Layer Positioning
-                                </div>
+                                <div className="popover-label">Layer Positioning</div>
                                 <div className="position-control-content row middle-xs">
                                     <Button
                                         primary
@@ -266,35 +248,23 @@ export class LayerControlContainer extends Component {
                                 primary={this.isChangingOpacity}
                                 disabled={!this.props.layer.get("isActive")}
                                 className="no-padding mini-xs-waysmall"
-                                data-tip={
-                                    !this.isChangingOpacity ? (
-                                        "Adjust layer opacity"
-                                    ) : null
-                                }
+                                data-tip={!this.isChangingOpacity ? "Adjust layer opacity" : null}
                                 data-place="left"
-                                tabIndex={
-                                    this.props.layer.get("isActive") ? 0 : -1
-                                }
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.toggleChangingOpacity()}
                             >
                                 {opacityIcon}
                             </IconButton>
                             <div className={sliderContainerClasses}>
-                                <div className="popover-label">
-                                    Layer Opacity
-                                </div>
+                                <div className="popover-label">Layer Opacity</div>
                                 <div className="opacity-slider-content row middle-xs">
                                     <Slider
                                         min={0}
                                         max={100}
                                         step={10}
-                                        value={
-                                            this.props.layer.get("opacity") *
-                                            100
-                                        }
+                                        value={this.props.layer.get("opacity") * 100}
                                         className="react-toolbox-slider-overrides col-xs-9 no-padding"
-                                        onChange={value =>
-                                            this.changeOpacity(value)}
+                                        onChange={value => this.changeOpacity(value)}
                                     />
                                     <span className="opacity-label col-xs-3 no-padding">
                                         {currOpacity}%
@@ -306,9 +276,7 @@ export class LayerControlContainer extends Component {
                                 className="no-padding mini-xs-waysmall"
                                 data-tip="Layer information"
                                 data-place="left"
-                                tabIndex={
-                                    this.props.layer.get("isActive") ? 0 : -1
-                                }
+                                tabIndex={this.props.layer.get("isActive") ? 0 : -1}
                                 onClick={() => this.openLayerInfo()}
                             />
                         </div>

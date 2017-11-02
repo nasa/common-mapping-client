@@ -41,10 +41,7 @@ export class LayerInfoContainer extends Component {
                 onEscKeyDown={() => this.props.actions.closeLayerInfo()}
                 onOverlayClick={() => this.props.actions.closeLayerInfo()}
             >
-                <AsyncImageContainer
-                    className="thumbnail-image"
-                    src={this.props.thumbnailUrl}
-                />
+                <AsyncImageContainer className="thumbnail-image" src={this.props.thumbnailUrl} />
                 <div className="layer-info-content">
                     <div className={loadingClasses}>
                         <ProgressBar
@@ -55,15 +52,10 @@ export class LayerInfoContainer extends Component {
                     </div>
                     <div className={errorClasses}>
                         <div className="error-content-container">
-                            <span
-                                data-react-toolbox="font-icon"
-                                className="material-icons"
-                            >
+                            <span data-react-toolbox="font-icon" className="material-icons">
                                 error_outline
                             </span>
-                            <div className="error-message">
-                                No Metadata Available
-                            </div>
+                            <div className="error-message">No Metadata Available</div>
                         </div>
                     </div>
                     <h2>{metadata.get("title")}</h2>
@@ -76,10 +68,8 @@ export class LayerInfoContainer extends Component {
                             caption={metadata.get("spatialResolution")}
                             leftIcon={<i className="ms ms-merge" />}
                         />
-                        <ListItem
-                            caption={metadata.get("dateRange")}
-                            leftIcon="access_time"
-                        />
+                        <ListItem caption={metadata.get("dateRange")} leftIcon="access_time" />
+                        <ListItem caption={metadata.get("dateRange")} leftIcon="access_time" />
                         <ListDivider />
                     </List>
                     <h3>Description</h3>

@@ -100,10 +100,7 @@ export const StoreShareSpec = {
                 it("can open and close the share container.", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        AppActions.setShareOpen(true),
-                        AppActions.setShareOpen(false)
-                    ];
+                    const actions = [AppActions.setShareOpen(true), AppActions.setShareOpen(false)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();

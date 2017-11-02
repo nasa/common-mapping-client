@@ -69,10 +69,7 @@ export const StoreHelpSpec = {
                 it("opens and closes help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        appActions.setHelpOpen(true),
-                        appActions.setHelpOpen(false)
-                    ];
+                    const actions = [appActions.setHelpOpen(true), appActions.setHelpOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -118,9 +115,7 @@ export const StoreHelpSpec = {
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.help = expected.help
-                        .set("isOpen", true)
-                        .set("helpPage", helpPage);
+                    expected.help = expected.help.set("isOpen", true).set("helpPage", helpPage);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -142,9 +137,7 @@ export const StoreHelpSpec = {
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.help = expected.help
-                        .set("isOpen", false)
-                        .set("helpPage", helpPage);
+                    expected.help = expected.help.set("isOpen", false).set("helpPage", helpPage);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -167,9 +160,7 @@ export const StoreHelpSpec = {
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.help = expected.help
-                        .set("isOpen", true)
-                        .set("helpPage", "");
+                    expected.help = expected.help.set("isOpen", true).set("helpPage", "");
 
                     TestUtil.compareFullStates(actual, expected);
                 });

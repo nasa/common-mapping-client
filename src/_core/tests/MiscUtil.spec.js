@@ -16,9 +16,7 @@ export const MiscUtilSpec = {
                     let varOut = "foo fubar";
 
                     //assert
-                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
                 });
             },
             test2: () => {
@@ -31,9 +29,7 @@ export const MiscUtilSpec = {
                     let varOut = "bar";
 
                     //assert
-                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
                 });
             },
             test3: () => {
@@ -46,9 +42,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
                 });
             },
             test4: () => {
@@ -57,9 +51,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.generateStringFromSet(varIn)).to.equal(varOut);
                 });
             }
         },
@@ -84,13 +76,9 @@ export const MiscUtilSpec = {
                     let varOut = varIn[0];
 
                     //assert
-                    expect(
-                        MiscUtil.findObjectInArray(
-                            varIn,
-                            "testkey",
-                            "testvalue"
-                        )
-                    ).to.equal(varOut);
+                    expect(MiscUtil.findObjectInArray(varIn, "testkey", "testvalue")).to.equal(
+                        varOut
+                    );
                 });
             },
             test2: () => {
@@ -113,9 +101,7 @@ export const MiscUtilSpec = {
                     let varOut = false;
 
                     //assert
-                    expect(
-                        MiscUtil.findObjectInArray(varIn, "indexD", true)
-                    ).to.equal(varOut);
+                    expect(MiscUtil.findObjectInArray(varIn, "indexD", true)).to.equal(varOut);
                 });
             },
             test3: () => {
@@ -142,9 +128,7 @@ export const MiscUtilSpec = {
                     };
 
                     //assert
-                    expect(
-                        MiscUtil.findObjectInArray(varIn, compFunc)
-                    ).to.equal(varOut);
+                    expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
                 });
             },
             test4: () => {
@@ -171,9 +155,7 @@ export const MiscUtilSpec = {
                     };
 
                     //assert
-                    expect(
-                        MiscUtil.findObjectInArray(varIn, compFunc)
-                    ).to.equal(varOut);
+                    expect(MiscUtil.findObjectInArray(varIn, compFunc)).to.equal(varOut);
                 });
             }
         },
@@ -224,11 +206,7 @@ export const MiscUtilSpec = {
 
                     //assert
                     expect(
-                        MiscUtil.findAllMatchingObjectsInArray(
-                            varIn,
-                            "testkey",
-                            "testvalueA"
-                        )
+                        MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")
                     ).to.deep.equal(varOut);
                 });
             },
@@ -253,11 +231,7 @@ export const MiscUtilSpec = {
 
                     //assert
                     expect(
-                        MiscUtil.findAllMatchingObjectsInArray(
-                            varIn,
-                            "testkey",
-                            "testvalueA"
-                        )
+                        MiscUtil.findAllMatchingObjectsInArray(varIn, "testkey", "testvalueA")
                     ).to.deep.equal(varOut);
                 });
             }
@@ -287,11 +261,7 @@ export const MiscUtilSpec = {
 
                     //assert
                     expect(
-                        MiscUtil.findObjectWithIndexInArray(
-                            varIn,
-                            "indexB",
-                            true
-                        )
+                        MiscUtil.findObjectWithIndexInArray(varIn, "indexB", true)
                     ).to.deep.equal(varOut);
                 });
             },
@@ -315,13 +285,9 @@ export const MiscUtilSpec = {
                     let varOut = false;
 
                     //assert
-                    expect(
-                        MiscUtil.findObjectWithIndexInArray(
-                            varIn,
-                            "indexD",
-                            true
-                        )
-                    ).to.equal(varOut);
+                    expect(MiscUtil.findObjectWithIndexInArray(varIn, "indexD", true)).to.equal(
+                        varOut
+                    );
                 });
             }
         },
@@ -376,9 +342,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(immutableArr.sort(varIn).toJS()).to.deep.equal(
-                        varOut
-                    );
+                    expect(immutableArr.sort(varIn).toJS()).to.deep.equal(varOut);
                 });
             },
             test2: () => {
@@ -431,9 +395,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(immutableArr.sort(varIn).toJS()).to.deep.equal(
-                        varOut
-                    );
+                    expect(immutableArr.sort(varIn).toJS()).to.deep.equal(varOut);
                 });
             }
         },
@@ -445,9 +407,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
 
@@ -458,9 +418,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test3: () => {
@@ -470,9 +428,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test4: () => {
@@ -482,9 +438,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test5: () => {
@@ -494,9 +448,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test6: () => {
@@ -506,9 +458,7 @@ export const MiscUtilSpec = {
                     let varOut = "#7B2003";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test7: () => {
@@ -518,9 +468,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test8: () => {
@@ -530,9 +478,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test9: () => {
@@ -542,9 +488,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test10: () => {
@@ -554,9 +498,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test11: () => {
@@ -566,9 +508,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test12: () => {
@@ -578,9 +518,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             },
             test13: () => {
@@ -590,9 +528,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.getHexFromColorString(varIn)).to.equal(varOut);
                 });
             }
         },
@@ -662,9 +598,7 @@ export const MiscUtilSpec = {
                     let varOut = "service=A&version=BB&request=CCC";
 
                     //assert
-                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
                 });
             },
             test2: () => {
@@ -678,9 +612,7 @@ export const MiscUtilSpec = {
                     let varOut = "service=12,3&version=A,B&request=";
 
                     //assert
-                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
                 });
             },
             test3: () => {
@@ -690,9 +622,7 @@ export const MiscUtilSpec = {
                     let varOut = "";
 
                     //assert
-                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.objectToUrlParams(varIn)).to.deep.equal(varOut);
                 });
             }
         },
@@ -717,9 +647,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             },
             test2: () => {
@@ -742,9 +670,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             },
             test3: () => {
@@ -759,9 +685,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             },
             test4: () => {
@@ -780,9 +704,7 @@ export const MiscUtilSpec = {
                     ];
 
                     //assert
-                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(
-                        varOut
-                    );
+                    expect(MiscUtil.parseUrlQueryString(varIn)).to.deep.equal(varOut);
                 });
             }
         },
@@ -831,9 +753,7 @@ export const MiscUtilSpec = {
                     let padLen = 4;
 
                     for (let i = 0; i < varIn.length; ++i) {
-                        expect(MiscUtil.padNumber(varIn[i], padLen)).to.equal(
-                            varOut[i]
-                        );
+                        expect(MiscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
                     }
                 });
             },
@@ -844,9 +764,7 @@ export const MiscUtilSpec = {
                     let padLen = 4;
 
                     for (let i = 0; i < varIn.length; ++i) {
-                        expect(MiscUtil.padNumber(varIn[i], padLen)).to.equal(
-                            varOut[i]
-                        );
+                        expect(MiscUtil.padNumber(varIn[i], padLen)).to.equal(varOut[i]);
                     }
                 });
             }
