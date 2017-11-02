@@ -13,7 +13,9 @@ import { dateSliderState } from "_core/reducers/models/dateSlider";
 import { analyticsState } from "_core/reducers/models/analytics";
 import { viewState } from "_core/reducers/models/view";
 import { layerInfoState } from "_core/reducers/models/layerInfo";
+import { webWorkerState } from "_core/reducers/models/webWorker";
 import TestUtil from "_core/tests/TestUtil";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const initialState = {
     map: mapState,
@@ -24,7 +26,8 @@ const initialState = {
     share: shareState,
     dateSlider: dateSliderState,
     analytics: analyticsState,
-    layerInfo: layerInfoState
+    layerInfo: layerInfoState,
+    webWorker: webWorkerState
 };
 
 export const StoreViewSpec = {

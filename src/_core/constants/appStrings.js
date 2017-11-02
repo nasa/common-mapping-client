@@ -105,6 +105,10 @@ export const PROJECTIONS = {
 
 /* MISC */
 export const MAP_CONTEXT_MENU_ID = "mapContextMenu";
+export const WORKER_TASK_COMPLETE = "WORKER_TASK_COMPLETE";
+export const WORKER_TASK_COMPLETE_ERROR = "WORKER_TASK_COMPLETE_ERROR";
+export const WORKER_TASK_CLOSE = "WORKER_TASK_CLOSE";
+export const WORKER_TASK_TEST = "WORKER_TASK_TEST";
 /* END MISC */
 
 /* ALERTS */

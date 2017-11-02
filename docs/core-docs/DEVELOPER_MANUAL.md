@@ -7,71 +7,74 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
 3. [Package.json Scripts Overview](#overview-of-commands-from-packagejson)
 4. [Installing/removing packages via npm](#installing-uninstalling-npm)
 5. [The CMC Core Philosophy](#cmc-core-philosophy)
-  - 1. [General](#cmc-core-philosophy-general)
-  - 2. [The "_core" Directory](#cmc-core-philosophy-core-directory)
-  - 3. [Adding, Overriding, and Removing "_core" Functionality & Components](#cmc-core-philosophy-modifying-core)
-  - 4. [Overriding configs](#cmc-core-philosophy-modifying-core-config)
+    1. [General](#cmc-core-philosophy-general)
+    2. [The "\_core" Directory](#cmc-core-philosophy-core-directory)
+    3. [Adding, Overriding, and Removing "\_core" Functionality & Components](#cmc-core-philosophy-modifying-core)
+    4. [Overriding configs](#cmc-core-philosophy-modifying-core-config)
 6. [The CMC Build Process](#cmc-build-process)
-  - 1. [Post-Install](#cmc-build-process-post-install)
-  - 2. [Webpack](#cmc-build-process-webpack)
-    - 1. [How CMC Uses Webpack](#cmc-build-process-cmc-webpack)
-    - 2. [Development Mode](#cmc-build-process-development-mode)
-    - 3. [Production Mode](#cmc-build-process-production-mode)
-    - 4. [Brief Note on Cesium + Webpack Integration](#cmc-build-process-cesium-integration)
-    - 5. [Brief Note on ESLint](#cmc-build-process-eslint)
-  - 3. [Brief Note on Serving CMC](#cmc-build-process-serving-cmc)
+    1. [Post-Install](#cmc-build-process-post-install)
+    2. [Webpack](#cmc-build-process-webpack)
+        1. [How CMC Uses Webpack](#cmc-build-process-cmc-webpack)
+        2. [Development Mode](#cmc-build-process-development-mode)
+        3. [Production Mode](#cmc-build-process-production-mode)
+        4. [Brief Note on Cesium + Webpack Integration](#cmc-build-process-cesium-integration)
+        5. [Brief Note on ESLint](#cmc-build-process-eslint)
+    3. [Brief Note on Serving CMC](#cmc-build-process-serving-cmc)
 7. [Styling CMC](#styling-cmc)
-  - 1. [React UI Component Library (React-Toolbox)](#styling-cmc-react-toolbox)
-  - 2. [SASS Usage](#styling-cmc-sass)
-  - 3. [CMC Style Architecture](#styling-cmc-sass-architecture)
-  - 4. [Overriding Core Styles](#styling-cmc-overrides)
-  - 5. [Overriding React-Toolbox SASS Variables](#styling-cmc-overrides-react-toolbox)
-  - 6. [Fonts](#styling-cmc-fonts)
-    - 1. [When to use Roboto ](#styling-cmc-using-roboto)
-    - 2. [When to use Roboto Mono](#styling-cmc-using-roboto-mono)
-  - 7. [postCSS](#styling-cmc-postcss)
-  - 8. [Favicon Generation](#styling-cmc-favicons)
-  - 9. [Custom Icons](#styling-cmc-custom-icons)
+    1. [React UI Component Library (React-Toolbox)](#styling-cmc-react-toolbox)
+    2. [SASS Usage](#styling-cmc-sass)
+    3. [CMC Style Architecture](#styling-cmc-sass-architecture)
+    4. [Overriding Core Styles](#styling-cmc-overrides)
+    5. [Overriding React-Toolbox SASS Variables](#styling-cmc-overrides-react-toolbox)
+    6. [Fonts](#styling-cmc-fonts)
+        1. [When to use Roboto ](#styling-cmc-using-roboto)
+        2. [When to use Roboto Mono](#styling-cmc-using-roboto-mono)
+    7. [postCSS](#styling-cmc-postcss)
+    8. [Favicon Generation](#styling-cmc-favicons)
+    9. [Custom Icons](#styling-cmc-custom-icons)
 8. [Components and State with React & Redux](#components-and-state-with-react-redux)
-  - 1. [Things to Know about React/Redux](#things-to-know-about-react-redux)
-  - 2. [CMC React & Redux Idioms](#cmc-react-redux-idioms)
-    - 1. [In the Store](#cmc-react-redux-idioms-store)
-    - 2. [With Maps](#cmc-react-redux-idioms-maps)
-    - 3. [With D3](#cmc-react-redux-idioms-d3)
-  3. [Notes on Optimizing React/Redux Performance](#optimizing-react-redux-performance)
-    - 1. [Key Performance Areas](#optimizing-react-redux-performance-key-areas)
-    - 2. [Additional Techniques in Improving Performance](#optimizing-react-redux-performance-additional-techniques)
-    - 3. [Usage of ImmutableJS](#cmc-using-immutablejs)
+    1. [Things to Know about React/Redux](#things-to-know-about-react-redux)
+    2. [CMC React & Redux Idioms](#cmc-react-redux-idioms)
+        1. [In the Store](#cmc-react-redux-idioms-store)
+        2. [With Maps](#cmc-react-redux-idioms-maps)
+        3. [With D3](#cmc-react-redux-idioms-d3)
+    3. [Notes on Optimizing React/Redux Performance](#optimizing-react-redux-performance)
+        1. [Key Performance Areas](#optimizing-react-redux-performance-key-areas)
+        2. [Additional Techniques in Improving Performance](#optimizing-react-redux-performance-additional-techniques)
+        3. [Usage of ImmutableJS](#cmc-using-immutablejs)
 9. [Mapping With CMC](#mapping-with-cmc)
-  - 1. [Why Did CMC Choose Ol3 and Cesium?](#mapping-with-cmc-why-ol3-cesium)
-  - 2. [Replacing these libraries](#mapping-with-cmc-replacing-libs)
-  - 3. [Overview of the MapWrapper classes](#mapping-with-cmc-mapwrapper)
-  - 4. [Notes on Map Performance](#mapping-with-cmc-note-on-performance)
+    1. [Why Did CMC Choose Ol3 and Cesium?](#mapping-with-cmc-why-ol3-cesium)
+    2. [Replacing these libraries](#mapping-with-cmc-replacing-libs)
+    3. [Overview of the MapWrapper classes](#mapping-with-cmc-mapwrapper)
+    4. [Notes on Map Performance](#mapping-with-cmc-note-on-performance)
 10. [Brief Overview of Application Directory ](#cmc-application-directory)
 11. [How to Write Tests in CMC](#writing-tests)
-  - 1. [Testing Tools](#writing-tests-tools)
-  - 2. [Running Tests](#writing-tests-running-tests)
-  - 3. [Writing Tests for CMC](#writing-tests-cmc)
-    - 1. [Simple Tests](#writing-tests-simple)
-    - 2. [Tests using the Redux Store](#writing-tests-redux-store)
-  - 4. [Writing Tests for CMC Core](#writing-tests-cmc-core)
-  - 5. [Writing Tests for your Application](#writing-tests-your-application)
-    - 1. [Normal Non-Core Test File](#writing-tests-normal-non-core)
-    - 2. [Overriding, Modifying, or Ignoring a CMC Core Test](#writing-tests-modifying-core-tests)
-  - 6. [Asynchronous Local Data Loading in Tests](#writing-tests-async-local-data)
-  - 7. [Using beforeEach and afterEach](#writing-tests-beforeEach-afterEach)
-  - 8. [Testing Asynchronous Behaviors](#writing-tests-async-behavior)
-  - 9. [Test Coverage and Test Results](#writing-tests-code-coverage)
-  - 10. [Karma.conf.js](#writing-tests-karma-conf)
+    1. [Testing Tools](#writing-tests-tools)
+    2. [Running Tests](#writing-tests-running-tests)
+    3. [Writing Tests for CMC](#writing-tests-cmc)
+        1. [Simple Tests](#writing-tests-simple)
+        2. [Tests using the Redux Store](#writing-tests-redux-store)
+    4. [Writing Tests for CMC Core](#writing-tests-cmc-core)
+    5. [Writing Tests for your Application](#writing-tests-your-application)
+        1. [Normal Non-Core Test File](#writing-tests-normal-non-core)
+        2. [Overriding, Modifying, or Ignoring a CMC Core Test](#writing-tests-modifying-core-tests)
+    6. [Asynchronous Local Data Loading in Tests](#writing-tests-async-local-data)
+    7. [Using beforeEach and afterEach](#writing-tests-beforeEach-afterEach)
+    8. [Testing Asynchronous Behaviors](#writing-tests-async-behavior)
+    9. [Test Coverage and Test Results](#writing-tests-code-coverage)
+    10. [Karma.conf.js](#writing-tests-karma-conf)
 12. [User Analytics](#user-analytics)
-  1. [CMC Custom User Analytics](#user-analytics-custom-cmc)
-  2. [Google Analytics](#google-analytics)
+    1. [CMC Custom User Analytics](#user-analytics-custom-cmc)
+    2. [Google Analytics](#google-analytics)
 13. [Upgrading your Project to Latest Version of CMC](#upgrading-cmc)
-  - 1. [When to Upgrade](#upgrading-cmc-when-to-upgrade)
-  - 2. [Files to Watch out For](#upgrading-cmc-files-to-watch)
-  - 3. [Upgrade Steps](#upgrading-cmc-steps)
+    1. [When to Upgrade](#upgrading-cmc-when-to-upgrade)
+    2. [Files to Watch out For](#upgrading-cmc-files-to-watch)
+    3. [Upgrade Steps](#upgrading-cmc-steps)
 14. [Layer Ingestion Additional Services](#layer-ingestion-additional-services)
-15. [Deployment to Github Pages](#deployment-to-gh-pages)
+15. [Additional Tools](#additional-tool-info)
+    1. [Web Workers](#working-with-workers)
+        1. [Web Worker Transferables](#web-worker-transferables)
+16. [Deployment to Github Pages](#deployment-to-gh-pages)
 17. [Main Technologies Under the Hood](#main-tech-under-the-hood)
 18. [Contributing to CMC](#contributing-to-cmc)
 
@@ -139,11 +142,11 @@ NPM packages are installed and removed using the following commands. The `--save
 As is stated in the README, the Common Mapping Client aims to be a production-ready starting point for complex mapping applications. To avoid bloat and feature creep, if a capability or widget is not needed in the majority of mapping applications, it will not be part of CMC.
 
 <a id="cmc-core-philosophy-core-directory"></a>
-### The "_core" Directory
+### The "\_core" Directory
 Inside of the `src/_core` directory lives the bulk of the CMC Core application code. This is code that an Application Developer should only need to reference, duplicate and modify, or exclude. Separating Core code out is helpful for maintaining a lean codebase as well as providing a clean method for upgrading to newer versions of the Core codebase without affecting/breaking the Application Developer's work.
 
 <a id="cmc-core-philosophy-modifying-core"></a>
-### Adding, Overriding, and Removing "_core" Functionality & Components
+### Adding, Overriding, and Removing "\_core" Functionality & Components
 It is **strongly** recommended that all of the work you do is **outside** of `src/_core` to avoid future merge conflicts with new versions of CMC Core (upgrading will be discussed later on in this document) and to keep a clean reference to the Core code. It is also recommended that you duplicate whatever folder structure you need from Core in the parent `src` folder. Similar to components, you can swap out utility Reducer functions by changing imports in `src/reducers/index.js`, and change styles by overriding them with SASS in `src/styles.scss`. Also note that to override MapWrapper classes (which are described in more detail later) you should modify the imports in `src/utils/MapCreator.js` and substitute or add your own MapWrapper class. By default uses layer, palette, help information, and metadata from `src/default-data/_core_default-data/`. When you create your own application it is recommended that you not modify the `_core_default-data` folder and instead add your own folder along side containing your own data.
 
 All of the Core Components, Reducers, configurations, styles, tests, utils, etc., are imported (directly or indirectly as dependencies) into the application using the `_core/components/App/AppContainer.js` which is the root React Component in `src/index.js`. Please note that for the Reducer functions (discussed later in the section regarding React & Redux) the Core imports are done in `src/reducers/index.js`.
@@ -693,7 +696,7 @@ Whenever you run tests, a `test-results` directory will be generated that contai
 
 <a id="writing-tests-cmc"></a>
 ### Writing Tests for CMC
-Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your *.js files to *.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own. 
+Application tests cover a range of functionalities from testing utility functions to testing Redux state changes. The differences between writing tests for CMC Core and applications built on top of CMC will be covered later. All test files must use the .spec.js file extension and may be written in ES6. As a general rule, try to keep a 1-1 mapping of your \*.js files to \*.spec.js. Due to time constraints, CMC does not currently have component level tests where the nitty gritty rendering aspects of components are tested using Enzyme and Sinon, but feel free to add your own. 
 
 <a id="writing-tests-simple"></a>
 ##### Simple Tests
@@ -925,13 +928,13 @@ Each test suite (like setAndGet) contains one or more tests pertaining to the ti
 The testing flow for Core tests is as follows – 
 
 1. Inside of `karma.conf.js` (more about this later) we specify the list of files/patterns to use for testing. Here we specify `src/tests/**/*.spec.js`. Note that this is _not_ the Core directory of files.
-2. In `src/tests/core-test-overrides.spec.js`, the only *.spec.js in the folder, we import all Core tests and use a utility from `TestUtil` to run each test suite. If you write a new Core test suite be sure to add it to this file or else the test will not be run. 
+2. In `src/tests/core-test-overrides.spec.js`, the only \*.spec.js in the folder, we import all Core tests and use a utility from `TestUtil` to run each test suite. If you write a new Core test suite be sure to add it to this file or else the test will not be run. 
 
 <a id="writing-tests-your-application"></a>
 ### Writing Tests for your Application
 
 <a id="writing-tests-normal-non-core"></a>
-Non-Core test files should live in the `src/tests` directory and should end in *.spec.js. In this directory you will find a file named `non-core-test-stub.spec.js` which you should modify for your own use. Inside of this file and any other test files you write you should have something looking like:
+Non-Core test files should live in the `src/tests` directory and should end in \*.spec.js. In this directory you will find a file named `non-core-test-stub.spec.js` which you should modify for your own use. Inside of this file and any other test files you write you should have something looking like:
 
 ```JSX
 import { expect } from 'chai';
@@ -1138,6 +1141,73 @@ This separation between Core and Non-Core is still being tweaked now and then to
 <a id="layer-ingestion-additional-services"></a>
 ## Layer Ingestion Additional Services
 As mentioned before, CMC is not expected to be a final product. This extends not only to the front-end application itself, but also the services that power it. CMC Core uses a directory called `default-data` that contains numerous static files that provide CMC with something to display by default. This includes lists of layers, color palettes, vector data, etc. In a real world application, we would not expect this directory to be referenced. Instead, we would expect all of the static data to be replaced by a dynamic service on the backend with some sort of REST API (this could be a solr catalogue or similar). However, for small projects and local development, static file usage is more than adequate.
+
+<a id="additional-tool-info"></a>
+## Additonal Tools
+
+CMC also provides some utility classes that may be useful in creating high performance visualization applications.
+
+<a id="working-with-workers"></a>
+### Web Workers
+CMC includes a few layers of abstraction on top of [Web Workers](https://www.w3schools.com/html/html5_webworkers.asp) to enable threading and moving high demand processing such as image recoloring or large dataset processing off of the main thread. Operations like these can often take several seconds on a typical client computer and while these operations occur, the user is not able to interact with the UI. Moving these operations to Web Workers can free up the main thread and allow it to continue handling the rest of the application logic, unfreezing the UI. By default, an instance of a WorkerManager (see below) is stored in state so that it can be accessed from anywhere in the application.
+- `_core/utils/WorkerManager.js`: Provides an interface to create a pool of workers, a job queue, and clear the pool of workers. Note that each instance of WorkerManager manages a seperate pool of web workers so it is recommended to only create a single instance of the WorkerManager as browsers have differing limits on the number of web workers that can be created. The WorkerManager instance that is stored in state initially populates a pool of workers based on the `DEFAULT_WEB_WORKER_NUM` appConfig variable (which defaults to 0) though you can add workers to the pool at any time using `createWorkers(numer)`. Jobs can be queued using `queueJob(options)` where `options` is an object that must include a string `operation` and any additional data you want sent to the worker. `queueJob()` will return a promise that is resolved when that particular job is completed by the web worker. If you wish to empty the pool of workers, use `clearWorkers()`.
+- `_core/utils/WebWorkerWrapper.js`: This is the actual web worker script and handles the message passing between the worker and main thread. The worker contains an instance of `WebWorker.js` (see below) that contains the functions to actually operate on the data. This class should not need to be edited.
+- `_core/utils/WebWorker.js`: Is a lightweight parent class that provides some default data operations
+- `utils/WebWorker.js`: Modify the `handleMessage(message, workerRef)` function to handle whatever jobs you wish to perform. The `message` parameter is the `options` object that is passed to `WorkerManager.queueJob(options)`, the `workerRef` parameter is a reference to the actual WebWorker instance.
+
+To start using web workers:
+1. Create a component or action to extract the `WorkerManager` from state
+```JS
+let manager = state.webWorker.get("workerManager")
+```
+2. Populate the worker pool or modify `appConfig.DEFAULT_WEB_WORKER_NUM` to prepopulate the worker pool
+```JS
+manager.createWorkers(2);
+```
+3. Queue a job and listen for the job to complete
+```JS
+manager.queueJob({
+  operation: "WORKER_TASK_TEST",
+  data: [1,2,3,4]
+  }).then((resp) => {
+    console.log(resp);
+    }, (err) => {
+      console.warn("Error in worker", err);
+      });
+```
+4. Optionally clear the worker pool when complete
+```JS
+manager.clearWorkers();
+```
+
+<a id="web-worker-transferables"></a>
+#### Web Worker Transferables
+The web worker abstraction is also configured to support [Transferables](https://developer.mozilla.org/en-US/docs/Web/API/Transferable). Using transferables can be extremely helpful when dealing with very large amounts of data. Normally all data is passed to the worker thread via a copy. Transferables are transfered through a change in thread ownership which is a "zero-copy operation" [read more about that here](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Passing_data_by_transferring_ownership_\(transferable_objects\)) and can result in vast performance improvements.
+
+A typical job options object might look like:
+```JS
+manager.queueJob({
+    operation: "DO_A_THING",
+    x: [1,2,3]
+})
+```
+and the worker would receive an object:
+```JS
+{
+    operation: "DO_A_THING",
+    x: [1,2,3]
+}
+```
+where the x array is **copied** into the worker thread. But if you were to use job options with the a "transfer" key like this:
+```JS
+let x = new Float64Array([1.0,2.0,3.0]);
+manager.queueJob({
+    operation: "DO_A_THING",
+    x: x.buffer,
+    transfer: [x.buffer]
+})
+```
+then the backing Float64Array's ArrayBuffer (which supports the Transferable interface) would be **transfered** to the worker with no copy overhead.
 
 <a id="deployment-to-gh-pages"></a>
 ## Deployment to Github Pages

@@ -114,3 +114,7 @@ export const GEOMETRY_STROKE_WEIGHT = 3;
 export const MEASURE_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
 export const MEASURE_STROKE_COLOR = "rgba(255, 255, 255, 0.75)";
 /* END MAP */
+
+/* WORKERS */
+export const DEFAULT_WEB_WORKER_NUM = 0;
+/* END WORKERS */

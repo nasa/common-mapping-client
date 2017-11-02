@@ -14,6 +14,7 @@ import { StoreSettingsSpec } from '_core/tests/store.settings.spec';
 import { StoreShareSpec } from '_core/tests/store.share.spec';
 import { StoreSpec } from '_core/tests/store.spec';
 import { StoreViewSpec } from '_core/tests/store.view.spec';
+import { WebWorkerSpec } from '_core/tests/WebWorker.spec';
 import { expect } from 'chai';
 import Immutable from 'immutable';
 
@@ -46,7 +47,8 @@ const testSuites = [
     StoreSettingsSpec,
     StoreShareSpec,
     StoreSpec,
-    StoreViewSpec
+    StoreViewSpec,
+    WebWorkerSpec
 ];
 
 if(INCLUDE_CORE_TESTS) {

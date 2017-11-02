@@ -1,17 +1,18 @@
-import * as appActions from '_core/actions/AppActions';
-import { createStore } from 'redux';
-import { expect } from 'chai';
-import rootReducer from '_core/reducers';
-import { mapState, layerModel, paletteModel } from '_core/reducers/models/map';
-import { asyncState } from '_core/reducers/models/async';
-import { helpState } from '_core/reducers/models/help';
-import { shareState } from '_core/reducers/models/share';
-import { settingsState } from '_core/reducers/models/settings';
-import { dateSliderState } from '_core/reducers/models/dateSlider';
-import { analyticsState } from '_core/reducers/models/analytics';
-import { viewState } from '_core/reducers/models/view';
-import { layerInfoState } from '_core/reducers/models/layerInfo';
-import TestUtil from '_core/tests/TestUtil';
+import * as appActions from "_core/actions/AppActions";
+import { createStore } from "redux";
+import { expect } from "chai";
+import rootReducer from "_core/reducers";
+import { mapState, layerModel, paletteModel } from "_core/reducers/models/map";
+import { asyncState } from "_core/reducers/models/async";
+import { helpState } from "_core/reducers/models/help";
+import { shareState } from "_core/reducers/models/share";
+import { settingsState } from "_core/reducers/models/settings";
+import { dateSliderState } from "_core/reducers/models/dateSlider";
+import { analyticsState } from "_core/reducers/models/analytics";
+import { viewState } from "_core/reducers/models/view";
+import { layerInfoState } from "_core/reducers/models/layerInfo";
+import { webWorkerState } from "_core/reducers/models/webWorker";
+import TestUtil from "_core/tests/TestUtil";
 
 const initialState = {
     map: mapState,
@@ -22,7 +23,8 @@ const initialState = {
     share: shareState,
     dateSlider: dateSliderState,
     analytics: analyticsState,
-    layerInfo: layerInfoState
+    layerInfo: layerInfoState,
+    webWorker: webWorkerState
 };
 
 export const StoreHelpSpec = {
@@ -30,18 +32,16 @@ export const StoreHelpSpec = {
     tests: {
         default: {
             test1: () => {
-                it('opens help', function() {
+                it("opens help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        appActions.setHelpOpen(true)
-                    ];
+                    const actions = [appActions.setHelpOpen(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help.set("isOpen", true);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -49,18 +49,16 @@ export const StoreHelpSpec = {
             },
 
             test2: () => {
-                it('closes help', function() {
+                it("closes help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        appActions.setHelpOpen(false)
-                    ];
+                    const actions = [appActions.setHelpOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help.set("isOpen", false);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -68,7 +66,7 @@ export const StoreHelpSpec = {
             },
 
             test3: () => {
-                it('opens and closes help', function() {
+                it("opens and closes help", function() {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -80,7 +78,7 @@ export const StoreHelpSpec = {
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help.set("isOpen", false);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -88,19 +86,17 @@ export const StoreHelpSpec = {
             },
 
             test4: () => {
-                it('selects a help page', function() {
+                it("selects a help page", function() {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
-                    const actions = [
-                        appActions.selectHelpPage(helpPage)
-                    ];
+                    const actions = [appActions.selectHelpPage(helpPage)];
 
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help.set("helpPage", helpPage);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -108,7 +104,7 @@ export const StoreHelpSpec = {
             },
 
             test5: () => {
-                it('opens and selects a help page', function() {
+                it("opens and selects a help page", function() {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
@@ -121,7 +117,7 @@ export const StoreHelpSpec = {
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help
                         .set("isOpen", true)
                         .set("helpPage", helpPage);
@@ -131,7 +127,7 @@ export const StoreHelpSpec = {
             },
 
             test6: () => {
-                it('closing help does not reset the selected page', function() {
+                it("closing help does not reset the selected page", function() {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
@@ -145,7 +141,7 @@ export const StoreHelpSpec = {
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help
                         .set("isOpen", false)
                         .set("helpPage", helpPage);
@@ -155,7 +151,7 @@ export const StoreHelpSpec = {
             },
 
             test7: () => {
-                it('opening help resets the selected page', function() {
+                it("opening help resets the selected page", function() {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
@@ -170,7 +166,7 @@ export const StoreHelpSpec = {
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.help = expected.help
                         .set("isOpen", true)
                         .set("helpPage", "");
