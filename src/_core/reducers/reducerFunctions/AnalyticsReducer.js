@@ -1,7 +1,7 @@
-import Immutable from 'immutable';
-import * as actionTypes from '_core/constants/actionTypes';
-import appConfig from 'constants/appConfig';
-import MiscUtil from '_core/utils/MiscUtil';
+import Immutable from "immutable";
+import * as actionTypes from "_core/constants/actionTypes";
+import appConfig from "constants/appConfig";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -38,12 +38,13 @@ const EXCLUDED_ACTIONS = new Immutable.List([
 ]);
 
 export default class AnalyticsReducer {
-
     static processAction(state, action) {
         // skip items we don't care about or if analytics is not enabled
-        if (!state.get("isEnabled") ||
+        if (
+            !state.get("isEnabled") ||
             (INCLUDED_ACTIONS.size > 0 && !INCLUDED_ACTIONS.contains(action.type)) ||
-            (EXCLUDED_ACTIONS.size > 0 && EXCLUDED_ACTIONS.contains(action.type))) {
+            (EXCLUDED_ACTIONS.size > 0 && EXCLUDED_ACTIONS.contains(action.type))
+        ) {
             return state;
         }
 
@@ -80,26 +81,29 @@ export default class AnalyticsReducer {
             // convert the current batch to a string
             let batch = JSON.stringify({ data: state.get("currentBatch") });
             // post the batch
-            miscUtil.asyncFetch({
-                url: appConfig.URLS.analyticsEndpoint,
-                options: {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
+            miscUtil
+                .asyncFetch({
+                    url: appConfig.URLS.analyticsEndpoint,
+                    options: {
+                        method: "POST",
+                        mode: "cors",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: batch
+                    }
+                })
+                .then(
+                    data => {
+                        console.log("Anlytics push successful.");
                     },
-                    body: batch
-                }
-            }).then((data) => {
-                console.log("Anlytics push successful.");
-            }, (err) => {
-                console.warn("Error in analytics.sendAnalyticsBatch: ", err);
-            });
+                    err => {
+                        console.warn("Error in analytics.sendAnalyticsBatch: ", err);
+                    }
+                );
 
             // clear the current batch and update the sent time
-            state = state
-                .set("currentBatch", Immutable.List())
-                .set("timeLastSent", new Date());
+            state = state.set("currentBatch", Immutable.List()).set("timeLastSent", new Date());
         }
         return state;
     }

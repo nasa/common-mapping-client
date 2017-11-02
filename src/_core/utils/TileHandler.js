@@ -1,9 +1,8 @@
-import * as appStrings from '_core/constants/appStrings';
+import * as appStrings from "_core/constants/appStrings";
 import MapUtil from "_core/utils/MapUtil";
 import MiscUtil from "_core/utils/MiscUtil";
 
 export default class TileHandler {
-
     constructor() {
         this.CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
         this.mapUtil = new MapUtil();
@@ -86,8 +85,11 @@ export default class TileHandler {
             format: layer.getIn(["wmtsOptions", "format"]),
             col: options.tileCoord[1],
             row: options.tileCoord[2],
-            level: typeof options.tileMatrixIds !== "undefined" &&
-                typeof options.tileMatrixIds[options.tileCoord[0]] !== "undefined" ? options.tileMatrixIds[options.tileCoord[0]] : options.tileCoord[0],
+            level:
+                typeof options.tileMatrixIds !== "undefined" &&
+                typeof options.tileMatrixIds[options.tileCoord[0]] !== "undefined"
+                    ? options.tileMatrixIds[options.tileCoord[0]]
+                    : options.tileCoord[0],
             context: options.context
         });
 
@@ -98,9 +100,10 @@ export default class TileHandler {
         let urlTemplate = options.origUrl;
         let tileCoord = options.tileCoord;
         if (urlTemplate) {
-            return urlTemplate.replace('{z}', (tileCoord[0] - 1).toString())
-                .replace('{x}', tileCoord[1].toString())
-                .replace('{y}', (-tileCoord[2] - 1).toString());
+            return urlTemplate
+                .replace("{z}", (tileCoord[0] - 1).toString())
+                .replace("{x}", tileCoord[1].toString())
+                .replace("{y}", (-tileCoord[2] - 1).toString());
         }
         return undefined;
     }
@@ -109,10 +112,11 @@ export default class TileHandler {
         let mapLayer = options.mapLayer;
         let url = this._defaultKVPUrl(options);
 
-        let timeStr = typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
-        if(typeof timeStr !== "undefined") {
-            if (url.indexOf('{') >= 0) {
-                url = url.replace('{Time}', timeStr);
+        let timeStr =
+            typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
+        if (typeof timeStr !== "undefined") {
+            if (url.indexOf("{") >= 0) {
+                url = url.replace("{Time}", timeStr);
             } else {
                 url = url + "&TIME=" + timeStr;
             }
@@ -133,7 +137,9 @@ export default class TileHandler {
         if (typeof tile._origGetImageFunc === "undefined") {
             tile._origGetImageFunc = tile.getImage;
 
-            let tileSize = this.CAT_SIZES[Math.floor(Math.random() * (this.CAT_SIZES.length - 1)) + 1];
+            let tileSize = this.CAT_SIZES[
+                Math.floor(Math.random() * (this.CAT_SIZES.length - 1)) + 1
+            ];
             let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
             tile.getImage = function(optContext) {
                 let node = this._origGetImageFunc(optContext);
@@ -153,11 +159,11 @@ export default class TileHandler {
         imgTile.onload = () => {
             options.success(imgTile);
         };
-        imgTile.onerror = (err) => {
+        imgTile.onerror = err => {
             options.fail(err);
         };
         if (this.miscUtil.urlIsCrossorigin(url)) {
-            imgTile.crossOrigin = '';
+            imgTile.crossOrigin = "";
         }
 
         imgTile.src = url;

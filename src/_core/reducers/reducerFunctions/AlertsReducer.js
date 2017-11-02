@@ -1,4 +1,4 @@
-import { alert } from '_core/reducers/models/alert';
+import { alert } from "_core/reducers/models/alert";
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -11,9 +11,12 @@ export default class AlertsReducer {
 
     static dismissAlert(state, action) {
         let remAlert = action.alert;
-        return state.set("alerts", state.get("alerts").filter((alert) => {
-            return alert !== remAlert;
-        }));
+        return state.set(
+            "alerts",
+            state.get("alerts").filter(alert => {
+                return alert !== remAlert;
+            })
+        );
     }
 
     static dismissAllAlerts(state, action) {

@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ReactDOM from 'react-dom';
-import * as actions from '_core/actions/AppActions';
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ReactDOM from "react-dom";
+import * as actions from "_core/actions/AppActions";
 
 export class AsyncImageContainer extends Component {
     componentDidMount() {
@@ -13,10 +12,11 @@ export class AsyncImageContainer extends Component {
         imgLoader.onload = null;
         imgDest.style.backgroundImage = "";
 
-        let imgSrc = imgLoader.getAttribute('src');
-        imgLoader.onload = () => { this.onImageLoad(); };
+        let imgSrc = imgLoader.getAttribute("src");
+        imgLoader.onload = () => {
+            this.onImageLoad();
+        };
         imgLoader.src = imgSrc;
-
     }
     componentWillUpdate(nextProps, nextState) {
         // Here we can catch props that are changing when component doesn't actually unmount
@@ -28,7 +28,7 @@ export class AsyncImageContainer extends Component {
     }
     onImageLoad() {
         let imgLoader = ReactDOM.findDOMNode(this.refs.imgLoader);
-        let imgSrc = imgLoader.getAttribute('src');
+        let imgSrc = imgLoader.getAttribute("src");
         let imgDest = ReactDOM.findDOMNode(this.refs.imgDest);
         imgDest.style.backgroundImage = "url(" + imgSrc + ")";
         imgDest.style.opacity = "1";
@@ -43,8 +43,12 @@ export class AsyncImageContainer extends Component {
     render() {
         return (
             <div className="async-image-container">
-                <img style={{"display":"none"}} src={this.props.src} ref="imgLoader" />
-                <div style={{"transition":"opacity 0.3s"}} className={this.props.className} ref="imgDest" />
+                <img style={{ display: "none" }} src={this.props.src} ref="imgLoader" />
+                <div
+                    style={{ transition: "opacity 0.3s" }}
+                    className={this.props.className}
+                    ref="imgDest"
+                />
             </div>
         );
     }
@@ -62,7 +66,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(AsyncImageContainer);
+export default connect(null, mapDispatchToProps)(AsyncImageContainer);

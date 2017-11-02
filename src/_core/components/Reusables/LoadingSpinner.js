@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import MiscUtil from '_core/utils/MiscUtil';
+import React from "react";
+import PropTypes from "prop-types";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
-const LoadingSpinner = (props) => {
+const LoadingSpinner = props => {
     let containerClasses = miscUtil.generateStringFromSet({
         "loading-spinner": true,
-        "hidden": !props.active
+        hidden: !props.active
     });
     return (
         <div className={containerClasses}>
             <svg className="circular" viewBox="25 25 50 50">
-              <circle className="path" cx="50" cy="50" r="20" fill="none"/>
+                <circle className="path" cx="50" cy="50" r="20" fill="none" />
             </svg>
         </div>
     );

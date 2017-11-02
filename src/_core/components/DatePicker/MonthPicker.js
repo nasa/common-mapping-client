@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Input from 'react-toolbox/lib/input';
-import MiscUtil from '_core/utils/MiscUtil';
-import appConfig from 'constants/appConfig';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Input from "react-toolbox/lib/input";
+import MiscUtil from "_core/utils/MiscUtil";
+import appConfig from "constants/appConfig";
 
 const MAX_LENGTH = 3;
 const miscUtil = new MiscUtil();
@@ -15,11 +15,12 @@ export class MonthPicker extends Component {
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return (nextProps.month !== this.props.month) || (nextProps.month !== this.month);
+        return nextProps.month !== this.props.month || nextProps.month !== this.month;
     }
     handleKeyPress(evt) {
         let monthStr = this.month;
-        if (evt.charCode === 13) { // enter key
+        if (evt.charCode === 13) {
+            // enter key
             this.submitMonth(monthStr);
         }
     }
@@ -51,7 +52,7 @@ export class MonthPicker extends Component {
         this.updateFromInternal = false;
         let containerClasses = miscUtil.generateStringFromSet({
             "date-picker-selection col-xs-4": true,
-            "error": this.error
+            error: this.error
         });
         return (
             <div className={containerClasses}>
@@ -60,9 +61,10 @@ export class MonthPicker extends Component {
                     type="text"
                     tabIndex="0"
                     value={monthStr}
-                    onBlur={(evt) => this.handleBlur(evt)}
-                    onKeyPress={(evt) => this.handleKeyPress(evt)}
-                    onChange={(evt) => this.handleChange(evt)} />
+                    onBlur={evt => this.handleBlur(evt)}
+                    onKeyPress={evt => this.handleKeyPress(evt)}
+                    onChange={evt => this.handleChange(evt)}
+                />
             </div>
         );
     }

@@ -1,8 +1,12 @@
-import * as actionTypes from '_core/constants/actionTypes';
-import { dateSliderState } from '_core/reducers/models/dateSlider';
-import DateSliderReducer from '_core/reducers/reducerFunctions/DateSliderReducer';
+import * as actionTypes from "_core/constants/actionTypes";
+import { dateSliderState } from "_core/reducers/models/dateSlider";
+import DateSliderReducer from "_core/reducers/reducerFunctions/DateSliderReducer";
 
-export default function dateSlider(state = dateSliderState, action, opt_reducer = DateSliderReducer) {
+export default function dateSlider(
+    state = dateSliderState,
+    action,
+    opt_reducer = DateSliderReducer
+) {
     switch (action.type) {
         case actionTypes.BEGIN_DRAGGING:
             return opt_reducer.beginDragging(state, action);

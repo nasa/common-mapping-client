@@ -1,27 +1,26 @@
-import * as actionTypes from '_core/constants/actionTypes';
-import * as appStrings from '_core/constants/appStrings';
-import appConfig from 'constants/appConfig';
-import * as mapActions from '_core/actions/MapActions';
-import * as layerActions from '_core/actions/LayerActions';
-import * as initialIngest from '_core/tests/data/expectedOutputs/initialIngest';
-import * as activateInactivateLayers from '_core/tests/data/expectedOutputs/activateInactivateLayers';
-import { createStore, compose, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import { expect } from 'chai';
-import rootReducer from '_core/reducers';
-import { mapState, layerModel, paletteModel } from '_core/reducers/models/map';
-import { asyncState } from '_core/reducers/models/async';
-import { helpState } from '_core/reducers/models/help';
-import { shareState } from '_core/reducers/models/share';
-import { settingsState } from '_core/reducers/models/settings';
-import { dateSliderState } from '_core/reducers/models/dateSlider';
-import { analyticsState } from '_core/reducers/models/analytics';
-import { viewState } from '_core/reducers/models/view';
-import { layerInfoState } from '_core/reducers/models/layerInfo';
-import TestUtil from '_core/tests/TestUtil';
-import MiscUtil from '_core/utils/MiscUtil';
-import moment from 'moment';
-
+import * as actionTypes from "_core/constants/actionTypes";
+import * as appStrings from "_core/constants/appStrings";
+import appConfig from "constants/appConfig";
+import * as mapActions from "_core/actions/MapActions";
+import * as layerActions from "_core/actions/LayerActions";
+import * as initialIngest from "_core/tests/data/expectedOutputs/initialIngest";
+import * as activateInactivateLayers from "_core/tests/data/expectedOutputs/activateInactivateLayers";
+import { createStore, compose, applyMiddleware } from "redux";
+import thunkMiddleware from "redux-thunk";
+import { expect } from "chai";
+import rootReducer from "_core/reducers";
+import { mapState, layerModel, paletteModel } from "_core/reducers/models/map";
+import { asyncState } from "_core/reducers/models/async";
+import { helpState } from "_core/reducers/models/help";
+import { shareState } from "_core/reducers/models/share";
+import { settingsState } from "_core/reducers/models/settings";
+import { dateSliderState } from "_core/reducers/models/dateSlider";
+import { analyticsState } from "_core/reducers/models/analytics";
+import { viewState } from "_core/reducers/models/view";
+import { layerInfoState } from "_core/reducers/models/layerInfo";
+import TestUtil from "_core/tests/TestUtil";
+import MiscUtil from "_core/utils/MiscUtil";
+import moment from "moment";
 
 const initialState = {
     map: mapState,
@@ -43,44 +42,48 @@ export const StoreMapSpec = {
         beforeEach(function() {
             // add the html fixture from the DOM to give maps a place to render during tests
             let fixture = '<div id="fixture"><div id="map2D"></div><div id="map3D"></div></div>';
-            document.body.insertAdjacentHTML('afterbegin', fixture);
+            document.body.insertAdjacentHTML("afterbegin", fixture);
         });
     },
     afterEach: () => {
         afterEach(function() {
             // remove the html fixture from the DOM
-            document.body.removeChild(document.getElementById('fixture'));
+            document.body.removeChild(document.getElementById("fixture"));
         });
     },
     tests: {
         default: {
             test0: () => {
-                it('fails on initialization of map with non-matching map type', function() {
+                it("fails on initialization of map with non-matching map type", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        mapActions.initializeMap("foo bar party", "map2D")
-                    ];
+                    const actions = [mapActions.initializeMap("foo bar party", "map2D")];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
                     const actualNumMaps = actual.map.get("maps").size;
                     const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
                     const actualMap3D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
-                    const actualAlerts = actual.map.get("alerts").toJS().map(x => {
-                        delete x.time;
-                        return x;
-                    });
+                    const actualAlerts = actual.map
+                        .get("alerts")
+                        .toJS()
+                        .map(x => {
+                            delete x.time;
+                            return x;
+                        });
                     actual.map = actual.map.remove("maps").remove("alerts");
 
                     expect(actualAlerts.length).to.equal(1);
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.remove("maps").remove("alerts");
 
                     const expectedAlert = {
                         title: appStrings.ALERTS.CREATE_MAP_FAILED.title,
-                        body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace("{MAP}", "2D"),
+                        body: appStrings.ALERTS.CREATE_MAP_FAILED.formatString.replace(
+                            "{MAP}",
+                            "2D"
+                        ),
                         severity: appStrings.ALERTS.CREATE_MAP_FAILED.severity
                     };
 
@@ -93,12 +96,10 @@ export const StoreMapSpec = {
             },
 
             test1: () => {
-                it('initializes 2D map', function() {
+                it("initializes 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")
-                    ];
+                    const actions = [mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D")];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -108,7 +109,7 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.remove("maps");
 
                     expect(actualNumMaps).to.equal(1);
@@ -119,15 +120,13 @@ export const StoreMapSpec = {
             },
 
             test2: () => {
-                it('initializes 3D map', function() {
+                it("initializes 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test2", this)) {
                         return;
                     }
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")
-                    ];
+                    const actions = [mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D")];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -137,7 +136,7 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.remove("maps");
 
                     expect(actualNumMaps).to.equal(1);
@@ -148,7 +147,7 @@ export const StoreMapSpec = {
             },
 
             test3: () => {
-                it('initializes 2D and 3D maps', function() {
+                it("initializes 2D and 3D maps", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test3", this)) {
                         return;
                     }
@@ -167,7 +166,7 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.remove("maps");
 
                     expect(actualNumMaps).to.equal(2);
@@ -178,7 +177,7 @@ export const StoreMapSpec = {
             },
 
             test4: () => {
-                it('initializes 3D and 2D maps', function() {
+                it("initializes 3D and 2D maps", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test4", this)) {
                         return;
                     }
@@ -197,7 +196,7 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.remove("maps");
 
                     expect(actualNumMaps).to.equal(2);
@@ -208,7 +207,7 @@ export const StoreMapSpec = {
             },
 
             test5: () => {
-                it('can enable 3D terrain', function() {
+                it("can enable 3D terrain", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test5", this)) {
                         return;
                     }
@@ -225,18 +224,20 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["displaySettings", "enableTerrain"], true);
 
-                    expect(actualMap3D.map.terrainProvider._url).to.equal(appConfig.DEFAULT_TERRAIN_ENDPOINT);
+                    expect(actualMap3D.map.terrainProvider._url).to.equal(
+                        appConfig.DEFAULT_TERRAIN_ENDPOINT
+                    );
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test6: () => {
-                it('can set 3D terrain exaggeration', function() {
+                it("can set 3D terrain exaggeration", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test6", this)) {
                         return;
                     }
@@ -244,7 +245,9 @@ export const StoreMapSpec = {
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
-                        mapActions.setTerrainExaggeration(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value)
+                        mapActions.setTerrainExaggeration(
+                            appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value
+                        )
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -253,18 +256,23 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
-                        .setIn(["displaySettings", "selectedTerrainExaggeration"], appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value);
+                        .setIn(
+                            ["displaySettings", "selectedTerrainExaggeration"],
+                            appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value
+                        );
 
-                    expect(actualMap3D.map.scene.terrainExaggeration).to.equal(appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value);
+                    expect(actualMap3D.map.scene.terrainExaggeration).to.equal(
+                        appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value
+                    );
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test7: () => {
-                it('can disable 3D terrain', function() {
+                it("can disable 3D terrain", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test7", this)) {
                         return;
                     }
@@ -282,7 +290,7 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["displaySettings", "enableTerrain"], false);
@@ -293,7 +301,7 @@ export const StoreMapSpec = {
             },
 
             test8: () => {
-                it('can set map view mode to 3D without 2D map', function() {
+                it("can set map view mode to 3D without 2D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test8", this)) {
                         return;
                     }
@@ -311,10 +319,8 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], true);
+                    const expected = { ...initialState };
+                    expected.map = expected.map.remove("maps").setIn(["view", "in3DMode"], true);
 
                     expect(actualNumMaps).to.equal(1);
                     expect(actualMap3D.isActive).to.equal(true);
@@ -323,7 +329,7 @@ export const StoreMapSpec = {
             },
 
             test9: () => {
-                it('can set map view mode to 3D with 2D map', function() {
+                it("can set map view mode to 3D with 2D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test9", this)) {
                         return;
                     }
@@ -342,10 +348,8 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], true);
+                    const expected = { ...initialState };
+                    expected.map = expected.map.remove("maps").setIn(["view", "in3DMode"], true);
 
                     expect(actualNumMaps).to.equal(2);
                     expect(actualMap3D.isActive).to.equal(true);
@@ -354,7 +358,7 @@ export const StoreMapSpec = {
             },
 
             test10: () => {
-                it('can set map view mode to 2D without 3D map', function() {
+                it("can set map view mode to 2D without 3D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -369,10 +373,8 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], false);
+                    const expected = { ...initialState };
+                    expected.map = expected.map.remove("maps").setIn(["view", "in3DMode"], false);
 
                     expect(actualNumMaps).to.equal(1);
                     expect(actualMap2D.isActive).to.equal(true);
@@ -381,7 +383,7 @@ export const StoreMapSpec = {
             },
 
             test11: () => {
-                it('can set map view mode to 2D with 3D map', function() {
+                it("can set map view mode to 2D with 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test11", this)) {
                         return;
                     }
@@ -401,10 +403,8 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], false);
+                    const expected = { ...initialState };
+                    expected.map = expected.map.remove("maps").setIn(["view", "in3DMode"], false);
 
                     expect(actualNumMaps).to.equal(2);
                     expect(actualMap2D.isActive).to.equal(true);
@@ -413,7 +413,7 @@ export const StoreMapSpec = {
             },
 
             test12: () => {
-                it('can reset 3D map orientation', function() {
+                it("can reset 3D map orientation", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test12", this)) {
                         return;
                     }
@@ -432,10 +432,8 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
-                    expected.map = expected.map
-                        .remove("maps")
-                        .setIn(["view", "in3DMode"], true);
+                    const expected = { ...initialState };
+                    expected.map = expected.map.remove("maps").setIn(["view", "in3DMode"], true);
 
                     expect(actualNumMaps).to.equal(1);
                     expect(actualMap3D.map.camera.heading).to.equal(6.283185307179586);
@@ -446,7 +444,7 @@ export const StoreMapSpec = {
             },
 
             test13: () => {
-                it('can set 2D map view info', function() {
+                it("can set 2D map view info", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test13", this)) {
                         return;
                     }
@@ -456,10 +454,18 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
-                        mapActions.setMapView({
-                            extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752],
-                            projection: appConfig.DEFAULT_PROJECTION
-                        }, true)
+                        mapActions.setMapView(
+                            {
+                                extent: [
+                                    -123.94365615697467,
+                                    45.71109896680252,
+                                    -116.91240615697467,
+                                    49.03995638867752
+                                ],
+                                projection: appConfig.DEFAULT_PROJECTION
+                            },
+                            true
+                        )
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -470,11 +476,19 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], true)
-                        .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752])
+                        .setIn(
+                            ["view", "extent"],
+                            [
+                                -123.94365615697467,
+                                45.71109896680252,
+                                -116.91240615697467,
+                                49.03995638867752
+                            ]
+                        )
                         .setIn(["view", "projection"], appConfig.DEFAULT_PROJECTION);
 
                     expect(actualNumMaps).to.equal(2);
@@ -483,7 +497,7 @@ export const StoreMapSpec = {
             },
 
             test14: () => {
-                it('can set 3D map view info', function() {
+                it("can set 3D map view info", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test14", this)) {
                         return;
                     }
@@ -493,9 +507,17 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                        mapActions.setMapView({
-                            extent: [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]
-                        }, true)
+                        mapActions.setMapView(
+                            {
+                                extent: [
+                                    -123.94365615697467,
+                                    45.71109896680252,
+                                    -116.91240615697467,
+                                    49.03995638867752
+                                ]
+                            },
+                            true
+                        )
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -506,11 +528,19 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
                         .setIn(["view", "in3DMode"], false)
-                        .setIn(["view", "extent"], [-123.94365615697467, 45.71109896680252, -116.91240615697467, 49.03995638867752]);
+                        .setIn(
+                            ["view", "extent"],
+                            [
+                                -123.94365615697467,
+                                45.71109896680252,
+                                -116.91240615697467,
+                                49.03995638867752
+                            ]
+                        );
 
                     expect(actualNumMaps).to.equal(2);
                     TestUtil.compareFullStates(actual, expected);
@@ -518,20 +548,18 @@ export const StoreMapSpec = {
             },
 
             test15: () => {
-                it('sets the map date', function() {
+                it("sets the map date", function() {
                     const store = createStore(rootReducer, initialState);
 
                     const dateFormat = "YYYY-MM-DD";
                     const newDate = moment("2003-01-01", dateFormat, true).toDate();
 
-                    const actions = [
-                        mapActions.setDate(newDate)
-                    ];
+                    const actions = [mapActions.setDate(newDate)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map.set("date", newDate);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -539,7 +567,7 @@ export const StoreMapSpec = {
             },
 
             test16: () => {
-                it('can zoom out', function(done) {
+                it("can zoom out", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test16", this, done)) {
                         return;
                     }
@@ -555,18 +583,26 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomOut());
                         setTimeout(() => {
                             const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            const actualMap2D = actual.map.get("maps").toJS()[
+                                appStrings.MAP_LIB_2D
+                            ];
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
+                            const expected = { ...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom - 1.0).toFixed(7));
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                (initialZoom - 1.0).toFixed(7)
+                            );
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -575,7 +611,7 @@ export const StoreMapSpec = {
             },
 
             test16B: () => {
-                it('can zoom out with no 3D map', function(done) {
+                it("can zoom out with no 3D map", function(done) {
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -586,20 +622,28 @@ export const StoreMapSpec = {
                     ];
                     actions.forEach(action => store.dispatch(action));
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             store.dispatch(mapActions.zoomOut());
                             setTimeout(() => {
                                 const actual = store.getState();
 
-                                const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                const actualMap2D = actual.map.get("maps").toJS()[
+                                    appStrings.MAP_LIB_2D
+                                ];
                                 actual.map = actual.map.remove("maps");
 
-                                const expected = {...initialState };
+                                const expected = { ...initialState };
                                 expected.map = expected.map.remove("maps");
 
-                                expect(actualMap2D.getZoom().toFixed(7)).to.equal(initialZoom.toFixed(7));
+                                expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                    initialZoom.toFixed(7)
+                                );
                                 TestUtil.compareFullStates(actual, expected);
                                 done();
                             }, 1000);
@@ -609,7 +653,7 @@ export const StoreMapSpec = {
             },
 
             test17: () => {
-                it('can zoom in', function(done) {
+                it("can zoom in", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this, done)) {
                         return;
                     }
@@ -625,18 +669,26 @@ export const StoreMapSpec = {
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            const actualMap2D = actual.map.get("maps").toJS()[
+                                appStrings.MAP_LIB_2D
+                            ];
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
+                            const expected = { ...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                (initialZoom + 1.0).toFixed(7)
+                            );
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -645,7 +697,7 @@ export const StoreMapSpec = {
             },
 
             test17B: () => {
-                it('can zoom in with no 3D map', function(done) {
+                it("can zoom in with no 3D map", function(done) {
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -657,18 +709,26 @@ export const StoreMapSpec = {
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             const actual = store.getState();
 
-                            const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                            const actualMap2D = actual.map.get("maps").toJS()[
+                                appStrings.MAP_LIB_2D
+                            ];
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
+                            const expected = { ...initialState };
                             expected.map = expected.map.remove("maps");
 
-                            expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
+                            expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                (initialZoom + 1.0).toFixed(7)
+                            );
                             TestUtil.compareFullStates(actual, expected);
                             done();
                         }, 1000);
@@ -677,7 +737,7 @@ export const StoreMapSpec = {
             },
 
             test18: () => {
-                it('can zoom in and out', function(done) {
+                it("can zoom in and out", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test17", this, done)) {
                         return;
                     }
@@ -693,7 +753,11 @@ export const StoreMapSpec = {
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             store.dispatch(mapActions.zoomIn());
@@ -702,13 +766,17 @@ export const StoreMapSpec = {
                                 setTimeout(() => {
                                     const actual = store.getState();
 
-                                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                    const actualMap2D = actual.map.get("maps").toJS()[
+                                        appStrings.MAP_LIB_2D
+                                    ];
                                     actual.map = actual.map.remove("maps");
 
-                                    const expected = {...initialState };
+                                    const expected = { ...initialState };
                                     expected.map = expected.map.remove("maps");
 
-                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
+                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                        (initialZoom + 1.0).toFixed(7)
+                                    );
                                     TestUtil.compareFullStates(actual, expected);
                                     done();
                                 }, 1000);
@@ -719,7 +787,7 @@ export const StoreMapSpec = {
             },
 
             test18B: () => {
-                it('can zoom in and out with no 3D map', function(done) {
+                it("can zoom in and out with no 3D map", function(done) {
                     this.timeout(30000);
 
                     const store = createStore(rootReducer, initialState);
@@ -731,7 +799,11 @@ export const StoreMapSpec = {
                     actions.forEach(action => store.dispatch(action));
 
                     setTimeout(() => {
-                        let initialZoom = store.getState().map.get("maps").toJS()[appStrings.MAP_LIB_2D].getZoom();
+                        let initialZoom = store
+                            .getState()
+                            .map.get("maps")
+                            .toJS()
+                            [appStrings.MAP_LIB_2D].getZoom();
                         store.dispatch(mapActions.zoomIn());
                         setTimeout(() => {
                             store.dispatch(mapActions.zoomIn());
@@ -740,13 +812,17 @@ export const StoreMapSpec = {
                                 setTimeout(() => {
                                     const actual = store.getState();
 
-                                    const actualMap2D = actual.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+                                    const actualMap2D = actual.map.get("maps").toJS()[
+                                        appStrings.MAP_LIB_2D
+                                    ];
                                     actual.map = actual.map.remove("maps");
 
-                                    const expected = {...initialState };
+                                    const expected = { ...initialState };
                                     expected.map = expected.map.remove("maps");
 
-                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal((initialZoom + 1.0).toFixed(7));
+                                    expect(actualMap2D.getZoom().toFixed(7)).to.equal(
+                                        (initialZoom + 1.0).toFixed(7)
+                                    );
                                     TestUtil.compareFullStates(actual, expected);
                                     done();
                                 }, 1000);
@@ -757,7 +833,7 @@ export const StoreMapSpec = {
             },
 
             test19: () => {
-                it('can set scale units with 2D map', function() {
+                it("can set scale units with 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
@@ -770,17 +846,20 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
-                        .setIn(["displaySettings", "selectedScaleUnits"], appConfig.SCALE_OPTIONS[1].value);
+                        .setIn(
+                            ["displaySettings", "selectedScaleUnits"],
+                            appConfig.SCALE_OPTIONS[1].value
+                        );
 
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test20: () => {
-                it('can enable drawing a circle on a 2D map', function() {
+                it("can enable drawing a circle on a 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -796,12 +875,14 @@ export const StoreMapSpec = {
                     const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
-                    actualMap2D.addDrawHandler(appStrings.GEOMETRY_CIRCLE, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_CIRCLE,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
-                    const finalActions = [
-                        mapActions.enableDrawing(appStrings.GEOMETRY_CIRCLE)
-                    ];
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_CIRCLE)];
                     finalActions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -820,7 +901,7 @@ export const StoreMapSpec = {
             },
 
             test21: () => {
-                it('can enable drawing a line on a 2D map', function() {
+                it("can enable drawing a line on a 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -836,7 +917,11 @@ export const StoreMapSpec = {
                     const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
-                    actualMap2D.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_LINE_STRING,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
                     const finalActions = [
@@ -858,7 +943,7 @@ export const StoreMapSpec = {
             },
 
             test22: () => {
-                it('can enable drawing a polygon on a 2D map', function() {
+                it("can enable drawing a polygon on a 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -874,12 +959,14 @@ export const StoreMapSpec = {
                     const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
-                    actualMap2D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_POLYGON,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
-                    const finalActions = [
-                        mapActions.enableDrawing(appStrings.GEOMETRY_POLYGON)
-                    ];
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_POLYGON)];
                     finalActions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -896,7 +983,7 @@ export const StoreMapSpec = {
             },
 
             test23: () => {
-                it('can enable drawing a circle on a 3D map', function() {
+                it("can enable drawing a circle on a 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test23", this)) {
                         return;
                     }
@@ -914,12 +1001,14 @@ export const StoreMapSpec = {
                     const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
-                    actualMap3D.addDrawHandler(appStrings.GEOMETRY_CIRCLE, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_CIRCLE,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
-                    const finalActions = [
-                        mapActions.enableDrawing(appStrings.GEOMETRY_CIRCLE)
-                    ];
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_CIRCLE)];
                     finalActions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -938,7 +1027,7 @@ export const StoreMapSpec = {
             },
 
             test24: () => {
-                it('can enable drawing a line on a 3D map', function() {
+                it("can enable drawing a line on a 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test24", this)) {
                         return;
                     }
@@ -956,7 +1045,11 @@ export const StoreMapSpec = {
                     const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
-                    actualMap3D.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_LINE_STRING,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
                     const finalActions = [
@@ -980,7 +1073,7 @@ export const StoreMapSpec = {
             },
 
             test25: () => {
-                it('can enable drawing a polygon on a 3D map', function() {
+                it("can enable drawing a polygon on a 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25", this)) {
                         return;
                     }
@@ -998,12 +1091,14 @@ export const StoreMapSpec = {
                     const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
-                    actualMap3D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_POLYGON,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
-                    const finalActions = [
-                        mapActions.enableDrawing(appStrings.GEOMETRY_POLYGON)
-                    ];
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_POLYGON)];
                     finalActions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -1022,7 +1117,7 @@ export const StoreMapSpec = {
             },
 
             test26: () => {
-                it('can disable drawing on a 2D map and clear previous drawing type', function() {
+                it("can disable drawing on a 2D map and clear previous drawing type", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1037,7 +1132,11 @@ export const StoreMapSpec = {
                     const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
 
                     // add drawing on the map
-                    actualMap2D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_POLYGON,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
                     const finalActions = [
@@ -1062,7 +1161,7 @@ export const StoreMapSpec = {
             },
 
             test27: () => {
-                it('can disable drawing on a 3D map and clear previous drawing type', function() {
+                it("can disable drawing on a 3D map and clear previous drawing type", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test27", this)) {
                         return;
                     }
@@ -1080,7 +1179,11 @@ export const StoreMapSpec = {
                     const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
 
                     // add drawing on the map
-                    actualMap3D.addDrawHandler(appStrings.GEOMETRY_POLYGON, () => {}, appStrings.INTERACTION_DRAW);
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_POLYGON,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
 
                     // enable drawing
                     const finalActions = [
@@ -1105,7 +1208,7 @@ export const StoreMapSpec = {
             },
 
             test28: () => {
-                it('can add geometry to 2D map', function() {
+                it("can add geometry to 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -1124,7 +1227,10 @@ export const StoreMapSpec = {
                     let geometryCircle = {
                         type: appStrings.GEOMETRY_CIRCLE,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
                         center: {
                             lon: 0,
                             lat: 0
@@ -1136,41 +1242,58 @@ export const StoreMapSpec = {
                     let geometryLineString = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     let geometryPolygon = {
                         type: appStrings.GEOMETRY_POLYGON,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries
                     const finalActions = [
                         mapActions.addGeometryToMap(geometryCircle, appStrings.INTERACTION_DRAW),
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW)
                     ];
                     finalActions.forEach(action => store.dispatch(action));
@@ -1184,18 +1307,23 @@ export const StoreMapSpec = {
                         .setIn(["view", "in3DMode"], true)
                         .setIn(["drawing", "geometryType"], "");
 
-
                     let mapLayers = actualMap2D.map.getLayers().getArray();
-                    let mapLayer = miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+                    let mapLayer = miscUtil.findObjectInArray(
+                        mapLayers,
+                        "_layerId",
+                        "_vector_drawings"
+                    );
                     let mapLayerFeatures = mapLayer.getSource().getFeatures();
-                    let drawFeatures = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
+                    let drawFeatures = mapLayerFeatures.filter(
+                        x => x.get("interactionType") === appStrings.INTERACTION_DRAW
+                    );
                     expect(drawFeatures.length).to.equal(3);
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test29: () => {
-                it('can add geometry to 3D map', function() {
+                it("can add geometry to 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test29", this)) {
                         return;
                     }
@@ -1229,16 +1357,20 @@ export const StoreMapSpec = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
                         proj: appStrings.PROJECTIONS.latlon.code,
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
@@ -1246,23 +1378,30 @@ export const StoreMapSpec = {
                         type: appStrings.GEOMETRY_POLYGON,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
                         proj: appStrings.PROJECTIONS.latlon.code,
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries
                     const finalActions = [
                         mapActions.addGeometryToMap(geometryCircle, appStrings.INTERACTION_DRAW),
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW)
                     ];
                     finalActions.forEach(action => store.dispatch(action));
@@ -1276,14 +1415,16 @@ export const StoreMapSpec = {
                         .setIn(["view", "in3DMode"], false)
                         .setIn(["drawing", "geometryType"], "");
 
-                    let drawFeatures = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === appStrings.INTERACTION_DRAW);
+                    let drawFeatures = actualMap3D.map.scene.primitives._primitives.filter(
+                        x => x._interactionType === appStrings.INTERACTION_DRAW
+                    );
                     expect(drawFeatures.length).to.equal(3);
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test30: () => {
-                it('can remove all drawings from 2D and 3D maps', function() {
+                it("can remove all drawings from 2D and 3D maps", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test30", this)) {
                         return;
                     }
@@ -1307,7 +1448,10 @@ export const StoreMapSpec = {
                     let geometryCircle = {
                         type: appStrings.GEOMETRY_CIRCLE,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
                         center: {
                             lon: 0,
                             lat: 0
@@ -1334,15 +1478,22 @@ export const StoreMapSpec = {
                         .setIn(["view", "in3DMode"], false)
                         .setIn(["drawing", "geometryType"], "");
 
-
                     // Get 2D drawings
                     let mapLayers = actualMap2D.map.getLayers().getArray();
-                    let mapLayer = miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+                    let mapLayer = miscUtil.findObjectInArray(
+                        mapLayers,
+                        "_layerId",
+                        "_vector_drawings"
+                    );
                     let mapLayerFeatures = mapLayer.getSource().getFeatures();
-                    let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
+                    let drawFeatures2D = mapLayerFeatures.filter(
+                        x => x.get("interactionType") === appStrings.INTERACTION_DRAW
+                    );
 
                     // Get 3D drawings
-                    let drawFeatures3D = actualMap3D.map.scene.primitives._primitives.filter(x => x._interactionType === appStrings.INTERACTION_DRAW);
+                    let drawFeatures3D = actualMap3D.map.scene.primitives._primitives.filter(
+                        x => x._interactionType === appStrings.INTERACTION_DRAW
+                    );
                     expect(drawFeatures2D.length).to.equal(0);
                     expect(drawFeatures3D.length).to.equal(0);
                     TestUtil.compareFullStates(actual, expected);
@@ -1350,13 +1501,13 @@ export const StoreMapSpec = {
             },
 
             test30B: () => {
-                it('can remove all drawings from 2D map', function() {
+                it("can remove all drawings from 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
                     const initalActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     initalActions.forEach(action => store.dispatch(action));
 
@@ -1368,7 +1519,10 @@ export const StoreMapSpec = {
                     let geometryCircle = {
                         type: appStrings.GEOMETRY_CIRCLE,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
                         center: {
                             lon: 0,
                             lat: 0
@@ -1392,19 +1546,24 @@ export const StoreMapSpec = {
                         .remove("maps")
                         .setIn(["drawing", "geometryType"], "");
 
-
                     // Get 2D drawings
                     let mapLayers = actualMap2D.map.getLayers().getArray();
-                    let mapLayer = miscUtil.findObjectInArray(mapLayers, "_layerId", "_vector_drawings");
+                    let mapLayer = miscUtil.findObjectInArray(
+                        mapLayers,
+                        "_layerId",
+                        "_vector_drawings"
+                    );
                     let mapLayerFeatures = mapLayer.getSource().getFeatures();
-                    let drawFeatures2D = mapLayerFeatures.filter(x => x.get('interactionType') === appStrings.INTERACTION_DRAW);
+                    let drawFeatures2D = mapLayerFeatures.filter(
+                        x => x.get("interactionType") === appStrings.INTERACTION_DRAW
+                    );
 
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
 
             test31: () => {
-                it('can add measurement label to geometry on 2D and 3D maps', function(done) {
+                it("can add measurement label to geometry on 2D and 3D maps", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test31", this, done)) {
                         return;
                     }
@@ -1412,7 +1571,11 @@ export const StoreMapSpec = {
                     // adjust default timeout
                     this.timeout(30000);
 
-                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        initialState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     // initial map
                     const initalActions = [
@@ -1432,17 +1595,24 @@ export const StoreMapSpec = {
                     let geometryLineString = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
@@ -1450,32 +1620,54 @@ export const StoreMapSpec = {
                     let geometryPolygon = {
                         type: appStrings.GEOMETRY_POLYGON,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }, {
-                            lon: 0,
-                            lat: 0
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            },
+                            {
+                                lon: 0,
+                                lat: 0
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries to 2D and 3D maps and then add label
                     const finalActions = [
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric'),
-                        mapActions.addMeasurementLabelToGeometry(geometryPolygon, appStrings.MEASURE_DISTANCE, 'metric')
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryLineString,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        ),
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryPolygon,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        )
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
@@ -1504,11 +1696,15 @@ export const StoreMapSpec = {
             },
 
             test31B: () => {
-                it('can add measurement label to geometry on 2D map', function(done) {
+                it("can add measurement label to geometry on 2D map", function(done) {
                     // adjust default timeout
                     this.timeout(30000);
 
-                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        initialState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     // initial map
                     const initalActions = [
@@ -1525,17 +1721,24 @@ export const StoreMapSpec = {
                     let geometryLineString = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
@@ -1543,29 +1746,48 @@ export const StoreMapSpec = {
                     let geometryPolygon = {
                         type: appStrings.GEOMETRY_POLYGON,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }, {
-                            lon: 0,
-                            lat: 0
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            },
+                            {
+                                lon: 0,
+                                lat: 0
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries to 2D and 3D maps and then add label
                     const finalActions = [
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric'),
-                        mapActions.addMeasurementLabelToGeometry(geometryPolygon, appStrings.MEASURE_DISTANCE, 'metric')
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryLineString,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        ),
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryPolygon,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        )
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
@@ -1590,14 +1812,18 @@ export const StoreMapSpec = {
             },
 
             test32: () => {
-                it('can remove all measurements in 2D and 3D maps', function(done) {
+                it("can remove all measurements in 2D and 3D maps", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test32", this, done)) {
                         return;
                     }
                     // adjust default timeout
                     this.timeout(30000);
 
-                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        initialState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     // initial map
                     const initalActions = [
@@ -1617,26 +1843,43 @@ export const StoreMapSpec = {
                     let geometryLineString = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries to 2D and 3D maps and then add label
                     const intermediateActions = [
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
                         mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric')
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryLineString,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        )
                     ];
 
                     intermediateActions.forEach(action => store.dispatch(action));
@@ -1669,11 +1912,15 @@ export const StoreMapSpec = {
             },
 
             test32B: () => {
-                it('can remove all measurements in 2D map', function(done) {
+                it("can remove all measurements in 2D map", function(done) {
                     // adjust default timeout
                     this.timeout(30000);
 
-                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        initialState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     // initial map
                     const initalActions = [
@@ -1690,24 +1937,38 @@ export const StoreMapSpec = {
                     let geometryLineString = {
                         type: appStrings.GEOMETRY_LINE_STRING,
                         coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
-                        proj: actualMap2D.map.getView().getProjection().getCode(),
-                        coordinates: [{
-                            lon: 0,
-                            lat: 0
-                        }, {
-                            lon: 10,
-                            lat: 10
-                        }, {
-                            lon: 20,
-                            lat: -20
-                        }],
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: 0,
+                                lat: 0
+                            },
+                            {
+                                lon: 10,
+                                lat: 10
+                            },
+                            {
+                                lon: 20,
+                                lat: -20
+                            }
+                        ],
                         id: Math.random()
                     };
 
                     // add geometries to 2D and 3D maps and then add label
                     const intermediateActions = [
-                        mapActions.addGeometryToMap(geometryLineString, appStrings.INTERACTION_DRAW),
-                        mapActions.addMeasurementLabelToGeometry(geometryLineString, appStrings.MEASURE_DISTANCE, 'metric')
+                        mapActions.addGeometryToMap(
+                            geometryLineString,
+                            appStrings.INTERACTION_DRAW
+                        ),
+                        mapActions.addMeasurementLabelToGeometry(
+                            geometryLineString,
+                            appStrings.MEASURE_DISTANCE,
+                            "metric"
+                        )
                     ];
 
                     intermediateActions.forEach(action => store.dispatch(action));
@@ -1723,7 +1984,6 @@ export const StoreMapSpec = {
                                 .remove("maps")
                                 .setIn(["drawing", "geometryType"], "");
 
-
                             // Get 2D overlays
                             let overlays2D = actualMap2D.map.getOverlays().getArray();
 
@@ -1736,46 +1996,57 @@ export const StoreMapSpec = {
             },
 
             test33: () => {
-                it('can injest wmts and json layer configurations as well as palette configurations. Big test.', function(done) {
+                it("can injest wmts and json layer configurations as well as palette configurations. Big test.", function(
+                    done
+                ) {
                     // adjust default timeout
                     this.timeout(30000);
                     let _context = this;
 
                     // create store with async action support
-                    const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        initialState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
-                    store.dispatch(layerActions.loadInitialData(function() {
-                        const actual = store.getState();
-                        actual.map = actual.map.remove("maps");
+                    store.dispatch(
+                        layerActions.loadInitialData(function() {
+                            const actual = store.getState();
+                            actual.map = actual.map.remove("maps");
 
-                        const expected = {...initialState };
+                            const expected = { ...initialState };
 
-                        expected.map = expected.map
-                            .remove("maps")
-                            .set("palettes", mapState.get("palettes").merge(initialIngest.PALETTES))
-                            .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
-                            .removeIn(["layers", "partial"]);
-                        expected.asynchronous = expected.asynchronous
-                            .set("loadingInitialData", false)
-                            .set("initialLoadingAttempted", true)
-                            .set("loadingLayerSources", false)
-                            .set("layerLoadingAttempted", true)
-                            .set("loadingLayerPalettes", false)
-                            .set("paletteLoadingAttempted", true);
+                            expected.map = expected.map
+                                .remove("maps")
+                                .set(
+                                    "palettes",
+                                    mapState.get("palettes").merge(initialIngest.PALETTES)
+                                )
+                                .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
+                                .removeIn(["layers", "partial"]);
+                            expected.asynchronous = expected.asynchronous
+                                .set("loadingInitialData", false)
+                                .set("initialLoadingAttempted", true)
+                                .set("loadingLayerSources", false)
+                                .set("layerLoadingAttempted", true)
+                                .set("loadingLayerPalettes", false)
+                                .set("paletteLoadingAttempted", true);
 
-                        TestUtil.compareFullStates(actual, expected);
-                        done.call(_context);
-                    }));
+                            TestUtil.compareFullStates(actual, expected);
+                            done.call(_context);
+                        })
+                    );
                 });
             },
 
             test34: () => {
-                it('can activate layers', function() {
+                it("can activate layers", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test34", this)) {
                         return;
                     }
                     // create modified state to account for layer ingest
-                    const modifiedState = {...initialState };
+                    const modifiedState = { ...initialState };
                     modifiedState.map = modifiedState.map
                         .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                         .removeIn(["layers", "partial"]);
@@ -1787,7 +2058,10 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
                         layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                        layerActions.setLayerActive(
+                            "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+                            true
+                        ),
                         layerActions.setLayerActive("facilities_kml", true)
                     ];
                     actions.forEach(action => store.dispatch(action));
@@ -1796,10 +2070,13 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
-                        .set("layers", mapState.get("layers").merge(activateInactivateLayers.ACTIVE_LAYERS))
+                        .set(
+                            "layers",
+                            mapState.get("layers").merge(activateInactivateLayers.ACTIVE_LAYERS)
+                        )
                         .removeIn(["layers", "partial"]);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -1807,9 +2084,9 @@ export const StoreMapSpec = {
             },
 
             test34B: () => {
-                it('can activate layers with no 3D map', function() {
+                it("can activate layers with no 3D map", function() {
                     // create modified state to account for layer ingest
-                    const modifiedState = {...initialState };
+                    const modifiedState = { ...initialState };
                     modifiedState.map = modifiedState.map
                         .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                         .removeIn(["layers", "partial"]);
@@ -1819,7 +2096,10 @@ export const StoreMapSpec = {
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                        layerActions.setLayerActive(
+                            "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+                            true
+                        ),
                         layerActions.setLayerActive("facilities_kml", true)
                     ];
                     actions.forEach(action => store.dispatch(action));
@@ -1828,10 +2108,13 @@ export const StoreMapSpec = {
 
                     actual.map = actual.map.remove("maps");
 
-                    const expected = {...initialState };
+                    const expected = { ...initialState };
                     expected.map = expected.map
                         .remove("maps")
-                        .set("layers", mapState.get("layers").merge(activateInactivateLayers.ACTIVE_LAYERS))
+                        .set(
+                            "layers",
+                            mapState.get("layers").merge(activateInactivateLayers.ACTIVE_LAYERS)
+                        )
                         .removeIn(["layers", "partial"]);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -1839,7 +2122,7 @@ export const StoreMapSpec = {
             },
 
             test35: () => {
-                it('can deactivate layers', function(done) {
+                it("can deactivate layers", function(done) {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test35", this, done)) {
                         return;
                     }
@@ -1847,12 +2130,16 @@ export const StoreMapSpec = {
                     this.timeout(30000);
 
                     // create modified state to account for layer ingest
-                    const modifiedState = {...initialState };
+                    const modifiedState = { ...initialState };
                     modifiedState.map = modifiedState.map
                         .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                         .removeIn(["layers", "partial"]);
 
-                    const store = createStore(rootReducer, modifiedState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        modifiedState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
@@ -1864,16 +2151,26 @@ export const StoreMapSpec = {
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
-                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false));
+                        store.dispatch(
+                            layerActions.setLayerActive(
+                                "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+                                false
+                            )
+                        );
                         setTimeout(() => {
                             const actual = store.getState();
 
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
+                            const expected = { ...initialState };
                             expected.map = expected.map
                                 .remove("maps")
-                                .set("layers", mapState.get("layers").merge(activateInactivateLayers.INACTIVE_LAYERS))
+                                .set(
+                                    "layers",
+                                    mapState
+                                        .get("layers")
+                                        .merge(activateInactivateLayers.INACTIVE_LAYERS)
+                                )
                                 .removeIn(["layers", "partial"]);
 
                             TestUtil.compareFullStates(actual, expected);
@@ -1884,17 +2181,21 @@ export const StoreMapSpec = {
             },
 
             test35B: () => {
-                it('can deactivate layers', function(done) {
+                it("can deactivate layers", function(done) {
                     // adjust default timeout
                     this.timeout(30000);
 
                     // create modified state to account for layer ingest
-                    const modifiedState = {...initialState };
+                    const modifiedState = { ...initialState };
                     modifiedState.map = modifiedState.map
                         .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                         .removeIn(["layers", "partial"]);
 
-                    const store = createStore(rootReducer, modifiedState, compose(applyMiddleware(thunkMiddleware)));
+                    const store = createStore(
+                        rootReducer,
+                        modifiedState,
+                        compose(applyMiddleware(thunkMiddleware))
+                    );
 
                     const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
@@ -1905,16 +2206,26 @@ export const StoreMapSpec = {
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
-                        store.dispatch(layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", false));
+                        store.dispatch(
+                            layerActions.setLayerActive(
+                                "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+                                false
+                            )
+                        );
                         setTimeout(() => {
                             const actual = store.getState();
 
                             actual.map = actual.map.remove("maps");
 
-                            const expected = {...initialState };
+                            const expected = { ...initialState };
                             expected.map = expected.map
                                 .remove("maps")
-                                .set("layers", mapState.get("layers").merge(activateInactivateLayers.INACTIVE_LAYERS))
+                                .set(
+                                    "layers",
+                                    mapState
+                                        .get("layers")
+                                        .merge(activateInactivateLayers.INACTIVE_LAYERS)
+                                )
                                 .removeIn(["layers", "partial"]);
 
                             TestUtil.compareFullStates(actual, expected);

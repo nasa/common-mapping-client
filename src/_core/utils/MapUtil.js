@@ -1,14 +1,14 @@
-import Immutable from 'immutable';
-import turfLineDistance from 'turf-line-distance';
-import turfArea from 'turf-area';
-import Qty from 'js-quantities';
-import turfCentroid from 'turf-centroid';
-import proj4js from 'proj4';
-import { GreatCircle } from 'assets/arc/arc';
-import * as appStrings from '_core/constants/appStrings';
-import appConfig from 'constants/appConfig';
-import MiscUtil from '_core/utils/MiscUtil';
-import MapWrapper_openlayers from '_core/utils/MapWrapper_openlayers';
+import Immutable from "immutable";
+import turfLineDistance from "turf-line-distance";
+import turfArea from "turf-area";
+import Qty from "js-quantities";
+import turfCentroid from "turf-centroid";
+import proj4js from "proj4";
+import { GreatCircle } from "assets/arc/arc";
+import * as appStrings from "_core/constants/appStrings";
+import appConfig from "constants/appConfig";
+import MiscUtil from "_core/utils/MiscUtil";
+import MapWrapper_openlayers from "_core/utils/MapWrapper_openlayers";
 
 export default class MapUtil {
     constructor() {
@@ -18,10 +18,12 @@ export default class MapUtil {
     // constrains coordinates to [+-180, +-90]
     constrainCoordinates(coords, limitY = true) {
         // check for array of numbers
-        if ((typeof coords !== "object") ||
-            (coords.length !== 2) ||
-            (typeof coords[0] !== "number") ||
-            (typeof coords[1] !== "number")) {
+        if (
+            typeof coords !== "object" ||
+            coords.length !== 2 ||
+            typeof coords[0] !== "number" ||
+            typeof coords[1] !== "number"
+        ) {
             return false;
         }
 
@@ -99,25 +101,29 @@ export default class MapUtil {
 
             if (referenceLineEnd[0] <= 0) {
                 if (lineStart[0] >= 0) {
-                    let shiftedLine = line.map((coords) => {
+                    let shiftedLine = line.map(coords => {
                         let shiftedCoords = coords.slice(0, coords.length);
                         shiftedCoords[0] -= 360;
                         return shiftedCoords;
                     });
                     // remove first point due to overlap
-                    deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    deconstrainedLine = deconstrainedLine.concat(
+                        shiftedLine.slice(1, shiftedLine.length)
+                    );
                 } else {
                     deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                 }
             } else {
                 if (lineStart[0] <= 0) {
-                    let shiftedLine = line.map((coords) => {
+                    let shiftedLine = line.map(coords => {
                         let shiftedCoords = coords.slice(0, coords.length);
                         shiftedCoords[0] += 360;
                         return shiftedCoords;
                     });
                     // remove first point due to overlap
-                    deconstrainedLine = deconstrainedLine.concat(shiftedLine.slice(1, shiftedLine.length));
+                    deconstrainedLine = deconstrainedLine.concat(
+                        shiftedLine.slice(1, shiftedLine.length)
+                    );
                 } else {
                     deconstrainedLine = deconstrainedLine.concat(line.slice(1, line.length));
                 }
@@ -156,21 +162,22 @@ export default class MapUtil {
             row = -options.row - 1;
         }
 
-        let tileMatrix = typeof tileMatrixLabels !== "undefined" ? tileMatrixLabels[level] : level.toString();
+        let tileMatrix =
+            typeof tileMatrixLabels !== "undefined" ? tileMatrixLabels[level] : level.toString();
 
-        if (url.indexOf('{') >= 0) {
+        if (url.indexOf("{") >= 0) {
             // resolve tile-URL template
             url = url
-                .replace('{TileMatrixSet}', tileMatrixSet)
-                .replace('{TileMatrix}', tileMatrix)
-                .replace('{TileRow}', row.toString())
-                .replace('{TileCol}', col.toString());
+                .replace("{TileMatrixSet}", tileMatrixSet)
+                .replace("{TileMatrix}", tileMatrix)
+                .replace("{TileRow}", row.toString())
+                .replace("{TileCol}", col.toString());
         } else {
             // build KVP request
             let queryOptions = Immutable.OrderedMap({
-                SERVICE: 'WMTS',
-                REQUEST: 'GetTile',
-                VERSION: '1.0.0',
+                SERVICE: "WMTS",
+                REQUEST: "GetTile",
+                VERSION: "1.0.0",
                 LAYER: layerId,
                 STYLE: "",
                 TILEMATRIXSET: tileMatrixSet,
@@ -193,26 +200,26 @@ export default class MapUtil {
     // input assumed in correct base units (meters/feet vs kilometers/miles)
     formatDistance(distance, units) {
         // Type check on distance
-        if (typeof distance !== 'number') {
+        if (typeof distance !== "number") {
             return null;
         }
 
-        if (units === 'metric') {
+        if (units === "metric") {
             if (Math.abs(distance) >= 1000) {
-                return (distance / 1000).toFixed(2) + ' km';
+                return (distance / 1000).toFixed(2) + " km";
             } else {
-                return distance.toFixed(2) + ' m';
+                return distance.toFixed(2) + " m";
             }
-        } else if (units === 'imperial') {
+        } else if (units === "imperial") {
             if (Math.abs(distance) >= 5280) {
-                return (distance / 5280).toFixed(2) + ' mi';
+                return (distance / 5280).toFixed(2) + " mi";
             } else {
-                return distance.toFixed(2) + ' ft';
+                return distance.toFixed(2) + " ft";
             }
-        } else if (units === 'nautical') {
-            return distance.toFixed(2) + ' nmi';
-        } else if (units === 'schoolbus') {
-            return distance.toFixed(2) + ' school buses';
+        } else if (units === "nautical") {
+            return distance.toFixed(2) + " nmi";
+        } else if (units === "schoolbus") {
+            return distance.toFixed(2) + " school buses";
         } else {
             return null;
         }
@@ -222,26 +229,26 @@ export default class MapUtil {
     // input assumed in correct base units (meters/feet vs kilometers/miles)
     formatArea(area, units) {
         // Type check on area
-        if (typeof area !== 'number') {
+        if (typeof area !== "number") {
             return null;
         }
 
-        if (units === 'metric') {
+        if (units === "metric") {
             if (Math.abs(area) >= 1000000) {
-                return (area / 1000000).toFixed(2) + ' km<sup>2</sup>';
+                return (area / 1000000).toFixed(2) + " km<sup>2</sup>";
             } else {
-                return area.toFixed(2) + ' m<sup>2</sup>';
+                return area.toFixed(2) + " m<sup>2</sup>";
             }
-        } else if (units === 'imperial') {
+        } else if (units === "imperial") {
             if (Math.abs(area) >= 27878400) {
-                return (area / 27878400).toFixed(2) + ' mi<sup>2</sup>';
+                return (area / 27878400).toFixed(2) + " mi<sup>2</sup>";
             } else {
-                return area.toFixed(2) + ' ft<sup>2</sup>';
+                return area.toFixed(2) + " ft<sup>2</sup>";
             }
-        } else if (units === 'nautical') {
-            return area.toFixed(2) + ' nmi<sup>2</sup>';
-        } else if (units === 'schoolbus') {
-            return area.toFixed(2) + ' school buses<sup>2</sup>';
+        } else if (units === "nautical") {
+            return area.toFixed(2) + " nmi<sup>2</sup>";
+        } else if (units === "schoolbus") {
+            return area.toFixed(2) + " school buses<sup>2</sup>";
         } else {
             return null;
         }
@@ -250,22 +257,22 @@ export default class MapUtil {
     // Converts area units
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     convertAreaUnits(value, units) {
-        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
-        if (units === 'schoolbus') {
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
+        if (units === "schoolbus") {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
-            return Qty(value, 'm^2').to(unitEntry.qtyType + '^2').scalar;
+            return Qty(value, "m^2").to(unitEntry.qtyType + "^2").scalar;
         }
     }
 
     // Converts distance units
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     convertDistanceUnits(value, units) {
-        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, 'value', units);
-        if (units === 'schoolbus') {
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
+        if (units === "schoolbus") {
             return value / unitEntry.toMeters;
         } else {
-            return Qty(value, 'm').to(unitEntry.qtyType).scalar;
+            return Qty(value, "m").to(unitEntry.qtyType).scalar;
         }
     }
 
@@ -280,16 +287,21 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     calculatePolylineDistance(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord =>
+            proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
+        );
         // Calculate line distance
-        return turfLineDistance({
-            type: "Feature",
-            properties: {},
-            geometry: {
-                type: "LineString",
-                coordinates: newCoords
-            }
-        }, "meters");
+        return turfLineDistance(
+            {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                    type: "LineString",
+                    coordinates: newCoords
+                }
+            },
+            "meters"
+        );
     }
 
     // Calculates area of a polygon using turf
@@ -298,16 +310,21 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     calculatePolygonArea(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord =>
+            proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
+        );
         // Calculate line distance
-        return turfArea({
-            type: "Feature",
-            properties: {},
-            geometry: {
-                type: "Polygon",
-                coordinates: [newCoords]
-            }
-        }, "meters");
+        return turfArea(
+            {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [newCoords]
+                }
+            },
+            "meters"
+        );
     }
 
     // Calculates center point of a polygon using turf
@@ -316,19 +333,26 @@ export default class MapUtil {
     // Reprojects into EPSG:4326 first
     calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord => proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord));
+        let newCoords = coords.map(coord =>
+            proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
+        );
         // Calculate center
-        return turfCentroid({
-            type: "FeatureCollection",
-            features: [{
-                type: "Feature",
-                properties: {},
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [newCoords]
-                }
-            }]
-        }, "meters").geometry.coordinates;
+        return turfCentroid(
+            {
+                type: "FeatureCollection",
+                features: [
+                    {
+                        type: "Feature",
+                        properties: {},
+                        geometry: {
+                            type: "Polygon",
+                            coordinates: [newCoords]
+                        }
+                    }
+                ]
+            },
+            "meters"
+        ).geometry.coordinates;
     }
 
     // takes line segments endpoints and generates a set
@@ -356,7 +380,7 @@ export default class MapUtil {
                 if (lineCoords[lineCoords.length - 1][0] < 0) {
                     initialShift = -1;
                 }
-                arcLines = arcLines.map((arc) => {
+                arcLines = arcLines.map(arc => {
                     let refCoord = arc.coords[0];
                     let shift = initialShift;
                     if (refCoord[0] <= 0) {
@@ -372,14 +396,14 @@ export default class MapUtil {
                             shift = 0;
                         }
                     }
-                    return arc.coords.map((coord) => {
+                    return arc.coords.map(coord => {
                         coord = coord.slice(0, coord.length);
-                        coord[0] += (360 * shift);
+                        coord[0] += 360 * shift;
                         return coord;
                     });
                 });
             } else {
-                arcLines = arcLines.map((arc) => {
+                arcLines = arcLines.map(arc => {
                     return arc.coords;
                 });
             }
@@ -398,7 +422,10 @@ export default class MapUtil {
     // returns a string measurement of that geometry
     measureGeometry(geometry, measurementType) {
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
-            console.warn("Error in MapUtil.measureGeometry: Could not measure geometry, unsupported geometry type: ", geometry.type);
+            console.warn(
+                "Error in MapUtil.measureGeometry: Could not measure geometry, unsupported geometry type: ",
+                geometry.type
+            );
             return false;
         }
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
@@ -407,18 +434,27 @@ export default class MapUtil {
             if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
                 return this.calculatePolylineDistance(coords, geometry.proj);
             } else {
-                console.warn("Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ", geometry.type);
+                console.warn(
+                    "Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ",
+                    geometry.type
+                );
                 return false;
             }
         } else if (measurementType === appStrings.MEASURE_AREA) {
             if (geometry.type === appStrings.GEOMETRY_POLYGON) {
                 return this.calculatePolygonArea(coords, geometry.proj);
             } else {
-                console.warn("Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ", geometry.type);
+                console.warn(
+                    "Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ",
+                    geometry.type
+                );
                 return false;
             }
         } else {
-            console.warn("Error in MapUtil.measureGeometry: Could not measure geometry, unsupported measurement type: ", measurementType);
+            console.warn(
+                "Error in MapUtil.measureGeometry: Could not measure geometry, unsupported measurement type: ",
+                measurementType
+            );
             return false;
         }
     }
@@ -430,7 +466,10 @@ export default class MapUtil {
         } else if (measurementType === appStrings.MEASURE_AREA) {
             return this.formatArea(measurement, units);
         } else {
-            console.warn("Error in MapUtil.formatMeasurement: Could not format measurement, unsupported measurement type: ", measurementType);
+            console.warn(
+                "Error in MapUtil.formatMeasurement: Could not format measurement, unsupported measurement type: ",
+                measurementType
+            );
             return false;
         }
     }
@@ -442,20 +481,25 @@ export default class MapUtil {
             if (lastCoord) {
                 return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
             } else {
-                console.warn("Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry.");
+                console.warn(
+                    "Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry."
+                );
                 return false;
             }
         } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
-            let coords = geometry.coordinates.map((x) => [x.lon, x.lat]);
+            let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
             coords = this.generateGeodesicArcsForLineString(coords);
             return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
         } else {
-            console.warn("Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ", geometry.type);
+            console.warn(
+                "Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ",
+                geometry.type
+            );
             return false;
         }
     }
 
-    // Takes in an extent as an array of strings or floats and returns an array with float representations of the strings or floats. 
+    // Takes in an extent as an array of strings or floats and returns an array with float representations of the strings or floats.
     // Returns false if Array is wrong type or does not contain exactly four floats.
     parseStringExtent(extentStrArr) {
         // Check extentStrArr type

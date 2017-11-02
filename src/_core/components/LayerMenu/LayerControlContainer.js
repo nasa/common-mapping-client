@@ -1,15 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
-import Switch from 'react-toolbox/lib/switch';
-import Slider from 'react-toolbox/lib/slider';
-import * as layerActions from '_core/actions/LayerActions';
-import Colorbar from '_core/components/LayerMenu/Colorbar';
-import MiscUtil from '_core/utils/MiscUtil';
-import { OpacityIcon0, OpacityIcon25, OpacityIcon50, OpacityIcon75, OpacityIcon100, LayerIconTop, LayerIconMiddle, LayerIconBottom } from '_core/components/Reusables/CustomIcons';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactTooltip from "react-tooltip";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Button, IconButton } from "react-toolbox/lib/button";
+import Switch from "react-toolbox/lib/switch";
+import Slider from "react-toolbox/lib/slider";
+import * as layerActions from "_core/actions/LayerActions";
+import Colorbar from "_core/components/LayerMenu/Colorbar";
+import MiscUtil from "_core/utils/MiscUtil";
+import {
+    OpacityIcon0,
+    OpacityIcon25,
+    OpacityIcon50,
+    OpacityIcon75,
+    OpacityIcon100,
+    LayerIconTop,
+    LayerIconMiddle,
+    LayerIconBottom
+} from "_core/components/Reusables/CustomIcons";
 
 const miscUtil = new MiscUtil();
 
@@ -20,9 +29,9 @@ export class LayerControlContainer extends Component {
         this.isChangingOpacity = false;
         this.isChangingPosition = false;
     }
-    
+
     shouldComponentUpdate(nextProps) {
-        // Here we prevent unnecessary renderings by explicitly 
+        // Here we prevent unnecessary renderings by explicitly
         // ignoring certain pieces of the layer state. We do this
         // since LayerControlContainer is passed an entire layer object
         // when instantiated in LayerMenuContainer, which contains state
@@ -30,7 +39,8 @@ export class LayerControlContainer extends Component {
         // the number of unnecessary renderings.
         let nextLayer = nextProps.layer;
         let currLayer = this.props.layer;
-        return (nextProps.palette !== this.props.palette ||
+        return (
+            nextProps.palette !== this.props.palette ||
             nextLayer.get("title") !== currLayer.get("title") ||
             nextLayer.get("opacity") !== currLayer.get("opacity") ||
             nextLayer.get("isActive") !== currLayer.get("isActive") ||
@@ -38,7 +48,8 @@ export class LayerControlContainer extends Component {
             nextLayer.get("min") !== currLayer.get("min") ||
             nextLayer.get("max") !== currLayer.get("max") ||
             nextLayer.get("units") !== currLayer.get("units") ||
-            nextLayer.get("displayIndex") !== currLayer.get("displayIndex"));
+            nextLayer.get("displayIndex") !== currLayer.get("displayIndex")
+        );
     }
 
     setLayerActive(active) {
@@ -48,7 +59,7 @@ export class LayerControlContainer extends Component {
     }
 
     changeOpacity(value) {
-        let opacity = value / 100.00;
+        let opacity = value / 100.0;
         this.props.actions.setLayerOpacity(this.props.layer, opacity);
     }
 
@@ -91,49 +102,65 @@ export class LayerControlContainer extends Component {
     render() {
         let containerClasses = miscUtil.generateStringFromSet({
             "layer-control pos-rel": true,
-            "active": this.props.layer.get("isActive")
+            active: this.props.layer.get("isActive")
         });
         let switchClasses = miscUtil.generateStringFromSet({
             "layer-toggle": true,
-            "active": this.props.layer.get("isActive")
+            active: this.props.layer.get("isActive")
         });
         let sliderContainerClasses = miscUtil.generateStringFromSet({
             "opacity-slider-container row middle-xs": true,
-            "active": this.isChangingOpacity
+            active: this.isChangingOpacity
         });
         let positionContainerClasses = miscUtil.generateStringFromSet({
             "position-controls-container": true,
-            "active": this.isChangingPosition
+            active: this.isChangingPosition
         });
         let colorbarRangeClasses = miscUtil.generateStringFromSet({
             "row middle-xs colorbar-range-wrapper": true,
-            "active": this.props.layer.getIn(["palette", "handleAs"]) !== ""
+            active: this.props.layer.getIn(["palette", "handleAs"]) !== ""
         });
         let currOpacity = Math.floor(this.props.layer.get("opacity") * 100);
         let layerOrderClassName = miscUtil.generateStringFromSet({
             "layer-order-label": true,
-            "active": this.isChangingPosition
+            active: this.isChangingPosition
         });
-        let opacityIcon = currOpacity === 0 ? <OpacityIcon0/> : 
-                          currOpacity < 50 ? <OpacityIcon25/> :
-                          currOpacity < 75 ? <OpacityIcon50/> :
-                          currOpacity < 100 ? <OpacityIcon75/> :
-                          <OpacityIcon100/>;
+        let opacityIcon =
+            currOpacity === 0 ? (
+                <OpacityIcon0 />
+            ) : currOpacity < 50 ? (
+                <OpacityIcon25 />
+            ) : currOpacity < 75 ? (
+                <OpacityIcon50 />
+            ) : currOpacity < 100 ? (
+                <OpacityIcon75 />
+            ) : (
+                <OpacityIcon100 />
+            );
 
-        let layerOrderIcon = this.props.layer.get("displayIndex") === 1 ? <LayerIconTop/> :
-                             this.props.layer.get("displayIndex") === this.props.activeNum ? <LayerIconBottom/> : 
-                             <LayerIconMiddle/>;
+        let layerOrderIcon =
+            this.props.layer.get("displayIndex") === 1 ? (
+                <LayerIconTop />
+            ) : this.props.layer.get("displayIndex") === this.props.activeNum ? (
+                <LayerIconBottom />
+            ) : (
+                <LayerIconMiddle />
+            );
 
         return (
             <div className={containerClasses}>
                 <div className="row middle-xs">
                     <div className="col-xs-2 text-left toggle">
-                        <div data-tip={this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"}
-                            data-place="left">
+                        <div
+                            data-tip={
+                                this.props.layer.get("isActive") ? "Hide Layer" : "Show Layer"
+                            }
+                            data-place="left"
+                        >
                             <Switch
                                 className={switchClasses}
                                 checked={this.props.layer.get("isActive")}
-                                onChange={(active) => this.setLayerActive(active)}
+                                onChange={active => this.setLayerActive(active)}
                                 theme={{
                                     on: "switch-thumb-on",
                                     off: "switch-thumb-off",
@@ -145,17 +172,18 @@ export class LayerControlContainer extends Component {
                     <span
                         className="layer-header text-ellipsis col-xs-9"
                         data-tip={this.props.layer.get("title")}
-                        data-place="left">
+                        data-place="left"
+                    >
                         {this.props.layer.get("title")}
                     </span>
                     <span className="col-xs-1 inactive-info-btn">
                         <IconButton
-                                icon="info_outline"
-                                className="no-padding mini-xs-waysmall"
-                                data-tip="Layer information"
-                                data-place="left"
-                                onClick={() => this.openLayerInfo()}
-                            />
+                            icon="info_outline"
+                            className="no-padding mini-xs-waysmall"
+                            data-tip="Layer information"
+                            data-place="left"
+                            onClick={() => this.openLayerInfo()}
+                        />
                     </span>
                 </div>
                 <div className="lower-content">
@@ -176,21 +204,46 @@ export class LayerControlContainer extends Component {
                                 primary={this.isChangingPosition}
                                 disabled={!this.props.layer.get("isActive")}
                                 className="no-padding mini-xs-waysmall"
-                                data-tip={!this.isChangingPosition ? "Adjust layer positioning" : null}
+                                data-tip={
+                                    !this.isChangingPosition ? "Adjust layer positioning" : null
+                                }
                                 data-place="left"
                                 tabIndex={this.props.layer.get("isActive") ? 0 : -1}
-                                onClick={() => this.toggleChangingPosition()}>
+                                onClick={() => this.toggleChangingPosition()}
+                            >
                                 {/*<i className="button-icon ms ms-fw ms-layers-overlay" />*/}
                                 {layerOrderIcon}
-                                <span className={layerOrderClassName}>{this.props.layer.get("displayIndex")}</span>
+                                <span className={layerOrderClassName}>
+                                    {this.props.layer.get("displayIndex")}
+                                </span>
                             </IconButton>
                             <div className={positionContainerClasses}>
                                 <div className="popover-label">Layer Positioning</div>
                                 <div className="position-control-content row middle-xs">
-                                    <Button primary label="Top" className="position-control-button col-xs-6" onClick={() => this.moveToTop()}/>
-                                    <Button primary label="Up" className="position-control-button col-xs-6" onClick={() => this.moveUp()}/>
-                                    <Button primary label="Bottom" className="position-control-button col-xs-6" onClick={() => this.moveToBottom()}/>
-                                    <Button primary label="Down" className="position-control-button col-xs-6" onClick={() => this.moveDown()}/>
+                                    <Button
+                                        primary
+                                        label="Top"
+                                        className="position-control-button col-xs-6"
+                                        onClick={() => this.moveToTop()}
+                                    />
+                                    <Button
+                                        primary
+                                        label="Up"
+                                        className="position-control-button col-xs-6"
+                                        onClick={() => this.moveUp()}
+                                    />
+                                    <Button
+                                        primary
+                                        label="Bottom"
+                                        className="position-control-button col-xs-6"
+                                        onClick={() => this.moveToBottom()}
+                                    />
+                                    <Button
+                                        primary
+                                        label="Down"
+                                        className="position-control-button col-xs-6"
+                                        onClick={() => this.moveDown()}
+                                    />
                                 </div>
                             </div>
                             <IconButton
@@ -200,13 +253,21 @@ export class LayerControlContainer extends Component {
                                 data-tip={!this.isChangingOpacity ? "Adjust layer opacity" : null}
                                 data-place="left"
                                 tabIndex={this.props.layer.get("isActive") ? 0 : -1}
-                                onClick={() => this.toggleChangingOpacity()}>
+                                onClick={() => this.toggleChangingOpacity()}
+                            >
                                 {opacityIcon}
                             </IconButton>
                             <div className={sliderContainerClasses}>
                                 <div className="popover-label">Layer Opacity</div>
                                 <div className="opacity-slider-content row middle-xs">
-                                    <Slider min={0} max={100} step={10} value={this.props.layer.get("opacity") * 100} className="react-toolbox-slider-overrides col-xs-9 no-padding" onChange={(value) => this.changeOpacity(value)} />
+                                    <Slider
+                                        min={0}
+                                        max={100}
+                                        step={10}
+                                        value={this.props.layer.get("opacity") * 100}
+                                        className="react-toolbox-slider-overrides col-xs-9 no-padding"
+                                        onChange={value => this.changeOpacity(value)}
+                                    />
                                     <span className="opacity-label col-xs-3 no-padding">
                                         {currOpacity}%
                                     </span>
@@ -256,7 +317,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(LayerControlContainer);
+export default connect(null, mapDispatchToProps)(LayerControlContainer);

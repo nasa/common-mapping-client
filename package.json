@@ -17,6 +17,7 @@
     "clean:dist": "node_modules/.bin/rimraf ./dist",
     "clean:test": "node_modules/.bin/rimraf ./test-results",
     "pretest": "npm run clean:test",
+    "prettier-all": "node_modules/.bin/prettier --config .prettierrc --write './src/**/*(*.css|*.js|*.scss)'",
     "test": "cross-env NODE_ENV=test karma start karma.conf.js",
     "analyze-bundle": "babel-node ./scripts/analyzeBundle.js"
   },
@@ -87,6 +88,7 @@
     "postcss": "6.0.1",
     "postcss-cssnext": "2.11.0",
     "postcss-loader": "2.0.5",
+    "prettier": "1.7.4",
     "proj4": "2.4.3",
     "raw-loader": "0.5.1",
     "react": "15.5.4",

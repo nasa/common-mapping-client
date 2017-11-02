@@ -1,7 +1,7 @@
-import Immutable from 'immutable';
-import appConfig from 'constants/appConfig';
-import { alert } from '_core/reducers/models/alert';
-import * as appStrings from '_core/constants/appStrings';
+import Immutable from "immutable";
+import appConfig from "constants/appConfig";
+import { alert } from "_core/reducers/models/alert";
+import * as appStrings from "_core/constants/appStrings";
 
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
@@ -12,9 +12,7 @@ export default class DateSliderReducer {
     }
 
     static endDragging(state, action) {
-        return state
-            .set("isDragging", false)
-            .setIn(["hoverDate", "isValid"], false);
+        return state.set("isDragging", false).setIn(["hoverDate", "isValid"], false);
     }
 
     static hoverDate(state, action) {
@@ -34,7 +32,7 @@ export default class DateSliderReducer {
         if (typeof actionResolution === "string") {
             actionResolution = actionResolution.toLowerCase();
             actionResolution = appConfig.DATE_SLIDER_RESOLUTIONS.reduce((acc, res) => {
-                if(actionResolution === res.label) {
+                if (actionResolution === res.label) {
                     return res;
                 }
                 return acc;
@@ -48,12 +46,14 @@ export default class DateSliderReducer {
             // not get captured in state.
             state = state.set("resolution", Immutable.Map(actionResolution));
         } else {
-            alerts = alerts.push(alert.merge({
-                title: appStrings.ALERTS.TIMELINE_RES_FAILED.title,
-                body: appStrings.ALERTS.TIMELINE_RES_FAILED.formatString,
-                severity: appStrings.ALERTS.TIMELINE_RES_FAILED.severity,
-                time: new Date()
-            }));
+            alerts = alerts.push(
+                alert.merge({
+                    title: appStrings.ALERTS.TIMELINE_RES_FAILED.title,
+                    body: appStrings.ALERTS.TIMELINE_RES_FAILED.formatString,
+                    severity: appStrings.ALERTS.TIMELINE_RES_FAILED.severity,
+                    time: new Date()
+                })
+            );
         }
 
         return state.set("alerts", alerts);
@@ -61,9 +61,12 @@ export default class DateSliderReducer {
 
     static dismissAlert(state, action) {
         let remAlert = action.alert;
-        return state.set("alerts", state.get("alerts").filter((alert) => {
-            return alert !== remAlert;
-        }));
+        return state.set(
+            "alerts",
+            state.get("alerts").filter(alert => {
+                return alert !== remAlert;
+            })
+        );
     }
 
     static dismissAllAlerts(state, action) {
@@ -72,7 +75,9 @@ export default class DateSliderReducer {
 
     static resetApplicationState(state, action) {
         let newState = this.endDragging(state, action);
-        newState = this.setDateResolution(newState, { resolution: appConfig.DEFAULT_DATE_SLIDER_RESOLUTION });
+        newState = this.setDateResolution(newState, {
+            resolution: appConfig.DEFAULT_DATE_SLIDER_RESOLUTION
+        });
         return newState;
     }
 }

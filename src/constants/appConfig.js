@@ -1,5 +1,5 @@
-import Immutable from 'immutable';
-import * as coreConfig from '_core/constants/appConfig';
+import Immutable from "immutable";
+import * as coreConfig from "_core/constants/appConfig";
 
 // the config as defined by CMC Core
 const CORE_CONFIG = Immutable.fromJS(coreConfig);
@@ -11,5 +11,7 @@ const OPS_CONFIG = Immutable.fromJS(window.APPLICATION_CONFIG);
 const APP_CONFIG = Immutable.fromJS({});
 
 // define and export the final config
-const appConfig = CORE_CONFIG.mergeDeep(APP_CONFIG).mergeDeep(OPS_CONFIG).toJS();
+const appConfig = CORE_CONFIG.mergeDeep(APP_CONFIG)
+    .mergeDeep(OPS_CONFIG)
+    .toJS();
 export default appConfig;

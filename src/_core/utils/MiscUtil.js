@@ -1,6 +1,6 @@
-import fetch from 'isomorphic-fetch';
-import objectAssign from 'object-assign';
-import * as appStrings from '_core/constants/appStrings';
+import fetch from "isomorphic-fetch";
+import objectAssign from "object-assign";
+import * as appStrings from "_core/constants/appStrings";
 
 export default class MiscUtil {
     constructor() {}
@@ -9,13 +9,15 @@ export default class MiscUtil {
     // and returns a space separated string of those keys that map to true
     generateStringFromSet(classSet) {
         if (typeof classSet === "object") {
-            return Object.keys(classSet).reduce((acc, key) => {
-                if (classSet[key] === true) {
-                    acc.push(key);
+            return Object.keys(classSet)
+                .reduce((acc, key) => {
+                    if (classSet[key] === true) {
+                        acc.push(key);
+                        return acc;
+                    }
                     return acc;
-                }
-                return acc;
-            }, []).join(' ');
+                }, [])
+                .join(" ");
         } else {
             return "";
         }
@@ -24,8 +26,10 @@ export default class MiscUtil {
     findObjectInArray(array, key, val) {
         if (typeof key === "string") {
             for (let i = 0; i < array.length; ++i) {
-                if (array[i][key] === val ||
-                    (typeof array[i].get === "function" && array[i].get(key) === val)) {
+                if (
+                    array[i][key] === val ||
+                    (typeof array[i].get === "function" && array[i].get(key) === val)
+                ) {
                     return array[i];
                 }
             }
@@ -40,15 +44,20 @@ export default class MiscUtil {
     }
 
     findAllMatchingObjectsInArray(array, key, val) {
-        return array.filter((element) => {
-            return element[key] === val || (typeof element.get === "function" && element.get(key) === val);
+        return array.filter(element => {
+            return (
+                element[key] === val ||
+                (typeof element.get === "function" && element.get(key) === val)
+            );
         });
     }
 
     findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
-            if (array[i][key] === val ||
-                (typeof array[i].get === "function" && array[i].get(key) === val)) {
+            if (
+                array[i][key] === val ||
+                (typeof array[i].get === "function" && array[i].get(key) === val)
+            ) {
                 return {
                     value: array[i],
                     index: i
@@ -97,7 +106,8 @@ export default class MiscUtil {
             if (rgbPartsInt.some(x => x < 0 || x > 255)) {
                 return "";
             }
-            let hexStr = ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
+            let hexStr =
+                ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[1].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[2].toString(16)).slice(-2);
             return this.formatHex(hexStr);
@@ -139,7 +149,11 @@ export default class MiscUtil {
     }
 
     getIsInFullScreenMode() {
-        return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+        return (
+            document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement
+        );
     }
 
     objectToUrlParams(params) {
@@ -152,13 +166,21 @@ export default class MiscUtil {
 
     parseUrlQueryString(urlStr) {
         // return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
-        return urlStr.replace(/^#\/?|\/$/g, '').split('&').reduce((acc, param) => {
-            let paramParts = param.split('=');
-            if (paramParts && paramParts.length >= 2 && paramParts[0] !== "" && paramParts[1] !== "") {
-                acc.push({ key: paramParts[0], value: paramParts.slice(1).join("=") });
-            }
-            return acc;
-        }, []);
+        return urlStr
+            .replace(/^#\/?|\/$/g, "")
+            .split("&")
+            .reduce((acc, param) => {
+                let paramParts = param.split("=");
+                if (
+                    paramParts &&
+                    paramParts.length >= 2 &&
+                    paramParts[0] !== "" &&
+                    paramParts[1] !== ""
+                ) {
+                    acc.push({ key: paramParts[0], value: paramParts.slice(1).join("=") });
+                }
+                return acc;
+            }, []);
     }
 
     getUrlParams() {
@@ -167,7 +189,7 @@ export default class MiscUtil {
     }
 
     urlIsCrossorigin(url) {
-        let a = document.createElement('a');
+        let a = document.createElement("a");
 
         // copy window location into the anchor to get consistent results
         // when the port is default for the protocol (e.g. 80 for HTTP)
@@ -196,16 +218,16 @@ export default class MiscUtil {
         num = num + "";
 
         // check for floating point
-        if(num.indexOf(".") !== -1) {
-            length += 1;   
+        if (num.indexOf(".") !== -1) {
+            length += 1;
         }
 
         // get amount of padding needed
         let padSize = length - num.length;
-        if(padSize > 0) {
+        if (padSize > 0) {
             // create the padding string
             let padStr = "";
-            for(let i = 0; i < padSize; ++i) {
+            for (let i = 0; i < padSize; ++i) {
                 padStr += pad;
             }
 
@@ -222,33 +244,36 @@ export default class MiscUtil {
         let fetchOptions = options.options;
 
         return new Promise((resolve, reject) => {
-            fetch(url, fetchOptions).then((response) => {
-                if(response.status >= 400) {
-                    reject(new Error("Bad response from server"));
-                } else {
-                    switch (handleAs) {
-                        case appStrings.FILE_TYPE_JSON:
-                            return response.json();
-                        case appStrings.FILE_TYPE_XML:
-                            return response.text();
-                        case appStrings.FILE_TYPE_MARKDOWN:
-                            return response.text();
-                        case appStrings.LAYER_CONFIG_JSON:
-                            return response.json();
-                        case appStrings.LAYER_CONFIG_WMTS_XML:
-                            return response.text();
-                        case appStrings.FILE_TYPE_TEXT:
-                            return response.text();
-                        default:
-                            return response;
+            fetch(url, fetchOptions)
+                .then(response => {
+                    if (response.status >= 400) {
+                        reject(new Error("Bad response from server"));
+                    } else {
+                        switch (handleAs) {
+                            case appStrings.FILE_TYPE_JSON:
+                                return response.json();
+                            case appStrings.FILE_TYPE_XML:
+                                return response.text();
+                            case appStrings.FILE_TYPE_MARKDOWN:
+                                return response.text();
+                            case appStrings.LAYER_CONFIG_JSON:
+                                return response.json();
+                            case appStrings.LAYER_CONFIG_WMTS_XML:
+                                return response.text();
+                            case appStrings.FILE_TYPE_TEXT:
+                                return response.text();
+                            default:
+                                return response;
+                        }
                     }
-                }
-            }).then((parsedResponse) => {
-                resolve(parsedResponse);
-            }).catch((err) => {
-                console.warn("Error in asyncFetch: ", err);
-                reject(err);
-            });
+                })
+                .then(parsedResponse => {
+                    resolve(parsedResponse);
+                })
+                .catch(err => {
+                    console.warn("Error in asyncFetch: ", err);
+                    reject(err);
+                });
         });
     }
 }

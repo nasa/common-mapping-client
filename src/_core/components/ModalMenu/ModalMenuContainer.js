@@ -1,11 +1,11 @@
-import Immutable from 'immutable';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {Button, IconButton} from 'react-toolbox/lib/button';
-import Dialog from 'react-toolbox/lib/dialog';
-import MiscUtil from '_core/utils/MiscUtil';
+import Immutable from "immutable";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Button, IconButton } from "react-toolbox/lib/button";
+import Dialog from "react-toolbox/lib/dialog";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -14,23 +14,35 @@ export class ModalMenuContainer extends Component {
         let classNameSet = {
             "modal-menu no-padding": true,
             "modal-menu-subpage": this.props.back,
-            "small": this.props.small
+            small: this.props.small
         };
-        if(typeof this.props.className !== "undefined") {
+        if (typeof this.props.className !== "undefined") {
             classNameSet[this.props.className] = true;
         }
         let modalMenuClasses = miscUtil.generateStringFromSet(classNameSet);
         return (
-            <Dialog className={modalMenuClasses}
-                    active={this.props.active} 
-                    onEscKeyDown={this.props.closeFunc} 
-                    onOverlayClick={this.props.closeFunc} 
-                    title={this.props.title}>
-                <IconButton neutral inverse icon="close" onClick={this.props.closeFunc} className="modal-menu-close"/>
-                <IconButton neutral inverse icon="arrow_back" onClick={this.props.backFunc} className={"modal-menu-back " + (!this.props.back ? "hidden" : "")} />
-                <div className="no-margin modal-menu-content">
-                    {this.props.children}
-                </div>
+            <Dialog
+                className={modalMenuClasses}
+                active={this.props.active}
+                onEscKeyDown={this.props.closeFunc}
+                onOverlayClick={this.props.closeFunc}
+                title={this.props.title}
+            >
+                <IconButton
+                    neutral
+                    inverse
+                    icon="close"
+                    onClick={this.props.closeFunc}
+                    className="modal-menu-close"
+                />
+                <IconButton
+                    neutral
+                    inverse
+                    icon="arrow_back"
+                    onClick={this.props.backFunc}
+                    className={"modal-menu-back " + (!this.props.back ? "hidden" : "")}
+                />
+                <div className="no-margin modal-menu-content">{this.props.children}</div>
             </Dialog>
         );
     }
@@ -44,7 +56,7 @@ ModalMenuContainer.propTypes = {
     closeFunc: PropTypes.func,
     backFunc: PropTypes.func,
     small: PropTypes.bool,
-    children: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ])
+    children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 export default connect()(ModalMenuContainer);

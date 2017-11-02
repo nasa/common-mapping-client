@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import MiscUtil from '_core/utils/MiscUtil';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -13,18 +13,27 @@ export class MouseCoordinates extends Component {
         let latUnit = latCoord >= 0 ? "°E" : "°W";
         let lonUnit = lonCoord >= 0 ? "°N" : "°S";
 
-        let currCoord = miscUtil.padNumber(Math.abs(lonCoord).toFixed(3), 5, "&nbsp;") + lonUnit + "," + miscUtil.padNumber(Math.abs(latCoord).toFixed(3), 6, "&nbsp;") + latUnit;
+        let currCoord =
+            miscUtil.padNumber(Math.abs(lonCoord).toFixed(3), 5, "&nbsp;") +
+            lonUnit +
+            "," +
+            miscUtil.padNumber(Math.abs(latCoord).toFixed(3), 6, "&nbsp;") +
+            latUnit;
 
-        let displayText = this.props.pixelCoordinate.get("isValid") ? currCoord : " ------" + lonUnit + ", ------" + latUnit;
+        let displayText = this.props.pixelCoordinate.get("isValid")
+            ? currCoord
+            : " ------" + lonUnit + ", ------" + latUnit;
 
         let containerClasses = miscUtil.generateStringFromSet({
             "current-coordinate": true
         });
 
         return (
-            <div className={containerClasses}
+            <div
+                className={containerClasses}
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{__html: displayText}} />
+                dangerouslySetInnerHTML={{ __html: displayText }}
+            />
         );
     }
 }
@@ -39,7 +48,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(MouseCoordinates);
+export default connect(mapStateToProps, null)(MouseCoordinates);

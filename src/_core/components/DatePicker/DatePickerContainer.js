@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Autocomplete from 'react-toolbox/lib/autocomplete';
-import { Button } from 'react-toolbox/lib/button';
-import * as actions from '_core/actions/MapActions';
-import CurrentDatePicker from '_core/components/DatePicker/CurrentDate/CurrentDatePicker';
-import MiscUtil from '_core/utils/MiscUtil';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Autocomplete from "react-toolbox/lib/autocomplete";
+import { Button } from "react-toolbox/lib/button";
+import * as actions from "_core/actions/MapActions";
+import CurrentDatePicker from "_core/components/DatePicker/CurrentDate/CurrentDatePicker";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -42,7 +42,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DatePickerContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DatePickerContainer);

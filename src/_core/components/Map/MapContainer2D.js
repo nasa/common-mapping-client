@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '_core/actions/MapActions';
-import * as appStrings from '_core/constants/appStrings';
-import MiscUtil from '_core/utils/MiscUtil';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "_core/actions/MapActions";
+import * as appStrings from "_core/constants/appStrings";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -22,17 +22,41 @@ export class MapContainer2D extends Component {
         if (typeof map !== "undefined") {
             // mouse event listeners
             map.addEventListener(appStrings.EVENT_MOVE_END, () => this.handleMapMoveEnd(map));
-            map.addEventListener(appStrings.EVENT_MOUSE_HOVER, (pixel) => this.handlePixelHover(map, pixel));
-            map.addEventListener(appStrings.EVENT_MOUSE_CLICK, (clickEvt) => this.handlePixelClick(map, clickEvt));
+            map.addEventListener(appStrings.EVENT_MOUSE_HOVER, pixel =>
+                this.handlePixelHover(map, pixel)
+            );
+            map.addEventListener(appStrings.EVENT_MOUSE_CLICK, clickEvt =>
+                this.handlePixelClick(map, clickEvt)
+            );
 
             // draw handlers
-            map.addDrawHandler(appStrings.GEOMETRY_CIRCLE, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
-            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
-            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleDrawEnd(geometry), appStrings.INTERACTION_DRAW);
+            map.addDrawHandler(
+                appStrings.GEOMETRY_CIRCLE,
+                geometry => this.handleDrawEnd(geometry),
+                appStrings.INTERACTION_DRAW
+            );
+            map.addDrawHandler(
+                appStrings.GEOMETRY_LINE_STRING,
+                geometry => this.handleDrawEnd(geometry),
+                appStrings.INTERACTION_DRAW
+            );
+            map.addDrawHandler(
+                appStrings.GEOMETRY_POLYGON,
+                geometry => this.handleDrawEnd(geometry),
+                appStrings.INTERACTION_DRAW
+            );
 
             // measurement listeners
-            map.addDrawHandler(appStrings.GEOMETRY_LINE_STRING, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE), appStrings.INTERACTION_MEASURE);
-            map.addDrawHandler(appStrings.GEOMETRY_POLYGON, (geometry) => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA), appStrings.INTERACTION_MEASURE);
+            map.addDrawHandler(
+                appStrings.GEOMETRY_LINE_STRING,
+                geometry => this.handleMeasureEnd(geometry, appStrings.MEASURE_DISTANCE),
+                appStrings.INTERACTION_MEASURE
+            );
+            map.addDrawHandler(
+                appStrings.GEOMETRY_POLYGON,
+                geometry => this.handleMeasureEnd(geometry, appStrings.MEASURE_AREA),
+                appStrings.INTERACTION_MEASURE
+            );
         } else {
             console.error("Cannot initialize event listeners: 2D MAP NOT AVAILABLE");
         }
@@ -42,10 +66,13 @@ export class MapContainer2D extends Component {
         // Only fire move event if this map is active
         // and target inactive map
         if (map.isActive) {
-            this.props.actions.setMapView({
-                extent: map.getExtent(),
-                projection: map.getProjection()
-            }, false);
+            this.props.actions.setMapView(
+                {
+                    extent: map.getExtent(),
+                    projection: map.getProjection()
+                },
+                false
+            );
         }
     }
 
@@ -74,7 +101,11 @@ export class MapContainer2D extends Component {
         // Add geometry to other maps
         this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, false);
         // Add label to geometry
-        this.props.actions.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
+        this.props.actions.addMeasurementLabelToGeometry(
+            geometry,
+            measurementType,
+            this.props.units
+        );
     }
 
     render() {
@@ -85,7 +116,7 @@ export class MapContainer2D extends Component {
         }
 
         let containerClass = miscUtil.generateStringFromSet({
-            "inactive": this.props.in3DMode
+            inactive: this.props.in3DMode
         });
 
         return (
@@ -119,7 +150,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MapContainer2D);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer2D);

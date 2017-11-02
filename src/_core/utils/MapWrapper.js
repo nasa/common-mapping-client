@@ -1,4 +1,4 @@
-import appConfig from 'constants/appConfig';
+import appConfig from "constants/appConfig";
 
 export default class MapWrapper {
     constructor(container, options) {
@@ -28,7 +28,9 @@ export default class MapWrapper {
         return false;
     }
     enableActiveListeners(active) {
-        console.warn("Error in MapWrapper.enableActiveListeners: Method not implemented in subclass");
+        console.warn(
+            "Error in MapWrapper.enableActiveListeners: Method not implemented in subclass"
+        );
         return false;
     }
     disableDrawing(delayDblClickEnable) {
@@ -56,7 +58,9 @@ export default class MapWrapper {
         return false;
     }
     removeAllMeasurements() {
-        console.warn("Error in MapWrapper.removeAllMeasurements: Method not implemented in subclass");
+        console.warn(
+            "Error in MapWrapper.removeAllMeasurements: Method not implemented in subclass"
+        );
         return false;
     }
     getCenter() {
@@ -159,7 +163,9 @@ export default class MapWrapper {
     }
 
     getLatLonFromPixelCoordinate(pixel) {
-        console.warn("Error in MapWrapper.getLatLonFromPixelCoordinate: Method not implemented in subclass");
+        console.warn(
+            "Error in MapWrapper.getLatLonFromPixelCoordinate: Method not implemented in subclass"
+        );
         return false;
     }
 
@@ -189,7 +195,9 @@ export default class MapWrapper {
         return false;
     }
     getPixelFromClickEvent(clickEvt) {
-        console.warn("Error in MapWrapper.getPixelFromClickEvent: Method not implemented in subclass");
+        console.warn(
+            "Error in MapWrapper.getPixelFromClickEvent: Method not implemented in subclass"
+        );
         return false;
     }
     clearCache() {

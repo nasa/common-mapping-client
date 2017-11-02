@@ -7,9 +7,7 @@ export default class AsyncReducer {
         return state.set("loadingInitialData", true);
     }
     static initialDataLoaded(state, action) {
-        return state
-            .set("loadingInitialData", false)
-            .set("initialLoadingAttempted", true);
+        return state.set("loadingInitialData", false).set("initialLoadingAttempted", true);
     }
 
     static layerDataLoading(state, action) {
@@ -17,9 +15,7 @@ export default class AsyncReducer {
     }
 
     static layerDataLoaded(state, action) {
-        return state
-            .set("loadingLayerSources", false)
-            .set("layerLoadingAttempted", true);
+        return state.set("loadingLayerSources", false).set("layerLoadingAttempted", true);
     }
 
     static paletteDataLoading(state, action) {
@@ -27,9 +23,7 @@ export default class AsyncReducer {
     }
 
     static paletteDataLoaded(state, action) {
-        return state
-            .set("loadingLayerPalettes", false)
-            .set("paletteLoadingAttempted", true);
+        return state.set("loadingLayerPalettes", false).set("paletteLoadingAttempted", true);
     }
 
     static metadataLoading(state, action) {
@@ -37,16 +31,17 @@ export default class AsyncReducer {
     }
 
     static metadataLoaded(state, action) {
-        return state
-            .set("loadingLayerMetadata", false)
-            .set("loadingMetadataAttempted", true);
+        return state.set("loadingLayerMetadata", false).set("loadingMetadataAttempted", true);
     }
 
     static dismissAlert(state, action) {
         let remAlert = action.alert;
-        return state.set("alerts", state.get("alerts").filter((alert) => {
-            return alert !== remAlert;
-        }));
+        return state.set(
+            "alerts",
+            state.get("alerts").filter(alert => {
+                return alert !== remAlert;
+            })
+        );
     }
 
     static dismissAllAlerts(state, action) {

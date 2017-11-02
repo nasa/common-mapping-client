@@ -1,8 +1,8 @@
-import React from 'react';
-import Dropdown from 'react-toolbox/lib/dropdown';
+import React from "react";
+import Dropdown from "react-toolbox/lib/dropdown";
 
-const MenuDropdown = (props) => {
-    let customItem = (item) => {
+const MenuDropdown = props => {
+    let customItem = item => {
         return (
             <div className="dropdown-item">
                 <span className="dropdown-item-label">{item.label}</span>
@@ -10,11 +10,6 @@ const MenuDropdown = (props) => {
             </div>
         );
     };
-    return (
-        <Dropdown
-            {...props}
-            template={customItem}
-        />
-    );
+    return <Dropdown {...props} template={customItem} />;
 };
 export default MenuDropdown;

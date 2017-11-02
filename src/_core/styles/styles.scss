@@ -12,7 +12,7 @@ html {
     padding: 0px;
     font-size: 10px;
     font-size: 62.5%;
-    font-family: 'roboto', Helvetica, Arial, sans-serif;
+    font-family: "roboto", Helvetica, Arial, sans-serif;
     font-smoothing: antialiased;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -72,7 +72,7 @@ hr.divider {
 }
 
 hr.divider.wide {
-    width: 100%
+    width: 100%;
 }
 
 hr.divider.medium {
@@ -227,11 +227,11 @@ button .button-icon-right {
 }
 
 .rotate-90 {
-    @include rotate(90deg)
+    @include rotate(90deg);
 }
 
 .rotate-270 {
-    @include rotate(270deg)
+    @include rotate(270deg);
 }
 
 .pos-rel {
@@ -250,7 +250,7 @@ button .button-icon-right {
     }
     ul {
         padding: 0px;
-        width: calc(100% - 3.2rem)
+        width: calc(100% - 3.2rem);
     }
     &.small {
         .dropdown-item-label {
@@ -415,7 +415,6 @@ button.context-menu-item {
         }
     }
 }
-
 
 /* imports */
 

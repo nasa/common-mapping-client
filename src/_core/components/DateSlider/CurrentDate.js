@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import SingleDate from '_core/components/DateSlider/SingleDate';
-import MiscUtil from '_core/utils/MiscUtil';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import SingleDate from "_core/components/DateSlider/SingleDate";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 
@@ -34,7 +34,7 @@ CurrentDate.propTypes = {
     beforeDrag: PropTypes.func,
     afterDrag: PropTypes.func,
     maxX: PropTypes.number,
-    minX: PropTypes.number,
+    minX: PropTypes.number
 };
 
 function mapStateToProps(state) {
@@ -44,7 +44,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    null
-)(CurrentDate);
+export default connect(mapStateToProps, null)(CurrentDate);

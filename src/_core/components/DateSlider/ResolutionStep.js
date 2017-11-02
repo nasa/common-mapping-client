@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
-import appConfig from 'constants/appConfig';
-import * as DateSliderActions from '_core/actions/DateSliderActions';
-import MiscUtil from '_core/utils/MiscUtil';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Button, IconButton } from "react-toolbox/lib/button";
+import appConfig from "constants/appConfig";
+import * as DateSliderActions from "_core/actions/DateSliderActions";
+import MiscUtil from "_core/utils/MiscUtil";
 
 const miscUtil = new MiscUtil();
 // const resolutionSteps = appConfig.DATE_SLIDER_RESOLUTIONS.map(key => appConfig.DATE_SLIDER_RESOLUTIONS[key]);
@@ -21,34 +21,47 @@ export class ResolutionStep extends Component {
     render() {
         let resolutionSelectorClasses = miscUtil.generateStringFromSet({
             "resolution-selector": true,
-            "active": this.isSelectingResolution
+            active: this.isSelectingResolution
         });
-        let currentResolution = miscUtil.findObjectWithIndexInArray(appConfig.DATE_SLIDER_RESOLUTIONS, "resolution", this.props.resolution.get("resolution"));
-        let canIncrementStep = currentResolution.index < appConfig.DATE_SLIDER_RESOLUTIONS.length - 1;
+        let currentResolution = miscUtil.findObjectWithIndexInArray(
+            appConfig.DATE_SLIDER_RESOLUTIONS,
+            "resolution",
+            this.props.resolution.get("resolution")
+        );
+        let canIncrementStep =
+            currentResolution.index < appConfig.DATE_SLIDER_RESOLUTIONS.length - 1;
         let canDecrementStep = currentResolution.index > 0;
         return (
-            <div id="dateSliderResolutionStepContainer" 
-                className="text-wrap"
-            >
+            <div id="dateSliderResolutionStepContainer" className="text-wrap">
                 <div className="no-margin">
                     <div className="increment-button">
-                        <Button 
-                            neutral 
+                        <Button
+                            neutral
                             disabled={!canDecrementStep}
-                            icon="keyboard_arrow_up" 
+                            icon="keyboard_arrow_up"
                             className="no-padding"
-                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index - 1], false);}
-                        }/>
+                            onClick={() => {
+                                this.props.actions.setDateResolution(
+                                    appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index - 1],
+                                    false
+                                );
+                            }}
+                        />
                     </div>
                     <div>{this.props.resolution.get("label")}</div>
                     <div className="increment-button">
-                        <Button 
+                        <Button
                             neutral
                             disabled={!canIncrementStep}
                             icon="keyboard_arrow_down"
                             className="no-padding"
-                            onClick={() => {this.props.actions.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1], false);}
-                        }/>
+                            onClick={() => {
+                                this.props.actions.setDateResolution(
+                                    appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1],
+                                    false
+                                );
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -72,7 +85,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ResolutionStep);
+export default connect(mapStateToProps, mapDispatchToProps)(ResolutionStep);

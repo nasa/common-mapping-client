@@ -1,5 +1,5 @@
-import Immutable from 'immutable';
-import appConfig from 'constants/appConfig';
+import Immutable from "immutable";
+import appConfig from "constants/appConfig";
 
 export const mapState = Immutable.fromJS({
     layers: {
@@ -94,14 +94,14 @@ export const layerModel = Immutable.fromJS({
     },
     urlFunctions: {},
     metadata: {
-        "url": null,
-        "handleAs": "markdown"
+        url: null,
+        handleAs: "markdown"
     },
     thumbnailImage: "https://unsplash.it/700/400?image=1025",
     fromJson: false,
     clusterVector: false,
     handleAs: "generic",
-    updateParameters: { "time": true }
+    updateParameters: { time: true }
 });
 
 export const paletteModel = Immutable.fromJS({

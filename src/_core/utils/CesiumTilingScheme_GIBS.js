@@ -1,4 +1,4 @@
-import 'assets/cesium/Cesium.js';
+import "assets/cesium/Cesium.js";
 
 export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTilingScheme {
     constructor(options, wmtsOptions = {}) {
@@ -61,7 +61,9 @@ export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTil
     }
 
     positionToTileXY(position, level, result) {
-        if (!this._override_vars.cesium.Rectangle.contains(this._override_vars.rectangle, position)) {
+        if (
+            !this._override_vars.cesium.Rectangle.contains(this._override_vars.rectangle, position)
+        ) {
             return undefined;
         }
 
@@ -77,13 +79,13 @@ export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTil
             longitude += this._override_vars.math.TWO_PI;
         }
 
-        let xTileCoordinate = (longitude - this._override_vars.rectangle.west) / xTileWidth | 0;
+        let xTileCoordinate = ((longitude - this._override_vars.rectangle.west) / xTileWidth) | 0;
         if (xTileCoordinate >= xTiles) {
             xTileCoordinate = xTiles - 1;
         }
 
         let latitude = position.latitude;
-        let yTileCoordinate = (this._override_vars.rectangle.north - latitude) / yTileHeight | 0;
+        let yTileCoordinate = ((this._override_vars.rectangle.north - latitude) / yTileHeight) | 0;
         if (yTileCoordinate > yTiles) {
             yTileCoordinate = yTiles - 1;
         }

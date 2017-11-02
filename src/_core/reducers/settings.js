@@ -1,6 +1,6 @@
-import * as actionTypes from '_core/constants/actionTypes';
-import { settingsState } from '_core/reducers/models/settings';
-import SettingsReducer from '_core/reducers/reducerFunctions/SettingsReducer';
+import * as actionTypes from "_core/constants/actionTypes";
+import { settingsState } from "_core/reducers/models/settings";
+import SettingsReducer from "_core/reducers/reducerFunctions/SettingsReducer";
 
 export default function settings(state = settingsState, action, opt_reducer = SettingsReducer) {
     switch (action.type) {

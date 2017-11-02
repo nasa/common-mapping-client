@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import MiscUtil from '_core/utils/MiscUtil';
-import * as actions from '_core/actions/LayerActions';
-import * as appStrings from '_core/constants/appStrings';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import MiscUtil from "_core/utils/MiscUtil";
+import * as actions from "_core/actions/LayerActions";
+import * as appStrings from "_core/constants/appStrings";
 
 const CANVAS_WIDTH = 255;
 const CANVAS_HEIGHT = 12;
@@ -13,15 +13,19 @@ const miscUtil = new MiscUtil();
 
 export class Colorbar extends Component {
     componentDidMount() {
-        if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
-            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
+        if (
+            this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
+            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE
+        ) {
             this.draw();
         }
     }
 
     componentDidUpdate(nextProps, nextState) {
-        if (this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
-            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE) {
+        if (
+            this.props.handleAs === appStrings.COLORBAR_JSON_FIXED ||
+            this.props.handleAs === appStrings.COLORBAR_JSON_RELATIVE
+        ) {
             this.draw();
         }
     }
@@ -29,13 +33,13 @@ export class Colorbar extends Component {
     draw() {
         if (this.props.palette) {
             let canvas = this.refs.canvas;
-            let ctx = canvas.getContext('2d');
+            let ctx = canvas.getContext("2d");
             let paletteValues = this.props.palette.get("values");
             let numValues = paletteValues.size;
 
             let binWidth = CANVAS_WIDTH / numValues;
             let drawWidth = Math.ceil(binWidth);
-            for(let i = 0; i < CANVAS_WIDTH; ++i) {
+            for (let i = 0; i < CANVAS_WIDTH; ++i) {
                 let valueIndex = Math.min(i, numValues - 1);
                 let valueEntry = paletteValues.get(valueIndex);
                 let color = valueEntry.get("color");
@@ -51,21 +55,28 @@ export class Colorbar extends Component {
             "no-colorbar": this.props.handleAs === ""
         });
         let canvasClass = miscUtil.generateStringFromSet({
-            "colorbar": true,
-            "hidden": this.props.handleAs !== appStrings.COLORBAR_JSON_FIXED && this.props.handleAs !== appStrings.COLORBAR_JSON_RELATIVE
+            colorbar: true,
+            hidden:
+                this.props.handleAs !== appStrings.COLORBAR_JSON_FIXED &&
+                this.props.handleAs !== appStrings.COLORBAR_JSON_RELATIVE
         });
         let imageClass = miscUtil.generateStringFromSet({
-            "colorbar": true,
-            "hidden": this.props.handleAs !== appStrings.COLORBAR_IMAGE
+            colorbar: true,
+            hidden: this.props.handleAs !== appStrings.COLORBAR_IMAGE
         });
         let warningClass = miscUtil.generateStringFromSet({
             "colorbar-warning": true,
-            "hidden": this.props.handleAs !== ""
+            hidden: this.props.handleAs !== ""
         });
 
         return (
             <div className={containerClass}>
-                <canvas ref="canvas" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className={canvasClass} />
+                <canvas
+                    ref="canvas"
+                    width={CANVAS_WIDTH}
+                    height={CANVAS_HEIGHT}
+                    className={canvasClass}
+                />
                 <img src={this.props.url} className={imageClass} />
                 <span className={warningClass}>No Colorbar Available</span>
             </div>
@@ -90,7 +101,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(Colorbar);
+export default connect(null, mapDispatchToProps)(Colorbar);
