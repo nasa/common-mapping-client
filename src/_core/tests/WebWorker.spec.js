@@ -24,6 +24,8 @@ export const WebWorkerSpec = {
                     const expected = 0;
                     expect(total).to.equal(expected);
                     expect(available).to.equal(expected);
+
+                    done();
                 });
             },
             test2: () => {
@@ -50,6 +52,8 @@ export const WebWorkerSpec = {
                     manager.clearWorkers();
                     expect(manager.workersTotal()).to.equal(0);
                     expect(manager.workersAvailable()).to.equal(0);
+
+                    done();
                 });
             },
             test3: () => {
