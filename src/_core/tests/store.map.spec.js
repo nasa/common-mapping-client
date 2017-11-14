@@ -2034,7 +2034,7 @@ export const StoreMapSpec = {
                                 .set("paletteLoadingAttempted", true);
 
                             TestUtil.compareFullStates(actual, expected);
-                            done.call(_context);
+                            done();
                         })
                     );
                 });

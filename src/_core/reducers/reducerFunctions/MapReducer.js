@@ -1169,7 +1169,7 @@ export default class MapReducer {
             values: Immutable.List(
                 palette.values.map(entry => {
                     return Immutable.Map({
-                        value: parseFloat(entry[0]),
+                        value: entry[0],
                         color: MiscUtil.getHexFromColorString(entry[1])
                     });
                 })
