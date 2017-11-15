@@ -7,6 +7,8 @@ import proj4js from "proj4";
 import { GreatCircle } from "assets/arc/arc";
 import Ol_Format_WMTSCapabilities from "ol/format/wmtscapabilities";
 import Ol_Source_WMTS from "ol/source/wmts";
+import Ol_Proj from "ol/proj";
+import Ol_Proj_Projection from "ol/proj/projection";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -147,6 +149,7 @@ export default class MapUtil {
     // NOTE: uses openlayers to do the actual info gathering
     static getWmtsOptions(options) {
         try {
+            this.prepProjection();
             let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(
                 options.capabilities,
                 options.options
@@ -175,6 +178,35 @@ export default class MapUtil {
             console.warn("Error in MapUtil.getWmtsOptions:", err);
             return false;
         }
+    }
+
+    static prepProjection() {
+        // define the projection for this application and reproject defaults
+        Ol_Proj.setProj4(proj4js);
+        proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
+
+        // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
+        // string in getCapabilities and parses it into "OGC:CRS84". This
+        // hopefully adds that as an equivalent projection
+        let epsg4326Proj = Ol_Proj.get("EPSG:4326");
+        let ogcCrs84Proj = new Ol_Proj_Projection({
+            code: "OGC:CRS84",
+            units: epsg4326Proj.getUnits(),
+            extent: epsg4326Proj.getExtent(),
+            global: epsg4326Proj.isGlobal(),
+            metersPerUnit: epsg4326Proj.getMetersPerUnit(),
+            worldExtent: epsg4326Proj.getWorldExtent(),
+            getPointResolution: function(res, point) {
+                return Ol_Proj.getPointResolution("EPSG:4326", res, point);
+            }
+        });
+        Ol_Proj.addProjection(ogcCrs84Proj);
+        Ol_Proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
+
+        let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
+        mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
+
+        return mapProjection;
     }
 
     // generates a WMTS tile url from the provided options

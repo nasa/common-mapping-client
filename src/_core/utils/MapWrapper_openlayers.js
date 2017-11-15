@@ -1542,33 +1542,4 @@ export default class MapWrapper_openlayers extends MapWrapper {
     getCacheHash(layer) {
         return layer.get("id") + moment(this.mapDate).format(layer.get("timeFormat"));
     }
-
-    static prepProjection() {
-        // define the projection for this application and reproject defaults
-        Ol_Proj.setProj4(proj4js);
-        proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
-
-        // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
-        // string in getCapabilities and parses it into "OGC:CRS84". This
-        // hopefully adds that as an equivalent projection
-        let epsg4326Proj = Ol_Proj.get("EPSG:4326");
-        let ogcCrs84Proj = new Ol_Proj_Projection({
-            code: "OGC:CRS84",
-            units: epsg4326Proj.getUnits(),
-            extent: epsg4326Proj.getExtent(),
-            global: epsg4326Proj.isGlobal(),
-            metersPerUnit: epsg4326Proj.getMetersPerUnit(),
-            worldExtent: epsg4326Proj.getWorldExtent(),
-            getPointResolution: function(res, point) {
-                return Ol_Proj.getPointResolution("EPSG:4326", res, point);
-            }
-        });
-        Ol_Proj.addProjection(ogcCrs84Proj);
-        Ol_Proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
-
-        let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
-        mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
-
-        return mapProjection;
-    }
 }
