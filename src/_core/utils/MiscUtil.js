@@ -85,9 +85,9 @@ export default class MiscUtil {
         let hexExp = /[0-9A-Fa-f]{6}/;
 
         if (rgbExp.test(colorStr)) {
-            return MiscUtil.convertRgbToHex(colorStr);
+            return this.convertRgbToHex(colorStr);
         } else if (hexExp.test(colorStr)) {
-            return MiscUtil.formatHex(colorStr);
+            return this.formatHex(colorStr);
         }
         return "";
     }
@@ -108,7 +108,7 @@ export default class MiscUtil {
                 ("0" + rgbPartsInt[0].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[1].toString(16)).slice(-2) +
                 ("0" + rgbPartsInt[2].toString(16)).slice(-2);
-            return MiscUtil.formatHex(hexStr);
+            return this.formatHex(hexStr);
         }
         return "";
     }
@@ -185,8 +185,8 @@ export default class MiscUtil {
     }
 
     static getUrlParams() {
-        // return MiscUtil.parseUrlQueryString(window.location.search);
-        return MiscUtil.parseUrlQueryString(window.location.hash);
+        // return this.parseUrlQueryString(window.location.search);
+        return this.parseUrlQueryString(window.location.hash);
     }
 
     static urlIsCrossorigin(url) {

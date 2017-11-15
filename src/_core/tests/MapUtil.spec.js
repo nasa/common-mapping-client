@@ -243,19 +243,19 @@ export const MapUtilSpec = {
         },
         getUrlFunction: {
             test1: () => {
-                it("takes a function string and returns the tile url function associated with it", () => {
+                it("takes a function string and returns a function associated with it", () => {
                     //assert
-                    expect(TileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(
-                        TileHandler._defaultKVPUrl
+                    expect(typeof TileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(
+                        "function"
                     );
-                    expect(TileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(
-                        TileHandler._esriCustom512Url
+                    expect(typeof TileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(
+                        "function"
                     );
-                    expect(TileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(
-                        TileHandler._kvpTimeParamUrl
+                    expect(typeof TileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(
+                        "function"
                     );
-                    expect(TileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(
-                        TileHandler._catsInterceptUrl
+                    expect(typeof TileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(
+                        "function"
                     );
                 });
             },
@@ -270,11 +270,11 @@ export const MapUtilSpec = {
             test1: () => {
                 it("takes a function string and returns the tile load function associated with it", () => {
                     //assert
-                    expect(TileHandler.getTileFunction(appStrings.CATS_TILE_OL)).to.equal(
-                        TileHandler._catsInterceptTile_OL
+                    expect(typeof TileHandler.getTileFunction(appStrings.CATS_TILE_OL)).to.equal(
+                        "function"
                     );
-                    expect(TileHandler.getTileFunction(appStrings.CATS_TILE_CS)).to.equal(
-                        TileHandler._catsInterceptTile_CS
+                    expect(typeof TileHandler.getTileFunction(appStrings.CATS_TILE_CS)).to.equal(
+                        "function"
                     );
                 });
             },

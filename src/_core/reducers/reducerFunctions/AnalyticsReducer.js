@@ -36,6 +36,8 @@ const EXCLUDED_ACTIONS = new Immutable.List([
 ]);
 
 export default class AnalyticsReducer {
+    static miscUtil = MiscUtil;
+
     static processAction(state, action) {
         // skip items we don't care about or if analytics is not enabled
         if (
@@ -79,24 +81,26 @@ export default class AnalyticsReducer {
             // convert the current batch to a string
             let batch = JSON.stringify({ data: state.get("currentBatch") });
             // post the batch
-            MiscUtil.asyncFetch({
-                url: appConfig.URLS.analyticsEndpoint,
-                options: {
-                    method: "POST",
-                    mode: "cors",
-                    headers: {
-                        "Content-Type": "application/json"
+            this.miscUtil
+                .asyncFetch({
+                    url: appConfig.URLS.analyticsEndpoint,
+                    options: {
+                        method: "POST",
+                        mode: "cors",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: batch
+                    }
+                })
+                .then(
+                    data => {
+                        console.log("Anlytics push successful.");
                     },
-                    body: batch
-                }
-            }).then(
-                data => {
-                    console.log("Anlytics push successful.");
-                },
-                err => {
-                    console.warn("Error in analytics.sendAnalyticsBatch: ", err);
-                }
-            );
+                    err => {
+                        console.warn("Error in analytics.sendAnalyticsBatch: ", err);
+                    }
+                );
 
             // clear the current batch and update the sent time
             state = state.set("currentBatch", Immutable.List()).set("timeLastSent", new Date());

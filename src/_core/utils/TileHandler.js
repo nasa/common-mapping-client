@@ -4,10 +4,8 @@ import MiscUtil from "_core/utils/MiscUtil";
 
 const CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
 export default class TileHandler {
-    // constructor() {
-    //     TileHandler.mapUtil = new MapUtil();
-    //     TileHandler.miscUtil = new MiscUtil();
-    // }
+    static mapUtil = MapUtil;
+    static miscUtil = MiscUtil;
 
     // takes a function string and returns the tile url function associated with it or undefined
     /** Tile Url Function Parameters
@@ -33,13 +31,21 @@ export default class TileHandler {
     static getUrlFunction(functionString = "") {
         switch (functionString) {
             case appStrings.DEFAULT_URL_FUNC:
-                return TileHandler._defaultKVPUrl;
+                return options => {
+                    return this._defaultKVPUrl(options);
+                };
             case appStrings.ESRI_CUSTOM_512:
-                return TileHandler._esriCustom512Url;
+                return options => {
+                    return this._esriCustom512Url(options);
+                };
             case appStrings.KVP_TIME_PARAM:
-                return TileHandler._kvpTimeParamUrl;
+                return options => {
+                    return this._kvpTimeParamUrl(options);
+                };
             case appStrings.CATS_URL:
-                return TileHandler._catsInterceptUrl;
+                return options => {
+                    return this._catsInterceptUrl(options);
+                };
             default:
                 return undefined;
         }
@@ -68,9 +74,13 @@ export default class TileHandler {
     static getTileFunction(functionString = "") {
         switch (functionString) {
             case appStrings.CATS_TILE_OL:
-                return TileHandler._catsInterceptTile_OL;
+                return options => {
+                    return this._catsInterceptTile_OL(options);
+                };
             case appStrings.CATS_TILE_CS:
-                return TileHandler._catsInterceptTile_CS;
+                return options => {
+                    return this._catsInterceptTile_CS(options);
+                };
             default:
                 return undefined;
         }
@@ -78,7 +88,7 @@ export default class TileHandler {
 
     static _defaultKVPUrl(options) {
         let layer = options.layer;
-        let url = MapUtil.buildTileUrl({
+        let url = this.mapUtil.buildTileUrl({
             layerId: layer.get("id"),
             url: options.origUrl,
             tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
@@ -110,7 +120,7 @@ export default class TileHandler {
 
     static _kvpTimeParamUrl(options) {
         let mapLayer = options.mapLayer;
-        let url = TileHandler._defaultKVPUrl(options);
+        let url = this._defaultKVPUrl(options);
 
         let timeStr =
             typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
@@ -160,7 +170,7 @@ export default class TileHandler {
         imgTile.onerror = err => {
             options.fail(err);
         };
-        if (MiscUtil.urlIsCrossorigin(url)) {
+        if (this.miscUtil.urlIsCrossorigin(url)) {
             imgTile.crossOrigin = "";
         }
 

@@ -26,7 +26,6 @@ import Ol_Geom_Polygon from "ol/geom/polygon";
 import Ol_Format_GeoJSON from "ol/format/geojson";
 import Ol_Format_TopoJSON from "ol/format/topojson";
 import Ol_Format_KML from "ol/format/kml";
-import Ol_Format_WMTSCapabilities from "ol/format/wmtscapabilities";
 import Ol_Easing from "ol/easing";
 import proj4js from "proj4";
 import * as appStrings from "_core/constants/appStrings";
@@ -1571,47 +1570,5 @@ export default class MapWrapper_openlayers extends MapWrapper {
         mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
 
         return mapProjection;
-    }
-
-    static parseCapabilities(xmlString) {
-        try {
-            let parser = new Ol_Format_WMTSCapabilities();
-            return parser.read(xmlString);
-        } catch (err) {
-            console.warn("Error in MapWrapper_openlayers.parseCapabilities:", err);
-            return false;
-        }
-    }
-
-    static getWmtsOptions(options) {
-        try {
-            let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(
-                options.capabilities,
-                options.options
-            );
-            return {
-                url: parseOptions.urls[0],
-                layer: options.options.layer,
-                format: parseOptions.format,
-                requestEncoding: parseOptions.requestEncoding,
-                matrixSet: parseOptions.matrixSet,
-                projection: parseOptions.projection.getCode(),
-                extents: parseOptions.projection.getExtent(),
-                tileGrid: {
-                    origin: [
-                        parseOptions.projection.getExtent()[0],
-                        parseOptions.projection.getExtent()[3]
-                    ],
-                    resolutions: parseOptions.tileGrid.getResolutions(),
-                    matrixIds: parseOptions.tileGrid.getMatrixIds(),
-                    minZoom: parseOptions.tileGrid.getMinZoom(),
-                    maxZoom: parseOptions.tileGrid.getMaxZoom(),
-                    tileSize: parseOptions.tileGrid.getTileSize(0)
-                }
-            };
-        } catch (err) {
-            console.warn("Error in MapWrapper_openlayers.getWmtsOptions:", err);
-            return false;
-        }
     }
 }

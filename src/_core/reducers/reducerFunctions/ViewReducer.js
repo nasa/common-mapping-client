@@ -1,5 +1,5 @@
-import MiscUtil from "_core/utils/MiscUtil";
 import Modernizr from "modernizr";
+import MiscUtil from "_core/utils/MiscUtil";
 import * as appStrings from "_core/constants/appStrings";
 import { alert } from "_core/reducers/models/alert";
 
@@ -8,6 +8,8 @@ import { alert } from "_core/reducers/models/alert";
 //create a copy of the state passed and set new values on the copy.
 
 export default class ViewReducer {
+    static miscUtil = MiscUtil;
+
     static checkBrowserFunctionalities(state, action) {
         // Here we check for any missing browser functionalities that we
         // want to alert the user about. Note, Modernizr checks are used elsewhere
@@ -16,8 +18,7 @@ export default class ViewReducer {
         if (!Modernizr.fullscreen) {
             alerts = alerts.push(
                 alert.merge({
-                    title:
-                        appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
                     body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
                         .replace("{FUNCTIONALITY}", "Fullscreen")
                         .replace(
@@ -32,8 +33,7 @@ export default class ViewReducer {
         if (!Modernizr.webgl) {
             alerts = alerts.push(
                 alert.merge({
-                    title:
-                        appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
                     body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
                         .replace("{FUNCTIONALITY}", "WebGL")
                         .replace(
@@ -72,9 +72,9 @@ export default class ViewReducer {
 
     static setFullScreen(state, action) {
         if (action.enabled) {
-            MiscUtil.enterFullScreen();
+            this.miscUtil.enterFullScreen();
         } else {
-            MiscUtil.exitFullscreen();
+            this.miscUtil.exitFullscreen();
         }
         return state.set("isFullscreen", action.enabled);
     }

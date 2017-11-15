@@ -12,6 +12,9 @@ import { createMap } from "utils/MapCreator";
 //State is considered immutable. Instead,
 //create a copy of the state passed and set new values on the copy.
 export default class MapReducer {
+    static mapUtil = MapUtil;
+    static miscUtil = MiscUtil;
+
     static initializeMap(state, action) {
         let map = createMap(action.mapType, action.container, state);
         if (map && map.initializationSuccess) {
@@ -153,7 +156,7 @@ export default class MapReducer {
 
     static setMapView(state, action) {
         let alerts = state.get("alerts");
-        let validatedExtent = MapUtil.parseStringExtent(action.viewInfo.extent);
+        let validatedExtent = this.mapUtil.parseStringExtent(action.viewInfo.extent);
         if (!validatedExtent) {
             alerts = alerts.push(
                 alert.merge({
@@ -988,13 +991,13 @@ export default class MapReducer {
         let alerts = state.get("alerts");
 
         // calculate measurement and placement
-        let measurement = MapUtil.measureGeometry(action.geometry, action.measurementType);
-        let measurementLabel = MapUtil.formatMeasurement(
+        let measurement = this.mapUtil.measureGeometry(action.geometry, action.measurementType);
+        let measurementLabel = this.mapUtil.formatMeasurement(
             measurement,
             action.measurementType,
             action.units
         );
-        let measurementPosition = MapUtil.getLabelPosition(action.geometry);
+        let measurementPosition = this.mapUtil.getLabelPosition(action.geometry);
         let labelMeta = {
             meters: measurement,
             measurementType: action.measurementType,
@@ -1170,7 +1173,7 @@ export default class MapReducer {
                 palette.values.map(entry => {
                     return Immutable.Map({
                         value: entry[0],
-                        color: MiscUtil.getHexFromColorString(entry[1])
+                        color: this.miscUtil.getHexFromColorString(entry[1])
                     });
                 })
             )
@@ -1185,11 +1188,11 @@ export default class MapReducer {
     }
 
     static generatePartialsListFromWmtsXml(config) {
-        let capabilities = MapUtil.parseCapabilities(config);
+        let capabilities = this.mapUtil.parseCapabilities(config);
         if (capabilities) {
             let wmtsLayers = capabilities.Contents.Layer;
             let newLayers = wmtsLayers.map(layer => {
-                let wmtsOptions = MapUtil.getWmtsOptions({
+                let wmtsOptions = this.mapUtil.getWmtsOptions({
                     capabilities: capabilities,
                     options: {
                         layer: layer.Identifier,

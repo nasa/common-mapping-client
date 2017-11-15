@@ -5,15 +5,14 @@ import Qty from "js-quantities";
 import turfCentroid from "turf-centroid";
 import proj4js from "proj4";
 import { GreatCircle } from "assets/arc/arc";
+import Ol_Format_WMTSCapabilities from "ol/format/wmtscapabilities";
+import Ol_Source_WMTS from "ol/source/wmts";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
-import MapWrapper_openlayers from "_core/utils/MapWrapper_openlayers";
 
 export default class MapUtil {
-    // constructor() {
-    //     this.miscUtil = new MiscUtil();
-    // }
+    static miscUtil = MiscUtil;
 
     // constrains coordinates to [+-180, +-90]
     static constrainCoordinates(coords, limitY = true) {
@@ -134,15 +133,48 @@ export default class MapUtil {
 
     // parses a getCapabilities xml string
     // NOTE: uses openlayers to do the actual parsing
-    static parseCapabilities(capabilitiesString) {
-        return MapWrapper_openlayers.parseCapabilities(capabilitiesString);
+    static parseCapabilities(xmlString) {
+        try {
+            let parser = new Ol_Format_WMTSCapabilities();
+            return parser.read(xmlString);
+        } catch (err) {
+            console.warn("Error in MapUtil.parseCapabilities:", err);
+            return false;
+        }
     }
 
     // generates a set of wmts options for a layer
     // NOTE: uses openlayers to do the actual info gathering
     static getWmtsOptions(options) {
-        MapWrapper_openlayers.prepProjection();
-        return MapWrapper_openlayers.getWmtsOptions(options);
+        try {
+            let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(
+                options.capabilities,
+                options.options
+            );
+            return {
+                url: parseOptions.urls[0],
+                layer: options.options.layer,
+                format: parseOptions.format,
+                requestEncoding: parseOptions.requestEncoding,
+                matrixSet: parseOptions.matrixSet,
+                projection: parseOptions.projection.getCode(),
+                extents: parseOptions.projection.getExtent(),
+                tileGrid: {
+                    origin: [
+                        parseOptions.projection.getExtent()[0],
+                        parseOptions.projection.getExtent()[3]
+                    ],
+                    resolutions: parseOptions.tileGrid.getResolutions(),
+                    matrixIds: parseOptions.tileGrid.getMatrixIds(),
+                    minZoom: parseOptions.tileGrid.getMinZoom(),
+                    maxZoom: parseOptions.tileGrid.getMaxZoom(),
+                    tileSize: parseOptions.tileGrid.getTileSize(0)
+                }
+            };
+        } catch (err) {
+            console.warn("Error in MapUtil.getWmtsOptions:", err);
+            return false;
+        }
     }
 
     // generates a WMTS tile url from the provided options
@@ -187,7 +219,7 @@ export default class MapUtil {
                 FORMAT: encodeURIComponent(format)
             });
 
-            let queryStr = MiscUtil.objectToUrlParams(queryOptions);
+            let queryStr = this.miscUtil.objectToUrlParams(queryOptions);
 
             url = url.replace("?", "");
             url = url + "?" + queryStr;
@@ -257,7 +289,7 @@ export default class MapUtil {
     // Converts area units
     // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertAreaUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
             return value / Math.pow(unitEntry.toMeters, 2);
         } else {
@@ -268,7 +300,7 @@ export default class MapUtil {
     // Converts distance units
     // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
     static convertDistanceUnits(value, units) {
-        let unitEntry = MiscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
+        let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
             return value / unitEntry.toMeters;
         } else {
@@ -411,7 +443,7 @@ export default class MapUtil {
             // wrap the arcs beyond [-180,180]
             let arcCoords = arcLines[0];
             if (arcLines.length >= 2) {
-                arcCoords = MapUtil.deconstrainArcCoordinates(arcLines);
+                arcCoords = this.deconstrainArcCoordinates(arcLines);
             }
             lineCoords = lineCoords.concat(arcCoords.slice(0, arcCoords.length));
         }
@@ -429,10 +461,10 @@ export default class MapUtil {
             return false;
         }
         let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
-        coords = MapUtil.generateGeodesicArcsForLineString(coords);
+        coords = this.generateGeodesicArcsForLineString(coords);
         if (measurementType === appStrings.MEASURE_DISTANCE) {
             if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
-                return MapUtil.calculatePolylineDistance(coords, geometry.proj);
+                return this.calculatePolylineDistance(coords, geometry.proj);
             } else {
                 console.warn(
                     "Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ",
@@ -442,7 +474,7 @@ export default class MapUtil {
             }
         } else if (measurementType === appStrings.MEASURE_AREA) {
             if (geometry.type === appStrings.GEOMETRY_POLYGON) {
-                return MapUtil.calculatePolygonArea(coords, geometry.proj);
+                return this.calculatePolygonArea(coords, geometry.proj);
             } else {
                 console.warn(
                     "Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ",
@@ -462,9 +494,9 @@ export default class MapUtil {
     // formats a given measurement for distance/area
     static formatMeasurement(measurement, measurementType, units) {
         if (measurementType === appStrings.MEASURE_DISTANCE) {
-            return MapUtil.formatDistance(measurement, units);
+            return this.formatDistance(measurement, units);
         } else if (measurementType === appStrings.MEASURE_AREA) {
-            return MapUtil.formatArea(measurement, units);
+            return this.formatArea(measurement, units);
         } else {
             console.warn(
                 "Error in MapUtil.formatMeasurement: Could not format measurement, unsupported measurement type: ",
@@ -479,7 +511,7 @@ export default class MapUtil {
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {
-                return MapUtil.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
+                return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
             } else {
                 console.warn(
                     "Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry."
@@ -488,10 +520,8 @@ export default class MapUtil {
             }
         } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
             let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
-            coords = MapUtil.generateGeodesicArcsForLineString(coords);
-            return MapUtil.constrainCoordinates(
-                MapUtil.calculatePolygonCenter(coords, geometry.proj)
-            );
+            coords = this.generateGeodesicArcsForLineString(coords);
+            return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
         } else {
             console.warn(
                 "Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ",
