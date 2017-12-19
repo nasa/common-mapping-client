@@ -668,8 +668,8 @@ export default class MapWrapper_openlayers extends MapWrapper {
             }
 
             // position and place
-            measureLabel.setPosition(coords);
             this.map.addOverlay(measureLabel);
+            measureLabel.setPosition(coords);
             return true;
         } catch (err) {
             console.warn("Error in MapWrapper_openlayers.addLabel:", err);
