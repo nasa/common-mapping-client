@@ -67,6 +67,7 @@ export default class TileHandler {
         layer: the ImmutbleJS layer object from the store
         maplayer: the cesium map layer object
         url: the url for the retrieved tile
+        tileCoord: the coordinates of the tile currently requested [z,x,y]
         success: the function to call once the tile has been successfully generated, passing the resulting tile as the only arg
         fail: the function to call once the tile has failed to be generated, passing the resulting error as the only arg
     RETURN: none

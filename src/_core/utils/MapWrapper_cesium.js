@@ -1408,6 +1408,7 @@ export default class MapWrapper_cesium extends MapWrapper {
                             layer: layer,
                             mapLayer: mapLayer,
                             url: tileUrl,
+                            tileCoord: [level, x, y],
                             success: resolve,
                             fail: reject
                         });
