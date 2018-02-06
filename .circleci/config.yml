@@ -35,7 +35,8 @@ jobs:
       # run tests
       - run:
           name: Run tests
-          command: npm test --includecoretests --coverage
+        #   command: npm test --includecoretests --coverage
+          command: npm run test
 
       # run build
       - run:
