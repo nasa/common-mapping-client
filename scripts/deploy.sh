@@ -6,7 +6,7 @@ set -o verbose  # Print commands that are executed
 SOURCE_BRANCH=$CIRCLE_BRANCH
 TARGET_BRANCH="gh-pages"
 
-if [ "$CIRCLE_PULL_REQUEST" != "false" ]; then
+if [ "$CIRCLE_PULL_REQUEST" != "" ]; then
   echo "Skipping deployment because this is a PR merge build."
   exit 0
 fi
@@ -73,7 +73,7 @@ if [ $? -eq 0 ]; then
 fi
 set -e
 
-git commit -m "Deploy [$SOURCE_BRANCH] to $BUILD_HOMEPAGE"
+git commit -m "Deploy [$SOURCE_BRANCH] to gh-pages"
 git push -u origin $TARGET_BRANCH
 
 echo "Finished deployment"
