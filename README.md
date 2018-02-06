@@ -1,6 +1,6 @@
 ## Welcome to the Common Mapping Client!
 
-![Preview](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/screenshot_core.jpg)
+![Preview](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/screenshot_core.jpg)
 
 ### Overview
 The Common Mapping Client (CMC) is a foundation for web-based mapping applications that
