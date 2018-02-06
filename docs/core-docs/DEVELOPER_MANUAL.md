@@ -265,7 +265,7 @@ These overrides/additions are accomplished by adding the parameters into the `AP
 <a id="cmc-build-process"></a>
 ## The CMC Build Process
 
-![It's really quite straight forward](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/black_box.png)
+![It's really quite straight forward](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/black_box.png)
 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, Application Developers may never actually need to modify most of these steps. 
 
@@ -525,7 +525,7 @@ Most of the syntax for components and the file structure paradigm are driven by 
 
 This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on and off. Notice how the actual DOM that the user sees isn't updated until the end.
 
-![Data flow diagram](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow.png)
+![Data flow diagram](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow.png)
 
 Read up on [ReactJS](facebook.github.io/react/) and [ReduxJS](http://redux.js.org) for more detailed information.
 
@@ -576,7 +576,7 @@ This allows CMC to avoid tracking any map state except for what is needed by com
 
 This deviation in data flow is shown below. In this diagram, we use the same premise as the data flow diagram above with one change, the switch will now toggle a layer on the map on or off. Notice how the DOM for the switch is again not updated until the end but the map is updated from within the reducer itself.
 
-![Data flow diagram - map](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_maps.png)
+![Data flow diagram - map](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow_maps.png)
 
 <a id="cmc-react-redux-idioms-visjs"></a>
 #### With vis.js
@@ -587,7 +587,7 @@ This flow is very similar to how maps are handled in CMC with the main differenc
 
 Here is a data flow diagram to demonstrate this. In this example we are again toggling on a switch, however here we are assuming the switch is a VisJS component. Notice how the render cycle behaves normally up until component render time at which point the changes to the DOM are offloaded to VisJS and React does not need to do anything.
 
-![Data flow diagram - VisJS](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_visjs.png)
+![Data flow diagram - VisJS](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow_visjs.png)
 
 <a id="optimizing-react-redux-performance"></a>
 ### Notes on Optimizing React/Redux Performance
@@ -1298,7 +1298,7 @@ Github pages are a great way to host static content right out of your Github rep
 <a id="main-tech-under-the-hood"></a>
 ## Main Technologies Under the Hood
 
-![Node dependencies](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/node_dependencies.png)
+![Node dependencies](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/node_dependencies.png)
 
 Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, VisJS, react-ga, etc.)
 
