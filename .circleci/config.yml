@@ -40,7 +40,7 @@ jobs:
       # run build
       - run:
           name: Run build
-          command: npm build
+          command: npm run build
 
       - deploy:
           name: Deploy to Github Pages
