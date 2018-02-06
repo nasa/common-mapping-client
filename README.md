@@ -1,6 +1,6 @@
 ## Welcome to the Common Mapping Client!
 
-[![CircleCI](https://circleci.com/gh/nasa/common-mapping-client/tree/master.svg?style=svg)](https://circleci.com/gh/nasa/common-mapping-client/tree/master)
+[![CircleCI](https://circleci.com/gh/nasa/common-mapping-client.svg?style=svg)](https://circleci.com/gh/nasa/common-mapping-client)
 
 ![Preview](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/screenshot_core.jpg)
 
