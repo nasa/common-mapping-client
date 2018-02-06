@@ -1,0 +1,37 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.mouseFollowerContainer {
+    composes: medium from "_core/styles/shadow.scss";
+    position: fixed;
+    z-index: 1;
+    background: $color-light;
+    margin: 0px;
+    transform: translate(25px, -51%);
+    pointer-events: none;
+    border-radius: 2px;
+    display: none;
+}
+
+.content {
+    composes: light from "_core/styles/shadow.scss";
+    position: relative;
+}
+
+.footer {
+    padding: 0px 1rem;
+}
+
+.active {
+    display: block;
+}
+
+.right {
+    transform: translate(calc(-100% - 25px), -51%);
+}

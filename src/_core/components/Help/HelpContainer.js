@@ -1,18 +1,30 @@
-import showdown from "showdown";
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-    List,
-    ListItem,
-    ListSubHeader,
-    ListDivider
-} from "react-toolbox/lib/list";
-import * as actions from "_core/actions/AppActions";
+import showdown from "showdown";
+import Paper from "material-ui/Paper";
+import List, { ListItem, ListItemIcon, ListItemText } from "material-ui/List";
+import Divider from "material-ui/Divider";
+import ListSubheader from "material-ui/List/ListSubheader";
+import DescriptionIcon from "material-ui-icons/Description";
+import LinkIcon from "material-ui-icons/Link";
+import OpenInNewIcon from "material-ui-icons/OpenInNew";
+import Typography from "material-ui/Typography";
+import * as appActions from "_core/actions/appActions";
 import appConfig from "constants/appConfig";
-import ModalMenuContainer from "_core/components/ModalMenu/ModalMenuContainer";
+import { ModalMenu } from "_core/components/ModalMenu";
+import { MarkdownPage } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
+import styles from "_core/components/Help/HelpContainer.scss";
+import displayStyles from "_core/styles/display.scss";
 
 export class HelpContainer extends Component {
     constructor(props) {
@@ -27,23 +39,17 @@ export class HelpContainer extends Component {
             ABOUT: {
                 key: "ABOUT",
                 label: "About",
-                content: cvt.makeHtml(
-                    require("default-data/_core_default-data/help/about.md")
-                )
+                content: cvt.makeHtml(require("default-data/_core_default-data/help/about.md"))
             },
             FAQ: {
                 key: "FAQ",
                 label: "FAQ",
-                content: cvt.makeHtml(
-                    require("default-data/_core_default-data/help/faq.md")
-                )
+                content: cvt.makeHtml(require("default-data/_core_default-data/help/faq.md"))
             },
             SYS_REQ: {
                 key: "SYS_REQ",
                 label: "System Requirements",
-                content: cvt.makeHtml(
-                    require("default-data/_core_default-data/help/systemReqs.md")
-                )
+                content: cvt.makeHtml(require("default-data/_core_default-data/help/systemReqs.md"))
             }
         };
     }
@@ -52,93 +58,95 @@ export class HelpContainer extends Component {
         let pageContent = this.props.helpPage
             ? this.helpPageConfig[this.props.helpPage].content
             : "";
+        let listClasses = MiscUtil.generateStringFromSet({
+            [styles.menu]: true,
+            [displayStyles.hidden]: this.props.helpPage !== ""
+        });
+        let pageClasses = MiscUtil.generateStringFromSet({
+            [displayStyles.hidden]: this.props.helpPage === ""
+        });
+        let versionClasses = MiscUtil.generateStringFromSet({
+            [styles.versionTagContainer]: true,
+            [displayStyles.hidden]: this.props.helpPage !== ""
+        });
         return (
-            <ModalMenuContainer
-                small={this.props.helpPage === ""}
-                className="no-background"
+            <ModalMenu
                 title={
-                    !this.props.helpPage ? (
-                        "Help"
-                    ) : (
-                        this.helpPageConfig[this.props.helpPage].label
-                    )
+                    !this.props.helpPage ? "Help" : this.helpPageConfig[this.props.helpPage].label
                 }
                 active={this.props.helpOpen}
-                closeFunc={() => this.props.actions.setHelpOpen(false)}
+                closeFunc={() => this.props.appActions.setHelpOpen(false)}
                 back={this.props.helpPage !== ""}
-                backFunc={() => this.props.actions.selectHelpPage("")}
+                backFunc={() => this.props.appActions.selectHelpPage("")}
             >
-                <List
-                    selectable
-                    ripple
-                    className={
-                        "no-margin help-list" +
-                        (!this.props.helpPage ? "" : " hidden")
-                    }
-                >
-                    <ListSubHeader caption="General" />
-                    <ListItem
-                        caption={this.helpPageConfig.ABOUT.label}
-                        leftIcon="description"
-                        onClick={() =>
-                            this.props.actions.selectHelpPage(
-                                this.helpPageConfig.ABOUT.key
-                            )}
-                    />
-                    <ListItem
-                        caption={this.helpPageConfig.FAQ.label}
-                        leftIcon="description"
-                        onClick={() =>
-                            this.props.actions.selectHelpPage(
-                                this.helpPageConfig.FAQ.key
-                            )}
-                    />
-                    <ListItem
-                        caption={this.helpPageConfig.SYS_REQ.label}
-                        leftIcon="description"
-                        onClick={() =>
-                            this.props.actions.selectHelpPage(
-                                this.helpPageConfig.SYS_REQ.key
-                            )}
-                    />
-                    <ListItem caption="Take a tour" leftIcon="play_arrow" />
-                    <ListDivider />
-                    <ListSubHeader caption="Get More Help" />
-                    <ListItem
-                        caption="Visit Help Forum"
-                        leftIcon="link"
-                        onClick={() => {
-                            MiscUtil.openLinkInNewTab("http://google.com");
-                        }}
-                    />
-                    <ListItem
-                        caption="Contact"
-                        leftIcon="email"
-                        onClick={() => {
-                            MiscUtil.mailTo("test@test.test");
-                        }}
-                    />
-                </List>
-                <div
-                    className={!this.props.helpPage ? "hidden" : "help-page"}
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{ __html: pageContent }}
-                />
-                <div
-                    id="helpVersionTagContainer"
-                    className={this.props.helpPage ? "hidden" : ""}
-                >
-                    <h4 className="version-tag">
+                <Paper elevation={2} square={true} className={listClasses}>
+                    <List>
+                        <ListSubheader>General</ListSubheader>
+                        <ListItem
+                            button
+                            onClick={() =>
+                                this.props.appActions.selectHelpPage(this.helpPageConfig.ABOUT.key)
+                            }
+                        >
+                            <ListItemIcon>
+                                <DescriptionIcon />
+                            </ListItemIcon>
+                            <ListItemText inset primary={this.helpPageConfig.ABOUT.label} />
+                        </ListItem>
+                        <ListItem
+                            button
+                            onClick={() =>
+                                this.props.appActions.selectHelpPage(this.helpPageConfig.FAQ.key)
+                            }
+                        >
+                            <ListItemIcon>
+                                <DescriptionIcon />
+                            </ListItemIcon>
+                            <ListItemText inset primary={this.helpPageConfig.FAQ.label} />
+                        </ListItem>
+                        <ListItem
+                            button
+                            onClick={() =>
+                                this.props.appActions.selectHelpPage(
+                                    this.helpPageConfig.SYS_REQ.key
+                                )
+                            }
+                        >
+                            <ListItemIcon>
+                                <DescriptionIcon />
+                            </ListItemIcon>
+                            <ListItemText inset primary={this.helpPageConfig.SYS_REQ.label} />
+                        </ListItem>
+                        <Divider />
+                        <ListSubheader>Get More Help</ListSubheader>
+                        <ListItem
+                            button
+                            onClick={() => {
+                                MiscUtil.openLinkInNewTab(
+                                    "https://github.jpl.nasa.gov/CommonMappingClient/cmc-core"
+                                );
+                            }}
+                        >
+                            <ListItemIcon>
+                                <LinkIcon />
+                            </ListItemIcon>
+                            <ListItemText inset primary="View Source Code" />
+                        </ListItem>
+                    </List>
+                </Paper>
+                <MarkdownPage className={pageClasses} content={pageContent} converted={true} />
+                <div className={versionClasses}>
+                    <Typography align="right" variant="caption">
                         Version: {appConfig.APP_VERSION}
-                    </h4>
+                    </Typography>
                 </div>
-            </ModalMenuContainer>
+            </ModalMenu>
         );
     }
 }
 
 HelpContainer.propTypes = {
-    actions: PropTypes.object.isRequired,
+    appActions: PropTypes.object.isRequired,
     helpOpen: PropTypes.bool.isRequired,
     helpPage: PropTypes.string.isRequired
 };
@@ -152,7 +160,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actions, dispatch)
+        appActions: bindActionCreators(appActions, dispatch)
     };
 }
 

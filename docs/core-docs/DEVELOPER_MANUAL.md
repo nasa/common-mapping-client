@@ -17,28 +17,30 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
         1. [How CMC Uses Webpack](#cmc-build-process-cmc-webpack)
         2. [Development Mode](#cmc-build-process-development-mode)
         3. [Production Mode](#cmc-build-process-production-mode)
-        4. [Brief Note on Cesium + Webpack Integration](#cmc-build-process-cesium-integration)
+        4. [Changing the Build](#cmc-build-changing-the-build)
+        5. [Brief Note on Cesium + Webpack Integration](#cmc-build-process-cesium-integration)
     3. [Brief Note on ESLint](#cmc-build-process-eslint)
     4. [Brief Note on Prettier](#cmc-build-process-prettier)
     5. [Brief Note on Serving CMC](#cmc-build-process-serving-cmc)
 7. [Styling CMC](#styling-cmc)
-    1. [React UI Component Library (React-Toolbox)](#styling-cmc-react-toolbox)
-    2. [SASS Usage](#styling-cmc-sass)
-    3. [CMC Style Architecture](#styling-cmc-sass-architecture)
-    4. [Overriding Core Styles](#styling-cmc-overrides)
-    5. [Overriding React-Toolbox SASS Variables](#styling-cmc-overrides-react-toolbox)
-    6. [Fonts](#styling-cmc-fonts)
+    1. [React UI Component Library (Material-UI)](#styling-cmc-material-ui)
+    2. [CMC Style Architecture](#styling-cmc-style-architecture)
+    3. [CSS Modules](#styling-cmc-css-modules)
+    4. [SASS Usage](#styling-cmc-sass)
+    5. [PostCSS](#styling-cmc-postcss)
+    6. [Overriding Core Styles](#styling-cmc-overrides)
+    7. [Overriding Material-UI Styles](#styling-cmc-overrides-material-ui)
+    8. [Fonts](#styling-cmc-fonts)
         1. [When to use Roboto ](#styling-cmc-using-roboto)
         2. [When to use Roboto Mono](#styling-cmc-using-roboto-mono)
-    7. [postCSS](#styling-cmc-postcss)
-    8. [Favicon Generation](#styling-cmc-favicons)
-    9. [Custom Icons](#styling-cmc-custom-icons)
+    9. [Favicon Generation](#styling-cmc-favicons)
+    10. [Custom Icons](#styling-cmc-custom-icons)
 8. [Components and State with React & Redux](#components-and-state-with-react-redux)
     1. [Things to Know about React/Redux](#things-to-know-about-react-redux)
     2. [CMC React & Redux Idioms](#cmc-react-redux-idioms)
         1. [In the Store](#cmc-react-redux-idioms-store)
         2. [With Maps](#cmc-react-redux-idioms-maps)
-        3. [With D3](#cmc-react-redux-idioms-d3)
+        3. [With vis.js](#cmc-react-redux-idioms-visjs)
     3. [Notes on Optimizing React/Redux Performance](#optimizing-react-redux-performance)
         1. [Key Performance Areas](#optimizing-react-redux-performance-key-areas)
         2. [Additional Techniques in Improving Performance](#optimizing-react-redux-performance-additional-techniques)
@@ -48,6 +50,7 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
     2. [Replacing these libraries](#mapping-with-cmc-replacing-libs)
     3. [Overview of the MapWrapper classes](#mapping-with-cmc-mapwrapper)
     4. [Notes on Map Performance](#mapping-with-cmc-note-on-performance)
+    5. [Tidbits](#mapping-with-cmc-tidbits)
 10. [Brief Overview of Application Directory ](#cmc-application-directory)
 11. [How to Write Tests in CMC](#writing-tests)
     1. [Testing Tools](#writing-tests-tools)
@@ -78,6 +81,7 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
 16. [Deployment to Github Pages](#deployment-to-gh-pages)
 17. [Main Technologies Under the Hood](#main-tech-under-the-hood)
 18. [Contributing to CMC](#contributing-to-cmc)
+19. [Copyright and License](#copyright-and-license)
 
 
 <a id="terminology"></a>
@@ -113,16 +117,15 @@ The scripts defined in `package.json` are used to control various aspects of app
 | **Script** | **Description** |
 |----------|-------|
 | postinstall | Copies over certain node_module files, libraries, sets up other stuff, etc. |
-| prestart | Runs automatically before start. Cleans previous build and builds `index.html` for serving. |
+| prestart | Runs automatically before start. Cleans previous build. |
 | precommit | Runs prettier code formatting automatically after commits have been staged. |
 | start | Builds a development version of the app in memory and serves it from a local node server. |
 | start:dist | Builds a production version of the app and serves it from a local node server. |
 | open:src | Serve development version of the app from a local node server |
 | open:dist | Serve production version of the app using a local node server|
-| prebuild | Runs automatically before build script. Cleans the previous build and builds `index.html` for serving |
+| prebuild | Runs automatically before build script. Cleans the previous build. |
 | build | Bundles all JavaScript using webpack and writes it to `/dist` |
 | postbuild | Runs the postbuild script moving external assets into dist |
-| build:html | Copies `src/index.html` into `dist/index.html` and inlines `src/styles/inline_style.css` |
 | prep:dist | Deletes the `dist/` and creates a new one |
 | clean:dist | Removes `dist/` |
 | clean:test | Removes `test-results/` |
@@ -261,7 +264,8 @@ These overrides/additions are accomplished by adding the parameters into the `AP
 
 <a id="cmc-build-process"></a>
 ## The CMC Build Process
-![It's really quite straight forward](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/black_box.png)
+
+![It's really quite straight forward](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/black_box.png)
 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, Application Developers may never actually need to modify most of these steps. 
 
@@ -276,9 +280,9 @@ After `npm install` runs successfully, npm automatically looks for a script call
 In short:
 > webpack takes modules with dependencies and generates static assets representing those modules.
 
-Webpack is one of the most popular module bundlers or build systems for web applications (as of early 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better.
+Webpack is one of the most popular module bundlers or build systems for web applications (as of late 2017) and continues to increase in popularity and stability. Webpack was chosen for CMC over other build systems because almost every React/Redux starter kit and project uses Webpack. Alternatively you could use a combo of grunt/gulp/browserify/etc/etc if you really think some other combo is better.
 
-CMC uses webpack version 2. Read more about webpack version 2 over in the docs [here](https://webpack.github.io/docs/).
+CMC uses webpack version 2. Read more about webpack version 2 over in the docs [here](https://webpack.js.org/concepts/).
 
 Webpack is complicated and does a lot but once you get over the learning curve (or avoid it entirely and just tweak existing configurations) it's great, very flexible, and does a lot right out of the box. Webpack is driven from a JS configuration file (or multiple files in our case for development and production).
 
@@ -286,11 +290,11 @@ Webpack is complicated and does a lot but once you get over the learning curve (
 ##### How CMC Uses Webpack
 CMC uses two Webpack configurations (three really, the last one is a clone of webpack.config.dev.js living inside of karma.conf.js but ignore that for now).
 
-`webpack.config.helper.js`, is the main webpack configuration file. It defines a general build pipeline for CMC assets and includes specific options for the dev/prod configs to override. It outputs built assets under the `dist` directory. When configured for dev, it includes [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.github.io/docs/hot-module-replacement-with-webpack.html) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. In production mode, it creates the optimized, minified, uglified, duplicate dependency reduced, static application output.
+`webpack.config.helper.js`, is the main webpack configuration file. It defines a general build pipeline for CMC assets and includes specific options for the dev/prod configs to override. It outputs built assets under the `dist` directory. When configured for dev, it includes [JS/CSS sourcemaps](http://blog.teamtreehouse.com/introduction-source-maps) for debugging as well as [hot module replacement](https://webpack.js.org/guides/hot-module-replacement/) and live reloading via [BrowserSync](https://browsersync.io/) for automatic reloading of certain pieces of code and CSS while maintaining application state and without refreshing the page. In production mode, it creates the optimized, minified, uglified, duplicate dependency reduced, static application output.
 
 <a id="cmc-build-process-development-mode"></a>
 ##### Development Mode
-When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. Not to worry though, the final production bundle will be much smaller. When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (e.g. if you change and save some CSS you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration please view [https://webpack.github.io/docs/](webpack documentation). The development configuration is also thoroughly commented.
+When you are developing an application using CMC, you will most often want to use the development webpack configuration. This configuration is most easily used by running the `npm start` command which in turn runs `npm run open:src` which runs `scripts/srcServer.js` using node. This script imports the development webpack configuration and uses browserSync to serve the output files and enable hot module reloading. If you take a look at the size of the output bundle in a browser development tool you'll see that it's quite large. This is normal since the bundle is not optimized at all and contains many sourcemaps. Not to worry though, the final production bundle will be much smaller. When you first boot up the development server it may take a few seconds but will then be fairly quick to live reload (e.g. if you change and save some CSS you should see the actual page CSS change almost instantly). Also note that no files are actually output during the development build and are instead served in-memory. For more information on development webpack configuration please view [https://webpack.js.org/concepts](webpack documentation). The development configuration is also thoroughly commented.
 
 <a id="cmc-build-process-production-mode"></a>
 ##### Production Mode
@@ -298,7 +302,7 @@ The production webpack configuration is useful for creating optimized static bui
 - Determine the final file size of output resources like bundle.js and styles.css
 - Profile performance-critical parts of your application since the built version of the app will generally be slightly more performant than the development version
 
-The production configuration is most easily used by running `npm run build`. However, npm is aware of the keyword `build` and will run the `prebuild` command if one exists. In our case we use `prebuild` to clean the output distribution area using `npm run clean-dist` and then run `npm run build:html` which runs `scripts/buildHtml.js` which reads in `src/index.html` and moves it into `dist`, modify this script if you ever want to modify `index.html` during the build process.
+The production configuration is most easily used by running `npm run build`. However, npm is aware of the keyword `build` and will run the `prebuild` command if one exists. In our case we use `prebuild` to clean the output distribution area using `npm run clean-dist`.
 
 After `prebuild` has successfully run, npm will run `scripts/build.js`. This script configures webpack using the production configuration and runs webpack to create the final bundled output. 
 
@@ -306,9 +310,17 @@ After the build has run, npm automatically looks for a script called `postbuild`
 
 Now you should have a completed production application inside of `dist` that you can run anywhere. If you would like to open the production application using the server provided by CMC you can run `npm run open:dist` which uses browserSync (with hot module replacement and livereload disabled). You can also run `npm run build:open` to have the server automatically start after build success.
 
+<a id="cmc-build-changing-the-build"></a>
+##### Changing the Build
+If you decide to use a new filetype, or a new loader, or a library that requires specific build configurations, it may be necessary to change the cmc-core webpack configuration. To enable that, we have created `webpack.config.mod.js`. That file defines a function that takes the cmc-core generated config as input and then returns a new (possibly altered) version of that config object. So to change the cmc-core webpack config, simply modify that file to perform the necessary modifications. If you check `webpack.config.dev.js` or `webpack.config.prod.js` you'll see that this `webpack.config.mod.js` file is already integrated so you don't need to do anything more to enable it.
+
 <a id="cmc-build-process-cesium-integration"></a>
 ##### Brief Note on Cesium + Webpack Integration
 Most libraries are easily used with Webpack but on occasion some libraries require a bit more work, such as complex libraries like CesiumJS. CesiumJS uses lots of extra assets and doesn't fit the typical mold of a modular javascript library, meaning you can't just `import cesium` and be done. The following steps from CesiumJS.org were used as basis for integration with CMC webpack setup [https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/](https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/). In short, webpack receives a few config tweaks, the main CesiumJS file is loaded using the webpack script loader which executes the script once in global context, Cesium requests extra static resources on demand from the assets folder, and CMC maps the global cesium variable to a instance variables for consistency.
+
+<a id="cmc-build-process-index-template"></a>
+##### Brief Note on Inlined Styles, index_template.html, and cache-busting
+Using a combination of webpack plugins, mainly [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) and [style-ext-html-webpack-plugin](https://github.com/numical/script-ext-html-webpack-plugin), we automatically generate our root index.html file that serves as the entry point to the built application. With `html-webpack-plugin` we transform `index_template.html` into `index.html`, telling the plugin where to inject the css and js bundles via `lodash` templating (supplied by the plugin). We also enable the addition of the webpack build hash to these bundle files in order to provide a mechanism for cache busting. These hashes are unique to every build. Finally, we use `style-ext-html-webpack-plugin` to inline a few global css rules as well as small amount of css we would like to apply to the loading screen for the application.
 
 <a id="cmc-build-process-eslint"></a>
 ### Brief Note on ESLint
@@ -345,63 +357,65 @@ CMC ships with a BrowserSync server used to serve development and production ver
 
 <a id="styling-cmc"></a>
 ## Styling CMC
-The following sections outline how CMC is styled, how CMC styles are written, organized, and overwritten. 
 
-<a id="styling-cmc-react-toolbox"></a>
-### React UI Component Library (React-Toolbox)
-[React-Toolbox](http://react-toolbox.com/) is a React UI Component library
-that follows [Google's Material Design Standards](https://material.google.com/). React-Toolbox was chosen for CMC because React-Toolbox is fairly complete component-wise, does not inline CSS, and exposes most of the necessary selectors for overriding and tweaking its components. In general React-Toolbox was found to be more overridable and complete than most other React component libraries. At times certain CSS hacks _are_ necessary to style or fix certain components that don't expose the desired elements with classes or data-react-toolbox attributes.
+The following sections outline how CMC is styled, how CMC styles are written, organized, and overwritten. CMC uses a component libarary and bases most of it's design principles on [Google's Material Design Standards](https://material.google.com/). While additional interaction and display design inspiration is drawn from other tools, the Material Design spec provides a solid foundation for most components. The use of a component libarary that follows this design spec also allows CMC based applications to quickly decide on layouts and styles so that they can focus more time on feature implementation.
 
-**Why don't you like inline CSS**? Inline CSS is very difficult to override. The only option is to use `!important` which creates very brittle style structures. CMC was unable to find any component library that required no style modifications to suit it's needs (which is quite a common problem) and so the ability to modify styles cleanly and consistently was paramount.
+<a id="styling-cmc-material-ui"></a>
+### Material-UI Component Library (Material-UI)
+
+[Material-UI](https://github.com/mui-org/material-ui) is a React UI Component library
+that follows [Google's Material Design Standards](https://material.google.com/). Material-UI was chosen for CMC because it is: fairly complete (component-wise), straightforward to override, and well maintained. As of writing, Material-UI has not released a v1.0 product and CMC is using a beta version of the product. That means that it is subject to rapid changes that occasionally break things, but in tracking the history of these changes we've found them to be few and relatively easy to incorporate.
+
+<a id="styling-cmc-style-architecture"></a>
+### CMC Style Architecture
+CMC uses seperate css/js files as much as possible. Inline styles or even styles defined within a js file tend to be difficult to override and require an additional layer of abstraction or adjustment from "classic" web development that seem to outweigh its benefits. The bulk of CMC Core styles can be found alongside their respective components. In a few cases, multiple components draw from the same style file, and under `src/_core/styles` there are some common/generic styles. Under `src/styles` there are some prepopulated styles detailed below:
+
+- `_colors.scss`: This is a SASS partial file that simply defines reusable colors for the application. Note that changing the primary/secondary colors here will not affect Material-UI's themeing which is controlled elsewhere (see below). These colors are for direct use in CMC style modules.
+- `inlineStyles.scss`: This file is processed and inlined into `index.html` during build so that a small subset of styles are available as soon as the page loads. This allows something like a loading screen to be rendered more or less instantly while the rest of the js/css is being retrieved/processed by the browser. Edit this file as desired.
+- `inlineStyles.js`: This is a js wrapper used to load the `inlineStyles.scss` file.
+
+Additionally, there are external style files loaded from the `index.html` file:
+
+- [Roboto](https://fonts.google.com/specimen/Roboto) & [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) – The two fonts used in CMC
+- [normalize.css](http://necolas.github.io/normalize.css/) - Used for more consistent cross-browser element rendering
+- [mapskin.min.css](http://mapsk.in/) - Used for additional mapping specific icons
+
+<a id="styling-cmc-css-modules"></a>
+### CSS Modules
+
+For all styles (except inlineStyles) CMC uses [CSS Modules](https://github.com/css-modules/css-modules). This allows insulated styles to be created for each component while also providing mechanisms to reuse styles across the application. Styles are defined in `.scss` files alongside the components they style, those files are then imported in the component which creates an object with a localized class name mapping. Example:
+
+`ComponentName.css`
+```CSS
+.foo {
+    background: red;
+}
+```
+`ComponentName.js`
+```JSX
+import styles from 'componentName.css';
+
+export default (props) => {
+    <div className={styles.foo}>CONTENT</div>
+}
+```
+
+When `ComponentName` is rendered, it will have a class like `ComponentName_foo_ASAKJHS` applied to it. There are special keys to skip name localization and to combine multiple classes into a single reference, see [CSS Modules documentation](https://github.com/css-modules/css-modules) for more details.
+
 
 <a id="styling-cmc-sass"></a>
 ### SASS Usage
+
 CMC uses SASS which is a popular CSS extension language. From SASS's [site](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
 
 >Sass is an extension of CSS that adds power and elegance to the basic language. It allows you to use variables, nested rules, mixins, inline imports, and more, all with a fully CSS-compatible syntax. Sass helps keep large stylesheets well-organized, and get small stylesheets up and running quickly...
 
-<a id="styling-cmc-sass-architecture"></a>
-### CMC Style Architecture
-CMC SASS files are separated into a few sections. The bulk of CMC Core styles are in `src/_core/styles`. In this directory are the SASS files for each Core React component. Note that SASS files use a syntax called SCSS and therefore use the `.scss` file extension name. All Core React component styles are `@import`ed into the `src/_core/styles/styles.scss` file which is the master Core style file which also contains all non-component specific styles. If Core component styles are not imported into this main file they will not be included in the application. Also in this file are imports of:
-
-- [normalize.css](http://necolas.github.io/normalize.css/) - Used for more consistent cross-browser element rendering
-- [flexboxgrid.min.css](http://flexboxgrid.com/) - A responsive grid system based on the CSS `flex` property
-- [Google's Material Icon font](https://material.io/icons/) - used as primary application icons, note that not all icons on the site are included in the icon font
-
-Note that some styles and fonts _are_ loaded outside of these stylesheets. In `index.html` there are imports of:
-
-- [mapskin.min.css](http://mapsk.in/) – A collection of scalable geospatial vector icons
-- [Roboto](https://fonts.google.com/specimen/Roboto) & [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) – The two fonts used in CMC
-
-Other important SASS files are:
-
-- `src/styles/_theme.scss` - Used to override certain React-Toolbox variables
-- `src/styles/_variables.scss` - Used to define non-React-Toolbox variables for use in all CMC SASS files
-- `src/styles/styles.scss` - Used for non-Core style imports
-
-<a id="styling-cmc-overrides"></a>
-### Overriding Core Styles
-You can override Core styles by modifying `src/styles/styles.scss` to either override Core styles or by removing the import of `src/_core/styles/styles.scss` and importing only certain Core SASS files.
-
-<a id="styling-cmc-overrides-react-toolbox"></a>
-### Overriding React-Toolbox SASS Variables
-Many React-Toolbox components use SASS variables that can be overridden. Many of these variables are already overridden by Core in `src/styles/_theme.scss`. To find the React-Toolbox SASS variable names that can be overridden, dig around in `node_modules/react-toolbox/`. Many primary variables are defined in `node_modules/react-toolbox/components/_globals.scss` but many more are defined in SASS files that live alongside the React-Toolbox component sources, like `node_modules/react-toolbox/components/button/_config.scss`. Re-assigning something like `$button-neutral-color` in `src/styles/_theme.scss` will change the value for React-Toolbox components, making theming and recoloring fairly simple. For more on theming, check out the [cmc-example-dark-theme](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-dark-theme) repository.
-
-<a id="styling-cmc-fonts"></a>
-### Fonts
-CMC tries to stay within the Material Design specification by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
-
-<a id="styling-cmc-using-roboto"></a>
-##### When to use Roboto 
-Roboto is recommended for everything from titles to labels to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
-
-<a id="styling-cmc-using-roboto-mono"></a>
-##### When to use Roboto Mono
-Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, timeline labels, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
+This is why all of the style files are `.scss` extensions. CMC primarily uses SASS for imports, variables, and nesting.
 
 <a id="styling-cmc-postcss"></a>
-### postCSS
-CMC uses [postCSS](http://postcss.org/) in both it's development and production webpack build processes. PostCSS provides a framework for CSS plugins that make writing CSS easier. CMC uses [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
+### PostCSS
+
+CMC uses [PostCSS](http://postcss.org/) in both it's development and production webpack build processes. PostCSS provides a framework for CSS plugins that make writing CSS easier. CMC uses [PostCSS's autoprefixer](github.com/postcss/autoprefixer) that automatically adds vendor prefixes from [Can I Use](caniuse.com) to your CSS to ensure cross-browser compatibility. For example, take this snippet of CSS.
 
 ```CSS
 transition: opacity 0.1s linear 0s;
@@ -424,6 +438,33 @@ transition: opacity 0.1s linear 0s;
 
 There are many other PostCSS compatible plugins that you may find useful so feel free to add more.
 
+<a id="styling-cmc-overrides"></a>
+### Overriding Core Styles
+
+CMC Core components will generally include a `className` prop that will apply a class to the top level of a component. If you need more granular access to a component for styling, for instance styling a sub-component, you will need to create a new component in its place and compose from there. In general, CMC has taken the path of composability over customizability.
+
+<a id="styling-cmc-overrides-material-ui"></a>
+### Overriding Material-UI Styles
+
+*Application Theme*
+Material-UI has [a theme provider](https://material-ui-next.com/customization/themes/) module that passes themeing information down the component tree. CMC uses a theme provider at the top level of our `AppContainer` component to facilitate this. To change the theme of Material-UI components in your application, simply mimic `src/_core/components/App/AppContainer.js` by creating a Material-UI theme and using a `<MuiThemeProvider />` to wrap the application.
+
+*Component Specific Styles*
+Material-UI has [several approaches](https://material-ui-next.com/customization/overrides/) to overriding component styles. CMC favors the use of class name overrides as it dovetails nicely with CSS Modules.
+
+<a id="styling-cmc-fonts"></a>
+### Fonts
+CMC tries to stay within the Material Design specification by using Google's [Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) fonts. React-Toolbox is built to use Roboto and CMC attempts to mirror and/or inherit font choices made by React-Toolbox in CMC components. 
+
+<a id="styling-cmc-using-roboto"></a>
+##### When to use Roboto 
+Roboto is recommended for everything from titles to labels to paragraphs. CMC only uses three weights of Roboto – 300, 400, and 500 to keep load times down since fonts are large. If you need more weights feel free to add some more.
+
+<a id="styling-cmc-using-roboto-mono"></a>
+##### When to use Roboto Mono
+Roboto Mono is recommended for use as a contrasting font in limited cases including title font, numerical displays (like dates, slider amounts, counters, etc.) but should be avoided for default use. CMC uses three weights of Roboto Mono – 300, 400, and 700. 
+
+
 <a id="styling-cmc-favicons"></a>
 ### Favicon Generation
 CMC uses the NASA meatball favicon by default. The favicon is specified in `index.html` using the following imports:
@@ -444,11 +485,18 @@ Favicons specification varies quite a lot based on browser, device, and screen s
 When Material icons or Mapskin icons do not contain the icon you are looking for, you can easily add your own svg icon. CMC uses several custom icons and you can look in `src/_core/components/Share/ShareContainer.js` for a complete example, but in short the process involves declaring your icon  as shown below and tweaking the CSS, viewBox, and svg parameters.
 
 ```JSX
-const FacebookIcon = () => (
-    <svg className="shareIcon FacebookIcon" viewBox="0 0 24 24">
-        <path fill="white" d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z" /> 
-    </svg>
+let LayerIconTop = props => (
+    <SvgIcon {...props}>
+        <svg viewBox="-1 1 38 35" style={{ height: "93%" }}>
+            <path
+                fillRule="evenodd"
+                d="M32.758 18.523c.048-.046.09-.097.125-.15.065-.09.074-.132.08-.154.022-.07.037-.134.046-.2.017-.134-.002-.275-.056-.41-.038-.114-.073-.15-.092-.17-.076-.093-.1-.117-.126-.14-.027-.024-.054-.043-.078-.06-.064-.05-.085-.063-.107-.075l-4.788-2.467 4.823-2.952c.07-.057.075-.062.076-.064.028-.02.054-.042.078-.065.048-.046.09-.097.125-.15.065-.09.074-.132.08-.154.022-.068.037-.133.046-.2.017-.133-.002-.274-.056-.41-.038-.113-.073-.15-.092-.168-.076-.094-.1-.118-.126-.14-.027-.025-.054-.044-.078-.06-.064-.05-.085-.064-.107-.076L18.62 3.09c-.033-.017-.065-.025-.085-.03-.15-.05-.23-.062-.31-.062-.06 0-.117.006-.174.018-.033.007-.067.016-.1.028-.088.035-.117.04-.15.06-.034.02-.057.034-.08.05l-.16.096-1.198.732L4.656 11.15l-.157.097c-.124.075-.218.13-.296.215-.13.14-.202.332-.203.536 0 .058.006.118.018.177.015.073.036.133.065.193.045.104.078.142.095.163.03.037.063.066.09.092.052.047.077.07.106.09.06.043.076.05.076.05l.082.044.173.09 4.555 2.348-4.587 2.81-.157.098c-.123.075-.217.13-.295.215-.164.177-.234.437-.188.7.022.097.042.152.068.206.045.104.078.142.095.163.03.035.063.065.092.09.05.048.076.07.105.092.06.042.076.05.076.05.027.014.055.03.082.043l.173.09c.075.04.15.078.226.117l5.24 2.702-5.534 3.39c-.052.03-.105.063-.157.096-.125.075-.22.13-.297.215-.166.18-.236.44-.188.702.017.08.038.143.068.204.045.104.078.142.095.163.03.034.063.064.092.09.05.047.076.07.105.092.062.042.07.045.077.05l.093.05.597.308 12.336 6.355.565.29.19.098c.043.02.084.043.126.064.037.02.075.04.125.05.093.033.128.04.162.047.042.007.086.01.13.01.126-.006.21-.016.286-.048.076-.025.12-.04.162-.064l13.36-8.176.074-.064c.026-.02.052-.042.076-.065.048-.046.09-.097.125-.15.066-.09.075-.132.08-.154.023-.068.038-.133.047-.2.018-.133 0-.274-.055-.41-.038-.113-.073-.15-.092-.168-.076-.094-.1-.118-.126-.14-.027-.025-.054-.044-.078-.06-.064-.05-.085-.065-.107-.077l-5.703-2.937 5.77-3.53c.11-.082.137-.104.16-.127zm-2.212 7.413l-11.79 7.215-.485-.25-.502-.258-1.15-.592-10.15-5.23 5.428-3.324 6.167 3.173.198.1.12.06.007.005c.03.016.068.035.118.046l.018.008.04.015c.035.01.07.02.104.025.042.007.086.01.13.01.024 0 .048 0 .07-.002.056-.004.14-.014.216-.046.01-.004.025-.01.04-.014.036-.01.08-.025.123-.05l.018-.01.005-.004 5.93-3.63 5.346 2.754zm-11.77-.74l-12.29-6.33 4.48-2.745 6.686 3.442-.032.02.205.082-.02.012.01-.007.01-.006.114.046.303.156.118.06.01.005c.03.017.067.036.117.047.003 0 .01.004.018.007l.04.015c.035.01.07.018.104.024.04.007.085.01.13.01.023 0 .047 0 .07-.002.055-.004.138-.014.215-.045l.025-.01.016-.004c.035-.01.078-.025.122-.05l.018-.01.005-.004 6.88-4.21 4.434 2.283-11.79 7.215v-.002z"
+            />
+        </svg>
+    </SvgIcon>
 );
+LayerIconTop.muiName = "SvgIcon";
+export { LayerIconTop };
 ```
 
 <a id="components-and-state-with-react-redux"></a>
@@ -477,7 +525,7 @@ Most of the syntax for components and the file structure paradigm are driven by 
 
 This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on and off. Notice how the actual DOM that the user sees isn't updated until the end.
 
-![Data flow diagram](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow.png)
+![Data flow diagram](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow.png)
 
 Read up on [ReactJS](facebook.github.io/react/) and [ReduxJS](http://redux.js.org) for more detailed information.
 
@@ -528,18 +576,18 @@ This allows CMC to avoid tracking any map state except for what is needed by com
 
 This deviation in data flow is shown below. In this diagram, we use the same premise as the data flow diagram above with one change, the switch will now toggle a layer on the map on or off. Notice how the DOM for the switch is again not updated until the end but the map is updated from within the reducer itself.
 
-![Data flow diagram - map](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_maps.png)
+![Data flow diagram - map](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_maps.png)
 
-<a id="cmc-react-redux-idioms-d3"></a>
-#### With D3
+<a id="cmc-react-redux-idioms-visjs"></a>
+#### With vis.js
 
-[D3](https://d3js.org/) is a big, powerful graphics/math/data library. In this application it is primarily responsible for rendering the TimeAxis and associated components, though it has capabilities far beyond that which we encourage you to use. In relation to React/Redux, D3 essentially replaces the React rendering functions. We create a React component to manage the data flow between D3 and the rest of the application as well as provide a sane DOM entry point for D3. D3 then takes the DOM node and data from the state machine to perform its own rendering.
+[vis.js](http://visjs.org/) is a fairly powerful visualization library. It's made to be easier to work with than something like D3 and provides a number of high level abstractions to make basic visualizations simple. In this application it is primarily responsible for rendering the Timeline and associated components, though it has capabilities beyond that which we encourage you to use. In relation to React/Redux, VisJS essentially replaces the React rendering functions. We create a React component to manage the data flow between VisJS and the rest of the application as well as provide a sane DOM entry point for VisJS. VisJS then takes the DOM node and data from the state machine to perform its own rendering.
 
-This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the D3 component that it creates as an instance variable.
+This flow is very similar to how maps are handled in CMC with the main difference being that updates are handled from within the component instead of the reducer. In this way, the React component acts essentially as a wrapper around the VisJS component that it creates as an instance variable.
 
-Here is a data flow diagram to demonstrate this. In this example we are again toggling on a switch, however here we are assuming the switch is a D3 component. Notice how the render cycle behaves normally up until component render time at which point the changes to the DOM are offloaded to D3 and React does not need to do anything.
+Here is a data flow diagram to demonstrate this. In this example we are again toggling on a switch, however here we are assuming the switch is a VisJS component. Notice how the render cycle behaves normally up until component render time at which point the changes to the DOM are offloaded to VisJS and React does not need to do anything.
 
-![Data flow diagram - D3](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/data_flow_d3.png)
+![Data flow diagram - VisJS](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_visjs.png)
 
 <a id="optimizing-react-redux-performance"></a>
 ### Notes on Optimizing React/Redux Performance
@@ -561,7 +609,7 @@ This is a collection of things CMC has run into in its development but there is 
   * **Layer Rendering on the Map**: For a layer to render, the mapping library will need to fetch the resources (images/data files) necessary, decode those resources, then draw them onto the canvas. It must repeat that process whenever the map view changes or layers are added/removed. Ways to improve this are:
     * Use tiled datasets. This allows the library to parallelize resource gathering and cache resources more efficiently
     * Don't use large vector datasets. This goes along with tiling but large vector datasets require a greater amount of computation to render.
-  * **Beware D3 Renderings**: Rendering in D3, if done too often with fancy transitions can easily hog CPU power since (unlike React) there is no DOM diffing done to avoid unnecessary renderings. Pay attention to your D3 components to ensure they render only when needed and that your svg transitions are simple.
+  * **Beware VisJS Renderings**: Rendering in VisJS, if done too often with fancy transitions can easily hog CPU power since (unlike React) there is no DOM diffing done to avoid unnecessary renderings. Pay attention to your VisJS components to ensure they render only when needed and that your svg transitions are simple.
 
 <a id="optimizing-react-redux-performance-additional-techniques"></a>
 #### Additional Techniques in Improving Performance
@@ -600,6 +648,24 @@ The MapWrapper class provides an abstracted API for the Reducer functions to int
 ### Notes on Map Performance
 Openlayers and Cesium are both aware of their visibility in the DOM to some extent. This means that they will delay rendering if their containing domNodes have `display: none;` styling. This allows MapReducers and the MapWrapper to operate on the map while it is not displayed without fear of it rendering in the background. Note however that the instance does not easily give up resources and once initiated Cesium in particular can become a resource hog.
 
+
+<a id="mapping-with-cmc-tidbits"></a>
+### Tidbits
+
+*Openlayers 4 Tile Transitions*
+Openlayers v4.4.0 introduced an optional fade transition for loading tiles in tiled raster layers. This transition smooths the loading display of tiled layers during zooming and panning actions. However, with layers that change over time this transition can become tricky to accomodate when moving between dates and times for those layers. CMC incorporates two configuration variables to adjust how this transition affects the application's display. Note that all configurations attempt to maximize use of the CMC layer cache.
+
+* `TILE_LAYER_UPDATE_STRATEGY`: sets the approach by which a layer is updated over time
+  * `replace_tile`: maintains the previous layer display and incrementally replaces tiles as they load
+  * `replace_layer`: removes the previous layer display and incrementally adds tiles as they load
+* `DEFAULT_TILE_TRANSITION_TIME`: this sets the transtion duration (in ms) of the loaded tiles, set to `0` to disable
+
+CMC defaults use a slightly shortened transition time and uses the tile replacement strategy. To disable the transitions entirely and have an application display that appears as it would have before this feature was introduced, set `TILE_LAYER_UPDATE_STRATEGY` to `replace_layer` and `DEFAULT_TILE_TRANSITION_TIME` to `0`.
+
+*Openlayers Layer Cache*
+Openlayers tiled layer sources maintain a cache of tiles that have been loaded to improve performance during zooming and panning. CMC implements a cache on top of that to improve performance during date/time changes. When the date is changed and a layer is updated on the map, CMC stores a reference to the old layer in it's own layer cache so that the tile resources are maintained. If the date is changed to a date with a cached layer, the layer is pulled from the cache and new requests for tiles are not necessary (unless the view has been changed of course). In the case of the `TILE_LAYER_UPDATE_STRATEGY` being set to `replace_tile` (see above) the openlayers source (not the layer) is cached. To adjust the size of this layer cache, change the `MAX_LAYER_CACHE` configuration variable.
+
+
 # Intermission
 
 So at this point you're probably feeling like:
@@ -629,7 +695,6 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 ├── scripts                   # Node scripts that run build related tools
 │   ├── deployAssets          # Folder containing files used for deployment of CMC in a Dockerized NGINX server
 │   ├── build.js              # Runs the production build
-│   ├── buildHtml.js          # Builds index.html
 │   ├── distServer.js         # Starts webserver and opens final built app that's in dist in your default browser
 │   ├── deploy.bash           # Script for deploying built app to Github Pages
 │   ├── dockerDeploy.bash     # Script for deploying built app (with branch support) in Docker
@@ -1233,9 +1298,9 @@ Github pages are a great way to host static content right out of your Github rep
 <a id="main-tech-under-the-hood"></a>
 ## Main Technologies Under the Hood
 
-![Node dependencies](https://github.jpl.nasa.gov/CommonMappingClient/cmc-design/blob/master/screenshots/node_dependencies.png)
+![Node dependencies](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/node_dependencies.png)
 
-Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, d3, react-ga, etc.)
+Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, VisJS, react-ga, etc.)
 
 
 | **Tech** | **Description** |**Learn More**|
@@ -1244,10 +1309,10 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [Redux](http://redux.js.org) |  Enforces unidirectional data flows and immutable, hot reloadable store. Supports time-travel debugging. Lean alternative to [Facebook's Flux](https://facebook.github.io/flux/docs/overview.html).  |
 | [Cesium](http://cesiumjs.org) | An open-source JavaScript library for world-class 3D globes and maps. |
 | [Openlayers](http://openlayers.org) | A high-performance, feature-packed library for all your mapping needs. |
-| [d3](https://d3js.org/) | D3.js is a JavaScript library for manipulating documents based on data. |
+| [vis.js](http://visjs.org/) | vis.js is a library for creating lightweight, dynamic data visualizations. |
 | [fetch](https://github.com/github/fetch) | An easier Javascript request library adhering to the new Fetch standard. |
 | [Moment](http://momentjs.com/) | Parse, validate, manipulate, and display dates in JavaScript. |
-| [React-Toolbox](http://react-toolbox.com/) | Bootstrap your application with beautiful Material Design Components. |
+| [Material-UI](http://www.material-ui.com/) | React components that implement Google's Material Design. |
 | [TurfJS](http://turfjs.org/) | Advanced geospatial analysis for browsers and node. |
 | [ArcJS](https://github.com/springmeyer/arc.js/) | Great Circle routes in Javascript. |
 | [Proj4js](http://proj4js.org/) | JavaScript library to transform coordinates from one coordinate system to another, including datum transformations. |
@@ -1260,7 +1325,7 @@ Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this
 | [Prettier](https://github.com/prettier/prettier)| Prettier is an opinionated code formatter.| |
 | [SASS](http://sass-lang.com/) | Compiled CSS styles with variables, functions, and more. |
 | [npm Scripts](https://docs.npmjs.com/misc/scripts)| Glues all this together in a handy automated build. | [Why not Gulp?](https://medium.com/@housecor/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8#.vtaziro8n)  |
-| [postCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |
+| [PostCSS](http://postcss.org/)| PostCSS is an CSS autoprefixer that automatically adds vendor prefixes from Can I Use to your CSS to ensure cross-browser compatibility |
 | [showdown](https://github.com/showdownjs/showdown)| A Markdown to HTML converter written in Javascript |
 | [react-ga](https://github.com/react-ga/react-ga)| A JavaScript module that can be used to include Google Analytics tracking code in a website or app that uses React for its front-end codebase. |
 | [react-slingshot](https://github.com/coryhouse/react-slingshot)| The React/Redux/Webpack starter kit CMC is based off of. CMC has diverged a fair bit from React-Slingshot in many respects but still owes a great deal of its webpack structure, config, npm scripts, and dev server code to react-slingshot.
@@ -1275,3 +1340,37 @@ We welcome contributions and ask that you submit pull requests through a fork of
 For issue reporting please visit the github issues page for cmc-core [here](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues).
 
 If you use CMC for your project please let us know, we'd love to see what you're doing and add you to our list of projects that use CMC.
+
+
+<a id="copyright-and-license"></a>
+
+## Copyright and Export Classification
+
+```
+Copyright 2017, by the California Institute of Technology. ALL RIGHTS RESERVED.
+United States Government Sponsorship acknowledged. Any commercial use must be
+negotiated with the Office of Technology Transfer at the California Institute
+of Technology.
+
+This software is subject to U.S. export control laws and regulations and has
+been classified as EAR99.  By accepting this software, the user agrees to comply
+with all applicable U.S. export laws and regulations. User has the responsibility
+to obtain export licenses, or other export authority as may be required before
+exporting such information to foreign countries or providing access to foreign persons.
+```
+
+## Licensing
+
+```
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+```

@@ -180,6 +180,8 @@ var DrawHelper = (function() {
     var polylineMaterial = Cesium.Material.fromType(Cesium.Material.ColorType);
     // polylineMaterial.uniforms.color = new Cesium.Color.fromCssColorString(_self._defaultStrokeColor);
 
+    var drawingMaterial = Cesium.Material.fromType(Cesium.Material.PolylineDashType);
+
     var defaultShapeOptions = {
         ellipsoid: Cesium.Ellipsoid.WGS84,
         textureRotationAngle: 0.0,
@@ -206,14 +208,15 @@ var DrawHelper = (function() {
     });
 
     var defaultPolylineOptions = copyOptions(defaultShapeOptions, {
-        width: 5,
+        width: 3,
         geodesic: true,
         granularity: 10000,
         appearance: new Cesium.PolylineMaterialAppearance({
             aboveGround: false
         }),
         // material: material
-        material: polylineMaterial
+        // material: polylineMaterial
+        material: drawingMaterial
     });
 
     //    Cesium.Polygon.prototype.setStrokeStyle = setStrokeStyle;
@@ -308,7 +311,7 @@ var DrawHelper = (function() {
                 });
 
                 this._outlinePolygon = this._outlinePolygon && this._outlinePolygon.destroy();
-                if (this.strokeColor && this.getOutlineGeometry) {
+                if (this.strokeColor && this.getOutlineGeometry && this.showDrawingOutline) {
                     // create the highlighting frame
                     this._outlinePolygon = new Cesium.Primitive({
                         geometryInstances: new Cesium.GeometryInstance({
@@ -660,13 +663,13 @@ var DrawHelper = (function() {
     })();
 
     var defaultBillboard = {
-        iconUrl: "./assets/CesiumDrawHelper/img/dragIcon2.png",
+        iconUrl: "./assets/CesiumDrawHelper/img/dragIcon.png",
         shiftX: 0,
         shiftY: 0
     };
 
     var dragBillboard = {
-        iconUrl: "./assets/CesiumDrawHelper/img/dragIcon2.png",
+        iconUrl: "./assets/CesiumDrawHelper/img/dragIcon.png",
         shiftX: 0,
         shiftY: 0
     };
@@ -937,6 +940,7 @@ var DrawHelper = (function() {
         var poly = (fakePoly = null);
         var fakeMinPoints = (fakeMaxPoints = 0);
         if (isPolygon) {
+            options.showDrawingOutline = false;
             poly = new DrawHelper.PolygonPrimitive(options);
 
             // 09/07/16 MODIFICATION by Flynn Platt
@@ -1228,7 +1232,8 @@ var DrawHelper = (function() {
                             material: options.material,
                             strokeColor: new Cesium.Color.fromCssColorString(
                                 _self._defaultStrokeColor
-                            )
+                            ),
+                            showDrawingOutline: true
                         });
                         primitives.add(circle);
 
@@ -1694,16 +1699,14 @@ var DrawHelper = (function() {
                         var markers = new _.BillboardGroup(drawHelper, dragBillboard);
 
                         function getMarkerPositions() {
-                            return Cesium.Shapes
-                                .computeEllipseBoundary(
-                                    ellipsoid,
-                                    ellipse.getCenter(),
-                                    ellipse.getSemiMajorAxis(),
-                                    ellipse.getSemiMinorAxis(),
-                                    ellipse.getRotation() + Math.PI / 2,
-                                    Math.PI / 2.0
-                                )
-                                .splice(0, 4);
+                            return Cesium.Shapes.computeEllipseBoundary(
+                                ellipsoid,
+                                ellipse.getCenter(),
+                                ellipse.getSemiMajorAxis(),
+                                ellipse.getSemiMinorAxis(),
+                                ellipse.getRotation() + Math.PI / 2,
+                                Math.PI / 2.0
+                            ).splice(0, 4);
                         }
 
                         function onEdited() {

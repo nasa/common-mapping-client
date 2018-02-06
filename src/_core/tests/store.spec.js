@@ -1,6 +1,13 @@
-import * as AppActions from "_core/actions/AppActions";
-import * as MapActions from "_core/actions/MapActions";
-import * as DateSliderActions from "_core/actions/DateSliderActions";
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+import * as appActions from "_core/actions/appActions";
+import * as mapActions from "_core/actions/mapActions";
+import * as dateSliderActions from "_core/actions/dateSliderActions";
 import * as actionTypes from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
@@ -41,55 +48,41 @@ export const StoreSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const initActions = [
-                        MapActions.initializeMap(
-                            appStrings.MAP_LIB_2D,
-                            "map2D"
-                        ),
-                        MapActions.setMapView(
-                            { extent: appConfig.DEFAULT_BBOX_EXTENT },
-                            true
-                        )
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     initActions.forEach(action => store.dispatch(action));
                     setTimeout(() => {
                         const actions = [
-                            MapActions.setMapViewMode(
-                                appStrings.MAP_VIEW_MODE_3D
-                            ),
-                            MapActions.zoomIn(),
-                            MapActions.addGeometryToMap({
+                            mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
+                            mapActions.zoomIn(),
+                            mapActions.addGeometryToMap({
                                 type: appStrings.GEOMETRY_CIRCLE,
                                 center: { lon: 0, lat: 0 },
                                 radius: 500,
-                                coordinateType:
-                                    appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
                             }),
-                            MapActions.removeAllDrawings(),
-                            MapActions.removeAllMeasurements(),
-                            MapActions.setMapViewMode(
-                                appStrings.MAP_VIEW_MODE_2D
-                            ),
-                            MapActions.addGeometryToMap({
+                            mapActions.removeAllDrawings(),
+                            mapActions.removeAllMeasurements(),
+                            mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
+                            mapActions.addGeometryToMap({
                                 type: appStrings.GEOMETRY_CIRCLE,
                                 center: { lon: 10, lat: -20 },
                                 radius: 52200,
-                                coordinateType:
-                                    appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
                             }),
-                            MapActions.zoomIn(),
-                            MapActions.setTerrainEnabled(false),
-                            MapActions.setTerrainExaggeration(
+                            mapActions.zoomIn(),
+                            mapActions.setTerrainEnabled(false),
+                            mapActions.setTerrainExaggeration(
                                 appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value
                             ),
-                            MapActions.setScaleUnits(
-                                appConfig.SCALE_OPTIONS[1].value
-                            ),
-                            MapActions.zoomOut(),
-                            MapActions.resetOrientation(0),
-                            DateSliderActions.setDateResolution(
+                            mapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
+                            mapActions.zoomOut(),
+                            mapActions.resetOrientation(0),
+                            dateSliderActions.setDateResolution(
                                 appConfig.DATE_SLIDER_RESOLUTIONS[0]
                             ),
-                            AppActions.resetApplicationState()
+                            appActions.resetApplicationState()
                         ];
 
                         actions.forEach(action => store.dispatch(action));

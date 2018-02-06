@@ -1,0 +1,91 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+.opacityControl {
+    display: inline-block;
+}
+.opacityContent {
+    padding: 1.2rem 1.5rem;
+    padding-right: 1rem;
+    width: 170px;
+    height: 40px;
+}
+.opacityLabel {
+    composes: fontRobotoMono from "_core/styles/text.scss";
+    float: right;
+    margin-right: -5px;
+}
+.sliderRoot {
+    width: 100px;
+    padding: 6px 0;
+    display: inline-block;
+}
+
+.popperArrow {
+    composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
+    top: 0px !important;
+}
+
+/* RC-SLIDER OVERRIDES */
+:global(.rc-slider-step) {
+    height: 2px;
+}
+:global(.rc-slider-track) {
+    height: 2px;
+    background-color: $color-primary;
+}
+:global(.rc-slider-rail) {
+    height: 2px;
+}
+:global(.rc-slider-handle) {
+    margin-top: -6px;
+    background-color: $color-primary;
+    border: none;
+    &:after {
+        content: " ";
+        width: 14px;
+        height: 14px;
+        position: absolute;
+        border-radius: 50%;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 0.1s;
+        transition-property: transform;
+        background-color: $color-primary;
+    }
+    &:hover,
+    &:active {
+        background-color: $color-primary;
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
+        &:after {
+            // width: 34px;
+            // height: 34px;
+            background-color: rgba($color-primary, 0.3);
+            // position: absolute;
+            transform: scale(2);
+            // top: -10px;
+            // left: -10px;
+            // border-radius: 50%;
+        }
+    }
+    &:active {
+        &:after {
+            // content: " ";
+            // width: 34px;
+            // height: 34px;
+            background-color: $color-primary;
+            transform: scale(2);
+            // position: absolute;
+            // top: -10px;
+            // left: -10px;
+            // border-radius: 50%;
+        }
+    }
+}

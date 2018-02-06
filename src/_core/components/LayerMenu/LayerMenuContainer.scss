@@ -1,0 +1,92 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.layerMenu {
+    composes: light from "_core/styles/shadow.scss";
+    position: absolute;
+    width: 370px;
+    top: 15px;
+    left: 15px;
+    z-index: 0;
+    overflow: visible;
+    padding: 0px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    &.open {
+        .layerMenuContent {
+            max-height: calc(80vh - 130px);
+            opacity: 1;
+            transition: max-height 0.5s ease-out 0s, opacity 0.2s linear 0s;
+        }
+        .layerHeaderRow {
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-bottom: none;
+        }
+    }
+}
+
+.layerHeaderRow {
+    z-index: 1;
+    position: relative;
+    padding: 0.9rem;
+    height: 36px;
+    display: flex;
+    border-bottom: 1px solid #dedede;
+    border-radius: inherit;
+    background: #f3f3f3;
+
+    button {
+        position: relative;
+        top: -5px;
+    }
+}
+
+.layerHeader {
+    text-align: left;
+    display: flex;
+    flex: 1;
+
+    h3 {
+        line-height: 2rem;
+    }
+}
+
+.layerMenuContent {
+    z-index: 0;
+    display: block;
+    height: initial;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    width: 100%;
+    max-height: 30rem;
+    overflow: hidden;
+    overflow-y: scroll;
+    transition: max-height 0.3s ease-out 0s, opacity 0.2s linear 0s;
+    .toggle {
+        padding-left: 1.3rem;
+        padding-right: 0px;
+    }
+    .border {
+        padding-bottom: 0.7rem;
+    }
+}
+
+/* MUI component classes */
+.transform {
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.expand {
+    composes: transform;
+    transform: rotate(0deg);
+}
+.collapse {
+    composes: transform;
+    transform: rotate(180deg);
+}

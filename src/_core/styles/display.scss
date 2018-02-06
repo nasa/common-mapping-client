@@ -1,0 +1,78 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.hidden {
+    display: none;
+}
+
+.mouseHidden {
+    cursor: none;
+}
+
+.mouseVisible {
+    cursor: initial;
+}
+
+.noPointer {
+    pointer-events: none;
+}
+
+.visible {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.invisible {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hiddenFadeIn {
+    composes: visible;
+    transition: opacity 0.2s linear 0s;
+}
+
+.hiddenFadeOut {
+    composes: invisible;
+    transition: opacity 0.2s linear 0s;
+}
+
+.animationFadeOut {
+    animation: animationOpacityWithDisplayHide 0.5s both;
+}
+
+.animationFadeIn {
+    animation: animationOpacityWithDisplayShow 0.5s both;
+}
+
+@keyframes animationOpacityWithDisplayHide {
+    0% {
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        display: none;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes animationOpacityWithDisplayShow {
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    1% {
+        display: block;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
+}

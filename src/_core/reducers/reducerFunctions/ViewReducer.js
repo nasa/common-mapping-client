@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import Modernizr from "modernizr";
 import MiscUtil from "_core/utils/MiscUtil";
 import * as appStrings from "_core/constants/appStrings";
@@ -90,6 +97,10 @@ export default class ViewReducer {
 
     static setMapControlsToolsOpen(state, action) {
         return state.set("mapControlsToolsOpen", action.open);
+    }
+
+    static setMapControlsBasemapPickerOpen(state, action) {
+        return state.set("mapControlsBasemapPickerOpen", action.open);
     }
 
     static hideMapControls(state, action) {

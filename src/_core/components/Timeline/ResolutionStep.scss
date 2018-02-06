@@ -1,0 +1,60 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.container {
+    text-transform: capitalize;
+    text-align: center;
+    font-weight: 400;
+    z-index: 1;
+    width: 76px;
+    height: 60px;
+    margin-right: 15px;
+    .currentStepContainer {
+        height: 20px;
+        .currentStepPaper {
+            height: 100%;
+        }
+        .currentStepLabel {
+            font-size: 1.15rem;
+            text-transform: capitalize;
+            justify-content: start;
+            padding-left: 8px;
+            text-align: left;
+            line-height: 20px;
+            font-weight: 500;
+        }
+    }
+    .stepContainer {
+        height: 20px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+        .stepButtonLabel {
+            height: inherit;
+            color: white;
+        }
+        .stepIconContainer {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 20px;
+        }
+        button {
+            justify-content: start;
+            font-size: 1.15rem;
+            padding: 0;
+            padding-left: 8px;
+            text-transform: capitalize;
+            min-height: 0;
+            min-width: 0;
+            width: 100%;
+            height: 20px;
+            line-height: 10px;
+        }
+    }
+}

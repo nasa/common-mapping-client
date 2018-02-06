@@ -1,0 +1,22 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.menu {
+    position: relative;
+    z-index: 1;
+}
+
+.versionTagContainer {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    user-select: text;
+    background: $color-light;
+    padding: 5px 10px;
+}

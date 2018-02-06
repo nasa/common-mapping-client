@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 //This file merely configures the store for hot reloading.
 //This boilerplate file is likely to be the same for each project that uses Redux.
 //With Redux, the actual stores are in /reducers.

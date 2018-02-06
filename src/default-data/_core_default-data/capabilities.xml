@@ -549,7 +549,7 @@
             <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
-                <ScaleDenominator>223382916.9173819721</ScaleDenominator>
+                <ScaleDenominator>223632905.6114871</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -558,7 +558,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>1</ows:Identifier>
-                <ScaleDenominator>111691458.4586909860</ScaleDenominator>
+                <ScaleDenominator>111816452.8057436</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -567,7 +567,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>2</ows:Identifier>
-                <ScaleDenominator>55845729.2293454930</ScaleDenominator>
+                <ScaleDenominator>55908226.40287178</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -576,7 +576,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>3</ows:Identifier>
-                <ScaleDenominator>27922864.6146727465</ScaleDenominator>
+                <ScaleDenominator>27954113.20143589</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -585,7 +585,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>4</ows:Identifier>
-                <ScaleDenominator>13961432.3073363733</ScaleDenominator>
+                <ScaleDenominator>13977056.60071795</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -594,7 +594,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>5</ows:Identifier>
-                <ScaleDenominator>6980716.1536681866</ScaleDenominator>
+                <ScaleDenominator>6988528.300358973</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -603,7 +603,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>6</ows:Identifier>
-                <ScaleDenominator>3490358.0768340933</ScaleDenominator>
+                <ScaleDenominator>3494264.150179486</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -612,7 +612,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>7</ows:Identifier>
-                <ScaleDenominator>1745179.0384170467</ScaleDenominator>
+                <ScaleDenominator>1747132.075089743</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -621,7 +621,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>8</ows:Identifier>
-                <ScaleDenominator>872589.5192085233</ScaleDenominator>
+                <ScaleDenominator>873566.0375448716</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -630,7 +630,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>9</ows:Identifier>
-                <ScaleDenominator>436294.759604261675</ScaleDenominator>
+                <ScaleDenominator>436783.0187724358</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -639,7 +639,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>10</ows:Identifier>
-                <ScaleDenominator>218147.3798021308375</ScaleDenominator>
+                <ScaleDenominator>218391.5093862179</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>
@@ -648,7 +648,7 @@
             </TileMatrix>
             <TileMatrix>
                 <ows:Identifier>11</ows:Identifier>
-                <ScaleDenominator>109073.68990106541875</ScaleDenominator>
+                <ScaleDenominator>109195.75469310895</ScaleDenominator>
                 <TopLeftCorner>-180 90</TopLeftCorner>
                 <TileWidth>512</TileWidth>
                 <TileHeight>512</TileHeight>

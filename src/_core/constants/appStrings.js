@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 /* MAP */
 // map library types
 export const MAP_LIB_2D = "openlayers";
@@ -30,7 +37,6 @@ export const LAYER_XYZ_RASTER = "xyz_raster";
 export const LAYER_VECTOR_GEOJSON = "vector_geojson";
 export const LAYER_VECTOR_TOPOJSON = "vector_topojson";
 export const LAYER_VECTOR_KML = "vector_kml";
-export const LAYER_VECTOR_DRAWING = "vector_drawing";
 
 // layer colorbar formats
 export const COLORBAR_IMAGE = "image";
@@ -65,6 +71,10 @@ export const MEASURE_AREA = "Area";
 // interaction types
 export const INTERACTION_DRAW = "Draw";
 export const INTERACTION_MEASURE = "Measure";
+
+// Shape types
+export const SHAPE_DISTANCE = "Shape_Distance";
+export const SHAPE_AREA = "Shape_Area";
 
 // event types
 export const EVENT_MOUSE_HOVER = "mousemove";
@@ -102,6 +112,12 @@ export const PROJECTIONS = {
         proj4Def: "+proj=longlat +datum=WGS84 +no_defs",
         extent: [-180, -90, 180, 90]
     }
+};
+
+// tile layer updates
+export const TILE_LAYER_UPDATE_STRATEGIES = {
+    TILE: "replace_tile",
+    LAYER: "replace_layer"
 };
 /* END MAP */
 
@@ -190,6 +206,11 @@ export const ALERTS = {
         title: "Setting Timeline Resolution Failed",
         formatString: "Could not set the timeline resolution.",
         severity: 1
+    },
+    UNKNOWN_ASYNC_KEY: {
+        title: "Async Data Error",
+        formatString: "Unrecognized async key {KEY}",
+        severity: 2
     }
 };
 /* END ALERTS */

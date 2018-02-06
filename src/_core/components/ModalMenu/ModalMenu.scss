@@ -1,0 +1,37 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.modalMenu {
+    max-width: 550px;
+}
+
+.close {
+    margin-right: -12px;
+    margin-left: 20px;
+}
+
+.back {
+    margin-left: -12px;
+    margin-right: 20px;
+}
+
+/* MUI overrides */
+.appbar {
+    position: relative;
+}
+
+.flex {
+    flex: 1;
+}
+
+.root {
+    padding: 0px;
+}
+
+.paper {
+    overflow-y: inherit;
+}

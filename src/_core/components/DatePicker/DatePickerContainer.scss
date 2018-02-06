@@ -1,0 +1,19 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.datePickerContainer {
+    composes: medium from "_core/styles/shadow.scss";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 200px;
+    padding: 0px;
+    height: 6rem;
+    background: white;
+    border-top-right-radius: 2px;
+}

@@ -1,4 +1,11 @@
-import * as appActions from "_core/actions/AppActions";
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+import * as appActions from "_core/actions/appActions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";

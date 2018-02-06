@@ -1,12 +1,28 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Button, IconButton } from "react-toolbox/lib/button";
+import Collapse from "material-ui/transitions/Collapse";
+import Typography from "material-ui/Typography";
+import Tooltip from "material-ui/Tooltip";
+import KeyboardArrowUpIcon from "material-ui-icons/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "material-ui-icons/KeyboardArrowDown";
+import List from "material-ui/List";
+import Paper from "material-ui/Paper";
 import * as appStrings from "_core/constants/appStrings";
-import * as layerActions from "_core/actions/LayerActions";
-import LayerControlContainer from "_core/components/LayerMenu/LayerControlContainer";
+import * as mapActions from "_core/actions/mapActions";
+import { LayerControlContainer } from "_core/components/LayerMenu";
+import { IconButtonSmall } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
+import styles from "_core/components/LayerMenu/LayerMenuContainer.scss";
+import displayStyles from "_core/styles/display.scss";
 
 export class LayerMenuContainer extends Component {
     render() {
@@ -21,49 +37,63 @@ export class LayerMenuContainer extends Component {
 
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
-            open: this.props.layerMenuOpen,
-            "hidden-fade-out": this.props.distractionFreeMode,
-            "hidden-fade-in": !this.props.distractionFreeMode
+            [styles.layerMenu]: true,
+            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
+            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode
+        });
+
+        let collapseIconClasses = MiscUtil.generateStringFromSet({
+            [styles.expand]: !this.props.layerMenuOpen,
+            [styles.collapse]: this.props.layerMenuOpen
         });
 
         return (
-            <div id="layerMenu" className={layerMenuClasses}>
-                <div id="layerHeaderRow" className="row middle-xs">
-                    <div className="col-xs-8 text-left">
-                        <span className="layer-menu-header">LAYER CONTROLS</span>
-                        <span className="layer-menu-note">
-                            <span className="layer-menu-note-active">{activeNum}</span>/{totalNum}{" "}
-                            Active
-                        </span>
+            <div className={layerMenuClasses}>
+                <Paper elevation={1}>
+                    <div className={styles.layerHeaderRow}>
+                        <div className={styles.layerHeader}>
+                            <Typography variant="subheading" color="inherit">
+                                Map Layers
+                            </Typography>
+                        </div>
+                        <div className="text-right">
+                            <Tooltip
+                                title={
+                                    this.props.layerMenuOpen
+                                        ? "Close layer menu"
+                                        : "Open layer menu"
+                                }
+                                placement="bottom"
+                            >
+                                <IconButtonSmall
+                                    className={collapseIconClasses}
+                                    color="default"
+                                    onClick={() =>
+                                        this.props.setLayerMenuOpen(!this.props.layerMenuOpen)
+                                    }
+                                >
+                                    <KeyboardArrowDownIcon />
+                                </IconButtonSmall>
+                            </Tooltip>
+                        </div>
                     </div>
-                    <div className="col-xs-4 text-right">
-                        <IconButton
-                            neutral
-                            inverse
-                            data-tip={
-                                this.props.layerMenuOpen ? "Close layer menu" : "Open layer menu"
-                            }
-                            data-place="left"
-                            icon={
-                                this.props.layerMenuOpen
-                                    ? "keyboard_arrow_up"
-                                    : "keyboard_arrow_down"
-                            }
-                            className="no-padding mini-xs-waysmall"
-                            onClick={() => this.props.setLayerMenuOpen(!this.props.layerMenuOpen)}
-                        />
-                    </div>
-                </div>
-                <div id="layerMenuContent">
-                    {layerList.map(layer => (
-                        <LayerControlContainer
-                            key={layer.get("id") + "_layer_listing"}
-                            layer={layer}
-                            activeNum={activeNum}
-                            palette={this.props.palettes.get(layer.getIn(["palette", "name"]))}
-                        />
-                    ))}
-                </div>
+                    <Collapse in={this.props.layerMenuOpen} timeout="auto">
+                        <div className={styles.layerMenuContent}>
+                            <List disablePadding>
+                                {layerList.map(layer => (
+                                    <LayerControlContainer
+                                        key={layer.get("id") + "_layer_listing"}
+                                        layer={layer}
+                                        activeNum={activeNum}
+                                        palette={this.props.palettes.get(
+                                            layer.getIn(["palette", "name"])
+                                        )}
+                                    />
+                                ))}
+                            </List>
+                        </div>
+                    </Collapse>
+                </Paper>
             </div>
         );
     }
@@ -88,7 +118,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerMenuOpen: bindActionCreators(layerActions.setLayerMenuOpen, dispatch)
+        setLayerMenuOpen: bindActionCreators(mapActions.setLayerMenuOpen, dispatch)
     };
 }
 

@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import Immutable from "immutable";
 import turfLineDistance from "turf-line-distance";
 import turfArea from "turf-area";
@@ -14,10 +21,24 @@ import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
 
 export default class MapUtil {
+    /**
+     * Reference to a MiscUtil class
+     *
+     * @static
+     * @memberof MapUtil
+     */
     static miscUtil = MiscUtil;
 
-    // constrains coordinates to [+-180, +-90]
-    static constrainCoordinates(coords, limitY = true) {
+    /**
+     * constrains coordinates to [+-180, +-90]
+     *
+     * @static
+     * @param {array} coords Array of [lon,lat] values
+     * @param {boolean} [constrainY=true] true if the coordinates should be limited in the Y direction. Defaults to true
+     * @returns {array} array of coordinates contrained to [+-180, +-90]
+     * @memberof MapUtil
+     */
+    static constrainCoordinates(coords, constrainY = true) {
         // check for array of numbers
         if (
             typeof coords !== "object" ||
@@ -51,7 +72,7 @@ export default class MapUtil {
         }
 
         // constrain y
-        if (limitY) {
+        if (constrainY) {
             // simple top/bottom limit
             if (coords[1] > 0) {
                 newCoords[1] = Math.min(90, coords[1]);
@@ -82,8 +103,15 @@ export default class MapUtil {
         return newCoords;
     }
 
-    // deconstrain a set of polyline coordinates from [-180, 180]
-    // this is meant for polylines that cross the dateline.
+    /**
+     * Deconstrain a set of constrained coordinates. This is meant for polylines
+     * that cross the dateline.
+     *
+     * @static
+     * @param {array} linesArr array of line segement start & end coordinate arrays [[[lon,lat], [lon,lat], ...], ...]
+     * @returns {array} array of line segment start & end coordinate arrays with the coordinates deconstrained from [+-180, +-90]
+     * @memberof MapUtil
+     */
     static deconstrainArcCoordinates(linesArr) {
         // if there is only one polyline, then we assume no splitting has occured
         if (linesArr.length < 2) {
@@ -133,8 +161,15 @@ export default class MapUtil {
         return deconstrainedLine;
     }
 
-    // parses a getCapabilities xml string
-    // NOTE: uses openlayers to do the actual parsing
+    /**
+     * parses a getCapabilities xml string
+     * note that it uses openlayers to do the actual parsing
+     *
+     * @static
+     * @param {string} xmlString string of capabilities XML
+     * @returns {object} an opject of wmts cappabilities
+     * @memberof MapUtil
+     */
     static parseCapabilities(xmlString) {
         try {
             let parser = new Ol_Format_WMTSCapabilities();
@@ -145,8 +180,17 @@ export default class MapUtil {
         }
     }
 
-    // generates a set of wmts options for a layer
-    // NOTE: uses openlayers to do the actual info gathering
+    /**
+     * generates a set of wmts options for a layer
+     * note that it uses openlayers to do the actual info gathering
+     *
+     * @static
+     * @param {object} options options for matching up the capabilities for the layer
+     * - capabilities - {object} outfrom from parseCapabilities
+     * - options - {object} see config from http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities
+     * @returns {object} an object containing WMTS capabilities options for the layer or false if the matchup failed
+     * @memberof MapUtil
+     */
     static getWmtsOptions(options) {
         try {
             this.prepProjection();
@@ -179,7 +223,14 @@ export default class MapUtil {
             return false;
         }
     }
-
+    /**
+     * Sets the proj4 instance used by openlayers and initializes the default
+     * projection data within that instance
+     *
+     * @static
+     * @returns {object} the openlayers projection object for the default projection
+     * @memberof MapUtil
+     */
     static prepProjection() {
         // define the projection for this application and reproject defaults
         Ol_Proj.setProj4(proj4js);
@@ -209,7 +260,23 @@ export default class MapUtil {
         return mapProjection;
     }
 
-    // generates a WMTS tile url from the provided options
+    /**
+     * Generates a WMTS tile url from the provided options
+     *
+     * @static
+     * @param {object} options options for constructing the url
+     * - layerId - {string} layer identifier
+     * - url - {string} base url template
+     * - tileMatrixSet - {string} tile matrix
+     * - tileMatrixLabels - {object} mapping of zoom level to string representing that level in the url (optional)
+     * - col - {string|number} column number of this tile
+     * - row - {string|number} row number of this tile
+     * - format - {string} data format of this tile (image/png, image/jpg, etc)
+     * - context - {string} context this tile was requested from (if openlayers, then the row is inverted and shifted)
+     *
+     * @returns {string} a url string for the WMTS tile
+     * @memberof MapUtil
+     */
     static buildTileUrl(options) {
         let layerId = options.layerId;
         let url = options.url;
@@ -260,66 +327,128 @@ export default class MapUtil {
         return url;
     }
 
-    // Formats distance according to units
-    // input assumed in correct base units (meters/feet vs kilometers/miles)
+    /**
+     * Format distance according to the provided units
+     * input assumed in correct base units (meters/feet vs kilometers/miles)
+     *
+     * @static
+     * @param {number} distance the number to format
+     * @param {string} units the units to format this number into (metric, imperial, nautical, schoolbus)
+     * @returns {string} representing a formatted version of the value passed in
+     * @memberof MapUtil
+     */
     static formatDistance(distance, units) {
         // Type check on distance
         if (typeof distance !== "number") {
             return null;
         }
 
+        let number, unitsStr;
         if (units === "metric") {
             if (Math.abs(distance) >= 1000) {
-                return (distance / 1000).toFixed(2) + " km";
+                number = distance / 1000;
+                unitsStr = "km";
             } else {
-                return distance.toFixed(2) + " m";
+                number = distance;
+                unitsStr = "m";
             }
         } else if (units === "imperial") {
             if (Math.abs(distance) >= 5280) {
-                return (distance / 5280).toFixed(2) + " mi";
+                number = distance / 5280;
+                unitsStr = "mi";
             } else {
-                return distance.toFixed(2) + " ft";
+                number = distance;
+                unitsStr = "ft";
             }
         } else if (units === "nautical") {
-            return distance.toFixed(2) + " nmi";
+            number = distance;
+            unitsStr = "nmi";
         } else if (units === "schoolbus") {
-            return distance.toFixed(2) + " school buses";
+            number = distance;
+            unitsStr = "school buses";
         } else {
             return null;
         }
+
+        return this.formatNumber(number, { trim: false }) + " " + unitsStr;
     }
 
-    // Formats area according to units
-    // input assumed in correct base units (meters/feet vs kilometers/miles)
+    /**
+     * Format area according to the provided units
+     * input assumed in correct base units (meters/feet vs kilometers/miles)
+     *
+     * @static
+     * @param {number} area the number to format
+     * @param {string} units the units to format this number into (metric, imperial, nautical, schoolbus)
+     * @returns {string} representing a formatted version of the value passed in
+     * @memberof MapUtil
+     */
     static formatArea(area, units) {
         // Type check on area
         if (typeof area !== "number") {
             return null;
         }
 
+        let number, unitsStr;
         if (units === "metric") {
             if (Math.abs(area) >= 1000000) {
-                return (area / 1000000).toFixed(2) + " km<sup>2</sup>";
+                number = area / 1000000;
+                unitsStr = "km<sup>2</sup>";
             } else {
-                return area.toFixed(2) + " m<sup>2</sup>";
+                number = area;
+                unitsStr = "m<sup>2</sup>";
             }
         } else if (units === "imperial") {
             if (Math.abs(area) >= 27878400) {
-                return (area / 27878400).toFixed(2) + " mi<sup>2</sup>";
+                number = area / 27878400;
+                unitsStr = "mi<sup>2</sup>";
             } else {
-                return area.toFixed(2) + " ft<sup>2</sup>";
+                number = area;
+                unitsStr = "ft<sup>2</sup>";
             }
         } else if (units === "nautical") {
-            return area.toFixed(2) + " nmi<sup>2</sup>";
+            number = area;
+            unitsStr = "nmi<sup>2</sup>";
         } else if (units === "schoolbus") {
-            return area.toFixed(2) + " school buses<sup>2</sup>";
+            number = area;
+            unitsStr = "school buses<sup>2</sup>";
         } else {
             return null;
         }
+
+        return this.formatNumber(number, { trim: false }) + " " + unitsStr;
     }
 
-    // Converts area units
-    // input asssumed in meters squared, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
+    /**
+     * Format a number as a string with commas and fixed decimal places
+     *
+     * @static
+     * @param {number} number the number to format
+     * @param {object} options options for the formatting
+     * - fixedLen - {number} number of decimal places to format (default 2)
+     * - trim - {boolean} true if the formatted number should remove trailing 0s after the decimal ("1.20" --> "1.2")
+     * @returns {string} string of the formatted number
+     * @memberof MapUtil
+     */
+    static formatNumber(number, options = {}) {
+        let fixedLen = typeof options.fixedLen !== "undefined" ? options.fixedLen : 2;
+        let numberStr = options.trim
+            ? this.trimFloatString(number.toFixed(fixedLen))
+            : number.toFixed(fixedLen);
+        let parts = numberStr.split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+
+    /**
+     * Converts area in meters to another unit
+     *
+     * @static
+     * @param {number} value the value, in meters squared, to convert
+     * @param {string} units string representing the desired units
+     * @returns {number} input value converted to specified units
+     * @memberof MapUtil
+     */
     static convertAreaUnits(value, units) {
         let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
@@ -329,8 +458,15 @@ export default class MapUtil {
         }
     }
 
-    // Converts distance units
-    // input asssumed in meters, will convert to base unit (meters, feet, etc vs kilometers, miles, etc)
+    /**
+     * Converts distance in meters to another unit
+     *
+     * @static
+     * @param {number} value the value, in meters, to convert
+     * @param {string} units string representing the desired units
+     * @returns {number} input value converted to specified units
+     * @memberof MapUtil
+     */
     static convertDistanceUnits(value, units) {
         let unitEntry = this.miscUtil.findObjectInArray(appConfig.SCALE_OPTIONS, "value", units);
         if (units === "schoolbus") {
@@ -340,38 +476,63 @@ export default class MapUtil {
         }
     }
 
-    // remove trailing zeros from fixed width float string
+    /**
+     * remove trailing zeros from fixed width float string
+     *
+     * @static
+     * @param {string} value string representing float number to trim
+     * @returns {string} string float with trailing 0s removed
+     * @memberof MapUtil
+     */
     static trimFloatString(value) {
         return parseFloat(value).toString();
     }
 
-    // Calculates distance of a polyline using turf
-    // Expects an array of coordinates in form
-    // [ [lon,lat], ... ]
-    // Reprojects into EPSG:4326 first
+    /**
+     * Calculates the distance of a polyline using turf
+     * Reprojects into EPSG-4326 first
+     * Expects an array of coordinates in form
+     *
+     * @static
+     * @param {array} coords array of polyline coordintes [ [lon,lat], ... ]
+     * @param {string} proj projection of the coordinates
+     * @returns {number} distance of the polyline in meters or 0 if it fails
+     * @memberof MapUtil
+     */
     static calculatePolylineDistance(coords, proj) {
-        // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord =>
-            proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
-        );
-        // Calculate line distance
-        return turfLineDistance(
-            {
-                type: "Feature",
-                properties: {},
-                geometry: {
-                    type: "LineString",
-                    coordinates: newCoords
-                }
-            },
-            "meters"
-        );
+        try {
+            // Reproject from source to EPSG:4326
+            let newCoords = coords.map(coord =>
+                proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
+            );
+            // Calculate line distance
+            return turfLineDistance(
+                {
+                    type: "Feature",
+                    properties: {},
+                    geometry: {
+                        type: "LineString",
+                        coordinates: newCoords
+                    }
+                },
+                "meters"
+            );
+        } catch (err) {
+            console.warn("Error in MapUtil.calculatePolylineDistance: ", err);
+            return 0;
+        }
     }
 
-    // Calculates area of a polygon using turf
-    // Expects an array of coordinates in form
-    // [ [lon,lat], ... ]
-    // Reprojects into EPSG:4326 first
+    /**
+     * Calculates the area of a polyline using turf
+     * Reprojects into EPSG-4326 first
+     *
+     * @static
+     * @param {array} coords array of polygon coordintes [ [lon,lat], ... ]
+     * @param {string} proj projection of the coordinates
+     * @returns {number} area of the polygon in meters or 0 if it fails
+     * @memberof MapUtil
+     */
     static calculatePolygonArea(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord =>
@@ -391,10 +552,16 @@ export default class MapUtil {
         );
     }
 
-    // Calculates center point of a polygon using turf
-    // Expects an array of coordinates in form
-    // [ [lon,lat], ... ]
-    // Reprojects into EPSG:4326 first
+    /**
+     * Calculates center point of a polygon using turf
+     * Reprojects into EPSG-4326 first
+     *
+     * @static
+     * @param {array} coords array of polygon coordinates [ [lon,lat], ... ]
+     * @param {string} proj projection of the coordinates
+     * @returns {array} center coordinate of the polygon
+     * @memberof MapUtil
+     */
     static calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
         let newCoords = coords.map(coord =>
@@ -419,10 +586,15 @@ export default class MapUtil {
         ).geometry.coordinates;
     }
 
-    // takes line segments endpoints and generates a set
-    // of segments representing a geodesic arc
-    // [[[lat, lon], ...], ...]
-    // assumes EPSG:4326
+    /**
+     * Generate set of geodesic arc line segments for a polyline
+     * assumes EPSG-4326
+     *
+     * @static
+     * @param {array} coords line segment coordinates [[lat, lon], ...]
+     * @returns {array} set of line segments [[[lat, lon], ...], ...]
+     * @memberof MapUtil
+     */
     static generateGeodesicArcsForLineString(coords) {
         let lineCoords = [];
         for (let i = 0; i < coords.length - 1; ++i) {
@@ -482,8 +654,21 @@ export default class MapUtil {
         return lineCoords;
     }
 
-    // takes in a geometry and measurement type and
-    // returns a string measurement of that geometry
+    /**
+     * takes in a geometry and measurement type and
+     * returns a string measurement of that geometry
+     *
+     * @static
+     * @param {object} geometry the geometry to be measured
+     * - type - {string} describe the type of geometry (Circle|LineString|Polygon)
+     * - coordinates - {array} array of coordinate objects
+     *   - [{lon: {number}, lat: {number}}, ...]
+     * - proj - {string} projection of the of the coordinates
+     *
+     * @param {string} measurementType type of measurement (Distance|Area)
+     * @returns {string} measurement
+     * @memberof MapUtil
+     */
     static measureGeometry(geometry, measurementType) {
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
             console.warn(
@@ -523,7 +708,16 @@ export default class MapUtil {
         }
     }
 
-    // formats a given measurement for distance/area
+    /**
+     * format a measurement for distance or area
+     *
+     * @static
+     * @param {number} measurement the value of the measurement
+     * @param {string} measurementType (Distance|Area)
+     * @param {string} units (metric|imperial|nautical|schoolbus)
+     * @returns {string} formatted measurement
+     * @memberof MapUtil
+     */
     static formatMeasurement(measurement, measurementType, units) {
         if (measurementType === appStrings.MEASURE_DISTANCE) {
             return this.formatDistance(measurement, units);
@@ -539,6 +733,19 @@ export default class MapUtil {
     }
 
     // takes in a geometry and returns the coordinates for its label
+    /**
+     * calculate the position of a label for a given geometry.
+     * End point of a polyline, center of a polygon.
+     *
+     * @static
+     * @param {object} geometry to get a label for
+     * - type - {string} describe the type of geometry (Circle|LineString|Polygon)
+     * - coordinates - {array} array of coordinate objects
+     *   - [{lon: {number}, lat: {number}}, ...]
+     * - proj - {string} projection of the of the coordinates
+     * @returns {array} constrained coordinates of the label position
+     * @memberof MapUtil
+     */
     static getLabelPosition(geometry) {
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
@@ -563,8 +770,14 @@ export default class MapUtil {
         }
     }
 
-    // Takes in an extent as an array of strings or floats and returns an array with float representations of the strings or floats.
-    // Returns false if Array is wrong type or does not contain exactly four floats.
+    /**
+     * parse an array of strings representing a bounding box into an array of floats
+     *
+     * @static
+     * @param {array} extentStrArr set of floats or float strings
+     * @returns {array|boolean} list of floats or false if unable to generate a valid extent from the input
+     * @memberof MapUtil
+     */
     static parseStringExtent(extentStrArr) {
         // Check extentStrArr type
         if (!extentStrArr || !Array.isArray(extentStrArr) || extentStrArr.length !== 4) {

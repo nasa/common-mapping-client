@@ -8,8 +8,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -45,8 +43,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -82,8 +78,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
                 tileFunctions: {},
@@ -144,8 +138,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -201,8 +193,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -256,8 +246,6 @@ export const ACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: { openlayers: "esriCustom512" },
                 tileFunctions: { openlayers: "catsTile" },
@@ -307,8 +295,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -344,8 +330,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -381,8 +365,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
                 tileFunctions: {},
@@ -443,8 +425,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -500,8 +480,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
@@ -555,8 +533,6 @@ export const INACTIVE_LAYERS = {
             wmtsOptions: {
                 matrixSet: "",
                 requestEncoding: "",
-                tileFunction: "",
-                urlFunction: "",
                 extents: [],
                 urlFunctions: { openlayers: "esriCustom512" },
                 tileFunctions: { openlayers: "catsTile" },

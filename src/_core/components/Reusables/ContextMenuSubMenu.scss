@@ -1,0 +1,40 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.root {
+    composes: contextMenuItem from "_core/components/Reusables/MapToolsMenu.scss";
+    position: relative;
+}
+
+.subMenu {
+    position: absolute;
+    visibility: hidden;
+}
+
+.active {
+    visibility: visible;
+}
+
+.top {
+    top: 0px;
+}
+
+.bottom {
+    bottom: 0px;
+}
+
+.left {
+    right: 100%;
+}
+
+.right {
+    left: 100%;
+}
+
+.itemIcon {
+    composes: listItemIcon from "_core/components/Reusables/MapToolsMenu.scss";
+}

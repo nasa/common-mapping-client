@@ -1,0 +1,27 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.basemapPicker {
+    margin-top: 10px;
+}
+.image {
+    width: 100%;
+    height: 44px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.caption {
+    font-weight: 500;
+    padding: 2px 8px 2px 3px;
+}
+.buttonBase {
+    padding: 2px;
+    padding-bottom: 0px;
+}

@@ -1,0 +1,65 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.layerControl {
+    position: relative;
+    width: 100%;
+    margin: 0px;
+}
+.layerControlContent {
+    padding: 0px 13px;
+    height: 38px;
+}
+
+.iconButtonSmall {
+    width: 25px;
+    height: 25px;
+}
+
+.collapseEntered {
+    overflow: visible;
+}
+
+.layerControlIconRow {
+    position: relative;
+}
+
+.colorbar {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.popperArrow {
+    position: relative;
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid white;
+    &:after {
+        content: " ";
+        width: 0px;
+        height: 0px;
+        border-top: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid rgba(0, 0, 0, 0.05);
+        position: absolute;
+        z-index: -1;
+        top: -10px;
+        left: -10px;
+    }
+}
+
+/* MUI Overrides */
+.dense {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+}
+.secondaryActionRoot {
+    margin-top: -15px;
+}

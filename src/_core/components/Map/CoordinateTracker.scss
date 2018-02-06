@@ -1,0 +1,25 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.coordinateTracker {
+    position: absolute;
+    bottom: 75px;
+    right: 15px;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    padding: 0.1rem 0.5rem;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.26);
+    color: white;
+    box-shadow: none;
+    p {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,50 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.mapContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    background-color: $color-dark;
+}
+
+.mapRenderWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: $color-medium;
+}
+
+.mapRender {
+    width: 100%;
+    height: 100%;
+}
+
+// Cesium Overrides
+:global(.cesium-viewer),
+:global(.cesium-viewer-cesiumWidgetContainer),
+:global(.cesium-widget),
+:global(.cesium-widget canvas) {
+    height: 100%;
+    width: 100%;
+}
+
+:global(.cesium-viewer-bottom) {
+    display: none;
+}
+
+// Context Menu Overrides
+:global(.react-contextmenu-wrapper) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}

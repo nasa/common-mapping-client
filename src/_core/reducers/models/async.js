@@ -1,13 +1,21 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import Immutable from "immutable";
 
+export const asyncModel = {
+    loading: false,
+    failed: false
+};
+
 export const asyncState = Immutable.fromJS({
-    loadingInitialData: false,
-    initialLoadingAttempted: false,
-    loadingLayerSources: false,
-    layerLoadingAttempted: false,
-    loadingLayerPalettes: false,
-    paletteLoadingAttempted: false,
-    loadingLayerMetadata: false,
-    loadingMetadataAttempted: false,
+    initialDataAsync: asyncModel,
+    layerSourcesAsync: asyncModel,
+    layerPalettesAsync: asyncModel,
+    layerMetadataAsync: asyncModel,
     alerts: []
 });

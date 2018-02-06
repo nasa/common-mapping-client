@@ -1,0 +1,268 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+/*
+    These styles are inlined into the <head> of the built bundle.
+    This is useful for styling the loading screen and setting
+    global defaults.
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-size: 10px;
+    font-size: 62.5%;
+    font-weight: 400;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-smoothing: auto;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+    font-size: 1.4rem;
+    background-color: #444444;
+    cursor: default;
+    overflow: hidden;
+    color: #212121;
+    letter-spacing: normal;
+    user-select: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+p {
+    font-weight: 400;
+    color: #212121;
+    line-height: 2rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+code {
+    font-family: "Roboto Mono", monospace;
+    font-weight: 400;
+    background: #fefefe;
+    border: 1px solid #aaaaaa;
+    border-radius: 2px;
+    padding: 1px 5px 3px 5px;
+    font-size: 1.5rem;
+}
+
+input,
+textarea {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+.app {
+    width: 100%;
+    height: 100%;
+}
+
+/* APP LOADING SCREEN STYLES */
+
+.loadingContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 1;
+    transition: opacity 0.25s linear 1s;
+    background: white;
+    font-family: "Roboto Mono", Helvetica, Arial, sans-serif;
+    color: black;
+    font-size: 10px !important;
+    display: block;
+    box-shadow: inset 0px 0px 44px rgba(0, 0, 0, 0.05);
+}
+
+.loadingContent {
+    height: 385px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 50%;
+}
+
+.loadingAppTitle {
+    height: 29px;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.loadingAppAttribution {
+    position: relative;
+    top: 15px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.2015em;
+}
+
+// LOADING SPINNER BASED ON YOUTUBE SPINNER
+
+$spinner-line-width: 2px;
+$spinner-size: 18px;
+$line-spin-time: 1568ms;
+$rotator-time: 5332ms;
+$circle-time: 1333ms;
+
+.loadingSpinnerWrapper {
+    height: $spinner-size;
+    width: $spinner-size;
+    position: relative;
+    display: inline-block;
+    .loadingSpinner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        animation: loading-spinner-linspin $line-spin-time linear infinite;
+        .loadingSpinnerRotator {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: loading-spinner-easespin $rotator-time cubic-bezier(0.4, 0, 0.2, 1) infinite
+                both;
+        }
+        .loadingSpinnerCircle {
+            box-sizing: border-box;
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            border-style: solid;
+            border-color: black black transparent;
+            border-radius: 50%;
+            border-width: $spinner-line-width;
+        }
+        &.primary {
+            .loadingSpinnerCircle {
+                border-color: $color-primary $color-primary transparent;
+            }
+        }
+        .loadingSpinnerLeft {
+            right: 50%;
+        }
+        .loadingSpinnerRight {
+            left: 50%;
+        }
+        .loadingSpinnerLeft {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow: hidden;
+            .loadingSpinnerCircle {
+                left: 0;
+                right: -100%;
+                border-right-color: transparent;
+                animation: loading-spinner-left-spin $circle-time cubic-bezier(0.4, 0, 0.2, 1)
+                    infinite both;
+            }
+        }
+        .loadingSpinnerRight {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            .loadingSpinnerCircle {
+                left: -100%;
+                right: 0;
+                border-left-color: transparent;
+                animation: loading-spinner-right-spin $circle-time cubic-bezier(0.4, 0, 0.2, 1)
+                    infinite both;
+            }
+        }
+    }
+}
+
+@keyframes loading-spinner-linspin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes loading-spinner-easespin {
+    12.5% {
+        transform: rotate(135deg);
+    }
+    25% {
+        transform: rotate(270deg);
+    }
+    37.5% {
+        transform: rotate(405deg);
+    }
+    50% {
+        transform: rotate(540deg);
+    }
+    62.5% {
+        transform: rotate(675deg);
+    }
+    75% {
+        transform: rotate(810deg);
+    }
+    87.5% {
+        transform: rotate(945deg);
+    }
+    to {
+        transform: rotate(1080deg);
+    }
+}
+@keyframes loading-spinner-left-spin {
+    0% {
+        transform: rotate(130deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+    to {
+        transform: rotate(130deg);
+    }
+}
+@keyframes loading-spinner-right-spin {
+    0% {
+        transform: rotate(-130deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+    to {
+        transform: rotate(-130deg);
+    }
+}
+
+.loadingContainer {
+    .loadingSpinnerWrapper {
+        position: absolute;
+        bottom: 0px;
+        left: calc(50% - #{$spinner-size / 2});
+    }
+}

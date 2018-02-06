@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 // Wrapper class that abstracts the message listening of web workers
 
 import * as appStrings from "_core/constants/appStrings";

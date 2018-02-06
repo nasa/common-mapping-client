@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import Immutable from "immutable";
 import moment from "moment";
 import { layerModel, paletteModel } from "_core/reducers/models/map";
@@ -11,6 +18,7 @@ import { createMap } from "utils/MapCreator";
 //IMPORTANT: Note that with Redux, state should NEVER be changed.
 //State is considered immutable. Instead,
 //create a copy of the state passed and set new values on the copy.
+
 export default class MapReducer {
     static mapUtil = MapUtil;
     static miscUtil = MiscUtil;
@@ -990,13 +998,45 @@ export default class MapReducer {
     static addMeasurementLabelToGeometry(state, action) {
         let alerts = state.get("alerts");
 
-        // calculate measurement and placement
+        // calculate measurement from geometry
         let measurement = this.mapUtil.measureGeometry(action.geometry, action.measurementType);
+
+        // convert measurement to selected scale units
+        let measurementInSelectedScaleUnits;
+        if (action.measurementType === appStrings.MEASURE_AREA) {
+            measurementInSelectedScaleUnits = this.mapUtil.convertAreaUnits(
+                measurement,
+                action.units
+            );
+        } else if (action.measurementType === appStrings.MEASURE_DISTANCE) {
+            measurementInSelectedScaleUnits = this.mapUtil.convertDistanceUnits(
+                measurement,
+                action.units
+            );
+        } else {
+            // If unrecognized measurement type, create an alert and do not continue
+            alerts = alerts.push(
+                alert.merge({
+                    title: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.title,
+                    body: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.formatString.replace(
+                        "{MAP}",
+                        "2D & 3D"
+                    ),
+                    severity: appStrings.ALERTS.GEOMETRY_SYNC_FAILED.severity,
+                    time: new Date()
+                })
+            );
+            return state.set("alerts", alerts);
+        }
+
+        // format measurement label
         let measurementLabel = this.mapUtil.formatMeasurement(
-            measurement,
+            measurementInSelectedScaleUnits,
             action.measurementType,
             action.units
         );
+
+        // determine measurement label position from geometry
         let measurementPosition = this.mapUtil.getLabelPosition(action.geometry);
         let labelMeta = {
             meters: measurement,
@@ -1004,8 +1044,8 @@ export default class MapReducer {
             interactionType: appStrings.INTERACTION_MEASURE
         };
 
+        // add label to all maps since it's not done automatically for anyone
         state.get("maps").forEach(map => {
-            // add label to all maps since it's not done automatically for anyone
             if (!map.addLabel(measurementLabel, measurementPosition, labelMeta)) {
                 let contextStr = map.is3D ? "3D" : "2D";
                 alerts = alerts.push(

@@ -1,0 +1,56 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.colorbar {
+    width: 255px;
+    line-height: 1.2rem;
+    height: 25px;
+    display: inline-block;
+    background-repeat: repeat;
+    background-size: 50%;
+    position: relative;
+}
+.warning {
+    composes: fontRobotoMono from "_core/styles/text.scss";
+    position: relative;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.075rem;
+    font-weight: 600;
+}
+.typeNone {
+    height: 16px;
+    text-align: center;
+    color: #9e9e9e;
+    background: #eee;
+}
+
+.labelContainer {
+    composes: fontRobotoMono from "_core/styles/text.scss";
+    height: 1.1rem;
+    text-align: center;
+    line-height: 1rem;
+    width: 255px;
+    padding-top: 2px;
+}
+.label {
+    font-size: 1.1rem;
+    vertical-align: top;
+}
+.units {
+    composes: label;
+}
+
+.min {
+    composes: label;
+    float: left;
+}
+
+.max {
+    composes: label;
+    float: right;
+}

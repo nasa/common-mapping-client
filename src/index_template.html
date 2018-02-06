@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<!--
+    Copyright 2017 California Institute of Technology.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ -->
+
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#2d6f88" />
+    <title>Common Mapping Client</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="img/manifest.json">
+    <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <meta name="msapplication-config" content="img/browserconfig.xml">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Roboto+Mono:300,400,700">
+    <link rel="stylesheet" href="assets/mapskin/css/mapskin.min.css">
+    <link rel="stylesheet" href="assets/normalize/normalize.css">
+</head>
+
+<body>
+    <div id="loadingContainer" class="loadingContainer">
+        <div class="loadingContent">
+            <div class="loadingAppTitle">Common Mapping Client</div>
+            <div class="loadingAppAttribution">NASA/JPL</div>
+
+            <div class="loadingSpinnerWrapper">
+                <div class="loadingSpinner">
+                    <div class="loadingSpinnerRotator">
+                        <div class="loadingSpinnerLeft">
+                            <div class="loadingSpinnerCircle"></div>
+                        </div>
+                        <div class="loadingSpinnerRight">
+                            <div class="loadingSpinnerCircle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="app" class="app"></div>
+    <script src="config.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.js %>"></script>
+    <% if (htmlWebpackPlugin.options.isProduction) { %>
+        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+            <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.chunks[chunk].css %>"></link>
+        <% } %>
+    <% } %>
+</body>
+
+</html>

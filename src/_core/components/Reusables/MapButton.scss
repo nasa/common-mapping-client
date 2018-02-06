@@ -1,0 +1,30 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.mapButton {
+    width: 29px;
+    height: 29px;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    padding: 0;
+    border-radius: 0;
+    color: rgba(0, 0, 0, 0.54);
+    svg {
+        width: 19px;
+        height: 19px;
+    }
+}
+.label {
+    pointer-events: none;
+}
+
+.flatPrimary {
+    color: $color-primary;
+}

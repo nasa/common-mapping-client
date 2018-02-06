@@ -1,0 +1,30 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.preview {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    float: left;
+    background: $color-light;
+}
+
+/* MUI overrides */
+.menuItemRoot {
+    padding: 20px 10px;
+}
+
+.selectMenu {
+    height: 60px;
+    padding-top: 10px;
+}
+
+.selectMenuIcon {
+    top: 24px;
+}

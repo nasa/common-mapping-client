@@ -1,11 +1,18 @@
-// Karma configuration
-var webpack = require('webpack');
-var path = require('path');
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
-const webpackConfig = require('./webpack.config.helper')({
+// Karma configuration
+var webpack = require("webpack");
+var path = require("path");
+
+const webpackConfig = require("./webpack/webpack.config.helper")({
     isProduction: false,
-    node_env: 'test',
-    devtool: 'inline-source-map',
+    node_env: "test",
+    devtool: "inline-source-map",
     globals: {
         NO_WEB_GL: JSON.stringify(process.env.npm_config_nowebgl),
         INCLUDE_CORE_TESTS: JSON.stringify(process.env.npm_config_includecoretests)
@@ -16,18 +23,18 @@ var packageConfig = require("./package.json");
 
 module.exports = function(config) {
     config.set({
-
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: "",
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['mocha'],
+        frameworks: ["mocha"],
 
         // list of files / patterns to load in the browser
         files: [
-            'src/tests/**/*.spec.js',
-            './node_modules/es6-promise/dist/es6-promise.js', {
+            "src/tests/**/*.spec.js",
+            "./node_modules/es6-promise/dist/es6-promise.js",
+            {
                 pattern: "src/_core/tests/data/**/*",
                 included: false,
                 served: true
@@ -35,7 +42,7 @@ module.exports = function(config) {
         ],
 
         proxies: {
-            '/default-data': 'http://localhost:9876/base/src/_core/tests/data'
+            "/default-data": "http://localhost:9876/base/src/_core/tests/data"
         },
 
         // list of files to exclude
@@ -45,7 +52,7 @@ module.exports = function(config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             // add webpack as preprocessor
-            'src/tests/**/*.spec.js': ['webpack'],
+            "src/tests/**/*.spec.js": ["webpack"]
         },
 
         webpack: {
@@ -56,7 +63,7 @@ module.exports = function(config) {
         },
 
         webpackServer: {
-            stats: 'errors-only',
+            stats: "errors-only",
             noInfo: true
         },
 
@@ -67,10 +74,10 @@ module.exports = function(config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress', 'coverage', 'html'],
+        reporters: ["progress", "coverage", "html"],
 
         htmlReporter: {
-            outputFile: 'test-results/index.html',
+            outputFile: "test-results/index.html",
             pageTitle: packageConfig.name,
             subPageTitle: packageConfig.version,
             useCompactStyle: true,
@@ -78,9 +85,9 @@ module.exports = function(config) {
         },
 
         coverageReporter: {
-            type: 'html',
-            dir: 'test-results',
-            subdir: 'coverage'
+            type: "html",
+            dir: "test-results",
+            subdir: "coverage"
         },
 
         // web server port
@@ -98,13 +105,13 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: process.env.npm_config_nowebgl === "true" ? ['PhantomJS'] : ['Chrome'],
+        browsers: process.env.npm_config_nowebgl === "true" ? ["PhantomJS"] : ["Chrome"],
 
         // Custom launcher for headless CI testing (Travis)
         customLaunchers: {
             Chrome_travis_ci: {
-                base: 'Chrome',
-                flags: ['--no-sandbox', "--enable-webgl", "--ignore-gpu-blacklist"]
+                base: "Chrome",
+                flags: ["--no-sandbox", "--enable-webgl", "--ignore-gpu-blacklist"]
             }
         },
 

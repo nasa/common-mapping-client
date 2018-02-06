@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 /*global __VERSION__*/
 
 import moment from "moment";
@@ -70,12 +77,42 @@ export const MAX_DATE = moment(new Date())
     .add(1, "month")
     .toDate();
 export const DATE_SLIDER_RESOLUTIONS = [
-    { label: appStrings.SECONDS, resolution: 55900000, format: "YYYY MMM DD, hh:mm:ssa" },
-    { label: appStrings.MINUTES, resolution: 960000, format: "YYYY MMM DD, hh:mm:ssa" },
-    { label: appStrings.HOURS, resolution: 23500, format: "YYYY MMM DD, hh:mm:ssa" },
-    { label: appStrings.DAYS, resolution: 640, format: "YYYY MMM DD" },
-    { label: appStrings.MONTHS, resolution: 22, format: "YYYY MMM DD" },
-    { label: appStrings.YEARS, resolution: 1.6, format: "YYYY MMM DD" }
+    {
+        label: appStrings.SECONDS,
+        resolution: appStrings.SECONDS,
+        format: "YYYY MMM DD, HH:mm:ss",
+        visMajorFormat: "D MMMM HH:mm"
+    },
+    {
+        label: appStrings.MINUTES,
+        resolution: appStrings.MINUTES,
+        format: "YYYY MMM DD, HH:mm:ss",
+        visMajorFormat: "ddd D MMMM"
+    },
+    {
+        label: appStrings.HOURS,
+        resolution: appStrings.HOURS,
+        format: "YYYY MMM DD, HH:mm:ss",
+        visMajorFormat: "ddd D MMMM"
+    },
+    {
+        label: appStrings.DAYS,
+        resolution: appStrings.DAYS,
+        format: "YYYY MMM DD",
+        visMajorFormat: "MMMM YYYY"
+    },
+    {
+        label: appStrings.MONTHS,
+        resolution: appStrings.MONTHS,
+        format: "YYYY MMM DD",
+        visMajorFormat: "YYYY"
+    },
+    {
+        label: appStrings.YEARS,
+        resolution: appStrings.YEARS,
+        format: "YYYY MMM DD",
+        visMajorFormat: "YYYY"
+    }
 ];
 export const DEFAULT_DATE_SLIDER_RESOLUTION = DATE_SLIDER_RESOLUTIONS[3];
 /* END DATE */
@@ -127,12 +164,14 @@ export const TERRAIN_EXAGGERATION_OPTIONS = [
     { value: 10, label: "10" }
 ];
 
-export const GEOMETRY_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
-export const GEOMETRY_STROKE_COLOR = "rgba(255, 204, 0, 1)";
-export const GEOMETRY_STROKE_WEIGHT = 3;
+export const GEOMETRY_FILL_COLOR = "rgba(255, 255, 255, 0.1)";
+export const GEOMETRY_STROKE_COLOR = "rgba(255, 255, 255, 1)";
+export const GEOMETRY_STROKE_WEIGHT = 2;
+export const GEOMETRY_OUTLINE_COLOR = "rgba(0, 0, 0, 1)";
 
-export const MEASURE_FILL_COLOR = "rgba(255, 255, 255, 0.2)";
-export const MEASURE_STROKE_COLOR = "rgba(255, 255, 255, 0.75)";
+export const TILE_LAYER_UPDATE_STRATEGY = appStrings.TILE_LAYER_UPDATE_STRATEGIES.TILE; // {openlayers only} strategy for updating tile layers
+export const DEFAULT_TILE_TRANSITION_TIME = 150; // {openlayers only} set to 0 to disable http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html
+
 /* END MAP */
 
 /* WORKERS */

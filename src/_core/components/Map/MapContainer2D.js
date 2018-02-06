@@ -1,10 +1,19 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as actions from "_core/actions/MapActions";
+import * as mapActions from "_core/actions/mapActions";
 import * as appStrings from "_core/constants/appStrings";
 import MiscUtil from "_core/utils/MiscUtil";
+import styles from "_core/components/Map/MapContainer.scss";
+import displayStyles from "_core/styles/display.scss";
 
 export class MapContainer2D extends Component {
     constructor(props) {
@@ -64,7 +73,7 @@ export class MapContainer2D extends Component {
         // Only fire move event if this map is active
         // and target inactive map
         if (map.isActive) {
-            this.props.actions.setMapView(
+            this.props.mapActions.setMapView(
                 {
                     extent: map.getExtent(),
                     projection: map.getProjection()
@@ -77,29 +86,29 @@ export class MapContainer2D extends Component {
     handlePixelHover(map, pixel) {
         // Only fire move event if this map is active
         if (map.isActive) {
-            this.props.actions.pixelHover(pixel);
+            this.props.mapActions.pixelHover(pixel);
         }
     }
 
     handlePixelClick(map, clickEvt) {
         // Only fire move event if this map is active
         if (map.isActive) {
-            this.props.actions.pixelClick(clickEvt);
+            this.props.mapActions.pixelClick(clickEvt);
         }
     }
 
     handleDrawEnd(geometry) {
         // Disable drawing
-        this.props.actions.disableDrawing();
+        this.props.mapActions.disableDrawing();
     }
 
     handleMeasureEnd(geometry, measurementType) {
         // Disable measurement
-        this.props.actions.disableMeasuring();
+        this.props.mapActions.disableMeasuring();
         // Add geometry to other maps
-        this.props.actions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, false);
+        this.props.mapActions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, false);
         // Add label to geometry
-        this.props.actions.addMeasurementLabelToGeometry(
+        this.props.mapActions.addMeasurementLabelToGeometry(
             geometry,
             measurementType,
             this.props.units
@@ -114,12 +123,15 @@ export class MapContainer2D extends Component {
         }
 
         let containerClass = MiscUtil.generateStringFromSet({
-            inactive: this.props.in3DMode
+            [styles.mapRenderWrapper]: true,
+            [displayStyles.hidden]: this.props.in3DMode,
+            [displayStyles.animationFadeIn]: !this.props.in3DMode,
+            [displayStyles.animationFadeOut]: this.props.in3DMode
         });
 
         return (
-            <div id="mapContainer2D" className={containerClass}>
-                <div id="map2D" />
+            <div className={containerClass}>
+                <div id="map2D" className={styles.mapRender} />
             </div>
         );
     }
@@ -130,7 +142,7 @@ MapContainer2D.propTypes = {
     units: PropTypes.string.isRequired,
     in3DMode: PropTypes.bool.isRequired,
     initialLoadComplete: PropTypes.bool.isRequired,
-    actions: PropTypes.object.isRequired
+    mapActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -144,7 +156,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(actions, dispatch)
+        mapActions: bindActionCreators(mapActions, dispatch)
     };
 }
 

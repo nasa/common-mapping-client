@@ -1,0 +1,105 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.root {
+    color: $color-dark;
+    padding: 1.6rem 2.1rem 2.6rem 2.1rem;
+    height: auto;
+    max-height: 100%;
+    letter-spacing: normal;
+    font-size: 1.5rem;
+    user-select: text;
+    h1 {
+        font-size: 2.7rem;
+        margin: 2rem 0px 0.5rem 0px;
+    }
+    h2 {
+        font-size: 2.4rem;
+        margin: 2rem 0px 0.5rem 0px;
+    }
+    h3 {
+        font-size: 2.2rem;
+        margin: 2.2rem 0px 1rem 0px;
+        line-height: 32px;
+    }
+    h3:first-child {
+        margin-top: 1rem;
+    }
+    h4 {
+        font-size: 1.6rem;
+        font-weight: 500;
+        margin: 5px 0px;
+    }
+    h5 {
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: lighten($color-dark, 20%);
+        padding: 0px 1.5rem;
+        padding-left: 0;
+        margin: 0px;
+        font-style: italic;
+    }
+    p {
+        font-weight: 400;
+        padding: 0px 1.5rem;
+        padding-left: 0px;
+        margin: 0px;
+        color: $color-dark;
+        margin-bottom: 1.4rem;
+    }
+    hr {
+        height: 0.1rem;
+        background-color: $color-medium;
+        border: 0;
+        width: 90%;
+    }
+    strong {
+        font-weight: 500;
+    }
+    ul,
+    ol {
+        margin-top: 0.5rem;
+        padding-left: 2.1rem;
+        ul {
+            padding-left: 2rem;
+        }
+    }
+    ul {
+        li {
+            line-height: 1.8rem;
+        }
+    }
+    li {
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+        line-height: 1.6rem;
+        color: lighten($color-dark, 10%);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        th {
+            font-weight: 500;
+        }
+        th,
+        td {
+            padding: 8px 0px;
+            height: 26px;
+            width: 50%;
+        }
+        tr {
+            line-height: 2.7rem;
+            border-bottom: 1px solid #efefef;
+        }
+        > thead > tr > th:nth-child(2),
+        > tbody > tr > td:nth-child(2) {
+            text-align: left !important;
+        }
+    }
+}

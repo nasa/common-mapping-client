@@ -1,0 +1,16 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+const options = {
+    node_env: "production",
+    isProduction: true
+};
+
+const config = require("./webpack.config.helper")(options);
+const modConfig = require("./webpack.config.mod")(config);
+
+export default modConfig;

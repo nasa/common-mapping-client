@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 // largely a copy/paste replacement of https://github.com/vkbansal/react-contextmenu/blob/master/src/submenu/index.js
 
 import React, { Component } from "react";
@@ -5,10 +12,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ReactDOM from "react-dom";
-import { MenuItem } from "react-contextmenu";
-import { Button } from "react-toolbox/lib/button";
-import FontIcon from "react-toolbox/lib/font_icon";
+import { ListItemIcon, ListItemText } from "material-ui/List";
+import { MenuList, MenuItem } from "material-ui/Menu";
+import Paper from "material-ui/Paper";
+import Divider from "material-ui/Divider";
+import Button from "material-ui/Button";
+import PlusIcon from "material-ui-icons/Add";
+import KeyboardArrowRightIcon from "material-ui-icons/KeyboardArrowRight";
 import MiscUtil from "_core/utils/MiscUtil";
+import styles from "_core/components/Reusables/ContextMenuSubMenu.scss";
 
 const MENU_STYLES = {
     position: "relative",
@@ -60,6 +72,7 @@ export class ContextMenuSubMenu extends Component {
         return position;
     }
     handleClick(e) {
+        e.currentTarget.blur();
         e.preventDefault();
         if (this.closetimer) clearTimeout(this.closetimer);
         if (this.opentimer) clearTimeout(this.opentimer);
@@ -93,47 +106,48 @@ export class ContextMenuSubMenu extends Component {
     }
 
     render() {
-        let { disabled, children, title, icon, customIcon, tabIndex } = this.props;
+        let { disabled, children, title, icon, tabIndex } = this.props;
 
-        let menuClasses = "context-menu-item submenu";
+        // let menuClasses = "context-menu-item submenu";
         let subMenuClasses = MiscUtil.generateStringFromSet({
-            "context-menu-sub-menu": true,
-            active: this.visible,
-            top: this.position.top,
-            bottom: this.position.bottom,
-            left: this.position.left,
-            right: this.position.right
+            [styles.subMenu]: true,
+            [styles.active]: this.visible,
+            [styles.top]: this.position.top,
+            [styles.bottom]: this.position.bottom,
+            [styles.left]: this.position.left,
+            [styles.right]: this.position.right
         });
-        let labelClasses = MiscUtil.generateStringFromSet({
-            "context-menu-item context-menu-sub-menu-label": true,
-            disabled: disabled,
-            active: this.visible
+
+        let containerClasses = MiscUtil.generateStringFromSet({
+            [styles.root]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
 
         return (
             <div
                 ref="menu"
-                className={menuClasses}
+                className={containerClasses}
                 style={MENU_STYLES}
                 onMouseEnter={() => this.handleMouseEnter()}
                 onMouseLeave={() => this.handleMouseLeave()}
             >
-                <Button
+                <MenuItem
+                    dense
                     tabIndex={tabIndex}
-                    primary={this.visible}
                     aria-label={title}
-                    className={labelClasses}
                     onClick={e => this.handleClick(e)}
-                    label={icon ? title : ""}
-                    icon={icon || ""}
                 >
-                    <i className={customIcon} />
-                    <span className="context-menu-label">{customIcon ? title : ""}</span>
-                    <FontIcon value="keyboard_arrow_right" className="button-icon-right" />
-                </Button>
-                <div className={subMenuClasses} ref="submenu">
-                    {children}
-                </div>
+                    <ListItemIcon classes={{ root: styles.itemIcon }}>
+                        {this.props.icon}
+                    </ListItemIcon>
+                    <ListItemText inset primary={title} />
+                    <ListItemIcon classes={{ root: styles.itemIcon }}>
+                        <KeyboardArrowRightIcon />
+                    </ListItemIcon>
+                </MenuItem>
+                <Paper className={subMenuClasses} ref="submenu">
+                    <MenuList dense>{children}</MenuList>
+                </Paper>
             </div>
         );
     }
@@ -141,13 +155,13 @@ export class ContextMenuSubMenu extends Component {
 
 ContextMenuSubMenu.propTypes = {
     title: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    customIcon: PropTypes.string.isRequired,
+    icon: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     showDelay: PropTypes.number,
     tabIndex: PropTypes.number,
     hideDelay: PropTypes.number,
-    children: PropTypes.array
+    children: PropTypes.array,
+    className: PropTypes.string
 };
 
 export default connect()(ContextMenuSubMenu);

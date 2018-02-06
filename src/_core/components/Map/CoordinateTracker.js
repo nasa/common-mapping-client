@@ -1,27 +1,40 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Paper from "material-ui/Paper";
 import MiscUtil from "_core/utils/MiscUtil";
-import MouseCoordinates from "_core/components/MouseFollower/MouseCoordinates";
+import { MouseCoordinates } from "_core/components/MouseFollower";
+import styles from "_core/components/Map/CoordinateTracker.scss";
+import displayStyles from "_core/styles/display.scss";
 
 export class CoordinateTracker extends Component {
     render() {
         let containerClasses = MiscUtil.generateStringFromSet({
-            active: !this.props.mapControlsHidden,
-            "distraction-free": this.props.distractionFreeMode
+            [styles.coordinateTracker]: true,
+            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
+            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
 
         return (
-            <div id="mouseCoordinateTracker" className={containerClasses}>
+            <Paper elevation={2} className={containerClasses}>
                 <MouseCoordinates />
-            </div>
+            </Paper>
         );
     }
 }
 
 CoordinateTracker.propTypes = {
     distractionFreeMode: PropTypes.bool.isRequired,
-    mapControlsHidden: PropTypes.bool.isRequired
+    mapControlsHidden: PropTypes.bool.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

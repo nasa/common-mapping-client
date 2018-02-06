@@ -1,8 +1,14 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import * as actionTypes from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
-import * as mapActions from "_core/actions/MapActions";
-import * as layerActions from "_core/actions/LayerActions";
+import * as mapActions from "_core/actions/mapActions";
 import * as initialIngest from "_core/tests/data/expectedOutputs/initialIngest";
 import * as activateInactivateLayers from "_core/tests/data/expectedOutputs/activateInactivateLayers";
 import { createStore, compose, applyMiddleware } from "redux";
@@ -22,6 +28,7 @@ import { webWorkerState } from "_core/reducers/models/webWorker";
 import TestUtil from "_core/tests/TestUtil";
 import MiscUtil from "_core/utils/MiscUtil";
 import moment from "moment";
+import Immutable from "immutable";
 
 const initialState = {
     map: mapState,
@@ -1665,7 +1672,7 @@ export const StoreMapSpec = {
                         ),
                         mapActions.addMeasurementLabelToGeometry(
                             geometryPolygon,
-                            appStrings.MEASURE_DISTANCE,
+                            appStrings.MEASURE_AREA,
                             "metric"
                         )
                     ];
@@ -1785,7 +1792,7 @@ export const StoreMapSpec = {
                         ),
                         mapActions.addMeasurementLabelToGeometry(
                             geometryPolygon,
-                            appStrings.MEASURE_DISTANCE,
+                            appStrings.MEASURE_AREA,
                             "metric"
                         )
                     ];
@@ -1996,9 +2003,7 @@ export const StoreMapSpec = {
             },
 
             test33: () => {
-                it("can injest wmts and json layer configurations as well as palette configurations. Big test.", function(
-                    done
-                ) {
+                it("can injest wmts and json layer configurations as well as palette configurations. Big test.", function(done) {
                     // adjust default timeout
                     this.timeout(30000);
                     let _context = this;
@@ -2011,7 +2016,7 @@ export const StoreMapSpec = {
                     );
 
                     store.dispatch(
-                        layerActions.loadInitialData(function() {
+                        mapActions.loadInitialData(function() {
                             const actual = store.getState();
                             actual.map = actual.map.remove("maps");
 
@@ -2025,13 +2030,36 @@ export const StoreMapSpec = {
                                 )
                                 .set("layers", mapState.get("layers").merge(initialIngest.LAYERS))
                                 .removeIn(["layers", "partial"]);
+
                             expected.asynchronous = expected.asynchronous
-                                .set("loadingInitialData", false)
-                                .set("initialLoadingAttempted", true)
-                                .set("loadingLayerSources", false)
-                                .set("layerLoadingAttempted", true)
-                                .set("loadingLayerPalettes", false)
-                                .set("paletteLoadingAttempted", true);
+                                .set(
+                                    "initialDataAsync",
+                                    Immutable.fromJS({
+                                        loading: false,
+                                        failed: false
+                                    })
+                                )
+                                .set(
+                                    "layerSourcesAsync",
+                                    Immutable.fromJS({
+                                        loading: false,
+                                        failed: false
+                                    })
+                                )
+                                .set(
+                                    "layerPalettesAsync",
+                                    Immutable.fromJS({
+                                        loading: false,
+                                        failed: false
+                                    })
+                                )
+                                .set(
+                                    "layerMetadataAsync",
+                                    Immutable.fromJS({
+                                        loading: false,
+                                        failed: false
+                                    })
+                                );
 
                             TestUtil.compareFullStates(actual, expected);
                             done();
@@ -2057,12 +2085,9 @@ export const StoreMapSpec = {
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
                         mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
-                        layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive(
-                            "GHRSST_L4_G1SST_Sea_Surface_Temperature",
-                            true
-                        ),
-                        layerActions.setLayerActive("facilities_kml", true)
+                        mapActions.setLayerActive("facilities_kml", true),
+                        mapActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                        mapActions.setLayerActive("facilities_kml", true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -2095,12 +2120,9 @@ export const StoreMapSpec = {
 
                     const actions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive(
-                            "GHRSST_L4_G1SST_Sea_Surface_Temperature",
-                            true
-                        ),
-                        layerActions.setLayerActive("facilities_kml", true)
+                        mapActions.setLayerActive("facilities_kml", true),
+                        mapActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true),
+                        mapActions.setLayerActive("facilities_kml", true)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -2144,15 +2166,15 @@ export const StoreMapSpec = {
                     const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
                         mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
-                        layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
+                        mapActions.setLayerActive("facilities_kml", true),
+                        mapActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
                     ];
                     initialActions.forEach(action => store.dispatch(action));
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
                         store.dispatch(
-                            layerActions.setLayerActive(
+                            mapActions.setLayerActive(
                                 "GHRSST_L4_G1SST_Sea_Surface_Temperature",
                                 false
                             )
@@ -2199,15 +2221,15 @@ export const StoreMapSpec = {
 
                     const initialActions = [
                         mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        layerActions.setLayerActive("facilities_kml", true),
-                        layerActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
+                        mapActions.setLayerActive("facilities_kml", true),
+                        mapActions.setLayerActive("GHRSST_L4_G1SST_Sea_Surface_Temperature", true)
                     ];
                     initialActions.forEach(action => store.dispatch(action));
 
                     // use a timeout to give facilities layer time to load
                     setTimeout(() => {
                         store.dispatch(
-                            layerActions.setLayerActive(
+                            mapActions.setLayerActive(
                                 "GHRSST_L4_G1SST_Sea_Surface_Temperature",
                                 false
                             )

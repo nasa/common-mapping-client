@@ -1,10 +1,27 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import fetch from "isomorphic-fetch";
 import objectAssign from "object-assign";
 import * as appStrings from "_core/constants/appStrings";
 
 export default class MiscUtil {
-    // takes in an object mapping strings (as keys) to booleans
-    // and returns a space separated string of those keys that map to true
+    /**
+     * create a single, space separated string from an object containing
+     * a set of string-bool mappings. Each key with a true
+     * value is added to the string
+     *
+     * Example: generateStringFromSet({a: false, b: true, c: true}) --> "b c"
+     *
+     * @static
+     * @param {object} classSet {string: bool, string: bool, ...}
+     * @returns {string} space separated string of all keys with a true value
+     * @memberof MiscUtil
+     */
     static generateStringFromSet(classSet) {
         if (typeof classSet === "object") {
             return Object.keys(classSet)
@@ -21,6 +38,16 @@ export default class MiscUtil {
         }
     }
 
+    /**
+     * Find an object within an array of similar objects given an access key
+     *
+     * @static
+     * @param {array} array set of objects to search
+     * @param {any} key key by which to access/compare the objects
+     * @param {any} val matching value to search for
+     * @returns {any} object matching the key-val or false if none was found
+     * @memberof MiscUtil
+     */
     static findObjectInArray(array, key, val) {
         if (typeof key === "string") {
             for (let i = 0; i < array.length; ++i) {
@@ -41,6 +68,17 @@ export default class MiscUtil {
         return false;
     }
 
+    /**
+     * find all objects that match the provided key-val from within the
+     * provided set
+     *
+     * @static
+     * @param {array} array set of objects to search
+     * @param {any} key key by which to access/compare the objects
+     * @param {any} val matching value to search for
+     * @returns {array} of all objects matching the key-val or false if none were found
+     * @memberof MiscUtil
+     */
     static findAllMatchingObjectsInArray(array, key, val) {
         return array.filter(element => {
             return (
@@ -50,6 +88,18 @@ export default class MiscUtil {
         });
     }
 
+    /**
+     * Find an object within an array of similar objects given an access key
+     *
+     * @static
+     * @param {array} array set of objects to search
+     * @param {any} key key by which to access/compare the objects
+     * @param {any} val matching value to search for
+     * @returns {object|bool} object of match or false if none was found
+     *  - value - {any} object matching the key-value
+     *  - index - {number} index in the set of the match
+     * @memberof MiscUtil
+     */
     static findObjectWithIndexInArray(array, key, val) {
         for (let i = 0; i < array.length; ++i) {
             if (
@@ -65,6 +115,15 @@ export default class MiscUtil {
         return false;
     }
 
+    /**
+     * get a function for comparing Immutable objects in a sort
+     * function
+     *
+     * @static
+     * @param {any} field field to access within the objects
+     * @returns {function} function for comparing objects in a sort
+     * @memberof MiscUtil
+     */
     static getImmutableObjectSort(field) {
         return (objA, objB) => {
             let fieldA = objA.get(field);
@@ -80,6 +139,14 @@ export default class MiscUtil {
         };
     }
 
+    /**
+     * convert an rgb or hex string into a formatted hex string
+     *
+     * @static
+     * @param {string} colorStr rgb or hex color string
+     * @returns {string} formatted "#xxxxxx" colorstring
+     * @memberof MiscUtil
+     */
     static getHexFromColorString(colorStr) {
         let rgbExp = /[0-9]{1,3}(,|, | )[0-9]{1,3}(,|, | )[0-9]{1,3}/;
         let hexExp = /[0-9A-Fa-f]{6}/;
@@ -92,6 +159,14 @@ export default class MiscUtil {
         return "";
     }
 
+    /**
+     * convert rgb color string to hex colorstring
+     *
+     * @static
+     * @param {string} colorStr rgb color string
+     * @returns {string} formatted "#xxxxxx" colorstring
+     * @memberof MiscUtil
+     */
     static convertRgbToHex(colorStr) {
         let rgbExp = /[0-9]{1,3}/g;
         let rgbParts = colorStr.match(rgbExp);
@@ -113,6 +188,14 @@ export default class MiscUtil {
         return "";
     }
 
+    /**
+     * format a hex color string
+     *
+     * @static
+     * @param {string} colorStr hex color string
+     * @returns {string} formatted "#xxxxxx" colorstring
+     * @memberof MiscUtil
+     */
     static formatHex(colorStr) {
         let hexExp = /[0-9A-Fa-f]{6}/;
         let hexParts = colorStr.match(hexExp);
@@ -123,6 +206,12 @@ export default class MiscUtil {
         return "";
     }
 
+    /**
+     * force the application window into fullscreen
+     *
+     * @static
+     * @memberof MiscUtil
+     */
     static enterFullScreen() {
         let element = document.documentElement;
         if (element.requestFullscreen) {
@@ -136,6 +225,12 @@ export default class MiscUtil {
         }
     }
 
+    /**
+     * force the application window out of fullscreen
+     *
+     * @static
+     * @memberof MiscUtil
+     */
     static exitFullscreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
@@ -146,6 +241,13 @@ export default class MiscUtil {
         }
     }
 
+    /**
+     * check if the application is currently in fullscreen
+     *
+     * @static
+     * @returns {boolean} true of the application is fullscreen
+     * @memberof MiscUtil
+     */
     static getIsInFullScreenMode() {
         return (
             document.fullscreenElement ||
@@ -154,6 +256,15 @@ export default class MiscUtil {
         );
     }
 
+    /**
+     * convert an ImmutableJS map of key-value pairs to
+     * a string of "key=val&key2=val2"
+     *
+     * @static
+     * @param {ImmutableJS.Map} params map of key-value pairs
+     * @returns {string} URL arg style string "key=val&key2=val2"
+     * @memberof MiscUtil
+     */
     static objectToUrlParams(params) {
         let arr = params.reduce((acc, el, i) => {
             acc.push(i + "=" + el);
@@ -162,6 +273,14 @@ export default class MiscUtil {
         return arr.join("&");
     }
 
+    /**
+     * parse url query string into a set of key-value pairs
+     *
+     * @static
+     * @param {string} urlStr URL query string
+     * @returns {array} list of {key: val} pairs
+     * @memberof MiscUtil
+     */
     static parseUrlQueryString(urlStr) {
         // return urlStr.replace(/^\?\/?|\/$/g, '').split('&').reduce((acc, param) => {
         return urlStr
@@ -184,11 +303,27 @@ export default class MiscUtil {
             }, []);
     }
 
+    /**
+     * extract application query string from the url.
+     * Taken from the hash string
+     *
+     * @static
+     * @returns {string} url query string
+     * @memberof MiscUtil
+     */
     static getUrlParams() {
         // return this.parseUrlQueryString(window.location.search);
         return this.parseUrlQueryString(window.location.hash);
     }
 
+    /**
+     * check if a url is cross-origin or not
+     *
+     * @static
+     * @param {string} url url string to check
+     * @returns {boolean} true if the url is cross-origin
+     * @memberof MiscUtil
+     */
     static urlIsCrossorigin(url) {
         let a = document.createElement("a");
 
@@ -206,14 +341,38 @@ export default class MiscUtil {
         return protocol !== a.protocol || host !== a.host;
     }
 
+    /**
+     * open a url in a new tab
+     *
+     * @static
+     * @param {string} url url to open
+     * @memberof MiscUtil
+     */
     static openLinkInNewTab(url) {
         window.open(url, "_blank");
     }
 
+    /**
+     * open a new mailto link
+     *
+     * @static
+     * @param {string} address email address to open the mailto to
+     * @memberof MiscUtil
+     */
     static mailTo(address) {
         window.location.href = "mailto:" + address;
     }
 
+    /**
+     * pad the front of a number string to a specified length
+     *
+     * @static
+     * @param {number|string} num number to pad
+     * @param {number} length desired length of the number string
+     * @param {string} [pad="0"] the string to padd with
+     * @returns {string} string number front padded to the specified length
+     * @memberof MiscUtil
+     */
     static padNumber(num, length, pad = "0") {
         // convert the number to a string
         num = num + "";
@@ -239,6 +398,17 @@ export default class MiscUtil {
         return num;
     }
 
+    /**
+     * fetch a remote resource using an async request
+     *
+     * @static
+     * @param {object} options set of request options
+     * - url - {string} the url of the resource
+     * - handleAs - {string} resource type (json|markdown|xml)
+     * - options - {object} fetch specific options https://github.com/matthew-andrews/isomorphic-fetch
+     * @returns {Promise} a promise that is resolved when the resource has loaded and been through the initial processing
+     * @memberof MiscUtil
+     */
     static asyncFetch(options) {
         let url = options.url;
         let handleAs = options.handleAs;

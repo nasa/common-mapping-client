@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import { expect } from "chai";
 import * as appStrings from "_core/constants/appStrings";
 import { webWorkerState } from "_core/reducers/models/webWorker";
@@ -9,13 +16,7 @@ export const WebWorkerSpec = {
         default: {
             test1: () => {
                 it("The state model creates a worker manager that defaults to having no workers active", function(done) {
-                    if (
-                        TestUtil.skipIfNoWebGL(
-                            "WebWorkerSpec.default.test1",
-                            this,
-                            done
-                        )
-                    ) {
+                    if (TestUtil.skipIfNoWebGL("WebWorkerSpec.default.test1", this, done)) {
                         return;
                     }
                     let manager = webWorkerState.get("workerManager");
@@ -30,13 +31,7 @@ export const WebWorkerSpec = {
             },
             test2: () => {
                 it("Can create and clear workers", function(done) {
-                    if (
-                        TestUtil.skipIfNoWebGL(
-                            "WebWorkerSpec.default.test2",
-                            this,
-                            done
-                        )
-                    ) {
+                    if (TestUtil.skipIfNoWebGL("WebWorkerSpec.default.test2", this, done)) {
                         return;
                     }
                     let manager = webWorkerState.get("workerManager");
@@ -58,13 +53,7 @@ export const WebWorkerSpec = {
             },
             test3: () => {
                 it("Queue up jobs for workers", function(done) {
-                    if (
-                        TestUtil.skipIfNoWebGL(
-                            "WebWorkerSpec.default.test3",
-                            this,
-                            done
-                        )
-                    ) {
+                    if (TestUtil.skipIfNoWebGL("WebWorkerSpec.default.test3", this, done)) {
                         return;
                     }
                     let numWorkers = 2;
@@ -91,9 +80,7 @@ export const WebWorkerSpec = {
                     Promise.all(promiseArr).then(
                         data => {
                             expect(manager.workersTotal()).to.equal(numWorkers);
-                            expect(manager.workersAvailable()).to.equal(
-                                numWorkers
-                            );
+                            expect(manager.workersAvailable()).to.equal(numWorkers);
                             manager.clearWorkers();
                             done();
                         },

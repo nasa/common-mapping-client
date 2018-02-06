@@ -1,0 +1,21 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.positionControl {
+    display: inline-block;
+}
+.positionButton {
+    min-height: 0;
+    height: 20px;
+    display: inline-block;
+    height: 26px;
+    line-height: 0px;
+}
+.popperArrow {
+    composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
+    top: -11px !important;
+}

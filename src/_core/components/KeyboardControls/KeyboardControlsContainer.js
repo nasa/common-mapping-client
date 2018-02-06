@@ -1,15 +1,23 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
-import * as mapActions from "_core/actions/MapActions";
-import * as dateSliderActions from "_core/actions/DateSliderActions";
+import * as mapActions from "_core/actions/mapActions";
+import * as dateSliderActions from "_core/actions/dateSliderActions";
 import appConfig from "constants/appConfig";
 import * as appStrings from "_core/constants/appStrings";
 import KeyHandler, { KEYUP, KEYDOWN } from "react-key-handler";
+import displayStyles from "_core/styles/display.scss";
 
-const SPEED_FAST = 100;
+const SPEED_FAST = 150;
 const SPEED_SLOW = 500;
 
 export class KeyboardControlsContainer extends Component {
@@ -174,20 +182,20 @@ export class KeyboardControlsContainer extends Component {
 
     handleKeyDown_ArrowUp() {
         // Key conflicts: Timeline resolution and layer menu opacity slider
-        let focusEl = document.activeElement.getAttribute("data-react-toolbox");
+        // let focusEl = document.activeElement.getAttribute("data-react-toolbox");
         // If we're focused on slider, do not adjust timeline
-        if (focusEl !== "slider") {
-            this.adjustDateSliderTimeResolution(true);
-        }
+        // if (focusEl !== "slider") {
+        this.adjustDateSliderTimeResolution(false);
+        // }
     }
 
     handleKeyDown_ArrowDown() {
         // Key conflicts: Timeline resolution and layer menu opacity slider
-        let focusEl = document.activeElement.getAttribute("data-react-toolbox");
+        // let focusEl = document.activeElement.getAttribute("data-react-toolbox");
         // If we're focused on slider, do not adjust timeline
-        if (focusEl !== "slider") {
-            this.adjustDateSliderTimeResolution(false);
-        }
+        // if (focusEl !== "slider") {
+        this.adjustDateSliderTimeResolution(true);
+        // }
     }
 
     zoomIn() {
@@ -220,7 +228,7 @@ export class KeyboardControlsContainer extends Component {
 
     render() {
         return (
-            <div className="hidden">
+            <div className={displayStyles.hidden}>
                 <KeyHandler
                     keyEventName={KEYUP}
                     keyValue="Escape"

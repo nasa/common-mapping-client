@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 // View Actions
 export const COMPLETE_INITIAL_LOAD = "COMPLETE_INITIAL_LOAD";
 export const SET_LAYER_MENU_OPEN = "SET_LAYER_MENU_OPEN";
@@ -14,6 +21,7 @@ export const SET_FULL_SCREEN = "SET_FULL_SCREEN";
 export const SET_SETTINGS_OPEN = "SET_SETTINGS_OPEN";
 export const SET_DISTRACTION_FREE_MODE = "SET_DISTRACTION_FREE_MODE";
 export const SET_MAP_CONTROL_TOOLS_OPEN = "SET_MAP_CONTROL_TOOLS_OPEN";
+export const SET_MAP_CONTROL_BASEMAP_PICKER_OPEN = "SET_MAP_CONTROL_BASEMAP_PICKER_OPEN";
 export const HIDE_MAP_CONTROLS = "HIDE_MAP_CONTROLS";
 
 // Draw Actions
@@ -59,14 +67,7 @@ export const REMOVE_ALL_DRAWINGS = "REMOVE_ALL_DRAWINGS";
 export const REMOVE_ALL_MEASUREMENTS = "REMOVE_ALL_MEASUREMENTS";
 
 // Async Actions
-export const INITIAL_DATA_LOADING = "INITIAL_DATA_LOADING";
-export const INITIAL_DATA_LOADED = "INITIAL_DATA_LOADED";
-export const LAYER_DATA_LOADING = "LAYER_DATA_LOADING";
-export const LAYER_DATA_LOADED = "LAYER_DATA_LOADED";
-export const PALETTE_DATA_LOADING = "PALETTE_DATA_LOADING";
-export const PALETTE_DATA_LOADED = "PALETTE_DATA_LOADED";
-export const LAYER_METADATA_LOADING = "LAYER_METADATA_LOADING";
-export const LAYER_METADATA_LOADED = "LAYER_METADATA_LOADED";
+export const SET_ASYNC_LOADING_STATE = "SET_ASYNC_LOADING_STATE";
 
 // Date Slider Actions
 export const BEGIN_DRAGGING = "BEGIN_DRAGGING";

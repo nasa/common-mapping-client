@@ -1,4 +1,11 @@
-import * as DateSliderActions from "_core/actions/DateSliderActions";
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+import * as dateSliderActions from "_core/actions/dateSliderActions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -35,7 +42,7 @@ export const StoreDateSliderSpec = {
                 it("begins dragging", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [DateSliderActions.beginDragging(true)];
+                    const actions = [dateSliderActions.beginDragging(true)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -51,8 +58,8 @@ export const StoreDateSliderSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        DateSliderActions.beginDragging(true),
-                        DateSliderActions.endDragging(false)
+                        dateSliderActions.beginDragging(true),
+                        dateSliderActions.endDragging(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

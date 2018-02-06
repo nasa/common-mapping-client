@@ -1,0 +1,296 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.elementsContainer {
+    position: absolute;
+    bottom: 0px;
+    left: 20rem;
+    width: calc(100% - 20rem);
+    display: flex;
+}
+.timelineBackground {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+    flex: 1;
+    display: flex;
+}
+.container {
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    :global(.vis-foreground) {
+        overflow: visble;
+    }
+    &.overflow {
+        overflow: visible;
+    }
+    &.timelineDragging {
+        :global(.vis-time-axis):global(.vis-foreground) {
+            :global(.vis-text):hover {
+                &:after {
+                    background: none;
+                }
+            }
+        }
+    }
+}
+.stepSize_seconds {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -19px;
+        }
+        :global(.vis-text):global(.vis-major) {
+            margin-left: -18px;
+            text-align: left;
+            padding: 3px 16px;
+            div {
+                text-align: center;
+            }
+        }
+    }
+}
+.stepSize_minutes {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -24px;
+        }
+        :global(.vis-text):global(.vis-major) {
+            margin-left: -23px;
+            text-align: left;
+            padding: 3px 10px;
+            div {
+                text-align: center;
+            }
+        }
+    }
+}
+.stepSize_hours {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -30px;
+        }
+        :global(.vis-text):global(.vis-major) {
+            margin-left: -28px;
+            text-align: left;
+            padding: 3px 15px;
+            div {
+                text-align: center;
+            }
+        }
+    }
+}
+.stepSize_days {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -15px;
+        }
+        :global(.vis-text):global(.vis-major) {
+            margin-left: -13px;
+            text-align: left;
+            padding: 3px 10px;
+            div {
+                text-align: center;
+            }
+        }
+    }
+}
+.stepSize_months {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -30px;
+        }
+        :global(.vis-text):global(.vis-major) {
+            margin-left: -32px;
+            text-align: left;
+            padding: 3px 22px;
+            div {
+                text-align: center;
+            }
+        }
+    }
+}
+.stepSize_years {
+    :global(.vis-time-axis) {
+        :global(.vis-text):global(.vis-minor) {
+            margin-left: -38px;
+        }
+    }
+}
+
+:global(.vis-time-axis) {
+    overflow: visible;
+    :global(.vis-text):global(.vis-minor) {
+        overflow: visible;
+        height: 28px;
+        margin-top: -10px;
+        padding-top: 10px;
+        top: 14px !important;
+    }
+}
+.timeline {
+    height: 70px;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    z-index: 1;
+    &:before,
+    &:after {
+        content: " ";
+        width: 34px;
+        background: #dcdcdc;
+        height: 2px;
+        top: 24px;
+        position: relative;
+    }
+    :global(.vis-panel) > :global(.vis-content) {
+        top: -5px !important;
+    }
+    :global(.vis-timeline) {
+        cursor: grab !important;
+        border: none;
+        position: relative;
+        bottom: -10px;
+        visibility: visible !important;
+        width: 100%;
+        height: 60px;
+        overflow: visible;
+    }
+    :global(.vis-point) {
+        top: 21px !important;
+        border: none;
+    }
+    :global(.vis-item):global(.vis-point):global(.vis-selected) {
+        background: none;
+    }
+    :global(.vis-item) :global(.vis-item-content) {
+        margin-left: 14px !important;
+        padding: 0;
+    }
+    :global(.vis-drag-center) {
+        display: none;
+    }
+    :global(.vis-time-axis) {
+        :global(.vis-text) {
+            font-size: 1.2rem;
+            line-height: 1.6rem;
+            font-weight: 300;
+            color: white;
+            text-align: center;
+            &:hover {
+                &:after {
+                    content: " ";
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(222, 222, 222, 0.32);
+                    position: absolute;
+                    left: 0;
+                    z-index: -1;
+                    border-radius: 2px;
+                    top: 0px;
+                }
+            }
+            &:global(.vis-minor) {
+                &:hover:after {
+                    // top: -2px;
+                    border-top-left-radius: 0px;
+                    border-top-right-radius: 0px;
+                }
+            }
+            &:global(.vis-major) {
+                &:hover:after {
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                }
+            }
+        }
+    }
+    :global(.vis-time-axis) :global(.vis-grid):global(.vis-major):after {
+        content: " ";
+        height: 44px;
+        width: 1px;
+        position: absolute;
+        background: #dcdcdc;
+        left: -51%;
+    }
+    :global(.vis-time-axis) :global(.vis-grid):global(.vis-major),
+    :global(.vis-time-axis) :global(.vis-grid):global(.vis-minor) {
+        height: 4px !important;
+        top: 16px !important;
+        border-color: #dcdcdc;
+    }
+    :global(.vis-panel) :global(.vis-shadow) {
+        box-shadow: none;
+    }
+    :global(.vis-panel) {
+        border: none;
+    }
+    :global(.vis-panel):global(.vis-center) {
+        border-top: none;
+        height: 17px !important;
+        overflow: initial;
+        border-bottom: 2px solid #dcdcdc;
+        &:active {
+            cursor: grabbing;
+        }
+    }
+    :global(.vis-selected):global(.vis-editable) {
+        cursor: inherit;
+    }
+    :global(.vis-dot) {
+        background: white;
+        border: none;
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
+        transition: transform 0.2s ease-out;
+        &:active {
+            transform: scale(1.15);
+            cursor: grabbing;
+        }
+        &:after {
+            content: " ";
+            background: rgba(255, 255, 255, 0.349);
+            border: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            display: block;
+            top: -5px;
+            left: -5px;
+            position: relative;
+        }
+    }
+}
+
+.container {
+    &.timelineDragging {
+        .timeline {
+            :global(.vis-timeline) {
+                cursor: grabbing !important;
+            }
+        }
+    }
+}
+
+.dotTooltip {
+    transform: translateX(-50%);
+    background: white;
+    padding: 5px 9px;
+    border-radius: 2px;
+    box-sizing: content-box;
+    position: absolute;
+    top: -42px;
+    opacity: 1;
+    pointer-events: all;
+    text-align: center;
+    transition: opacity 0.1s ease-in-out;
+}
+
+.dotTooltipHidden {
+    composes: dotTooltip;
+    opacity: 0;
+    pointer-events: none;
+}

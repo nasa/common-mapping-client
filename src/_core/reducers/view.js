@@ -1,3 +1,10 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import * as actionTypes from "_core/constants/actionTypes";
 import { viewState } from "_core/reducers/models/view";
 import ViewReducer from "_core/reducers/reducerFunctions/ViewReducer";
@@ -27,6 +34,9 @@ export default function view(state = viewState, action, opt_reducer = ViewReduce
 
         case actionTypes.SET_MAP_CONTROL_TOOLS_OPEN:
             return opt_reducer.setMapControlsToolsOpen(state, action);
+
+        case actionTypes.SET_MAP_CONTROL_BASEMAP_PICKER_OPEN:
+            return opt_reducer.setMapControlsBasemapPickerOpen(state, action);
 
         case actionTypes.HIDE_MAP_CONTROLS:
             return opt_reducer.hideMapControls(state, action);

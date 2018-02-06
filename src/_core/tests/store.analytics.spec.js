@@ -1,5 +1,12 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import * as actionTypes from "_core/constants/actionTypes";
-import * as analyticsActions from "_core/actions/AnalyticsActions";
+import * as analyticsActions from "_core/actions/analyticsActions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";

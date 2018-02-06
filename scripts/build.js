@@ -1,35 +1,50 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 // More info on Webpack's Node API here: https://webpack.github.io/docs/node.js-api.html
+
 // Allowing console calls below since this is a build file.
 /*eslint-disable no-console */
-import webpack from 'webpack';
-import config from '../webpack.config.prod';
-import colors from 'colors';
 
-process.env.NODE_ENV = JSON.stringify('production'); // this assures React is built in prod mode and that the Babel dev config doesn't apply.
+import webpack from "webpack";
+import config from "../webpack/webpack.config.prod";
+import colors from "colors";
 
-console.log('Generating minified bundle for production via Webpack. This will take a moment...'.blue);
+process.env.NODE_ENV = JSON.stringify("production"); // this assures React is built in prod mode and that the Babel dev config doesn't apply.
+
+console.log(
+    "Generating minified bundle for production via Webpack. This will take a moment...".blue
+);
 
 webpack(config).run((err, stats) => {
-  if (err) { // so a fatal error occurred. Stop here.
-    console.log(err.bold.red);
-    return 1;
-  }
+    if (err) {
+        // so a fatal error occurred. Stop here.
+        console.log(err.bold.red);
+        return 1;
+    }
 
-  const jsonStats = stats.toJson();
+    const jsonStats = stats.toJson();
 
-  if (jsonStats.hasErrors) {
-    return jsonStats.errors.map(error => console.log(error.red));
-  }
+    if (jsonStats.hasErrors) {
+        return jsonStats.errors.map(error => console.log(error.red));
+    }
 
-  if (jsonStats.hasWarnings) {
-    console.log('Webpack generated the following warnings: '.bold.yellow);
-    jsonStats.warnings.map(warning => console.log(warning.yellow));
-  }
+    if (jsonStats.hasWarnings) {
+        console.log("Webpack generated the following warnings: ".bold.yellow);
+        jsonStats.warnings.map(warning => console.log(warning.yellow));
+    }
 
-  console.log(`Webpack stats: ${stats}`);
+    console.log(`Webpack stats: ${stats}`);
 
-  // if we got this far, the build succeeded.
-  console.log('Your app has been compiled in production mode and written to /dist. It\'s ready to roll!'.green);
+    // if we got this far, the build succeeded.
+    console.log(
+        "Your app has been compiled in production mode and written to /dist. It's ready to roll!"
+            .green
+    );
 
-  return 0;
+    return 0;
 });

@@ -1,0 +1,19 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import "~styles/colors";
+
+.controlLabel {
+    background: $color-primary;
+    padding: 3px 5px;
+    font-size: 1.2rem;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}

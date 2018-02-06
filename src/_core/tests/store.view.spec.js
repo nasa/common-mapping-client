@@ -1,5 +1,12 @@
-import * as AppActions from "_core/actions/AppActions";
-import * as LayerActions from "_core/actions/LayerActions";
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+import * as appActions from "_core/actions/appActions";
+import * as mapActions from "_core/actions/mapActions";
 import appConfig from "constants/appConfig";
 import { createStore } from "redux";
 import { expect } from "chai";
@@ -39,15 +46,9 @@ export const StoreViewSpec = {
                     const store = createStore(rootReducer, initialState);
                     const actual = store.getState();
 
-                    expect(actual.view.get("title")).to.equal(
-                        appConfig.APP_TITLE
-                    );
-                    expect(actual.view.get("subtitle")).to.equal(
-                        appConfig.APP_SUBTITLE
-                    );
-                    expect(actual.view.get("version")).to.equal(
-                        appConfig.APP_VERSION
-                    );
+                    expect(actual.view.get("title")).to.equal(appConfig.APP_TITLE);
+                    expect(actual.view.get("subtitle")).to.equal(appConfig.APP_SUBTITLE);
+                    expect(actual.view.get("version")).to.equal(appConfig.APP_VERSION);
                 });
             },
 
@@ -55,16 +56,13 @@ export const StoreViewSpec = {
                 it("can complete initial load", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [AppActions.completeInitialLoad()];
+                    const actions = [appActions.completeInitialLoad()];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.view = expected.view.set(
-                        "initialLoadComplete",
-                        true
-                    );
+                    expected.view = expected.view.set("initialLoadComplete", true);
 
                     TestUtil.compareFullStates(actual, expected);
                 });
@@ -74,7 +72,7 @@ export const StoreViewSpec = {
                 it("can set full screen enabled", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [AppActions.setFullScreenMode(true)];
+                    const actions = [appActions.setFullScreenMode(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -92,8 +90,8 @@ export const StoreViewSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        AppActions.setFullScreenMode(true),
-                        AppActions.setFullScreenMode(false)
+                        appActions.setFullScreenMode(true),
+                        appActions.setFullScreenMode(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -110,7 +108,7 @@ export const StoreViewSpec = {
                 it("can set layer menu open", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [LayerActions.setLayerMenuOpen(true)];
+                    const actions = [mapActions.setLayerMenuOpen(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -127,7 +125,7 @@ export const StoreViewSpec = {
                 it("can set layer menu closed", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [LayerActions.setLayerMenuOpen(false)];
+                    const actions = [mapActions.setLayerMenuOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -145,8 +143,8 @@ export const StoreViewSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        LayerActions.setLayerMenuOpen(true),
-                        LayerActions.setLayerMenuOpen(false)
+                        mapActions.setLayerMenuOpen(true),
+                        mapActions.setLayerMenuOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

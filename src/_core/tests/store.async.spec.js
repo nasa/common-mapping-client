@@ -1,4 +1,12 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import * as actionTypes from "_core/constants/actionTypes";
+import * as asyncActions from "_core/actions/asyncActions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -13,6 +21,7 @@ import { viewState } from "_core/reducers/models/view";
 import { layerInfoState } from "_core/reducers/models/layerInfo";
 import { webWorkerState } from "_core/reducers/models/webWorker";
 import TestUtil from "_core/tests/TestUtil";
+import Immutable from "immutable";
 
 const initialState = {
     map: mapState,
@@ -32,107 +41,73 @@ export const StoreAsyncSpec = {
     tests: {
         default: {
             test1: () => {
-                it("kicks off initial data loading", function() {
+                it("Sets async state given key and new async state", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [{ type: actionTypes.INITIAL_DATA_LOADING }];
-                    actions.forEach(action => store.dispatch(action));
+                    store.dispatch(
+                        asyncActions.setAsyncLoadingState("initialDataAsync", {
+                            loading: true,
+                            failed: false
+                        })
+                    );
 
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous.set("loadingInitialData", true);
+                    expected.asynchronous = expected.asynchronous.set(
+                        "initialDataAsync",
+                        Immutable.fromJS({
+                            loading: true,
+                            failed: false
+                        })
+                    );
 
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
-
             test2: () => {
-                it("completes initial data loading", function() {
+                it("Sets async state given key and new async state with extra keys not in core model", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [{ type: actionTypes.INITIAL_DATA_LOADED }];
-
-                    actions.forEach(action => store.dispatch(action));
+                    store.dispatch(
+                        asyncActions.setAsyncLoadingState("initialDataAsync", {
+                            loading: true,
+                            failed: false,
+                            dog: 1
+                        })
+                    );
 
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous
-                        .set("loadingInitialData", false)
-                        .set("initialLoadingAttempted", true);
+                    expected.asynchronous = expected.asynchronous.set(
+                        "initialDataAsync",
+                        Immutable.fromJS({
+                            loading: true,
+                            failed: false,
+                            dog: 1
+                        })
+                    );
 
                     TestUtil.compareFullStates(actual, expected);
                 });
             },
-
             test3: () => {
-                it("kicks off loading palettes", function() {
+                it("Changes no state if async key is not found", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [{ type: actionTypes.PALETTE_DATA_LOADING }];
-
-                    actions.forEach(action => store.dispatch(action));
+                    store.dispatch(
+                        asyncActions.setAsyncLoadingState("thisisntthekeyyourelookingfor", {
+                            loading: true,
+                            failed: false
+                        })
+                    );
 
                     const actual = store.getState();
 
                     const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous.set("loadingLayerPalettes", true);
-
-                    TestUtil.compareFullStates(actual, expected);
-                });
-            },
-
-            test4: () => {
-                it("completes loading palettes", function() {
-                    const store = createStore(rootReducer, initialState);
-
-                    const actions = [{ type: actionTypes.PALETTE_DATA_LOADED }];
-
-                    actions.forEach(action => store.dispatch(action));
-
-                    const actual = store.getState();
-
-                    const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous
-                        .set("loadingLayerPalettes", false)
-                        .set("paletteLoadingAttempted", true);
-
-                    TestUtil.compareFullStates(actual, expected);
-                });
-            },
-
-            test5: () => {
-                it("kicks off loading layer configs", function() {
-                    const store = createStore(rootReducer, initialState);
-
-                    const actions = [{ type: actionTypes.LAYER_DATA_LOADING }];
-
-                    actions.forEach(action => store.dispatch(action));
-
-                    const actual = store.getState();
-
-                    const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous.set("loadingLayerSources", true);
-
-                    TestUtil.compareFullStates(actual, expected);
-                });
-            },
-
-            test6: () => {
-                it("completes loading layer configs", function() {
-                    const store = createStore(rootReducer, initialState);
-
-                    const actions = [{ type: actionTypes.LAYER_DATA_LOADED }];
-
-                    actions.forEach(action => store.dispatch(action));
-
-                    const actual = store.getState();
-
-                    const expected = { ...initialState };
-                    expected.asynchronous = expected.asynchronous
-                        .set("loadingLayerSources", false)
-                        .set("layerLoadingAttempted", true);
+                    expect(actual.asynchronous.get("alerts").size).to.equal(1);
+                    actual.asynchronous = actual.asynchronous.set("alerts", Immutable.List());
 
                     TestUtil.compareFullStates(actual, expected);
                 });

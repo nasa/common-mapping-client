@@ -1,122 +1,44 @@
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Button, IconButton } from "react-toolbox/lib/button";
-import * as actions from "_core/actions/AppActions";
+import { AppTitleContainer, AppButtons } from "_core/components/AppBar";
 import MiscUtil from "_core/utils/MiscUtil";
-import Modernizr from "modernizr";
+import styles from "_core/components/AppBar/AppBarContainer.scss";
+import displayStyles from "_core/styles/display.scss";
 
 export class AppBarContainer extends Component {
-    componentDidMount() {
-        // have to retroactively sync the state given browser specific hardware options to enter/exit full screen
-        document.addEventListener(
-            "fullscreenchange",
-            () => {
-                this.handleFullScreenChange();
-            },
-            false
-        );
-        document.addEventListener(
-            "webkitfullscreenchange",
-            () => {
-                this.handleFullScreenChange();
-            },
-            false
-        );
-        document.addEventListener(
-            "mozfullscreenchange",
-            () => {
-                this.handleFullScreenChange();
-            },
-            false
-        );
-    }
-
-    handleFullScreenChange() {
-        if (MiscUtil.getIsInFullScreenMode()) {
-            this.props.actions.setFullScreenMode(true);
-        } else {
-            this.props.actions.setFullScreenMode(false);
-        }
-    }
     render() {
         let containerClasses = MiscUtil.generateStringFromSet({
-            "hidden-fade-out": this.props.distractionFreeMode,
-            "hidden-fade-in": !this.props.distractionFreeMode
+            [styles.root]: true,
+            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
+            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode
         });
+
         return (
-            <div id="titleContainer" className={containerClasses}>
-                <div className="row middle-xs">
-                    <div className="col-xs-6">
-                        <h1 id="appTitle">{this.props.title}</h1>
-                        <span id="appSubtitle" className={this.props.subtitle ? "" : "hidden"}>
-                            {this.props.subtitle}
-                        </span>
-                    </div>
-                    <div className="buttons-container col-xs-6">
-                        <IconButton
-                            neutral
-                            icon="help"
-                            className="title-button mini-xs"
-                            onClick={() => this.props.actions.setHelpOpen(true)}
-                            data-tip="Help"
-                            data-place="bottom"
-                        />
-                        <IconButton
-                            neutral
-                            icon="share"
-                            className="title-button mini-xs"
-                            onClick={() => this.props.actions.setShareOpen(true)}
-                            data-tip="Share"
-                            data-place="bottom"
-                        />
-                        <IconButton
-                            neutral
-                            icon="settings"
-                            className="title-button mini-xs"
-                            onClick={() => this.props.actions.setSettingsOpen(true)}
-                            data-tip="Settings"
-                            data-place="bottom"
-                        />
-                        <IconButton
-                            neutral
-                            disabled={!Modernizr.fullscreen}
-                            icon={this.props.isFullscreen ? "fullscreen_exit" : "fullscreen"}
-                            className="title-button mini-xs"
-                            onClick={() =>
-                                this.props.actions.setFullScreenMode(!this.props.isFullscreen)}
-                            data-tip={this.props.isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-                            data-place="left"
-                        />
-                    </div>
-                </div>
+            <div className={containerClasses}>
+                <AppTitleContainer className={styles.title} />
+                <AppButtons className={styles.actions} />
             </div>
         );
     }
 }
 
 AppBarContainer.propTypes = {
-    actions: PropTypes.object.isRequired,
-    distractionFreeMode: PropTypes.bool.isRequired,
-    isFullscreen: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string.isRequired
+    distractionFreeMode: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        title: state.view.get("title"),
-        subtitle: state.view.get("subtitle"),
-        distractionFreeMode: state.view.get("distractionFreeMode"),
-        isFullscreen: state.view.get("isFullscreen")
+        distractionFreeMode: state.view.get("distractionFreeMode")
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppBarContainer);
+export default connect(mapStateToProps, null)(AppBarContainer);
