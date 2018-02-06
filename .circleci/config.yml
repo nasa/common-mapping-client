@@ -5,13 +5,12 @@
 version: 2
 jobs:
   build:
+    branches:
+      ignore:
+        - gh-pages
     docker:
       # specify the version you desire here
       - image: circleci/node:9-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
 
     working_directory: ~/repo
 
@@ -21,11 +20,12 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: npm install
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: npm install
 
       - save_cache:
           paths:
@@ -33,6 +33,16 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests
-      - run: npm test --includecoretests
+      - run:
+          name: Run tests
+          command: npm test --includecoretests --coverage
 
+      # run build
+      - run:
+          name: Run build
+          command: npm build
+
+      - deploy:
+          name: Deploy to Github Pages
+          command: scripts/deploy.sh
 
