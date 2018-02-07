@@ -50,7 +50,7 @@ mv dist branches/$SOURCE_BRANCH
 shopt -s extglob
 rm -rf !(test-results|dist|assets|branches)
 
-if [ -f .gitignore]; then
+if [ -f .gitignore ]; then
     rm .gitignore # remove our .gitignore so we can grab certain items
 fi
 
