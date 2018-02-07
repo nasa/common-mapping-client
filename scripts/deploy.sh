@@ -55,7 +55,7 @@ if [ -f ".gitignore"]; then
 fi
 
 # Move test-results output into source branch
-mv test-results branches/$SOURCE_BRANCH/unit-tests
+mv test-results branches/$SOURCE_BRANCH/test-results
 
 # Add .nojekyll file to tell gh-pages not to use jekyll so that we can use _ in file/folder names
 touch .nojekyll
