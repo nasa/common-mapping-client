@@ -239,7 +239,7 @@ export default rootReducer;
 
 This new index reducer replaces the Core map reducer function with the new map_Extended reducer function. When this modfied application is run, the default view should now be in 3D and you should see a log statement of "Modified Action" every time a layer is activated/deactivated.
 
-In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance and composition, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Look through the [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md) to see these approaches in action.
+In general, the best way to start altering a part of `_core` is to copy the piece into an area outside of `_core`, make the modifications you want then alter the imports necessary to use your new version. It is sometimes the case that these alterations are recursive in nature (e.g. if `_core/A` imports `_core/B` and you want to modify `_core/B` you will need a new `B` and a new `A` to import it). If you are familiar with inheritance and composition, be sure to check if your altered version can simply extend the `_core` version and thus save you quite a bit of code duplication and management. Look through the [Example Projects](EXAMPLE_PROJECTS.md) to see these approaches in action.
 
 <a id="cmc-core-philosophy-modifying-core-config"></a>
 ### Overriding configs
@@ -265,7 +265,7 @@ These overrides/additions are accomplished by adding the parameters into the `AP
 <a id="cmc-build-process"></a>
 ## The CMC Build Process
 
-![It's really quite straight forward](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/black_box.png)
+![It's really quite straight forward](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/black_box.png)
 
 The following sections outline the build process for CMC following installation (`npm install`) which involves copying files and folders, configuring and running Webpack to combine, compile, and minify code, running a development server, and much more. While it may seem a little overwhelming, Application Developers may never actually need to modify most of these steps. 
 
@@ -525,7 +525,7 @@ Most of the syntax for components and the file structure paradigm are driven by 
 
 This data flow demonstrates how an interaction flows from the user through Redux/React and back to the user. The simple example is of a switch that toggles on and off. Notice how the actual DOM that the user sees isn't updated until the end.
 
-![Data flow diagram](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow.png)
+![Data flow diagram](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow.png)
 
 Read up on [ReactJS](facebook.github.io/react/) and [ReduxJS](http://redux.js.org) for more detailed information.
 
@@ -576,7 +576,7 @@ This allows CMC to avoid tracking any map state except for what is needed by com
 
 This deviation in data flow is shown below. In this diagram, we use the same premise as the data flow diagram above with one change, the switch will now toggle a layer on the map on or off. Notice how the DOM for the switch is again not updated until the end but the map is updated from within the reducer itself.
 
-![Data flow diagram - map](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_maps.png)
+![Data flow diagram - map](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow_maps.png)
 
 <a id="cmc-react-redux-idioms-visjs"></a>
 #### With vis.js
@@ -587,7 +587,7 @@ This flow is very similar to how maps are handled in CMC with the main differenc
 
 Here is a data flow diagram to demonstrate this. In this example we are again toggling on a switch, however here we are assuming the switch is a VisJS component. Notice how the render cycle behaves normally up until component render time at which point the changes to the DOM are offloaded to VisJS and React does not need to do anything.
 
-![Data flow diagram - VisJS](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/data_flow_visjs.png)
+![Data flow diagram - VisJS](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/data_flow_visjs.png)
 
 <a id="optimizing-react-redux-performance"></a>
 ### Notes on Optimizing React/Redux Performance
@@ -638,7 +638,7 @@ These two libraries were chosen for a few reasons:
 
 <a id="mapping-with-cmc-replacing-libs"></a>
 ### Replacing these libraries
-If an Application Developer wants to use Leaflet for their project, they need only create their own `MapWrapper_Leaflet.js` class that extends CMC Core's base `MapWrapper` class, modify the `MapCreator.js` file to instantiate that class instead of the default and that's it. You can see examples of this here: [Example Projects](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/docs/core-docs/EXAMPLE_PROJECTS.md). 
+If an Application Developer wants to use Leaflet for their project, they need only create their own `MapWrapper_Leaflet.js` class that extends CMC Core's base `MapWrapper` class, modify the `MapCreator.js` file to instantiate that class instead of the default and that's it. You can see examples of this here: [Example Projects](EXAMPLE_PROJECTS.md). 
 
 <a id="mapping-with-cmc-mapwrapper"></a>
 ### Overview of the MapWrapper classes
@@ -1173,7 +1173,7 @@ The analytics operates as a "silent reducer". It watches every action dispatched
 - "What percentage of people change the basemap?"
 - _and so on_
 
-To learn more about this analytics system and view a simple example of a server to collect and analyze these actions, check out our [CMC Analytics Example](https://github.jpl.nasa.gov/CommonMappingClient/cmc-example-analytics).
+To learn more about this analytics system and view a simple example of a server to collect and analyze these actions, check out our [CMC Analytics Example - COMING SOON]().
 
 <a id="google-analytics"></a>
 ### Google Analytics
@@ -1201,7 +1201,7 @@ This separation between Core and Non-Core is still being tweaked now and then to
 
 <a id="upgrading-cmc-steps"></a>
 ##### Upgrade Steps
-1. Add cmc-core as a git remote if you haven't done so already by running `git remote add core https://github.jpl.nasa.gov/CommonMappingClient/cmc-core`
+1. Add cmc-core as a git remote if you haven't done so already by running `git remote add core https://github.com/nasa/common-mapping-client.git`
 2. Fetch the latest from cmc-core by running `git fetch --tags core`
 3. Make a new branch (optional)
 4. Review the changes that have been made to Core since your version by looking in `docs/core-docs/CHANGELOG.MD`.
@@ -1291,16 +1291,16 @@ Github pages are a great way to host static content right out of your Github rep
 3. Make a copy of your entire repository folder and `cd` into the copy
 4. Run `chmod a+x scripts/deploy.bash` to give the deploy script correct permissions
 5. Run `git branch -D gh-pages` to ensure that your local gh-pages branch does not exist
-6. Run `npm run deploy` and verify that the deployment was successful by navigating to:`https://github.jpl.nasa.gov/pages/[USER_OR_ORG]/[REPO]/branches/[BRANCH]/`
-  1. Example: `https://github.jpl.nasa.gov/pages/CommonMappingClient/cmc-core/branches/master/` where `CommonMappingClient` is the organization name, `cmc-core` is the repository name, and `master` is the branch name.
+6. Run `npm run deploy` and verify that the deployment was successful by navigating to:`https://github.com/pages/[USER_OR_ORG]/[REPO]/branches/[BRANCH]/`
+  1. Example: `https://github.com/pages/nasa/common-mapping-client/branches/master/` where `nasa` is the organization name, `common-mapping-client` is the repository name, and `master` is the branch name.
 7. Cleanup by removing the folder you were just in
 
 <a id="main-tech-under-the-hood"></a>
 ## Main Technologies Under the Hood
 
-![Node dependencies](https://raw.github.com/common-mapping-client/blob/master/docs/core-docs/resources/node_dependencies.png)
+![Node dependencies](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/node_dependencies.png)
 
-Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, VisJS, react-ga, etc.)
+Main tech under the hood. **Yes**, this is a lot of dependencies _(actually this isn't even the [full list](https://github.com/nasa/common-mapping-client/blob/master/package.json))_ but that's modern web development for you. We've tried to limit the number of unnecessary dependencies included in CMC but you may find that for your own application you may be able to remove some dependencies that your application does not require (e.g. Cesium, VisJS, react-ga, etc.)
 
 
 | **Tech** | **Description** |**Learn More**|
@@ -1337,7 +1337,7 @@ The main contributors to CMC are Flynn Platt _flynn.platt@jpl.nasa.gov_ and Aaro
 
 We welcome contributions and ask that you submit pull requests through a fork of cmc-core. If you would like to be a more direct contributor to cmc-core then please contact us and we will discuss adding you to the cmc-core repository.
 
-For issue reporting please visit the github issues page for cmc-core [here](https://github.jpl.nasa.gov/CommonMappingClient/cmc-core/issues).
+For issue reporting please visit the github issues page for cmc-core [here](https://github.com/nasa/common-mapping-client/issues).
 
 If you use CMC for your project please let us know, we'd love to see what you're doing and add you to our list of projects that use CMC.
 
