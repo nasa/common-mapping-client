@@ -6,8 +6,8 @@
  */
 
 // Karma configuration
-var webpack = require("webpack");
-var path = require("path");
+const webpack = require("webpack");
+const path = require("path");
 
 const webpackConfig = require("./webpack/webpack.config.helper")({
     isProduction: false,
@@ -19,7 +19,7 @@ const webpackConfig = require("./webpack/webpack.config.helper")({
     }
 });
 
-var packageConfig = require("./package.json");
+const packageConfig = require("./package.json");
 
 module.exports = function(config) {
     config.set({
@@ -85,9 +85,8 @@ module.exports = function(config) {
         },
 
         coverageReporter: {
-            type: "html",
             dir: "test-results",
-            subdir: "coverage"
+            reporters: [{ type: "lcov", subdir: "report" }]
         },
 
         // web server port
