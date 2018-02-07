@@ -30,11 +30,13 @@ git config user.name > /dev/null || git config user.name 'Circle CI'
 git config user.email > /dev/null || git config user.email 'robots@circleci.com'
 
 # Move everything over to the gh-pages branch
+set +e
 git remote set-branches --add origin $TARGET_BRANCH
 git add --all
 git commit -m "Dummy commit"
 (git fetch origin $TARGET_BRANCH && git checkout -t origin/$TARGET_BRANCH) \
   || git checkout --orphan $TARGET_BRANCH # In case the gh-pages branch didn't exist before
+set -e
 
 if [ ! -d "branches" ]; then
   # Make the branches dir if it doesn't exist
