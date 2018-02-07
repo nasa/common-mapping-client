@@ -48,10 +48,7 @@ mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
 shopt -s extglob
-rm -rf !(coverage|test-results|dist|assets|branches)
-
-# Move coverage output into source branch
-mv coverage branches/$SOURCE_BRANCH/code-coverage
+rm -rf !(test-results|dist|assets|branches)
 
 # Move test-results output into source branch
 mv test-results branches/$SOURCE_BRANCH/unit-tests
