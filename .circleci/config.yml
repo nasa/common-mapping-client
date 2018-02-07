@@ -32,10 +32,14 @@ jobs:
                     - node_modules
                 key: v1-dependencies-{{ checksum "package.json" }}
 
-            # run tests
             - run:
                 name: Run tests
                 command: npm test --includecoretests
+                # command: npm run test
+
+            - run:
+                name: Report coverage to Coveralls
+                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js"
                 # command: npm run test
 
             # run build
