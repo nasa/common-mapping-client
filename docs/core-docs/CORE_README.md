@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/nasa/common-mapping-client.svg?style=shield)](https://circleci.com/gh/nasa/common-mapping-client)
 [![Dependencies Status](https://david-dm.org/nasa/common-mapping-client/status.svg)](https://david-dm.org/nasa/common-mapping-client)
+[![Coverage Status](https://coveralls.io/repos/github/nasa/common-mapping-client/badge.svg?branch=master)](https://coveralls.io/github/nasa/common-mapping-client?branch=master)
 ![Preview](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/screenshot_core.jpg)
 
 ### Overview

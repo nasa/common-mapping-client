@@ -21,11 +21,6 @@ if [ ! -d "test-results" ]; then
   exit 1
 fi
 
-if [ ! -d "test-results/coverage" ]; then
-  echo "The test-results/coverage/ directory doesn't exist; you must \`npm run test\` before deploying."
-  exit 1
-fi
-
 git config user.name > /dev/null || git config user.name 'Circle CI'
 git config user.email > /dev/null || git config user.email 'robots@circleci.com'
 
