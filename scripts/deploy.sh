@@ -62,6 +62,7 @@ touch .
 
 git add -u . # Commit deleted files
 git add branches/$SOURCE_BRANCH # Add source branch
+rm .gitignore # remove our .gitignore so we can grab certain items
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e
