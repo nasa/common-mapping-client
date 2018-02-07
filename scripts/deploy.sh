@@ -50,6 +50,8 @@ mv dist branches/$SOURCE_BRANCH
 shopt -s extglob
 rm -rf !(test-results|dist|assets|branches)
 
+rm .gitignore # remove our .gitignore so we can grab certain items
+
 # Move test-results output into source branch
 mv test-results branches/$SOURCE_BRANCH/unit-tests
 
@@ -62,7 +64,6 @@ touch .
 
 git add -u . # Commit deleted files
 git add branches/$SOURCE_BRANCH # Add source branch
-rm .gitignore # remove our .gitignore so we can grab certain items
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 set +e
