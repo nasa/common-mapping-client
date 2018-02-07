@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/reducers/map.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/reducers/</a> map.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">56.1% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>23/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">57.14% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>24/42</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/1</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">56.1% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>23/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">319×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+import * as actionTypes from "_core/constants/actionTypes";
+import { mapState } from "_core/reducers/models/map";
+import MapReducer from "_core/reducers/reducerFunctions/MapReducer";
+&nbsp;
+export default function map(state = mapState, action, opt_reducer = MapReducer) {
+    switch (action.type) {
+        case actionTypes.INITIALIZE_MAP:
+            return opt_reducer.initializeMap(state, action);
+&nbsp;
+        case actionTypes.SET_MAP_VIEW_MODE:
+            return opt_reducer.setMapViewMode(state, action);
+&nbsp;
+        case actionTypes.SET_TERRAIN_ENABLED:
+            return opt_reducer.setTerrainEnabled(state, action);
+&nbsp;
+        case actionTypes.SET_TERRAIN_EXAGGERATION:
+            return opt_reducer.setTerrainExaggeration(state, action);
+&nbsp;
+        case actionTypes.SET_SCALE_UNITS:
+            return opt_reducer.setScaleUnits(state, action);
+&nbsp;
+        case actionTypes.SET_MAP_VIEW:
+            return opt_reducer.setMapView(state, action);
+&nbsp;
+<span class="branch-6 cbranch-no" title="branch not covered" >        case actionTypes.PAN_MAP:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.panMap(state, action);</span>
+&nbsp;
+        case actionTypes.ZOOM_IN:
+            return opt_reducer.zoomIn(state, action);
+&nbsp;
+        case actionTypes.ZOOM_OUT:
+            return opt_reducer.zoomOut(state, action);
+&nbsp;
+        case actionTypes.RESET_ORIENTATION:
+            return opt_reducer.resetOrientation(state, action);
+&nbsp;
+        case actionTypes.SET_LAYER_ACTIVE:
+            return opt_reducer.setLayerActive(state, action);
+&nbsp;
+<span class="branch-11 cbranch-no" title="branch not covered" >        case actionTypes.SET_LAYER_DISABLED:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.setLayerDisabled(state, action);</span>
+&nbsp;
+<span class="branch-12 cbranch-no" title="branch not covered" >        case actionTypes.SET_LAYER_OPACITY:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.setLayerOpacity(state, action);</span>
+&nbsp;
+<span class="branch-13 cbranch-no" title="branch not covered" >        case actionTypes.SET_LAYER_PALETTE:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.setLayerPalette(state, action);</span>
+&nbsp;
+<span class="branch-14 cbranch-no" title="branch not covered" >        case actionTypes.SET_BASEMAP:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.setBasemap(state, action);</span>
+&nbsp;
+<span class="branch-15 cbranch-no" title="branch not covered" >        case actionTypes.HIDE_BASEMAP:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.hideBasemap(state, action);</span>
+&nbsp;
+        case actionTypes.INGEST_LAYER_CONFIG:
+            return opt_reducer.ingestLayerConfig(state, action);
+&nbsp;
+        case actionTypes.MERGE_LAYERS:
+            return opt_reducer.mergeLayers(state, action);
+&nbsp;
+<span class="branch-18 cbranch-no" title="branch not covered" >        case actionTypes.ACTIVATE_DEFAULT_LAYERS:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.activateDefaultLayers(state, action);</span>
+&nbsp;
+        case actionTypes.SET_MAP_DATE:
+            return opt_reducer.setMapDate(state, action);
+&nbsp;
+<span class="branch-20 cbranch-no" title="branch not covered" >        case actionTypes.PIXEL_HOVER:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.pixelHover(state, action);</span>
+&nbsp;
+<span class="branch-21 cbranch-no" title="branch not covered" >        case actionTypes.INVALIDATE_PIXEL_HOVER:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.invalidatePixelHover(state, action);</span>
+&nbsp;
+<span class="branch-22 cbranch-no" title="branch not covered" >        case actionTypes.PIXEL_CLICK:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.pixelClick(state, action);</span>
+&nbsp;
+<span class="branch-23 cbranch-no" title="branch not covered" >        case actionTypes.DISMISS_ALERT:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.dismissAlert(state, action);</span>
+&nbsp;
+<span class="branch-24 cbranch-no" title="branch not covered" >        case actionTypes.DISMISS_ALL_ALERTS:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.dismissAllAlerts(state, action);</span>
+&nbsp;
+<span class="branch-25 cbranch-no" title="branch not covered" >        case actionTypes.MOVE_LAYER_TO_TOP:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.moveLayerToTop(state, action);</span>
+&nbsp;
+<span class="branch-26 cbranch-no" title="branch not covered" >        case actionTypes.MOVE_LAYER_TO_BOTTOM:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.moveLayerToBottom(state, action);</span>
+&nbsp;
+<span class="branch-27 cbranch-no" title="branch not covered" >        case actionTypes.MOVE_LAYER_UP:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.moveLayerUp(state, action);</span>
+&nbsp;
+<span class="branch-28 cbranch-no" title="branch not covered" >        case actionTypes.MOVE_LAYER_DOWN:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.moveLayerDown(state, action);</span>
+&nbsp;
+        case actionTypes.INGEST_LAYER_PALETTES:
+            return opt_reducer.ingestLayerPalettes(state, action);
+&nbsp;
+        case actionTypes.ENABLE_DRAWING:
+            return opt_reducer.enableDrawing(state, action);
+&nbsp;
+        case actionTypes.DISABLE_DRAWING:
+            return opt_reducer.disableDrawing(state, action);
+&nbsp;
+<span class="branch-32 cbranch-no" title="branch not covered" >        case actionTypes.ENABLE_MEASURING:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.enableMeasuring(state, action);</span>
+&nbsp;
+<span class="branch-33 cbranch-no" title="branch not covered" >        case actionTypes.DISABLE_MEASURING:</span>
+<span class="cstat-no" title="statement not covered" >            return opt_reducer.disableMeasuring(state, action);</span>
+&nbsp;
+        case actionTypes.ADD_GEOMETRY_TO_MAP:
+            return opt_reducer.addGeometryToMap(state, action);
+&nbsp;
+        case actionTypes.ADD_MEASUREMENT_LABEL_TO_GEOMETRY:
+            return opt_reducer.addMeasurementLabelToGeometry(state, action);
+&nbsp;
+        case actionTypes.REMOVE_ALL_DRAWINGS:
+            return opt_reducer.removeAllDrawings(state, action);
+&nbsp;
+        case actionTypes.REMOVE_ALL_MEASUREMENTS:
+            return opt_reducer.removeAllMeasurements(state, action);
+&nbsp;
+        case actionTypes.RESET_APPLICATION_STATE:
+            return opt_reducer.resetApplicationState(state, action);
+&nbsp;
+        default:
+            return state;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 07 2018 23:54:29 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

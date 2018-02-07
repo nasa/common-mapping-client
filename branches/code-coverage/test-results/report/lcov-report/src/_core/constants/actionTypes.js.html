@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/constants/actionTypes.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/constants/</a> actionTypes.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>66/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>66/66</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+// View Actions
+export const COMPLETE_INITIAL_LOAD = "COMPLETE_INITIAL_LOAD";
+export const SET_LAYER_MENU_OPEN = "SET_LAYER_MENU_OPEN";
+export const OPEN_LAYER_INFO = "OPEN_LAYER_INFO";
+export const CLOSE_LAYER_INFO = "CLOSE_LAYER_INFO";
+export const SET_CURRENT_METADATA = "SET_CURRENT_METADATA";
+export const SET_HELP_OPEN = "SET_HELP_OPEN";
+export const SET_SHARE_OPEN = "SET_SHARE_OPEN";
+export const TOGGLE_SHARE_UPDATE_FLAG = "TOGGLE_SHARE_UPDATE_FLAG";
+export const SELECT_HELP_PAGE = "SELECT_HELP_PAGE";
+export const DISMISS_ALERT = "DISMISS_ALERT";
+export const DISMISS_ALL_ALERTS = "DISMISS_ALL_ALERTS";
+export const SET_FULL_SCREEN = "SET_FULL_SCREEN";
+export const SET_SETTINGS_OPEN = "SET_SETTINGS_OPEN";
+export const SET_DISTRACTION_FREE_MODE = "SET_DISTRACTION_FREE_MODE";
+export const SET_MAP_CONTROL_TOOLS_OPEN = "SET_MAP_CONTROL_TOOLS_OPEN";
+export const SET_MAP_CONTROL_BASEMAP_PICKER_OPEN = "SET_MAP_CONTROL_BASEMAP_PICKER_OPEN";
+export const HIDE_MAP_CONTROLS = "HIDE_MAP_CONTROLS";
+&nbsp;
+// Draw Actions
+export const ENABLE_DRAWING = "ENABLE_DRAWING";
+export const DISABLE_DRAWING = "DISABLE_DRAWING";
+&nbsp;
+// Measure Actions
+export const ENABLE_MEASURING = "ENABLE_MEASURING";
+export const DISABLE_MEASURING = "DISABLE_MEASURING";
+&nbsp;
+// Map Actions
+export const SET_LAYER_ACTIVE = "SET_LAYER_ACTIVE";
+export const SET_LAYER_DISABLED = "SET_LAYER_DISABLED";
+export const SET_MAP_VIEW_MODE = "SET_MAP_VIEW_MODE";
+export const RESET_ORIENTATION = "RESET_ORIENTATION";
+export const SET_LAYER_OPACITY = "SET_LAYER_OPACITY";
+export const SET_LAYER_PALETTE = "SET_LAYER_PALETTE";
+export const INITIALIZE_MAP = "INITIALIZE_MAP";
+export const SET_MAP_VIEW = "SET_MAP_VIEW";
+export const PAN_MAP = "PAN_MAP";
+export const ZOOM_IN = "ZOOM_IN";
+export const ZOOM_OUT = "ZOOM_OUT";
+export const SET_TERRAIN_ENABLED = "SET_TERRAIN_ENABLED";
+export const SET_TERRAIN_EXAGGERATION = "SET_TERRAIN_EXAGGERATION";
+export const SET_SCALE_UNITS = "SET_SCALE_UNITS";
+export const SET_BASEMAP = "SET_BASEMAP";
+export const HIDE_BASEMAP = "HIDE_BASEMAP";
+export const SET_MAP_DATE = "SET_MAP_DATE";
+export const INGEST_LAYER_CONFIG = "INGEST_LAYER_CONFIG";
+export const MERGE_LAYERS = "MERGE_LAYERS";
+export const ACTIVATE_DEFAULT_LAYERS = "ACTIVATE_DEFAULT_LAYERS";
+export const PIXEL_HOVER = "PIXEL_HOVER";
+export const INVALIDATE_PIXEL_HOVER = "INVALIDATE_PIXEL_HOVER";
+export const PIXEL_CLICK = "PIXEL_CLICK";
+export const MOVE_LAYER_TO_TOP = "MOVE_LAYER_TO_TOP";
+export const MOVE_LAYER_TO_BOTTOM = "MOVE_LAYER_TO_BOTTOM";
+export const MOVE_LAYER_UP = "MOVE_LAYER_UP";
+export const MOVE_LAYER_DOWN = "MOVE_LAYER_DOWN";
+export const INGEST_LAYER_PALETTES = "INGEST_LAYER_PALETTES";
+export const ADD_GEOMETRY_TO_MAP = "ADD_GEOMETRY_TO_MAP";
+export const ADD_MEASUREMENT_LABEL_TO_GEOMETRY = "ADD_MEASUREMENT_LABEL_TO_GEOMETRY";
+export const REMOVE_ALL_DRAWINGS = "REMOVE_ALL_DRAWINGS";
+export const REMOVE_ALL_MEASUREMENTS = "REMOVE_ALL_MEASUREMENTS";
+&nbsp;
+// Async Actions
+export const SET_ASYNC_LOADING_STATE = "SET_ASYNC_LOADING_STATE";
+&nbsp;
+// Date Slider Actions
+export const BEGIN_DRAGGING = "BEGIN_DRAGGING";
+export const END_DRAGGING = "END_DRAGGING";
+export const HOVER_DATE = "HOVER_DATE";
+export const TIMELINE_MOUSE_OUT = "TIMELINE_MOUSE_OUT";
+export const SET_DATE_RESOLUTION = "SET_DATE_RESOLUTION";
+&nbsp;
+// Analytics
+export const SET_ANALYTICS_ENABLED = "SET_ANALYTICS_ENABLED";
+export const SEND_ANALYTICS_BATCH = "SEND_ANALYTICS_BATCH";
+&nbsp;
+// Misc
+export const SET_AUTO_UPDATE_URL = "SET_AUTO_UPDATE_URL";
+export const RESET_APPLICATION_STATE = "RESET_APPLICATION_STATE";
+export const CHECK_BROWSER_FUNCTIONALITIES = "CHECK_BROWSER_FUNCTIONALITIES";
+export const ADD_ALERT = "ADD_ALERT";
+export const NO_ACTION = "NO_ACTION";
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 07 2018 23:54:29 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
