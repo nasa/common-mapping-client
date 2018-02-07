@@ -1,0 +1,32 @@
+{
+  "presets": [
+    "es2015",
+    "react",
+    "stage-1"
+  ],
+  "env": {
+    "development": {
+      "presets": [
+        "react-hmre"
+      ]
+    },
+    "test": {
+      "plugins": [
+        ["istanbul", {
+          "exclude": [
+            "**/*.spec.js",
+            "src/lib/*",
+            "src/_core/tests/data/*"
+          ]
+        }]
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-runtime",
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types"
+      ]
+    }
+  }
+}

@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/constants/appStrings.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/constants/</a> appStrings.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>61/61</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>61/61</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+/* MAP */
+// map library types
+export const MAP_LIB_2D = "openlayers";
+export const MAP_LIB_3D = "cesium";
+&nbsp;
+// map view modes
+export const MAP_VIEW_MODE_2D = "2D";
+export const MAP_VIEW_MODE_3D = "3D";
+&nbsp;
+// map pan directions
+export const MAP_PAN_DIRECTION_UP = "MAP_PAN_DIRECTION_UP";
+export const MAP_PAN_DIRECTION_DOWN = "MAP_PAN_DIRECTION_DOWN";
+export const MAP_PAN_DIRECTION_LEFT = "MAP_PAN_DIRECTION_LEFT";
+export const MAP_PAN_DIRECTION_RIGHT = "MAP_PAN_DIRECTION_RIGHT";
+&nbsp;
+// layer group types
+export const LAYER_GROUP_TYPE_BASEMAP = "basemap";
+export const LAYER_GROUP_TYPE_DATA = "data";
+export const LAYER_GROUP_TYPE_REFERENCE = "reference";
+export const LAYER_GROUP_TYPE_PARTIAL = "partial";
+&nbsp;
+// layer config formats
+export const LAYER_CONFIG_JSON = "json";
+export const LAYER_CONFIG_WMTS_XML = "wmts/xml";
+&nbsp;
+// layer handler types
+export const LAYER_GIBS_RASTER = "GIBS_raster";
+export const LAYER_WMTS_RASTER = "wmts_raster";
+export const LAYER_XYZ_RASTER = "xyz_raster";
+export const LAYER_VECTOR_GEOJSON = "vector_geojson";
+export const LAYER_VECTOR_TOPOJSON = "vector_topojson";
+export const LAYER_VECTOR_KML = "vector_kml";
+&nbsp;
+// layer colorbar formats
+export const COLORBAR_IMAGE = "image";
+export const COLORBAR_JSON_FIXED = "json-fixed";
+export const COLORBAR_JSON_RELATIVE = "json-relative";
+&nbsp;
+// file formats
+export const FILE_TYPE_JSON = "json";
+export const FILE_TYPE_MARKDOWN = "markdown";
+export const FILE_TYPE_XML = "xml";
+export const FILE_TYPE_TEXT = "xml";
+&nbsp;
+// tile URL function
+export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
+export const ESRI_CUSTOM_512 = "esriCustom512";
+export const KVP_TIME_PARAM = "kvpTimeParam";
+export const CATS_URL = "catsUrl";
+&nbsp;
+// tile load function
+export const CATS_TILE_OL = "catsTile_OL";
+export const CATS_TILE_CS = "catsTile_CS";
+&nbsp;
+// drawing geometry types
+export const GEOMETRY_CIRCLE = "Circle";
+export const GEOMETRY_LINE_STRING = "LineString";
+export const GEOMETRY_POLYGON = "Polygon";
+&nbsp;
+// measurement types
+export const MEASURE_DISTANCE = "Distance";
+export const MEASURE_AREA = "Area";
+&nbsp;
+// interaction types
+export const INTERACTION_DRAW = "Draw";
+export const INTERACTION_MEASURE = "Measure";
+&nbsp;
+// Shape types
+export const SHAPE_DISTANCE = "Shape_Distance";
+export const SHAPE_AREA = "Shape_Area";
+&nbsp;
+// event types
+export const EVENT_MOUSE_HOVER = "mousemove";
+export const EVENT_MOVE_END = "moveend";
+export const EVENT_MOUSE_CLICK = "click";
+&nbsp;
+// coordinate types
+export const COORDINATE_TYPE_CARTESIAN = "Cartesian";
+export const COORDINATE_TYPE_CARTOGRAPHIC = "Cartographic";
+&nbsp;
+// timeline resolutions
+export const SECONDS = "seconds";
+export const MINUTES = "minutes";
+export const HOURS = "hours";
+export const DAYS = "days";
+export const MONTHS = "months";
+export const YEARS = "years";
+&nbsp;
+// projections
+export const PROJECTIONS = {
+    northpolar: {
+        code: "EPSG:3413",
+        proj4Def:
+            "+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
+        extent: [-4194304, -4194304, 4194304, 4194304]
+    },
+    webmercator: {
+        code: "EPSG:3857",
+        proj4Def:
+            "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs",
+        extent: [-20026376.39, -20048966.1, 20026376.39, 20048966.1]
+    },
+    latlon: {
+        code: "EPSG:4326",
+        proj4Def: "+proj=longlat +datum=WGS84 +no_defs",
+        extent: [-180, -90, 180, 90]
+    }
+};
+&nbsp;
+// tile layer updates
+export const TILE_LAYER_UPDATE_STRATEGIES = {
+    TILE: "replace_tile",
+    LAYER: "replace_layer"
+};
+/* END MAP */
+&nbsp;
+/* MISC */
+export const MAP_CONTEXT_MENU_ID = "mapContextMenu";
+export const WORKER_TASK_COMPLETE = "WORKER_TASK_COMPLETE";
+export const WORKER_TASK_COMPLETE_ERROR = "WORKER_TASK_COMPLETE_ERROR";
+export const WORKER_TASK_CLOSE = "WORKER_TASK_CLOSE";
+export const WORKER_TASK_TEST = "WORKER_TASK_TEST";
+/* END MISC */
+&nbsp;
+/* ALERTS */
+export const ALERTS = {
+    INITIAL_DATA_LOAD_FAILED: {
+        title: "Data Loading Failed",
+        formatString: "Failed to load data for this application.",
+        severity: 3
+    },
+    URL_CONFIG_FAILED: {
+        title: "Loading from URL Failed",
+        formatString: "Failed to load application state configuration from url parameters.",
+        severity: 2
+    },
+    BROWSER_FUNCTIONALITY_MISSING: {
+        title: "Missing Browser Functionality",
+        formatString:
+            "Browser does not support {FUNCTIONALITY}. {SYMPTOM}. Please refer to the System Requirements section in Help for a list of supported browsers.",
+        severity: 2
+    },
+    LAYER_ACTIVATION_FAILED: {
+        title: "Layer Activation Failed",
+        formatString: "Activating {LAYER} on the {MAP} map failed.",
+        severity: 2
+    },
+    BASEMAP_UPDATE_FAILED: {
+        title: "Basemap Update Failed",
+        formatString: "Activating {LAYER} as the basemap on the {MAP} map failed.",
+        severity: 2
+    },
+    LAYER_OPACITY_CHANGE_FAILED: {
+        title: "Layer Opacity Change Failed",
+        formatString: "Setting opacity for {LAYER} failed.",
+        severity: 2
+    },
+    GEOMETRY_SYNC_FAILED: {
+        title: "Geometry Sync Failed",
+        formatString: "Synchronizing geometry on the {MAP} map failed.",
+        severity: 2
+    },
+    GEOMETRY_REMOVAL_FAILED: {
+        title: "Shape Removal Failed",
+        formatString: "Removal of all shapes from the {MAP} map failed.",
+        severity: 2
+    },
+    MEASUREMENT_REMOVAL_FAILED: {
+        title: "Measurement Removal Failed",
+        formatString: "Removal of all measurements from the {MAP} map failed.",
+        severity: 2
+    },
+    VIEW_MODE_CHANGE_FAILED: {
+        title: "Map View Mode Change Failed",
+        formatString: "Changing of map view mode to {MAP_VIEW_MODE} failed.",
+        severity: 2
+    },
+    VIEW_SYNC_FAILED: {
+        title: "Setting Map Extent Failed",
+        formatString: "Setting the extent of the {MAP} map failed.",
+        severity: 2
+    },
+    SET_DATE_FAILED: {
+        title: "Date Update Failed",
+        formatString: "Setting the date in the {MAP} map failed.",
+        severity: 2
+    },
+    CREATE_MAP_FAILED: {
+        title: "Map Creation Failed",
+        formatString: "The {MAP} map failed to initialize.",
+        severity: 3
+    },
+    FETCH_METADATA_FAILED: {
+        title: "Loading Metadata Failed",
+        formatString: "Could not retrieve metadata for {LAYER}.",
+        severity: 1
+    },
+    TIMELINE_RES_FAILED: {
+        title: "Setting Timeline Resolution Failed",
+        formatString: "Could not set the timeline resolution.",
+        severity: 1
+    },
+    UNKNOWN_ASYNC_KEY: {
+        title: "Async Data Error",
+        formatString: "Unrecognized async key {KEY}",
+        severity: 2
+    }
+};
+/* END ALERTS */
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 07 2018 23:05:37 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
