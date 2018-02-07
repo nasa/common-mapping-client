@@ -28,12 +28,12 @@ jobs:
           command: npm install
 
       - save_cache:
-        	paths:
+          paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-        	name: Run postinstall script
+          name: Run postinstall script
           command: npm run postinstall
 
       # run tests
