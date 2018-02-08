@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/reducers/reducerFunctions/ViewReducer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">src/_core/reducers/reducerFunctions/</a> ViewReducer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36.36% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.33% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.33% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36.36% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>8/22</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+import Modernizr from "modernizr";
+import MiscUtil from "_core/utils/MiscUtil";
+import * as appStrings from "_core/constants/appStrings";
+import { alert } from "_core/reducers/models/alert";
+&nbsp;
+//IMPORTANT: Note that with Redux, state should NEVER be changed.
+//State is considered immutable. Instead,
+//create a copy of the state passed and set new values on the copy.
+&nbsp;
+export default class ViewReducer {
+    static miscUtil = MiscUtil;
+&nbsp;
+    static checkBrowserFunctionalities(state, action) <span class="fstat-no" title="function not covered" >{</span>
+        // Here we check for any missing browser functionalities that we
+        // want to alert the user about. Note, Modernizr checks are used elsewhere
+        // but those are not intended to inform the user that functionality is missing
+        let alerts = <span class="cstat-no" title="statement not covered" >state.get("alerts");</span>
+<span class="cstat-no" title="statement not covered" >        if (!Modernizr.fullscreen) {</span>
+<span class="cstat-no" title="statement not covered" >            alerts = alerts.push(</span>
+                alert.merge({
+                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                    body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
+                        .replace("{FUNCTIONALITY}", "Fullscreen")
+                        .replace(
+                            "{SYMPTOM}",
+                            "This application will not be able to enter fullscreen mode"
+                        ),
+                    severity: 2,
+                    time: new Date()
+                })
+            );
+        }
+<span class="cstat-no" title="statement not covered" >        if (!Modernizr.webgl) {</span>
+<span class="cstat-no" title="statement not covered" >            alerts = alerts.push(</span>
+                alert.merge({
+                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+                    body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
+                        .replace("{FUNCTIONALITY}", "WebGL")
+                        .replace(
+                            "{SYMPTOM}",
+                            "This application will not be able to use the 3D map"
+                        ),
+                    severity: 3,
+                    time: new Date()
+                })
+            );
+        }
+<span class="cstat-no" title="statement not covered" >        return state.set("alerts", alerts);</span>
+    }
+&nbsp;
+    static completeInitialLoad(state, action) {
+        return state.set("initialLoadComplete", true);
+    }
+&nbsp;
+    static setLayerMenuOpen(state, action) {
+        return state.set("layerMenuOpen", action.open);
+    }
+&nbsp;
+    static dismissAlert(state, action) <span class="fstat-no" title="function not covered" >{</span>
+        let remAlert = <span class="cstat-no" title="statement not covered" >action.alert;</span>
+<span class="cstat-no" title="statement not covered" >        return state.set(</span>
+            "alerts",
+            state.get("alerts").filter(alert =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                return alert !== remAlert;</span>
+            })
+        );
+    }
+&nbsp;
+    static dismissAllAlerts(state, action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return state.set("alerts", state.get("alerts").clear());</span>
+    }
+&nbsp;
+    static setFullScreen(state, action) {
+        if (action.enabled) {
+            this.miscUtil.enterFullScreen();
+        } else {
+            this.miscUtil.exitFullscreen();
+        }
+        return state.set("isFullscreen", action.enabled);
+    }
+&nbsp;
+    static resetApplicationState(state, action) {
+        state = this.setLayerMenuOpen(state, { open: true });
+        return state.set("appResetCounter", state.get("appResetCounter") + 1);
+    }
+&nbsp;
+    static setDistractionFreeMode(state, action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return state.set("distractionFreeMode", action.enabled);</span>
+    }
+&nbsp;
+    static setMapControlsToolsOpen(state, action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return state.set("mapControlsToolsOpen", action.open);</span>
+    }
+&nbsp;
+    static setMapControlsBasemapPickerOpen(state, action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return state.set("mapControlsBasemapPickerOpen", action.open);</span>
+    }
+&nbsp;
+    static hideMapControls(state, action) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return state.set("mapControlsHidden", action.hidden);</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 01:08:55 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>
