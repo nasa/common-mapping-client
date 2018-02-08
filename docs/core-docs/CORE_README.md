@@ -4,7 +4,9 @@
 [![Dependencies Status](https://david-dm.org/nasa/common-mapping-client/status.svg)](https://david-dm.org/nasa/common-mapping-client)
 [![Coverage Status](https://coveralls.io/repos/github/nasa/common-mapping-client/badge.svg?branch=master)](https://coveralls.io/github/nasa/common-mapping-client?branch=master)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-![Preview](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/screenshot_core.jpg)
+
+
+[![Preview](https://raw.githubusercontent.com/nasa/common-mapping-client/master/docs/core-docs/resources/screenshot_core.jpg)](https://nasa.github.io/common-mapping-client/branches/master/)
 
 ### Overview
 The Common Mapping Client (CMC) is a foundation for web-based mapping applications that
@@ -28,9 +30,7 @@ We maintain a list of further example projects and projects that began from CMC
 so that you can easily get examples of building intricate and detailed workflows
 on top of this tool.
 
-*General Philosophy*
-If a capability or widget is not in 85% of mapping applications, it will not be
-part of CMC-Core.
+View our [live demo](https://nasa.github.io/common-mapping-client/branches/master/).
 
 ### Features
 * 2D/3D Map library abstraction
