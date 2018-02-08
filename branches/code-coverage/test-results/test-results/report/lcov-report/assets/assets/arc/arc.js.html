@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for assets/assets/arc/arc.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">assets/assets/arc/</a> arc.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.1% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>106/145</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70.24% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>59/84</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.33% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.61% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>106/144</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4108×</span>
+<span class="cline-any cline-yes">4108×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-yes">4100×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">4059×</span>
+<span class="cline-any cline-yes">4059×</span>
+<span class="cline-any cline-yes">4059×</span>
+<span class="cline-any cline-yes">4059×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4055×</span>
+<span class="cline-any cline-yes">2331×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">400×</span>
+<span class="cline-any cline-yes">400×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">396×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37×</span>
+<span class="cline-any cline-yes">37×</span>
+<span class="cline-any cline-yes">37×</span>
+<span class="cline-any cline-yes">3700×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">4108×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+let D2R = Math.PI / 180;
+let R2D = 180 / Math.PI;
+&nbsp;
+let Coord = function(lon,lat) {
+    this.lon = lon;
+    this.lat = lat;
+    this.x = D2R * lon;
+    this.y = D2R * lat;
+};
+&nbsp;
+Coord.prototype.view = function() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return String(this.lon).slice(0, 4) + ',' + String(this.lat).slice(0, 4);</span>
+};
+&nbsp;
+Coord.prototype.antipode = function() <span class="fstat-no" title="function not covered" >{</span>
+    let anti_lat = <span class="cstat-no" title="statement not covered" >-1 * this.lat;</span>
+    let anti_lon = <span class="cstat-no" title="statement not covered" >(this.lon &lt; 0) ? 180 + this.lon : (180 - this.lon) * -1;</span>
+<span class="cstat-no" title="statement not covered" >    return new Coord(anti_lon, anti_lat);</span>
+};
+&nbsp;
+let LineString = function() {
+    this.coords = [];
+    this.length = 0;
+};
+&nbsp;
+LineString.prototype.move_to = function(coord) {
+    this.length++;
+    this.coords.push(coord);
+};
+&nbsp;
+let Arc = function(properties) {
+    this.properties = properties || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+    this.geometries = [];
+};
+&nbsp;
+Arc.prototype.json = function() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (this.geometries.length &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >        return {'geometry': { 'type': 'LineString', 'coordinates': null },</span>
+                'type': 'Feature', 'properties': this.properties
+               };
+    } else <span class="cstat-no" title="statement not covered" >if (this.geometries.length == 1) {</span>
+<span class="cstat-no" title="statement not covered" >        return {'geometry': { 'type': 'LineString', 'coordinates': this.geometries[0].coords },</span>
+                'type': 'Feature', 'properties': this.properties
+               };
+    } else {
+        let multiline = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; this.geometries.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            multiline.push(this.geometries[i].coords);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return {'geometry': { 'type': 'MultiLineString', 'coordinates': multiline },</span>
+                'type': 'Feature', 'properties': this.properties
+               };
+    }
+};
+&nbsp;
+// TODO - output proper multilinestring
+Arc.prototype.wkt = function() <span class="fstat-no" title="function not covered" >{</span>
+    let wkt_string = <span class="cstat-no" title="statement not covered" >'';</span>
+    let wkt = <span class="cstat-no" title="statement not covered" >'LINESTRING(';</span>
+    let collect = <span class="cstat-no" title="statement not covered" >function(c) <span class="fstat-no" title="function not covered" >{ <span class="cstat-no" title="statement not covered" >wkt += c[0] + ' ' + c[1] + ','; </span>};</span></span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; this.geometries.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.geometries[i].coords.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return 'LINESTRING(empty)';</span>
+        } else {
+            let coords = <span class="cstat-no" title="statement not covered" >this.geometries[i].coords;</span>
+<span class="cstat-no" title="statement not covered" >            coords.forEach(collect);</span>
+<span class="cstat-no" title="statement not covered" >            wkt_string += wkt.substring(0, wkt.length - 1) + ')';</span>
+        }
+    }
+<span class="cstat-no" title="statement not covered" >    return wkt_string;</span>
+};
+&nbsp;
+/*
+ * http://en.wikipedia.org/wiki/Great-circle_distance
+ *
+ */
+let GreatCircle = function(start,end,properties) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!start || start.x === undefined || start.y === undefined) {
+<span class="cstat-no" title="statement not covered" >        throw new Error("GreatCircle constructor expects two args: start and end objects with x and y properties");</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!end || end.x === undefined || end.y === undefined) {
+<span class="cstat-no" title="statement not covered" >        throw new Error("GreatCircle constructor expects two args: start and end objects with x and y properties");</span>
+    }
+    this.start = new Coord(start.x,start.y);
+    this.end = new Coord(end.x,end.y);
+    this.properties = properties || {};
+&nbsp;
+    let w = this.start.x - this.end.x;
+    let h = this.start.y - this.end.y;
+    let z = Math.pow(Math.sin(h / 2.0), 2) +
+                Math.cos(this.start.y) *
+                   Math.cos(this.end.y) *
+                     Math.pow(Math.sin(w / 2.0), 2);
+    this.g = 2.0 * Math.asin(Math.sqrt(z));
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.g == Math.PI) {
+<span class="cstat-no" title="statement not covered" >        throw new Error('it appears ' + start.view() + ' and ' + end.view() + " are 'antipodal', e.g diametrically opposite, thus there is no single route but rather infinite");</span>
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (isNaN(this.g)) {
+<span class="cstat-no" title="statement not covered" >        throw new Error('could not calculate great circle between ' + start + ' and ' + end);</span>
+    }
+};
+&nbsp;
+/*
+ * http://williams.best.vwh.net/avform.htm#Intermediate
+ */
+GreatCircle.prototype.interpolate = function(f) {
+    let A = Math.sin((1 - f) * this.g) / Math.sin(this.g);
+    let B = Math.sin(f * this.g) / Math.sin(this.g);
+    let x = A * Math.cos(this.start.y) * Math.cos(this.start.x) + B * Math.cos(this.end.y) * Math.cos(this.end.x);
+    let y = A * Math.cos(this.start.y) * Math.sin(this.start.x) + B * Math.cos(this.end.y) * Math.sin(this.end.x);
+    let z = A * Math.sin(this.start.y) + B * Math.sin(this.end.y);
+    let lat = R2D * Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+    let lon = R2D * Math.atan2(y, x);
+    return [lon, lat];
+};
+&nbsp;
+&nbsp;
+&nbsp;
+/*
+ * Generate points along the great circle
+ */
+GreatCircle.prototype.Arc = function(npoints,options) {
+    let first_pass = [];
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!npoints || npoints &lt;= 2) {
+<span class="cstat-no" title="statement not covered" >        first_pass.push([this.start.lon, this.start.lat]);</span>
+<span class="cstat-no" title="statement not covered" >        first_pass.push([this.end.lon, this.end.lat]);</span>
+    } else {
+        let delta = 1.0 / (npoints - 1);
+        for (let i = 0; i &lt; npoints; ++i) {
+            let step = delta * i;
+            let pair = this.interpolate(step);
+            first_pass.push(pair);
+        }
+    }
+    /* partial port of dateline handling from:
+      gdal/ogr/ogrgeometryfactory.cpp
+      TODO - does not handle all wrapping scenarios yet
+    */
+    let bHasBigDiff = false;
+    let dfMaxSmallDiffLong = 0;
+    // from http://www.gdal.org/ogr2ogr.html
+    // -datelineoffset:
+    // (starting with GDAL 1.10) offset from dateline in degrees (default long. = +/- 10deg, geometries within 170deg to -170deg will be splited)
+    let dfDateLineOffset = options &amp;&amp; options.offset ? options.offset : <span class="branch-1 cbranch-no" title="branch not covered" >10;</span>
+    let dfLeftBorderX = 180 - dfDateLineOffset;
+    let dfRightBorderX = -180 + dfDateLineOffset;
+    let dfDiffSpace = 360 - dfDateLineOffset;
+&nbsp;
+    // https://github.com/OSGeo/gdal/blob/7bfb9c452a59aac958bff0c8386b891edf8154ca/gdal/ogr/ogrgeometryfactory.cpp#L2342
+    for (let j = 1; j &lt; first_pass.length; ++j) {
+        let dfPrevX = first_pass[j-1][0];
+        let dfX = first_pass[j][0];
+        let dfDiffLong = Math.abs(dfX - dfPrevX);
+        if (dfDiffLong &gt; dfDiffSpace &amp;&amp;
+            ((dfX &gt; dfLeftBorderX &amp;&amp; dfPrevX &lt; dfRightBorderX) || (dfPrevX &gt; dfLeftBorderX &amp;&amp; dfX &lt; dfRightBorderX))) {
+            bHasBigDiff = true;
+        } else if (dfDiffLong &gt; dfMaxSmallDiffLong) {
+            dfMaxSmallDiffLong = dfDiffLong;
+        }
+    }
+&nbsp;
+    let poMulti = [];
+    if (bHasBigDiff &amp;&amp; dfMaxSmallDiffLong &lt; dfDateLineOffset) {
+        let poNewLS = [];
+        poMulti.push(poNewLS);
+        for (let k = 0; k &lt; first_pass.length; ++k) {
+            let dfX0 = parseFloat(first_pass[k][0]);
+            if (k &gt; 0 &amp;&amp;  Math.abs(dfX0 - first_pass[k-1][0]) &gt; dfDiffSpace) {
+                let dfX1 = parseFloat(first_pass[k-1][0]);
+                let dfY1 = parseFloat(first_pass[k-1][1]);
+                let dfX2 = parseFloat(first_pass[k][0]);
+                let dfY2 = parseFloat(first_pass[k][1]);
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (dfX1 &gt; -180 &amp;&amp; dfX1 &lt; dfRightBorderX &amp;&amp; dfX2 == 180 &amp;&amp;
+<span class="branch-3 cbranch-no" title="branch not covered" >                    k+1 &lt; first_pass.length </span>&amp;&amp;
+<span class="branch-4 cbranch-no" title="branch not covered" >                   first_pass[k-1][0] &gt; -180 </span>&amp;&amp; <span class="branch-5 cbranch-no" title="branch not covered" >first_pass[k-1][0] &lt; dfRightBorderX)</span>
+                {
+<span class="cstat-no" title="statement not covered" >                     poNewLS.push([-180, first_pass[k][1]]);</span>
+<span class="cstat-no" title="statement not covered" >                     k++;</span>
+<span class="cstat-no" title="statement not covered" >                     poNewLS.push([first_pass[k][0], first_pass[k][1]]);</span>
+<span class="cstat-no" title="statement not covered" >                     continue;</span>
+                } else <span class="missing-if-branch" title="if path not taken" >I</span>if (dfX1 &gt; dfLeftBorderX &amp;&amp; dfX1 &lt; 180 &amp;&amp; dfX2 == -180 &amp;&amp;
+<span class="branch-3 cbranch-no" title="branch not covered" >                     k+1 &lt; first_pass.length </span>&amp;&amp;
+<span class="branch-4 cbranch-no" title="branch not covered" >                     first_pass[k-1][0] &gt; dfLeftBorderX </span>&amp;&amp; <span class="branch-5 cbranch-no" title="branch not covered" >first_pass[k-1][0] &lt; 180)</span>
+                {
+<span class="cstat-no" title="statement not covered" >                     poNewLS.push([180, first_pass[k][1]]);</span>
+<span class="cstat-no" title="statement not covered" >                     k++;</span>
+<span class="cstat-no" title="statement not covered" >                     poNewLS.push([first_pass[k][0], first_pass[k][1]]);</span>
+<span class="cstat-no" title="statement not covered" >                     continue;</span>
+                }
+&nbsp;
+                if (dfX1 &lt; dfRightBorderX &amp;&amp; dfX2 &gt; dfLeftBorderX)
+                {
+                    // swap dfX1, dfX2
+                    let tmpX = dfX1;
+                    dfX1 = dfX2;
+                    dfX2 = tmpX;
+                    // swap dfY1, dfY2
+                    let tmpY = dfY1;
+                    dfY1 = dfY2;
+                    dfY2 = tmpY;
+                }
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (dfX1 &gt; dfLeftBorderX &amp;&amp; dfX2 &lt; dfRightBorderX) {
+                    dfX2 += 360;
+                }
+&nbsp;
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (dfX1 &lt;= 180 &amp;&amp; dfX2 &gt;= 180 &amp;&amp; dfX1 &lt; dfX2)
+                {
+                    let dfRatio = (180 - dfX1) / (dfX2 - dfX1);
+                    let dfY = dfRatio * dfY2 + (1 - dfRatio) * dfY1;
+                    poNewLS.push([first_pass[k-1][0] &gt; dfLeftBorderX ? 180 : -180, dfY]);
+                    poNewLS = [];
+                    poNewLS.push([first_pass[k-1][0] &gt; dfLeftBorderX ? -180 : 180, dfY]);
+                    poMulti.push(poNewLS);
+                }
+                else
+                {
+<span class="cstat-no" title="statement not covered" >                    poNewLS = [];</span>
+<span class="cstat-no" title="statement not covered" >                    poMulti.push(poNewLS);</span>
+                }
+                poNewLS.push([dfX0, first_pass[k][1]]);
+            } else {
+                poNewLS.push([first_pass[k][0], first_pass[k][1]]);
+            }
+        }
+    } else {
+        // add normally
+        let poNewLS0 = [];
+        poMulti.push(poNewLS0);
+        for (let l = 0; l &lt; first_pass.length; ++l) {
+            poNewLS0.push([first_pass[l][0],first_pass[l][1]]);
+        }
+    }
+&nbsp;
+    let arc = new Arc(this.properties);
+    for (let m = 0; m &lt; poMulti.length; ++m) {
+        let line = new LineString();
+        arc.geometries.push(line);
+        let points = poMulti[m];
+        for (let j0 = 0; j0 &lt; points.length; ++j0) {
+            line.move_to(points[j0]);
+        }
+    }
+    return arc;
+};
+&nbsp;
+&nbsp;
+export {
+    Arc,
+    Coord,
+    GreatCircle
+};
+&nbsp;
+export default {
+    Arc,
+    Coord,
+    GreatCircle
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 00:20:33 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

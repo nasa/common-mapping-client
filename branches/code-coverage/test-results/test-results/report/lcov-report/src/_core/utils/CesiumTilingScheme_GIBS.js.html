@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/utils/CesiumTilingScheme_GIBS.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/utils/</a> CesiumTilingScheme_GIBS.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.36% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>42/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.15% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>6/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.36% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>42/47</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+import "assets/cesium/Cesium.js";
+&nbsp;
+/**
+ * Tiling scheme class for GIBS layers to render in cesium
+ * copied from https://github.com/nasa-gibs/gibs-web-examples/blob/master/lib/gibs/gibs.js
+ *
+ * @export
+ * @class CesiumTilingScheme_GIBS
+ * @extends {window.Cesium.GeographicTilingScheme}
+ */
+export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTilingScheme {
+    constructor(options, wmtsOptions = {}) {
+        super(options);
+&nbsp;
+        let tilePixels = 512;
+        let cesium = window.Cesium;
+        let rectangle = window.Cesium.Rectangle.MAX_VALUE;
+        let math = window.Cesium.Math;
+&nbsp;
+        // Resolution: radians per pixel
+        let levels = [
+            { width: 2, height: 1, resolution: 0.009817477042468103 },
+            { width: 3, height: 2, resolution: 0.004908738521234052 },
+            { width: 5, height: 3, resolution: 0.002454369260617026 },
+            { width: 10, height: 5, resolution: 0.001227184630308513 },
+            { width: 20, height: 10, resolution: 0.0006135923151542565 },
+            { width: 40, height: 20, resolution: 0.00030679615757712823 },
+            { width: 80, height: 40, resolution: 0.00015339807878856412 },
+            { width: 160, height: 80, resolution: 0.00007669903939428206 },
+            { width: 320, height: 160, resolution: 0.00003834951969714103 },
+            { width: 640, height: 320, resolution: 0.000019174759848570515 },
+            { width: 1280, height: 640, resolution: 0.000009587379924285257 },
+            { width: 2560, height: 1280, resolution: 0.000004793689962142629 }
+        ];
+&nbsp;
+        // package the variables needed in the overrides below that will be used
+        this._override_vars = { tilePixels, cesium, rectangle, math, levels };
+    }
+&nbsp;
+    getNumberOfXTilesAtLevel(level) {
+        return this._override_vars.levels[level].width;
+    }
+&nbsp;
+    getNumberOfYTilesAtLevel(level) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return this._override_vars.levels[level].height;</span>
+    }
+&nbsp;
+    tileXYToRectangle(x, y, level, result) {
+        let xTiles = this._override_vars.levels[level].width;
+        let yTiles = this._override_vars.levels[level].height;
+        let resolution = this._override_vars.levels[level].resolution;
+&nbsp;
+        let xTileWidth = resolution * this._override_vars.tilePixels;
+        let west = x * xTileWidth + this._override_vars.rectangle.west;
+        let east = (x + 1) * xTileWidth + this._override_vars.rectangle.west;
+&nbsp;
+        let yTileHeight = resolution * this._override_vars.tilePixels;
+        let north = this._override_vars.rectangle.north - y * yTileHeight;
+        let south = this._override_vars.rectangle.north - (y + 1) * yTileHeight;
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!result) {
+            result = new this._override_vars.cesium.Rectangle(0, 0, 0, 0);
+        }
+        result.west = west;
+        result.south = south;
+        result.east = east;
+        result.north = north;
+        return result;
+    }
+&nbsp;
+    positionToTileXY(position, level, result) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (
+            !this._override_vars.cesium.Rectangle.contains(this._override_vars.rectangle, position)
+        ) {
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        }
+&nbsp;
+        let xTiles = this._override_vars.levels[level].width;
+        let yTiles = this._override_vars.levels[level].height;
+        let resolution = this._override_vars.levels[level].resolution;
+&nbsp;
+        let xTileWidth = resolution * this._override_vars.tilePixels;
+        let yTileHeight = resolution * this._override_vars.tilePixels;
+&nbsp;
+        let longitude = position.longitude;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (this._override_vars.rectangle.east &lt; this._override_vars.rectangle.west) {
+<span class="cstat-no" title="statement not covered" >            longitude += this._override_vars.math.TWO_PI;</span>
+        }
+&nbsp;
+        let xTileCoordinate = ((longitude - this._override_vars.rectangle.west) / xTileWidth) | 0;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (xTileCoordinate &gt;= xTiles) {
+<span class="cstat-no" title="statement not covered" >            xTileCoordinate = xTiles - 1;</span>
+        }
+&nbsp;
+        let latitude = position.latitude;
+        let yTileCoordinate = ((this._override_vars.rectangle.north - latitude) / yTileHeight) | 0;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (yTileCoordinate &gt; yTiles) {
+<span class="cstat-no" title="statement not covered" >            yTileCoordinate = yTiles - 1;</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!result) {
+            result = new this._override_vars.cesium.Cartesian2(0, 0);
+        }
+        result.x = xTileCoordinate;
+        result.y = yTileCoordinate;
+        return result;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 00:20:33 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/utils/TileHandler.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/utils/</a> TileHandler.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>22/55</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.23% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.41% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>22/55</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+import * as appStrings from "_core/constants/appStrings";
+import MapUtil from "_core/utils/MapUtil";
+import MiscUtil from "_core/utils/MiscUtil";
+&nbsp;
+const CAT_SIZES = [128, 256, 512, 1024, 200, 300, 400, 500, 700];
+export default class TileHandler {
+    /**
+     * reference to a MapUtil class
+     *
+     * @static
+     * @memberof TileHandler
+     */
+    static mapUtil = MapUtil;
+&nbsp;
+    /**
+     * Reference to a MiscUtil class
+     *
+     * @static
+     * @memberof TileHandler
+     */
+    static miscUtil = MiscUtil;
+&nbsp;
+    /**
+     * Takes a function string and returns the tile url function associated with it or undefined
+     *
+     *  Tile Url Function Parameters
+     * OPENLAYERS
+     * - options: object containing the following...
+     *   - layer: the ImmutbleJS layer object from the store
+     *   - mapLayer: the openlayers map layer object
+     *   - origUrl: the original url (template or base endpoint) for the layer
+     *   - tileCoord: the coordinates of the tile currently requested [z,x,y]
+     *   - tileMatrixIds: array of tile matrix ids mapped by zoom level
+     *   - pixelRatio: the current pixel ratio of the display
+     *   - projectionString: the string name of the current projection
+     *   - context: "openlayers"
+     * return: {string} tile url
+     *
+     * CESIUM
+     * - options: object containing the following...
+     *   - layer: the ImmutbleJS layer object from the store
+     *   - mapLayer: the cesium map layer object
+     *   - origUrl: the original url (template or base endpoint) for the layer
+     *   - tileCoord: the coordinates of the tile currently requested [z,x,y]
+     *   - context: "cesium"
+     * return: {string} tile url
+     *
+     * @static
+     * @param {string} [functionString=""] key string for function map
+     * @returns {function} function associated with the given string
+     * @memberof TileHandler
+     */
+    static getUrlFunction(functionString = "") {
+        switch (functionString) {
+            case appStrings.DEFAULT_URL_FUNC:
+                return options =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    return this._defaultKVPUrl(options);</span>
+                };
+            case appStrings.ESRI_CUSTOM_512:
+                return options =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    return this._esriCustom512Url(options);</span>
+                };
+            case appStrings.KVP_TIME_PARAM:
+                return options =&gt; {
+                    return this._kvpTimeParamUrl(options);
+                };
+            case appStrings.CATS_URL:
+                return options =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    return this._catsInterceptUrl(options);</span>
+                };
+            default:
+                return undefined;
+        }
+    }
+&nbsp;
+    /**
+     * takes a function string and returns the tile load function associated with it or undefined
+     *
+     * Tile Load Function Parameters
+     * OPENLAYERS
+     * - options: object containing the following...
+     *   - layer: the ImmutbleJS layer object from the store
+     *   - maplayer: the openlayers map layer object
+     *   - url: the url for the retrieved tile
+     *   - tile: the openlayers tile object
+     *   - defaultFunc: function that will run the the openlayers default tile load function
+     * return: {object} an openlayers tile object
+     *
+     * CESIUM
+     * - options: object containing the following...
+     *   - layer: the ImmutbleJS layer object from the store
+     *   - maplayer: the cesium map layer object
+     *   - url: the url for the retrieved tile
+     *   - tileCoord: the coordinates of the tile currently requested [z,x,y]
+     *   - success: the function to call once the tile has been successfully generated, passing the resulting tile as the only arg
+     *   - fail: the function to call once the tile has failed to be generated, passing the resulting error as the only arg
+     * return: none
+     *
+     * @static
+     * @param {string} [functionString=""] key string for function map
+     * @returns {function} function associated with the given string
+     * @memberof TileHandler
+     */
+    static getTileFunction(functionString = "") {
+        switch (functionString) {
+            case appStrings.CATS_TILE_OL:
+                return options =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    return this._catsInterceptTile_OL(options);</span>
+                };
+            case appStrings.CATS_TILE_CS:
+                return options =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    return this._catsInterceptTile_CS(options);</span>
+                };
+            default:
+                return undefined;
+        }
+    }
+&nbsp;
+    /**
+     * constuct a wmts kvp format url
+     *
+     * @static
+     * @param {object} options tile url function options
+     * @returns {string} tile url
+     * @memberof TileHandler
+     */
+    static _defaultKVPUrl(options) {
+        let layer = options.layer;
+        let url = this.mapUtil.buildTileUrl({
+            layerId: layer.get("id"),
+            url: options.origUrl,
+            tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
+            format: layer.getIn(["wmtsOptions", "format"]),
+            col: options.tileCoord[1],
+            row: options.tileCoord[2],
+            level:
+                typeof options.tileMatrixIds !== "undefined" &amp;&amp;
+                typeof options.tileMatrixIds[options.tileCoord[0]] !== "undefined"
+                    ? options.tileMatrixIds[options.tileCoord[0]]
+                    : options.tileCoord[0],
+            context: options.context
+        });
+&nbsp;
+        return url;
+    }
+&nbsp;
+    /**
+     * construct esri xyz tile format url
+     *
+     * @static
+     * @param {object} options tile url function options
+     * @returns {string} tile url
+     * @memberof TileHandler
+     */
+    static _esriCustom512Url(options) <span class="fstat-no" title="function not covered" >{</span>
+        let urlTemplate = <span class="cstat-no" title="statement not covered" >options.origUrl;</span>
+        let tileCoord = <span class="cstat-no" title="statement not covered" >options.tileCoord;</span>
+<span class="cstat-no" title="statement not covered" >        if (urlTemplate) {</span>
+<span class="cstat-no" title="statement not covered" >            return urlTemplate</span>
+                .replace("{z}", (tileCoord[0] - 1).toString())
+                .replace("{x}", tileCoord[1].toString())
+                .replace("{y}", (-tileCoord[2] - 1).toString());
+        }
+<span class="cstat-no" title="statement not covered" >        return undefined;</span>
+    }
+&nbsp;
+    /**
+     * constuct a wmts kvp format url with an additional time parameter
+     *
+     * @static
+     * @param {object} options tile url function options
+     * @returns {string} tile url
+     * @memberof TileHandler
+     */
+    static _kvpTimeParamUrl(options) {
+        let mapLayer = options.mapLayer;
+        let url = this._defaultKVPUrl(options);
+&nbsp;
+        let timeStr =
+            typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof timeStr !== "undefined") {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (url.indexOf("{") &gt;= 0) {
+                url = url.replace("{Time}", timeStr);
+            } else {
+<span class="cstat-no" title="statement not covered" >                url = url + "&amp;TIME=" + timeStr;</span>
+            }
+        }
+&nbsp;
+        return url;
+    }
+&nbsp;
+    /**
+     * construct a url for a random cat image
+     *
+     * @static
+     * @param {object} options tile url function options
+     * @returns {string} random cat image url
+     * @memberof TileHandler
+     */
+    static _catsInterceptUrl(options) <span class="fstat-no" title="function not covered" >{</span>
+        let tileSize = <span class="cstat-no" title="statement not covered" >CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];</span>
+        // let tileSize = options.layer.getIn(["wmtsOptions", "tileGrid", "tileSize"]);
+<span class="cstat-no" title="statement not covered" >        return "http://placekitten.com/g/" + tileSize + "/" + tileSize;</span>
+    }
+&nbsp;
+    /**
+     * load a random cat image instead of the specified tile
+     * for an openlayers tile
+     *
+     * @static
+     * @param {object} options tile load function options
+     * @returns {object} openlayers tile
+     * @memberof TileHandler
+     */
+    static _catsInterceptTile_OL(options) <span class="fstat-no" title="function not covered" >{</span>
+        let tile = <span class="cstat-no" title="statement not covered" >options.tile;</span>
+&nbsp;
+        // override getImage()
+<span class="cstat-no" title="statement not covered" >        if (typeof tile._origGetImageFunc === "undefined") {</span>
+<span class="cstat-no" title="statement not covered" >            tile._origGetImageFunc = tile.getImage;</span>
+&nbsp;
+            let tileSize = <span class="cstat-no" title="statement not covered" >CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];</span>
+            let url = <span class="cstat-no" title="statement not covered" >"http://placekitten.com/g/" + tileSize + "/" + tileSize;</span>
+<span class="cstat-no" title="statement not covered" >            tile.getImage = function(optContext) <span class="fstat-no" title="function not covered" >{</span></span>
+                let node = <span class="cstat-no" title="statement not covered" >tile._origGetImageFunc(optContext);</span>
+<span class="cstat-no" title="statement not covered" >                node.src = url;</span>
+<span class="cstat-no" title="statement not covered" >                return node;</span>
+            };
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return options.defaultFunc();</span>
+    }
+&nbsp;
+    /**
+     * load a random cat image instead of the specified tile
+     * for an cesium tile
+     *
+     * @static
+     * @param {object} options tile load function options
+     * @returns none
+     * @memberof TileHandler
+     */
+    static _catsInterceptTile_CS(options) <span class="fstat-no" title="function not covered" >{</span>
+        let imgTile = <span class="cstat-no" title="statement not covered" >new Image();</span>
+        let tileSize = <span class="cstat-no" title="statement not covered" >CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];</span>
+        let url = <span class="cstat-no" title="statement not covered" >"http://placekitten.com/g/" + tileSize + "/" + tileSize;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        imgTile.onload = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >            options.success(imgTile);</span>
+        };
+<span class="cstat-no" title="statement not covered" >        imgTile.onerror = err =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >            options.fail(err);</span>
+        };
+<span class="cstat-no" title="statement not covered" >        if (this.miscUtil.urlIsCrossorigin(url)) {</span>
+<span class="cstat-no" title="statement not covered" >            imgTile.crossOrigin = "";</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        imgTile.src = url;</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 00:20:33 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

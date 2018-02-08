@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/_core/utils/WorkerManager.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">src/_core/utils/</a> WorkerManager.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.06% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/63</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">57.14% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>8/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.06% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>58/63</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">400×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">600×</span>
+<span class="cline-any cline-yes">600×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">300×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">400×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">699×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+&nbsp;
+// Manager class for web workers. Import this to start running jobs on a webworker
+&nbsp;
+import Immutable from "immutable";
+import * as appStrings from "_core/constants/appStrings";
+import WebWorker from "worker-loader?inline!_core/utils/WebWorkerWrapper.js";
+&nbsp;
+/**
+ * Class for managing a pool of workers and dispatching jobs to them
+ *
+ * @export
+ * @class WorkerManager
+ */
+export default class WorkerManager {
+    /**
+     * Creates an instance of WorkerManager.
+     *
+     * @param {number} [limit=0] the number of workers to populate at inception
+     * @memberof WorkerManager
+     */
+    constructor(limit = 0) {
+        this.workerCounter = 0;
+        this.workerMap = Immutable.Map();
+        this.callbackMap = Immutable.Map();
+        this.jobQueue = Immutable.List();
+&nbsp;
+        // prefill workers
+        this.createWorkers(limit);
+    }
+&nbsp;
+    /**
+     * create a pool of workers
+     *
+     * @param {number} [limit=0]  the number of workers to create
+     * @returns {array} list of worker ids
+     * @memberof WorkerManager
+     */
+    createWorkers(limit = 0) {
+        let ids = [];
+        for (let i = 0; i &lt; limit; ++i) {
+            let worker = new WebWorker();
+            let workerId = this.getWorkerId();
+&nbsp;
+            worker.addEventListener("message", event =&gt; {
+                let workerId = event.data.workerId;
+                let callbacks = this.callbackMap.get(workerId);
+                let resolve = callbacks.resolve;
+                let reject = callbacks.reject;
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (event.data.operation === appStrings.WORKER_TASK_COMPLETE) {
+                    this.workerMap = this.workerMap.setIn([workerId, "isActive"], false);
+                    this.callbackMap = this.callbackMap.delete(workerId);
+                    resolve(event.data);
+                    this.checkQueue();
+                } else <span class="cstat-no" title="statement not covered" >if (event.data.operation === appStrings.WORKER_TASK_COMPLETE_ERROR) {</span>
+<span class="cstat-no" title="statement not covered" >                    this.workerMap = this.workerMap.setIn([workerId, "isActive"], false);</span>
+<span class="cstat-no" title="statement not covered" >                    this.callbackMap = this.callbackMap.delete(workerId);</span>
+<span class="cstat-no" title="statement not covered" >                    reject(event.data);</span>
+<span class="cstat-no" title="statement not covered" >                    this.checkQueue();</span>
+                }
+            });
+&nbsp;
+            this.workerMap = this.workerMap.set(
+                workerId,
+                Immutable.Map({
+                    worker: worker,
+                    isActive: false
+                })
+            );
+&nbsp;
+            ids.push(workerId);
+        }
+        return ids;
+    }
+&nbsp;
+    /**
+     * closes all workers in the pool and clears the pool
+     *
+     * @memberof WorkerManager
+     */
+    clearWorkers() {
+        this.workerMap.forEach(workerEntry =&gt; {
+            workerEntry.get("worker").postMessage({
+                operation: appStrings.WORKER_TASK_CLOSE
+            });
+        });
+        this.workerMap = this.workerMap.clear();
+    }
+&nbsp;
+    /**
+     * adds a job to the queue
+     *
+     * @param {object} jobOptions information for the worker to perform a task
+     * - operation - {string} the task to perform
+     * - any additonal fields to be passed to the worker
+     * @returns {Promise} a promise that will be resolved when the job completes
+     * @memberof WorkerManager
+     */
+    queueJob(jobOptions) {
+        return new Promise((resolve, reject) =&gt; {
+            // TODO - validate input
+            this.jobQueue = this.jobQueue.push({ jobOptions, resolve, reject });
+            this.checkQueue();
+        });
+    }
+&nbsp;
+    /**
+     * check if there are jobs to perform an available workers,
+     * if there are then run the next job
+     *
+     * @memberof WorkerManager
+     */
+    checkQueue() {
+        if (this.workerAvailable() &amp;&amp; !this.jobQueue.isEmpty()) {
+            this.runNextJob();
+        }
+    }
+&nbsp;
+    /**
+     * run the next job in the queue
+     *
+     * @memberof WorkerManager
+     */
+    runNextJob() {
+        let workerMapEntry = this.getInactiveWorker();
+&nbsp;
+        let job = this.dequeueJob();
+        let jobOptions = job.jobOptions;
+        let resolve = job.resolve;
+        let reject = job.reject;
+        let workerId = workerMapEntry[0];
+        let workerEntry = workerMapEntry[1];
+        let worker = workerEntry.get("worker");
+        workerEntry = workerEntry.set("isActive", true);
+        this.workerMap = this.workerMap.set(workerId, workerEntry);
+        this.callbackMap = this.callbackMap.set(workerId, { resolve, reject });
+&nbsp;
+        let jobOptionsMod = {};
+        for (let key in jobOptions) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (jobOptions.hasOwnProperty(key) &amp;&amp; key !== "transfer") {
+                jobOptionsMod[key] = jobOptions[key];
+            }
+        }
+&nbsp;
+        jobOptionsMod.workerId = workerId;
+        worker.postMessage(jobOptionsMod, jobOptions.transfer);
+    }
+&nbsp;
+    /**
+     * remove the next job from the queue
+     *
+     * @returns {object} job options
+     * @memberof WorkerManager
+     */
+    dequeueJob() {
+        let job = this.jobQueue.get(0);
+        this.jobQueue = this.jobQueue.shift();
+        return job;
+    }
+&nbsp;
+    /**
+     * get the next worker id in an ever increasing set
+     *
+     * @returns
+     * @memberof WorkerManager
+     */
+    getWorkerId() {
+        return "worker_" + this.workerCounter++;
+    }
+&nbsp;
+    /**
+     * get an inactive worker
+     *
+     * @returns {WebWorkerWrapper} inactive web worker
+     * @memberof WorkerManager
+     */
+    getInactiveWorker() {
+        return this.workerMap.findEntry((value, key) =&gt; {
+            return !value.get("isActive");
+        });
+    }
+&nbsp;
+    /**
+     * check if there is an available worker
+     *
+     * @returns {boolean} true if a web worker is available
+     * @memberof WorkerManager
+     */
+    workerAvailable() {
+        return (
+            typeof this.workerMap.find((value, key) =&gt; {
+                return !value.get("isActive");
+            }) !== "undefined"
+        );
+    }
+&nbsp;
+    /**
+     * get the current size of the worker pool
+     *
+     * @returns {number} the number of workers in the pool
+     * @memberof WorkerManager
+     */
+    workersTotal() {
+        return this.workerMap.size;
+    }
+&nbsp;
+    /**
+     * get the number of workers that are not currently working on a job
+     *
+     * @returns {number} of workers not currently working on a job
+     * @memberof WorkerManager
+     */
+    workersAvailable() {
+        return this.workerMap.filter(workerEntry =&gt; {
+            return !workerEntry.get("isActive");
+        }).size;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 00:20:33 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
