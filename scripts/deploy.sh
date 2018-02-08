@@ -38,7 +38,11 @@ if [ ! -d "branches" ]; then
   mkdir branches
 fi
 
-# Rename the dist directory to match the source branch name
+if [ -d branches/$SOURCE_BRANCH ]; then
+  # Clear the branch if it already exists
+  rm -rf branches/$SOURCE_BRANCH
+fi
+
 mv dist branches/$SOURCE_BRANCH
 
 # Remove unneeded files from gh-pages
