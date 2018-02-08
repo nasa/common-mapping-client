@@ -36,11 +36,16 @@ jobs:
                 name: Run tests
                 command: npm test --includecoretests
 
+            - store_test_results:
+                path: ./test-results/junit
+
+            - store_artifacts:
+                path: ./test-results/junit
+
             - run:
                 name: Report coverage to Coveralls
-                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js & rm -rf ./test-results/report
+                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js & rm -rf ./test-results/report & rm -rf ./test-results/junit
 
-            # run build
             - run:
                 name: Run build
                 command: npm run build
