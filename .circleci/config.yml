@@ -39,7 +39,7 @@ jobs:
 
             - run:
                 name: Report coverage to Coveralls
-                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js"
+                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js
                 # command: npm run test
 
             # run build
