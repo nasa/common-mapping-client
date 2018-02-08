@@ -36,15 +36,16 @@ jobs:
                 name: Run tests
                 command: npm test --includecoretests
 
+            - run:
+                name: Report coverage to Coveralls
+                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js
+                when: always
+
             - store_test_results:
                 path: ./test-results/junit
 
             - store_artifacts:
                 path: ./test-results/junit
-
-            - run:
-                name: Report coverage to Coveralls
-                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js
 
             - run:
                 name: Cleanup unneed test files
