@@ -1,7 +1,7 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: ce04158a3e1ccfb5311e
+Webpack stats: Hash: bc8da28939cd28360b19
 Version: webpack 3.10.0
-Time: 76334ms
+Time: 70927ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
                    a5139b778be308d73c01.worker.js    8.22 kB          [emitted]         
@@ -211,13 +211,13 @@ Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist 
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
     
     WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapContainer.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapContainer.scss 853 bytes {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapControlsContainer.scss 1.65 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
     
     WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapControlsContainer.scss 1.65 kB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapContainer.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapContainer.scss 853 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
     
     WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
