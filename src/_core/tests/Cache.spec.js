@@ -28,7 +28,7 @@ export const CacheSpec = {
                         expect(cache.get("a")).to.equal(1);
                         expect(cache.get(3)).to.deep.equal([1]);
                         expect(cache.get("c")).to.deep.equal({ a: 1 });
-                        expect(cache.get("d")).to.deep.equal(false);
+                        expect(cache.get("d")).to.deep.equal(true);
                         expect(cache.getSize()).to.equal(limit);
                     }
                 );
