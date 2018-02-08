@@ -44,7 +44,11 @@ jobs:
 
             - run:
                 name: Report coverage to Coveralls
-                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js & rm -rf ./test-results/report & rm -rf ./test-results/junit
+                command: cat ./test-results/report/lcov.info | node_modules/coveralls/bin/coveralls.js
+
+            - run:
+                name: Cleanup unneed test files
+                command: rm -rf ./test-results/report ./test-results/junit
 
             - run:
                 name: Run build
