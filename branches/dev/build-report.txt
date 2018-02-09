@@ -1,10 +1,10 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: bc8da28939cd28360b19
+Webpack stats: Hash: 19923439d70a1497cc56
 Version: webpack 3.10.0
-Time: 71177ms
+Time: 75847ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
-                   a5139b778be308d73c01.worker.js    8.22 kB          [emitted]         
+                   802d0eccbc6395ade031.worker.js    8.22 kB          [emitted]         
                          img/apple-touch-icon.png    6.39 kB          [emitted]         
                             img/favicon-32x32.png    1.73 kB          [emitted]         
                             img/favicon-16x16.png  999 bytes          [emitted]         
@@ -41,8 +41,6 @@ img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted] 
 [1461] ./src/styles/inlineStyles.js 254 bytes {1} [built]
 [1462] ./src/styles/inlineStyles.scss 41 bytes {1} [built]
     + 1452 hidden modules
-
-WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child html-webpack-plugin for "index.html":
          Asset    Size  Chunks  Chunk Names
     index.html  547 kB       0  
@@ -50,242 +48,152 @@ Child html-webpack-plugin for "index.html":
        [1] ./node_modules/lodash/lodash.js 540 kB {0} [built]
        [2] (webpack)/buildin/global.js 509 bytes {0} [built]
        [3] (webpack)/buildin/module.js 517 bytes {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child worker:
                              Asset     Size  Chunks             Chunk Names
-    a5139b778be308d73c01.worker.js  8.22 kB       0  [emitted]  main
+    802d0eccbc6395ade031.worker.js  8.22 kB       0  [emitted]  main
        [0] ./src/_core/constants/appStrings.js 8.15 kB {0} [built]
        [1] ./node_modules/babel-loader/lib!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js 2.35 kB {0} [built]
        [2] ./src/utils/WebWorker.js 5.66 kB {0} [built]
        [3] ./src/_core/utils/WebWorker.js 6.04 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/text.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/display.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/display.scss 2.21 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/App/AppContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/App/AppContainer.scss 957 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/MouseFollower/DrawingTooltip.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/MouseFollower/DrawingTooltip.scss 578 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerPositionIcon.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerPositionIcon.scss 607 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerControlLabel.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerControlLabel.scss 454 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MapToolsMenu.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/MapToolsMenu.scss 676 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MarkdownPage.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/MarkdownPage.scss 2.01 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/IconButtonSmall.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/IconButtonSmall.scss 355 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/EnhancedSwitch.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/EnhancedSwitch.scss 746 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MapButton.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/MapButton.scss 650 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerControlContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerControlContainer.scss 1.84 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppButtons.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/AppBar/AppButtons.scss 417 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/IncrementIcon.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/DatePicker/IncrementIcon.scss 284 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/IncrementButton.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/DatePicker/IncrementButton.scss 427 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppBarContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/AppBar/AppBarContainer.scss 759 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/DatePicker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/DatePicker/DatePicker.scss 1.17 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Timeline/ResolutionStep.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Timeline/ResolutionStep.scss 2.07 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Timeline/TimelineContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Timeline/TimelineContainer.scss 7.6 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertGroup.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Alerts/AlertGroup.scss 490 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertsContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Alerts/AlertsContainer.scss 277 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/ModalMenu/ModalMenu.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/ModalMenu/ModalMenu.scss 814 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Help/HelpContainer.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Help/HelpContainer.scss 559 bytes {0} [built]
-       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertLevel.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Alerts/AlertLevel.scss 846 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerInfo/LayerInfoContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerInfo/LayerInfoContainer.scss 2.35 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Help/HelpContainer.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Help/HelpContainer.scss 559 bytes {0} [built]
+       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AsyncImage/AsyncImage.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/AsyncImage/AsyncImage.scss 568 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Share/ShareContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Share/ShareContainer.scss 662 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Settings/BaseMapList.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Settings/BaseMapList.scss 656 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/BasemapPicker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/BasemapPicker.scss 703 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/CoordinateTracker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/CoordinateTracker.scss 641 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapControlsContainer.scss 1.65 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapContainer.scss 853 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/MouseFollower/MouseCoordinates.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/MouseFollower/MouseCoordinates.scss 1.03 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/MouseFollower/MouseFollowerContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/shadow.scss 610 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/MouseFollower/MouseFollowerContainer.scss 2.14 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerPositionControl.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerControlContainer.scss 1.84 kB {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerPositionControl.scss 1.44 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/ContextMenuSubMenu.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/MapToolsMenu.scss 676 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Reusables/ContextMenuSubMenu.scss 2.12 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Colorbar/Colorbar.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Colorbar/Colorbar.scss 2.32 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerMenuContainer.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/shadow.scss 610 bytes {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerMenuContainer.scss 3.8 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerOpacityControl.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerControlContainer.scss 1.84 kB {0} [built]
        [3] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/LayerMenu/LayerOpacityControl.scss 3.48 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppTitle.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/AppBar/AppTitle.scss 1.63 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/DatePickerContainer.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/shadow.scss 610 bytes {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/DatePicker/DatePickerContainer.scss 1.18 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapTooltip.scss:
        [0] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
        [1] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [2] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/shadow.scss 610 bytes {0} [built]
        [3] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapTooltip.scss 2.06 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--2-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/styles/inlineStyles.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":false,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/styles/inlineStyles.scss 5.85 kB {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-    
-    WARNING in DedupePlugin: This plugin was removed from webpack. Remove it from your configuration.
 Your app has been compiled in production mode and written to /dist. It's ready to roll!
