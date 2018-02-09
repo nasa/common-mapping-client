@@ -1,0 +1,94 @@
+{
+  "_args": [
+    [
+      "arc",
+      "/Users/aplave/code/cmc/cmc-core"
+    ]
+  ],
+  "_from": "arc@latest",
+  "_id": "arc@0.1.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/arc",
+  "_npmUser": {
+    "email": "dane@mapbox.com",
+    "name": "springmeyer"
+  },
+  "_npmVersion": "1.3.24",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "arc",
+    "raw": "arc",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/arc/-/arc-0.1.0.tgz",
+  "_shasum": "00a4132036cfb33869c7f219ef78287a1fa92c75",
+  "_shrinkwrap": null,
+  "_spec": "arc",
+  "_where": "/Users/aplave/code/cmc/cmc-core",
+  "bugs": {
+    "url": "https://github.com/springmeyer/arc.js/issues"
+  },
+  "contributors": [
+    {
+      "email": "dane@dbsgeo.com",
+      "name": "Dane Springmeyer"
+    }
+  ],
+  "dependencies": {},
+  "description": "draw great circle arcs",
+  "devDependencies": {
+    "mocha": "~1.17.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "00a4132036cfb33869c7f219ef78287a1fa92c75",
+    "tarball": "https://registry.npmjs.org/arc/-/arc-0.1.0.tgz"
+  },
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "homepage": "https://github.com/springmeyer/arc.js",
+  "keywords": [
+    "maps",
+    "spherical",
+    "globe",
+    "rhumb line",
+    "crow flies",
+    "great circle"
+  ],
+  "licenses": [
+    {
+      "type": "BSD"
+    }
+  ],
+  "main": "./index",
+  "maintainers": [
+    {
+      "email": "dane@dbsgeo.com",
+      "name": "springmeyer"
+    },
+    {
+      "email": "macwright@gmail.com",
+      "name": "tmcw"
+    }
+  ],
+  "name": "arc",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/springmeyer/arc.js.git"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "url": "https://github.com/springmeyer/arc.js",
+  "version": "0.1.0"
+}
