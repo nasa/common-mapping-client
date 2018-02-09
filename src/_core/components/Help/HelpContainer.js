@@ -123,7 +123,7 @@ export class HelpContainer extends Component {
                             button
                             onClick={() => {
                                 MiscUtil.openLinkInNewTab(
-                                    "https://github.jpl.nasa.gov/CommonMappingClient/cmc-core"
+                                    "https://github.com/nasa/common-mapping-client"
                                 );
                             }}
                         >
