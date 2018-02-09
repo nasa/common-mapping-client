@@ -13,9 +13,9 @@
  *
  */
 
-var DrawHelper = (function() {
+var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
     // static variables
-    var ellipsoid = Cesium.Ellipsoid.WGS84;
+    var ellipsoid = base_ellipsoid;
 
     // constructor
     function _(options) {
@@ -183,7 +183,7 @@ var DrawHelper = (function() {
     var drawingMaterial = Cesium.Material.fromType(Cesium.Material.PolylineDashType);
 
     var defaultShapeOptions = {
-        ellipsoid: Cesium.Ellipsoid.WGS84,
+        ellipsoid: ellipsoid,
         textureRotationAngle: 0.0,
         height: 0.0,
         asynchronous: true,
@@ -2144,5 +2144,5 @@ var DrawHelper = (function() {
     }
 
     return _;
-})();
+};
 window.DrawHelper = DrawHelper;
