@@ -224,7 +224,6 @@ module.exports = options => {
     if (options.isProduction) {
         webpackConfig.plugins.push(
             new webpack.optimize.UglifyJsPlugin(), // Minimize scripts and css in output
-            new webpack.optimize.DedupePlugin(), // remove duplicated modules
             new webpack.optimize.OccurrenceOrderPlugin()
         );
     } else {
