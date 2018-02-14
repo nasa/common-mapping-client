@@ -193,7 +193,7 @@ export default class MapWrapper {
         console.warn("Error in MapWrapper.moveLayerDown: Method not implemented in subclass");
         return false;
     }
-    getActiveLayerIds() {
+    getActiveLayerIds(layerType) {
         console.warn("Error in MapWrapper.getActiveLayerIds: Method not implemented in subclass");
         return false;
     }

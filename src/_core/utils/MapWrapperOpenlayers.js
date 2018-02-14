@@ -1894,18 +1894,16 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * that are marked as type "data" and are
      * currently active
      *
+     * @param {string} [layerType=appStrings.LAYER_GROUP_TYPE_DATA] layer type to search for
      * @returns {array|boolean} list of string layer ids or false if it fails
      * @memberof MapWrapperOpenlayers
      */
-    getActiveLayerIds() {
+    getActiveLayerIds(layerType = appStrings.LAYER_GROUP_TYPE_DATA) {
         try {
             let retList = [];
             let mapLayers = this.map.getLayers();
             mapLayers.forEach(mapLayer => {
-                if (
-                    mapLayer.get("_layerType") === appStrings.LAYER_GROUP_TYPE_DATA &&
-                    mapLayer.getVisible()
-                ) {
+                if (mapLayer.get("_layerType") === layerType && mapLayer.getVisible()) {
                     retList.push(mapLayer.get("_layerId"));
                 }
             });
