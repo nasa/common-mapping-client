@@ -44,7 +44,14 @@ export default class MapWrapperCesium extends MapWrapper {
         // Create cesium scene
         window.CESIUM_BASE_URL = "assets/cesium";
         this.cesium = window.Cesium;
+
+        // handle multiple initializations of DrawHelper
+        if (typeof window.DrawHelper.isPrepped === "undefined") {
+            window.DrawHelper = window.DrawHelper();
+            window.DrawHelper.isPrepped = true;
+        }
         this.drawHelper = window.DrawHelper;
+
         this.map = this.createMap(container, options);
 
         this.initializationSuccess = this.map ? true : false;
