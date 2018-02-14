@@ -20,7 +20,8 @@ export class DatePickerContainer extends Component {
         let containerClasses = MiscUtil.generateStringFromSet({
             [styles.datePickerContainer]: true,
             [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
-            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode
+            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
             <div className={containerClasses}>
@@ -33,7 +34,8 @@ export class DatePickerContainer extends Component {
 DatePickerContainer.propTypes = {
     date: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    mapActions: PropTypes.object.isRequired
+    mapActions: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

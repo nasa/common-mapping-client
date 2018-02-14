@@ -548,7 +548,8 @@ export class TimelineContainer extends Component {
         let containerClasses = MiscUtil.generateStringFromSet({
             [styles.elementsContainer]: true,
             [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
-            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode
+            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         let timelineClasses = MiscUtil.generateStringFromSet({
             [styles.timeline]: true,
@@ -574,7 +575,8 @@ TimelineContainer.propTypes = {
     date: PropTypes.object.isRequired,
     mapActions: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    dateSliderTimeResolution: PropTypes.object.isRequired
+    dateSliderTimeResolution: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

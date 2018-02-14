@@ -27,8 +27,12 @@ import styles from "_core/components/Reusables/MapToolsMenu.scss";
 
 export class MapToolsMenu extends Component {
     render() {
+        let containerClasses = MiscUtil.generateStringFromSet({
+            [styles.mapToolsMenu]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
+        });
         return (
-            <Paper className={styles.mapToolsMenu}>
+            <Paper className={containerClasses}>
                 <MenuList dense>
                     <ContextMenuSubMenu
                         title="Measure"
@@ -181,7 +185,8 @@ export class MapToolsMenu extends Component {
 MapToolsMenu.propTypes = {
     handleRequestClose: PropTypes.func.isRequired,
     appActions: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired
+    mapActions: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapDispatchToProps(dispatch) {

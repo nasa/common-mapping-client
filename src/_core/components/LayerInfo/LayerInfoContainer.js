@@ -48,13 +48,18 @@ export class LayerInfoContainer extends Component {
                 this.props.layerMetadataAsync.get("failed")
         });
 
+        let contentClasses = MiscUtil.generateStringFromSet({
+            [styles.root]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
+        });
+
         return (
             <Dialog
                 classes={{ paper: styles.paper }}
                 open={this.props.isOpen}
                 onClose={this.props.appActions.closeLayerInfo}
             >
-                <DialogContent className={styles.root}>
+                <DialogContent className={contentClasses}>
                     <AsyncImage className={styles.thumbnailImage} src={this.props.thumbnailUrl} />
                     <div className={styles.layerInfoContent}>
                         <div className={loadingClasses}>
@@ -122,7 +127,8 @@ LayerInfoContainer.propTypes = {
     layerId: PropTypes.string.isRequired,
     thumbnailUrl: PropTypes.string.isRequired,
     metadata: PropTypes.object.isRequired,
-    layerMetadataAsync: PropTypes.object.isRequired
+    layerMetadataAsync: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

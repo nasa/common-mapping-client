@@ -96,7 +96,8 @@ export class MapControlsContainer extends Component {
             [displayStyles.hiddenFadeOut]:
                 this.props.mapControlsHidden && this.props.distractionFreeMode,
             [displayStyles.hiddenFadeIn]:
-                !this.props.mapControlsHidden && this.props.distractionFreeMode
+                !this.props.mapControlsHidden && this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
             <div
@@ -200,7 +201,8 @@ MapControlsContainer.propTypes = {
     mapControlsHidden: PropTypes.bool.isRequired,
     mapControlsToolsOpen: PropTypes.bool.isRequired,
     mapActions: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired
+    appActions: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

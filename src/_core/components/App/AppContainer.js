@@ -111,7 +111,8 @@ export class AppContainer extends Component {
         let containerClasses = MiscUtil.generateStringFromSet({
             [styles.appContainer]: true,
             [displayStyles.mouseVisible]: !hideMouse,
-            [displayStyles.mouseHidden]: hideMouse
+            [displayStyles.mouseHidden]: hideMouse,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
             <MuiThemeProvider theme={theme}>
@@ -148,7 +149,8 @@ AppContainer.propTypes = {
     initializeMap: PropTypes.func.isRequired,
     setMapView: PropTypes.func.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    mapControlsHidden: PropTypes.bool.isRequired
+    mapControlsHidden: PropTypes.bool.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

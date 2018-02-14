@@ -14,6 +14,4 @@ const IconButtonSmall = props => {
     return <IconButton classes={{ root: styles.root }} {...props} />;
 };
 
-// IconButtonSmall.propTypes = {};
-
 export default IconButtonSmall;
