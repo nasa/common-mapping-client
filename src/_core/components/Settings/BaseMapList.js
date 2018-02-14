@@ -13,13 +13,16 @@ import Paper from "material-ui/Paper";
 import Input, { InputLabel } from "material-ui/Input";
 import Select from "material-ui/Select";
 import { ListItemText } from "material-ui/List";
-import { withStyles } from "material-ui/styles";
+import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Settings/BaseMapList.scss";
 require("_core/styles/resources/img/no_tile.png");
 
 const BaseMapList = props => {
+    let containerClasses = MiscUtil.generateStringFromSet({
+        [props.className]: typeof props.className !== "undefined"
+    });
     return (
-        <Paper>
+        <Paper className={containerClasses}>
             <MenuList dense>
                 {props.items.map(x => (
                     <MenuItem
@@ -45,7 +48,8 @@ const BaseMapList = props => {
 BaseMapList.propTypes = {
     value: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 export default BaseMapList;

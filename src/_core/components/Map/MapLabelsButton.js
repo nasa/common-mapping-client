@@ -15,6 +15,7 @@ import MapMarkerIcon from "mdi-material-ui/MapMarker";
 import { MapButton } from "_core/components/Reusables";
 import * as appStrings from "_core/constants/appStrings";
 import * as mapActions from "_core/actions/mapActions";
+import MiscUtil from "_core/utils/MiscUtil";
 import appConfig from "constants/appConfig";
 
 export class MapLabelsButton extends Component {
@@ -44,6 +45,10 @@ export class MapLabelsButton extends Component {
             }
         }
 
+        let btnClasses = MiscUtil.generateStringFromSet({
+            [this.props.className]: typeof this.props.className !== "undefined"
+        });
+
         return (
             <Tooltip
                 title={mapLabelsActive ? "Hide Map Labels" : "Show Map Labels"}
@@ -53,6 +58,7 @@ export class MapLabelsButton extends Component {
                     color={mapLabelsActive ? "primary" : "default"}
                     onClick={() => this.toggleMapLabels()}
                     aria-label="Map Layers"
+                    className={btnClasses}
                 >
                     <MapMarkerIcon />
                 </MapButton>
@@ -63,7 +69,8 @@ export class MapLabelsButton extends Component {
 
 MapLabelsButton.propTypes = {
     referenceLayers: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired
+    mapActions: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

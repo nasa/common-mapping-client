@@ -61,7 +61,8 @@ export class DayPicker extends Component {
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
             [styles.datePickerSelector]: true,
-            [styles.datePickerSelectorError]: this.error
+            [styles.datePickerSelectorError]: this.error,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
             <div className={containerClasses}>
@@ -87,7 +88,8 @@ export class DayPicker extends Component {
 
 DayPicker.propTypes = {
     onUpdate: PropTypes.func.isRequired,
-    day: PropTypes.string.isRequired
+    day: PropTypes.string.isRequired,
+    className: PropTypes.string
 };
 
 export default connect()(DayPicker);

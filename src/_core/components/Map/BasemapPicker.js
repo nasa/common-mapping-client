@@ -58,7 +58,8 @@ export class BasemapPicker extends Component {
         });
 
         let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.basemapPicker]: true
+            [styles.basemapPicker]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
         let popperClasses = MiscUtil.generateStringFromSet({
             [displayStyles.noPointer]: !this.props.mapControlsBasemapPickerOpen
@@ -140,7 +141,8 @@ BasemapPicker.propTypes = {
     basemaps: PropTypes.object.isRequired,
     mapActions: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-    mapControlsBasemapPickerOpen: PropTypes.bool.isRequired
+    mapControlsBasemapPickerOpen: PropTypes.bool.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

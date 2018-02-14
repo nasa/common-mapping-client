@@ -12,6 +12,7 @@ import { bindActionCreators } from "redux";
 import appConfig from "constants/appConfig";
 import * as analyticsActions from "_core/actions/analyticsActions";
 import ReactGA from "react-ga";
+import displayStyles from "_core/styles/display.scss";
 
 export class AnalyticsContainer extends Component {
     componentDidMount() {
@@ -54,7 +55,7 @@ export class AnalyticsContainer extends Component {
     }
 
     render() {
-        return <div id="analyticsContainer" />;
+        return <div className={displayStyles.hidden} />;
     }
 }
 

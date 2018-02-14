@@ -39,7 +39,8 @@ export class LayerMenuContainer extends Component {
         let layerMenuClasses = MiscUtil.generateStringFromSet({
             [styles.layerMenu]: true,
             [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
-            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode
+            [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
 
         let collapseIconClasses = MiscUtil.generateStringFromSet({
@@ -104,7 +105,8 @@ LayerMenuContainer.propTypes = {
     layerMenuOpen: PropTypes.bool.isRequired,
     layers: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
-    palettes: PropTypes.object.isRequired
+    palettes: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

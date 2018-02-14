@@ -272,8 +272,11 @@ export class LayerControlContainer extends Component {
     }
 
     render() {
+        let containerClasses = MiscUtil.generateStringFromSet({
+            [this.props.className]: typeof this.props.className !== "undefined"
+        });
         return (
-            <div>
+            <div className={containerClasses}>
                 {this.renderTopContent()}
                 {this.renderBottomContent()}
             </div>
@@ -285,7 +288,8 @@ LayerControlContainer.propTypes = {
     mapActions: PropTypes.object.isRequired,
     layer: PropTypes.object.isRequired,
     activeNum: PropTypes.number.isRequired,
-    palette: PropTypes.object
+    palette: PropTypes.object,
+    className: PropTypes.string
 };
 
 function mapDispatchToProps(dispatch) {

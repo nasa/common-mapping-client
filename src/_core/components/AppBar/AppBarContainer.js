@@ -19,7 +19,8 @@ export class AppBarContainer extends Component {
         let containerClasses = MiscUtil.generateStringFromSet({
             [styles.root]: true,
             [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
-            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode
+            [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
 
         return (
@@ -32,7 +33,8 @@ export class AppBarContainer extends Component {
 }
 
 AppBarContainer.propTypes = {
-    distractionFreeMode: PropTypes.bool.isRequired
+    distractionFreeMode: PropTypes.bool.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

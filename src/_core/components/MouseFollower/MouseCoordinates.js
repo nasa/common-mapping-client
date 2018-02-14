@@ -32,13 +32,14 @@ export class MouseCoordinates extends Component {
             : " ------" + lonUnit + ", ------" + latUnit;
 
         let containerClasses = MiscUtil.generateStringFromSet({
-            "current-coordinate": true
+            [styles.text]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
         });
 
         return (
             <Typography
                 variant="body1"
-                className={styles.text}
+                className={containerClasses}
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: displayText }}
             />
@@ -47,7 +48,8 @@ export class MouseCoordinates extends Component {
 }
 
 MouseCoordinates.propTypes = {
-    pixelCoordinate: PropTypes.object.isRequired
+    pixelCoordinate: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

@@ -194,6 +194,12 @@ export class ShareContainer extends Component {
         } else if (window.location.hash !== "") {
             window.history.replaceState(undefined, undefined, "#");
         }
+
+        let containerClasses = MiscUtil.generateStringFromSet({
+            [styles.shareContainer]: true,
+            [this.props.className]: typeof this.props.className !== "undefined"
+        });
+
         return (
             <ModalMenu
                 small
@@ -204,7 +210,7 @@ export class ShareContainer extends Component {
                     this.focusTextArea();
                 }}
             >
-                <div className={styles.shareContainer}>
+                <div className={containerClasses}>
                     <p>
                         This URL contains the information to reproduce this current view of the map.
                     </p>
@@ -277,7 +283,8 @@ ShareContainer.propTypes = {
     extent: PropTypes.object.isRequired,
     enableTerrain: PropTypes.bool.isRequired,
     mapDate: PropTypes.object.isRequired,
-    dateSliderResolution: PropTypes.object.isRequired
+    dateSliderResolution: PropTypes.object.isRequired,
+    className: PropTypes.string
 };
 
 function mapStateToProps(state) {

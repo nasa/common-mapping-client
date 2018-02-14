@@ -12,13 +12,18 @@ import "rc-slider/assets/index.css";
 import styles from "_core/components/LayerMenu/LayerOpacityControl.scss";
 import Slider from "rc-slider";
 import { Arrow } from "react-popper";
+import MiscUtil from "_core/utils/MiscUtil";
 import { LayerControlLabel } from "_core/components/LayerMenu";
 
 const LayerOpacityControl = props => {
     let currOpacity = Math.floor(props.opacity * 100);
+    let containerClasses = MiscUtil.generateStringFromSet({
+        [styles.opacityControl]: true,
+        [props.className]: typeof props.className !== "undefined"
+    });
     return (
         <div>
-            <Paper elevation={8} className={styles.opacityControl}>
+            <Paper elevation={8} className={containerClasses}>
                 <LayerControlLabel>Layer Opacity</LayerControlLabel>
                 <div className={styles.opacityContent}>
                     <Slider
@@ -40,7 +45,8 @@ const LayerOpacityControl = props => {
 LayerOpacityControl.propTypes = {
     isActive: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
-    opacity: PropTypes.number.isRequired
+    opacity: PropTypes.number.isRequired,
+    className: PropTypes.string
 };
 
 export default LayerOpacityControl;
