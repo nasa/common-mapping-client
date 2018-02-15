@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Immutable from "immutable";
 import { ListItem, ListItemSecondaryAction, ListItemText } from "material-ui/List";
 import Divider from "material-ui/Divider";
 import InfoOutlineIcon from "material-ui-icons/InfoOutline";
@@ -22,6 +23,7 @@ import { Manager, Target, Popper } from "react-popper";
 import { EnhancedSwitch, IconButtonSmall } from "_core/components/Reusables";
 import * as mapActions from "_core/actions/mapActions";
 import {
+    LayerControlBase,
     LayerPositionIcon,
     LayerPositionControl,
     LayerOpacityIcon,
@@ -33,84 +35,7 @@ import styles from "_core/components/LayerMenu/LayerControlContainer.scss";
 import textStyles from "_core/styles/text.scss";
 import displayStyles from "_core/styles/display.scss";
 
-export class LayerControlContainer extends Component {
-    constructor(props) {
-        super(props);
-
-        this.isChangingOpacity = false;
-        this.isChangingPosition = false;
-        this.opacityButton = null;
-    }
-
-    shouldComponentUpdate(nextProps) {
-        // Here we prevent unnecessary renderings by explicitly
-        // ignoring certain pieces of the layer state. We do this
-        // since LayerControlContainer is passed an entire layer object
-        // when instantiated in LayerMenuContainer, which contains state
-        // we want to ignore. By ignoring certain things, we can reduce
-        // the number of unnecessary renderings.
-        let nextLayer = nextProps.layer;
-        let currLayer = this.props.layer;
-        return (
-            nextProps.palette !== this.props.palette ||
-            nextLayer.get("title") !== currLayer.get("title") ||
-            nextLayer.get("opacity") !== currLayer.get("opacity") ||
-            nextLayer.get("isActive") !== currLayer.get("isActive") ||
-            nextLayer.get("palette") !== currLayer.get("palette") ||
-            nextLayer.get("min") !== currLayer.get("min") ||
-            nextLayer.get("max") !== currLayer.get("max") ||
-            nextLayer.get("units") !== currLayer.get("units") ||
-            nextLayer.get("displayIndex") !== currLayer.get("displayIndex")
-        );
-    }
-
-    setLayerActive(active) {
-        this.isChangingPosition = false;
-        this.isChangingOpacity = false;
-        this.props.mapActions.setLayerActive(this.props.layer.get("id"), !active);
-    }
-
-    changeOpacity(value) {
-        let opacity = value / 100.0;
-        this.props.mapActions.setLayerOpacity(this.props.layer, opacity);
-    }
-
-    toggleChangingOpacity() {
-        this.isChangingOpacity = !this.isChangingOpacity;
-        this.isChangingPosition = false;
-        this.forceUpdate();
-    }
-
-    toggleChangingPosition() {
-        this.isChangingPosition = !this.isChangingPosition;
-        this.isChangingOpacity = false;
-        this.forceUpdate();
-    }
-
-    openLayerInfo() {
-        this.props.mapActions.loadLayerMetadata(this.props.layer);
-    }
-
-    changePalette() {
-        this.props.mapActions.changeLayerPalette(this.props.layer.get("id"), {});
-    }
-
-    moveToTop() {
-        this.props.mapActions.moveLayerToTop(this.props.layer.get("id"));
-    }
-
-    moveToBottom() {
-        this.props.mapActions.moveLayerToBottom(this.props.layer.get("id"));
-    }
-
-    moveUp() {
-        this.props.mapActions.moveLayerUp(this.props.layer.get("id"));
-    }
-
-    moveDown() {
-        this.props.mapActions.moveLayerDown(this.props.layer.get("id"));
-    }
-
+export class LayerControlContainer extends LayerControlBase {
     renderTopContent() {
         return (
             <ListItem dense={true} classes={{ dense: styles.dense }}>
@@ -284,18 +209,8 @@ export class LayerControlContainer extends Component {
     }
 }
 
-LayerControlContainer.propTypes = {
-    mapActions: PropTypes.object.isRequired,
-    layer: PropTypes.object.isRequired,
-    activeNum: PropTypes.number.isRequired,
-    palette: PropTypes.object,
+LayerControlContainer.propTypes = MiscUtil.mergeObjects(LayerControlBase.propTypes, {
     className: PropTypes.string
-};
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        mapActions: bindActionCreators(mapActions, dispatch)
-    };
-}
-
-export default connect(null, mapDispatchToProps)(LayerControlContainer);
+export default connect(null, LayerControlBase.mapDispatchToProps)(LayerControlContainer);
