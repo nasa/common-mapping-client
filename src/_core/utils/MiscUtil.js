@@ -459,6 +459,6 @@ export default class MiscUtil {
      * @memberof MiscUtil
      */
     static mergeObjects(base, mod) {
-        new Immutable.Map(base).merge(mod).toJS();
+        new Immutable.Map(base).mergeDeep(mod).toJS();
     }
 }
