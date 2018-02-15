@@ -62,17 +62,61 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      */
     constructor(container, options) {
         super(container, options);
+
+        this.init(container, options);
+    }
+
+    /**
+     * Initialize instance variables
+     *
+     * @param {string|domnode} container the container to render this map into
+     * @param {object} options view options for constructing this map wrapper (usually map state from redux)
+     * @memberof MapWrapperOpenlayers
+     */
+    init(container, options) {
+        this.initBools(container, options);
+        this.initStaticClasses(container, options);
+        this.initObjects(container, options);
+
+        this.initializationSuccess = this.map ? true : false;
+    }
+
+    /**
+     * Initialize boolean values for this instance
+     *
+     * @param {string|domnode} container the container to render this map into
+     * @param {object} options view options for constructing this map wrapper (usually map state from redux)
+     * @memberof MapWrapperOpenlayers
+     */
+    initBools(container, options) {
         this.is3D = false;
         this.isActive = !options.getIn(["view", "in3DMode"]);
-        this.layerCache = new Cache(appConfig.MAX_LAYER_CACHE);
+    }
+
+    /**
+     * Initialize static class references for this instance
+     *
+     * @param {string|domnode} container the container to render this map into
+     * @param {object} options view options for constructing this map wrapper (usually map state from redux)
+     * @memberof MapWrapperOpenlayers
+     */
+    initStaticClasses(container, options) {
         this.tileHandler = TileHandler;
         this.mapUtil = MapUtil;
         this.miscUtil = MiscUtil;
-        this.cachedGeometry = null;
-        this.configureStyles();
-        this.map = this.createMap(container, options);
+    }
 
-        this.initializationSuccess = this.map ? true : false;
+    /**
+     * Initialize object instances for this instance
+     *
+     * @param {string|domnode} container the container to render this map into
+     * @param {options} options
+     * @memberof MapWrapperOpenlayers
+     */
+    initObjects(container, options) {
+        this.layerCache = new Cache(appConfig.MAX_LAYER_CACHE);
+        this.configureStyles(container, options);
+        this.map = this.createMap(container, options);
     }
 
     /**
@@ -129,9 +173,11 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * prepare the default style objects that will be used
      * in drawing/measuring
      *
+     * @param {string|domnode} container the domnode to render to
+     * @param {object} options options for creating this map (usually map state from redux)
      * @memberof MapWrapperOpenlayers
      */
-    configureStyles() {
+    configureStyles(container, options) {
         let geometryStyles = {};
         geometryStyles[OL_Geom_GeometryType.POLYGON] = [
             new Ol_Style({

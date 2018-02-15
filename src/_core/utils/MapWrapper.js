@@ -16,6 +16,23 @@ export default class MapWrapper {
         this.mapDate = appConfig.DEFAULT_DATE;
     }
 
+    init(container, options) {
+        console.warn("Error in MapWrapper.init: Method not implemented in subclass");
+        return false;
+    }
+    initBools(container, options) {
+        console.warn("Error in MapWrapper.initBools: Method not implemented in subclass");
+        return false;
+    }
+    initStaticClasses(container, options) {
+        console.warn("Error in MapWrapper.initStaticClasses: Method not implemented in subclass");
+        return false;
+    }
+    initObjects(container, options) {
+        console.warn("Error in MapWrapper.initObjects: Method not implemented in subclass");
+        return false;
+    }
+
     createMap(container, options) {
         console.warn("Error in MapWrapper.createMap: Method not implemented in subclass");
         return false;
