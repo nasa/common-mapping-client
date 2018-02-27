@@ -193,7 +193,6 @@ export default class MapUtil {
      */
     static getWmtsOptions(options) {
         try {
-            this.prepProjection();
             let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(
                 options.capabilities,
                 options.options
@@ -228,36 +227,33 @@ export default class MapUtil {
      * projection data within that instance
      *
      * @static
+     * @param {object} [projection=appConfig.DEFAULT_PROJECTION] the projection configuration to be prepped
+     * - code - {string} the identifier for this projection
+     * - proj4Def - {string} the proj4js definition
+     * - extent - {array} valid extents for this projection [minx, miny, maxx, maxy]
+     * - aliases - {array} list of string aliases for this projection code
      * @returns {object} the openlayers projection object for the default projection
      * @memberof MapUtil
      */
-    static prepProjection() {
+    static prepProjection(projection = appConfig.DEFAULT_PROJECTION) {
         // define the projection for this application and reproject defaults
         Ol_Proj.setProj4(proj4js);
-        proj4js.defs(appConfig.DEFAULT_PROJECTION.code, appConfig.DEFAULT_PROJECTION.proj4Def);
 
-        // Ol3 doesn't properly handle the "urn:ogc:def:crs:OGC:1.3:CRS84"
-        // string in getCapabilities and parses it into "OGC:CRS84". This
-        // hopefully adds that as an equivalent projection
-        let epsg4326Proj = Ol_Proj.get("EPSG:4326");
-        let ogcCrs84Proj = new Ol_Proj_Projection({
-            code: "OGC:CRS84",
-            units: epsg4326Proj.getUnits(),
-            extent: epsg4326Proj.getExtent(),
-            global: epsg4326Proj.isGlobal(),
-            metersPerUnit: epsg4326Proj.getMetersPerUnit(),
-            worldExtent: epsg4326Proj.getWorldExtent(),
-            getPointResolution: function(res, point) {
-                return Ol_Proj.getPointResolution("EPSG:4326", res, point);
+        // add configured projection
+        let projDef = proj4js.defs(projection.code);
+        if (typeof proj4Def === "undefined") {
+            proj4js.defs(projection.code, projection.proj4Def);
+            Ol_Proj.get(projection.code).setExtent(projection.extent);
+        }
+
+        // load aliases
+        if (typeof projection.aliases !== "undefined") {
+            for (let i = 0; i < projection.aliases.length; ++i) {
+                proj4js.defs(projection.aliases[i], proj4js.defs(projection.code));
             }
-        });
-        Ol_Proj.addProjection(ogcCrs84Proj);
-        Ol_Proj.addEquivalentProjections([ogcCrs84Proj, epsg4326Proj]);
+        }
 
-        let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
-        mapProjection.setExtent(appConfig.DEFAULT_PROJECTION.extent);
-
-        return mapProjection;
+        return Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
     }
 
     /**
