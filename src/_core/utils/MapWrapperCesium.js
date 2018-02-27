@@ -1751,7 +1751,10 @@ export default class MapWrapperCesium extends MapWrapper {
      * @memberof MapWrapperCesium
      */
     createTilingScheme(options, tileSchemeOptions) {
-        if (options.projection === appStrings.PROJECTIONS.latlon.code) {
+        if (
+            options.projection === appStrings.PROJECTIONS.latlon.code ||
+            appStrings.PROJECTIONS.latlon.aliases.indexOf(options.projection) !== -1
+        ) {
             if (options.handleAs === appStrings.LAYER_GIBS_RASTER) {
                 return new CesiumTilingScheme_GIBS(
                     { numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1 },
@@ -1759,7 +1762,10 @@ export default class MapWrapperCesium extends MapWrapper {
                 );
             }
             return new this.cesium.GeographicTilingScheme();
-        } else if (options.projection === appStrings.PROJECTIONS.webmercator.code) {
+        } else if (
+            options.projection === appStrings.PROJECTIONS.webmercator.code ||
+            appStrings.PROJECTIONS.webmercator.aliases.indexOf(options.projection) !== -1
+        ) {
             return new this.cesium.WebMercatorTilingScheme();
         }
         return false;
