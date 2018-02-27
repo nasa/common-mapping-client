@@ -129,21 +129,39 @@ export const MIN_ZOOM = 2;
 export const MAX_ZOOM = 16;
 export const MAX_ZOOM_DISTANCE_3D = 26000000.0;
 export const MIN_ZOOM_DISTANCE_3D = 500.0;
-export const GIBS_IMAGERY_RESOLUTIONS = [
-    0.5625,
-    0.28125,
-    0.140625,
-    0.0703125,
-    0.03515625,
-    0.017578125,
-    0.0087890625,
-    0.00439453125,
-    0.002197265625,
-    0.0010986328125,
-    0.00054931640625,
-    0.00027465820313
-];
-export const MAX_RESOLUTION = GIBS_IMAGERY_RESOLUTIONS[0];
+export const GIBS_IMAGERY_RESOLUTIONS = {
+    [appStrings.PROJECTIONS.latlon.code]: [
+        0.5625,
+        0.28125,
+        0.140625,
+        0.0703125,
+        0.03515625,
+        0.017578125,
+        0.0087890625,
+        0.00439453125,
+        0.002197265625,
+        0.0010986328125,
+        0.00054931640625,
+        0.00027465820313
+    ],
+    [appStrings.PROJECTIONS.webmercator.code]: [
+        156543.03392804085,
+        78271.51696402043,
+        39135.75848201021,
+        19567.879241005106,
+        9783.939620502553,
+        4891.969810251277,
+        2445.9849051256383,
+        1222.9924525628192,
+        611.4962262814096,
+        305.7481131407048,
+        152.8740565703524,
+        76.4370282851762,
+        38.2185141425881,
+        19.10925707129405
+    ]
+};
+export const MAX_RESOLUTION = GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.latlon.code][0];
 export const MAX_LAYER_CACHE = 50;
 
 export const REFERENCE_LABELS_LAYER_ID = "Reference_Labels";

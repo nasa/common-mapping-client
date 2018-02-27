@@ -2194,6 +2194,21 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * @memberof MapWrapperOpenlayers
      */
     createGIBSWMTSSource(layer, options) {
+        // determine if we have preset imagery resolutions
+        let resolutions = options.tileGrid.resolutions;
+        if (
+            options.projection === appStrings.PROJECTIONS.latlon.code ||
+            appStrings.PROJECTIONS.latlon.aliases.indexOf(options.projection) !== -1
+        ) {
+            resolutions = appConfig.GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.latlon.code];
+        } else if (
+            options.projection === appStrings.PROJECTIONS.webmercator.code ||
+            appStrings.PROJECTIONS.webmercator.aliases.indexOf(options.projection) !== -1
+        ) {
+            resolutions =
+                appConfig.GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.webmercator.code];
+        }
+
         return new Ol_Source_WMTS({
             url: options.url,
             layer: options.layer,
@@ -2204,13 +2219,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             tileGrid: new Ol_Tilegrid_WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
-                resolutions: options.tileGrid.resolutions.slice(
-                    2,
-                    appConfig.GIBS_IMAGERY_RESOLUTIONS.length
-                ),
-                // resolutions: options.tileGrid.resolutions,
-                matrixIds: options.tileGrid.matrixIds.slice(2, options.tileGrid.matrixIds.length),
-                // matrixIds: options.tileGrid.matrixIds,
+                resolutions: resolutions.slice(2, options.tileGrid.resolutions.length), // top two zoom levels are misaligned
+                matrixIds: options.tileGrid.matrixIds.slice(2),
                 tileSize: options.tileGrid.tileSize
             }),
             transition: appConfig.DEFAULT_TILE_TRANSITION_TIME,
