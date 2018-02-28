@@ -119,6 +119,12 @@ export const DEFAULT_DATE_SLIDER_RESOLUTION = DATE_SLIDER_RESOLUTIONS[3];
 
 /* MAP */
 export const DEFAULT_PROJECTION = appStrings.PROJECTIONS.latlon;
+export const DEFAULT_AVAILABLE_PROJECTIONS = [
+    appStrings.PROJECTIONS.latlon,
+    appStrings.PROJECTIONS.webmercator,
+    appStrings.PROJECTIONS.northpolar,
+    appStrings.PROJECTIONS.southpolar
+];
 export const DEFAULT_BBOX_EXTENT = [-90, -45, 90, 45];
 export const DEFAULT_MAP_EXTENT = undefined; // Ex: [-360, -90, 360, 90]
 export const DEFAULT_SCALE_UNITS = "metric";

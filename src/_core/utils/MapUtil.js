@@ -222,12 +222,14 @@ export default class MapUtil {
             return false;
         }
     }
+
     /**
      * Sets the proj4 instance used by openlayers and initializes the default
      * projection data within that instance
      *
      * @static
-     * @param {object} [projection=appConfig.DEFAULT_PROJECTION] the projection configuration to be prepped
+     * @param {object|array} [projectionList=appConfig.DEFAULT_AVAILABLE_PROJECTIONS] the projection configuration
+     * or list of configurations to be prepped. If ommitted, this function will prep all default projections
      * - code - {string} the identifier for this projection
      * - proj4Def - {string} the proj4js definition
      * - extent - {array} valid extents for this projection [minx, miny, maxx, maxy]
@@ -235,21 +237,31 @@ export default class MapUtil {
      * @returns {object} the openlayers projection object for the default projection
      * @memberof MapUtil
      */
-    static prepProjection(projection = appConfig.DEFAULT_PROJECTION) {
-        // define the projection for this application and reproject defaults
+    static prepProjection(projectionList = appConfig.DEFAULT_AVAILABLE_PROJECTIONS) {
+        // assign the proj4js instance to openlayers
         Ol_Proj.setProj4(proj4js);
 
-        // add configured projection
-        let projDef = proj4js.defs(projection.code);
-        if (typeof proj4Def === "undefined") {
-            proj4js.defs(projection.code, projection.proj4Def);
-            Ol_Proj.get(projection.code).setExtent(projection.extent);
+        // make sure we're using a list
+        if (!(projectionList instanceof Array)) {
+            projectionList = [projectionList];
         }
 
-        // load aliases
-        if (typeof projection.aliases !== "undefined") {
-            for (let i = 0; i < projection.aliases.length; ++i) {
-                proj4js.defs(projection.aliases[i], proj4js.defs(projection.code));
+        // prep all specified projections
+        for (let i = 0; i < projectionList.length; ++i) {
+            let projection = projectionList[i];
+
+            // add configured projection
+            let projDef = proj4js.defs(projection.code);
+            if (typeof proj4Def === "undefined") {
+                proj4js.defs(projection.code, projection.proj4Def);
+                Ol_Proj.get(projection.code).setExtent(projection.extent);
+            }
+
+            // load aliases
+            if (typeof projection.aliases !== "undefined") {
+                for (let i = 0; i < projection.aliases.length; ++i) {
+                    proj4js.defs(projection.aliases[i], proj4js.defs(projection.code));
+                }
             }
         }
 
