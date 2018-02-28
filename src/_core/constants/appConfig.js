@@ -159,7 +159,9 @@ export const GIBS_IMAGERY_RESOLUTIONS = {
         76.4370282851762,
         38.2185141425881,
         19.10925707129405
-    ]
+    ],
+    [appStrings.PROJECTIONS.northpolar.code]: [8192, 4096, 2048, 1024, 512, 256],
+    [appStrings.PROJECTIONS.southpolar.code]: [8192, 4096, 2048, 1024, 512, 256]
 };
 export const MAX_RESOLUTION = GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.latlon.code][0];
 export const MAX_LAYER_CACHE = 50;
