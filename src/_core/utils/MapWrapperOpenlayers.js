@@ -2219,7 +2219,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             tileGrid: new Ol_Tilegrid_WMTS({
                 extent: options.extents,
                 origin: options.tileGrid.origin,
-                resolutions: resolutions.slice(2, options.tileGrid.resolutions.length), // top two zoom levels are misaligned
+                resolutions: resolutions.slice(2, options.tileGrid.matrixIds.length), // top two zoom levels are misaligned
                 matrixIds: options.tileGrid.matrixIds.slice(2),
                 tileSize: options.tileGrid.tileSize
             }),
