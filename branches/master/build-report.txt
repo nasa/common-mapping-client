@@ -1,10 +1,10 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: 0330bd58cde8bccfd704
+Webpack stats: Hash: 19dbbc6e5a7adaca7243
 Version: webpack 3.10.0
-Time: 75954ms
+Time: 70388ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
-                   802d0eccbc6395ade031.worker.js    8.22 kB          [emitted]         
+                   6f3d9cbd8ae1816cad9d.worker.js    8.86 kB          [emitted]         
                          img/apple-touch-icon.png    6.39 kB          [emitted]         
                             img/favicon-32x32.png    1.73 kB          [emitted]         
                             img/favicon-16x16.png  999 bytes          [emitted]         
@@ -25,16 +25,16 @@ img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted] 
                                   inlineStyles.js  530 bytes       1  [emitted]         inlineStyles
                                        bundle.css    28.4 kB       0  [emitted]         index
                                        index.html    8.36 kB          [emitted]         
-   [0] ./node_modules/react/index.js 190 bytes {0} [built]
-  [11] ./node_modules/react-redux/es/index.js + 14 modules 38.3 kB {0} [built]
- [570] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
+  [35] ./node_modules/react-dom/index.js 1.36 kB {0} [built]
  [669] multi ./src/index 28 bytes {0} [built]
  [670] ./src/index.js 2.7 kB {0} [built]
- [671] ./node_modules/babel-polyfill/lib/index.js 833 bytes {0} [built]
  [887] ./src/store/configureStore.js 382 bytes {0} [built]
 [1058] ./src/_core/components/App/index.js 406 bytes {0} [built]
-[1445] ./src/_core/styles/resources/img/apple-touch-icon.png 70 bytes {0} [built]
-[1446] ./src/_core/styles/resources/img/favicon-32x32.png 67 bytes {0} [built]
+[1453] ./src/_core/styles/resources/img/layer_thumbnails/MODIS_Terra_Brightness_Temp_Band31_Day.png 92 bytes {0} [built]
+[1454] ./src/_core/styles/resources/img/layer_thumbnails/VIIRS_SNPP_CorrectedReflectance_TrueColor.png 95 bytes {0} [built]
+[1455] ./src/_core/styles/resources/img/layer_thumbnails/flight_paths_kml.png 70 bytes {0} [built]
+[1456] ./src/_core/styles/resources/img/layer_thumbnails/us_state_outline_topojson.png 79 bytes {0} [built]
+[1457] ./src/_core/styles/resources/img/layer_thumbnails/ESRI_World_Imagery.jpeg 73 bytes {0} [built]
 [1458] ./src/_core/styles/resources/img/layer_thumbnails/BlueMarble_ShadedRelief_Bathymetry.jpeg 89 bytes {0} [built]
 [1459] ./src/_core/styles/resources/img/layer_thumbnails/OSM_Land_Water_Map.png 72 bytes {0} [built]
 [1460] ./src/_core/styles/resources/img/layer_thumbnails/ASTER_GDEM_Color_Shaded_Relief.jpeg 85 bytes {0} [built]
@@ -50,16 +50,16 @@ Child html-webpack-plugin for "index.html":
        [3] (webpack)/buildin/module.js 517 bytes {0} [built]
 Child worker:
                              Asset     Size  Chunks             Chunk Names
-    802d0eccbc6395ade031.worker.js  8.22 kB       0  [emitted]  main
-       [0] ./src/_core/constants/appStrings.js 8.15 kB {0} [built]
+    6f3d9cbd8ae1816cad9d.worker.js  8.86 kB       0  [emitted]  main
+       [0] ./src/_core/constants/appStrings.js 8.88 kB {0} [built]
        [1] ./node_modules/babel-loader/lib!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js 2.35 kB {0} [built]
        [2] ./src/utils/WebWorker.js 5.66 kB {0} [built]
        [3] ./src/_core/utils/WebWorker.js 6.04 kB {0} [built]
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/text.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
-       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/display.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/display.scss 2.21 kB {0} [built]
+       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/text.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/styles/text.scss 651 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/App/AppContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/App/AppContainer.scss 957 bytes {0} [built]

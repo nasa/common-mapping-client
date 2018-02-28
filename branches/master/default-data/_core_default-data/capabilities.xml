@@ -260,7 +260,7 @@
         </Layer>
         <TileMatrixSet>
             <ows:Identifier>2km</ows:Identifier>
-            <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
+            <ows:SupportedCRS>urn:ogc:def:crs:OGC:1.3:CRS84</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
                 <ScaleDenominator>223632905.6114871</ScaleDenominator>
@@ -318,7 +318,7 @@
         </TileMatrixSet>
         <TileMatrixSet>
             <ows:Identifier>1km</ows:Identifier>
-            <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
+            <ows:SupportedCRS>urn:ogc:def:crs:OGC:1.3:CRS84</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
                 <ScaleDenominator>223632905.6114871</ScaleDenominator>
@@ -385,7 +385,7 @@
         </TileMatrixSet>
         <TileMatrixSet>
             <ows:Identifier>500m</ows:Identifier>
-            <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
+            <ows:SupportedCRS>urn:ogc:def:crs:OGC:1.3:CRS84</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
                 <ScaleDenominator>223632905.6114871</ScaleDenominator>
@@ -461,7 +461,7 @@
         </TileMatrixSet>
         <TileMatrixSet>
             <ows:Identifier>250m</ows:Identifier>
-            <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
+            <ows:SupportedCRS>urn:ogc:def:crs:OGC:1.3:CRS84</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
                 <ScaleDenominator>223632905.6114871</ScaleDenominator>
@@ -546,7 +546,7 @@
         </TileMatrixSet>
         <TileMatrixSet>
             <ows:Identifier>31.25m</ows:Identifier>
-            <ows:SupportedCRS>EPSG:4326</ows:SupportedCRS>
+            <ows:SupportedCRS>urn:ogc:def:crs:OGC:1.3:CRS84</ows:SupportedCRS>
             <TileMatrix>
                 <ows:Identifier>0</ows:Identifier>
                 <ScaleDenominator>223632905.6114871</ScaleDenominator>
