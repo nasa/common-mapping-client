@@ -16,6 +16,7 @@ import * as mapActions from "_core/actions/mapActions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
+import MapUtil from "_core/utils/MapUtil";
 import {
     MapContainer,
     MapContextMenu,
@@ -73,6 +74,9 @@ export class AppContainer extends Component {
 
         // Perform initial browser functionality check
         this.props.checkBrowserFunctionalities();
+
+        // prep the default projection for the application
+        MapUtil.prepProjection();
 
         // load in initial data
         this.props.loadInitialData(() => {
