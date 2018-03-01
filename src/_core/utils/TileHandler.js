@@ -134,7 +134,7 @@ export default class TileHandler {
     static _defaultKVPUrl(options) {
         let layer = options.layer;
         let url = this.mapUtil.buildTileUrl({
-            layerId: layer.get("id"),
+            layerId: layer.getIn(["wmtsOptions", "layer"]),
             url: options.origUrl,
             tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
             format: layer.getIn(["wmtsOptions", "format"]),
