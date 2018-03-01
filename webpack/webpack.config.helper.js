@@ -73,8 +73,10 @@ module.exports = options => {
     let cssModuleRule = [cssLoader(true), postCSSLoader, sassLoader];
 
     // Configure the files to exclude from Istanbul code coverage
+    // If we're not passed the INCLUDE_CORE_TESTS env variable we want to
+    // ignore _core files in code coverage
     let istanbulExclusions = ["**/*.spec.js", "src/lib/*", "src/_core/tests/data/*"];
-    if (!JSON.parse(options.globals.INCLUDE_CORE_TESTS)) {
+    if (options.globals && !JSON.parse(options.globals.INCLUDE_CORE_TESTS)) {
         istanbulExclusions.push("src/_core/*");
     }
     let babelPlugins =
