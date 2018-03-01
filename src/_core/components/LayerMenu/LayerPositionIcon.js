@@ -13,10 +13,11 @@ import {
     LayerIconMiddle,
     LayerIconBottom
 } from "_core/components/Reusables/CustomIcons";
+import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/LayerMenu/LayerPositionIcon.scss";
 
 const LayerPositionIcon = props => {
-    let { displayIndex, activeNum, ...other } = props;
+    let { displayIndex, activeNum, color, ...other } = props;
 
     let layerOrderIcon =
         props.displayIndex === 1 ? (
@@ -27,17 +28,23 @@ const LayerPositionIcon = props => {
             <LayerIconMiddle />
         );
 
+    let orderLabelClasses = MiscUtil.generateStringFromSet({
+        [styles.orderLabel]: true,
+        [styles.primary]: color === "primary"
+    });
+
     return (
-        <IconButtonSmall {...other}>
+        <IconButtonSmall color={color} {...other}>
             {layerOrderIcon}
-            <span className={styles.orderLabel}>{props.displayIndex}</span>
+            <span className={orderLabelClasses}>{props.displayIndex}</span>
         </IconButtonSmall>
     );
 };
 
 LayerPositionIcon.propTypes = {
     displayIndex: PropTypes.number.isRequired,
-    activeNum: PropTypes.number.isRequired
+    activeNum: PropTypes.number.isRequired,
+    color: PropTypes.string
 };
 
 export default LayerPositionIcon;

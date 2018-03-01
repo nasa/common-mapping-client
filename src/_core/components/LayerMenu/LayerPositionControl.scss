@@ -14,8 +14,5 @@
     display: inline-block;
     height: 26px;
     line-height: 0px;
-}
-.popperArrow {
-    composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
-    top: -11px !important;
+    width: 50%;
 }

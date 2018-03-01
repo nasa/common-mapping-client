@@ -6,12 +6,13 @@
  */
 
 @import "~styles/colors";
+
 .opacityControl {
     display: inline-block;
 }
 .opacityContent {
     padding: 1.2rem 1.5rem;
-    padding-right: 1rem;
+    // padding-right: 1rem;
     width: 170px;
     height: 40px;
 }
@@ -24,11 +25,6 @@
     width: 100px;
     padding: 6px 0;
     display: inline-block;
-}
-
-.popperArrow {
-    composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
-    top: 0px !important;
 }
 
 /* RC-SLIDER OVERRIDES */

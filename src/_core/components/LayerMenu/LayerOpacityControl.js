@@ -11,7 +11,6 @@ import Paper from "material-ui/Paper";
 import "rc-slider/assets/index.css";
 import styles from "_core/components/LayerMenu/LayerOpacityControl.scss";
 import Slider from "rc-slider";
-import { Arrow } from "react-popper";
 import MiscUtil from "_core/utils/MiscUtil";
 import { LayerControlLabel } from "_core/components/LayerMenu";
 
@@ -37,7 +36,6 @@ const LayerOpacityControl = props => {
                     <span className={styles.opacityLabel}>{currOpacity}%</span>
                 </div>
             </Paper>
-            <Arrow className={styles.popperArrow} />
         </div>
     );
 };

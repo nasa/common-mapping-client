@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import Button from "material-ui/Button";
 import Paper from "material-ui/Paper";
 import { LayerControlLabel } from "_core/components/LayerMenu";
-import { Arrow } from "react-popper";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/LayerMenu/LayerPositionControl.scss";
 
@@ -55,7 +54,6 @@ const LayerPositionControl = props => {
                     </Button>
                 </div>
             </Paper>
-            <Arrow className={styles.popperArrow} />
         </div>
     );
 };

@@ -17,9 +17,8 @@ import Tooltip from "material-ui/Tooltip";
 import Collapse from "material-ui/transitions/Collapse";
 import Popover from "material-ui/Popover";
 import Grow from "material-ui/transitions/Grow";
-import ClickAwayListener from "material-ui/utils/ClickAwayListener";
 import { Manager, Target, Popper } from "react-popper";
-import { EnhancedSwitch, IconButtonSmall } from "_core/components/Reusables";
+import { EnhancedSwitch, IconButtonSmall, ClickAwayListener } from "_core/components/Reusables";
 import * as mapActions from "_core/actions/mapActions";
 import {
     LayerPositionIcon,
@@ -191,7 +190,7 @@ export class LayerControlContainer extends Component {
                         </Tooltip>
                     </Target>
                     <Popper
-                        placement="left"
+                        placement="left-end"
                         modifiers={{
                             computeStyle: {
                                 gpuAcceleration: false
@@ -199,6 +198,7 @@ export class LayerControlContainer extends Component {
                         }}
                         eventsEnabled={this.isChangingPosition}
                         className={!this.isChangingPosition ? displayStyles.noPointer : ""}
+                        style={{ transform: "translate(-4px, 0px)" }}
                     >
                         <Grow style={{ transformOrigin: "right" }} in={this.isChangingPosition}>
                             <div>
@@ -231,7 +231,7 @@ export class LayerControlContainer extends Component {
                         </Tooltip>
                     </Target>
                     <Popper
-                        placement="left"
+                        placement="left-end"
                         modifiers={{
                             computeStyle: {
                                 gpuAcceleration: false
