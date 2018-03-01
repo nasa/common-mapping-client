@@ -547,6 +547,14 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     setExtent(extent) {
         try {
             if (extent) {
+                extent = Ol_Proj.transformExtent(
+                    extent,
+                    appStrings.PROJECTIONS.latlon.code,
+                    this.map
+                        .getView()
+                        .getProjection()
+                        .getCode()
+                );
                 let mapSize = this.map.getSize() || [];
                 this.map.getView().fit(extent, {
                     size: mapSize,
@@ -569,7 +577,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      */
     getExtent() {
         try {
-            return this.map.getView().calculateExtent(this.map.getSize());
+            let extent = this.map.getView().calculateExtent(this.map.getSize());
+            return Ol_Proj.transformExtent(
+                extent,
+                this.map
+                    .getView()
+                    .getProjection()
+                    .getCode(),
+                appStrings.PROJECTIONS.latlon.code
+            );
         } catch (err) {
             console.warn("Error in MapWrapperOpenlayers.getExtent:", err);
             return false;
@@ -1790,6 +1806,14 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     getLatLonFromPixelCoordinate(pixel) {
         try {
             let coordinate = this.map.getCoordinateFromPixel(pixel);
+            coordinate = Ol_Proj.transform(
+                coordinate,
+                this.map
+                    .getView()
+                    .getProjection()
+                    .getCode(),
+                appStrings.PROJECTIONS.latlon.code
+            );
             let constrainCoordinate = this.mapUtil.constrainCoordinates(coordinate);
             if (
                 typeof constrainCoordinate[0] !== "undefined" &&
