@@ -55,7 +55,7 @@ const LayerPositionControl = props => {
                     </Button>
                 </div>
             </Paper>
-            <Arrow className={styles.popperArrow} />
+            {/* <Arrow className={styles.popperArrow} /> */}
         </div>
     );
 };

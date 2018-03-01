@@ -37,7 +37,7 @@ const LayerOpacityControl = props => {
                     <span className={styles.opacityLabel}>{currOpacity}%</span>
                 </div>
             </Paper>
-            <Arrow className={styles.popperArrow} />
+            {/* <Arrow className={styles.popperArrow} /> */}
         </div>
     );
 };

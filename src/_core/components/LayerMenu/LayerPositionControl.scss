@@ -14,8 +14,9 @@
     display: inline-block;
     height: 26px;
     line-height: 0px;
+    width: 50%;
 }
-.popperArrow {
-    composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
-    top: -11px !important;
-}
+// .popperArrow {
+//     composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
+//     top: -11px !important;
+// }
