@@ -6,16 +6,16 @@ export const ACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 2,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
                 url: "",
-                projection: "",
+                projection: undefined,
                 layer: "",
-                tileGrid: { origin: [], resolutions: [], matrixIds: [], tileSize: 256 },
-                format: ""
+                tileGrid: { origin: [-180, 90], resolutions: [], matrixIds: [], tileSize: 256 },
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
@@ -41,16 +41,16 @@ export const ACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 0,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
                 url: "",
-                projection: "",
+                projection: undefined,
                 layer: "",
-                tileGrid: { origin: [], resolutions: [], matrixIds: [], tileSize: 256 },
-                format: ""
+                tileGrid: { origin: [-180, 90], resolutions: [], matrixIds: [], tileSize: 256 },
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
@@ -244,9 +244,9 @@ export const ACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 0,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
                 tileFunctions: { openlayers: "catsTile" },
                 url:
@@ -254,14 +254,14 @@ export const ACTIVE_LAYERS = {
                 projection: "EPSG:4326",
                 layer: "ESRI_World_Imagery",
                 tileGrid: {
-                    origin: [],
+                    origin: [-180, 90],
                     resolutions: [],
                     matrixIds: [],
                     tileSize: 512,
                     minZoom: 1,
                     maxZoom: 16
                 },
-                format: ""
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
@@ -293,16 +293,16 @@ export const INACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 1,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
                 url: "",
-                projection: "",
+                projection: undefined,
                 layer: "",
-                tileGrid: { origin: [], resolutions: [], matrixIds: [], tileSize: 256 },
-                format: ""
+                tileGrid: { origin: [-180, 90], resolutions: [], matrixIds: [], tileSize: 256 },
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
@@ -328,16 +328,16 @@ export const INACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 0,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: {},
                 tileFunctions: {},
                 url: "",
-                projection: "",
+                projection: undefined,
                 layer: "",
-                tileGrid: { origin: [], resolutions: [], matrixIds: [], tileSize: 256 },
-                format: ""
+                tileGrid: { origin: [-180, 90], resolutions: [], matrixIds: [], tileSize: 256 },
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
@@ -531,9 +531,9 @@ export const INACTIVE_LAYERS = {
             isDisabled: false,
             displayIndex: 0,
             wmtsOptions: {
-                matrixSet: "",
-                requestEncoding: "",
-                extents: [],
+                matrixSet: undefined,
+                requestEncoding: "KVP",
+                extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
                 tileFunctions: { openlayers: "catsTile" },
                 url:
@@ -541,14 +541,14 @@ export const INACTIVE_LAYERS = {
                 projection: "EPSG:4326",
                 layer: "ESRI_World_Imagery",
                 tileGrid: {
-                    origin: [],
+                    origin: [-180, 90],
                     resolutions: [],
                     matrixIds: [],
                     tileSize: 512,
                     minZoom: 1,
                     maxZoom: 16
                 },
-                format: ""
+                format: "image/png"
             },
             opacity: 1,
             urlFunctions: {},
