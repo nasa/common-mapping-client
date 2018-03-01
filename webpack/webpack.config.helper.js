@@ -72,6 +72,23 @@ module.exports = options => {
 
     let cssModuleRule = [cssLoader(true), postCSSLoader, sassLoader];
 
+    // Configure the files to exclude from Istanbul code coverage
+    let istanbulExclusions = ["**/*.spec.js", "src/lib/*", "src/_core/tests/data/*"];
+    if (!JSON.parse(options.globals.INCLUDE_CORE_TESTS)) {
+        istanbulExclusions.push("src/_core/*");
+    }
+    let babelPlugins =
+        options.node_env !== "test"
+            ? []
+            : [
+                  [
+                      "istanbul",
+                      {
+                          exclude: istanbulExclusions
+                      }
+                  ]
+              ];
+
     // if in dev mode, use the style loader for hot style replacement
     // otherwise extract the styles into a file
     if (!options.isProduction) {
@@ -138,7 +155,15 @@ module.exports = options => {
                         path.join(BASE_DIR, "assets/assets/arc")
                     ],
                     exclude: /\/Cesium(DrawHelper)?\.js$/,
-                    use: ["babel-loader", "eslint-loader"]
+                    use: [
+                        {
+                            loader: "babel-loader",
+                            query: {
+                                plugins: babelPlugins
+                            }
+                        },
+                        "eslint-loader"
+                    ]
                 },
                 {
                     // Load Cesium.js main JS file using webpack script loader which will not attempt to parse anything in the script
