@@ -1,7 +1,7 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: 9b8c3fe7f866a7024eb8
+Webpack stats: Hash: 8a979ebe90320c30616a
 Version: webpack 3.10.0
-Time: 69626ms
+Time: 70631ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
                    6f3d9cbd8ae1816cad9d.worker.js    8.86 kB          [emitted]         
