@@ -27,11 +27,6 @@
     display: inline-block;
 }
 
-// .popperArrow {
-//     composes: popperArrow from "_core/components/LayerMenu/LayerControlContainer.scss";
-//     top: 0px !important;
-// }
-
 /* RC-SLIDER OVERRIDES */
 :global(.rc-slider-step) {
     height: 2px;
