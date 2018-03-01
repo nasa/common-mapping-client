@@ -1109,12 +1109,14 @@ export default class MapWrapperCesium extends MapWrapper {
                         entity.polyline.material.color.setValue(c);
                     }
                     if (entity.billboard) {
-                        entity.billboard.color = new this.cesium.Color(
-                            1.0,
-                            1.0,
-                            1.0,
-                            opacity * 1.0
-                        );
+                        let c = entity.billboard.color.getValue();
+                        c.alpha = opacity * 1.0;
+                        entity.billboard.color.setValue(c);
+                    }
+                    if (entity.point) {
+                        let c = entity.point.color.getValue();
+                        c.alpha = opacity * 1.0;
+                        entity.point.color.setValue(c);
                     }
                 });
                 return true;
