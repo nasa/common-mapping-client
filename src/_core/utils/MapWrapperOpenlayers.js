@@ -2207,6 +2207,18 @@ export default class MapWrapperOpenlayers extends MapWrapper {
         ) {
             resolutions =
                 appConfig.GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.webmercator.code];
+        } else if (
+            options.projection === appStrings.PROJECTIONS.northpolar.code ||
+            appStrings.PROJECTIONS.northpolar.aliases.indexOf(options.projection) !== -1
+        ) {
+            resolutions =
+                appConfig.GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.northpolar.code];
+        } else if (
+            options.projection === appStrings.PROJECTIONS.southpolar.code ||
+            appStrings.PROJECTIONS.southpolar.aliases.indexOf(options.projection) !== -1
+        ) {
+            resolutions =
+                appConfig.GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.southpolar.code];
         }
 
         return new Ol_Source_WMTS({
