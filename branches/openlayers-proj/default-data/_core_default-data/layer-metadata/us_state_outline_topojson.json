@@ -1,0 +1,7 @@
+{
+	"title": "US State Outline",
+    "description": "A sample TopoJSON vector file that displays the outline of states in the USA. This layer demonstrates CMC's ability to handle JSON vector formats.",
+    "dateRange": "Unknown",
+    "platform": "Unknown",
+    "spatialResolution": "Unknown"
+}
