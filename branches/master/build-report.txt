@@ -1,7 +1,7 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: 8a979ebe90320c30616a
+Webpack stats: Hash: b5bec7de7fd8915cb222
 Version: webpack 3.10.0
-Time: 70631ms
+Time: 73752ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
                    6f3d9cbd8ae1816cad9d.worker.js    8.86 kB          [emitted]         
@@ -136,14 +136,14 @@ Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist 
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Share/ShareContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Share/ShareContainer.scss 662 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/CoordinateTracker.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/CoordinateTracker.scss 641 bytes {0} [built]
+       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Settings/BaseMapList.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Settings/BaseMapList.scss 656 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/BasemapPicker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/BasemapPicker.scss 703 bytes {0} [built]
-       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/CoordinateTracker.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/CoordinateTracker.scss 641 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapControlsContainer.scss 1.65 kB {0} [built]
