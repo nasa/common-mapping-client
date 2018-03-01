@@ -64,8 +64,8 @@ Colorbar.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     units: PropTypes.string,
-    displayMin: PropTypes.number,
-    displayMax: PropTypes.number,
+    displayMin: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    displayMax: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     handleAs: PropTypes.string,
     url: PropTypes.string,
     className: PropTypes.string
