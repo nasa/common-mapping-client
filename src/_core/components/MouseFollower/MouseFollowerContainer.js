@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MiscUtil from "_core/utils/MiscUtil";
 import { DrawingTooltip, MouseCoordinates } from "_core/components/MouseFollower";
+import textStyles from "_core/styles/text.scss";
 import styles from "_core/components/MouseFollower/MouseFollowerContainer.scss";
 
 export class MouseFollowerContainer extends Component {
@@ -50,7 +51,7 @@ export class MouseFollowerContainer extends Component {
                     <DrawingTooltip drawing={this.props.drawing} measuring={this.props.measuring} />
                 </div>
                 <div className={styles.footer}>
-                    <MouseCoordinates />
+                    <MouseCoordinates className={textStyles.fontRobotoMono} />
                 </div>
             </div>
         );

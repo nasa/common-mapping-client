@@ -13,6 +13,7 @@ import MiscUtil from "_core/utils/MiscUtil";
 import { MouseCoordinates } from "_core/components/MouseFollower";
 import styles from "_core/components/Map/CoordinateTracker.scss";
 import displayStyles from "_core/styles/display.scss";
+import textStyles from "_core/styles/text.scss";
 
 export class CoordinateTracker extends Component {
     render() {
@@ -25,7 +26,7 @@ export class CoordinateTracker extends Component {
 
         return (
             <Paper elevation={2} className={containerClasses}>
-                <MouseCoordinates />
+                <MouseCoordinates className={textStyles.fontRobotoMono} />
             </Paper>
         );
     }
