@@ -8,29 +8,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Typography from "material-ui/Typography";
-import MiscUtil from "_core/utils/MiscUtil";
-import MapUtil from "_core/utils/MapUtil";
-import styles from "_core/components/MouseFollower/MouseCoordinates.scss";
+import { LonLatCoordinates } from "_core/components/Reusables";
 
 export class MouseCoordinates extends Component {
     render() {
-        let lat = this.props.pixelCoordinate.get("lat");
-        let lon = this.props.pixelCoordinate.get("lon");
-
-        let displayText = MapUtil.formatLatLon(lat, lon, this.props.pixelCoordinate.get("isValid"));
-
-        let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.text]: true,
-            [this.props.className]: typeof this.props.className !== "undefined"
-        });
-
         return (
-            <Typography
-                variant="body1"
-                className={containerClasses}
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: displayText }}
+            <LonLatCoordinates
+                lon={this.props.pixelCoordinate.get("lon")}
+                lat={this.props.pixelCoordinate.get("lat")}
+                invalid={!this.props.pixelCoordinate.get("isValid")}
+                className={this.props.className}
             />
         );
     }
