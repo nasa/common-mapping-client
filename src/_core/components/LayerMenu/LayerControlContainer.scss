@@ -32,26 +32,13 @@
     vertical-align: middle;
     margin-right: 5px;
 }
-.popperArrow {
-    position: relative;
-    display: inline-block;
-    width: 0px;
-    height: 0px;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 10px solid white;
-    &:after {
-        content: " ";
-        width: 0px;
-        height: 0px;
-        border-top: 11px solid transparent;
-        border-bottom: 11px solid transparent;
-        border-left: 11px solid rgba(0, 0, 0, 0.05);
-        position: absolute;
-        z-index: -1;
-        top: -10px;
-        left: -10px;
-    }
+
+.popover {
+    z-index: 1;
+}
+
+.positionPopover {
+    transform: translate(-4px, 0px);
 }
 
 /* MUI Overrides */

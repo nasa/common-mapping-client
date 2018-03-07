@@ -175,6 +175,17 @@ export class LayerControlContainer extends Component {
     }
 
     renderIconRow() {
+        let positionPopoverClasses = MiscUtil.generateStringFromSet({
+            [styles.popover]: true,
+            [styles.positionPopover]: true,
+            [displayStyles.noPointer]: !this.isChangingPosition
+        });
+
+        let opacityPopoverClasses = MiscUtil.generateStringFromSet({
+            [styles.popover]: true,
+            [displayStyles.noPointer]: !this.isChangingOpacity
+        });
+
         return (
             <span className={styles.layerControlIconRow}>
                 <Manager style={{ display: "inline-block" }}>
@@ -197,8 +208,7 @@ export class LayerControlContainer extends Component {
                             }
                         }}
                         eventsEnabled={this.isChangingPosition}
-                        className={!this.isChangingPosition ? displayStyles.noPointer : ""}
-                        style={{ transform: "translate(-4px, 0px)" }}
+                        className={positionPopoverClasses}
                     >
                         <Grow style={{ transformOrigin: "right" }} in={this.isChangingPosition}>
                             <div>
@@ -237,7 +247,7 @@ export class LayerControlContainer extends Component {
                                 gpuAcceleration: false
                             }
                         }}
-                        className={!this.isChangingOpacity ? displayStyles.noPointer : ""}
+                        className={opacityPopoverClasses}
                         eventsEnabled={this.isChangingOpacity}
                     >
                         <Grow style={{ transformOrigin: "right" }} in={this.isChangingOpacity}>
