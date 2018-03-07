@@ -804,4 +804,28 @@ export default class MapUtil {
             return acc;
         }, []);
     }
+
+    /**
+     * format lat lon pair for display in cardinal directions
+     *
+     * @static
+     * @param {number} lat
+     * @param {number} lon
+     * @param {boolean} isValid
+     * @returns {string}
+     * @memberof MapUtil
+     */
+    static formatLatLon(lat, lon, isValid) {
+        let latUnit = lat >= 0 ? "°E" : "°W";
+        let lonUnit = lon >= 0 ? "°N" : "°S";
+
+        let currCoord =
+            MiscUtil.padNumber(Math.abs(lon).toFixed(3), 5, "&nbsp;") +
+            lonUnit +
+            "," +
+            MiscUtil.padNumber(Math.abs(lat).toFixed(3), 6, "&nbsp;") +
+            latUnit;
+
+        return isValid ? currCoord : " ------" + lonUnit + ", ------" + latUnit;
+    }
 }

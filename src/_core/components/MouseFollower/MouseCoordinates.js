@@ -8,40 +8,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Typography from "material-ui/Typography";
-import MiscUtil from "_core/utils/MiscUtil";
-import styles from "_core/components/MouseFollower/MouseCoordinates.scss";
+import { LonLatCoordinates } from "_core/components/Reusables";
 
 export class MouseCoordinates extends Component {
     render() {
-        let latCoord = this.props.pixelCoordinate.get("lat");
-        let lonCoord = this.props.pixelCoordinate.get("lon");
-
-        let latUnit = latCoord >= 0 ? "°E" : "°W";
-        let lonUnit = lonCoord >= 0 ? "°N" : "°S";
-
-        let currCoord =
-            MiscUtil.padNumber(Math.abs(lonCoord).toFixed(3), 5, "&nbsp;") +
-            lonUnit +
-            "," +
-            MiscUtil.padNumber(Math.abs(latCoord).toFixed(3), 6, "&nbsp;") +
-            latUnit;
-
-        let displayText = this.props.pixelCoordinate.get("isValid")
-            ? currCoord
-            : " ------" + lonUnit + ", ------" + latUnit;
-
-        let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.text]: true,
-            [this.props.className]: typeof this.props.className !== "undefined"
-        });
-
         return (
-            <Typography
-                variant="body1"
-                className={containerClasses}
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: displayText }}
+            <LonLatCoordinates
+                lon={this.props.pixelCoordinate.get("lon")}
+                lat={this.props.pixelCoordinate.get("lat")}
+                invalid={!this.props.pixelCoordinate.get("isValid")}
+                className={this.props.className}
             />
         );
     }
