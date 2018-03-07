@@ -940,6 +940,21 @@ export const MapUtilSpec = {
                     ).to.deep.equal([1.1234, 0.3123, -0.2340192, 13234234.2911]);
                 });
             }
+        },
+        formatLatLon: {
+            test1: () => {
+                it("returns the default string when isValid is false", () => {
+                    expect(MapUtil.formatLatLon(0, 0, false)).to.equal(" ------°N, ------°E");
+                });
+                it("returns lat lon in correctly formatted cardinal directions", () => {
+                    expect(MapUtil.formatLatLon(25, 45, true)).to.equal("45.000°N,&nbsp;25.000°E");
+                    expect(MapUtil.formatLatLon(-25, 45, true)).to.equal("45.000°N,&nbsp;25.000°W");
+                    expect(MapUtil.formatLatLon(25, -45, true)).to.equal("45.000°S,&nbsp;25.000°E");
+                    expect(MapUtil.formatLatLon(-25, -45, true)).to.equal(
+                        "45.000°S,&nbsp;25.000°W"
+                    );
+                });
+            }
         }
     }
 };
