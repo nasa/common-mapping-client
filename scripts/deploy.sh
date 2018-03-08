@@ -6,11 +6,6 @@ set -o verbose  # Print commands that are executed
 SOURCE_BRANCH=$CIRCLE_BRANCH
 TARGET_BRANCH="gh-pages"
 
-if [ "$CIRCLE_PULL_REQUEST" != "" ]; then
-  echo "Skipping deployment because this is a PR merge build."
-  exit 0
-fi
-
 if [ ! -d "dist" ]; then
   echo "The dist/ directory doesn't exist; you must \`npm run build\` before deploying."
   exit 1
