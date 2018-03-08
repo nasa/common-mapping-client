@@ -1171,23 +1171,35 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                 "_layerId",
                 "_vector_drawings"
             );
+            let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
                     let geom = opt_geom ? opt_geom : new Ol_Geom_Linestring();
 
                     // remove duplicates
-                    let newCoords = coords.reduce((acc, el, i) => {
+                    let newCoords = coords.reduce((acc, coord, i) => {
                         let prev = acc[i - 1];
-                        el = this.mapUtil.constrainCoordinates(el);
-                        if (!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
-                            acc.push(el);
+                        coord = Ol_Proj.transform(
+                            coord,
+                            mapProjection,
+                            appStrings.PROJECTIONS.latlon.code
+                        );
+                        coord = this.mapUtil.constrainCoordinates(coord);
+                        if (!prev || (prev[0] !== coord[0] || prev[1] !== coord[1])) {
+                            acc.push(coord);
                         }
                         return acc;
                     }, []);
 
                     let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
-                    geom.setCoordinates(lineCoords);
-                    geom.set("originalCoordinates", newCoords, true);
+                    let transformedLineCoords = lineCoords.map(coords =>
+                        Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
+                    );
+                    let transformedOriginalCoords = newCoords.map(coords =>
+                        Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
+                    );
+                    geom.setCoordinates(transformedLineCoords);
+                    geom.set("originalCoordinates", transformedOriginalCoords, true);
                     return geom;
                 };
                 let measureAreaGeom = (coords, opt_geom) => {
@@ -1195,11 +1207,16 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     let geom = opt_geom ? opt_geom : new Ol_Geom_Polygon();
 
                     // remove duplicates
-                    let newCoords = coords.reduce((acc, el, i) => {
+                    let newCoords = coords.reduce((acc, coord, i) => {
                         let prev = acc[i - 1];
-                        el = this.mapUtil.constrainCoordinates(el);
-                        if (!prev || (prev[0] !== el[0] || prev[1] !== el[1])) {
-                            acc.push(el);
+                        coord = Ol_Proj.transform(
+                            coord,
+                            mapProjection,
+                            appStrings.PROJECTIONS.latlon.code
+                        );
+                        coord = this.mapUtil.constrainCoordinates(coord);
+                        if (!prev || (prev[0] !== coord[0] || prev[1] !== coord[1])) {
+                            acc.push(coord);
                         }
                         return acc;
                     }, []);
@@ -1210,8 +1227,14 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     }
 
                     let lineCoords = this.mapUtil.generateGeodesicArcsForLineString(newCoords);
-                    geom.setCoordinates([lineCoords]);
-                    geom.set("originalCoordinates", newCoords, true);
+                    let transformedLineCoords = lineCoords.map(coords =>
+                        Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
+                    );
+                    let transformedOriginalCoords = newCoords.map(coords =>
+                        Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
+                    );
+                    geom.setCoordinates([transformedLineCoords]);
+                    geom.set("originalCoordinates", transformedOriginalCoords, true);
                     return geom;
                 };
 
