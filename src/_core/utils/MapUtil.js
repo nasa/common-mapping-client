@@ -685,11 +685,13 @@ export default class MapUtil {
             );
             return false;
         }
-        let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
+        let coords = geometry.coordinates.map(x =>
+            proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [x.lon, x.lat])
+        );
         coords = this.generateGeodesicArcsForLineString(coords);
         if (measurementType === appStrings.MEASURE_DISTANCE) {
             if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
-                return this.calculatePolylineDistance(coords, geometry.proj);
+                return this.calculatePolylineDistance(coords, appStrings.PROJECTIONS.latlon.code);
             } else {
                 console.warn(
                     "Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ",
@@ -758,7 +760,21 @@ export default class MapUtil {
         if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
             let lastCoord = geometry.coordinates[geometry.coordinates.length - 1];
             if (lastCoord) {
-                return this.constrainCoordinates([lastCoord.lon, lastCoord.lat]);
+                // Convert from geometry proj to latlon so we can constrain coords
+                let latLonLastCoord = proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [
+                    lastCoord.lon,
+                    lastCoord.lat
+                ]);
+                let constrainedLastCoord = this.constrainCoordinates([
+                    latLonLastCoord[0],
+                    latLonLastCoord[1]
+                ]);
+                // Convert from latlon back to geometry proj
+                return proj4js(
+                    appStrings.PROJECTIONS.latlon.code,
+                    geometry.proj,
+                    constrainedLastCoord
+                );
             } else {
                 console.warn(
                     "Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry."
@@ -766,9 +782,19 @@ export default class MapUtil {
                 return false;
             }
         } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
-            let coords = geometry.coordinates.map(x => [x.lon, x.lat]);
-            coords = this.generateGeodesicArcsForLineString(coords);
-            return this.constrainCoordinates(this.calculatePolygonCenter(coords, geometry.proj));
+            // Convert from geometry proj to latlon
+            let coords = geometry.coordinates.map(x =>
+                proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [x.lon, x.lat])
+            );
+
+            let arcCoords = this.generateGeodesicArcsForLineString(coords);
+            let centerCoord = this.calculatePolygonCenter(
+                arcCoords,
+                appStrings.PROJECTIONS.latlon.code
+            );
+            let constrainedCoord = this.constrainCoordinates(centerCoord);
+            // Convert from latlon back to geometry proj
+            return proj4js(appStrings.PROJECTIONS.latlon.code, geometry.proj, constrainedCoord);
         } else {
             console.warn(
                 "Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ",
