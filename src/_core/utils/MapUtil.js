@@ -701,7 +701,7 @@ export default class MapUtil {
             }
         } else if (measurementType === appStrings.MEASURE_AREA) {
             if (geometry.type === appStrings.GEOMETRY_POLYGON) {
-                return this.calculatePolygonArea(coords, geometry.proj);
+                return this.calculatePolygonArea(coords, appStrings.PROJECTIONS.latlon.code);
             } else {
                 console.warn(
                     "Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ",
