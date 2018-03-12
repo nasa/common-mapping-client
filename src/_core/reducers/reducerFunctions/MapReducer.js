@@ -551,6 +551,7 @@ export default class MapReducer {
         let matchingPartials = null;
         let mergedLayer = null;
         let newLayers = null;
+        let unmatchedLayers = [];
         while (partials.size > 0) {
             // grab a partial
             refPartial = partials.last();
@@ -584,12 +585,17 @@ export default class MapReducer {
                     mergedLayer
                 );
             } else {
-                console.warn(
-                    "Error in MapReducer.mergeLayers: could not store merged layer; missing a valid id or type.",
-                    mergedLayer.toJS()
-                );
+                unmatchedLayers.push(mergedLayer.toJS());
             }
         }
+
+        if (unmatchedLayers.length > 0) {
+            console.warn(
+                "Error in MapReducer.mergeLayers: could not store merged layers; missing a valid id or type.",
+                unmatchedLayers
+            );
+        }
+
         return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
     }
 
