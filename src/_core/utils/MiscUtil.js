@@ -6,7 +6,7 @@
  */
 
 import fetch from "isomorphic-fetch";
-import objectAssign from "object-assign";
+import Immutable from "immutable";
 import * as appStrings from "_core/constants/appStrings";
 
 export default class MiscUtil {
@@ -446,5 +446,19 @@ export default class MiscUtil {
                     reject(err);
                 });
         });
+    }
+
+    /**
+     * Create a new object that is a deep merge
+     * of the two given without modifying either
+     *
+     * @static
+     * @param {object} base the base object for the merge
+     * @param {object} mod the modifying object for the merge
+     * @returns {object} a new object that is the result of merging the mod object into the base
+     * @memberof MiscUtil
+     */
+    static mergeObjects(base, mod) {
+        new Immutable.Map(base).mergeDeep(mod).toJS();
     }
 }

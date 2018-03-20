@@ -6,6 +6,7 @@
  */
 
 export { default as LayerMenuContainer } from "_core/components/LayerMenu/LayerMenuContainer.js";
+export { default as LayerControlBase } from "_core/components/LayerMenu/LayerControlBase.js";
 export {
     default as LayerControlContainer
 } from "_core/components/LayerMenu/LayerControlContainer.js";
