@@ -36,6 +36,9 @@
     line-height: 1rem;
     width: 255px;
     padding-top: 2px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
 .label {
     font-size: 1.1rem;
@@ -47,10 +50,8 @@
 
 .min {
     composes: label;
-    float: left;
 }
 
 .max {
     composes: label;
-    float: right;
 }
