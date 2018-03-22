@@ -23,6 +23,14 @@ export default class MapReducer {
     static mapUtil = MapUtil;
     static miscUtil = MiscUtil;
 
+    static getLayerModel() {
+        return layerModel;
+    }
+
+    static getPaletteModel() {
+        return paletteModel;
+    }
+
     static initializeMap(state, action) {
         let map = createMap(action.mapType, action.container, state);
         if (map && map.initializationSuccess) {
@@ -573,7 +581,7 @@ export default class MapReducer {
                 return el.mergeDeep(acc);
             }, refPartial);
             // merge in the default values
-            mergedLayer = layerModel.mergeDeep(mergedLayer);
+            mergedLayer = this.getLayerModel().mergeDeep(mergedLayer);
 
             // put the newly minted layer into state storage
             if (
@@ -1213,7 +1221,7 @@ export default class MapReducer {
     }
 
     static readPalette(palette) {
-        return paletteModel.merge({
+        return this.getPaletteModel().merge({
             id: palette.name,
             values: Immutable.List(
                 palette.values.map(entry => {
