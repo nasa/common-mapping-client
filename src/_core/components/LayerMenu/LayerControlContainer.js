@@ -190,13 +190,14 @@ export class LayerControlContainer extends Component {
             <span className={styles.layerControlIconRow}>
                 <Manager style={{ display: "inline-block" }}>
                     <ClickAwayListener
+                        wrap={true}
                         onClickAway={() => {
                             if (this.isChangingPosition) {
                                 this.toggleChangingPosition();
                             }
                         }}
                     >
-                        <Target style={{ display: "inline-block" }}>
+                        <Target>
                             <Tooltip title={"Set Layer Position"} placement="top">
                                 <LayerPositionIcon
                                     displayIndex={this.props.layer.get("displayIndex")}
@@ -231,13 +232,14 @@ export class LayerControlContainer extends Component {
                         </Popper>
                     </ClickAwayListener>
                     <ClickAwayListener
+                        wrap={true}
                         onClickAway={() => {
                             if (this.isChangingOpacity) {
                                 this.toggleChangingOpacity();
                             }
                         }}
                     >
-                        <Target style={{ display: "inline-block" }}>
+                        <Target>
                             <Tooltip title={"Set Layer Opacity"} placement="top">
                                 <LayerOpacityIcon
                                     opacity={this.props.layer.get("opacity")}

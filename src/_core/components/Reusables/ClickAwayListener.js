@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { findDOMNode } from "react-dom";
 import EventListener from "react-event-listener";
+import MiscUtil from "_core/utils/MiscUtil";
+import styles from "_core/components/Reusables/ClickAwayListener.scss";
 
 const isDescendant = (el, target) => {
     if (target !== null && target.parentNode) {
@@ -48,21 +50,39 @@ export class ClickAwayListener extends Component {
     };
 
     render() {
-        return (
-            <EventListener
-                target="document"
-                onMouseup={this.handleClickAway}
-                onTouchend={this.handleClickAway}
-            >
-                {this.props.children}
-            </EventListener>
-        );
+        if (this.props.wrap) {
+            let wrapperClasses = MiscUtil.generateStringFromSet({
+                [styles.wrap]: true,
+                [this.props.className]: typeof this.props.className !== "undefined"
+            });
+            return (
+                <EventListener
+                    target="document"
+                    onMouseup={this.handleClickAway}
+                    onTouchend={this.handleClickAway}
+                >
+                    <div className={wrapperClasses}>{this.props.children}</div>
+                </EventListener>
+            );
+        } else {
+            return (
+                <EventListener
+                    target="document"
+                    onMouseup={this.handleClickAway}
+                    onTouchend={this.handleClickAway}
+                >
+                    {this.props.children}
+                </EventListener>
+            );
+        }
     }
 }
 
 ClickAwayListener.propTypes = {
     children: PropTypes.node.isRequired,
-    onClickAway: PropTypes.func.isRequired
+    onClickAway: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    wrap: PropTypes.bool
 };
 
 export default ClickAwayListener;
