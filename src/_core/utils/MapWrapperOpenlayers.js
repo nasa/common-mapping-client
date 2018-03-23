@@ -409,7 +409,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * @param {ImmutableJS.Map} layer layer object from map state in redux
      * @param {object} mapLayer openlayers layer object
      * @returns {boolean} true if it succeeds
-     * @memberof MapWrapper_openlayers
+     * @memberof MapWrapperOpenlayers
      */
     setLayerRefInfo(layer, mapLayer) {
         try {
@@ -419,7 +419,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             mapLayer.set("_layerTime", moment(this.mapDate).format(layer.get("timeFormat")));
             return true;
         } catch (err) {
-            console.warn("Error in MapWrapper_openlayers.setLayerRefInfo: ", err);
+            console.warn("Error in MapWrapperOpenlayers.setLayerRefInfo: ", err);
             return false;
         }
     }

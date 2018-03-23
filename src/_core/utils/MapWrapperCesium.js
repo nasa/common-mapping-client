@@ -1403,6 +1403,27 @@ export default class MapWrapperCesium extends MapWrapper {
     }
 
     /**
+     * set custom metadata fields on a maplayer object
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer cesium layer object
+     * @returns {boolean} true if it succeeds
+     * @memberof MapWrapperCesium
+     */
+    setLayerRefInfo(layer, mapLayer) {
+        try {
+            mapLayer._layerId = layer.get("id");
+            mapLayer._layerType = layer.get("type");
+            mapLayer._layerHandleAs = layer.get("handleAs");
+            mapLayer._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
+            return true;
+        } catch (err) {
+            console.warn("Error in MapWrapperCesium.setLayerRefInfo: ", err);
+            return false;
+        }
+    }
+
+    /**
      * create a wmts cesium layer corresponding
      * to the given layer
      *
@@ -1420,10 +1441,7 @@ export default class MapWrapperCesium extends MapWrapper {
                     alpha: layer.get("opacity"),
                     show: layer.get("isActive")
                 });
-                mapLayer._layerId = layer.get("id");
-                mapLayer._layerType = layer.get("type");
-                mapLayer._layerHandleAs = layer.get("handleAs");
-                mapLayer._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
+                this.setLayerRefInfo(layer, mapLayer);
 
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
@@ -1456,20 +1474,14 @@ export default class MapWrapperCesium extends MapWrapper {
             if (layerSource) {
                 // layer source is a promise that acts as a stand-in while the data loads
                 layerSource.then(mapLayer => {
-                    mapLayer._layerId = layer.get("id");
-                    mapLayer._layerType = layer.get("type");
-                    mapLayer._layerHandleAs = layer.get("handleAs");
-                    mapLayer._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
+                    this.setLayerRefInfo(layer, mapLayer);
                     setTimeout(() => {
                         this.setLayerOpacity(layer, layer.get("opacity"));
                     }, 0);
                 });
 
                 // need to add custom metadata while data loads
-                layerSource._layerId = layer.get("id");
-                layerSource._layerType = layer.get("type");
-                layerSource._layerHandleAs = layer.get("handleAs");
-                layerSource._layerTime = moment(this.mapDate).format(layer.get("timeFormat"));
+                this.setLayerRefInfo(layer, layerSource);
 
                 return layerSource;
             }
