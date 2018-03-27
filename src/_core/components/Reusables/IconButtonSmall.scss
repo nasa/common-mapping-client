@@ -11,7 +11,12 @@
     font-size: 2rem;
 }
 
+.label {
+    font-size: inherit;
+}
+
 .root svg {
     width: 1em;
     height: 1em;
+    font-size: inherit;
 }
