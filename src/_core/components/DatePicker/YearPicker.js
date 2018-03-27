@@ -18,7 +18,7 @@ const MAX_LENGTH = 4;
 export class YearPicker extends Component {
     componentDidMount() {
         this.year = this.props.year;
-        this.error = false;
+        // this.error = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
@@ -39,7 +39,7 @@ export class YearPicker extends Component {
         if (yearStr.length <= MAX_LENGTH) {
             this.year = yearStr;
         }
-        this.error = false;
+        // this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }
@@ -48,38 +48,35 @@ export class YearPicker extends Component {
 
         // if the update failed because date was invalid
         // force a re-render the go back to previous valid state
-        if (this.year !== this.props.year) {
-            this.error = true;
-            this.forceUpdate();
-        }
+        // if (this.year !== this.props.year) {
+        //     this.error = true;
+        //     this.forceUpdate();
+        // }
     }
     render() {
         let yearStr = this.updateFromInternal ? this.year : this.props.year;
-        this.year = yearStr;
+        this.year = this.updateFromInternal ? this.year : yearStr;
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.datePickerSelector]: true,
-            [styles.datePickerSelectorError]: this.error,
+            // [styles.pickerError]: this.error,
             [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
-            <div className={containerClasses}>
-                <Input
-                    type="text"
-                    tabIndex="0"
-                    value={yearStr}
-                    inputProps={{
-                        onBlur: evt => {
-                            this.handleBlur(evt.target.value);
-                        },
-                        onKeyPress: evt => {
-                            this.handleKeyPress(evt);
-                        }
-                    }}
-                    onChange={evt => this.handleChange(evt.target.value)}
-                    classes={{ input: styles.selectionInput }}
-                />
-            </div>
+            <Input
+                type="text"
+                fullWidth={true}
+                value={yearStr}
+                onBlur={evt => {
+                    this.handleBlur(evt.target.value);
+                }}
+                inputProps={{
+                    onKeyPress: evt => {
+                        this.handleKeyPress(evt);
+                    }
+                }}
+                onChange={evt => this.handleChange(evt.target.value)}
+                classes={{ root: containerClasses, input: styles.selectionInput }}
+            />
         );
     }
 }
