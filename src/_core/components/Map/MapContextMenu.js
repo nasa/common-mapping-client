@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ContextMenu } from "react-contextmenu";
 import { hideMenu } from "react-contextmenu/modules/actions";
@@ -32,4 +31,4 @@ MapContextMenu.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(MapContextMenu);
+export default MapContextMenu;

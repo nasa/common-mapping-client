@@ -9,7 +9,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ReactDOM from "react-dom";
 import { ListItemIcon, ListItemText } from "material-ui/List";
@@ -164,4 +163,4 @@ ContextMenuSubMenu.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(ContextMenuSubMenu);
+export default ContextMenuSubMenu;
