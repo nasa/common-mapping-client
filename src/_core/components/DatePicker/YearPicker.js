@@ -18,7 +18,7 @@ const MAX_LENGTH = 4;
 export class YearPicker extends Component {
     componentDidMount() {
         this.year = this.props.year;
-        // this.error = false;
+        this.error = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
@@ -39,7 +39,7 @@ export class YearPicker extends Component {
         if (yearStr.length <= MAX_LENGTH) {
             this.year = yearStr;
         }
-        // this.error = false;
+        this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }
@@ -48,17 +48,14 @@ export class YearPicker extends Component {
 
         // if the update failed because date was invalid
         // force a re-render the go back to previous valid state
-        // if (this.year !== this.props.year) {
-        //     this.error = true;
-        //     this.forceUpdate();
-        // }
+        this.error = this.year !== this.props.year;
+        this.forceUpdate();
     }
     render() {
         let yearStr = this.updateFromInternal ? this.year : this.props.year;
         this.year = this.updateFromInternal ? this.year : yearStr;
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
-            // [styles.pickerError]: this.error,
             [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
@@ -66,6 +63,7 @@ export class YearPicker extends Component {
                 type="text"
                 fullWidth={true}
                 value={yearStr}
+                error={this.error}
                 onBlur={evt => {
                     this.handleBlur(evt.target.value);
                 }}

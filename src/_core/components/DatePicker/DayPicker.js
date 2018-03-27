@@ -18,7 +18,7 @@ const MAX_LENGTH = 2;
 export class DayPicker extends Component {
     componentDidMount() {
         this.day = this.props.day;
-        // this.error = false;
+        this.error = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
@@ -41,7 +41,7 @@ export class DayPicker extends Component {
         if (dayStr.length <= MAX_LENGTH) {
             this.day = dayStr;
         }
-        // this.error = false;
+        this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }
@@ -50,17 +50,14 @@ export class DayPicker extends Component {
 
         // if the update failed because date was invalid
         // force a re-render the go back to previous valid state
-        // if (this.day !== this.props.day) {
-        //     this.error = true;
-        //     this.forceUpdate();
-        // }
+        this.error = this.day !== this.props.day;
+        this.forceUpdate();
     }
     render() {
         let dayStr = this.updateFromInternal ? this.day : this.props.day;
-        this.day = dayStr;
+        this.day = this.updateFromInternal ? this.day : dayStr;
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
-            // [styles.datePickerSelectorError]: this.error,
             [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
@@ -68,6 +65,7 @@ export class DayPicker extends Component {
                 type="text"
                 tabIndex="0"
                 fullWidth={true}
+                error={this.error}
                 value={dayStr}
                 onBlur={evt => {
                     this.handleBlur(evt.target.value);
