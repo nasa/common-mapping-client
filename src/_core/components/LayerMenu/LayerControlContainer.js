@@ -111,6 +111,10 @@ export class LayerControlContainer extends Component {
     }
 
     renderTopContent() {
+        let secondaryActionClasses = MiscUtil.generateStringFromSet({
+            [displayStyles.invisible]: this.props.layer.get("isActive"),
+            [displayStyles.hiddenFadeIn]: !this.props.layer.get("isActive")
+        });
         return (
             <ListItem dense={true} classes={{ dense: styles.dense }}>
                 <Tooltip
@@ -126,15 +130,7 @@ export class LayerControlContainer extends Component {
                 <span className={textStyles.textEllipsis}>
                     <ListItemText primary={this.props.layer.get("title")} />
                 </span>
-                <ListItemSecondaryAction
-                    classes={{
-                        root: `${styles.secondaryActionRoot} ${
-                            this.props.layer.get("isActive")
-                                ? displayStyles.invisible
-                                : displayStyles.hiddenFadeIn
-                        }`
-                    }}
-                >
+                <ListItemSecondaryAction className={secondaryActionClasses}>
                     <Tooltip title="Layer information" placement="left">
                         <IconButtonSmall onClick={() => this.openLayerInfo()}>
                             <InfoOutlineIcon />

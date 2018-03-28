@@ -39,7 +39,6 @@ export class MonthPicker extends Component {
         if (monthStr.length <= MAX_LENGTH) {
             this.month = monthStr;
         }
-        this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }
@@ -48,38 +47,34 @@ export class MonthPicker extends Component {
 
         // if the update failed because date was invalid
         // force a re-render the go back to previous valid state
-        if (this.month !== this.props.month) {
-            this.error = true;
-            this.forceUpdate();
-        }
+        this.error = this.month !== this.props.month;
+        this.forceUpdate();
     }
     render() {
         let monthStr = this.updateFromInternal ? this.month : this.props.month;
-        this.month = monthStr;
+        this.month = this.updateFromInternal ? this.month : monthStr;
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.datePickerSelector]: true,
-            [styles.datePickerSelectorError]: this.error,
             [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
-            <div className={containerClasses}>
-                <Input
-                    type="text"
-                    tabIndex="0"
-                    value={monthStr}
-                    inputProps={{
-                        onBlur: evt => {
-                            this.handleBlur(evt.target.value);
-                        },
-                        onKeyPress: evt => {
-                            this.handleKeyPress(evt);
-                        }
-                    }}
-                    onChange={evt => this.handleChange(evt.target.value)}
-                    classes={{ input: styles.selectionInput }}
-                />
-            </div>
+            <Input
+                type="text"
+                tabIndex="0"
+                fullWidth={true}
+                error={this.error}
+                value={monthStr}
+                onBlur={evt => {
+                    this.handleBlur(evt.target.value);
+                }}
+                inputProps={{
+                    onKeyPress: evt => {
+                        this.handleKeyPress(evt);
+                    }
+                }}
+                onChange={evt => this.handleChange(evt.target.value)}
+                classes={{ root: containerClasses, input: styles.selectionInput }}
+            />
         );
     }
 }

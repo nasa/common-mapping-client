@@ -50,38 +50,34 @@ export class DayPicker extends Component {
 
         // if the update failed because date was invalid
         // force a re-render the go back to previous valid state
-        if (this.day !== this.props.day) {
-            this.error = true;
-            this.forceUpdate();
-        }
+        this.error = this.day !== this.props.day;
+        this.forceUpdate();
     }
     render() {
         let dayStr = this.updateFromInternal ? this.day : this.props.day;
-        this.day = dayStr;
+        this.day = this.updateFromInternal ? this.day : dayStr;
         this.updateFromInternal = false;
         let containerClasses = MiscUtil.generateStringFromSet({
-            [styles.datePickerSelector]: true,
-            [styles.datePickerSelectorError]: this.error,
             [this.props.className]: typeof this.props.className !== "undefined"
         });
         return (
-            <div className={containerClasses}>
-                <Input
-                    type="text"
-                    tabIndex="0"
-                    value={dayStr}
-                    inputProps={{
-                        onBlur: evt => {
-                            this.handleBlur(evt.target.value);
-                        },
-                        onKeyPress: evt => {
-                            this.handleKeyPress(evt);
-                        }
-                    }}
-                    onChange={evt => this.handleChange(evt.target.value)}
-                    classes={{ input: styles.selectionInput }}
-                />
-            </div>
+            <Input
+                type="text"
+                tabIndex="0"
+                fullWidth={true}
+                error={this.error}
+                value={dayStr}
+                onBlur={evt => {
+                    this.handleBlur(evt.target.value);
+                }}
+                inputProps={{
+                    onKeyPress: evt => {
+                        this.handleKeyPress(evt);
+                    }
+                }}
+                onChange={evt => this.handleChange(evt.target.value)}
+                classes={{ root: containerClasses, input: styles.selectionInput }}
+            />
         );
     }
 }
