@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Typography from "material-ui/Typography";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Alerts/AlertGroup.scss";
@@ -45,4 +44,4 @@ AlertGroup.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(AlertGroup);
+export default AlertGroup;

@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import ReactDOM from "react-dom";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/AsyncImage/AsyncImage.scss";
@@ -69,4 +68,4 @@ AsyncImage.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(AsyncImage);
+export default AsyncImage;

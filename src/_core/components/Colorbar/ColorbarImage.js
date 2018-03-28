@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import MiscUtil from "_core/utils/MiscUtil";
 
 export class ColorbarImage extends Component {
@@ -25,4 +24,4 @@ ColorbarImage.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(ColorbarImage);
+export default ColorbarImage;

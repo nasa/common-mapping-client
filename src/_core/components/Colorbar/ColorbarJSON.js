@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import MiscUtil from "_core/utils/MiscUtil";
 
 const CANVAS_WIDTH = 255;
@@ -70,4 +69,4 @@ ColorbarJSON.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(ColorbarJSON);
+export default ColorbarJSON;

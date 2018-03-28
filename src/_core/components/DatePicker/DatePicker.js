@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
 import Grid from "material-ui/Grid";
@@ -150,4 +149,4 @@ DatePicker.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(DatePicker);
+export default DatePicker;

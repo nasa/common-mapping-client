@@ -8,7 +8,6 @@
 import Immutable from "immutable";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import MiscUtil from "_core/utils/MiscUtil";
 import Dialog, { DialogContent } from "material-ui/Dialog";
@@ -80,4 +79,4 @@ ModalMenu.propTypes = {
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
-export default connect()(ModalMenu);
+export default ModalMenu;

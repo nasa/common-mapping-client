@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Divider from "material-ui/Divider";
 import { AlertGroup } from "_core/components/Alerts";
 import styles from "_core/components/Alerts/AlertLevel.scss";
@@ -41,4 +40,4 @@ AlertLevel.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(AlertLevel);
+export default AlertLevel;

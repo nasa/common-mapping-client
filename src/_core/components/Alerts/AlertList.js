@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { AlertLevel } from "_core/components/Alerts";
 import MiscUtil from "_core/utils/MiscUtil";
 
@@ -90,8 +89,8 @@ export class AlertList extends Component {
 }
 
 AlertList.propTypes = {
-    alerts: PropTypes.object.isRequired,
+    alerts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     className: PropTypes.string
 };
 
-export default connect()(AlertList);
+export default AlertList;

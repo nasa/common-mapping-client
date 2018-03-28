@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Input from "material-ui/Input";
 import MiscUtil from "_core/utils/MiscUtil";
 import appConfig from "constants/appConfig";
@@ -88,4 +87,4 @@ DayPicker.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(DayPicker);
+export default DayPicker;
