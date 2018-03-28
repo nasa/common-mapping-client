@@ -1,0 +1,189 @@
+{
+    "layers": [
+        {
+            "id": "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+            "title": "True Color",
+            "type": "data",
+            "handleAs": "GIBS_raster",
+            "isDefault": true,
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "url":
+                    "default-data/_core_default-data/layer-metadata/VIIRS_SNPP_CorrectedReflectance_TrueColor.json",
+                "handleAs": "json"
+            },
+            "thumbnailImage": "img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png"
+        },
+        {
+            "id": "AMSR2_Sea_Ice_Brightness_Temp_6km_89H",
+            "title": "Sea Ice Extent",
+            "type": "data",
+            "handleAs": "GIBS_raster",
+            "min": 80,
+            "max": 320,
+            "units": "°K",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "url":
+                    "default-data/_core_default-data/layer-metadata/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.json",
+                "handleAs": "json"
+            },
+            "palette": {
+                "name": "sea-ice-extent",
+                "handleAs": "json-fixed"
+            },
+            "thumbnailImage": "img/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png"
+        },
+        {
+            "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature",
+            "title": "Sea Surface Temperature",
+            "type": "data",
+            "handleAs": "GIBS_raster",
+            "min": 0.0,
+            "max": 32.0,
+            "units": "˚C",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "url":
+                    "default-data/_core_default-data/layer-metadata/GHRSST_L4_G1SST_Sea_Surface_Temperature.json",
+                "handleAs": "json"
+            },
+            "palette": {
+                "name": "GIBS_SST",
+                "handleAs": "json-fixed"
+            },
+            "thumbnailImage": "img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png"
+        },
+        {
+            "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
+            "title": "Brightness Temperature",
+            "type": "data",
+            "handleAs": "GIBS_raster",
+            "min": 180.0,
+            "max": 340.0,
+            "units": "˚K",
+            "wmtsOptions": {
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam",
+                    "cesium": "kvpTimeParam"
+                }
+            },
+            "metadata": {
+                "url":
+                    "default-data/_core_default-data/layer-metadata/MODIS_Terra_Brightness_Temp_Band31_Day.json",
+                "handleAs": "json"
+            },
+            "palette": {
+                "name": "brightness-temp",
+                "handleAs": "json-fixed"
+            },
+            "thumbnailImage": "img/MODIS_Terra_Brightness_Temp_Band31_Day.png"
+        },
+        {
+            "id": "us_state_outline_topojson",
+            "title": "US State Outline",
+            "type": "data",
+            "handleAs": "vector_topojson",
+            "updateParameters": { "time": false },
+            "url": "default-data/_core_default-data/ne_10m_us_states.topojson",
+            "metadata": {
+                "url":
+                    "default-data/_core_default-data/layer-metadata/us_state_outline_topojson.json",
+                "handleAs": "json"
+            },
+            "thumbnailImage": "img/us_state_outline_topojson.png"
+        },
+        {
+            "id": "flight_paths_kml",
+            "title": "Flight Paths",
+            "type": "data",
+            "handleAs": "vector_kml",
+            "updateParameters": { "time": false },
+            "url": "default-data/_core_default-data/openflights-sample.kml",
+            "metadata": {
+                "url": "default-data/_core_default-data/layer-metadata/flight_paths_kml.json",
+                "handleAs": "json"
+            },
+            "thumbnailImage": "img/flight_paths_kml.png"
+        },
+        {
+            "id": "Reference_Labels",
+            "title": "Reference Labels",
+            "type": "reference",
+            "handleAs": "GIBS_raster",
+            "updateParameters": { "time": false }
+        },
+        {
+            "id": "Reference_Features",
+            "title": "Reference Features",
+            "type": "reference",
+            "handleAs": "GIBS_raster",
+            "updateParameters": { "time": false }
+        },
+        {
+            "id": "ESRI_World_Imagery",
+            "title": "ESRI High Resolution World Imagery",
+            "type": "basemap",
+            "thumbnailImage": "img/ESRI_World_Imagery.jpeg",
+            "isDefault": true,
+            "handleAs": "xyz_raster",
+            "updateParameters": { "time": false },
+            "wmtsOptions": {
+                "projection": "EPSG:4326",
+                "layer": "ESRI_World_Imagery",
+                "url":
+                    "https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
+                "tileGrid": {
+                    "minZoom": 1,
+                    "maxZoom": 16,
+                    "tileSize": 512
+                },
+                "urlFunctions": {
+                    "openlayers": "esriCustom512"
+                },
+                "tileFunctions": {
+                    "openlayers": "catsTile"
+                }
+            }
+        },
+        {
+            "id": "BlueMarble_ShadedRelief_Bathymetry",
+            "title": "Blue Marble, Shaded Relief w/Bathymetry",
+            "type": "basemap",
+            "thumbnailImage": "img/BlueMarble_ShadedRelief_Bathymetry.jpeg",
+            "handleAs": "GIBS_raster",
+            "updateParameters": { "time": false }
+        },
+        {
+            "id": "OSM_Land_Water_Map",
+            "title": "Land/Water Map (data from OSM)",
+            "type": "basemap",
+            "thumbnailImage": "img/OSM_Land_Water_Map.png",
+            "handleAs": "GIBS_raster",
+            "updateParameters": { "time": false }
+        },
+        {
+            "id": "ASTER_GDEM_Color_Shaded_Relief",
+            "title": "Digital Elevation Map (Color Shaded Relief)",
+            "type": "basemap",
+            "thumbnailImage": "img/ASTER_GDEM_Color_Shaded_Relief.jpeg",
+            "handleAs": "GIBS_raster",
+            "updateParameters": { "time": false }
+        }
+    ]
+}
