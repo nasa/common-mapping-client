@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import showdown from "showdown";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Reusables/MarkdownPage.scss";
@@ -48,4 +47,4 @@ MarkdownPage.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(MarkdownPage);
+export default MarkdownPage;

@@ -14,6 +14,7 @@
     background-size: 50%;
     position: relative;
 }
+
 .warning {
     composes: fontRobotoMono from "_core/styles/text.scss";
     position: relative;
@@ -22,6 +23,7 @@
     letter-spacing: 0.075rem;
     font-weight: 600;
 }
+
 .typeNone {
     height: 16px;
     text-align: center;
@@ -33,17 +35,19 @@
     composes: fontRobotoMono from "_core/styles/text.scss";
     height: 1.1rem;
     text-align: center;
-    line-height: 1rem;
+    line-height: 1.1rem;
     width: 255px;
-    padding-top: 2px;
+    margin-top: 2px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
 }
+
 .label {
     font-size: 1.1rem;
     vertical-align: top;
 }
+
 .units {
     composes: label;
 }
@@ -54,4 +58,33 @@
 
 .max {
     composes: label;
+}
+
+.colorPreview {
+    composes: fontRobotoMono from "_core/styles/text.scss";
+    height: 1.1rem;
+    text-align: center;
+    line-height: 1.1rem;
+    width: 255px;
+    margin-top: 2px;
+    display: block;
+}
+
+.color {
+    composes: label;
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+}
+
+.value {
+    composes: label;
+    margin-left: 0.3rem;
+}
+
+.hoverCross {
+    &:hover {
+        cursor: crosshair;
+    }
 }

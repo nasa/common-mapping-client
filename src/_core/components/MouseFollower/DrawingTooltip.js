@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import * as appStrings from "_core/constants/appStrings";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/MouseFollower/DrawingTooltip.scss";
@@ -54,4 +53,4 @@ DrawingTooltip.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(DrawingTooltip);
+export default DrawingTooltip;

@@ -7,7 +7,6 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Input from "material-ui/Input";
 import MiscUtil from "_core/utils/MiscUtil";
 import appConfig from "constants/appConfig";
@@ -90,4 +89,4 @@ YearPicker.propTypes = {
     className: PropTypes.string
 };
 
-export default connect()(YearPicker);
+export default YearPicker;
