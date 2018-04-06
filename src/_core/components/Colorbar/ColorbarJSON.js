@@ -65,7 +65,7 @@ export class ColorbarJSON extends Component {
         if (x >= min && x <= max) {
             let listSize = this.props.palette.get("values").size;
             let offsetPercent = x / CANVAS_WIDTH;
-            let offset = Math.min(Math.round(offsetPercent * listSize), listSize - 1);
+            let offset = Math.min(Math.floor(offsetPercent * listSize), listSize - 1);
             let value = this.props.palette.getIn(["values", offset]);
             let val = value.get("value");
             let colorStr = value.get("color");
