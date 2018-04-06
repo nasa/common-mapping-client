@@ -99,5 +99,6 @@ who have the same problem down the road may find a solution faster.
 
 ### Documentation Shortcut
 
+* [Walkthrough](https://github.com/AaronPlave/common-mapping-client-walkthrough)
 * [Developer Guide](DEVELOPER_MANUAL.md)
 * [Example Projects](EXAMPLE_PROJECTS.md)
