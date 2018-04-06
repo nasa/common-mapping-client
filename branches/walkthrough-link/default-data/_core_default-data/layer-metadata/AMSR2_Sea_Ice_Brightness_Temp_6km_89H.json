@@ -1,0 +1,7 @@
+{
+	"title": "Brightness Temperature for Sea Ice 89H Ghz",
+    "description": "The GCOM-W1 near real-time (NRT) AMSR2 Level 3 Daily 6.25 km 89 GHz Brightness Temperature (Tb) data set is created using resampled Tb (Level-1R) data provided by the Japanese Aerospace Exploration Agency (JAXA). This Level 3 gridded product includes brightness temperatures at 89.0 GHz and is mapped to a polar stereographic grid at 6.25 km spatial resolution. This product is an intermediate product for processing of LANCE AMSR2 Level 3 sea ice products at 12.5 km and 25 km resolution. NRT products are generated within 3 hours of the last observations in the file by the Land Atmosphere Near real-time Capability for EOS (LANCE) at the AMSR Science Investigator-led Processing System (AMSR SIPS), which is collocated with the Global Hydrology Resource Center (GHRC) Distributed Active Archive Center (DAAC).",
+    "dateRange": "2016/01/13 – Present",
+    "platform": "GCOM-W1, AMSR2",
+    "spatialResolution": "2km spatial resolution"
+}

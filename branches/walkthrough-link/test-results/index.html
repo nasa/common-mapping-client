@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>cmc-core - 1.0.0</title>
+    <style type="text/css">html,body{font-family:Arial,sans-serif;font-size:1rem;margin:0;padding:0;}body{padding:10px 40px;}h1{margin-bottom:0;}h2{margin-top:0;margin-bottom:0;color:#999;}table{width:100%;margin-top:20px;margin-bottom:20px;table-layout:fixed;}tr.header{background:#ddd;font-weight:bold;border-bottom:none;}td{padding:7px;border-top:none;border-left:1px black solid;border-bottom:1px black solid;border-right:none;word-break:break-all;word-wrap:break-word;}tr.pass td{color:#003b07;background:#86e191;}tr.skip td{color:#7d3a00;background:#ffd24a;}tr.fail td{color:#5e0e00;background:#ff9c8a;}tr:first-child td{border-top:1px black solid;}td:last-child{border-right:1px black solid;}tr.overview{font-weight:bold;color:#777;}tr.overview td{padding-bottom:0px;border-bottom:none;}tr.system-out td{color:#777;}tr.system-errors td{color:#f00;}hr{height:2px;margin:30px 0;background:#000;border:none;}section{margin-top:40px;}h3{margin:6px 0;}.overview{color:#333;font-weight:bold;}.system-out{margin:0.4rem 0;}.system-errors{color:#a94442}.spec{padding:0.8rem;margin:0.3rem 0;}.spec--pass{color:#3c763d;background-color:#dff0d8;border:1px solid #d6e9c6;}.spec--skip{color:#8a6d3b;background-color:#fcf8e3;border:1px solid #faebcc;}.spec--fail{color:#a94442;background-color:#f2dede;border:1px solid #ebccd1;}.spec--group{color:#636363;background-color:#f0f0f0;border:1px solid #e6e6e6;margin:0;}.spec--group:not(:first-of-type){margin:20px 0 0 0;}.spec__title{display:inline;}.spec__suite{display:inline;}.spec__descrip{font-weight:normal;}.spec__status{float:right;}.spec__log{padding-left: 2.3rem;}.hidden{display:none;}body.compact .spec p{margin-top:0;margin-bottom:0.5rem;}body.compact .spec,body.compact tr,body.compact .overview,body.compact .system-out,body.compact .system-errors{font-size:0.85rem;}body.compact .spec{padding:0.3rem 0.5rem;}body.compact section{margin-top:30px;}</style>
+  </head>
+  <body class="compact">
+    <h1>cmc-core</h1>
+    <h2>1.0.0</h2>
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tr class="overview">
+        <td colspan="3" title="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36">Browser: Chrome 64.0.3282 (Linux 0.0.0)</td>
+      </tr>
+      <tr class="overview">
+        <td colspan="3">Timestamp: 2018-4-6 21:56:37</td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          201 tests / 
+          0 errors / 
+          0 failures / 
+          0 skipped / 
+          runtime: 61.99s
+        </td>
+      </tr>
+      <tr class="header">
+        <td>Status</td>
+        <td>Spec</td>
+        <td>Suite / Results</td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.006s</td>
+        <td>Set adds an arbitrary key/value mapped entry to the cache.Get takes a key and retrieves the mapped value if it hasn't been ejected, false otherwise</td>
+        <td>_core.CacheSpec -> setAndGet -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>Adds key/value pairs up the specified limit then ejects entries in FIFO order</td>
+        <td>_core.CacheSpec -> ejection -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>Clears all entries in the cache</td>
+        <td>_core.CacheSpec -> clearing -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.205s</td>
+        <td>Allows for arbitrary limit</td>
+        <td>_core.CacheSpec -> limitAndSize -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>defaults to a limit of 0 if given a non-number or negative limit</td>
+        <td>_core.CacheSpec -> limitAndSize -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>size reflects current usage, limit is max usage</td>
+        <td>_core.CacheSpec -> limitAndSize -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a space separated string from a set of strings mapped to booleans</td>
+        <td>_core.MiscUtilSpec -> generateStringFromSet -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>handles only string booleans (true/false)</td>
+        <td>_core.MiscUtilSpec -> generateStringFromSet -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string if no strings map to true</td>
+        <td>_core.MiscUtilSpec -> generateStringFromSet -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string if input is not an object</td>
+        <td>_core.MiscUtilSpec -> generateStringFromSet -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns the first object in an array that has a matching key/value pair</td>
+        <td>_core.MiscUtilSpec -> findObjectInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false if a matching object is not found</td>
+        <td>_core.MiscUtilSpec -> findObjectInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>accepts a function instead of a key/val pair</td>
+        <td>_core.MiscUtilSpec -> findObjectInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>accepts a function instead of a key/val pair and returns false if no match is found</td>
+        <td>_core.MiscUtilSpec -> findObjectInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns all the objects in an array that have a matching key/value pair</td>
+        <td>_core.MiscUtilSpec -> findAllMatchingObjectsInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns an empty array if matching objects are not found</td>
+        <td>_core.MiscUtilSpec -> findAllMatchingObjectsInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns an object containing the first object in an array that has a matching key/value pair and its index in the array</td>
+        <td>_core.MiscUtilSpec -> findObjectWithIndexInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false if a matching object is not found</td>
+        <td>_core.MiscUtilSpec -> findObjectWithIndexInArray -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>takes a key and returns a sort function comparing that key for an Immutable List of Map objects.</td>
+        <td>_core.MiscUtilSpec -> getImmutableObjectSort -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>takes a key and returns a sort function comparing that key for an Immutable List of Map objects with shared indices.</td>
+        <td>_core.MiscUtilSpec -> getImmutableObjectSort -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns a hex string from an rgb string with space separators</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns a hex string from an rgb string with comma separators</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a hex string from an rgb string with comma space separators</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a hex string from an rgb string with an rgb wrapper</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a capitalized hex string from a hex string</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a # prefixed hex string from a hex number</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with empty input</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with null input</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with bad input rgb characters</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with input of two numbers</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with input of one character</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with input of bad hex string</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string with input of out of range rgb string</td>
+        <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>converts rgb to hex</td>
+        <td>_core.MiscUtilSpec -> convertRgbToHex -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string when one of the rgb values is &gt; 255</td>
+        <td>_core.MiscUtilSpec -> convertRgbToHex -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string when given invalid input</td>
+        <td>_core.MiscUtilSpec -> convertRgbToHex -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string when given input of incorrect length</td>
+        <td>_core.MiscUtilSpec -> convertRgbToHex -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty string if given unmatching input</td>
+        <td>_core.MiscUtilSpec -> formatHex -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns a string representing the key/value pairs in an object - strings</td>
+        <td>_core.MiscUtilSpec -> objectToUrlParams -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns a string representing the key/value string pairs in an object - arrays</td>
+        <td>_core.MiscUtilSpec -> objectToUrlParams -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns a string representing the key/value string pairs in an object - empty</td>
+        <td>_core.MiscUtilSpec -> objectToUrlParams -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns an array of objects representing the key/value pairs in a url format hash string</td>
+        <td>_core.MiscUtilSpec -> parseUrlQueryString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns an array of objects representing the key/value pairs in a url format string without the preceeding hash</td>
+        <td>_core.MiscUtilSpec -> parseUrlQueryString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>ignores keys without values and values without keys</td>
+        <td>_core.MiscUtilSpec -> parseUrlQueryString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>presrves key-value pairs within parameters</td>
+        <td>_core.MiscUtilSpec -> parseUrlQueryString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns null when not in fullscreen</td>
+        <td>_core.MiscUtilSpec -> getIsInFullScreenMode -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns an empty array for no history</td>
+        <td>_core.MiscUtilSpec -> getUrlParams -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns an array of key value objects for a valid query string url</td>
+        <td>_core.MiscUtilSpec -> getUrlParams -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>pads a number or string up the specified length</td>
+        <td>_core.MiscUtilSpec -> padNumber -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>pads float strings ignoring the .</td>
+        <td>_core.MiscUtilSpec -> padNumber -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>takes in a set of LatLon coordinates [lon,lat] that may be outside the [-180, -90, 180, 90] bounds and contrains them the the [-180, -90, 180, 90] bounds.</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>Wraps longitude values outside [-180, 180] around the [-180, 180] line</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>Limits latitude values outside [-90, 90] to the [-90, 90] line</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>Leaves coordinates within the [-180, -90, 180, 90] unchanged</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>can optionally wrap the y coordinate instead of simply capping it to +-90</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>optionally wraps latitude values outside [-90, 90] around the [-90, 90] line</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>Returns false with bad input</td>
+        <td>_core.MapUtilSpec -> constrainCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns the original polyline when given a single polyline</td>
+        <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>deconstrains where first line end has -lon and second line start has +lon</td>
+        <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>deconstrains where first line end has -lon and second line start has -lon</td>
+        <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>deconstrains where first line end has +lon and second line start has +lon</td>
+        <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>deconstrains where first line end has +lon and second line start has +lon</td>
+        <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>takes in a set WMTS url params and returns a valid WMTS tile url.</td>
+        <td>_core.MapUtilSpec -> buildTileUrl -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>Accepts a restful url and populates the provided fields.</td>
+        <td>_core.MapUtilSpec -> buildTileUrl -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>takes a function string and returns a function associated with it</td>
+        <td>_core.MapUtilSpec -> getUrlFunction -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns undefined on unmatched function string</td>
+        <td>_core.MapUtilSpec -> getUrlFunction -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>takes a function string and returns the tile load function associated with it</td>
+        <td>_core.MapUtilSpec -> getTileFunction -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns undefined on unmatched function string</td>
+        <td>_core.MapUtilSpec -> getTileFunction -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>fails on bad input</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats distance in meters</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>formats distance in kilometers</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats distance in feet</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats distance in miles</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats distance in nautical miles</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>formats distance in school buses</td>
+        <td>_core.MapUtilSpec -> formatDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>fails on bad input</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>formats area in meters</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats area in kilometers</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats area in feet</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats area in miles</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats area in nautical miles</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>formats area in school buses</td>
+        <td>_core.MapUtilSpec -> formatArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.005s</td>
+        <td>converts to metric</td>
+        <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>converts to imperial</td>
+        <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>converts to nautical</td>
+        <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>converts to school buses</td>
+        <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>converts to metric</td>
+        <td>_core.MapUtilSpec -> convertAreaUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>converts to imperial</td>
+        <td>_core.MapUtilSpec -> convertAreaUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>converts to nautical</td>
+        <td>_core.MapUtilSpec -> convertAreaUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>converts to school buses</td>
+        <td>_core.MapUtilSpec -> convertAreaUnits -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>removes trailing zeros from fixed width float string</td>
+        <td>_core.MapUtilSpec -> trimFloatString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns 0 for null coordinate input</td>
+        <td>_core.MapUtilSpec -> calculatePolylineDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>calculates distances with two identical points</td>
+        <td>_core.MapUtilSpec -> calculatePolylineDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>calculates distances with two points</td>
+        <td>_core.MapUtilSpec -> calculatePolylineDistance -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>calculates area with 4 points</td>
+        <td>_core.MapUtilSpec -> calculatePolygonArea -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>calculates center with 4 points</td>
+        <td>_core.MapUtilSpec -> calculatePolygonCenter -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns empty array given empty array</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns empty array given a point</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>generates geodesic arc for linestring that does not cross dateline</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>generates geodesic arc for linestring that crosses dateline in negative direction</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.004s</td>
+        <td>generates geodesic arc for linestring that crosses dateline in negative direction and crosses back</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>generates geodesic arc for linestring that crosses dateline in positive direction</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.006s</td>
+        <td>generates geodesic arc for linestring that crosses dateline in positive direction and crosses back</td>
+        <td>_core.MapUtilSpec -> generateGeodesicArcsForLineString -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>returns false when geometry.type is not appStrings.GEOMETRY_LINE_STRING or appStrings.GEOMETRY_POLYGON</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is not appStrings.GEOMETRY_LINE_STRING</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns false when measurementType is appStrings.MEASURE_AREA and geometry.type is not appStrings.GEOMETRY_POLYGON</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.011s</td>
+        <td>returns correct measurement when measurementType is appStrings.MEASURE_AREA and geometry.type is appStrings.GEOMETRY_POLYGON</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.011s</td>
+        <td>returns correct measurement when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is appStrings.GEOMETRY_LINE_STRING</td>
+        <td>_core.MapUtilSpec -> measureGeometry -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when measurementType is not appStrings.MEASURE_DISTANCE or appStrings.MEASURE_AREA</td>
+        <td>_core.MapUtilSpec -> formatMeasurement -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns formatted distance when measurementType is appStrings.MEASURE_DISTANCE</td>
+        <td>_core.MapUtilSpec -> formatMeasurement -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns formatted area when measurementType is appStrings.MEASURE_AREA</td>
+        <td>_core.MapUtilSpec -> formatMeasurement -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when geometry.type is not appStrings.GEOMETRY_LINE_STRING or appStrings.GEOMETRY_POLYGON</td>
+        <td>_core.MapUtilSpec -> getLabelPosition -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when geometry.type is appStrings.GEOMETRY_LINE_STRING and geometry.coordinates is empty</td>
+        <td>_core.MapUtilSpec -> getLabelPosition -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when extent is not of type Array</td>
+        <td>_core.MapUtilSpec -> parseStringExtent -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns false when extent is not of length 4</td>
+        <td>_core.MapUtilSpec -> parseStringExtent -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns array of floats equivalent to extent.map(x =&gt; parseFloat(x)) when passed array of 4 of string floats</td>
+        <td>_core.MapUtilSpec -> parseStringExtent -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns array of floats equivalent to extent.map(x =&gt; parseFloat(x)) when passed array of 4 of float floats</td>
+        <td>_core.MapUtilSpec -> parseStringExtent -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns the default string when isValid is false</td>
+        <td>_core.MapUtilSpec -> formatLatLon -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>returns lat lon in correctly formatted cardinal directions</td>
+        <td>_core.MapUtilSpec -> formatLatLon -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.007s</td>
+        <td>enables user analytics</td>
+        <td>_core.StoreAnalyticsSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>disables user analytics</td>
+        <td>_core.StoreAnalyticsSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>Sets async state given key and new async state</td>
+        <td>_core.StoreAsyncSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>Sets async state given key and new async state with extra keys not in core model</td>
+        <td>_core.StoreAsyncSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>Changes no state if async key is not found</td>
+        <td>_core.StoreAsyncSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>begins dragging</td>
+        <td>_core.StoreDateSliderSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>ends dragging</td>
+        <td>_core.StoreDateSliderSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>opens help</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>closes help</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>opens and closes help</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>selects a help page</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>opens and selects a help page</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>closing help does not reset the selected page</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>opening help resets the selected page</td>
+        <td>_core.StoreHelpSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>opens layer info and sets the correct layer object.</td>
+        <td>_core.StoreLayerInfoSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>closes layer info and maintains the layer object reference.</td>
+        <td>_core.StoreLayerInfoSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>fails on initialization of map with non-matching map type</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.018s</td>
+        <td>initializes 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.064s</td>
+        <td>initializes 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.029s</td>
+        <td>initializes 2D and 3D maps</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.047s</td>
+        <td>initializes 3D and 2D maps</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.044s</td>
+        <td>can enable 3D terrain</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.021s</td>
+        <td>can set 3D terrain exaggeration</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.023s</td>
+        <td>can disable 3D terrain</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.024s</td>
+        <td>can set map view mode to 3D without 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.023s</td>
+        <td>can set map view mode to 3D with 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>can set map view mode to 2D without 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.021s</td>
+        <td>can set map view mode to 2D with 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.038s</td>
+        <td>can reset 3D map orientation</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.024s</td>
+        <td>can set 2D map view info</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.027s</td>
+        <td>can set 3D map view info</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>sets the map date</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 3.087s</td>
+        <td>can zoom out</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 3.008s</td>
+        <td>can zoom out with no 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 2.921s</td>
+        <td>can zoom in</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 2.007s</td>
+        <td>can zoom in with no 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 5.092s</td>
+        <td>can zoom in and out</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 4.011s</td>
+        <td>can zoom in and out with no 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.008s</td>
+        <td>can set scale units with 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.01s</td>
+        <td>can enable drawing a circle on a 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.003s</td>
+        <td>can enable drawing a line on a 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>can enable drawing a polygon on a 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.026s</td>
+        <td>can enable drawing a circle on a 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.036s</td>
+        <td>can enable drawing a line on a 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.031s</td>
+        <td>can enable drawing a polygon on a 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.009s</td>
+        <td>can disable drawing on a 2D map and clear previous drawing type</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.028s</td>
+        <td>can disable drawing on a 3D map and clear previous drawing type</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.01s</td>
+        <td>can add geometry to 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.037s</td>
+        <td>can add geometry to 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.026s</td>
+        <td>can remove all drawings from 2D and 3D maps</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.005s</td>
+        <td>can remove all drawings from 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 2.05s</td>
+        <td>can add measurement label to geometry on 2D and 3D maps</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 2.02s</td>
+        <td>can add measurement label to geometry on 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 4.042s</td>
+        <td>can remove all measurements in 2D and 3D maps</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 4.031s</td>
+        <td>can remove all measurements in 2D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.076s</td>
+        <td>can injest wmts and json layer configurations as well as palette configurations. Big test.</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.053s</td>
+        <td>can activate layers</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.012s</td>
+        <td>can activate layers with no 3D map</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 4.401s</td>
+        <td>can deactivate layers</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 4.013s</td>
+        <td>can deactivate layers</td>
+        <td>_core.StoreMapSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>opens settings.</td>
+        <td>_core.StoreSettingsSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>closes settings.</td>
+        <td>_core.StoreSettingsSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>opens and closes settings.</td>
+        <td>_core.StoreSettingsSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>enables auto update url</td>
+        <td>_core.StoreSharesSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>disables auto update url</td>
+        <td>_core.StoreSharesSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>can open the share container.</td>
+        <td>_core.StoreSharesSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>can close the share container.</td>
+        <td>_core.StoreSharesSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>can open and close the share container.</td>
+        <td>_core.StoreSharesSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>resets application state correctly</td>
+        <td>_core.StoreSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>does nothing on a NO_ACTION</td>
+        <td>_core.StoreSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>sets the app title, version, and subtitle from config</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>can complete initial load</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.038s</td>
+        <td>can set full screen enabled</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>can set full screen disabled</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>can set layer menu open</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>can set layer menu closed</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.002s</td>
+        <td>can set layer menu open and closed</td>
+        <td>_core.StoreViewSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0s</td>
+        <td>The state model creates a worker manager that defaults to having no workers active</td>
+        <td>_core.WebWorkerSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.013s</td>
+        <td>Can create and clear workers</td>
+        <td>_core.WebWorkerSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 20.126s</td>
+        <td>Queue up jobs for workers</td>
+        <td>_core.WebWorkerSpec -> default -></td>
+      </tr>
+      <tr class="pass">
+        <td>Passed in 0.001s</td>
+        <td>returns false for true</td>
+        <td>STUB TEST &raquo; a stub for your tests</td>
+      </tr>
+      <tr class="system-out">
+        <td colspan="3"><strong>System output:</strong><br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.calculatePolylineDistance: ', TypeError{}
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure geometry, unsupported geometry type: ', 'Circle'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure geometry, unsupported measurement type: ', 'beepbloop'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure distance, unsupported geometry type: ', 'Polygon'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure area, unsupported geometry type: ', 'LineString'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.formatMeasurement: Could not format measurement, unsupported measurement type: ', 'beepbloop'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.getLabelPosition: Could not find label placement, unsupported geometry type: ', 'polar bear'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapUtil.getLabelPosition: Could not find label placement, no coordinates in geometry.'
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapWrapperCesium.setLayerOpacity:', TypeError{}
+<br />Chrome 64.0.3282 (Linux 0.0.0) WARN: 'Error in MapWrapperCesium.setLayerOpacity:', TypeError{}
+</td>
+      </tr>
+    </table>
+    <hr/>
+  </body>
+</html>
