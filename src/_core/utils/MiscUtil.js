@@ -416,28 +416,33 @@ export default class MiscUtil {
 
         return new Promise((resolve, reject) => {
             fetch(url, fetchOptions)
-                .then(response => {
-                    if (response.status >= 400) {
-                        reject(new Error("Bad response from server"));
-                    } else {
-                        switch (handleAs) {
-                            case appStrings.FILE_TYPE_JSON:
-                                return response.json();
-                            case appStrings.FILE_TYPE_XML:
-                                return response.text();
-                            case appStrings.FILE_TYPE_MARKDOWN:
-                                return response.text();
-                            case appStrings.LAYER_CONFIG_JSON:
-                                return response.json();
-                            case appStrings.LAYER_CONFIG_WMTS_XML:
-                                return response.text();
-                            case appStrings.FILE_TYPE_TEXT:
-                                return response.text();
-                            default:
-                                return response;
+                .then(
+                    response => {
+                        if (response.status >= 400) {
+                            reject(new Error("Bad response from server"));
+                        } else {
+                            switch (handleAs) {
+                                case appStrings.FILE_TYPE_JSON:
+                                    return response.json();
+                                case appStrings.FILE_TYPE_XML:
+                                    return response.text();
+                                case appStrings.FILE_TYPE_MARKDOWN:
+                                    return response.text();
+                                case appStrings.LAYER_CONFIG_JSON:
+                                    return response.json();
+                                case appStrings.LAYER_CONFIG_WMTS_XML:
+                                    return response.text();
+                                case appStrings.FILE_TYPE_TEXT:
+                                    return response.text();
+                                default:
+                                    return response;
+                            }
                         }
+                    },
+                    err => {
+                        reject(new Error("Bad response from server"));
                     }
-                })
+                )
                 .then(parsedResponse => {
                     resolve(parsedResponse);
                 })
