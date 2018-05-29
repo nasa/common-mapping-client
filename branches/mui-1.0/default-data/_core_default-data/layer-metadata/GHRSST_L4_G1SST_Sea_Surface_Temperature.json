@@ -1,0 +1,7 @@
+{
+    "title": "Sea Surface Temperature",
+    "description": "Daily, Global 1km Sea Surface Temperature (G1SST) dataset. G1SST uses satellite data from the Advanced Very High Resolution Radiometer (AVHRR), the Advanced Along Track Scanning Radiometer (AATSR), the Spinning Enhanced Visible and Infrared Imager (SEVIRI), the Advanced Microwave Scanning Radiometer-EOS (AMSRE), the Tropical Rainfall Measuring Mission Microwave Imager (TMI), the Moderate Resolution Imaging Spectroradiometer (MODIS), the Geostationary Operational Environmental Satellite (GOES) Imager, the Multi-Functional Transport Satellite 1R (MTSAT-1R) radiometer, and in situ data from drifting and moored buoys.",
+    "dateRange": "2010/06/21 – Present",
+    "platform": "Multi-Mission, GHRSST",
+    "spatialResolution": "1km spatial resolution"
+}
