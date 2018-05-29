@@ -7,11 +7,11 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Popover from "material-ui/Popover";
-import Grow from "material-ui/transitions/Grow";
+import Popover from "@material-ui/core/Popover";
+import Grow from "@material-ui/core/Grow";
 import { Manager, Target, Popper } from "react-popper";
-import Tooltip from "material-ui/Tooltip";
-import BuildIcon from "material-ui-icons/Build";
+import Tooltip from "@material-ui/core/Tooltip";
+import BuildIcon from "@material-ui/icons/Build";
 import { MapButton, MapToolsMenu, ClickAwayListener } from "_core/components/Reusables";
 import mapControlsContainerStyles from "_core/components/Map/MapControlsContainer.scss";
 import MiscUtil from "_core/utils/MiscUtil";

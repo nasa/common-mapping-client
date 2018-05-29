@@ -7,12 +7,13 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { MenuItem, MenuList } from "material-ui/Menu";
-import { FormControl, FormHelperText } from "material-ui/Form";
-import Paper from "material-ui/Paper";
-import Input, { InputLabel } from "material-ui/Input";
-import Select from "material-ui/Select";
-import { ListItemText } from "material-ui/List";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Paper from "@material-ui/core/Paper";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import ListItemText from "@material-ui/core/ListItemText";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Settings/BaseMapList.scss";
 require("_core/styles/resources/img/no_tile.png");

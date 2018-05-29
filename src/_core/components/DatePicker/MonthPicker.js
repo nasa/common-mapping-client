@@ -7,7 +7,7 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Input from "material-ui/Input";
+import Input from "@material-ui/core/Input";
 import MiscUtil from "_core/utils/MiscUtil";
 import appConfig from "constants/appConfig";
 import styles from "_core/components/DatePicker/DatePicker.scss";

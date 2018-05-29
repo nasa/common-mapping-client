@@ -7,7 +7,7 @@
 
 import React from "react";
 import pure from "recompose/pure";
-import SvgIcon from "material-ui/SvgIcon";
+import SvgIcon from "@material-ui/core/SvgIcon";
 
 let OpacityIcon0 = props => (
     <SvgIcon {...props}>
