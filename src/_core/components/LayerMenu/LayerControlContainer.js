@@ -9,14 +9,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { ListItem, ListItemSecondaryAction, ListItemText } from "material-ui/List";
-import Divider from "material-ui/Divider";
-import InfoOutlineIcon from "material-ui-icons/InfoOutline";
-import Typography from "material-ui/Typography";
-import Tooltip from "material-ui/Tooltip";
-import Collapse from "material-ui/transitions/Collapse";
-import Popover from "material-ui/Popover";
-import Grow from "material-ui/transitions/Grow";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Divider from "@material-ui/core/Divider";
+import InfoOutlineIcon from "@material-ui/icons/InfoOutline";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import Collapse from "@material-ui/core/Collapse";
+import Grow from "@material-ui/core/Grow";
+import Popover from "@material-ui/core/Popover";
 import { Manager, Target, Popper } from "react-popper";
 import { EnhancedSwitch, IconButtonSmall, ClickAwayListener } from "_core/components/Reusables";
 import * as mapActions from "_core/actions/mapActions";
@@ -205,7 +207,7 @@ export class LayerControlContainer extends Component {
                             </Tooltip>
                         </Target>
                         <Popper
-                            placement="left-end"
+                            placement="left"
                             modifiers={{
                                 computeStyle: {
                                     gpuAcceleration: false
@@ -246,7 +248,7 @@ export class LayerControlContainer extends Component {
                             </Tooltip>
                         </Target>
                         <Popper
-                            placement="left-end"
+                            placement="left"
                             modifiers={{
                                 computeStyle: {
                                     gpuAcceleration: false
