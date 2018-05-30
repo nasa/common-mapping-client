@@ -11,7 +11,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Collapse from "@material-ui/core/Collapse";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import List from "@material-ui/core/List";
@@ -19,7 +18,7 @@ import Paper from "@material-ui/core/Paper";
 import * as appStrings from "_core/constants/appStrings";
 import * as mapActions from "_core/actions/mapActions";
 import { LayerControlContainer } from "_core/components/LayerMenu";
-import { IconButtonSmall } from "_core/components/Reusables";
+import { IconButtonSmall, EnhancedTooltip } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/LayerMenu/LayerMenuContainer.scss";
 import displayStyles from "_core/styles/display.scss";
@@ -58,7 +57,7 @@ export class LayerMenuContainer extends Component {
                             </Typography>
                         </div>
                         <div className="text-right">
-                            <Tooltip
+                            <EnhancedTooltip
                                 title={
                                     this.props.layerMenuOpen
                                         ? "Close layer menu"
@@ -75,7 +74,7 @@ export class LayerMenuContainer extends Component {
                                 >
                                     <KeyboardArrowDownIcon />
                                 </IconButtonSmall>
-                            </Tooltip>
+                            </EnhancedTooltip>
                         </div>
                     </div>
                     <Collapse in={this.props.layerMenuOpen} timeout="auto">

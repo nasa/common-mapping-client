@@ -10,9 +10,13 @@ import PropTypes from "prop-types";
 import Popover from "@material-ui/core/Popover";
 import Grow from "@material-ui/core/Grow";
 import { Manager, Target, Popper } from "react-popper";
-import Tooltip from "@material-ui/core/Tooltip";
 import BuildIcon from "@material-ui/icons/Build";
-import { MapButton, MapToolsMenu, ClickAwayListener } from "_core/components/Reusables";
+import {
+    MapButton,
+    MapToolsMenu,
+    ClickAwayListener,
+    EnhancedTooltip
+} from "_core/components/Reusables";
 import mapControlsContainerStyles from "_core/components/Map/MapControlsContainer.scss";
 import MiscUtil from "_core/utils/MiscUtil";
 import displayStyles from "_core/styles/display.scss";
@@ -31,7 +35,7 @@ const MapToolsButton = props => {
         >
             <Manager>
                 <Target>
-                    <Tooltip title="Tools" placement="right">
+                    <EnhancedTooltip title="Tools" placement="right">
                         <MapButton
                             color={props.isOpen ? "primary" : "default"}
                             onClick={() => {
@@ -42,7 +46,7 @@ const MapToolsButton = props => {
                         >
                             <BuildIcon />
                         </MapButton>
-                    </Tooltip>
+                    </EnhancedTooltip>
                 </Target>
                 <Popper
                     placement="left-end"
