@@ -604,7 +604,10 @@ export default class MapReducer {
             );
         }
 
-        return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
+        if (appConfig.DELETE_LAYER_PARTIALS) {
+            return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
+        }
+        return state;
     }
 
     static activateDefaultLayers(state, action) {
@@ -1204,13 +1207,49 @@ export default class MapReducer {
 
     static findLayerById(state, layerId) {
         let layer = undefined;
-        state.get("layers").forEach(layerList => {
-            let layerCheck = layerList.get(layerId);
-            if (typeof layerCheck !== "undefined") {
-                layer = layerCheck;
-                return false;
-            }
-        });
+
+        // search through layer lists
+        state
+            .get("layers")
+            .sortBy(
+                (val, key) => {
+                    return key;
+                },
+                (a, b) => {
+                    // partials always last
+                    if (a === appStrings.LAYER_GROUP_TYPE_PARTIAL) {
+                        return 1;
+                    }
+                    if (b === appStrings.LAYER_GROUP_TYPE_PARTIAL) {
+                        return -1;
+                    }
+
+                    if (a < b) {
+                        return -1;
+                    }
+                    if (a > b) {
+                        return 1;
+                    }
+                    if (a === b) {
+                        return 0;
+                    }
+                }
+            )
+            .forEach(layerList => {
+                if (Immutable.Map.isMap(layerList)) {
+                    if (layerList.includes(layerId)) {
+                        layer = layerList.get(layerId);
+                        return false;
+                    }
+                } else if (Immutable.List.isList(layerList)) {
+                    layer = layerList.find(entry => {
+                        return entry.get("id") === layerId;
+                    });
+                    if (typeof layer !== "undefined") {
+                        return false;
+                    }
+                }
+            });
         if (typeof layer === "undefined") {
             console.warn(
                 "Error in MapReducer.findLayerById: Could not resolve layer from id - ",

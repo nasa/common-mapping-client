@@ -171,6 +171,7 @@ export const GIBS_IMAGERY_RESOLUTIONS = {
 };
 export const MAX_RESOLUTION = GIBS_IMAGERY_RESOLUTIONS[appStrings.PROJECTIONS.latlon.code][0];
 export const MAX_LAYER_CACHE = 50;
+export const DELETE_LAYER_PARTIALS = false;
 
 export const REFERENCE_LABELS_LAYER_ID = "Reference_Labels";
 export const POLITICAL_BOUNDARIES_LAYER_ID = "Reference_Features";
