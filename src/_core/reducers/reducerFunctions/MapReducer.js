@@ -1237,11 +1237,11 @@ export default class MapReducer {
             )
             .forEach(layerList => {
                 if (Immutable.Map.isMap(layerList)) {
-                    if (layerList.includes(layerId)) {
+                    if (layerList.has(layerId)) {
                         layer = layerList.get(layerId);
                         return false;
                     }
-                } else if (Immutable.List.isList(layerList)) {
+                } else {
                     layer = layerList.find(entry => {
                         return entry.get("id") === layerId;
                     });
