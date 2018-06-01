@@ -559,7 +559,7 @@ export default class MapReducer {
         let matchingPartials = null;
         let mergedLayer = null;
         let newLayers = null;
-        let unmatchedLayers = [];
+        let unmatchedLayers = Immutable.List();
         while (partials.size > 0) {
             // grab a partial
             refPartial = partials.last();
@@ -593,11 +593,11 @@ export default class MapReducer {
                     mergedLayer
                 );
             } else {
-                unmatchedLayers.push(mergedLayer.toJS());
+                unmatchedLayers = unmatchedLayers.push(mergedLayer);
             }
         }
 
-        if (unmatchedLayers.length > 0) {
+        if (unmatchedLayers.size > 0) {
             console.warn(
                 "Error in MapReducer.mergeLayers: could not store merged layers; missing a valid id or type.",
                 unmatchedLayers
@@ -607,7 +607,7 @@ export default class MapReducer {
         if (appConfig.DELETE_LAYER_PARTIALS) {
             return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
         }
-        return state;
+        return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL], unmatchedLayers); // store only unmatched partials
     }
 
     static activateDefaultLayers(state, action) {
@@ -1209,47 +1209,21 @@ export default class MapReducer {
         let layer = undefined;
 
         // search through layer lists
-        state
-            .get("layers")
-            .sortBy(
-                (val, key) => {
-                    return key;
-                },
-                (a, b) => {
-                    // partials always last
-                    if (a === appStrings.LAYER_GROUP_TYPE_PARTIAL) {
-                        return 1;
-                    }
-                    if (b === appStrings.LAYER_GROUP_TYPE_PARTIAL) {
-                        return -1;
-                    }
-
-                    if (a < b) {
-                        return -1;
-                    }
-                    if (a > b) {
-                        return 1;
-                    }
-                    if (a === b) {
-                        return 0;
-                    }
+        state.get("layers").forEach(layerList => {
+            if (Immutable.Map.isMap(layerList)) {
+                if (layerList.has(layerId)) {
+                    layer = layerList.get(layerId);
+                    return false;
                 }
-            )
-            .forEach(layerList => {
-                if (Immutable.Map.isMap(layerList)) {
-                    if (layerList.has(layerId)) {
-                        layer = layerList.get(layerId);
-                        return false;
-                    }
-                } else {
-                    layer = layerList.find(entry => {
-                        return entry.get("id") === layerId;
-                    });
-                    if (typeof layer !== "undefined") {
-                        return false;
-                    }
+            } else {
+                layer = layerList.find(entry => {
+                    return entry.get("id") === layerId;
+                });
+                if (typeof layer !== "undefined") {
+                    return false;
                 }
-            });
+            }
+        });
         if (typeof layer === "undefined") {
             console.warn(
                 "Error in MapReducer.findLayerById: Could not resolve layer from id - ",
