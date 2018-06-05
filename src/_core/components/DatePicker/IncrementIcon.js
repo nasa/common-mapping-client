@@ -7,9 +7,9 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "material-ui/Button";
-import KeyboardArrowUpIcon from "material-ui-icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "material-ui-icons/KeyboardArrowDown";
+import Button from "@material-ui/core/Button";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import styles from "_core/components/DatePicker/IncrementIcon.scss";
 
 const IncrementIcon = props => {

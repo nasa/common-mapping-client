@@ -9,10 +9,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Button from "material-ui/Button";
-import Tooltip from "material-ui/Tooltip";
+import Button from "@material-ui/core/Button";
 import MapMarkerIcon from "mdi-material-ui/MapMarker";
-import { MapButton } from "_core/components/Reusables";
+import { MapButton, EnhancedTooltip } from "_core/components/Reusables";
 import * as appStrings from "_core/constants/appStrings";
 import * as mapActions from "_core/actions/mapActions";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -50,7 +49,7 @@ export class MapLabelsButton extends Component {
         });
 
         return (
-            <Tooltip
+            <EnhancedTooltip
                 title={mapLabelsActive ? "Hide Map Labels" : "Show Map Labels"}
                 placement="right"
             >
@@ -62,7 +61,7 @@ export class MapLabelsButton extends Component {
                 >
                     <MapMarkerIcon />
                 </MapButton>
-            </Tooltip>
+            </EnhancedTooltip>
         );
     }
 }

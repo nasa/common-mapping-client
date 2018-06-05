@@ -9,18 +9,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Button from "material-ui/Button";
-import Tooltip from "material-ui/Tooltip";
+import Button from "@material-ui/core/Button";
 import { Manager, Target, Popper } from "react-popper";
-import Paper from "material-ui/Paper";
-import Grow from "material-ui/transitions/Grow";
-import ButtonBase from "material-ui/ButtonBase";
-import Typography from "material-ui/Typography";
+import Paper from "@material-ui/core/Paper";
+import Grow from "@material-ui/core/Grow";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
 import * as mapActions from "_core/actions/mapActions";
 import * as appActions from "_core/actions/appActions";
 import * as appStrings from "_core/constants/appStrings";
 import { BaseMapList } from "_core/components/Settings";
-import { ClickAwayListener } from "_core/components/Reusables";
+import { ClickAwayListener, EnhancedTooltip } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Map/BasemapPicker.scss";
 import displayStyles from "_core/styles/display.scss";
@@ -75,7 +74,7 @@ export class BasemapPicker extends Component {
                 <div className={containerClasses}>
                     <Manager>
                         <Target>
-                            <Tooltip title={"Select Basemap"} placement="left">
+                            <EnhancedTooltip title={"Select Basemap"} placement="left">
                                 <Paper elevation={2}>
                                     <ButtonBase
                                         onClick={() =>
@@ -104,7 +103,7 @@ export class BasemapPicker extends Component {
                                         </div>
                                     </ButtonBase>
                                 </Paper>
-                            </Tooltip>
+                            </EnhancedTooltip>
                         </Target>
                         <Popper
                             placement="left-end"

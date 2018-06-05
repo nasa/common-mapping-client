@@ -15,3 +15,4 @@ export { default as MapToolsMenu } from "_core/components/Reusables/MapToolsMenu
 export { default as MarkdownPage } from "_core/components/Reusables/MarkdownPage.js";
 export { default as ClickAwayListener } from "_core/components/Reusables/ClickAwayListener.js";
 export { default as LonLatCoordinates } from "_core/components/Reusables/LonLatCoordinates.js";
+export { default as EnhancedTooltip } from "_core/components/Reusables/EnhancedTooltip.js";

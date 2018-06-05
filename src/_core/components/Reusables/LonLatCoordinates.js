@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Typography from "material-ui/Typography";
+import Typography from "@material-ui/core/Typography";
 import MiscUtil from "_core/utils/MiscUtil";
 import MapUtil from "_core/utils/MapUtil";
 

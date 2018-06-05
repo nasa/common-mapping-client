@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Paper from "material-ui/Paper";
+import Paper from "@material-ui/core/Paper";
 import "rc-slider/assets/index.css";
 import styles from "_core/components/LayerMenu/LayerOpacityControl.scss";
 import Slider from "rc-slider";

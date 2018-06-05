@@ -9,7 +9,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import moment from "moment";
-import Grid from "material-ui/Grid";
+import Grid from "@material-ui/core/Grid";
 import { YearPicker, MonthPicker, DayPicker, IncrementButton } from "_core/components/DatePicker";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";

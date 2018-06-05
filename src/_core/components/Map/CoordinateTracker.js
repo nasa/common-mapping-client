@@ -8,7 +8,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Paper from "material-ui/Paper";
+import Paper from "@material-ui/core/Paper";
 import MiscUtil from "_core/utils/MiscUtil";
 import { MouseCoordinates } from "_core/components/MouseFollower";
 import styles from "_core/components/Map/CoordinateTracker.scss";
