@@ -50,7 +50,8 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
     2. [Replacing these libraries](#mapping-with-cmc-replacing-libs)
     3. [Overview of the MapWrapper classes](#mapping-with-cmc-mapwrapper)
     4. [Notes on Map Performance](#mapping-with-cmc-note-on-performance)
-    5. [Tidbits](#mapping-with-cmc-tidbits)
+    5. [Layer Configs and Ingestion](#mapping-with-cmc-layer-configs-and-ingestion)
+    6. [Tidbits](#mapping-with-cmc-tidbits)
 10. [Brief Overview of Application Directory ](#cmc-application-directory)
 11. [How to Write Tests in CMC](#writing-tests)
     1. [Testing Tools](#writing-tests-tools)
@@ -648,6 +649,146 @@ The MapWrapper class provides an abstracted API for the Reducer functions to int
 ### Notes on Map Performance
 Openlayers and Cesium are both aware of their visibility in the DOM to some extent. This means that they will delay rendering if their containing domNodes have `display: none;` styling. This allows MapReducers and the MapWrapper to operate on the map while it is not displayed without fear of it rendering in the background. Note however that the instance does not easily give up resources and once initiated Cesium in particular can become a resource hog.
 
+<a id="#mapping-with-cmc-layer-configs-and-ingestion"></a>
+### Layer Configs and Ingestion
+
+CMC supports two types of layer configuration formats, JSON and XML. The XML format is specifically the WMTS capabilities format that would be returned from a `GetCapabilities` request to a WMTS server. The JSON format is an array of json entries that match the layer model used in the application (e.g. `layerModel` in `src/_core/reducers/models/map.js`) as follows:
+
+```json
+{
+    "layers": [
+        {
+            "id": "[STRING_LAYER_ID]",
+            "title": "[STRING_LAYER_ID]",
+            ...
+        }
+    ]
+}
+```
+
+Note that CMC considers all of the layer configs to be "partial" meaning that they do not need to specify all of the fields in the layer model (see below for more information).
+
+The complete set of configurations that the application will load by default are defined in `appConfig` under `URLS.layerConfig`.
+
+The process of ingesting layer configs is as follows:
+1. Request and parse all specified configs into a list of partial configs stored in `state.map.layers.partials`
+2. Iterate through all of the partial configs and merge partial configs from different sources
+  a. Merging prioritizes JSON definitions, e.g. it will merge a JSON based config into the matching XML config and merge the result into the default layer model (see below for an example)
+3. Store the final merged object into state according to the `type` field
+  b. If a `type` is not specified (e.g. the layer's config is only from XML) then it is kept in the `partials` list
+4. If `appConfig.DELETE_LAYER_PARTIALS` is `true` then all unmatched partials are deleted from state (this is the default)
+
+*Layer Config Example*
+
+JSON layer config
+```json
+{
+    "layers": [
+        {
+            "id": "example_layer_id_1",
+            "title": "Layer Title - JSON - 1",
+            "type": "data"
+        },
+        {
+            "id": "example_layer_id_2",
+            "title": "Layer Title - JSON - 2",
+            "type": "data"
+        }
+    ]
+}
+```
+
+WMTS Capabilities config snippet
+```xml
+<Capabilities xmlns="http://www.opengis.net/wmts/1.0" xmlns:ows="http://www.opengis.net/ows/1.1" version="1.0.0" ...>
+    ...
+    <Contents>
+        <Layer>
+            <ows:Title xml:lang="en">Layer Title - XML - 1</ows:Title>
+            <ows:Identifier>example_layer_id_1</ows:Identifier>
+            ...
+        </Layer>
+        <Layer>
+            <ows:Title xml:lang="en">Layer Title - XML - 3</ows:Title>
+            <ows:Identifier>example_layer_id_3</ows:Identifier>
+            ...
+        </Layer>
+    </Contents>
+</Capabilities>
+```
+
+JS layer model snippet
+```js
+const layerModel = {
+    id: undefined,
+    title: "",
+    type: "",
+    ...
+};
+```
+
+After the JSON and XML configs are ingested, the following will be stored in state:
+
+```js
+map: {
+    layers: {
+        data: {
+            layer_id_1: {
+                id: "example_layer_id_1",
+                title: "Layer Title - JSON - 1",
+                type: "data",
+                wmtsOptions: "(wmts options parsed from xml config)",
+                ...
+            },
+            layer_id_2: {
+                id: "example_layer_id_2",
+                title: "Layer Title - JSON - 2",
+                type: "data",
+                wmtsOptions: "(default wmts options in layer model)",
+                ...
+            }
+        }
+    }
+}
+```
+
+Note that the `example_layer_id_3` layer described in the XML config is absent. That is because there was no matching JSON config to specify it's type and the application therefore discarded the partial config. Also note that we do not need a corresponding XML config for `example_layer_id_2` as JSON is given priority in this application.
+
+If the same configs were used but `appConfig.DELETE_LAYER_PARTIALS` was `false`, then we would get:
+
+```js
+map: {
+    layers: {
+        data: {
+            layer_id_1: {
+                id: "example_layer_id_1",
+                title: "Layer Title - JSON - 1",
+                type: "data",
+                wmtsOptions: "(wmts options parsed from xml config)",
+                ...
+            },
+            layer_id_2: {
+                id: "example_layer_id_2",
+                title: "Layer Title - JSON - 2",
+                type: "data",
+                wmtsOptions: "(default wmts options in layer model)",
+                ...
+            }
+        },
+        partial: [
+            {
+                id: "example_layer_id_3",
+                title: "Layer Title - XML - 1",
+                type: "",
+                wmtsOptions: "(wmts options parsed from xml config)",
+                ...
+            }
+        ]
+    }
+}
+```
+
+This is helpful if, for example, you want your application to pull it's layer configurations only from a WMTS `GetCapabilities` call.
 
 <a id="mapping-with-cmc-tidbits"></a>
 ### Tidbits

@@ -559,7 +559,7 @@ export default class MapReducer {
         let matchingPartials = null;
         let mergedLayer = null;
         let newLayers = null;
-        let unmatchedLayers = [];
+        let unmatchedLayers = Immutable.List();
         while (partials.size > 0) {
             // grab a partial
             refPartial = partials.last();
@@ -593,18 +593,21 @@ export default class MapReducer {
                     mergedLayer
                 );
             } else {
-                unmatchedLayers.push(mergedLayer.toJS());
+                unmatchedLayers = unmatchedLayers.push(mergedLayer);
             }
         }
 
-        if (unmatchedLayers.length > 0) {
+        if (unmatchedLayers.size > 0) {
             console.warn(
                 "Error in MapReducer.mergeLayers: could not store merged layers; missing a valid id or type.",
                 unmatchedLayers
             );
         }
 
-        return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
+        if (appConfig.DELETE_LAYER_PARTIALS) {
+            return state.removeIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]); // remove the partials list so that it doesn't intrude later
+        }
+        return state.setIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL], unmatchedLayers); // store only unmatched partials
     }
 
     static activateDefaultLayers(state, action) {
@@ -1204,11 +1207,21 @@ export default class MapReducer {
 
     static findLayerById(state, layerId) {
         let layer = undefined;
+
+        // search through layer lists
         state.get("layers").forEach(layerList => {
-            let layerCheck = layerList.get(layerId);
-            if (typeof layerCheck !== "undefined") {
-                layer = layerCheck;
-                return false;
+            if (Immutable.Map.isMap(layerList)) {
+                if (layerList.has(layerId)) {
+                    layer = layerList.get(layerId);
+                    return false;
+                }
+            } else {
+                layer = layerList.find(entry => {
+                    return entry.get("id") === layerId;
+                });
+                if (typeof layer !== "undefined") {
+                    return false;
+                }
             }
         });
         if (typeof layer === "undefined") {
