@@ -1,0 +1,7 @@
+{
+    "title": "Brightness Temperature (Band 31, day)",
+    "description": "The MODIS Level 1B data set contains calibrated and geolocated radiances at-aperture for all 36 MODIS spectral bands at 1km resolution. These data are generated from the MODIS Level 1A scans of raw radiance and in the process converted to geophysical units of W / (m^2 um sr).",
+    "dateRange": "2012/05/08 – Present",
+    "platform": "MODIS, Terra",
+    "spatialResolution": "1km spatial resolution"
+}
