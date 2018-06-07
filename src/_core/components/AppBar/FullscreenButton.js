@@ -44,14 +44,14 @@ export class FullscreenButton extends Component {
 
     handleFullScreenChange() {
         if (MiscUtil.getIsInFullScreenMode()) {
-            this.props.appActions.setFullScreenMode(true);
+            this.props.setFullScreenMode(true);
         } else {
-            this.props.appActions.setFullScreenMode(false);
+            this.props.setFullScreenMode(false);
         }
     }
 
     render() {
-        let { className, isFullscreen, appActions, ...other } = this.props;
+        let { className, isFullscreen, setFullScreenMode, ...other } = this.props;
 
         let rootClasses = MiscUtil.generateStringFromSet({
             [className]: typeof className !== "undefined"
@@ -61,7 +61,7 @@ export class FullscreenButton extends Component {
             <IconButtonSmall
                 color="inherit"
                 className={rootClasses}
-                onClick={() => this.props.setFullScreenMode(!isFullscreen)}
+                onClick={() => setFullScreenMode(!isFullscreen)}
                 {...other}
             >
                 {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}

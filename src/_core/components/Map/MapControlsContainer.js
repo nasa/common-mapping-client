@@ -83,9 +83,9 @@ export class MapControlsContainer extends Component {
     }
     setViewMode() {
         if (this.props.in3DMode) {
-            this.props.mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D);
+            this.props.setMapViewMode(appStrings.MAP_VIEW_MODE_2D);
         } else {
-            this.props.mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D);
+            this.props.setMapViewMode(appStrings.MAP_VIEW_MODE_3D);
         }
     }
 
@@ -152,7 +152,7 @@ export class MapControlsContainer extends Component {
                     <EnhancedTooltip title="Home" placement="right">
                         <MapButton
                             onClick={() => {
-                                this.props.mapActions.setMapView(
+                                this.props.setMapView(
                                     { extent: appConfig.DEFAULT_BBOX_EXTENT },
                                     true
                                 );
@@ -165,7 +165,7 @@ export class MapControlsContainer extends Component {
                     </EnhancedTooltip>
                     <EnhancedTooltip title="Zoom In" placement="right">
                         <MapButton
-                            onClick={this.props.mapActions.zoomIn}
+                            onClick={this.props.zoomIn}
                             aria-label="Zoom in"
                             className={styles.lineButton}
                         >
@@ -174,7 +174,7 @@ export class MapControlsContainer extends Component {
                     </EnhancedTooltip>
                     <EnhancedTooltip title="Zoom Out" placement="right">
                         <MapButton
-                            onClick={this.props.mapActions.zoomOut}
+                            onClick={this.props.zoomOut}
                             aria-label="Zoom out"
                             className={styles.lastButton}
                         >
@@ -200,7 +200,6 @@ MapControlsContainer.propTypes = {
     hideMapControls: PropTypes.func.isRequired,
     setDistractionFreeMode: PropTypes.func.isRequired,
     setMapControlsToolsOpen: PropTypes.func.isRequired,
-    appActions: PropTypes.object.isRequired,
     className: PropTypes.string
 };
 

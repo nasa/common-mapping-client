@@ -72,7 +72,7 @@ export default class AppAction {
         return dispatch => {
             return Promise.all(
                 params.map(param => {
-                    return dispatch(this.translateUrlParamToActionDispatch(param));
+                    return dispatch(AppAction.translateUrlParamToActionDispatch(param));
                 })
             ).catch(err => {
                 console.warn("Error in appActions.runUrlConfig:", err);
@@ -91,29 +91,29 @@ export default class AppAction {
     static translateUrlParamToActionDispatch(param) {
         switch (param.key) {
             case appConfig.URL_KEYS.ACTIVE_LAYERS:
-                return this.setLayersActive(param.value.split(","), true);
+                return AppAction.setLayersActive(param.value.split(","), true);
             case appConfig.URL_KEYS.VIEW_MODE:
-                return this.setViewMode(param.value);
+                return AppAction.setViewMode(param.value);
             case appConfig.URL_KEYS.BASEMAP:
-                return this.setBasemap(param.value);
+                return AppAction.setBasemap(param.value);
             case appConfig.URL_KEYS.VIEW_EXTENT:
-                return this.setExtent(param.value.split(","));
+                return AppAction.setExtent(param.value.split(","));
             case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-                return this.setLayersActive(
+                return AppAction.setLayersActive(
                     [appConfig.REFERENCE_LABELS_LAYER_ID],
                     param.value === "true"
                 );
             case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-                return this.setLayersActive(
+                return AppAction.setLayersActive(
                     [appConfig.POLITICAL_BOUNDARIES_LAYER_ID],
                     param.value === "true"
                 );
             case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
-                return this.setTerrainEnabled(param.value.toString() === "true");
+                return AppAction.setTerrainEnabled(param.value.toString() === "true");
             case appConfig.URL_KEYS.DATE:
-                return this.setDate(param.value);
+                return AppAction.setDate(param.value);
             case appConfig.URL_KEYS.TIMELINE_RES:
-                return this.setTimelineRes(param.value);
+                return AppAction.setTimelineRes(param.value);
             default:
                 return { type: types.NO_ACTION };
         }

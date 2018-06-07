@@ -149,7 +149,6 @@ SettingsContainer.propTypes = {
     analyticsEnabled: PropTypes.bool.isRequired,
     autoUpdateUrlEnabled: PropTypes.bool.isRequired,
     mapSettings: PropTypes.object.isRequired,
-    analyticsActions: PropTypes.object.isRequired,
     setSettingsOpen: PropTypes.func.isRequired,
     setAutoUpdateUrl: PropTypes.func.isRequired,
     resetApplicationState: PropTypes.func.isRequired,

@@ -163,9 +163,9 @@ export default class MapAction {
     static loadLayerMetadata(layer) {
         return dispatch => {
             // signal loading
-            dispatch(this.setLayerMetadataLoadingAsync(true, false));
+            dispatch(MapAction.setLayerMetadataLoadingAsync(true, false));
             // open the display
-            dispatch(this.openLayerInfo(layer));
+            dispatch(MapAction.openLayerInfo(layer));
             if (layer.getIn(["metadata", "url"]) && layer.getIn(["metadata", "handleAs"])) {
                 // fetch the metadata
                 return MiscUtil.asyncFetch({
@@ -174,14 +174,14 @@ export default class MapAction {
                 }).then(
                     data => {
                         // store the data for display
-                        dispatch(this.setCurrentMetadata(layer, data));
+                        dispatch(MapAction.setCurrentMetadata(layer, data));
                         // signal loading complete
-                        dispatch(this.setLayerMetadataLoadingAsync(false, false));
+                        dispatch(MapAction.setLayerMetadataLoadingAsync(false, false));
                     },
                     err => {
                         console.warn("Error in mapActions.openLayerInfo:", err);
                         // signal loading failed
-                        dispatch(this.setLayerMetadataLoadingAsync(false, true));
+                        dispatch(MapAction.setLayerMetadataLoadingAsync(false, true));
 
                         // display alert
                         dispatch(
@@ -198,7 +198,7 @@ export default class MapAction {
                 );
             } else {
                 // signal loading failed
-                dispatch(this.setLayerMetadataLoadingAsync(false, true));
+                dispatch(MapAction.setLayerMetadataLoadingAsync(false, true));
 
                 // display alert
                 dispatch(
@@ -218,15 +218,15 @@ export default class MapAction {
     static loadInitialData(callback = null) {
         return dispatch => {
             // Set flag that initial layer data has begun loading
-            dispatch(this.setInitialDataLoadingAsync(true, false));
+            dispatch(MapAction.setInitialDataLoadingAsync(true, false));
             // Fetch all initial layer data
             return Promise.all([
-                dispatch(this.loadLayerData()),
-                dispatch(this.loadPaletteData())
+                dispatch(MapAction.loadLayerData()),
+                dispatch(MapAction.loadPaletteData())
             ]).then(
                 () => {
                     // Set flag that initial layer data has finished loading
-                    dispatch(this.setInitialDataLoadingAsync(false, false));
+                    dispatch(MapAction.setInitialDataLoadingAsync(false, false));
                     if (typeof callback === "function") {
                         callback.call(this);
                     }
@@ -241,7 +241,7 @@ export default class MapAction {
                             time: new Date()
                         })
                     );
-                    dispatch(this.setInitialDataLoadingAsync(false, true));
+                    dispatch(MapAction.setInitialDataLoadingAsync(false, true));
                     if (typeof callback === "function") {
                         callback.call(this);
                     }
@@ -252,7 +252,7 @@ export default class MapAction {
 
     static loadPaletteData() {
         return dispatch => {
-            dispatch(this.setPaletteDataLoadingAsync(true, false));
+            dispatch(MapAction.setPaletteDataLoadingAsync(true, false));
 
             return MiscUtil.asyncFetch({
                 url: appConfig.URLS.paletteConfig,
@@ -260,8 +260,8 @@ export default class MapAction {
                 options: { credentials: "same-origin" }
             }).then(
                 data => {
-                    dispatch(this.ingestLayerPalettes(data));
-                    dispatch(this.setPaletteDataLoadingAsync(false, false));
+                    dispatch(MapAction.ingestLayerPalettes(data));
+                    dispatch(MapAction.setPaletteDataLoadingAsync(false, false));
                 },
                 err => {
                     console.warn("Error in mapActions.loadPaletteData:", err);
@@ -273,19 +273,19 @@ export default class MapAction {
 
     static loadLayerData() {
         return dispatch => {
-            dispatch(this.setLayerDataLoadingAsync(true, false));
+            dispatch(MapAction.setLayerDataLoadingAsync(true, false));
 
             return Promise.all(
                 appConfig.URLS.layerConfig.map(el => {
-                    return dispatch(this.loadSingleLayerSource(el));
+                    return dispatch(MapAction.loadSingleLayerSource(el));
                 })
             ).then(
                 () => {
                     dispatch({ type: types.MERGE_LAYERS });
-                    dispatch(this.setLayerDataLoadingAsync(false, false));
+                    dispatch(MapAction.setLayerDataLoadingAsync(false, false));
                 },
                 err => {
-                    dispatch(this.setLayerDataLoadingAsync(false, true));
+                    dispatch(MapAction.setLayerDataLoadingAsync(false, true));
                     console.warn("Error in mapActions.loadLayerData:", err);
                     throw err;
                 }
@@ -301,7 +301,7 @@ export default class MapAction {
                 options: { credentials: "same-origin" }
             }).then(
                 data => {
-                    dispatch(this.ingestLayerConfig(data, options));
+                    dispatch(MapAction.ingestLayerConfig(data, options));
                 },
                 err => {
                     console.warn("Error in mapActions.loadSingleLayerSource: ", err);

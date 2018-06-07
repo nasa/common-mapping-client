@@ -299,7 +299,6 @@ export class LayerControlContainer extends Component {
 }
 
 LayerControlContainer.propTypes = {
-    mapActions: PropTypes.object.isRequired,
     layer: PropTypes.object.isRequired,
     activeNum: PropTypes.number.isRequired,
     setLayerActive: PropTypes.func.isRequired,

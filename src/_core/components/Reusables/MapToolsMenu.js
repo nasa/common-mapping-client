@@ -183,7 +183,6 @@ export class MapToolsMenu extends Component {
 
 MapToolsMenu.propTypes = {
     handleRequestClose: PropTypes.func.isRequired,
-    mapActions: PropTypes.object.isRequired,
     enableMeasuring: PropTypes.func.isRequired,
     removeAllMeasurements: PropTypes.func.isRequired,
     enableDrawing: PropTypes.func.isRequired,

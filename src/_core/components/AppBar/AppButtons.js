@@ -20,7 +20,7 @@ import styles from "_core/components/AppBar/AppButtons.scss";
 
 export class AppButtons extends Component {
     render() {
-        let { className, ...other } = this.props;
+        let { className, setHelpOpen, setShareOpen, setSettingsOpen, ...other } = this.props;
 
         let rootClasses = MiscUtil.generateStringFromSet({
             [className]: typeof className !== "undefined"
@@ -37,7 +37,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => this.props.setHelpOpen(true)}
+                        onClick={() => setHelpOpen(true)}
                     >
                         <HelpIcon />
                     </IconButtonSmall>
@@ -51,7 +51,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => this.props.setShareOpen(true)}
+                        onClick={() => setShareOpen(true)}
                     >
                         <ShareIcon />
                     </IconButtonSmall>
@@ -65,7 +65,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => this.props.setSettingsOpen(true)}
+                        onClick={() => setSettingsOpen(true)}
                     >
                         <SettingsIcon />
                     </IconButtonSmall>

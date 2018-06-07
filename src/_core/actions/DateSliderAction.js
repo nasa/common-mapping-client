@@ -32,7 +32,7 @@ export default class DateSliderAction {
     static dragEnd(newDate) {
         return dispatch => {
             return Promise.all([
-                dispatch(this.endDragging()),
+                dispatch(DateSliderAction.endDragging()),
                 dispatch(MapAction.setDate(newDate))
             ]).catch(err => {
                 console.warn("Error in dateSliderActions.dragEnd:", err);

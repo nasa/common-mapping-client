@@ -137,8 +137,6 @@ export class BasemapPicker extends Component {
 
 BasemapPicker.propTypes = {
     basemaps: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired,
     setBasemap: PropTypes.func.isRequired,
     hideBasemap: PropTypes.func.isRequired,
     setMapControlsBasemapPickerOpen: PropTypes.func.isRequired,
