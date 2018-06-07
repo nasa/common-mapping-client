@@ -1,0 +1,7 @@
+{
+	"title": "Corrected Reflectance (True Color)",
+    "description": "These images show the Earth’s surface and clouds in true color, like a photograph. NASA uses satellites in space to gather images like these over the whole world every day. Scientists use these images to track changes on Earth’s surface. Notice the shapes and patterns of the colors across the lands. Dark green areas show where there are many plants. Brown areas are where the satellite sensor sees more of the bare land surface because there are few plants. White areas are either snow or clouds.",
+    "dateRange": "2015/11/24 – Present",
+    "platform": "SNPP, VIIRS",
+    "spatialResolution": "250m spatial resolution"
+}
