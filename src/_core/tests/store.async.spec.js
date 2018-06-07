@@ -6,7 +6,7 @@
  */
 
 import * as actionTypes from "_core/constants/actionTypes";
-import * as asyncActions from "_core/actions/asyncActions";
+import { AsyncAction } from "actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -45,7 +45,7 @@ export const StoreAsyncSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     store.dispatch(
-                        asyncActions.setAsyncLoadingState("initialDataAsync", {
+                        AsyncAction.setAsyncLoadingState("initialDataAsync", {
                             loading: true,
                             failed: false
                         })
@@ -70,7 +70,7 @@ export const StoreAsyncSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     store.dispatch(
-                        asyncActions.setAsyncLoadingState("initialDataAsync", {
+                        AsyncAction.setAsyncLoadingState("initialDataAsync", {
                             loading: true,
                             failed: false,
                             dog: 1
@@ -97,7 +97,7 @@ export const StoreAsyncSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     store.dispatch(
-                        asyncActions.setAsyncLoadingState("thisisntthekeyyourelookingfor", {
+                        AsyncAction.setAsyncLoadingState("thisisntthekeyyourelookingfor", {
                             loading: true,
                             failed: false
                         })

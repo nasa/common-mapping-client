@@ -11,8 +11,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { MuiThemeProvider, createMuiTheme } from "material-ui/styles";
 import { pink } from "material-ui/colors";
-import * as appActions from "_core/actions/appActions";
-import * as mapActions from "_core/actions/mapActions";
+import { AppAction, MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -166,16 +165,16 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        completeInitialLoad: bindActionCreators(appActions.completeInitialLoad, dispatch),
+        completeInitialLoad: bindActionCreators(AppAction.completeInitialLoad, dispatch),
         checkBrowserFunctionalities: bindActionCreators(
-            appActions.checkBrowserFunctionalities,
+            AppAction.checkBrowserFunctionalities,
             dispatch
         ),
-        loadInitialData: bindActionCreators(mapActions.loadInitialData, dispatch),
-        activateDefaultLayers: bindActionCreators(mapActions.activateDefaultLayers, dispatch),
-        runUrlConfig: bindActionCreators(appActions.runUrlConfig, dispatch),
-        initializeMap: bindActionCreators(mapActions.initializeMap, dispatch),
-        setMapView: bindActionCreators(mapActions.setMapView, dispatch)
+        loadInitialData: bindActionCreators(MapAction.loadInitialData, dispatch),
+        activateDefaultLayers: bindActionCreators(MapAction.activateDefaultLayers, dispatch),
+        runUrlConfig: bindActionCreators(AppAction.runUrlConfig, dispatch),
+        initializeMap: bindActionCreators(MapAction.initializeMap, dispatch),
+        setMapView: bindActionCreators(MapAction.setMapView, dispatch)
     };
 }
 

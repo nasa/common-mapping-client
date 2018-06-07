@@ -10,8 +10,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
-import * as mapActions from "_core/actions/mapActions";
-import * as dateSliderActions from "_core/actions/dateSliderActions";
+import { MapAction, DateSliderAction } from "actions";
 import appConfig from "constants/appConfig";
 import * as appStrings from "_core/constants/appStrings";
 import KeyHandler, { KEYUP, KEYDOWN } from "react-key-handler";
@@ -46,10 +45,10 @@ export class KeyboardControlsContainer extends Component {
 
     handleKeyUp_Escape() {
         if (this.props.isDrawingEnabled) {
-            this.props.mapActions.disableDrawing();
+            this.props.disableDrawing();
         }
         if (this.props.isMeasuringEnabled) {
-            this.props.mapActions.disableMeasuring();
+            this.props.disableMeasuring();
         }
     }
 
@@ -77,7 +76,7 @@ export class KeyboardControlsContainer extends Component {
         let maxDate = moment(appConfig.MAX_DATE);
 
         if (newDate.isBetween(minDate, maxDate)) {
-            this.props.mapActions.setDate(newDate.toDate());
+            this.props.setDate(newDate.toDate());
         }
     }
 
@@ -175,9 +174,7 @@ export class KeyboardControlsContainer extends Component {
             Math.max(newResIndex, 0),
             appConfig.DATE_SLIDER_RESOLUTIONS.length - 1
         );
-        this.props.dateSliderActions.setDateResolution(
-            appConfig.DATE_SLIDER_RESOLUTIONS[newResIndex]
-        );
+        this.props.setDateResolution(appConfig.DATE_SLIDER_RESOLUTIONS[newResIndex]);
     }
 
     handleKeyDown_ArrowUp() {
@@ -199,15 +196,15 @@ export class KeyboardControlsContainer extends Component {
     }
 
     zoomIn() {
-        this.props.mapActions.zoomIn();
+        this.props.zoomIn();
     }
 
     zoomOut() {
-        this.props.mapActions.zoomOut();
+        this.props.zoomOut();
     }
 
     panMap(direction) {
-        this.props.mapActions.panMap(direction, this.panExtraFar);
+        this.props.panMap(direction, this.panExtraFar);
     }
 
     speedUp() {
@@ -399,8 +396,13 @@ export class KeyboardControlsContainer extends Component {
 
 KeyboardControlsContainer.propTypes = {
     maps: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
-    dateSliderActions: PropTypes.object.isRequired,
+    disableDrawing: PropTypes.func.isRequired,
+    disableMeasuring: PropTypes.func.isRequired,
+    setDate: PropTypes.func.isRequired,
+    zoomIn: PropTypes.func.isRequired,
+    zoomOut: PropTypes.func.isRequired,
+    panMap: PropTypes.func.isRequired,
+    setDateResolution: PropTypes.func.isRequired,
     isDrawingEnabled: PropTypes.bool.isRequired,
     isMeasuringEnabled: PropTypes.bool.isRequired,
     dateSliderTimeResolution: PropTypes.object.isRequired,
@@ -419,8 +421,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch),
-        dateSliderActions: bindActionCreators(dateSliderActions, dispatch)
+        disableDrawing: bindActionCreators(MapAction.disableDrawing, dispatch),
+        disableMeasuring: bindActionCreators(MapAction.disableMeasuring, dispatch),
+        setDate: bindActionCreators(MapAction.setDate, dispatch),
+        zoomIn: bindActionCreators(MapAction.zoomIn, dispatch),
+        zoomOut: bindActionCreators(MapAction.zoomOut, dispatch),
+        panMap: bindActionCreators(MapAction.panMap, dispatch),
+        setDateResolution: bindActionCreators(DateSliderAction.setDateResolution, dispatch)
     };
 }
 

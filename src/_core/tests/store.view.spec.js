@@ -5,8 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as appActions from "_core/actions/appActions";
-import * as mapActions from "_core/actions/mapActions";
+import { AppAction, MapAction } from "actions";
 import appConfig from "constants/appConfig";
 import { createStore } from "redux";
 import { expect } from "chai";
@@ -56,7 +55,7 @@ export const StoreViewSpec = {
                 it("can complete initial load", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.completeInitialLoad()];
+                    const actions = [AppAction.completeInitialLoad()];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -72,7 +71,7 @@ export const StoreViewSpec = {
                 it("can set full screen enabled", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setFullScreenMode(true)];
+                    const actions = [AppAction.setFullScreenMode(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -90,8 +89,8 @@ export const StoreViewSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        appActions.setFullScreenMode(true),
-                        appActions.setFullScreenMode(false)
+                        AppAction.setFullScreenMode(true),
+                        AppAction.setFullScreenMode(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
@@ -108,7 +107,7 @@ export const StoreViewSpec = {
                 it("can set layer menu open", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [mapActions.setLayerMenuOpen(true)];
+                    const actions = [MapAction.setLayerMenuOpen(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -125,7 +124,7 @@ export const StoreViewSpec = {
                 it("can set layer menu closed", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [mapActions.setLayerMenuOpen(false)];
+                    const actions = [MapAction.setLayerMenuOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -143,8 +142,8 @@ export const StoreViewSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        mapActions.setLayerMenuOpen(true),
-                        mapActions.setLayerMenuOpen(false)
+                        MapAction.setLayerMenuOpen(true),
+                        MapAction.setLayerMenuOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -42,7 +42,7 @@ export const StoreHelpSpec = {
                 it("opens help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setHelpOpen(true)];
+                    const actions = [AppAction.setHelpOpen(true)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -59,7 +59,7 @@ export const StoreHelpSpec = {
                 it("closes help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setHelpOpen(false)];
+                    const actions = [AppAction.setHelpOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -76,7 +76,7 @@ export const StoreHelpSpec = {
                 it("opens and closes help", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setHelpOpen(true), appActions.setHelpOpen(false)];
+                    const actions = [AppAction.setHelpOpen(true), AppAction.setHelpOpen(false)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -94,7 +94,7 @@ export const StoreHelpSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     let helpPage = "screaming eagles";
-                    const actions = [appActions.selectHelpPage(helpPage)];
+                    const actions = [AppAction.selectHelpPage(helpPage)];
 
                     actions.forEach(action => store.dispatch(action));
 
@@ -113,8 +113,8 @@ export const StoreHelpSpec = {
 
                     let helpPage = "screaming eagles";
                     const actions = [
-                        appActions.setHelpOpen(true),
-                        appActions.selectHelpPage(helpPage)
+                        AppAction.setHelpOpen(true),
+                        AppAction.selectHelpPage(helpPage)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -134,9 +134,9 @@ export const StoreHelpSpec = {
 
                     let helpPage = "screaming eagles";
                     const actions = [
-                        appActions.setHelpOpen(true),
-                        appActions.selectHelpPage(helpPage),
-                        appActions.setHelpOpen(false)
+                        AppAction.setHelpOpen(true),
+                        AppAction.selectHelpPage(helpPage),
+                        AppAction.setHelpOpen(false)
                     ];
 
                     actions.forEach(action => store.dispatch(action));
@@ -156,10 +156,10 @@ export const StoreHelpSpec = {
 
                     let helpPage = "screaming eagles";
                     const actions = [
-                        appActions.setHelpOpen(true),
-                        appActions.selectHelpPage(helpPage),
-                        appActions.setHelpOpen(false),
-                        appActions.setHelpOpen(true)
+                        AppAction.setHelpOpen(true),
+                        AppAction.selectHelpPage(helpPage),
+                        AppAction.setHelpOpen(false),
+                        AppAction.setHelpOpen(true)
                     ];
 
                     actions.forEach(action => store.dispatch(action));

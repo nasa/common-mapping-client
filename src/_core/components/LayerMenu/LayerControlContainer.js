@@ -19,7 +19,7 @@ import Popover from "material-ui/Popover";
 import Grow from "material-ui/transitions/Grow";
 import { Manager, Target, Popper } from "react-popper";
 import { EnhancedSwitch, IconButtonSmall, ClickAwayListener } from "_core/components/Reusables";
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import {
     LayerPositionIcon,
     LayerPositionControl,
@@ -66,12 +66,12 @@ export class LayerControlContainer extends Component {
     setLayerActive(active) {
         this.isChangingPosition = false;
         this.isChangingOpacity = false;
-        this.props.mapActions.setLayerActive(this.props.layer.get("id"), !active);
+        this.props.setLayerActive(this.props.layer.get("id"), !active);
     }
 
     changeOpacity(value) {
         let opacity = value / 100.0;
-        this.props.mapActions.setLayerOpacity(this.props.layer, opacity);
+        this.props.setLayerOpacity(this.props.layer, opacity);
     }
 
     toggleChangingOpacity() {
@@ -87,27 +87,27 @@ export class LayerControlContainer extends Component {
     }
 
     openLayerInfo() {
-        this.props.mapActions.loadLayerMetadata(this.props.layer);
+        this.props.loadLayerMetadata(this.props.layer);
     }
 
     changePalette() {
-        this.props.mapActions.changeLayerPalette(this.props.layer.get("id"), {});
+        this.props.changeLayerPalette(this.props.layer.get("id"), {});
     }
 
     moveToTop() {
-        this.props.mapActions.moveLayerToTop(this.props.layer.get("id"));
+        this.props.moveLayerToTop(this.props.layer.get("id"));
     }
 
     moveToBottom() {
-        this.props.mapActions.moveLayerToBottom(this.props.layer.get("id"));
+        this.props.moveLayerToBottom(this.props.layer.get("id"));
     }
 
     moveUp() {
-        this.props.mapActions.moveLayerUp(this.props.layer.get("id"));
+        this.props.moveLayerUp(this.props.layer.get("id"));
     }
 
     moveDown() {
-        this.props.mapActions.moveLayerDown(this.props.layer.get("id"));
+        this.props.moveLayerDown(this.props.layer.get("id"));
     }
 
     renderTopContent() {
@@ -296,13 +296,28 @@ LayerControlContainer.propTypes = {
     mapActions: PropTypes.object.isRequired,
     layer: PropTypes.object.isRequired,
     activeNum: PropTypes.number.isRequired,
+    setLayerActive: PropTypes.func.isRequired,
+    setLayerOpacity: PropTypes.func.isRequired,
+    loadLayerMetadata: PropTypes.func.isRequired,
+    changeLayerPalette: PropTypes.func.isRequired,
+    moveLayerToTop: PropTypes.func.isRequired,
+    moveLayerToBottom: PropTypes.func.isRequired,
+    moveLayerUp: PropTypes.func.isRequired,
+    moveLayerDown: PropTypes.func.isRequired,
     palette: PropTypes.object,
     className: PropTypes.string
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch)
+        setLayerActive: bindActionCreators(MapAction.setLayerActive, dispatch),
+        setLayerOpacity: bindActionCreators(MapAction.setLayerOpacity, dispatch),
+        loadLayerMetadata: bindActionCreators(MapAction.loadLayerMetadata, dispatch),
+        changeLayerPalette: bindActionCreators(MapAction.changeLayerPalette, dispatch),
+        moveLayerToTop: bindActionCreators(MapAction.moveLayerToTop, dispatch),
+        moveLayerToBottom: bindActionCreators(MapAction.moveLayerToBottom, dispatch),
+        moveLayerUp: bindActionCreators(MapAction.moveLayerUp, dispatch),
+        moveLayerDown: bindActionCreators(MapAction.moveLayerDown, dispatch)
     };
 }
 

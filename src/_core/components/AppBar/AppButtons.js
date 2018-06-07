@@ -15,13 +15,13 @@ import ShareIcon from "material-ui-icons/Share";
 import SettingsIcon from "material-ui-icons/Settings";
 import { IconButtonSmall } from "_core/components/Reusables";
 import { FullscreenButton } from "_core/components/AppBar";
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/AppBar/AppButtons.scss";
 
 export class AppButtons extends Component {
     render() {
-        let { className, appActions, ...other } = this.props;
+        let { className, ...other } = this.props;
 
         let rootClasses = MiscUtil.generateStringFromSet({
             [className]: typeof className !== "undefined"
@@ -38,7 +38,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => appActions.setHelpOpen(true)}
+                        onClick={() => this.props.setHelpOpen(true)}
                     >
                         <HelpIcon />
                     </IconButtonSmall>
@@ -52,7 +52,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => appActions.setShareOpen(true)}
+                        onClick={() => this.props.setShareOpen(true)}
                     >
                         <ShareIcon />
                     </IconButtonSmall>
@@ -66,7 +66,7 @@ export class AppButtons extends Component {
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
-                        onClick={() => appActions.setSettingsOpen(true)}
+                        onClick={() => this.props.setSettingsOpen(true)}
                     >
                         <SettingsIcon />
                     </IconButtonSmall>
@@ -85,13 +85,17 @@ export class AppButtons extends Component {
 }
 
 AppButtons.propTypes = {
-    appActions: PropTypes.object.isRequired,
+    setHelpOpen: PropTypes.func.isRequired,
+    setShareOpen: PropTypes.func.isRequired,
+    setSettingsOpen: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        setHelpOpen: bindActionCreators(AppAction.setHelpOpen, dispatch),
+        setShareOpen: bindActionCreators(AppAction.setShareOpen, dispatch),
+        setSettingsOpen: bindActionCreators(AppAction.setSettingsOpen, dispatch)
     };
 }
 

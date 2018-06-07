@@ -14,7 +14,7 @@ import moment from "moment";
 import { DataSet, Timeline } from "vis/index-timeline-graph2d";
 import "vis/dist/vis-timeline-graph2d.min.css";
 import { ResolutionStep } from "_core/components/Timeline";
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -226,7 +226,7 @@ export class TimelineContainer extends Component {
             this.bringItemIntoView(item.id, { duration: 250 });
 
             if (!newDate.isSame(moment(this.props.date))) {
-                this.props.mapActions.setDate(newDate);
+                this.props.setDate(newDate);
             }
         };
     }
@@ -263,7 +263,7 @@ export class TimelineContainer extends Component {
                 item.start = this.clampDate(end);
             } else {
                 if (!newDate.isSame(moment(this.props.date))) {
-                    this.props.mapActions.setDate(newDate);
+                    this.props.setDate(newDate);
                 }
             }
             callback(item);
@@ -292,7 +292,7 @@ export class TimelineContainer extends Component {
 
             let newDate = maskedDate;
 
-            this.props.mapActions.setDate(newDate);
+            this.props.setDate(newDate);
         } else if (
             props.event.target.classList.contains("vis-major") ||
             (props.event.target.tagName === "DIV" &&
@@ -308,7 +308,7 @@ export class TimelineContainer extends Component {
             let dateFormat =
                 appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index].visMajorFormat;
             let date = moment(dateTxt, dateFormat);
-            this.props.mapActions.setDate(date);
+            this.props.setDate(date);
         }
     }
 
@@ -573,9 +573,9 @@ export class TimelineContainer extends Component {
 
 TimelineContainer.propTypes = {
     date: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
     dateSliderTimeResolution: PropTypes.object.isRequired,
+    setDate: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -589,7 +589,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch)
+        setDate: bindActionCreators(MapAction.setDate, dispatch)
     };
 }
 

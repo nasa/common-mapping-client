@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -46,7 +46,7 @@ export const StoreLayerInfoSpec = {
                         id: "TEST_LAYER_1"
                     });
 
-                    const actions = [mapActions.openLayerInfo(layer)];
+                    const actions = [MapAction.openLayerInfo(layer)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -68,7 +68,7 @@ export const StoreLayerInfoSpec = {
                         id: "TEST_LAYER_1"
                     });
 
-                    const actions = [mapActions.openLayerInfo(layer), mapActions.closeLayerInfo()];
+                    const actions = [MapAction.openLayerInfo(layer), MapAction.closeLayerInfo()];
 
                     actions.forEach(action => store.dispatch(action));
 

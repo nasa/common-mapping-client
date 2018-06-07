@@ -20,10 +20,7 @@ import Select from "material-ui/Select";
 import SettingsBackupRestoreIcon from "material-ui-icons/SettingsBackupRestore";
 import appConfig from "constants/appConfig";
 import * as appStrings from "_core/constants/appStrings";
-import * as appActions from "_core/actions/appActions";
-import * as mapActions from "_core/actions/mapActions";
-import * as dateSliderActions from "_core/actions/dateSliderActions";
-import * as analyticsActions from "_core/actions/analyticsActions";
+import { AppAction, MapAction, AnalyticsAction } from "actions";
 import MiscUtil from "_core/utils/MiscUtil";
 import { ModalMenu } from "_core/components/ModalMenu";
 
@@ -40,7 +37,7 @@ export class SettingsContainer extends Component {
             <ModalMenu
                 title="Settings"
                 active={this.props.settingsOpen}
-                closeFunc={() => this.props.appActions.setSettingsOpen(false)}
+                closeFunc={() => this.props.setSettingsOpen(false)}
             >
                 <List className={containerClasses}>
                     <ListSubheader disableSticky>Map Display</ListSubheader>
@@ -49,9 +46,7 @@ export class SettingsContainer extends Component {
                             <InputLabel htmlFor="scale-units-select">Scale Units</InputLabel>
                             <Select
                                 value={this.props.mapSettings.get("selectedScaleUnits")}
-                                onChange={event =>
-                                    this.props.mapActions.setScaleUnits(event.target.value)
-                                }
+                                onChange={event => this.props.setScaleUnits(event.target.value)}
                                 input={<Input name="Scale Units" id="scale-units-select" />}
                             >
                                 {appConfig.SCALE_OPTIONS.map(x => (
@@ -71,7 +66,7 @@ export class SettingsContainer extends Component {
                             <Select
                                 value={this.props.mapSettings.get("selectedTerrainExaggeration")}
                                 onChange={event =>
-                                    this.props.mapActions.setTerrainExaggeration(event.target.value)
+                                    this.props.setTerrainExaggeration(event.target.value)
                                 }
                                 input={
                                     <Input
@@ -91,7 +86,7 @@ export class SettingsContainer extends Component {
                     <ListItem
                         button
                         onClick={evt =>
-                            this.props.mapActions.setTerrainEnabled(
+                            this.props.setTerrainEnabled(
                                 !this.props.mapSettings.get("enableTerrain")
                             )
                         }
@@ -109,9 +104,7 @@ export class SettingsContainer extends Component {
                     <ListItem
                         button
                         onClick={evt =>
-                            this.props.analyticsActions.setAnalyticsEnabled(
-                                !this.props.analyticsEnabled
-                            )
+                            this.props.setAnalyticsEnabled(!this.props.analyticsEnabled)
                         }
                     >
                         <Checkbox disableRipple checked={this.props.analyticsEnabled} />
@@ -123,7 +116,7 @@ export class SettingsContainer extends Component {
                     <ListItem
                         button
                         onClick={evt =>
-                            this.props.appActions.setAutoUpdateUrl(!this.props.autoUpdateUrlEnabled)
+                            this.props.setAutoUpdateUrl(!this.props.autoUpdateUrlEnabled)
                         }
                     >
                         <Checkbox disableRipple checked={this.props.autoUpdateUrlEnabled} />
@@ -132,7 +125,7 @@ export class SettingsContainer extends Component {
                             secondary="Automatically update the url in this window to be shareable"
                         />
                     </ListItem>
-                    <ListItem button onClick={this.props.appActions.resetApplicationState}>
+                    <ListItem button onClick={this.props.resetApplicationState}>
                         <ListItemIcon style={{ margin: "0 12" }}>
                             <SettingsBackupRestoreIcon />
                         </ListItemIcon>
@@ -152,10 +145,14 @@ SettingsContainer.propTypes = {
     analyticsEnabled: PropTypes.bool.isRequired,
     autoUpdateUrlEnabled: PropTypes.bool.isRequired,
     mapSettings: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
-    dateSliderActions: PropTypes.object.isRequired,
     analyticsActions: PropTypes.object.isRequired,
+    setSettingsOpen: PropTypes.func.isRequired,
+    setAutoUpdateUrl: PropTypes.func.isRequired,
+    resetApplicationState: PropTypes.func.isRequired,
+    setScaleUnits: PropTypes.func.isRequired,
+    setTerrainExaggeration: PropTypes.func.isRequired,
+    setTerrainEnabled: PropTypes.func.isRequired,
+    setAnalyticsEnabled: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -170,10 +167,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch),
-        mapActions: bindActionCreators(mapActions, dispatch),
-        dateSliderActions: bindActionCreators(dateSliderActions, dispatch),
-        analyticsActions: bindActionCreators(analyticsActions, dispatch)
+        setSettingsOpen: bindActionCreators(AppAction.setSettingsOpen, dispatch),
+        setAutoUpdateUrl: bindActionCreators(AppAction.setAutoUpdateUrl, dispatch),
+        resetApplicationState: bindActionCreators(AppAction.resetApplicationState, dispatch),
+        setScaleUnits: bindActionCreators(MapAction.setScaleUnits, dispatch),
+        setTerrainExaggeration: bindActionCreators(MapAction.setTerrainExaggeration, dispatch),
+        setTerrainEnabled: bindActionCreators(MapAction.setTerrainEnabled, dispatch),
+        setAnalyticsEnabled: bindActionCreators(AnalyticsAction.setAnalyticsEnabled, dispatch)
     };
 }
 

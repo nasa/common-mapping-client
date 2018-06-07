@@ -16,8 +16,7 @@ import Paper from "material-ui/Paper";
 import Grow from "material-ui/transitions/Grow";
 import ButtonBase from "material-ui/ButtonBase";
 import Typography from "material-ui/Typography";
-import * as mapActions from "_core/actions/mapActions";
-import * as appActions from "_core/actions/appActions";
+import { MapAction, AppAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import { BaseMapList } from "_core/components/Settings";
 import { ClickAwayListener } from "_core/components/Reusables";
@@ -28,9 +27,9 @@ import displayStyles from "_core/styles/display.scss";
 export class BasemapPicker extends Component {
     setBasemap(layerId) {
         if (layerId && layerId !== "") {
-            this.props.mapActions.setBasemap(layerId);
+            this.props.setBasemap(layerId);
         } else {
-            this.props.mapActions.hideBasemap();
+            this.props.hideBasemap();
         }
     }
     render() {
@@ -68,7 +67,7 @@ export class BasemapPicker extends Component {
             <ClickAwayListener
                 onClickAway={() => {
                     if (this.props.mapControlsBasemapPickerOpen) {
-                        this.props.appActions.setMapControlsBasemapPickerOpen(false);
+                        this.props.setMapControlsBasemapPickerOpen(false);
                     }
                 }}
             >
@@ -79,7 +78,7 @@ export class BasemapPicker extends Component {
                                 <Paper elevation={2}>
                                     <ButtonBase
                                         onClick={() =>
-                                            this.props.appActions.setMapControlsBasemapPickerOpen(
+                                            this.props.setMapControlsBasemapPickerOpen(
                                                 !this.props.mapControlsBasemapPickerOpen
                                             )
                                         }
@@ -141,6 +140,9 @@ BasemapPicker.propTypes = {
     basemaps: PropTypes.object.isRequired,
     mapActions: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
+    setBasemap: PropTypes.func.isRequired,
+    hideBasemap: PropTypes.func.isRequired,
+    setMapControlsBasemapPickerOpen: PropTypes.func.isRequired,
     mapControlsBasemapPickerOpen: PropTypes.bool.isRequired,
     className: PropTypes.string
 };
@@ -154,8 +156,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch),
-        appActions: bindActionCreators(appActions, dispatch)
+        setBasemap: bindActionCreators(MapAction.setBasemap, dispatch),
+        hideBasemap: bindActionCreators(MapAction.hideBasemap, dispatch),
+        setMapControlsBasemapPickerOpen: bindActionCreators(
+            AppAction.setMapControlsBasemapPickerOpen,
+            dispatch
+        )
     };
 }
 

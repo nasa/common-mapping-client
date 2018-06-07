@@ -12,7 +12,7 @@ import { bindActionCreators } from "redux";
 import Modernizr from "modernizr";
 import FullscreenIcon from "material-ui-icons/Fullscreen";
 import FullscreenExitIcon from "material-ui-icons/FullscreenExit";
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import { IconButtonSmall } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
 
@@ -61,7 +61,7 @@ export class FullscreenButton extends Component {
             <IconButtonSmall
                 color="inherit"
                 className={rootClasses}
-                onClick={() => this.props.appActions.setFullScreenMode(!isFullscreen)}
+                onClick={() => this.props.setFullScreenMode(!isFullscreen)}
                 {...other}
             >
                 {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
@@ -71,7 +71,7 @@ export class FullscreenButton extends Component {
 }
 
 FullscreenButton.propTypes = {
-    appActions: PropTypes.object.isRequired,
+    setFullScreenMode: PropTypes.func.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
     className: PropTypes.string
 };
@@ -84,7 +84,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        setFullScreenMode: bindActionCreators(AppAction.setFullScreenMode, dispatch)
     };
 }
 

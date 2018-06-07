@@ -6,7 +6,7 @@
  */
 
 import * as actionTypes from "_core/constants/actionTypes";
-import * as analyticsActions from "_core/actions/analyticsActions";
+import { AnalyticsAction } from "actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -43,7 +43,7 @@ export const StoreAnalyticsSpec = {
                 it("enables user analytics", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [analyticsActions.setAnalyticsEnabled(true)];
+                    const actions = [AnalyticsAction.setAnalyticsEnabled(true)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -62,8 +62,8 @@ export const StoreAnalyticsSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        analyticsActions.setAnalyticsEnabled(true),
-                        analyticsActions.setAnalyticsEnabled(false)
+                        AnalyticsAction.setAnalyticsEnabled(true),
+                        AnalyticsAction.setAnalyticsEnabled(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 
