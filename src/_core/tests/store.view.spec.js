@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { AppAction, MapAction } from "actions";
+import { AppAction, MapAction } from "_core/actions";
 import appConfig from "constants/appConfig";
 import { createStore } from "redux";
 import { expect } from "chai";

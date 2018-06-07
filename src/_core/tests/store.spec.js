@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { AppAction, DateSliderAction, MapAction } from "acitons";
+import { AppAction, DateSliderAction, MapAction } from "_core/actions";
 import * as actionTypes from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";

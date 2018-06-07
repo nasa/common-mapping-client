@@ -6,7 +6,7 @@
  */
 
 import * as actionTypes from "_core/constants/actionTypes";
-import { AsyncAction } from "actions";
+import { AsyncAction } from "_core/actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";

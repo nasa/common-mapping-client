@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { DateSliderAction } from "actions";
+import { DateSliderAction } from "_core/actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";

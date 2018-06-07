@@ -8,7 +8,7 @@
 import * as actionTypes from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
-import { MapAction } from "actions";
+import { MapAction } from "_core/actions";
 import * as initialIngest from "_core/tests/data/expectedOutputs/initialIngest";
 import * as activateInactivateLayers from "_core/tests/data/expectedOutputs/activateInactivateLayers";
 import { createStore, compose, applyMiddleware } from "redux";
