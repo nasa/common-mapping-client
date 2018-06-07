@@ -9,11 +9,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Tooltip from "material-ui/Tooltip";
-import HelpIcon from "material-ui-icons/Help";
-import ShareIcon from "material-ui-icons/Share";
-import SettingsIcon from "material-ui-icons/Settings";
-import { IconButtonSmall } from "_core/components/Reusables";
+import HelpIcon from "@material-ui/icons/Help";
+import ShareIcon from "@material-ui/icons/Share";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { EnhancedTooltip, IconButtonSmall } from "_core/components/Reusables";
 import { FullscreenButton } from "_core/components/AppBar";
 import { AppAction } from "actions";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -29,7 +28,7 @@ export class AppButtons extends Component {
 
         return (
             <div className={rootClasses} {...other}>
-                <Tooltip
+                <EnhancedTooltip
                     disableTriggerFocus
                     title="Help"
                     placement="bottom"
@@ -42,8 +41,8 @@ export class AppButtons extends Component {
                     >
                         <HelpIcon />
                     </IconButtonSmall>
-                </Tooltip>
-                <Tooltip
+                </EnhancedTooltip>
+                <EnhancedTooltip
                     disableTriggerFocus
                     title="Share"
                     placement="bottom"
@@ -56,8 +55,8 @@ export class AppButtons extends Component {
                     >
                         <ShareIcon />
                     </IconButtonSmall>
-                </Tooltip>
-                <Tooltip
+                </EnhancedTooltip>
+                <EnhancedTooltip
                     disableTriggerFocus
                     title="Settings"
                     placement="bottom"
@@ -70,15 +69,15 @@ export class AppButtons extends Component {
                     >
                         <SettingsIcon />
                     </IconButtonSmall>
-                </Tooltip>
-                <Tooltip
+                </EnhancedTooltip>
+                <EnhancedTooltip
                     disableTriggerFocus
                     title="Fullscreen"
                     placement="bottom"
                     className={styles.btnWrapper}
                 >
                     <FullscreenButton className={styles.btn} />
-                </Tooltip>
+                </EnhancedTooltip>
             </div>
         );
     }

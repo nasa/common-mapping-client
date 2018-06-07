@@ -13,17 +13,16 @@ import Modernizr from "modernizr";
 import Earth from "mdi-material-ui/Earth";
 import Eye from "mdi-material-ui/Eye";
 import EyeOff from "mdi-material-ui/EyeOff";
-import Tooltip from "material-ui/Tooltip";
-import Button from "material-ui/Button";
-import PlusIcon from "material-ui-icons/Add";
-import RemoveIcon from "material-ui-icons/Remove";
-import HomeIcon from "material-ui-icons/Home";
-import Paper from "material-ui/Paper";
+import Button from "@material-ui/core/Button";
+import PlusIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import HomeIcon from "@material-ui/icons/Home";
+import Paper from "@material-ui/core/Paper";
 import { AppAction, MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
-import { MapButton, MapButtonGroup } from "_core/components/Reusables";
+import { MapButton, MapButtonGroup, EnhancedTooltip } from "_core/components/Reusables";
 import { MapToolsButton, BasemapPicker, MapLabelsButton } from "_core/components/Map";
 import styles from "_core/components/Map/MapControlsContainer.scss";
 import displayStyles from "_core/styles/display.scss";
@@ -106,7 +105,7 @@ export class MapControlsContainer extends Component {
                 onMouseEnter={() => this.onMapControlsMouseEnter()}
             >
                 <Paper elevation={2} className={styles.buttonGroup}>
-                    <Tooltip
+                    <EnhancedTooltip
                         title={this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"}
                         placement="right"
                     >
@@ -120,10 +119,10 @@ export class MapControlsContainer extends Component {
                         >
                             <Earth />
                         </MapButton>
-                    </Tooltip>
+                    </EnhancedTooltip>
                 </Paper>
                 <Paper elevation={2} className={styles.buttonGroup}>
-                    <Tooltip
+                    <EnhancedTooltip
                         title={
                             this.props.distractionFreeMode
                                 ? "Disable distraction free mode"
@@ -141,7 +140,7 @@ export class MapControlsContainer extends Component {
                         >
                             {this.props.distractionFreeMode ? <Eye /> : <EyeOff />}
                         </MapButton>
-                    </Tooltip>
+                    </EnhancedTooltip>
                     <MapToolsButton
                         isOpen={this.props.mapControlsToolsOpen}
                         className={styles.lineButton}
@@ -150,7 +149,7 @@ export class MapControlsContainer extends Component {
                     <MapLabelsButton />
                 </Paper>
                 <Paper elevation={2} className={styles.buttonGroup}>
-                    <Tooltip title="Home" placement="right">
+                    <EnhancedTooltip title="Home" placement="right">
                         <MapButton
                             onClick={() => {
                                 this.props.mapActions.setMapView(
@@ -163,8 +162,8 @@ export class MapControlsContainer extends Component {
                         >
                             <HomeIcon />
                         </MapButton>
-                    </Tooltip>
-                    <Tooltip title="Zoom In" placement="right">
+                    </EnhancedTooltip>
+                    <EnhancedTooltip title="Zoom In" placement="right">
                         <MapButton
                             onClick={this.props.mapActions.zoomIn}
                             aria-label="Zoom in"
@@ -172,8 +171,8 @@ export class MapControlsContainer extends Component {
                         >
                             <PlusIcon />
                         </MapButton>
-                    </Tooltip>
-                    <Tooltip title="Zoom Out" placement="right">
+                    </EnhancedTooltip>
+                    <EnhancedTooltip title="Zoom Out" placement="right">
                         <MapButton
                             onClick={this.props.mapActions.zoomOut}
                             aria-label="Zoom out"
@@ -181,7 +180,7 @@ export class MapControlsContainer extends Component {
                         >
                             <RemoveIcon />
                         </MapButton>
-                    </Tooltip>
+                    </EnhancedTooltip>
                 </Paper>
                 <BasemapPicker />
             </div>

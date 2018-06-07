@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Switch from "material-ui/Switch";
+import Switch from "@material-ui/core/Switch";
 import styles from "_core/components/Reusables/EnhancedSwitch.scss";
 
 const EnhancedSwitch = props => {
@@ -15,7 +15,7 @@ const EnhancedSwitch = props => {
         <Switch
             classes={{
                 root: styles.root,
-                default: styles.default,
+                switchBase: styles.default,
                 bar: styles.bar,
                 checked: styles.checked,
                 icon: styles.icon
