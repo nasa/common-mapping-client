@@ -8,7 +8,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import pink from "@material-ui/core/colors/pink";
 import { AppAction, MapAction } from "actions";
@@ -165,16 +164,29 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        completeInitialLoad: bindActionCreators(AppAction.completeInitialLoad, dispatch),
-        checkBrowserFunctionalities: bindActionCreators(
-            AppAction.checkBrowserFunctionalities,
-            dispatch
+        completeInitialLoad: MiscUtil.bindActionCreators(
+            AppAction.completeInitialLoad,
+            dispatch,
+            AppAction
         ),
-        loadInitialData: bindActionCreators(MapAction.loadInitialData, dispatch),
-        activateDefaultLayers: bindActionCreators(MapAction.activateDefaultLayers, dispatch),
-        runUrlConfig: bindActionCreators(AppAction.runUrlConfig, dispatch),
-        initializeMap: bindActionCreators(MapAction.initializeMap, dispatch),
-        setMapView: bindActionCreators(MapAction.setMapView, dispatch)
+        checkBrowserFunctionalities: MiscUtil.bindActionCreators(
+            AppAction.checkBrowserFunctionalities,
+            dispatch,
+            AppAction
+        ),
+        loadInitialData: MiscUtil.bindActionCreators(
+            MapAction.loadInitialData,
+            dispatch,
+            MapAction
+        ),
+        activateDefaultLayers: MiscUtil.bindActionCreators(
+            MapAction.activateDefaultLayers,
+            dispatch,
+            MapAction
+        ),
+        runUrlConfig: MiscUtil.bindActionCreators(AppAction.runUrlConfig, dispatch, AppAction),
+        initializeMap: MiscUtil.bindActionCreators(MapAction.initializeMap, dispatch, MapAction),
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction)
     };
 }
 

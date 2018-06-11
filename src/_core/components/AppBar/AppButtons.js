@@ -92,9 +92,9 @@ AppButtons.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setHelpOpen: bindActionCreators(AppAction.setHelpOpen, dispatch),
-        setShareOpen: bindActionCreators(AppAction.setShareOpen, dispatch),
-        setSettingsOpen: bindActionCreators(AppAction.setSettingsOpen, dispatch)
+        setHelpOpen: MiscUtil.bindActionCreators(AppAction.setHelpOpen, dispatch, AppAction),
+        setShareOpen: MiscUtil.bindActionCreators(AppAction.setShareOpen, dispatch, AppAction),
+        setSettingsOpen: MiscUtil.bindActionCreators(AppAction.setSettingsOpen, dispatch, AppAction)
     };
 }
 

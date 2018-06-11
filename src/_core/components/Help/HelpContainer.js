@@ -160,8 +160,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setHelpOpen: bindActionCreators(AppAction.setHelpOpen, dispatch),
-        selectHelpPage: bindActionCreators(AppAction.selectHelpPage, dispatch)
+        setHelpOpen: MiscUtil.bindActionCreators(AppAction.setHelpOpen, dispatch, AppAction),
+        selectHelpPage: MiscUtil.bindActionCreators(AppAction.selectHelpPage, dispatch, AppAction)
     };
 }
 

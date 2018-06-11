@@ -75,7 +75,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        dismissAllAlerts: bindActionCreators(AppAction.dismissAllAlerts, dispatch)
+        dismissAllAlerts: MiscUtil.bindActionCreators(
+            AppAction.dismissAllAlerts,
+            dispatch,
+            AppAction
+        )
     };
 }
 

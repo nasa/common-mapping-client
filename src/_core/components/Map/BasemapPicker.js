@@ -153,11 +153,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setBasemap: bindActionCreators(MapAction.setBasemap, dispatch),
-        hideBasemap: bindActionCreators(MapAction.hideBasemap, dispatch),
-        setMapControlsBasemapPickerOpen: bindActionCreators(
+        setBasemap: MiscUtil.bindActionCreators(MapAction.setBasemap, dispatch, MapAction),
+        hideBasemap: MiscUtil.bindActionCreators(MapAction.hideBasemap, dispatch, MapAction),
+        setMapControlsBasemapPickerOpen: MiscUtil.bindActionCreators(
             AppAction.setMapControlsBasemapPickerOpen,
-            dispatch
+            dispatch,
+            AppAction
         )
     };
 }

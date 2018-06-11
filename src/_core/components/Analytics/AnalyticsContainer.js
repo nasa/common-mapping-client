@@ -9,9 +9,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import ReactGA from "react-ga";
 import appConfig from "constants/appConfig";
 import { AnalyticsAction } from "actions";
-import ReactGA from "react-ga";
+import MiscUtil from "_core/utils/MiscUtil";
 import displayStyles from "_core/styles/display.scss";
 
 export class AnalyticsContainer extends Component {
@@ -74,7 +75,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        sendAnalyticsBatch: bindActionCreators(AnalyticsAction.sendAnalyticsBatch, dispatch)
+        sendAnalyticsBatch: MiscUtil.bindActionCreators(
+            AnalyticsAction.sendAnalyticsBatch,
+            dispatch,
+            AnalyticsAction
+        )
     };
 }
 

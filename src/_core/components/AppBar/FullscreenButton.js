@@ -84,7 +84,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setFullScreenMode: bindActionCreators(AppAction.setFullScreenMode, dispatch)
+        setFullScreenMode: MiscUtil.bindActionCreators(
+            AppAction.setFullScreenMode,
+            dispatch,
+            AppAction
+        )
     };
 }
 

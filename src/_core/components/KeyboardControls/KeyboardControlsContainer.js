@@ -10,10 +10,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
+import KeyHandler, { KEYUP, KEYDOWN } from "react-key-handler";
 import { MapAction, DateSliderAction } from "actions";
 import appConfig from "constants/appConfig";
 import * as appStrings from "_core/constants/appStrings";
-import KeyHandler, { KEYUP, KEYDOWN } from "react-key-handler";
+import MiscUtil from "_core/utils/MiscUtil";
 import displayStyles from "_core/styles/display.scss";
 
 const SPEED_FAST = 150;
@@ -421,13 +422,21 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        disableDrawing: bindActionCreators(MapAction.disableDrawing, dispatch),
-        disableMeasuring: bindActionCreators(MapAction.disableMeasuring, dispatch),
-        setDate: bindActionCreators(MapAction.setDate, dispatch),
-        zoomIn: bindActionCreators(MapAction.zoomIn, dispatch),
-        zoomOut: bindActionCreators(MapAction.zoomOut, dispatch),
-        panMap: bindActionCreators(MapAction.panMap, dispatch),
-        setDateResolution: bindActionCreators(DateSliderAction.setDateResolution, dispatch)
+        disableDrawing: MiscUtil.bindActionCreators(MapAction.disableDrawing, dispatch, MapAction),
+        disableMeasuring: MiscUtil.bindActionCreators(
+            MapAction.disableMeasuring,
+            dispatch,
+            MapAction
+        ),
+        setDate: MiscUtil.bindActionCreators(MapAction.setDate, dispatch, MapAction),
+        zoomIn: MiscUtil.bindActionCreators(MapAction.zoomIn, dispatch, MapAction),
+        zoomOut: MiscUtil.bindActionCreators(MapAction.zoomOut, dispatch, MapAction),
+        panMap: MiscUtil.bindActionCreators(MapAction.panMap, dispatch, MapAction),
+        setDateResolution: MiscUtil.bindActionCreators(
+            DateSliderAction.setDateResolution,
+            dispatch,
+            DateSliderAction
+        )
     };
 }
 

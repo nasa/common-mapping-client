@@ -47,7 +47,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setDate: bindActionCreators(MapAction.setDate, dispatch)
+        setDate: MiscUtil.bindActionCreators(MapAction.setDate, dispatch, MapAction)
     };
 }
 

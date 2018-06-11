@@ -315,14 +315,30 @@ LayerControlContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerActive: bindActionCreators(MapAction.setLayerActive, dispatch),
-        setLayerOpacity: bindActionCreators(MapAction.setLayerOpacity, dispatch),
-        loadLayerMetadata: bindActionCreators(MapAction.loadLayerMetadata, dispatch),
-        changeLayerPalette: bindActionCreators(MapAction.changeLayerPalette, dispatch),
-        moveLayerToTop: bindActionCreators(MapAction.moveLayerToTop, dispatch),
-        moveLayerToBottom: bindActionCreators(MapAction.moveLayerToBottom, dispatch),
-        moveLayerUp: bindActionCreators(MapAction.moveLayerUp, dispatch),
-        moveLayerDown: bindActionCreators(MapAction.moveLayerDown, dispatch)
+        setLayerActive: MiscUtil.bindActionCreators(MapAction.setLayerActive, dispatch, MapAction),
+        setLayerOpacity: MiscUtil.bindActionCreators(
+            MapAction.setLayerOpacity,
+            dispatch,
+            MapAction
+        ),
+        loadLayerMetadata: MiscUtil.bindActionCreators(
+            MapAction.loadLayerMetadata,
+            dispatch,
+            MapAction
+        ),
+        changeLayerPalette: MiscUtil.bindActionCreators(
+            MapAction.changeLayerPalette,
+            dispatch,
+            MapAction
+        ),
+        moveLayerToTop: MiscUtil.bindActionCreators(MapAction.moveLayerToTop, dispatch, MapAction),
+        moveLayerToBottom: MiscUtil.bindActionCreators(
+            MapAction.moveLayerToBottom,
+            dispatch,
+            MapAction
+        ),
+        moveLayerUp: MiscUtil.bindActionCreators(MapAction.moveLayerUp, dispatch, MapAction),
+        moveLayerDown: MiscUtil.bindActionCreators(MapAction.moveLayerDown, dispatch, MapAction)
     };
 }
 

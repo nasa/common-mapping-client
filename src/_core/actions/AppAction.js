@@ -8,7 +8,7 @@
 import * as types from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
-import { MapAction, DateSliderAction, AlertAction } from "actions";
+import { AlertAction, DateSliderAction, MapAction } from "actions";
 
 export default class AppAction {
     static checkBrowserFunctionalities() {
@@ -72,7 +72,7 @@ export default class AppAction {
         return dispatch => {
             return Promise.all(
                 params.map(param => {
-                    return dispatch(AppAction.translateUrlParamToActionDispatch(param));
+                    return dispatch(this.translateUrlParamToActionDispatch(param));
                 })
             ).catch(err => {
                 console.warn("Error in appActions.runUrlConfig:", err);
@@ -89,37 +89,39 @@ export default class AppAction {
     }
 
     static translateUrlParamToActionDispatch(param) {
+        console.log("CORE - AppAction.translateUrlParamToActionDispatch");
         switch (param.key) {
             case appConfig.URL_KEYS.ACTIVE_LAYERS:
-                return AppAction.setLayersActive(param.value.split(","), true);
+                return this.setLayersActive(param.value.split(","), true);
             case appConfig.URL_KEYS.VIEW_MODE:
-                return AppAction.setViewMode(param.value);
+                return this.setViewMode(param.value);
             case appConfig.URL_KEYS.BASEMAP:
-                return AppAction.setBasemap(param.value);
+                return this.setBasemap(param.value);
             case appConfig.URL_KEYS.VIEW_EXTENT:
-                return AppAction.setExtent(param.value.split(","));
+                return this.setExtent(param.value.split(","));
             case appConfig.URL_KEYS.ENABLE_PLACE_LABLES:
-                return AppAction.setLayersActive(
+                return this.setLayersActive(
                     [appConfig.REFERENCE_LABELS_LAYER_ID],
                     param.value === "true"
                 );
             case appConfig.URL_KEYS.ENABLE_POLITICAL_BOUNDARIES:
-                return AppAction.setLayersActive(
+                return this.setLayersActive(
                     [appConfig.POLITICAL_BOUNDARIES_LAYER_ID],
                     param.value === "true"
                 );
             case appConfig.URL_KEYS.ENABLE_3D_TERRAIN:
-                return AppAction.setTerrainEnabled(param.value.toString() === "true");
+                return this.setTerrainEnabled(param.value.toString() === "true");
             case appConfig.URL_KEYS.DATE:
-                return AppAction.setDate(param.value);
+                return this.setDate(param.value);
             case appConfig.URL_KEYS.TIMELINE_RES:
-                return AppAction.setTimelineRes(param.value);
+                return this.setTimelineRes(param.value);
             default:
                 return { type: types.NO_ACTION };
         }
     }
 
     static setLayersActive(idArr, active) {
+        console.log("CORE - AppAction.setLayersActive");
         return dispatch => {
             return new Promise(() => {
                 // array format is [id(opacity), id(opacity), ...]

@@ -80,7 +80,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerActive: bindActionCreators(MapAction.setLayerActive, dispatch)
+        setLayerActive: MiscUtil.bindActionCreators(MapAction.setLayerActive, dispatch, MapAction)
     };
 }
 

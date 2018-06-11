@@ -305,8 +305,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        toggleShareUpdateFlag: bindActionCreators(AppAction.toggleShareUpdateFlag, dispatch),
-        setShareOpen: bindActionCreators(AppAction.setShareOpen, dispatch)
+        toggleShareUpdateFlag: MiscUtil.bindActionCreators(
+            AppAction.toggleShareUpdateFlag,
+            dispatch,
+            AppAction
+        ),
+        setShareOpen: MiscUtil.bindActionCreators(AppAction.setShareOpen, dispatch, AppAction)
     };
 }
 

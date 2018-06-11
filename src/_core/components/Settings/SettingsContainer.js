@@ -170,13 +170,37 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setSettingsOpen: bindActionCreators(AppAction.setSettingsOpen, dispatch),
-        setAutoUpdateUrl: bindActionCreators(AppAction.setAutoUpdateUrl, dispatch),
-        resetApplicationState: bindActionCreators(AppAction.resetApplicationState, dispatch),
-        setScaleUnits: bindActionCreators(MapAction.setScaleUnits, dispatch),
-        setTerrainExaggeration: bindActionCreators(MapAction.setTerrainExaggeration, dispatch),
-        setTerrainEnabled: bindActionCreators(MapAction.setTerrainEnabled, dispatch),
-        setAnalyticsEnabled: bindActionCreators(AnalyticsAction.setAnalyticsEnabled, dispatch)
+        setSettingsOpen: MiscUtil.bindActionCreators(
+            AppAction.setSettingsOpen,
+            dispatch,
+            AppAction
+        ),
+        setAutoUpdateUrl: MiscUtil.bindActionCreators(
+            AppAction.setAutoUpdateUrl,
+            dispatch,
+            AppAction
+        ),
+        resetApplicationState: MiscUtil.bindActionCreators(
+            AppAction.resetApplicationState,
+            dispatch,
+            AppAction
+        ),
+        setScaleUnits: MiscUtil.bindActionCreators(MapAction.setScaleUnits, dispatch, MapAction),
+        setTerrainExaggeration: MiscUtil.bindActionCreators(
+            MapAction.setTerrainExaggeration,
+            dispatch,
+            MapAction
+        ),
+        setTerrainEnabled: MiscUtil.bindActionCreators(
+            MapAction.setTerrainEnabled,
+            dispatch,
+            MapAction
+        ),
+        setAnalyticsEnabled: MiscUtil.bindActionCreators(
+            AnalyticsAction.setAnalyticsEnabled,
+            dispatch,
+            AnalyticsAction
+        )
     };
 }
 

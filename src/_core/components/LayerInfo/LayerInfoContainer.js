@@ -147,7 +147,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        closeLayerInfo: bindActionCreators(AppAction.closeLayerInfo, dispatch)
+        closeLayerInfo: MiscUtil.bindActionCreators(AppAction.closeLayerInfo, dispatch, AppAction)
     };
 }
 

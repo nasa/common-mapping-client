@@ -192,10 +192,22 @@ MapToolsMenu.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        enableMeasuring: bindActionCreators(MapAction.enableMeasuring, dispatch),
-        removeAllMeasurements: bindActionCreators(MapAction.removeAllMeasurements, dispatch),
-        enableDrawing: bindActionCreators(MapAction.enableDrawing, dispatch),
-        removeAllDrawings: bindActionCreators(MapAction.removeAllDrawings, dispatch)
+        enableMeasuring: MiscUtil.bindActionCreators(
+            MapAction.enableMeasuring,
+            dispatch,
+            MapAction
+        ),
+        removeAllMeasurements: MiscUtil.bindActionCreators(
+            MapAction.removeAllMeasurements,
+            dispatch,
+            MapAction
+        ),
+        enableDrawing: MiscUtil.bindActionCreators(MapAction.enableDrawing, dispatch, MapAction),
+        removeAllDrawings: MiscUtil.bindActionCreators(
+            MapAction.removeAllDrawings,
+            dispatch,
+            MapAction
+        )
     };
 }
 

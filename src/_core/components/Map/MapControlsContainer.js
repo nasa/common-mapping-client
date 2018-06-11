@@ -214,13 +214,25 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setMapViewMode: bindActionCreators(MapAction.setMapViewMode, dispatch),
-        setMapView: bindActionCreators(MapAction.setMapView, dispatch),
-        zoomIn: bindActionCreators(MapAction.zoomIn, dispatch),
-        zoomOut: bindActionCreators(MapAction.zoomOut, dispatch),
-        hideMapControls: bindActionCreators(AppAction.hideMapControls, dispatch),
-        setDistractionFreeMode: bindActionCreators(AppAction.setDistractionFreeMode, dispatch),
-        setMapControlsToolsOpen: bindActionCreators(AppAction.setMapControlsToolsOpen, dispatch)
+        setMapViewMode: MiscUtil.bindActionCreators(MapAction.setMapViewMode, dispatch, MapAction),
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction),
+        zoomIn: MiscUtil.bindActionCreators(MapAction.zoomIn, dispatch, MapAction),
+        zoomOut: MiscUtil.bindActionCreators(MapAction.zoomOut, dispatch, MapAction),
+        hideMapControls: MiscUtil.bindActionCreators(
+            AppAction.hideMapControls,
+            dispatch,
+            AppAction
+        ),
+        setDistractionFreeMode: MiscUtil.bindActionCreators(
+            AppAction.setDistractionFreeMode,
+            dispatch,
+            AppAction
+        ),
+        setMapControlsToolsOpen: MiscUtil.bindActionCreators(
+            AppAction.setMapControlsToolsOpen,
+            dispatch,
+            AppAction
+        )
     };
 }
 

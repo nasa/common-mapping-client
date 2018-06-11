@@ -119,7 +119,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerMenuOpen: bindActionCreators(MapAction.setLayerMenuOpen, dispatch)
+        setLayerMenuOpen: MiscUtil.bindActionCreators(
+            MapAction.setLayerMenuOpen,
+            dispatch,
+            MapAction
+        )
     };
 }
 

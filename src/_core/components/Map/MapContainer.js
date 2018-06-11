@@ -47,7 +47,11 @@ MapContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        invalidatePixelHover: bindActionCreators(MapAction.invalidatePixelHover, dispatch)
+        invalidatePixelHover: MiscUtil.bindActionCreators(
+            MapAction.invalidatePixelHover,
+            dispatch,
+            MapAction
+        )
     };
 }
 

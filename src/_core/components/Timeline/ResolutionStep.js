@@ -111,7 +111,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setDateResolution: bindActionCreators(DateSliderAction.setDateResolution, dispatch)
+        setDateResolution: MiscUtil.bindActionCreators(
+            DateSliderAction.setDateResolution,
+            dispatch,
+            DateSliderAction
+        )
     };
 }
 

@@ -159,15 +159,24 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setMapView: bindActionCreators(MapAction.setMapView, dispatch),
-        pixelHover: bindActionCreators(MapAction.pixelHover, dispatch),
-        pixelClick: bindActionCreators(MapAction.pixelClick, dispatch),
-        disableDrawing: bindActionCreators(MapAction.disableDrawing, dispatch),
-        disableMeasuring: bindActionCreators(MapAction.disableMeasuring, dispatch),
-        addGeometryToMap: bindActionCreators(MapAction.addGeometryToMap, dispatch),
-        addMeasurementLabelToGeometry: bindActionCreators(
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction),
+        pixelHover: MiscUtil.bindActionCreators(MapAction.pixelHover, dispatch, MapAction),
+        pixelClick: MiscUtil.bindActionCreators(MapAction.pixelClick, dispatch, MapAction),
+        disableDrawing: MiscUtil.bindActionCreators(MapAction.disableDrawing, dispatch, MapAction),
+        disableMeasuring: MiscUtil.bindActionCreators(
+            MapAction.disableMeasuring,
+            dispatch,
+            MapAction
+        ),
+        addGeometryToMap: MiscUtil.bindActionCreators(
+            MapAction.addGeometryToMap,
+            dispatch,
+            MapAction
+        ),
+        addMeasurementLabelToGeometry: MiscUtil.bindActionCreators(
             MapAction.addMeasurementLabelToGeometry,
-            dispatch
+            dispatch,
+            MapAction
         )
     };
 }
