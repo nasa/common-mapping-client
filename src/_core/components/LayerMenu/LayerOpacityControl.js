@@ -25,6 +25,7 @@ const LayerOpacityControl = props => {
             <Paper elevation={8} className={containerClasses}>
                 <LayerControlLabel>Layer Opacity</LayerControlLabel>
                 <div className={styles.opacityContent}>
+                    <span className={styles.opacityLabel}>{currOpacity}%</span>
                     <Slider
                         min={0}
                         max={100}
@@ -33,7 +34,6 @@ const LayerOpacityControl = props => {
                         className={styles.sliderRoot}
                         onChange={value => props.onChange(value)}
                     />
-                    <span className={styles.opacityLabel}>{currOpacity}%</span>
                 </div>
             </Paper>
         </div>
