@@ -36,12 +36,13 @@ A detailed guide on getting starting with the Common Mapping Client. This guide 
     9. [Favicon Generation](#styling-cmc-favicons)
     10. [Custom Icons](#styling-cmc-custom-icons)
 8. [Components and State with React & Redux](#components-and-state-with-react-redux)
-    1. [Things to Know about React/Redux](#things-to-know-about-react-redux)
-    2. [CMC React & Redux Idioms](#cmc-react-redux-idioms)
+    1. [Executing State Updates in CMC](#executing-state-updates-in-cmc)
+    2. [Things to Know about React/Redux](#things-to-know-about-react-redux)
+    3. [CMC React & Redux Idioms](#cmc-react-redux-idioms)
         1. [In the Store](#cmc-react-redux-idioms-store)
         2. [With Maps](#cmc-react-redux-idioms-maps)
         3. [With vis.js](#cmc-react-redux-idioms-visjs)
-    3. [Notes on Optimizing React/Redux Performance](#optimizing-react-redux-performance)
+    4. [Notes on Optimizing React/Redux Performance](#optimizing-react-redux-performance)
         1. [Key Performance Areas](#optimizing-react-redux-performance-key-areas)
         2. [Additional Techniques in Improving Performance](#optimizing-react-redux-performance-additional-techniques)
         3. [Usage of ImmutableJS](#cmc-using-immutablejs)
@@ -511,13 +512,40 @@ Most of the syntax for components and the file structure paradigm are driven by 
 * **State** - One big object that represents the current state of the application. The combination of this and the reducers constitutes the application's state machine.
 * **Reducers** - These functions accept the current state of the application and an action object. They then perform an update to create the new application state that will be passed back to the store.
 * **ReducerFunctions** - These are the actual function definitions that the Reducer will call to modify the state. This layer of indirection was developed in CMC to make overrides and expansion of Core reducers cleaner.
-* **Actions** - These are JS objects, or functions that return JS objects, that contain action definition data. In CMC Core, the functions under `Actions/` create these objects.
+* **Actions** - These are JS objects, or functions that return JS objects, that contain action definition data. In CMC Core, we use classes under `actions/` with static functions create these objects.
 * **Components** - These are the React objects that define a component's render logic within the DOM. They track some subset of the application state to base their rendering on and can dispatch actions to modify the application state.
 * **Containers** - These are Components that primarily aggregate smaller components. They will often track very little state but may define a common action abstraction that is passed to children components. They let you group related components together while isolating their rendering.
   * _Note_: CMC Core does not strictly adhere to this definition at present but is slowly migrating to this paradigm
 * **Models** - These are smaller pieces of the application state that let you modularize state and create re-usable object models.
   * _Note_: This is not strictly a React/Redux idiom
 * **Constants/ActionTypes** - These are constant strings that are used to uniquely identify actions. They are not strictly necessary but are useful to avoid simple errors.
+
+<a id="executing-state-updates-in-cmc"></a>
+### Executing State Updates in CMC
+
+State updates most often begin in a component. Upon an interaction (such as clicking a button) a component will *dispatch* an update to the Redux store which will take the current state and an action and generate a new state that will then propogate back out to the components which will re-render according to the new state. In CMC, we enable components to dispatch these actions by using `connect` from react-redux and a customized `bindactioncreators` method. `connect` attaches a component to the Redux store with state and action props, `bindactioncreators` wraps functions with a dispatch function so that the component class itself can be more loosely coupled to the store. CMC also uses static classes for these actions so that they can be overriden or extended more easily. To override existing actions, simply create a child class of the action class in question, override the static function, and modify `src/actions/index.js` to export your new class instead of the Core version. For example:
+
+
+`src/actions/AppAction.js`
+```js
+import { AppAction as AppActionCore } from "_core/actions";
+
+export default class AppAction extends AppActionCore {
+    static completeInitialLoad() {
+        console.log("Completing Initial Load");
+
+        return AppActionCore.completeInitialLoad();
+    }
+}
+```
+
+`src/actions/index.js`
+```js
+...
+export { default as AppAction } from "actions/AppAction.js";
+```
+
+Now when the `AppContainer` component calls the `completeInitialLoad` action, there would be a "Completing Initial Load" statement printed to the console.
 
 <a id="things-to-know-about-react-redux"></a>
 ### Things to Know about React/Redux
@@ -545,8 +573,8 @@ When a component dispatches an action to the Redux store, the store will update 
 #### Components Get Updated Props Even if `shouldComponentUpdate()` Returns `false`
 If a component needs to track a piece of state to dispatch actions but doesn't need it to determine its rendering, `shouldComponentUpdate()` can return false when that piece of state changes but it will still have the updated piece of state when dispatching the action.
 
-#### Asynchronous Actions use Functions that Return Promises
-Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a Promise. The Promise will be tracked by the Thunk middleware in the CMC store. For an example of this, look at `loadInitialData()` in `src/_core/Actions/LayerActions.js`.
+#### Asynchronous Actions
+Take the example of loading an external file, `file.json`. A component would dispatch an action that is a function that returns a function `function (dispatch, getState) { ... }`. This function can then perform any number of asyncronous actions and use the dispatch argument to send off state updates as needed. For an example of this, look at `loadInitialData()` in `src/_core/actions/MapAction.js`.
 
 <a id="cmc-react-redux-idioms"></a>
 ### CMC React & Redux Idioms
@@ -844,18 +872,18 @@ and it is, everything is going to be fine, yes this is a lot of stuff, but you'l
 │   └── srcServer.js          # Starts dev webserver with hot reloading and opens your app in your default browser
 ├── src                       # Source code
 │   ├── _core                 # Folder containing all cmc-core files that should not need to be modified by external developer
-│   │   └── actions           # Core Flux/Redux actions. List of distinct actions that can occur in the app.  
-│   │     ├── components        # Core React components
-│   │     ├── constants         # Core application constants including constants for Redux
-│   │     ├── reducers          # Core Redux reducers. Your state is altered here based on actions
-│   │     │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
-│   │     │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
-│   │     ├── styles              # Core CSS Styles, typically written in Sass
-│   │     │   └── resources     # Style media resources like favicons and images required by core 
-│   │     ├── store           # Redux store configuration, modifications usually unnecessary
-│   │     ├── tests               # All Core tests
-│   │     │   └── data            # Any dummy data core tests may need
-│   │     └── utils               # Application constants including constants for Redux
+│   │   ├── actions           # Core Flux/Redux actions. Classes with static functions that define the actions  that can occur in the app.  
+│   │   ├── components        # Core React components
+│   │   ├── constants         # Core application constants including constants for Redux
+│   │   ├── reducers          # Core Redux reducers. Your state is altered here based on actions
+│   │   │   ├── models        # Core state models acted upon by reducers. Each reducer corresponds to a model
+│   │   │   └── reducerFunctions  # Functions used by core reducers, separated out for cleanliness
+│   │   ├── styles              # Core CSS Styles, typically written in Sass
+│   │   │   └── resources     # Style media resources like favicons and images required by core 
+│   │   ├── store           # Redux store configuration, modifications usually unnecessary
+│   │   ├── tests               # All Core tests
+│   │   │   └── data            # Any dummy data core tests may need
+│   │   └── utils               # Application constants including constants for Redux
 │   ├── components            # Components that live outside of Core, used for applications built on top of Core. By default contains only AppContainer.js stub file for getting started.
 │   ├── constants             # Container for user defined constant files. Also includes appConfig.js which is used for general app config.
 │   ├── default-data          # Default data for the application
