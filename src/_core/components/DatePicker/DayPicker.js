@@ -18,10 +18,18 @@ export class DayPicker extends Component {
     componentDidMount() {
         this.day = this.props.day;
         this.error = false;
+        this.submitUpdate = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.day !== this.props.day || nextProps.day !== this.day;
+        let wasSubmitUpdate = this.submitUpdate;
+        this.submitUpdate = false;
+        if (wasSubmitUpdate && nextProps.day !== this.day) {
+            this.error = true;
+        } else {
+            this.error = false;
+        }
+        return wasSubmitUpdate || nextProps.day !== this.props.day || nextProps.day !== this.day;
     }
     handleKeyPress(evt) {
         let dayStr = this.day;
@@ -45,12 +53,8 @@ export class DayPicker extends Component {
         this.forceUpdate();
     }
     submitDay(dayStr) {
+        this.submitUpdate = true;
         this.props.onUpdate(dayStr);
-
-        // if the update failed because date was invalid
-        // force a re-render the go back to previous valid state
-        this.error = this.day !== this.props.day;
-        this.forceUpdate();
     }
     render() {
         let dayStr = this.updateFromInternal ? this.day : this.props.day;
