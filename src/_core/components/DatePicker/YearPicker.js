@@ -24,7 +24,7 @@ export class YearPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let wasSubmitUpdate = this.submitUpdate;
         this.submitUpdate = false;
-        if (wasSubmitUpdate && nextProps.year !== this.year) {
+        if (wasSubmitUpdate && parseInt(nextProps.year) !== parseInt(this.year)) {
             this.error = true;
         } else {
             this.error = false;

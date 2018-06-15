@@ -24,7 +24,7 @@ export class MonthPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let wasSubmitUpdate = this.submitUpdate;
         this.submitUpdate = false;
-        if (wasSubmitUpdate && nextProps.month !== this.month) {
+        if (wasSubmitUpdate && nextProps.month.toLowerCase() !== this.month.toLowerCase()) {
             this.error = true;
         } else {
             this.error = false;
@@ -50,6 +50,7 @@ export class MonthPicker extends Component {
         if (monthStr.length <= MAX_LENGTH) {
             this.month = monthStr;
         }
+        this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }

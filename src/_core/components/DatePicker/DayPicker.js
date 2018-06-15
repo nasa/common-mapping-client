@@ -24,7 +24,7 @@ export class DayPicker extends Component {
     shouldComponentUpdate(nextProps) {
         let wasSubmitUpdate = this.submitUpdate;
         this.submitUpdate = false;
-        if (wasSubmitUpdate && nextProps.day !== this.day) {
+        if (wasSubmitUpdate && parseInt(nextProps.day) !== parseInt(this.day)) {
             this.error = true;
         } else {
             this.error = false;
