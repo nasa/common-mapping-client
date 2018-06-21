@@ -18,10 +18,20 @@ export class YearPicker extends Component {
     componentDidMount() {
         this.year = this.props.year;
         this.error = false;
+        this.submitUpdate = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.year !== this.props.year || nextProps.year !== this.year;
+        let wasSubmitUpdate = this.submitUpdate;
+        this.submitUpdate = false;
+        if (wasSubmitUpdate && parseInt(nextProps.year) !== parseInt(this.year)) {
+            this.error = true;
+        } else {
+            this.error = false;
+        }
+        return (
+            wasSubmitUpdate || nextProps.year !== this.props.year || nextProps.year !== this.year
+        );
     }
     handleKeyPress(evt) {
         let yearStr = this.year;
@@ -43,12 +53,8 @@ export class YearPicker extends Component {
         this.forceUpdate();
     }
     submitYear(yearStr) {
+        this.submitUpdate = true;
         this.props.onUpdate(yearStr);
-
-        // if the update failed because date was invalid
-        // force a re-render the go back to previous valid state
-        this.error = this.year !== this.props.year;
-        this.forceUpdate();
     }
     render() {
         let yearStr = this.updateFromInternal ? this.year : this.props.year;
