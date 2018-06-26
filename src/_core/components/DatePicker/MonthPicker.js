@@ -18,10 +18,22 @@ export class MonthPicker extends Component {
     componentDidMount() {
         this.month = this.props.month;
         this.error = false;
+        this.submitUpdate = false;
         this.updateFromInternal = false;
     }
     shouldComponentUpdate(nextProps) {
-        return nextProps.month !== this.props.month || nextProps.month !== this.month;
+        let wasSubmitUpdate = this.submitUpdate;
+        this.submitUpdate = false;
+        if (wasSubmitUpdate && nextProps.month.toLowerCase() !== this.month.toLowerCase()) {
+            this.error = true;
+        } else {
+            this.error = false;
+        }
+        return (
+            wasSubmitUpdate ||
+            nextProps.month !== this.props.month ||
+            nextProps.month !== this.month
+        );
     }
     handleKeyPress(evt) {
         let monthStr = this.month;
@@ -38,16 +50,13 @@ export class MonthPicker extends Component {
         if (monthStr.length <= MAX_LENGTH) {
             this.month = monthStr;
         }
+        this.error = false;
         this.updateFromInternal = true;
         this.forceUpdate();
     }
     submitMonth(monthStr) {
+        this.submitUpdate = true;
         this.props.onUpdate(monthStr);
-
-        // if the update failed because date was invalid
-        // force a re-render the go back to previous valid state
-        this.error = this.month !== this.props.month;
-        this.forceUpdate();
     }
     render() {
         let monthStr = this.updateFromInternal ? this.month : this.props.month;
