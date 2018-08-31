@@ -146,6 +146,22 @@ export class MapToolsMenu extends Component {
                             </ListItemIcon>
                             <ListItemText inset primary="Polygon" />
                         </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
+                            aria-label="Point"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_POINT);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <Icon>
+                                    <i className="ms ms-polygon" />
+                                </Icon>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Point" />
+                        </MenuItem>
                         <Divider />
                         <MenuItem
                             className={styles.contextMenuItem}

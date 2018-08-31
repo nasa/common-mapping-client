@@ -1258,6 +1258,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                         shapeType = appStrings.SHAPE_AREA;
                     } else if (geometryType === appStrings.GEOMETRY_CIRCLE) {
                         shapeType = appStrings.SHAPE_DISTANCE;
+                    } else if (geometryType === appStrings.GEOMETRY_POINT) {
+                        shapeType = appStrings.SHAPE_DISTANCE;
                     }
                 }
                 let drawStyle = (feature, resolution) => {
@@ -1328,18 +1330,29 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * @memberof MapWrapperOpenlayers
      */
     retrieveGeometryFromEvent(event, geometryType) {
+        // Base attributes common to all geometry types
+        const baseGeometry = {
+            type: geometryType,
+            id: Math.random(),
+            proj: this.map
+                .getView()
+                .getProjection()
+                .getCode(),
+            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+        };
+
         if (geometryType === appStrings.GEOMETRY_CIRCLE) {
             let center = event.feature.getGeometry().getCenter();
             return {
-                type: appStrings.GEOMETRY_CIRCLE,
-                id: Math.random(),
+                ...baseGeometry,
                 center: { lon: center[0], lat: center[1] },
-                radius: event.feature.getGeometry().getRadius(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                radius: event.feature.getGeometry().getRadius()
+            };
+        } else if (geometryType === appStrings.GEOMETRY_POINT) {
+            const coords = event.feature.getGeometry().getCoordinates();
+            return {
+                ...baseGeometry,
+                coordinates: { lon: coords[0], lat: coords[1] }
             };
         } else if (geometryType === appStrings.GEOMETRY_LINE_STRING) {
             let tmpCoords = [];
@@ -1359,14 +1372,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     });
             }
             return {
-                type: appStrings.GEOMETRY_LINE_STRING,
-                id: Math.random(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinates: tmpCoords,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                ...baseGeometry,
+                coordinates: tmpCoords
             };
         } else if (geometryType === appStrings.GEOMETRY_POLYGON) {
             let tmpCoords = [];
@@ -1386,14 +1393,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     });
             }
             return {
-                type: appStrings.GEOMETRY_POLYGON,
-                id: Math.random(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinates: tmpCoords,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                ...baseGeometry,
+                coordinates: tmpCoords
             };
         }
 

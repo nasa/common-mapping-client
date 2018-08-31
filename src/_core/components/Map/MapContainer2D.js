@@ -52,6 +52,11 @@ export class MapContainer2D extends Component {
                 geometry => this.handleDrawEnd(geometry),
                 appStrings.INTERACTION_DRAW
             );
+            map.addDrawHandler(
+                appStrings.GEOMETRY_POINT,
+                geometry => this.handleDrawEnd(geometry),
+                appStrings.INTERACTION_DRAW
+            );
 
             // measurement listeners
             map.addDrawHandler(

@@ -63,6 +63,7 @@ export const CATS_TILE_CS = "catsTile_CS";
 export const GEOMETRY_CIRCLE = "Circle";
 export const GEOMETRY_LINE_STRING = "LineString";
 export const GEOMETRY_POLYGON = "Polygon";
+export const GEOMETRY_POINT = "Point";
 
 // measurement types
 export const MEASURE_DISTANCE = "Distance";
