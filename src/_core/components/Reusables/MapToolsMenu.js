@@ -157,10 +157,42 @@ export class MapToolsMenu extends Component {
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
                                 <Icon>
-                                    <i className="ms ms-polygon" />
+                                    <i className="ms ms-points" />
                                 </Icon>
                             </ListItemIcon>
                             <ListItemText inset primary="Point" />
+                        </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
+                            aria-label="Line"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_LINE);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <Icon>
+                                    <i className="ms ms-line" />
+                                </Icon>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Line" />
+                        </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
+                            aria-label="Box"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_BOX);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <Icon>
+                                    <i className="ms ms-vector" />
+                                </Icon>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Box" />
                         </MenuItem>
                         <Divider />
                         <MenuItem

@@ -64,6 +64,18 @@ export const GEOMETRY_CIRCLE = "Circle";
 export const GEOMETRY_LINE_STRING = "LineString";
 export const GEOMETRY_POLYGON = "Polygon";
 export const GEOMETRY_POINT = "Point";
+export const GEOMETRY_LINE = "Line";
+export const GEOMETRY_BOX = "Box";
+
+// map of CMC geometry types to OpenLayers geometry types
+export const OL_GEOMETRY_TYPES = {
+    [GEOMETRY_CIRCLE]: GEOMETRY_CIRCLE,
+    [GEOMETRY_LINE_STRING]: GEOMETRY_LINE_STRING,
+    [GEOMETRY_POLYGON]: GEOMETRY_POLYGON,
+    [GEOMETRY_POINT]: GEOMETRY_POINT,
+    [GEOMETRY_LINE]: GEOMETRY_LINE_STRING,
+    [GEOMETRY_BOX]: GEOMETRY_CIRCLE
+};
 
 // measurement types
 export const MEASURE_DISTANCE = "Distance";
