@@ -965,6 +965,25 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
 
         var mouseHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
+        const finishDrawing = (includeLastPoint = true) => {
+            _self.stopDrawing();
+            if (typeof options.callback === "function") {
+                // 08/02/16 AARON PLAVE MODIFICATION TO
+                //  ALLOW FOR HIGH ZOOM DRAWING AND
+                //  REMOVAL OF DUPLICATE POINTS
+                // TODO - calculate some epsilon based on the zoom level
+                var epsilon = Cesium.Math.EPSILON8;
+                var newPos = [positions[0]];
+                var lastPointIndex = includeLastPoint ? positions.length - 1 : positions.length - 2;
+                for (var i = 1; i <= lastPointIndex; i++) {
+                    if (!positions[i].equalsEpsilon(positions[i - 1], epsilon)) {
+                        newPos.push(positions[i]);
+                    }
+                }
+                options.callback(newPos.splice(0, newPos.length));
+            }
+        };
+
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
             if (movement.position != null) {
@@ -989,6 +1008,10 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
                     positions.push(cartesian);
                     // add marker at the new position
                     // markers.addBillboard(cartesian);
+                    // stop drawing if we've hit the max # of points
+                    if (options.maxPoints && positions.length >= options.maxPoints + 1) {
+                        finishDrawing(true);
+                    }
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -1042,40 +1065,16 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
                 } else {
                     var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                     if (cartesian) {
-                        _self.stopDrawing();
-                        if (typeof options.callback == "function") {
-                            // remove overlapping ones
-                            // // TODO - calculate some epsilon based on the zoom level
-                            var index = positions.length - 1;
-                            // 08/02/16 AARON PLAVE MODIFICATION TO
-                            //  ALLOW FOR HIGH ZOOM DRAWING AND
-                            //  REMOVAL OF DUPLICATE POINTS
-                            var epsilon = Cesium.Math.EPSILON8;
-                            var newPos = [positions[0]];
-                            for (var i = 1; i < positions.length; i++) {
-                                if (!positions[i].equalsEpsilon(positions[i - 1], epsilon)) {
-                                    newPos.push(positions[i]);
-                                }
-                            }
-                            options.callback(newPos.splice(0, index + 1));
-                        }
+                        finishDrawing(true);
                     }
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
         var handleEnter = function(evt) {
-            if (
-                evt.keyCode === 13 &&
-                typeof options.callback == "function" &&
-                positions.length - 1 >= minPoints
-            ) {
-                _self.stopDrawing();
-                var newPos = [];
-                for (var i = 0; i < positions.length - 1; i++) {
-                    newPos.push(positions[i]);
-                }
-                options.callback(newPos.splice(0, newPos.length + 1));
+            if (evt.keyCode === 13 && positions.length - 1 >= minPoints) {
+                // call with false to not include last point (mouse position when pressing enter)
+                finishDrawing(false);
             }
         };
         document.addEventListener("keyup", handleEnter);
@@ -1089,9 +1088,16 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
             Cesium.Rectangle.southwest(value)
         ]);
     }
+    // edited by Dan Delany 9/10 - export getExtentCorners
+    _.prototype.getExtentCorners = getExtentCorners;
 
     _.prototype.startDrawingExtent = function(options) {
         var options = copyOptions(options, defaultSurfaceOptions);
+
+        options.material.uniforms.color = new Cesium.Color.fromCssColorString(
+            this._defaultFillColor
+        );
+        options.strokeColor = new Cesium.Color.fromCssColorString(this._defaultStrokeColor);
 
         this.startDrawing(function() {
             if (extent != null) {
@@ -1106,7 +1112,6 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
         var scene = this._scene;
         var primitives = this._scene.primitives;
         var tooltip = this._tooltip;
-
         var firstPoint = null;
         var extent = null;
         var markers = null;
@@ -1115,11 +1120,18 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
 
         function updateExtent(value) {
             if (extent == null) {
-                extent = new Cesium.RectanglePrimitive();
+                // modified 9/11/18 by Dan Delany
+                // use ExtentPrimitive because RectanglePrimitive is deprecated
+                //extent = new Cesium.RectanglePrimitive();
+                extent = new DrawHelper.ExtentPrimitive({
+                    ...options,
+                    extent: value,
+                    showDrawingOutline: true
+                });
                 extent.asynchronous = false;
                 primitives.add(extent);
             }
-            extent.rectangle = value;
+            extent.setExtent(value);
             // update the markers
             var corners = getExtentCorners(value);
             // create if they do not yet exist
