@@ -21,7 +21,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import LinkIcon from "@material-ui/icons/Link";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import Typography from "@material-ui/core/Typography";
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import appConfig from "constants/appConfig";
 import { ModalMenu } from "_core/components/ModalMenu";
 import { MarkdownPage } from "_core/components/Reusables";
@@ -79,18 +79,16 @@ export class HelpContainer extends Component {
                     !this.props.helpPage ? "Help" : this.helpPageConfig[this.props.helpPage].label
                 }
                 active={this.props.helpOpen}
-                closeFunc={() => this.props.appActions.setHelpOpen(false)}
+                closeFunc={() => this.props.setHelpOpen(false)}
                 back={this.props.helpPage !== ""}
-                backFunc={() => this.props.appActions.selectHelpPage("")}
+                backFunc={() => this.props.selectHelpPage("")}
             >
                 <Paper elevation={2} square={true} className={listClasses}>
                     <List>
                         <ListSubheader>General</ListSubheader>
                         <ListItem
                             button
-                            onClick={() =>
-                                this.props.appActions.selectHelpPage(this.helpPageConfig.ABOUT.key)
-                            }
+                            onClick={() => this.props.selectHelpPage(this.helpPageConfig.ABOUT.key)}
                         >
                             <ListItemIcon>
                                 <DescriptionIcon />
@@ -99,9 +97,7 @@ export class HelpContainer extends Component {
                         </ListItem>
                         <ListItem
                             button
-                            onClick={() =>
-                                this.props.appActions.selectHelpPage(this.helpPageConfig.FAQ.key)
-                            }
+                            onClick={() => this.props.selectHelpPage(this.helpPageConfig.FAQ.key)}
                         >
                             <ListItemIcon>
                                 <DescriptionIcon />
@@ -111,9 +107,7 @@ export class HelpContainer extends Component {
                         <ListItem
                             button
                             onClick={() =>
-                                this.props.appActions.selectHelpPage(
-                                    this.helpPageConfig.SYS_REQ.key
-                                )
+                                this.props.selectHelpPage(this.helpPageConfig.SYS_REQ.key)
                             }
                         >
                             <ListItemIcon>
@@ -150,7 +144,8 @@ export class HelpContainer extends Component {
 }
 
 HelpContainer.propTypes = {
-    appActions: PropTypes.object.isRequired,
+    setHelpOpen: PropTypes.func.isRequired,
+    selectHelpPage: PropTypes.func.isRequired,
     helpOpen: PropTypes.bool.isRequired,
     helpPage: PropTypes.string.isRequired,
     className: PropTypes.string
@@ -165,7 +160,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        setHelpOpen: MiscUtil.bindActionCreators(AppAction.setHelpOpen, dispatch, AppAction),
+        selectHelpPage: MiscUtil.bindActionCreators(AppAction.selectHelpPage, dispatch, AppAction)
     };
 }
 

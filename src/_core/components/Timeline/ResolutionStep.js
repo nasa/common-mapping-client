@@ -16,7 +16,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Paper from "@material-ui/core/Paper";
 import { IncrementButton, IncrementIcon } from "_core/components/DatePicker";
-import * as dateSliderActions from "_core/actions/dateSliderActions";
+import { DateSliderAction } from "actions";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Timeline/ResolutionStep.scss";
@@ -38,7 +38,7 @@ export class ResolutionStep extends Component {
                 <Button
                     classes={{ label: styles.stepButtonLabel }}
                     onClick={() => {
-                        this.props.dateSliderActions.setDateResolution(
+                        this.props.setDateResolution(
                             appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index + 1],
                             false
                         );
@@ -58,7 +58,7 @@ export class ResolutionStep extends Component {
                 <Button
                     classes={{ label: styles.stepButtonLabel }}
                     onClick={() => {
-                        this.props.dateSliderActions.setDateResolution(
+                        this.props.setDateResolution(
                             appConfig.DATE_SLIDER_RESOLUTIONS[currentResolution.index - 1],
                             false
                         );
@@ -98,20 +98,24 @@ export class ResolutionStep extends Component {
     }
 }
 ResolutionStep.propTypes = {
-    dateSliderActions: PropTypes.object.isRequired,
+    setDateResolution: PropTypes.func.isRequired,
     resolution: PropTypes.object.isRequired,
     className: PropTypes.string
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        dateSliderActions: bindActionCreators(dateSliderActions, dispatch)
-    };
-}
-
 function mapStateToProps(state) {
     return {
         resolution: state.dateSlider.get("resolution")
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setDateResolution: MiscUtil.bindActionCreators(
+            DateSliderAction.setDateResolution,
+            dispatch,
+            DateSliderAction
+        )
     };
 }
 

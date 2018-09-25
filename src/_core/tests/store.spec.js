@@ -5,9 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as appActions from "_core/actions/appActions";
-import * as mapActions from "_core/actions/mapActions";
-import * as dateSliderActions from "_core/actions/dateSliderActions";
+import { AppAction, DateSliderAction, MapAction } from "_core/actions";
 import * as actionTypes from "_core/constants/actionTypes";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
@@ -48,41 +46,41 @@ export const StoreSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const initActions = [
-                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
-                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
+                        MapAction.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        MapAction.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true)
                     ];
                     initActions.forEach(action => store.dispatch(action));
                     setTimeout(() => {
                         const actions = [
-                            mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
-                            mapActions.zoomIn(),
-                            mapActions.addGeometryToMap({
+                            MapAction.setMapViewMode(appStrings.MAP_VIEW_MODE_3D),
+                            MapAction.zoomIn(),
+                            MapAction.addGeometryToMap({
                                 type: appStrings.GEOMETRY_CIRCLE,
                                 center: { lon: 0, lat: 0 },
                                 radius: 500,
                                 coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
                             }),
-                            mapActions.removeAllDrawings(),
-                            mapActions.removeAllMeasurements(),
-                            mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
-                            mapActions.addGeometryToMap({
+                            MapAction.removeAllDrawings(),
+                            MapAction.removeAllMeasurements(),
+                            MapAction.setMapViewMode(appStrings.MAP_VIEW_MODE_2D),
+                            MapAction.addGeometryToMap({
                                 type: appStrings.GEOMETRY_CIRCLE,
                                 center: { lon: 10, lat: -20 },
                                 radius: 52200,
                                 coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
                             }),
-                            mapActions.zoomIn(),
-                            mapActions.setTerrainEnabled(false),
-                            mapActions.setTerrainExaggeration(
+                            MapAction.zoomIn(),
+                            MapAction.setTerrainEnabled(false),
+                            MapAction.setTerrainExaggeration(
                                 appConfig.TERRAIN_EXAGGERATION_OPTIONS[1].value
                             ),
-                            mapActions.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
-                            mapActions.zoomOut(),
-                            mapActions.resetOrientation(0),
-                            dateSliderActions.setDateResolution(
+                            MapAction.setScaleUnits(appConfig.SCALE_OPTIONS[1].value),
+                            MapAction.zoomOut(),
+                            MapAction.resetOrientation(0),
+                            DateSliderAction.setDateResolution(
                                 appConfig.DATE_SLIDER_RESOLUTIONS[0]
                             ),
-                            appActions.resetApplicationState()
+                            AppAction.resetApplicationState()
                         ];
 
                         actions.forEach(action => store.dispatch(action));

@@ -18,8 +18,7 @@ import PlusIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import HomeIcon from "@material-ui/icons/Home";
 import Paper from "@material-ui/core/Paper";
-import * as mapActions from "_core/actions/mapActions";
-import * as appActions from "_core/actions/appActions";
+import { AppAction, MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -55,7 +54,7 @@ export class MapControlsContainer extends Component {
             this.hideMapControlsTimeout = null;
             this.hideMapControlsEnabled = false;
             this.startListeningToMouseMovement();
-            this.props.appActions.hideMapControls(false);
+            this.props.hideMapControls(false);
         };
     }
     stopListeningToMouseMovement() {
@@ -63,13 +62,13 @@ export class MapControlsContainer extends Component {
         this.hideMapControlsTimeout = null;
         this.hideMapControlsEnabled = false;
         window.onmousemove = null;
-        this.props.appActions.hideMapControls(false);
+        this.props.hideMapControls(false);
     }
     hideMapControls() {
         if (!this.hideMapControlsEnabled) {
             this.hideMapControlsEnabled = true;
             this.hideMapControlsTimeout = null;
-            this.props.appActions.hideMapControls(true);
+            this.props.hideMapControls(true);
         }
     }
     onMapControlsMouseEnter() {
@@ -84,9 +83,9 @@ export class MapControlsContainer extends Component {
     }
     setViewMode() {
         if (this.props.in3DMode) {
-            this.props.mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D);
+            this.props.setMapViewMode(appStrings.MAP_VIEW_MODE_2D);
         } else {
-            this.props.mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D);
+            this.props.setMapViewMode(appStrings.MAP_VIEW_MODE_3D);
         }
     }
 
@@ -134,9 +133,7 @@ export class MapControlsContainer extends Component {
                         <MapButton
                             color={this.props.distractionFreeMode ? "primary" : "default"}
                             onClick={() => {
-                                this.props.appActions.setDistractionFreeMode(
-                                    !this.props.distractionFreeMode
-                                );
+                                this.props.setDistractionFreeMode(!this.props.distractionFreeMode);
                             }}
                             aria-label="Home"
                             className={`${styles.firstButton} ${styles.lineButton}`}
@@ -147,7 +144,7 @@ export class MapControlsContainer extends Component {
                     <MapToolsButton
                         isOpen={this.props.mapControlsToolsOpen}
                         className={styles.lineButton}
-                        setOpen={isOpen => this.props.appActions.setMapControlsToolsOpen(isOpen)}
+                        setOpen={isOpen => this.props.setMapControlsToolsOpen(isOpen)}
                     />
                     <MapLabelsButton />
                 </Paper>
@@ -155,7 +152,7 @@ export class MapControlsContainer extends Component {
                     <EnhancedTooltip title="Home" placement="right">
                         <MapButton
                             onClick={() => {
-                                this.props.mapActions.setMapView(
+                                this.props.setMapView(
                                     { extent: appConfig.DEFAULT_BBOX_EXTENT },
                                     true
                                 );
@@ -168,7 +165,7 @@ export class MapControlsContainer extends Component {
                     </EnhancedTooltip>
                     <EnhancedTooltip title="Zoom In" placement="right">
                         <MapButton
-                            onClick={this.props.mapActions.zoomIn}
+                            onClick={this.props.zoomIn}
                             aria-label="Zoom in"
                             className={styles.lineButton}
                         >
@@ -177,7 +174,7 @@ export class MapControlsContainer extends Component {
                     </EnhancedTooltip>
                     <EnhancedTooltip title="Zoom Out" placement="right">
                         <MapButton
-                            onClick={this.props.mapActions.zoomOut}
+                            onClick={this.props.zoomOut}
                             aria-label="Zoom out"
                             className={styles.lastButton}
                         >
@@ -196,8 +193,13 @@ MapControlsContainer.propTypes = {
     distractionFreeMode: PropTypes.bool.isRequired,
     mapControlsHidden: PropTypes.bool.isRequired,
     mapControlsToolsOpen: PropTypes.bool.isRequired,
-    mapActions: PropTypes.object.isRequired,
-    appActions: PropTypes.object.isRequired,
+    setMapViewMode: PropTypes.func.isRequired,
+    setMapView: PropTypes.func.isRequired,
+    zoomIn: PropTypes.func.isRequired,
+    zoomOut: PropTypes.func.isRequired,
+    hideMapControls: PropTypes.func.isRequired,
+    setDistractionFreeMode: PropTypes.func.isRequired,
+    setMapControlsToolsOpen: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -212,8 +214,25 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch),
-        appActions: bindActionCreators(appActions, dispatch)
+        setMapViewMode: MiscUtil.bindActionCreators(MapAction.setMapViewMode, dispatch, MapAction),
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction),
+        zoomIn: MiscUtil.bindActionCreators(MapAction.zoomIn, dispatch, MapAction),
+        zoomOut: MiscUtil.bindActionCreators(MapAction.zoomOut, dispatch, MapAction),
+        hideMapControls: MiscUtil.bindActionCreators(
+            AppAction.hideMapControls,
+            dispatch,
+            AppAction
+        ),
+        setDistractionFreeMode: MiscUtil.bindActionCreators(
+            AppAction.setDistractionFreeMode,
+            dispatch,
+            AppAction
+        ),
+        setMapControlsToolsOpen: MiscUtil.bindActionCreators(
+            AppAction.setMapControlsToolsOpen,
+            dispatch,
+            AppAction
+        )
     };
 }
 

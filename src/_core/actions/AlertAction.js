@@ -7,10 +7,8 @@
 
 import * as types from "_core/constants/actionTypes";
 
-export function setAnalyticsEnabled(isEnabled) {
-    return { type: types.SET_ANALYTICS_ENABLED, isEnabled };
-}
-
-export function sendAnalyticsBatch() {
-    return { type: types.SEND_ANALYTICS_BATCH };
+export default class AlertAction {
+    static addAlert(alert) {
+        return { type: types.ADD_ALERT, alert };
+    }
 }

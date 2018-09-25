@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import MapMarkerIcon from "mdi-material-ui/MapMarker";
 import { MapButton, EnhancedTooltip } from "_core/components/Reusables";
 import * as appStrings from "_core/constants/appStrings";
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import MiscUtil from "_core/utils/MiscUtil";
 import appConfig from "constants/appConfig";
 
@@ -25,8 +25,8 @@ export class MapLabelsButton extends Component {
         );
         let eitherOn = labelsLayer.get("isActive") || boundariesLayer.get("isActive");
 
-        this.props.mapActions.setLayerActive(appConfig.REFERENCE_LABELS_LAYER_ID, !eitherOn);
-        this.props.mapActions.setLayerActive(appConfig.POLITICAL_BOUNDARIES_LAYER_ID, !eitherOn);
+        this.props.setLayerActive(appConfig.REFERENCE_LABELS_LAYER_ID, !eitherOn);
+        this.props.setLayerActive(appConfig.POLITICAL_BOUNDARIES_LAYER_ID, !eitherOn);
     }
     render() {
         let mapLabelsActive = false;
@@ -68,7 +68,7 @@ export class MapLabelsButton extends Component {
 
 MapLabelsButton.propTypes = {
     referenceLayers: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
+    setLayerActive: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -80,7 +80,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch)
+        setLayerActive: MiscUtil.bindActionCreators(MapAction.setLayerActive, dispatch, MapAction)
     };
 }
 

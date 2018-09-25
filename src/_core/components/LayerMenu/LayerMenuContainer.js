@@ -16,7 +16,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import * as appStrings from "_core/constants/appStrings";
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import { LayerControlContainer } from "_core/components/LayerMenu";
 import { IconButtonSmall, EnhancedTooltip } from "_core/components/Reusables";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -119,7 +119,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setLayerMenuOpen: bindActionCreators(mapActions.setLayerMenuOpen, dispatch)
+        setLayerMenuOpen: MiscUtil.bindActionCreators(
+            MapAction.setLayerMenuOpen,
+            dispatch,
+            MapAction
+        )
     };
 }
 

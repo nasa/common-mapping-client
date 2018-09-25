@@ -9,9 +9,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import appConfig from "constants/appConfig";
-import * as analyticsActions from "_core/actions/analyticsActions";
 import ReactGA from "react-ga";
+import appConfig from "constants/appConfig";
+import { AnalyticsAction } from "actions";
+import MiscUtil from "_core/utils/MiscUtil";
 import displayStyles from "_core/styles/display.scss";
 
 export class AnalyticsContainer extends Component {
@@ -42,7 +43,7 @@ export class AnalyticsContainer extends Component {
                         new Date() - this.props.timeLastSent >=
                         appConfig.ANALYTICS_BATCH_WAIT_TIME_MS
                     ) {
-                        this.props.analyticsActions.sendAnalyticsBatch();
+                        this.props.sendAnalyticsBatch();
                     }
                 }, appConfig.ANALYTICS_BATCH_WAIT_TIME_MS);
             }
@@ -62,7 +63,7 @@ export class AnalyticsContainer extends Component {
 AnalyticsContainer.propTypes = {
     timeLastSent: PropTypes.object.isRequired,
     isEnabled: PropTypes.bool.isRequired,
-    analyticsActions: PropTypes.object.isRequired
+    sendAnalyticsBatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -74,7 +75,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        analyticsActions: bindActionCreators(analyticsActions, dispatch)
+        sendAnalyticsBatch: MiscUtil.bindActionCreators(
+            AnalyticsAction.sendAnalyticsBatch,
+            dispatch,
+            AnalyticsAction
+        )
     };
 }
 

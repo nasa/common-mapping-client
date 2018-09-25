@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "_core/actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -42,7 +42,7 @@ export const StoreSettingsSpec = {
                 it("opens settings.", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setSettingsOpen(true)];
+                    const actions = [AppAction.setSettingsOpen(true)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -57,7 +57,7 @@ export const StoreSettingsSpec = {
                 it("closes settings.", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [appActions.setSettingsOpen(false)];
+                    const actions = [AppAction.setSettingsOpen(false)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -74,8 +74,8 @@ export const StoreSettingsSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        appActions.setSettingsOpen(true),
-                        appActions.setSettingsOpen(false)
+                        AppAction.setSettingsOpen(true),
+                        AppAction.setSettingsOpen(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

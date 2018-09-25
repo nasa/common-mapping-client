@@ -9,7 +9,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as mapActions from "_core/actions/mapActions";
+import { MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Map/MapContainer.scss";
@@ -73,7 +73,7 @@ export class MapContainer3D extends Component {
         // Only fire move event if this map is active
         // and target inactive map
         if (map.isActive) {
-            this.props.mapActions.setMapView(
+            this.props.setMapView(
                 {
                     extent: map.getExtent()
                 },
@@ -85,33 +85,29 @@ export class MapContainer3D extends Component {
     handlePixelHover(map, pixel) {
         // Only fire move event if this map is active
         if (map.isActive) {
-            this.props.mapActions.pixelHover(pixel);
+            this.props.pixelHover(pixel);
         }
     }
 
     handlePixelClick(map, pixel) {
         // Only fire move event if this map is active
         if (map.isActive) {
-            this.props.mapActions.pixelClick(pixel);
+            this.props.pixelClick(pixel);
         }
     }
 
     handleDrawEnd(geometry) {
         // Disable drawing
-        this.props.mapActions.disableDrawing();
+        this.props.disableDrawing();
     }
 
     handleMeasureEnd(geometry, measurementType) {
         // Disable measurement
-        this.props.mapActions.disableMeasuring();
+        this.props.disableMeasuring();
         // Add geometry to other maps
-        this.props.mapActions.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, true);
+        this.props.addGeometryToMap(geometry, appStrings.INTERACTION_MEASURE, true);
         // Add label to geometry
-        this.props.mapActions.addMeasurementLabelToGeometry(
-            geometry,
-            measurementType,
-            this.props.units
-        );
+        this.props.addMeasurementLabelToGeometry(geometry, measurementType, this.props.units);
     }
 
     render() {
@@ -142,7 +138,13 @@ MapContainer3D.propTypes = {
     units: PropTypes.string.isRequired,
     in3DMode: PropTypes.bool.isRequired,
     initialLoadComplete: PropTypes.bool.isRequired,
-    mapActions: PropTypes.object.isRequired,
+    setMapView: PropTypes.func.isRequired,
+    pixelHover: PropTypes.func.isRequired,
+    pixelClick: PropTypes.func.isRequired,
+    disableDrawing: PropTypes.func.isRequired,
+    disableMeasuring: PropTypes.func.isRequired,
+    addGeometryToMap: PropTypes.func.isRequired,
+    addMeasurementLabelToGeometry: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -157,7 +159,25 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch)
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction),
+        pixelHover: MiscUtil.bindActionCreators(MapAction.pixelHover, dispatch, MapAction),
+        pixelClick: MiscUtil.bindActionCreators(MapAction.pixelClick, dispatch, MapAction),
+        disableDrawing: MiscUtil.bindActionCreators(MapAction.disableDrawing, dispatch, MapAction),
+        disableMeasuring: MiscUtil.bindActionCreators(
+            MapAction.disableMeasuring,
+            dispatch,
+            MapAction
+        ),
+        addGeometryToMap: MiscUtil.bindActionCreators(
+            MapAction.addGeometryToMap,
+            dispatch,
+            MapAction
+        ),
+        addMeasurementLabelToGeometry: MiscUtil.bindActionCreators(
+            MapAction.addMeasurementLabelToGeometry,
+            dispatch,
+            MapAction
+        )
     };
 }
 

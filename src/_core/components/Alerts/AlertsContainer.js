@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { ModalMenu } from "_core/components/ModalMenu";
 import { AlertList } from "_core/components/Alerts";
 import MiscUtil from "_core/utils/MiscUtil";
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import styles from "_core/components/Alerts/AlertsContainer.scss";
 
 export class AlertsContainer extends Component {
@@ -37,7 +37,7 @@ export class AlertsContainer extends Component {
                 active={alertsPresent}
                 className={containerClasses}
                 closeFunc={() => {
-                    this.props.appActions.dismissAllAlerts(this.props.alerts);
+                    this.props.dismissAllAlerts(this.props.alerts);
                 }}
             >
                 <AlertList alerts={alerts} />
@@ -47,7 +47,7 @@ export class AlertsContainer extends Component {
 }
 
 AlertsContainer.propTypes = {
-    appActions: PropTypes.object.isRequired,
+    dismissAllAlerts: PropTypes.func.isRequired,
     alerts: PropTypes.object.isRequired,
     className: PropTypes.string
 };
@@ -75,7 +75,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        dismissAllAlerts: MiscUtil.bindActionCreators(
+            AppAction.dismissAllAlerts,
+            dispatch,
+            AppAction
+        )
     };
 }
 

@@ -5,7 +5,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as dateSliderActions from "_core/actions/dateSliderActions";
+import { DateSliderAction } from "_core/actions";
 import { createStore } from "redux";
 import { expect } from "chai";
 import rootReducer from "_core/reducers";
@@ -42,7 +42,7 @@ export const StoreDateSliderSpec = {
                 it("begins dragging", function() {
                     const store = createStore(rootReducer, initialState);
 
-                    const actions = [dateSliderActions.beginDragging(true)];
+                    const actions = [DateSliderAction.beginDragging(true)];
                     actions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
@@ -58,8 +58,8 @@ export const StoreDateSliderSpec = {
                     const store = createStore(rootReducer, initialState);
 
                     const actions = [
-                        dateSliderActions.beginDragging(true),
-                        dateSliderActions.endDragging(false)
+                        DateSliderAction.beginDragging(true),
+                        DateSliderAction.endDragging(false)
                     ];
                     actions.forEach(action => store.dispatch(action));
 

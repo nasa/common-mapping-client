@@ -8,11 +8,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import pink from "@material-ui/core/colors/pink";
-import * as appActions from "_core/actions/appActions";
-import * as mapActions from "_core/actions/mapActions";
+import { AppAction, MapAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -166,16 +164,29 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        completeInitialLoad: bindActionCreators(appActions.completeInitialLoad, dispatch),
-        checkBrowserFunctionalities: bindActionCreators(
-            appActions.checkBrowserFunctionalities,
-            dispatch
+        completeInitialLoad: MiscUtil.bindActionCreators(
+            AppAction.completeInitialLoad,
+            dispatch,
+            AppAction
         ),
-        loadInitialData: bindActionCreators(mapActions.loadInitialData, dispatch),
-        activateDefaultLayers: bindActionCreators(mapActions.activateDefaultLayers, dispatch),
-        runUrlConfig: bindActionCreators(appActions.runUrlConfig, dispatch),
-        initializeMap: bindActionCreators(mapActions.initializeMap, dispatch),
-        setMapView: bindActionCreators(mapActions.setMapView, dispatch)
+        checkBrowserFunctionalities: MiscUtil.bindActionCreators(
+            AppAction.checkBrowserFunctionalities,
+            dispatch,
+            AppAction
+        ),
+        loadInitialData: MiscUtil.bindActionCreators(
+            MapAction.loadInitialData,
+            dispatch,
+            MapAction
+        ),
+        activateDefaultLayers: MiscUtil.bindActionCreators(
+            MapAction.activateDefaultLayers,
+            dispatch,
+            MapAction
+        ),
+        runUrlConfig: MiscUtil.bindActionCreators(AppAction.runUrlConfig, dispatch, AppAction),
+        initializeMap: MiscUtil.bindActionCreators(MapAction.initializeMap, dispatch, MapAction),
+        setMapView: MiscUtil.bindActionCreators(MapAction.setMapView, dispatch, MapAction)
     };
 }
 

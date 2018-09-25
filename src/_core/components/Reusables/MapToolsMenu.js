@@ -22,8 +22,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import EditIcon from "@material-ui/icons/Edit";
 import MiscUtil from "_core/utils/MiscUtil";
 import * as appStrings from "_core/constants/appStrings";
-import * as mapActions from "_core/actions/mapActions";
-import * as appActions from "_core/actions/appActions";
+import { MapAction } from "actions";
 import { ContextMenuSubMenu } from "_core/components/Reusables";
 import styles from "_core/components/Reusables/MapToolsMenu.scss";
 
@@ -48,7 +47,7 @@ export class MapToolsMenu extends Component {
                             className={styles.contextMenuItem}
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.enableMeasuring(
+                                this.props.enableMeasuring(
                                     appStrings.GEOMETRY_LINE_STRING,
                                     appStrings.MEASURE_DISTANCE
                                 );
@@ -67,7 +66,7 @@ export class MapToolsMenu extends Component {
                             aria-label="Measure Area"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.enableMeasuring(
+                                this.props.enableMeasuring(
                                     appStrings.GEOMETRY_POLYGON,
                                     appStrings.MEASURE_AREA
                                 );
@@ -87,7 +86,7 @@ export class MapToolsMenu extends Component {
                             aria-label="Clear Measurements"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.removeAllMeasurements();
+                                this.props.removeAllMeasurements();
                             }}
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -104,7 +103,7 @@ export class MapToolsMenu extends Component {
                             icon="radio_button_unchecked"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_CIRCLE);
+                                this.props.enableDrawing(appStrings.GEOMETRY_CIRCLE);
                             }}
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -118,9 +117,7 @@ export class MapToolsMenu extends Component {
                             aria-label="Polyline"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.enableDrawing(
-                                    appStrings.GEOMETRY_LINE_STRING
-                                );
+                                this.props.enableDrawing(appStrings.GEOMETRY_LINE_STRING);
                             }}
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -136,7 +133,7 @@ export class MapToolsMenu extends Component {
                             aria-label="Polygon"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_POLYGON);
+                                this.props.enableDrawing(appStrings.GEOMETRY_POLYGON);
                             }}
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -153,7 +150,7 @@ export class MapToolsMenu extends Component {
                             aria-label="Clear Drawings"
                             onClick={() => {
                                 this.props.handleRequestClose();
-                                this.props.mapActions.removeAllDrawings();
+                                this.props.removeAllDrawings();
                             }}
                         >
                             <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -169,8 +166,8 @@ export class MapToolsMenu extends Component {
                         aria-label="Clear Map"
                         onClick={() => {
                             this.props.handleRequestClose();
-                            this.props.mapActions.removeAllDrawings();
-                            this.props.mapActions.removeAllMeasurements();
+                            this.props.removeAllDrawings();
+                            this.props.removeAllMeasurements();
                         }}
                     >
                         <ListItemIcon classes={{ root: styles.listItemIcon }}>
@@ -186,15 +183,31 @@ export class MapToolsMenu extends Component {
 
 MapToolsMenu.propTypes = {
     handleRequestClose: PropTypes.func.isRequired,
-    appActions: PropTypes.object.isRequired,
-    mapActions: PropTypes.object.isRequired,
+    enableMeasuring: PropTypes.func.isRequired,
+    removeAllMeasurements: PropTypes.func.isRequired,
+    enableDrawing: PropTypes.func.isRequired,
+    removeAllDrawings: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch),
-        appActions: bindActionCreators(appActions, dispatch)
+        enableMeasuring: MiscUtil.bindActionCreators(
+            MapAction.enableMeasuring,
+            dispatch,
+            MapAction
+        ),
+        removeAllMeasurements: MiscUtil.bindActionCreators(
+            MapAction.removeAllMeasurements,
+            dispatch,
+            MapAction
+        ),
+        enableDrawing: MiscUtil.bindActionCreators(MapAction.enableDrawing, dispatch, MapAction),
+        removeAllDrawings: MiscUtil.bindActionCreators(
+            MapAction.removeAllDrawings,
+            dispatch,
+            MapAction
+        )
     };
 }
 

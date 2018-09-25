@@ -16,7 +16,7 @@ import Email from "mdi-material-ui/Email";
 import Reddit from "mdi-material-ui/Reddit";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import * as appActions from "_core/actions/appActions";
+import { AppAction } from "actions";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -39,7 +39,7 @@ export class ShareContainer extends Component {
         // delay updates to fix performance hit
         if (this.updateTimeout === null) {
             this.updateTimeout = setTimeout(() => {
-                this.props.appActions.toggleShareUpdateFlag();
+                this.props.toggleShareUpdateFlag();
                 clearInterval(this.updateTimeout);
                 this.updateTimeout = null;
             }, 1000);
@@ -205,7 +205,7 @@ export class ShareContainer extends Component {
                 small
                 title="Share"
                 active={this.props.isOpen}
-                closeFunc={() => this.props.appActions.setShareOpen(false)}
+                closeFunc={() => this.props.setShareOpen(false)}
                 onRendered={() => {
                     this.focusTextArea();
                 }}
@@ -273,7 +273,6 @@ export class ShareContainer extends Component {
 }
 
 ShareContainer.propTypes = {
-    appActions: PropTypes.object.isRequired,
     isOpen: PropTypes.bool.isRequired,
     updateFlag: PropTypes.bool.isRequired,
     autoUpdateUrl: PropTypes.bool.isRequired,
@@ -284,6 +283,8 @@ ShareContainer.propTypes = {
     enableTerrain: PropTypes.bool.isRequired,
     mapDate: PropTypes.object.isRequired,
     dateSliderResolution: PropTypes.object.isRequired,
+    toggleShareUpdateFlag: PropTypes.func.isRequired,
+    setShareOpen: PropTypes.func.isRequired,
     className: PropTypes.string
 };
 
@@ -304,7 +305,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        toggleShareUpdateFlag: MiscUtil.bindActionCreators(
+            AppAction.toggleShareUpdateFlag,
+            dispatch,
+            AppAction
+        ),
+        setShareOpen: MiscUtil.bindActionCreators(AppAction.setShareOpen, dispatch, AppAction)
     };
 }
 
