@@ -30,6 +30,7 @@ import Ol_Feature from "ol/feature";
 import Ol_Geom_Circle from "ol/geom/circle";
 import Ol_Geom_Linestring from "ol/geom/linestring";
 import Ol_Geom_Polygon from "ol/geom/polygon";
+import Ol_Geom_Point from "ol/geom/point";
 import OL_Geom_GeometryType from "ol/geom/geometrytype";
 import Ol_Format_GeoJSON from "ol/format/geojson";
 import Ol_Format_TopoJSON from "ol/format/topojson";
@@ -946,6 +947,23 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             console.warn("could not find drawing layer in openlayers map");
             return false;
         }
+        const warnUnsupportedCoordType = geometry => {
+            console.warn(
+                "Unsupported geometry coordinateType ",
+                geometry.coordinateType,
+                " for openlayers ",
+                geometry.type
+            );
+        };
+        const addGeomFeatureToMap = olGeometry => {
+            let olFeature = new Ol_Feature({
+                geometry: olGeometry
+            });
+            olFeature.set("interactionType", interactionType);
+            olFeature.setId(geometry.id);
+            mapLayer.getSource().addFeature(olFeature);
+        };
+
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
@@ -960,22 +978,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                         ]
                 );
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers circle"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-            let circleFeature = new Ol_Feature({
-                geometry: circleGeom
-            });
-            circleFeature.set("interactionType", interactionType);
-            circleFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(circleFeature);
+            addGeomFeatureToMap(circleGeom);
             return true;
-        }
-        if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
+        } else if (
+            geometry.type === appStrings.GEOMETRY_LINE_STRING ||
+            geometry.type === appStrings.GEOMETRY_LINE
+        ) {
             let lineStringGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 let geomCoords = geometry.coordinates.map(x => {
@@ -989,23 +1000,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
 
                 lineStringGeom = new Ol_Geom_Linestring(geomCoords);
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers lineString"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-
-            let lineStringFeature = new Ol_Feature({
-                geometry: lineStringGeom
-            });
-            lineStringFeature.set("interactionType", interactionType);
-            lineStringFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(lineStringFeature);
+            addGeomFeatureToMap(lineStringGeom);
             return true;
-        }
-        if (geometry.type === appStrings.GEOMETRY_POLYGON) {
+        } else if (
+            geometry.type === appStrings.GEOMETRY_POLYGON ||
+            geometry.type === appStrings.GEOMETRY_BOX
+        ) {
             let polygonGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Map obj to array
@@ -1023,21 +1026,24 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                 // Put these coordinates into a ring by adding to array
                 polygonGeom = new Ol_Geom_Polygon([geomCoords]);
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers polygon"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-            let polygonFeature = new Ol_Feature({
-                geometry: polygonGeom
-            });
-            polygonFeature.set("interactionType", interactionType);
-            polygonFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(polygonFeature);
+            addGeomFeatureToMap(polygonGeom);
+            return true;
+        } else if (geometry.type === appStrings.GEOMETRY_POINT) {
+            let pointGeom = null;
+            if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                pointGeom = new Ol_Geom_Point([geometry.coordinates.lon, geometry.coordinates.lat]);
+            } else {
+                warnUnsupportedCoordType(geometry);
+                return false;
+            }
+            addGeomFeatureToMap(pointGeom);
             return true;
         }
+
+        console.warn("Unsupported geometry type ", geometry.type, "in openlayers addGeometry");
         return false;
     }
 
