@@ -673,7 +673,6 @@ export default class MapWrapperCesium extends MapWrapper {
                             this.addGeometry(
                                 {
                                     ...baseGeometry,
-                                    extent: extent,
                                     coordinates: coordinates,
                                     coordinateType: appStrings.COORDINATE_TYPE_CARTESIAN
                                 },
@@ -686,7 +685,6 @@ export default class MapWrapperCesium extends MapWrapper {
                                 });
                                 let geometry = {
                                     ...baseGeometry,
-                                    extent: extent,
                                     coordinates: cartographicCoordinates,
                                     coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
                                 };
@@ -906,7 +904,10 @@ export default class MapWrapperCesium extends MapWrapper {
                 primitiveToAdd._interactionType = interactionType;
                 this.map.scene.primitives.add(primitiveToAdd);
                 return true;
-            } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
+            } else if (
+                geometry.type === appStrings.GEOMETRY_POLYGON ||
+                geometry.type === appStrings.GEOMETRY_BOX
+            ) {
                 const cartesianCoords = getGeomCartesianCoords(geometry, true);
                 const material = getShapeMaterial();
                 let primitiveToAdd = new this.drawHelper.PolygonPrimitive({
@@ -934,20 +935,6 @@ export default class MapWrapperCesium extends MapWrapper {
                 });
                 // add to our persistent PointPrimitiveCollection
                 this.pointCollection.add(pointPrimitive);
-                return true;
-            } else if (geometry.type === appStrings.GEOMETRY_BOX) {
-                const material = getShapeMaterial();
-                const primitive = new this.drawHelper.ExtentPrimitive({
-                    extent: geometry.extent,
-                    material: material,
-                    showDrawingOutline: true
-                });
-                primitive._interactionType = interactionType;
-                primitive.setStrokeStyle(
-                    new this.cesium.Color.fromCssColorString(appConfig.GEOMETRY_STROKE_COLOR),
-                    appConfig.GEOMETRY_STROKE_WEIGHT
-                );
-                this.map.scene.primitives.add(primitive);
                 return true;
             }
 
