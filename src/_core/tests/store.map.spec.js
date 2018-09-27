@@ -1605,10 +1605,7 @@ export const StoreMapSpec = {
                         mapActions.addGeometryToMap(geometryBox, appStrings.INTERACTION_DRAW),
                         mapActions.addGeometryToMap(geometryLine, appStrings.INTERACTION_DRAW)
                     ];
-                    finalActions.forEach(action => {
-                        console.log(action);
-                        store.dispatch(action);
-                    });
+                    finalActions.forEach(action => store.dispatch(action));
 
                     const actual = store.getState();
 
