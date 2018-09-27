@@ -849,31 +849,15 @@ export default class MapWrapperCesium extends MapWrapper {
 
         try {
             if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
-                let cesiumCenter = null;
-                let cesiumRadius = null;
+                let cesiumCenter = geometry.center;
                 // Check coordinate type
                 if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
-                    // Calc radius by finding cartesian distance from
-                    // center to radius point
-                    let point = {
-                        lat: geometry.center.lat,
-                        lon: geometry.center.lon
-                    };
-                    point.lon += geometry.radius;
-
                     cesiumCenter = this.latLonToCartesian(geometry.center.lat, geometry.center.lon);
-                    cesiumRadius = this.mapUtil.calculatePolylineDistance(
-                        [[geometry.center.lon, geometry.center.lat], [point.lon, point.lat]],
-                        geometry.proj
-                    );
-                } else {
-                    cesiumCenter = geometry.center;
-                    cesiumRadius = geometry.radius;
                 }
                 const material = getShapeMaterial();
                 let primitiveToAdd = new this.drawHelper.CirclePrimitive({
                     center: cesiumCenter,
-                    radius: cesiumRadius,
+                    radius: geometry.radius,
                     material: material,
                     showDrawingOutline: true
                 });
