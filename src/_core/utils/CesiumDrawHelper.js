@@ -866,12 +866,21 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
 
         var mouseHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
+        function updateMarker(cartesian) {
+            if (!cartesian) return;
+            if (markers.countBillboards() === 0) {
+                markers.addBillboard(cartesian);
+            } else {
+                markers.updateBillboardsPositions([cartesian]);
+            }
+        }
+
         // Now wait for start
         mouseHandler.setInputAction(function(movement) {
             if (movement.position != null) {
                 var cartesian = scene.camera.pickEllipsoid(movement.position, ellipsoid);
                 if (cartesian) {
-                    markers.addBillboard(cartesian);
+                    updateMarker(cartesian);
                     _self.stopDrawing();
                     options.callback(cartesian);
                 }
@@ -883,6 +892,7 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
             if (position != null) {
                 var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                 if (cartesian) {
+                    updateMarker(cartesian);
                     tooltip.showAt(
                         position,
                         "<p>Click to add your marker. Position is: </p>" +
@@ -1114,7 +1124,7 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
         var tooltip = this._tooltip;
         var firstPoint = null;
         var extent = null;
-        var markers = null;
+        var markers = new _.BillboardGroup(this, defaultBillboard);
 
         var mouseHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -1134,9 +1144,11 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
             extent.setExtent(value);
             // update the markers
             var corners = getExtentCorners(value);
-            // create if they do not yet exist
-            if (markers == null) {
-                markers = new _.BillboardGroup(_self, defaultBillboard);
+            const billboardCount = markers.countBillboards();
+            if (billboardCount < 4) {
+                // first remove the "cursor" marker which follows your mouse
+                if (billboardCount === 1) markers.removeBillboard(0);
+                // add markers for each corner of the extent
                 markers.addBillboards(corners);
             } else {
                 markers.updateBillboardsPositions(corners);
@@ -1168,10 +1180,16 @@ var DrawHelper = function(base_ellipsoid = Cesium.Ellipsoid.WGS84) {
         mouseHandler.setInputAction(function(movement) {
             var position = movement.endPosition;
             if (position != null) {
+                var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                 if (extent == null) {
+                    // move the "cursor" marker to follow the mouse
+                    if (markers.countBillboards() === 0) {
+                        markers.addBillboard(cartesian);
+                    } else {
+                        markers.updateBillboardsPositions([cartesian]);
+                    }
                     tooltip.showAt(position, "<p>Click to start drawing rectangle</p>");
                 } else {
-                    var cartesian = scene.camera.pickEllipsoid(position, ellipsoid);
                     if (cartesian) {
                         var value = getExtent(
                             firstPoint,
