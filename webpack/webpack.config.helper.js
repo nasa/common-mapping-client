@@ -139,7 +139,7 @@ module.exports = options => {
         ],
         resolve: {
             modules: [path.join(BASE_DIR, "src"), path.join(BASE_DIR, "assets"), "node_modules"], // Tell webpack to look for imports using these prefixes
-            extensions: [".jsx", ".scss", ".css", ".js", ".json", ".md"], // Tell webpack that these extensions are optionally specified in the import statements
+            extensions: [".js", ".jsx", ".json", ".scss", ".css", ".md"], // Tell webpack that these extensions are optionally specified in the import statements
             alias: {
                 modernizr$: path.join(BASE_DIR, "lib/modernizr/.modernizrrc.js")
             }
