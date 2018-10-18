@@ -22,14 +22,24 @@ export class DrawingTooltip extends Component {
             beginHint = "Click to start measuring";
             referenceGroup = this.props.measuring;
         }
+        let geometryType = referenceGroup.get("geometryType");
 
         // set the hint to complete
-        if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_CIRCLE) {
+        if (
+            geometryType === appStrings.GEOMETRY_CIRCLE ||
+            geometryType === appStrings.GEOMETRY_BOX
+        ) {
             endHint = "Press enter or click to complete";
-        } else if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_LINE_STRING) {
+        } else if (
+            geometryType === appStrings.GEOMETRY_LINE_STRING ||
+            geometryType === appStrings.GEOMETRY_POLYGON
+        ) {
             endHint = "Press enter or double-click to complete";
-        } else if (referenceGroup.get("geometryType") === appStrings.GEOMETRY_POLYGON) {
-            endHint = "Press enter or double-click to complete";
+        } else if (geometryType === appStrings.GEOMETRY_LINE) {
+            endHint = "Click again to complete";
+        } else if (geometryType === appStrings.GEOMETRY_POINT) {
+            beginHint = "Click to draw a point";
+            endHint = "";
         }
 
         let containerClasses = MiscUtil.generateStringFromSet({

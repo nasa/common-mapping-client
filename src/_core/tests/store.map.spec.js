@@ -908,7 +908,7 @@ export const StoreMapSpec = {
             },
 
             test21: () => {
-                it("can enable drawing a line on a 2D map", function() {
+                it("can enable drawing a line string on a 2D map", function() {
                     const store = createStore(rootReducer, initialState);
 
                     // initial map
@@ -989,6 +989,126 @@ export const StoreMapSpec = {
                 });
             },
 
+            test22B: () => {
+                it("can enable drawing a point on a 2D map", function() {
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+
+                    // add drawing on the map
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_POINT,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_POINT)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], false)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_POINT)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+                });
+            },
+
+            test22C: () => {
+                it("can enable drawing a box on a 2D map", function() {
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+
+                    // add drawing on the map
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_BOX,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_BOX)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], false)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_BOX)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+                });
+            },
+
+            test22D: () => {
+                it("can enable drawing a (single) line on a 2D map", function() {
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_2D, "map2D"),
+                        mapActions.setMapView({ extent: appConfig.DEFAULT_BBOX_EXTENT }, true),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_2D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap2D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_2D];
+
+                    // add drawing on the map
+                    actualMap2D.addDrawHandler(
+                        appStrings.GEOMETRY_LINE,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_LINE)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], false)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_LINE)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+                });
+            },
+
             test23: () => {
                 it("can enable drawing a circle on a 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test23", this)) {
@@ -1034,7 +1154,7 @@ export const StoreMapSpec = {
             },
 
             test24: () => {
-                it("can enable drawing a line on a 3D map", function() {
+                it("can enable drawing a line string on a 3D map", function() {
                     if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test24", this)) {
                         return;
                     }
@@ -1117,6 +1237,138 @@ export const StoreMapSpec = {
                         .setIn(["view", "in3DMode"], true)
                         .setIn(["drawing", "isDrawingEnabled"], true)
                         .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_POLYGON)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+
+            test25B: () => {
+                it("can enable drawing a point on a 3D map", function() {
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25B", this)) {
+                        return;
+                    }
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+
+                    // add drawing on the map
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_POINT,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_POINT)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], true)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_POINT)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+
+            test25C: () => {
+                it("can enable drawing a box on a 3D map", function() {
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25C", this)) {
+                        return;
+                    }
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+
+                    // add drawing on the map
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_BOX,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_BOX)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], true)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_BOX)
+                        .setIn(["measuring", "isMeasuringEnabled"], false);
+
+                    TestUtil.compareFullStates(actual, expected);
+                });
+            },
+
+            test25D: () => {
+                it("can enable drawing a (single) line on a 3D map", function() {
+                    if (TestUtil.skipIfNoWebGL("StoreMapSpec.default.test25D", this)) {
+                        return;
+                    }
+                    const store = createStore(rootReducer, initialState);
+
+                    // initial map
+                    const initalActions = [
+                        mapActions.initializeMap(appStrings.MAP_LIB_3D, "map3D"),
+                        mapActions.setMapViewMode(appStrings.MAP_VIEW_MODE_3D)
+                    ];
+                    initalActions.forEach(action => store.dispatch(action));
+
+                    // retrieve map object
+                    const expected = store.getState();
+                    const actualMap3D = expected.map.get("maps").toJS()[appStrings.MAP_LIB_3D];
+
+                    // add drawing on the map
+                    actualMap3D.addDrawHandler(
+                        appStrings.GEOMETRY_LINE,
+                        () => {},
+                        appStrings.INTERACTION_DRAW
+                    );
+
+                    // enable drawing
+                    const finalActions = [mapActions.enableDrawing(appStrings.GEOMETRY_LINE)];
+                    finalActions.forEach(action => store.dispatch(action));
+
+                    const actual = store.getState();
+
+                    actual.map = actual.map.remove("maps");
+
+                    expected.map = expected.map
+                        .remove("maps")
+                        .setIn(["view", "in3DMode"], true)
+                        .setIn(["drawing", "isDrawingEnabled"], true)
+                        .setIn(["drawing", "geometryType"], appStrings.GEOMETRY_LINE)
                         .setIn(["measuring", "isMeasuringEnabled"], false);
 
                     TestUtil.compareFullStates(actual, expected);
@@ -1294,6 +1546,53 @@ export const StoreMapSpec = {
                         id: Math.random()
                     };
 
+                    let geometryPoint = {
+                        type: appStrings.GEOMETRY_POINT,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: { lat: 35, lon: 29 },
+                        id: Math.random()
+                    };
+
+                    let geometryBox = {
+                        type: appStrings.GEOMETRY_BOX,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            { lon: 20, lat: 30 },
+                            { lon: 30, lat: 30 },
+                            { lon: 30, lat: 10 },
+                            { lon: 20, lat: 10 }
+                        ],
+                        id: Math.random()
+                    };
+
+                    let geometryLine = {
+                        type: appStrings.GEOMETRY_POLYGON,
+                        coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC,
+                        proj: actualMap2D.map
+                            .getView()
+                            .getProjection()
+                            .getCode(),
+                        coordinates: [
+                            {
+                                lon: -12,
+                                lat: -67
+                            },
+                            {
+                                lon: 8,
+                                lat: -45
+                            }
+                        ],
+                        id: Math.random()
+                    };
+
                     // add geometries
                     const finalActions = [
                         mapActions.addGeometryToMap(geometryCircle, appStrings.INTERACTION_DRAW),
@@ -1301,7 +1600,10 @@ export const StoreMapSpec = {
                             geometryLineString,
                             appStrings.INTERACTION_DRAW
                         ),
-                        mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW)
+                        mapActions.addGeometryToMap(geometryPolygon, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(geometryPoint, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(geometryBox, appStrings.INTERACTION_DRAW),
+                        mapActions.addGeometryToMap(geometryLine, appStrings.INTERACTION_DRAW)
                     ];
                     finalActions.forEach(action => store.dispatch(action));
 
@@ -1324,7 +1626,7 @@ export const StoreMapSpec = {
                     let drawFeatures = mapLayerFeatures.filter(
                         x => x.get("interactionType") === appStrings.INTERACTION_DRAW
                     );
-                    expect(drawFeatures.length).to.equal(3);
+                    expect(drawFeatures.length).to.equal(6);
                     TestUtil.compareFullStates(actual, expected);
                 });
             },

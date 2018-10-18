@@ -25,6 +25,7 @@ import * as appStrings from "_core/constants/appStrings";
 import * as mapActions from "_core/actions/mapActions";
 import * as appActions from "_core/actions/appActions";
 import { ContextMenuSubMenu } from "_core/components/Reusables";
+import { DrawLineIcon } from "_core/components/Reusables/CustomIcons";
 import styles from "_core/components/Reusables/MapToolsMenu.scss";
 
 export class MapToolsMenu extends Component {
@@ -115,6 +116,20 @@ export class MapToolsMenu extends Component {
                         <MenuItem
                             className={styles.contextMenuItem}
                             dense
+                            aria-label="Line"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_LINE);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <DrawLineIcon />
+                            </ListItemIcon>
+                            <ListItemText inset primary="Line" />
+                        </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
                             aria-label="Polyline"
                             onClick={() => {
                                 this.props.handleRequestClose();
@@ -145,6 +160,38 @@ export class MapToolsMenu extends Component {
                                 </Icon>
                             </ListItemIcon>
                             <ListItemText inset primary="Polygon" />
+                        </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
+                            aria-label="Point"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_POINT);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <Icon>
+                                    <i className="ms ms-points" />
+                                </Icon>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Point" />
+                        </MenuItem>
+                        <MenuItem
+                            className={styles.contextMenuItem}
+                            dense
+                            aria-label="Box"
+                            onClick={() => {
+                                this.props.handleRequestClose();
+                                this.props.mapActions.enableDrawing(appStrings.GEOMETRY_BOX);
+                            }}
+                        >
+                            <ListItemIcon classes={{ root: styles.listItemIcon }}>
+                                <Icon>
+                                    <i className="ms ms-vector" />
+                                </Icon>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Box" />
                         </MenuItem>
                         <Divider />
                         <MenuItem

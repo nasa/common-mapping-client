@@ -30,6 +30,7 @@ import Ol_Feature from "ol/feature";
 import Ol_Geom_Circle from "ol/geom/circle";
 import Ol_Geom_Linestring from "ol/geom/linestring";
 import Ol_Geom_Polygon from "ol/geom/polygon";
+import Ol_Geom_Point from "ol/geom/point";
 import OL_Geom_GeometryType from "ol/geom/geometrytype";
 import Ol_Format_GeoJSON from "ol/format/geojson";
 import Ol_Format_TopoJSON from "ol/format/topojson";
@@ -695,7 +696,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     /**
      * activate a drawing interaction
      *
-     * @param {string} geometryType (Circle|LineString|Polygon)
+     * @param {string} geometryType (Circle|LineString|Polygon|Point|Line|Box)
      * @returns {boolean} true if it succeeds
      * @memberof MapWrapperOpenlayers
      */
@@ -790,7 +791,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     /**
      * enable a measuring interaction
      *
-     * @param {string} geometryType (Circle|LineString|Polygon)
+     * @param {string} geometryType (Circle|LineString|Polygon|Point|Line|Box)
      * @param {string} measurementType (Distance|Area)
      * @returns {boolean} true if it succeeds
      * @memberof MapWrapperOpenlayers
@@ -929,7 +930,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * add a geometry to the map
      *
      * @param {object} geometry geometry to add to the map
-     * - type - {string} (Circle|LineString|Polygon)
+     * - type - {string} (Circle|LineString|Polygon|Point|Line|Box)
      * - coordinateType - {string} (Cartesian|Cartographic)
      * - center - {object} center coordinate of circle {lon,lat}
      * - radius - {number} radius of circle
@@ -946,6 +947,23 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             console.warn("could not find drawing layer in openlayers map");
             return false;
         }
+        const warnUnsupportedCoordType = geometry => {
+            console.warn(
+                "Unsupported geometry coordinateType ",
+                geometry.coordinateType,
+                " for openlayers ",
+                geometry.type
+            );
+        };
+        const addGeomFeatureToMap = olGeometry => {
+            let olFeature = new Ol_Feature({
+                geometry: olGeometry
+            });
+            olFeature.set("interactionType", interactionType);
+            olFeature.setId(geometry.id);
+            mapLayer.getSource().addFeature(olFeature);
+        };
+
         if (geometry.type === appStrings.GEOMETRY_CIRCLE) {
             let circleGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
@@ -960,22 +978,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                         ]
                 );
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers circle"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-            let circleFeature = new Ol_Feature({
-                geometry: circleGeom
-            });
-            circleFeature.set("interactionType", interactionType);
-            circleFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(circleFeature);
+            addGeomFeatureToMap(circleGeom);
             return true;
-        }
-        if (geometry.type === appStrings.GEOMETRY_LINE_STRING) {
+        } else if (
+            geometry.type === appStrings.GEOMETRY_LINE_STRING ||
+            geometry.type === appStrings.GEOMETRY_LINE
+        ) {
             let lineStringGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 let geomCoords = geometry.coordinates.map(x => {
@@ -989,23 +1000,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
 
                 lineStringGeom = new Ol_Geom_Linestring(geomCoords);
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers lineString"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-
-            let lineStringFeature = new Ol_Feature({
-                geometry: lineStringGeom
-            });
-            lineStringFeature.set("interactionType", interactionType);
-            lineStringFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(lineStringFeature);
+            addGeomFeatureToMap(lineStringGeom);
             return true;
-        }
-        if (geometry.type === appStrings.GEOMETRY_POLYGON) {
+        } else if (
+            geometry.type === appStrings.GEOMETRY_POLYGON ||
+            geometry.type === appStrings.GEOMETRY_BOX
+        ) {
             let polygonGeom = null;
             if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
                 // Map obj to array
@@ -1023,21 +1026,24 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                 // Put these coordinates into a ring by adding to array
                 polygonGeom = new Ol_Geom_Polygon([geomCoords]);
             } else {
-                console.warn(
-                    "Unsupported geometry coordinateType ",
-                    geometry.coordinateType,
-                    " for openlayers polygon"
-                );
+                warnUnsupportedCoordType(geometry);
                 return false;
             }
-            let polygonFeature = new Ol_Feature({
-                geometry: polygonGeom
-            });
-            polygonFeature.set("interactionType", interactionType);
-            polygonFeature.setId(geometry.id);
-            mapLayer.getSource().addFeature(polygonFeature);
+            addGeomFeatureToMap(polygonGeom);
+            return true;
+        } else if (geometry.type === appStrings.GEOMETRY_POINT) {
+            let pointGeom = null;
+            if (geometry.coordinateType === appStrings.COORDINATE_TYPE_CARTOGRAPHIC) {
+                pointGeom = new Ol_Geom_Point([geometry.coordinates.lon, geometry.coordinates.lat]);
+            } else {
+                warnUnsupportedCoordType(geometry);
+                return false;
+            }
+            addGeomFeatureToMap(pointGeom);
             return true;
         }
+
+        console.warn("Unsupported geometry type ", geometry.type, "in openlayers addGeometry");
         return false;
     }
 
@@ -1157,14 +1163,16 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     /**
      * add a handler to the map for a given type of drawing
      *
-     * @param {string} geometryType (Circle|LineString|Polygon)
+     * @param {string} geometryType (Circle|LineString|Polygon|Line|Box)
      * @param {function} onDrawEnd callback for when the drawing completes
      * @param {string} interactionType (Draw|Measure)
+     * @param {object} userDrawOptions additional options to be passed to OpenLayers Draw object
      * @returns {boolean} true if it succeeds
      * @memberof MapWrapperOpenlayers
      */
-    addDrawHandler(geometryType, onDrawEnd, interactionType) {
+    addDrawHandler(geometryType, onDrawEnd, interactionType, userDrawOptions = {}) {
         try {
+            const olGeometryType = appStrings.OL_GEOMETRY_TYPES[geometryType];
             let mapLayers = this.map.getLayers().getArray();
             let mapLayer = this.miscUtil.findObjectInArray(
                 mapLayers,
@@ -1240,6 +1248,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
 
                 let geometryFunction = undefined;
                 let shapeType = appStrings.SHAPE_AREA;
+                let additionalDrawOptions = {};
                 if (interactionType === appStrings.INTERACTION_MEASURE) {
                     if (geometryType === appStrings.GEOMETRY_LINE_STRING) {
                         geometryFunction = measureDistGeom;
@@ -1258,17 +1267,28 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                         shapeType = appStrings.SHAPE_AREA;
                     } else if (geometryType === appStrings.GEOMETRY_CIRCLE) {
                         shapeType = appStrings.SHAPE_DISTANCE;
+                    } else if (geometryType === appStrings.GEOMETRY_POINT) {
+                        shapeType = appStrings.SHAPE_DISTANCE;
+                    } else if (geometryType === appStrings.GEOMETRY_LINE) {
+                        shapeType = appStrings.SHAPE_DISTANCE;
+                        additionalDrawOptions.maxPoints = 2;
+                    } else if (geometryType === appStrings.GEOMETRY_BOX) {
+                        shapeType = appStrings.SHAPE_AREA;
+                        geometryFunction = Ol_Interaction_Draw.createBox();
                     }
                 }
                 let drawStyle = (feature, resolution) => {
                     return this.defaultDrawingStyle(feature, resolution, shapeType);
                 };
+
                 let drawInteraction = new Ol_Interaction_Draw({
                     source: mapLayer.getSource(),
-                    type: geometryType,
+                    type: olGeometryType,
                     geometryFunction: geometryFunction,
                     style: drawStyle,
-                    wrapX: true
+                    wrapX: true,
+                    ...userDrawOptions,
+                    ...additionalDrawOptions
                 });
 
                 if (appConfig.DEFAULT_MAP_EXTENT) {
@@ -1318,9 +1338,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * event
      *
      * @param {object} event openalyers draw complete event
-     * @param {string} geometryType (Circle|LineString|Polygon)
+     * @param {string} geometryType (Circle|LineString|Polygon|Line|Box)
      * @returns {object} standard geometry object
-     * - type - {string} (Circle|LineString|Polygon)
+     * - type - {string} (Circle|LineString|Polygon|Line|Box)
      * - coordinateType - {string} (Cartesian|Cartographic)
      * - center - {object} center coordinate of circle {lon,lat}
      * - radius - {number} radius of circle
@@ -1328,20 +1348,34 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      * @memberof MapWrapperOpenlayers
      */
     retrieveGeometryFromEvent(event, geometryType) {
+        // Base attributes common to all geometry types
+        const baseGeometry = {
+            type: geometryType,
+            id: Math.random(),
+            proj: this.map
+                .getView()
+                .getProjection()
+                .getCode(),
+            coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+        };
+
         if (geometryType === appStrings.GEOMETRY_CIRCLE) {
             let center = event.feature.getGeometry().getCenter();
             return {
-                type: appStrings.GEOMETRY_CIRCLE,
-                id: Math.random(),
+                ...baseGeometry,
                 center: { lon: center[0], lat: center[1] },
-                radius: event.feature.getGeometry().getRadius(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                radius: event.feature.getGeometry().getRadius()
             };
-        } else if (geometryType === appStrings.GEOMETRY_LINE_STRING) {
+        } else if (geometryType === appStrings.GEOMETRY_POINT) {
+            const coords = event.feature.getGeometry().getCoordinates();
+            return {
+                ...baseGeometry,
+                coordinates: { lon: coords[0], lat: coords[1] }
+            };
+        } else if (
+            geometryType === appStrings.GEOMETRY_LINE_STRING ||
+            geometryType === appStrings.GEOMETRY_LINE
+        ) {
             let tmpCoords = [];
             if (event.feature.getGeometry().get("originalCoordinates")) {
                 tmpCoords = event.feature
@@ -1359,16 +1393,13 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     });
             }
             return {
-                type: appStrings.GEOMETRY_LINE_STRING,
-                id: Math.random(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinates: tmpCoords,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                ...baseGeometry,
+                coordinates: tmpCoords
             };
-        } else if (geometryType === appStrings.GEOMETRY_POLYGON) {
+        } else if (
+            geometryType === appStrings.GEOMETRY_POLYGON ||
+            geometryType === appStrings.GEOMETRY_BOX
+        ) {
             let tmpCoords = [];
             if (event.feature.getGeometry().get("originalCoordinates")) {
                 tmpCoords = event.feature
@@ -1386,14 +1417,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     });
             }
             return {
-                type: appStrings.GEOMETRY_POLYGON,
-                id: Math.random(),
-                proj: this.map
-                    .getView()
-                    .getProjection()
-                    .getCode(),
-                coordinates: tmpCoords,
-                coordinateType: appStrings.COORDINATE_TYPE_CARTOGRAPHIC
+                ...baseGeometry,
+                coordinates: tmpCoords
             };
         }
 
