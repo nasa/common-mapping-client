@@ -1,10 +1,10 @@
 Generating minified bundle for production via Webpack. This will take a moment...
-Webpack stats: Hash: dde15f1a4d1006b58cf2
+Webpack stats: Hash: 40e7749cc4cd06730d73
 Version: webpack 3.10.0
-Time: 76320ms
+Time: 44316ms
                                             Asset       Size  Chunks                    Chunk Names
 img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted]  [big]  
-                   6f3d9cbd8ae1816cad9d.worker.js    8.86 kB          [emitted]         
+                   8bd9b8495407b18a563f.worker.js    9.15 kB          [emitted]         
                          img/apple-touch-icon.png    6.39 kB          [emitted]         
                             img/favicon-32x32.png    1.73 kB          [emitted]         
                             img/favicon-16x16.png  999 bytes          [emitted]         
@@ -21,7 +21,7 @@ img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png     990 kB          [emitted] 
       img/BlueMarble_ShadedRelief_Bathymetry.jpeg    36.9 kB          [emitted]         
                        img/OSM_Land_Water_Map.png    18.3 kB          [emitted]         
           img/ASTER_GDEM_Color_Shaded_Relief.jpeg    19.4 kB          [emitted]         
-                                         index.js    5.38 MB       0  [emitted]  [big]  index
+                                         index.js    5.39 MB       0  [emitted]  [big]  index
                                   inlineStyles.js  530 bytes       1  [emitted]         inlineStyles
                                        bundle.css    28.5 kB       0  [emitted]         index
                                        index.html    8.36 kB          [emitted]         
@@ -50,8 +50,8 @@ Child html-webpack-plugin for "index.html":
        [3] (webpack)/buildin/module.js 517 bytes {0} [built]
 Child worker:
                              Asset     Size  Chunks             Chunk Names
-    6f3d9cbd8ae1816cad9d.worker.js  8.86 kB       0  [emitted]  main
-       [0] ./src/_core/constants/appStrings.js 8.88 kB {0} [built]
+    8bd9b8495407b18a563f.worker.js  9.15 kB       0  [emitted]  main
+       [0] ./src/_core/constants/appStrings.js 9.86 kB {0} [built]
        [1] ./node_modules/babel-loader/lib?{"plugins":[]}!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js 2.35 kB {0} [built]
        [2] ./src/utils/WebWorker.js 5.66 kB {0} [built]
        [3] ./src/_core/utils/WebWorker.js 6.04 kB {0} [built]
@@ -145,11 +145,11 @@ Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist 
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/BasemapPicker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/BasemapPicker.scss 703 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
-Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Settings/BaseMapList.scss:
-       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Settings/BaseMapList.scss 711 bytes {0} [built]
-       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/CoordinateTracker.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/CoordinateTracker.scss 641 bytes {0} [built]
+       [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Settings/BaseMapList.scss:
+       [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Settings/BaseMapList.scss 711 bytes {0} [built]
        [1] ./node_modules/css-loader/lib/css-base.js 2.26 kB {0} [built]
 Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--3-1!node_modules/postcss-loader/lib/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
        [0] ./node_modules/css-loader?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false,"minimize":true}!./node_modules/postcss-loader/lib?{"ident":"postcss","sourceMap":false}!./node_modules/sass-loader/lib/loader.js?{"ident":"sass","sourceMap":false}!./src/_core/components/Map/MapControlsContainer.scss 1.65 kB {0} [built]
