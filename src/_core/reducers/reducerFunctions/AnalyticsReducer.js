@@ -24,14 +24,6 @@ const EXCLUDED_ACTIONS = new Immutable.List([
     actionTypes.INVALIDATE_PIXEL_HOVER,
     actionTypes.INGEST_LAYER_PALETTES,
 
-    // Async Actions
-    actionTypes.INITIAL_DATA_LOADING,
-    actionTypes.INITIAL_DATA_LOADED,
-    actionTypes.PALETTE_DATA_LOADING,
-    actionTypes.PALETTE_DATA_LOADED,
-    actionTypes.LAYER_DATA_LOADING,
-    actionTypes.LAYER_DATA_LOADED,
-
     // Date Slider Actions
     actionTypes.BEGIN_DRAGGING,
     actionTypes.END_DRAGGING,

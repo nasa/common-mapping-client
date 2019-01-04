@@ -26,10 +26,12 @@
 
 .layerControlIconRow {
     position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .colorbar {
-    vertical-align: middle;
+    vertical-align: top;
     margin-right: 5px;
 }
 

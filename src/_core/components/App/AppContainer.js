@@ -41,6 +41,7 @@ import displayStyles from "_core/styles/display.scss";
 
 const theme = createMuiTheme({
     typography: {
+        useNextVariants: true,
         htmlFontSize: 10
     },
     palette: {
@@ -179,4 +180,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppContainer);

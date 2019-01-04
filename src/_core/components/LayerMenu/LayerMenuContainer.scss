@@ -6,7 +6,7 @@
  */
 
 .layerMenu {
-    composes: light from "_core/styles/shadow.scss";
+    composes: light from "../../styles/shadow.scss";
     position: absolute;
     width: 370px;
     top: 15px;
@@ -26,7 +26,7 @@
         .layerHeaderRow {
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
-            border-bottom: none;
+            border-bottom: 1px solid #dedede;
         }
     }
 }
@@ -34,16 +34,14 @@
 .layerHeaderRow {
     z-index: 1;
     position: relative;
-    padding: 0.9rem;
-    height: 36px;
+    padding: 0.4rem 0.9rem;
     display: flex;
-    border-bottom: 1px solid #dedede;
     border-radius: inherit;
+    border-bottom: none;
     background: #f3f3f3;
 
     button {
         position: relative;
-        top: -5px;
     }
 }
 

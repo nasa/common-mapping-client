@@ -6,7 +6,7 @@
  */
 
 .root {
-    composes: contextMenuItem from "_core/components/Reusables/MapToolsMenu.scss";
+    composes: contextMenuItem from "./MapToolsMenu.scss";
     position: relative;
 }
 
@@ -36,5 +36,5 @@
 }
 
 .itemIcon {
-    composes: listItemIcon from "_core/components/Reusables/MapToolsMenu.scss";
+    composes: listItemIcon from "./MapToolsMenu.scss";
 }

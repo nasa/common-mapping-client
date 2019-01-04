@@ -17,7 +17,7 @@
     height: 40px;
 }
 .opacityLabel {
-    composes: fontRobotoMono from "_core/styles/text.scss";
+    composes: fontRobotoMono from "../../styles/text.scss";
     float: right;
     margin-right: -5px;
 }

@@ -51,7 +51,7 @@ export class ModalMenu extends Component {
                         >
                             <ArrowBackIcon />
                         </IconButton>
-                        <Typography variant="title" color="inherit" className={styles.flex}>
+                        <Typography variant="h6" color="inherit" className={styles.flex}>
                             {this.props.title}
                         </Typography>
                         <IconButton

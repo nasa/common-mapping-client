@@ -5,7 +5,6 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import Immutable from "immutable";
 import moment from "moment";
 import Ol_Map from "ol/map";
 import Ol_View from "ol/view";
@@ -21,7 +20,6 @@ import Ol_Style from "ol/style/style";
 import Ol_Style_Circle from "ol/style/circle";
 import Ol_Style_Stroke from "ol/style/stroke";
 import Ol_Proj from "ol/proj";
-import Ol_Proj_Projection from "ol/proj/projection";
 import Ol_Interaction from "ol/interaction";
 import Ol_Interaction_Draw from "ol/interaction/draw";
 import Ol_Interaction_DoubleClickZoom from "ol/interaction/doubleclickzoom";
@@ -36,7 +34,6 @@ import Ol_Format_GeoJSON from "ol/format/geojson";
 import Ol_Format_TopoJSON from "ol/format/topojson";
 import Ol_Format_KML from "ol/format/kml";
 import Ol_Easing from "ol/easing";
-import proj4js from "proj4";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MapWrapper from "_core/utils/MapWrapper";

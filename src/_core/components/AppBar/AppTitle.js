@@ -14,7 +14,7 @@ import styles from "_core/components/AppBar/AppTitle.scss";
 const renderTitle = title => {
     if (title) {
         return (
-            <Typography variant="title" color="inherit" className={styles.title}>
+            <Typography variant="h6" color="inherit" className={styles.title}>
                 {title}
             </Typography>
         );

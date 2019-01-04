@@ -8,7 +8,7 @@
 @import "~styles/colors";
 
 .mouseFollowerContainer {
-    composes: medium from "_core/styles/shadow.scss";
+    composes: medium from "../../styles/shadow.scss";
     position: fixed;
     z-index: 1;
     background: $color-light;
@@ -20,7 +20,7 @@
 }
 
 .content {
-    composes: light from "_core/styles/shadow.scss";
+    composes: light from "../../styles/shadow.scss";
     position: relative;
 }
 

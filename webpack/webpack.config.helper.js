@@ -55,8 +55,7 @@ module.exports = options => {
                 modules: enableModules,
                 importLoaders: 2,
                 localIdentName: "[name]__[local]___[hash:base64:5]",
-                sourceMap: !options.isProduction,
-                minimize: options.isProduction
+                sourceMap: !options.isProduction
             }
         };
     };
@@ -107,6 +106,7 @@ module.exports = options => {
 
     // define the webpack config
     let webpackConfig = {
+        mode: options.isProduction ? "production" : "development",
         devtool: options.devtool, // what kind of sourcemap to use
         entry: {
             index:
@@ -146,7 +146,6 @@ module.exports = options => {
         },
         module: {
             unknownContextCritical: false, // Tells webpack to ignore some warnings due to the way Cesium dynamically builds module paths - https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
-            noParse: [path.join(BASE_DIR, "node_modules/proj4/dist/proj4.js")], // Tells webpack not to parse these files and expects these fles will have no require, define, or similar, but can use exports and module.exports. See https://webpack.github.io/docs/configuration.html#module-noparse
             rules: [
                 {
                     // Standard ES6 compilation of JS through Babel
@@ -202,8 +201,7 @@ module.exports = options => {
                         {
                             loader: "css-loader",
                             options: {
-                                sourceMap: !options.isProduction,
-                                minimize: options.isProduction
+                                sourceMap: !options.isProduction
                             }
                         }
                     ]
@@ -228,21 +226,13 @@ module.exports = options => {
                 {
                     // Load all markdown using the raw-loader
                     test: /\.md|\.json$/,
+                    exclude: [path.join(BASE_DIR, "node_modules/")],
                     use: "raw-loader"
                 },
                 {
                     // visjs loader
                     test: /node_modules[\\\/]vis[\\\/].*\.js$/,
-                    loader: "babel-loader",
-                    query: {
-                        cacheDirectory: true,
-                        presets: ["babel-preset-es2015"].map(require.resolve),
-                        plugins: [
-                            "transform-es3-property-literals", // #2452
-                            "transform-es3-member-expression-literals", // #2566
-                            "transform-runtime" // #2566
-                        ]
-                    }
+                    loader: "babel-loader"
                 }
             ]
         }

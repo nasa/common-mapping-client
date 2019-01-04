@@ -15,7 +15,6 @@ import { GreatCircle } from "assets/arc/arc";
 import Ol_Format_WMTSCapabilities from "ol/format/wmtscapabilities";
 import Ol_Source_WMTS from "ol/source/wmts";
 import Ol_Proj from "ol/proj";
-import Ol_Proj_Projection from "ol/proj/projection";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";

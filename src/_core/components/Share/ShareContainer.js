@@ -15,6 +15,7 @@ import Twitter from "mdi-material-ui/Twitter";
 import Email from "mdi-material-ui/Email";
 import Reddit from "mdi-material-ui/Reddit";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
 import Grid from "@material-ui/core/Grid";
 import * as appActions from "_core/actions/appActions";
 import * as appStrings from "_core/constants/appStrings";
@@ -229,40 +230,36 @@ export class ShareContainer extends Component {
                     <div className={styles.buttons}>
                         <Grid container spacing={0}>
                             <Grid item xs>
-                                <Button
-                                    variant="fab"
+                                <Fab
                                     style={{ color: "white", background: "#505050" }}
                                     onClick={() => this.shareEmail(shareUrl)}
                                 >
                                     <Email />
-                                </Button>
+                                </Fab>
                             </Grid>
                             <Grid item xs>
-                                <Button
-                                    variant="fab"
+                                <Fab
                                     style={{ color: "white", background: "#3B5998" }}
                                     onClick={() => this.shareFacebook(shareUrl)}
                                 >
                                     <Facebook />
-                                </Button>
+                                </Fab>
                             </Grid>
                             <Grid item xs>
-                                <Button
-                                    variant="fab"
+                                <Fab
                                     style={{ color: "white", background: "#55ACEE" }}
                                     onClick={() => this.shareTwitter(shareUrl)}
                                 >
                                     <Twitter />
-                                </Button>
+                                </Fab>
                             </Grid>
                             <Grid item xs>
-                                <Button
-                                    variant="fab"
+                                <Fab
                                     style={{ color: "white", background: "#DD4B39" }}
                                     onClick={() => this.shareReddit(shareUrl)}
                                 >
                                     <Reddit />
-                                </Button>
+                                </Fab>
                             </Grid>
                         </Grid>
                     </div>
@@ -308,4 +305,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ShareContainer);

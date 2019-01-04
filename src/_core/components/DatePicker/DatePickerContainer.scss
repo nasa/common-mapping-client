@@ -6,7 +6,7 @@
  */
 
 .datePickerContainer {
-    composes: medium from "_core/styles/shadow.scss";
+    composes: medium from "../../styles/shadow.scss";
     position: absolute;
     bottom: 0px;
     left: 0px;

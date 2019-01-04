@@ -20,7 +20,7 @@ const LonLatCoordinates = props => {
 
     return (
         <Typography
-            variant="body1"
+            variant="body2"
             color="inherit"
             className={containerClasses}
             // eslint-disable-next-line react/no-danger
