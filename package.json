@@ -92,7 +92,7 @@
     "normalize.css": "8.0.1",
     "nyc": "13.1.0",
     "object-assign": "4.1.1",
-    "ol": "4.6.4",
+    "ol": "5.3.0",
     "phantomjs-prebuilt": "2.1.16",
     "postcss": "7.0.7",
     "postcss-cssnext": "3.1.0",
