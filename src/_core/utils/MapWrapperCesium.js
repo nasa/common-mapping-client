@@ -178,7 +178,8 @@ export default class MapWrapperCesium extends MapWrapper {
             });
 
             // Terrain
-            let terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.flatTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            let terrainProvider = this.flatTerrainProvider;
             if (appConfig.DEFAULT_TERRAIN_ENABLED) {
                 terrainProvider = new this.cesium.CesiumTerrainProvider({
                     url: appConfig.DEFAULT_TERRAIN_ENDPOINT
@@ -249,8 +250,8 @@ export default class MapWrapperCesium extends MapWrapper {
         this.map.scene._terrainExaggeration = terrainExaggeration;
 
         // Force re-render if terrain is currently enabled
-        if (this.map.terrainProvider !== new this.cesium.EllipsoidTerrainProvider()) {
-            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+        if (this.map.terrainProvider !== this.flatTerrainProvider) {
+            this.map.terrainProvider = this.flatTerrainProvider;
             this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({
                 url: appConfig.DEFAULT_TERRAIN_ENDPOINT
             });
@@ -271,7 +272,7 @@ export default class MapWrapperCesium extends MapWrapper {
                 url: appConfig.DEFAULT_TERRAIN_ENDPOINT
             });
         } else {
-            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.map.terrainProvider = this.flatTerrainProvider;
         }
         return true;
     }
