@@ -46,6 +46,13 @@ const theme = createMuiTheme({
     },
     palette: {
         primary: pink
+    },
+    overrides: {
+        MuiPaper: {
+            rounded: {
+                borderRadius: "2px"
+            }
+        }
     }
 });
 
