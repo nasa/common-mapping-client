@@ -176,15 +176,14 @@ export default class MapWrapperCesium extends MapWrapper {
                     layers: 0
                 })
             });
-            // Depth testing
-            // Seems to be causing issues with vector rendering. Removing.
-            // map.scene.globe.depthTestAgainstTerrain = true;
 
             // Terrain
-            let terrainProvider = new this.cesium.CesiumTerrainProvider({
-                url: "//assets.agi.com/stk-terrain/world"
-            });
-            let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            let terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            if (appConfig.DEFAULT_TERRAIN_ENABLED) {
+                terrainProvider = new this.cesium.CesiumTerrainProvider({
+                    url: appConfig.DEFAULT_TERRAIN_ENDPOINT
+                });
+            }
             map.terrainProvider = terrainProvider;
 
             // remove sun and moon
@@ -389,12 +388,12 @@ export default class MapWrapperCesium extends MapWrapper {
             let verticalDegrees = 0;
             if (this.cesium.defined(viewRect)) {
                 horizontalDegrees =
-                    horizontalDegreesAmt *
-                    this.cesium.Math.toDegrees(viewRect.east - viewRect.west) /
+                    (horizontalDegreesAmt *
+                        this.cesium.Math.toDegrees(viewRect.east - viewRect.west)) /
                     360.0;
                 verticalDegrees =
-                    verticalDegreesAmt *
-                    this.cesium.Math.toDegrees(viewRect.north - viewRect.south) /
+                    (verticalDegreesAmt *
+                        this.cesium.Math.toDegrees(viewRect.north - viewRect.south)) /
                     180.0;
             }
             let currPosition = this.map.scene.camera.positionCartographic;
