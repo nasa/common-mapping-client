@@ -137,7 +137,8 @@ module.exports = options => {
                 isProduction: options.isProduction,
                 excludeChunks: ["inlineStyles"], // Don't include inlineStyles for templating purposes, we'll take care of that separately with our StyleExtHtmlWebpackPlugin
                 hash: true // Append a query string + the webpack build hash onto the output js and css files for cache busting
-            }), //
+            }),
+            new webpack.NoEmitOnErrorsPlugin(), // do not attempt to produce a bundle if there was an error
             ExtractStyles // All imported styles are separated out from bundle and moved into a styles.css file which can be loaded in parallel with JS bundle during app load (see https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)
         ],
         resolve: {
@@ -241,12 +242,15 @@ module.exports = options => {
         }
     };
 
-    if (options.isProduction) {
+    // optimize production build
+    if (options.node_env === "production") {
         webpackConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
-    } else {
+    }
+
+    // enable tools for dev
+    if (options.node_env === "development") {
         webpackConfig.plugins.push(
-            new webpack.HotModuleReplacementPlugin(), // Used for Browsersync
-            new webpack.NoEmitOnErrorsPlugin() // do not attempt to produce a bundle if there was an error
+            new webpack.HotModuleReplacementPlugin() // Used for Browsersync
         );
     }
 

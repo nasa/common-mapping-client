@@ -59,7 +59,7 @@ export const WebWorkerSpec = {
                     let numWorkers = 2;
                     let numTasks = 200;
                     let delay = 200;
-                    this.timeout(numTasks * delay / numWorkers + 500); // add buffer to expected execution time
+                    this.timeout((numTasks * delay) / numWorkers + 500); // add buffer to expected execution time
 
                     let manager = webWorkerState.get("workerManager");
                     manager.createWorkers(numWorkers);
@@ -77,17 +77,18 @@ export const WebWorkerSpec = {
                     expect(manager.workersTotal()).to.equal(numWorkers);
                     expect(manager.workersAvailable()).to.equal(0);
 
-                    Promise.all(promiseArr).then(
-                        data => {
-                            expect(manager.workersTotal()).to.equal(numWorkers);
-                            expect(manager.workersAvailable()).to.equal(numWorkers);
-                            manager.clearWorkers();
-                            done();
-                        },
-                        err => {
-                            expect(0).to.equal(1);
-                        }
-                    );
+                    Promise.all(promiseArr)
+                        .then(
+                            data => {
+                                expect(manager.workersTotal()).to.equal(numWorkers);
+                                expect(manager.workersAvailable()).to.equal(numWorkers);
+                                manager.clearWorkers();
+                            },
+                            err => {
+                                expect(0).to.equal(1);
+                            }
+                        )
+                        .finally(done);
                 });
             }
         }
