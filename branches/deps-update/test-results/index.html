@@ -2,18 +2,18 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>cmc-core - 1.0.0</title>
+    <title>cmc-core - 1.1.0</title>
     <style type="text/css">html,body{font-family:Arial,sans-serif;font-size:1rem;margin:0;padding:0;}body{padding:10px 40px;}h1{margin-bottom:0;}h2{margin-top:0;margin-bottom:0;color:#999;}table{width:100%;margin-top:20px;margin-bottom:20px;table-layout:fixed;}tr.header{background:#ddd;font-weight:bold;border-bottom:none;}td{padding:7px;border-top:none;border-left:1px black solid;border-bottom:1px black solid;border-right:none;word-break:break-all;word-wrap:break-word;}tr.pass td{color:#003b07;background:#86e191;}tr.skip td{color:#7d3a00;background:#ffd24a;}tr.fail td{color:#5e0e00;background:#ff9c8a;}tr:first-child td{border-top:1px black solid;}td:last-child{border-right:1px black solid;}tr.overview{font-weight:bold;color:#777;}tr.overview td{padding-bottom:0px;border-bottom:none;}tr.system-out td{color:#777;}tr.system-errors td{color:#f00;}hr{height:2px;margin:30px 0;background:#000;border:none;}section{margin-top:40px;}h3{margin:6px 0;}.overview{color:#333;font-weight:bold;}.system-out{margin:0.4rem 0;}.system-errors{color:#a94442}.spec{padding:0.8rem;margin:0.3rem 0;}.spec--pass{color:#3c763d;background-color:#dff0d8;border:1px solid #d6e9c6;}.spec--skip{color:#8a6d3b;background-color:#fcf8e3;border:1px solid #faebcc;}.spec--fail{color:#a94442;background-color:#f2dede;border:1px solid #ebccd1;}.spec--group{color:#636363;background-color:#f0f0f0;border:1px solid #e6e6e6;margin:0;}.spec--group:not(:first-of-type){margin:20px 0 0 0;}.spec__title{display:inline;}.spec__suite{display:inline;}.spec__descrip{font-weight:normal;}.spec__status{float:right;}.spec__log{padding-left: 2.3rem;}.hidden{display:none;}body.compact .spec p{margin-top:0;margin-bottom:0.5rem;}body.compact .spec,body.compact tr,body.compact .overview,body.compact .system-out,body.compact .system-errors{font-size:0.85rem;}body.compact .spec{padding:0.3rem 0.5rem;}body.compact section{margin-top:30px;}</style>
   </head>
   <body class="compact">
     <h1>cmc-core</h1>
-    <h2>1.0.0</h2>
+    <h2>1.1.0</h2>
     <table cellspacing="0" cellpadding="0" border="0">
       <tr class="overview">
         <td colspan="3" title="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3617.0 Safari/537.36">Browser: Chrome 72.0.3617 (Linux 0.0.0)</td>
       </tr>
       <tr class="overview">
-        <td colspan="3">Timestamp: 2019-1-8 16:17:17</td>
+        <td colspan="3">Timestamp: 2019-1-8 16:22:02</td>
       </tr>
       <tr>
         <td colspan="3">
@@ -21,7 +21,7 @@
           0 errors / 
           0 failures / 
           0 skipped / 
-          runtime: 66.876s
+          runtime: 67.752s
         </td>
       </tr>
       <tr class="header">
@@ -30,7 +30,7 @@
         <td>Suite / Results</td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.003s</td>
+        <td>Passed in 0.002s</td>
         <td>Set adds an arbitrary key/value mapped entry to the cache.Get takes a key and retrieves the mapped value if it hasn't been ejected, false otherwise</td>
         <td>_core.CacheSpec -> setAndGet -></td>
       </tr>
@@ -45,7 +45,7 @@
         <td>_core.CacheSpec -> clearing -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.081s</td>
+        <td>Passed in 0.085s</td>
         <td>Allows for arbitrary limit</td>
         <td>_core.CacheSpec -> limitAndSize -></td>
       </tr>
@@ -60,7 +60,7 @@
         <td>_core.CacheSpec -> limitAndSize -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>returns a space separated string from a set of strings mapped to booleans</td>
         <td>_core.MiscUtilSpec -> generateStringFromSet -></td>
       </tr>
@@ -90,7 +90,7 @@
         <td>_core.MiscUtilSpec -> findObjectInArray -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>accepts a function instead of a key/val pair</td>
         <td>_core.MiscUtilSpec -> findObjectInArray -></td>
       </tr>
@@ -120,17 +120,17 @@
         <td>_core.MiscUtilSpec -> findObjectWithIndexInArray -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>takes a key and returns a sort function comparing that key for an Immutable List of Map objects.</td>
         <td>_core.MiscUtilSpec -> getImmutableObjectSort -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>takes a key and returns a sort function comparing that key for an Immutable List of Map objects with shared indices.</td>
         <td>_core.MiscUtilSpec -> getImmutableObjectSort -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns a hex string from an rgb string with space separators</td>
         <td>_core.MiscUtilSpec -> getHexFromColorString -></td>
       </tr>
@@ -220,7 +220,7 @@
         <td>_core.MiscUtilSpec -> formatHex -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>returns a string representing the key/value pairs in an object - strings</td>
         <td>_core.MiscUtilSpec -> objectToUrlParams -></td>
       </tr>
@@ -235,7 +235,7 @@
         <td>_core.MiscUtilSpec -> objectToUrlParams -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns an array of objects representing the key/value pairs in a url format hash string</td>
         <td>_core.MiscUtilSpec -> parseUrlQueryString -></td>
       </tr>
@@ -265,7 +265,7 @@
         <td>_core.MiscUtilSpec -> getUrlParams -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns an array of key value objects for a valid query string url</td>
         <td>_core.MiscUtilSpec -> getUrlParams -></td>
       </tr>
@@ -275,7 +275,7 @@
         <td>_core.MiscUtilSpec -> padNumber -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>pads float strings ignoring the .</td>
         <td>_core.MiscUtilSpec -> padNumber -></td>
       </tr>
@@ -300,7 +300,7 @@
         <td>_core.MapUtilSpec -> constrainCoordinates -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>can optionally wrap the y coordinate instead of simply capping it to +-90</td>
         <td>_core.MapUtilSpec -> constrainCoordinates -></td>
       </tr>
@@ -340,7 +340,7 @@
         <td>_core.MapUtilSpec -> deconstrainArcCoordinates -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>takes in a set WMTS url params and returns a valid WMTS tile url.</td>
         <td>_core.MapUtilSpec -> buildTileUrl -></td>
       </tr>
@@ -365,7 +365,7 @@
         <td>_core.MapUtilSpec -> getTileFunction -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns undefined on unmatched function string</td>
         <td>_core.MapUtilSpec -> getTileFunction -></td>
       </tr>
@@ -390,7 +390,7 @@
         <td>_core.MapUtilSpec -> formatDistance -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>formats distance in miles</td>
         <td>_core.MapUtilSpec -> formatDistance -></td>
       </tr>
@@ -400,7 +400,7 @@
         <td>_core.MapUtilSpec -> formatDistance -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>formats distance in school buses</td>
         <td>_core.MapUtilSpec -> formatDistance -></td>
       </tr>
@@ -440,7 +440,7 @@
         <td>_core.MapUtilSpec -> formatArea -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.003s</td>
         <td>converts to metric</td>
         <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
       </tr>
@@ -450,7 +450,7 @@
         <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>converts to nautical</td>
         <td>_core.MapUtilSpec -> convertDistanceUnits -></td>
       </tr>
@@ -500,7 +500,7 @@
         <td>_core.MapUtilSpec -> calculatePolylineDistance -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>calculates area with 4 points</td>
         <td>_core.MapUtilSpec -> calculatePolygonArea -></td>
       </tr>
@@ -555,22 +555,22 @@
         <td>_core.MapUtilSpec -> measureGeometry -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>returns false when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is not appStrings.GEOMETRY_LINE_STRING</td>
         <td>_core.MapUtilSpec -> measureGeometry -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns false when measurementType is appStrings.MEASURE_AREA and geometry.type is not appStrings.GEOMETRY_POLYGON</td>
         <td>_core.MapUtilSpec -> measureGeometry -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.008s</td>
+        <td>Passed in 0.007s</td>
         <td>returns correct measurement when measurementType is appStrings.MEASURE_AREA and geometry.type is appStrings.GEOMETRY_POLYGON</td>
         <td>_core.MapUtilSpec -> measureGeometry -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.011s</td>
+        <td>Passed in 0.012s</td>
         <td>returns correct measurement when measurementType is appStrings.MEASURE_DISTANCE and geometry.type is appStrings.GEOMETRY_LINE_STRING</td>
         <td>_core.MapUtilSpec -> measureGeometry -></td>
       </tr>
@@ -590,7 +590,7 @@
         <td>_core.MapUtilSpec -> formatMeasurement -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>returns false when geometry.type is not appStrings.GEOMETRY_LINE_STRING or appStrings.GEOMETRY_POLYGON</td>
         <td>_core.MapUtilSpec -> getLabelPosition -></td>
       </tr>
@@ -600,7 +600,7 @@
         <td>_core.MapUtilSpec -> getLabelPosition -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>returns false when extent is not of type Array</td>
         <td>_core.MapUtilSpec -> parseStringExtent -></td>
       </tr>
@@ -635,12 +635,12 @@
         <td>_core.StoreAnalyticsSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0.002s</td>
         <td>disables user analytics</td>
         <td>_core.StoreAnalyticsSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>Sets async state given key and new async state</td>
         <td>_core.StoreAsyncSpec -> default -></td>
       </tr>
@@ -660,7 +660,7 @@
         <td>_core.StoreDateSliderSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0.003s</td>
         <td>ends dragging</td>
         <td>_core.StoreDateSliderSpec -> default -></td>
       </tr>
@@ -695,12 +695,12 @@
         <td>_core.StoreHelpSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>opening help resets the selected page</td>
         <td>_core.StoreHelpSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0.002s</td>
         <td>opens layer info and sets the correct layer object.</td>
         <td>_core.StoreLayerInfoSpec -> default -></td>
       </tr>
@@ -710,7 +710,7 @@
         <td>_core.StoreLayerInfoSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>fails on initialization of map with non-matching map type</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -725,62 +725,62 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.061s</td>
+        <td>Passed in 0.064s</td>
         <td>initializes 2D and 3D maps</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.059s</td>
+        <td>Passed in 0.069s</td>
         <td>initializes 3D and 2D maps</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.061s</td>
+        <td>Passed in 0.062s</td>
         <td>can enable 3D terrain</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.059s</td>
+        <td>Passed in 0.077s</td>
         <td>can set 3D terrain exaggeration</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.062s</td>
+        <td>Passed in 0.065s</td>
         <td>can disable 3D terrain</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.062s</td>
+        <td>Passed in 0.085s</td>
         <td>can set map view mode to 3D without 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.082s</td>
+        <td>Passed in 0.068s</td>
         <td>can set map view mode to 3D with 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.003s</td>
         <td>can set map view mode to 2D without 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.062s</td>
+        <td>Passed in 0.066s</td>
         <td>can set map view mode to 2D with 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.061s</td>
+        <td>Passed in 0.062s</td>
         <td>can reset 3D map orientation</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.061s</td>
+        <td>Passed in 0.063s</td>
         <td>can set 2D map view info</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.062s</td>
+        <td>Passed in 0.064s</td>
         <td>can set 3D map view info</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -790,32 +790,32 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 3.851s</td>
+        <td>Passed in 3.911s</td>
         <td>can zoom out</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 3.005s</td>
+        <td>Passed in 3.004s</td>
         <td>can zoom out with no 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 3.795s</td>
+        <td>Passed in 3.911s</td>
         <td>can zoom in</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 2.005s</td>
+        <td>Passed in 2.004s</td>
         <td>can zoom in with no 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 5.784s</td>
+        <td>Passed in 5.914s</td>
         <td>can zoom in and out</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 4.005s</td>
+        <td>Passed in 4.004s</td>
         <td>can zoom in and out with no 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -845,7 +845,7 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0.002s</td>
         <td>can enable drawing a box on a 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -855,17 +855,17 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.064s</td>
+        <td>Passed in 0.062s</td>
         <td>can enable drawing a circle on a 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.068s</td>
+        <td>Passed in 0.066s</td>
         <td>can enable drawing a line string on a 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.063s</td>
+        <td>Passed in 0.077s</td>
         <td>can enable drawing a polygon on a 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -875,57 +875,57 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.066s</td>
+        <td>Passed in 0.065s</td>
         <td>can enable drawing a box on a 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.065s</td>
+        <td>Passed in 0.068s</td>
         <td>can enable drawing a (single) line on a 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.013s</td>
+        <td>Passed in 0.004s</td>
         <td>can disable drawing on a 2D map and clear previous drawing type</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.065s</td>
+        <td>Passed in 0.067s</td>
         <td>can disable drawing on a 3D map and clear previous drawing type</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.007s</td>
+        <td>Passed in 0.006s</td>
         <td>can add geometry to 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.067s</td>
+        <td>Passed in 0.071s</td>
         <td>can add geometry to 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.063s</td>
+        <td>Passed in 0.073s</td>
         <td>can remove all drawings from 2D and 3D maps</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.003s</td>
+        <td>Passed in 0.002s</td>
         <td>can remove all drawings from 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 2.852s</td>
+        <td>Passed in 2.95s</td>
         <td>can add measurement label to geometry on 2D and 3D maps</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 2.028s</td>
+        <td>Passed in 2.017s</td>
         <td>can add measurement label to geometry on 2D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 4.846s</td>
+        <td>Passed in 5.049s</td>
         <td>can remove all measurements in 2D and 3D maps</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -935,22 +935,22 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.041s</td>
+        <td>Passed in 0.048s</td>
         <td>can injest wmts and json layer configurations as well as palette configurations. Big test.</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.08s</td>
+        <td>Passed in 0.083s</td>
         <td>can activate layers</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.01s</td>
+        <td>Passed in 0.009s</td>
         <td>can activate layers with no 3D map</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 4.882s</td>
+        <td>Passed in 5.073s</td>
         <td>can deactivate layers</td>
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
@@ -960,7 +960,7 @@
         <td>_core.StoreMapSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>opens settings.</td>
         <td>_core.StoreSettingsSpec -> default -></td>
       </tr>
@@ -975,7 +975,7 @@
         <td>_core.StoreSettingsSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>enables auto update url</td>
         <td>_core.StoreSharesSpec -> default -></td>
       </tr>
@@ -1005,7 +1005,7 @@
         <td>_core.StoreSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>does nothing on a NO_ACTION</td>
         <td>_core.StoreSpec -> default -></td>
       </tr>
@@ -1020,7 +1020,7 @@
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>can set full screen enabled</td>
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
@@ -1030,32 +1030,32 @@
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.002s</td>
+        <td>Passed in 0.001s</td>
         <td>can set layer menu open</td>
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>can set layer menu closed</td>
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0s</td>
+        <td>Passed in 0.001s</td>
         <td>can set layer menu open and closed</td>
         <td>_core.StoreViewSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.001s</td>
+        <td>Passed in 0s</td>
         <td>The state model creates a worker manager that defaults to having no workers active</td>
         <td>_core.WebWorkerSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 0.003s</td>
+        <td>Passed in 0.004s</td>
         <td>Can create and clear workers</td>
         <td>_core.WebWorkerSpec -> default -></td>
       </tr>
       <tr class="pass">
-        <td>Passed in 20.059s</td>
+        <td>Passed in 20.064s</td>
         <td>Queue up jobs for workers</td>
         <td>_core.WebWorkerSpec -> default -></td>
       </tr>
@@ -1068,15 +1068,15 @@
         <td colspan="3"><strong>System output:</strong><br />Chrome 72.0.3617 (Linux 0.0.0) ERROR: 'You are currently using minified code outside of NODE_ENV === "production". This means that you are running a slower development build of Redux. You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) to ensure you have the correct code for your production build.'
 <br />Chrome 72.0.3617 (Linux 0.0.0) WARN: 'Error in MapUtil.calculatePolylineDistance: ', TypeError: coordinates must be finite numbers
 TypeError: coordinates must be finite numbers
-    at Fe (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:616:2982098)
-    at Re (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:616:2981992)
-    at Ne (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:616:2982310)
-    at Be (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:616:2983017)
-    at Ue (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:616:2983371)
-    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:135109
+    at Fe (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:616:2982098)
+    at Re (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:616:2981992)
+    at Ne (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:616:2982310)
+    at Be (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:616:2983017)
+    at Ue (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:616:2983371)
+    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:135109
     at Array.map (<anonymous>)
-    at Function.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:135063)
-    at Context.<anonymous> (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:202737)
+    at Function.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:135063)
+    at Context.<anonymous> (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:202737)
     at callFn (http://localhost:9876/base/node_modules/mocha/mocha.js?840d4fbbcc65a16cec39f9e25af2ea6d2cff68ea:4550:21)
 <br />Chrome 72.0.3617 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure geometry, unsupported geometry type: ', 'Circle'
 <br />Chrome 72.0.3617 (Linux 0.0.0) WARN: 'Error in MapUtil.measureGeometry: Could not measure geometry, unsupported measurement type: ', 'beepbloop'
@@ -1117,16 +1117,16 @@ TypeError: coordinates must be finite numbers
 <br />Chrome 72.0.3617 (Linux 0.0.0) LOG: te{_baseLayerPickerDropDown: undefined, _fullscreenSubscription: undefined, _vrSubscription: undefined, _vrModeSubscription: undefined, _dataSourceChangedListeners: Object{}, _automaticallyTrackDataSourceClocks: true, _container: <div id="map3D"><div class="cesium-viewer"><div class="cesium-viewer-cesiumWidgetContainer"><div class="cesium-widget"><canvas width="300" height="150" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div></div><div class="cesium-viewer-bottom"><div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link">Data attribution</a></div></div><div class="cesium-viewer-toolbar"></div></div></div>, _bottomContainer: <div class="cesium-viewer-bottom"><div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link">Data attribution</a></div></div>, _element: <div class="cesium-viewer"><div class="cesium-viewer-cesiumWidgetContainer"><div class="cesium-widget"><canvas width="300" height="150" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div></div><div class="cesium-viewer-bottom"><div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link">Data attribution</a></div></div><div class="cesium-viewer-toolbar"></div></div>, _cesiumWidget: x{_supportsImageRenderingPixelated: true, _element: <div class="cesium-widget"><canvas width="300" height="150" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div>, _container: <div class="cesium-viewer-cesiumWidgetContainer"><div class="cesium-widget"><canvas width="300" height="150" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div></div>, _canvas: <canvas width="300" height="150" style="image-rendering: pixelated;"></canvas>, _canvasWidth: 300, _canvasHeight: 150, _creditViewport: <div class="cesium-widget"><canvas width="300" height="150" style="image-rendering: pixelated;"></canvas><div class="cesium-credit-lightbox-overlay"><div class="cesium-credit-lightbox"><div class="cesium-credit-lightbox-title">Data provided by:</div><a class="cesium-credit-lightbox-close">×</a><ul></ul></div></div></div>, _creditContainer: <div class="cesium-viewer-bottom"><div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link">Data attribution</a></div></div>, _innerCreditContainer: <div class="cesium-widget-credits"><div class="cesium-credit-logoContainer" style="display: inline;"></div><div class="cesium-credit-textContainer" style="display: inline;"></div><a class="cesium-credit-expand-link">Data attribution</a></div>, _canRender: true, _renderLoopRunning: true, _showRenderLoopErrors: true, _resolutionScale: 1, _forceResize: false, _clock: u{startTime: ..., stopTime: ..., clockRange: ..., canAnimate: ..., onTick: ..., onStop: ..., _currentTime: ..., _multiplier: ..., _clockStep: ..., _shouldAnimate: ..., _lastSystemTime: ...}, _scene: Pe{_id: ..., _jobScheduler: ..., _frameState: ..., _removeCreditContainer: ..., _creditContainer: ..., _canvas: ..., _context: ..., _computeEngine: ..., _globe: ..., _primitives: ..., _groundPrimitives: ..., _asyncRayPicks: ..., _logDepthBuffer: ..., _logDepthBufferDirty: ..., _tweens: ..., _shaderFrameCount: ..., _sunPostProcess: ..., _computeCommandList: ..., _overlayCommandList: ..., _useOIT: ..., _executeOITFunction: ..., _depthPlane: ..., _clearColorCommand: ..., _depthClearCommand: ..., _stencilClearCommand: ..., _depthOnlyRenderStateCache: ..., _pickRenderStateCache: ..., _transitioner: ..., _preUpdate: ..., _postUpdate: ..., _renderError: ..., _preRender: ..., _postRender: ..., _pickPositionCache: ..., _pickPositionCacheDirty: ..., _minimumDisableDepthTestDistance: ..., rethrowRenderErrors: ..., completeMorphOnUserInput: ..., morphStart: ..., morphComplete: ..., skyBox: ..., skyAtmosphere: ..., sun: ..., sunBloom: ..., _sunBloom: ..., moon: ..., backgroundColor: ..., _mode: ..., _mapProjection: ..., morphTime: ..., farToNearRatio: ..., logarithmicDepthFarToNearRatio: ..., nearToFarDistance2D: ..., debugCommandFilter: ..., debugShowCommands: ..., debugShowFrustums: ..., debugShowFramesPerSecond: ..., debugShowGlobeDepth: ..., debugShowDepthFrustum: ..., debugShowFrustumPlanes: ..., _debugShowFrustumPlanes: ..., _debugFrustumPlanes: ..., useDepthPicking: ..., pickTranslucentDepth: ..., cameraEventWaitTime: ..., fog: ..., _sunCamera: ..., shadowMap: ..., invertClassification: ..., invertClassificationColor: ..., _actualInvertClassificationColor: ..., _invertClassification: ..., focalLength: ..., eyeSeparation: ..., postProcessStages: ..., _brdfLutGenerator: ..., _terrainExaggeration: ..., _performanceDisplay: ..., _debugVolume: ..., _screenSpaceCameraController: ..., _mapMode2D: ..., _environmentState: ..., _useWebVR: ..., _cameraVR: ..., _aspectRatioVR: ..., requestRenderMode: ..., _renderRequested: ..., maximumRenderTimeChange: ..., _lastRenderTime: ..., _frameRateMonitor: ..., _removeRequestListenerCallback: ..., _removeTaskProcessorListenerCallback: ..., _removeGlobeCallbacks: ..., _view: ..., _pickOffscreenView: ..., _defaultView: ..., _hdr: ..., _hdrDirty: ..., _sunColor: ..., sphericalHarmonicCoefficients: ..., specularEnvironmentMaps: ..., _specularEnvironmentMapAtlas: ...}, _screenSpaceEventHandler: R{_inputEvents: ..., _buttonDown: ..., _isPinching: ..., _lastSeenTouchEvent: ..., _primaryStartPosition: ..., _primaryPosition: ..., _primaryPreviousPosition: ..., _positions: ..., _previousPositions: ..., _removalFunctions: ..., _clickPixelTolerance: ..., _element: ...}, _useDefaultRenderLoop: true, _targetFrameRate: undefined}, _selectionIndicator: undefined, _infoBox: undefined, _dataSourceCollection: l{_dataSources: [], _dataSourceAdded: r{_listeners: ..., _scopes: ..., _toRemove: ..., _insideRaiseEvent: ...}, _dataSourceRemoved: r{_listeners: ..., _scopes: ..., _toRemove: ..., _insideRaiseEvent: ...}, _dataSourceMoved: r{_listeners: ..., _scopes: ..., _toRemove: ..., _insideRaiseEvent: ...}}, _destroyDataSourceCollection: true, _dataSourceDisplay: b{_eventHelper: i{_removalFunctions: ...}, _dataSourceCollection: l{_dataSources: ..., _dataSourceAdded: ..., _dataSourceRemoved: ..., _dataSourceMoved: ...}, _scene: Pe{_id: ..., _jobScheduler: ..., _frameState: ..., _removeCreditContainer: ..., _creditContainer: ..., _canvas: ..., _context: ..., _computeEngine: ..., _globe: ..., _primitives: ..., _groundPrimitives: ..., _asyncRayPicks: ..., _logDepthBuffer: ..., _logDepthBufferDirty: ..., _tweens: ..., _shaderFrameCount: ..., _sunPostProcess: ..., _computeCommandList: ..., _overlayCommandList: ..., _useOIT: ..., _executeOITFunction: ..., _depthPlane: ..., _clearColorCommand: ..., _depthClearCommand: ..., _stencilClearCommand: ..., _depthOnlyRenderStateCache: ..., _pickRenderStateCache: ..., _transitioner: ..., _preUpdate: ..., _postUpdate: ..., _renderError: ..., _preRender: ..., _postRender: ..., _pickPositionCache: ..., _pickPositionCacheDirty: ..., _minimumDisableDepthTestDistance: ..., rethrowRenderErrors: ..., completeMorphOnUserInput: ..., morphStart: ..., morphComplete: ..., skyBox: ..., skyAtmosphere: ..., sun: ..., sunBloom: ..., _sunBloom: ..., moon: ..., backgroundColor: ..., _mode: ..., _mapProjection: ..., morphTime: ..., farToNearRatio: ..., logarithmicDepthFarToNearRatio: ..., nearToFarDistance2D: ..., debugCommandFilter: ..., debugShowCommands: ..., debugShowFrustums: ..., debugShowFramesPerSecond: ..., debugShowGlobeDepth: ..., debugShowDepthFrustum: ..., debugShowFrustumPlanes: ..., _debugShowFrustumPlanes: ..., _debugFrustumPlanes: ..., useDepthPicking: ..., pickTranslucentDepth: ..., cameraEventWaitTime: ..., fog: ..., _sunCamera: ..., shadowMap: ..., invertClassification: ..., invertClassificationColor: ..., _actualInvertClassificationColor: ..., _invertClassification: ..., focalLength: ..., eyeSeparation: ..., postProcessStages: ..., _brdfLutGenerator: ..., _terrainExaggeration: ..., _performanceDisplay: ..., _debugVolume: ..., _screenSpaceCameraController: ..., _mapMode2D: ..., _environmentState: ..., _useWebVR: ..., _cameraVR: ..., _aspectRatioVR: ..., requestRenderMode: ..., _renderRequested: ..., maximumRenderTimeChange: ..., _lastRenderTime: ..., _frameRateMonitor: ..., _removeRequestListenerCallback: ..., _removeTaskProcessorListenerCallback: ..., _removeGlobeCallbacks: ..., _view: ..., _pickOffscreenView: ..., _defaultView: ..., _hdr: ..., _hdrDirty: ..., _sunColor: ..., sphericalHarmonicCoefficients: ..., specularEnvironmentMaps: ..., _specularEnvironmentMapAtlas: ...}, _visualizersCallback: function(e,t,i){ ... }, _primitives: a{_primitives: ..., _guid: ..., _zIndex: ..., show: ..., destroyPrimitives: ...}, _groundPrimitives: a{_primitives: ..., _guid: ..., _zIndex: ..., show: ..., destroyPrimitives: ...}, _defaultDataSource: s{_name: ..., _clock: ..., _changed: ..., _error: ..., _isLoading: ..., _loading: ..., _entityCollection: ..., _entityCluster: ..., _primitives: ..., _groundPrimitives: ..., _visualizers: ...}, _removeDefaultDataSoureListener: function(){ ... }, _removeDataSourceCollectionListener: function(){ ... }, _ready: false}, _clockViewModel: s{_clock: u{startTime: ..., stopTime: ..., clockRange: ..., canAnimate: ..., onTick: ..., onStop: ..., _currentTime: ..., _multiplier: ..., _clockStep: ..., _shouldAnimate: ..., _lastSystemTime: ...}, _eventHelper: i{_removalFunctions: ...}, systemTime: m{dayNumber: ..., secondsOfDay: ...}, startTime: m{dayNumber: ..., secondsOfDay: ...}, stopTime: m{dayNumber: ..., secondsOfDay: ...}, currentTime: m{dayNumber: ..., secondsOfDay: ...}, multiplier: 1, clockStep: 1, clockRange: 0, canAnimate: true, shouldAnimate: false}, _destroyClockViewModel: true, _toolbar: <div class="cesium-viewer-toolbar"></div>, _homeButton: undefined, _sceneModePicker: undefined, _projectionPicker: undefined, _baseLayerPicker: undefined, _navigationHelpButton: undefined, _animation: undefined, _timeline: undefined, _fullscreenButton: undefined, _vrButton: undefined, _geocoder: undefined, _eventHelper: i{_removalFunctions: [..., ..., ..., ..., ..., ..., ..., ...]}, _lastWidth: 0, _lastHeight: 0, _allowDataSourcesToSuspendAnimation: true, _entityView: undefined, _enableInfoOrSelection: false, _clockTrackedDataSource: undefined, _trackedEntity: undefined, _needTrackedEntityUpdate: false, _selectedEntity: undefined, _forceResize: false, _zoomIsFlight: false, _zoomTarget: undefined, _zoomPromise: undefined, _zoomOptions: undefined, _selectedEntityChanged: r{_listeners: [], _scopes: [], _toRemove: [], _insideRaiseEvent: false}, _trackedEntityChanged: r{_listeners: [], _scopes: [], _toRemove: [], _insideRaiseEvent: false}}
 <br />Chrome 72.0.3617 (Linux 0.0.0) WARN: 'Error in MapWrapperCesium.setLayerOpacity:', TypeError: Cannot read property 'getValue' of undefined
 TypeError: Cannot read property 'getValue' of undefined
-    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:798207
+    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:798207
     at Array.map (<anonymous>)
-    at t.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:797209)
-    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:804739
+    at t.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:797209)
+    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:804739
 <br />Chrome 72.0.3617 (Linux 0.0.0) WARN: 'Error in MapWrapperCesium.setLayerOpacity:', TypeError: Cannot read property 'getValue' of undefined
 TypeError: Cannot read property 'getValue' of undefined
-    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:798207
+    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:798207
     at Array.map (<anonymous>)
-    at t.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:797209)
-    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?018a872a53ec68478531a2eb01ac247011c8f928:622:804739
+    at t.value (http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:797209)
+    at http://localhost:9876/base/src/tests/core-test-overrides.spec.js?e519982804b41422ff83d439fa58a71a637d02f9:622:804739
 <br />Chrome 72.0.3617 (Linux 0.0.0) LOG: 'An error occurred in "m": Failed to obtain image tile X: 0 Y: 0 Level: 0.'
 <br />Chrome 72.0.3617 (Linux 0.0.0) LOG: 'An error occurred in "m": Failed to obtain image tile X: 1 Y: 0 Level: 0.'
 </td>
