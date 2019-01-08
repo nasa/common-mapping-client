@@ -83,6 +83,25 @@
  * This source code is licensed under the APACHE 2.0 license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+.IconButtonSmall__root___1wizf {
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  font-size: 2rem; }
+
+.IconButtonSmall__label___2zaWE {
+  font-size: inherit; }
+
+.IconButtonSmall__root___1wizf svg {
+  width: 1em;
+  height: 1em;
+  font-size: inherit; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -130,25 +149,6 @@
  * This source code is licensed under the APACHE 2.0 license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-.IconButtonSmall__root___1wizf {
-  width: 30px;
-  height: 30px;
-  padding: 0px;
-  font-size: 2rem; }
-
-.IconButtonSmall__label___2zaWE {
-  font-size: inherit; }
-
-.IconButtonSmall__root___1wizf svg {
-  width: 1em;
-  height: 1em;
-  font-size: inherit; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
 .MapToolsMenu__mapToolsMenu___10kAQ {
   display: block; }
 
@@ -163,6 +163,8 @@
     font-size: 2rem;
     padding-left: 1px;
     padding-top: 0px; }
+.ClickAwayListener__wrap___135mH {
+  display: inline-block; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -195,8 +197,6 @@
 
 .MapButton__flatPrimary___2MKqT {
   color: #e91e63; }
-.ClickAwayListener__wrap___135mH {
-  display: inline-block; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -333,6 +333,37 @@
  */
 /* colors */
 /* neutrals */
+.BasemapPicker__basemapPicker___10CS1 {
+  margin-top: 10px; }
+
+.BasemapPicker__image___l0xRz {
+  width: 100%;
+  height: 44px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.BasemapPicker__caption___bCCHR {
+  font-weight: 500;
+  padding: 2px 8px 2px 3px; }
+
+.BasemapPicker__buttonBase___r-mpP {
+  padding: 2px;
+  padding-bottom: 0px; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/* colors */
+/* neutrals */
 .BaseMapList__preview___1IJ7y {
   width: 50px;
   height: 50px;
@@ -353,37 +384,6 @@
 
 .BaseMapList__selectMenuIcon___3CxBe {
   top: 24px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/* colors */
-/* neutrals */
-.BasemapPicker__basemapPicker___10CS1 {
-  margin-top: 10px; }
-
-.BasemapPicker__image___l0xRz {
-  width: 100%;
-  height: 44px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover; }
-
-.BasemapPicker__caption___bCCHR {
-  font-weight: 500;
-  padding: 2px 8px 2px 3px; }
-
-.BasemapPicker__buttonBase___r-mpP {
-  padding: 2px;
-  padding-bottom: 0px; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -624,6 +624,23 @@
  * This source code is licensed under the APACHE 2.0 license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+.AlertGroup__root___xBv9z {
+  margin: 0px 1.5rem 2.5rem 1.5rem;
+  padding-top: 1.5rem; }
+
+.AlertGroup__title___vMoh8 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333333; }
+
+.AlertGroup__body___3Nj4G {
+  margin: 0.3rem 0px 0px 1.5rem; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -646,23 +663,6 @@
           user-select: text;
   background: #fafafa;
   padding: 5px 10px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-.AlertGroup__root___xBv9z {
-  margin: 0px 1.5rem 2.5rem 1.5rem;
-  padding-top: 1.5rem; }
-
-.AlertGroup__title___vMoh8 {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #333333; }
-
-.AlertGroup__body___3Nj4G {
-  margin: 0.3rem 0px 0px 1.5rem; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
