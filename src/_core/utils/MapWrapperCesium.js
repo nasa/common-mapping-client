@@ -90,6 +90,8 @@ export default class MapWrapperCesium extends MapWrapper {
     initObjects(container, options) {
         this.map = this.createMap(container, options);
 
+        console.log(this.map);
+
         // Only continue if map was created
         if (this.map) {
             // Create cesium-draw-helper
@@ -204,7 +206,11 @@ export default class MapWrapperCesium extends MapWrapper {
             // disable right click zoom weirdness
             map.scene.screenSpaceCameraController.zoomEventTypes = this.cesium.CameraEventType.WHEEL;
 
+            // set base color
             map.scene.globe.baseColor = this.cesium.Color.BLACK;
+
+            // remove ground atmosphere
+            map.scene.globe.showGroundAtmosphere = false;
 
             //remove all preloaded earth layers
             map.scene.globe.imageryLayers.removeAll();
