@@ -108,6 +108,9 @@ module.exports = options => {
     let webpackConfig = {
         mode: options.isProduction ? "production" : "development",
         devtool: options.devtool, // what kind of sourcemap to use
+        optimization: {
+            minimize: options.isProduction
+        },
         entry: {
             index:
                 typeof options.entry != "undefined"
@@ -239,10 +242,7 @@ module.exports = options => {
     };
 
     if (options.isProduction) {
-        webpackConfig.plugins.push(
-            new webpack.optimize.UglifyJsPlugin(), // Minimize scripts and css in output
-            new webpack.optimize.OccurrenceOrderPlugin()
-        );
+        webpackConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
     } else {
         webpackConfig.plugins.push(
             new webpack.HotModuleReplacementPlugin(), // Used for Browsersync
