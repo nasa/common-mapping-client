@@ -333,6 +333,37 @@
  */
 /* colors */
 /* neutrals */
+.BasemapPicker__basemapPicker___10CS1 {
+  margin-top: 10px; }
+
+.BasemapPicker__image___l0xRz {
+  width: 100%;
+  height: 44px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.BasemapPicker__caption___bCCHR {
+  font-weight: 500;
+  padding: 2px 8px 2px 3px; }
+
+.BasemapPicker__buttonBase___r-mpP {
+  padding: 2px;
+  padding-bottom: 0px; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/* colors */
+/* neutrals */
 .BaseMapList__preview___1IJ7y {
   width: 50px;
   height: 50px;
@@ -353,6 +384,24 @@
 
 .BaseMapList__selectMenuIcon___3CxBe {
   top: 24px; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+.DrawingTooltip__drawingTooltip___16zfD {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  word-wrap: normal;
+  letter-spacing: 0.04rem;
+  max-width: 250px; }
+
+.DrawingTooltip__beginHint___1NyyL {
+  font-weight: 400; }
+
+.DrawingTooltip__endHint___3M-m_ {
+  font-weight: 300; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -405,55 +454,6 @@
 
 .MapControlsContainer__singleButton___3RIy8 {
   border-radius: 2px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/* colors */
-/* neutrals */
-.BasemapPicker__basemapPicker___10CS1 {
-  margin-top: 10px; }
-
-.BasemapPicker__image___l0xRz {
-  width: 100%;
-  height: 44px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover; }
-
-.BasemapPicker__caption___bCCHR {
-  font-weight: 500;
-  padding: 2px 8px 2px 3px; }
-
-.BasemapPicker__buttonBase___r-mpP {
-  padding: 2px;
-  padding-bottom: 0px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-.DrawingTooltip__drawingTooltip___16zfD {
-  padding: 0.5rem 1rem;
-  font-size: 1.2rem;
-  word-wrap: normal;
-  letter-spacing: 0.04rem;
-  max-width: 250px; }
-
-.DrawingTooltip__beginHint___1NyyL {
-  font-weight: 400; }
-
-.DrawingTooltip__endHint___3M-m_ {
-  font-weight: 300; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -1386,22 +1386,6 @@
  * This source code is licensed under the APACHE 2.0 license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-.DatePickerContainer__datePickerContainer___3tKu3 {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  z-index: 2;
-  width: 200px;
-  padding: 0px;
-  height: 6rem;
-  background: white;
-  border-top-right-radius: 2px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -1438,6 +1422,22 @@ button.AppContainer__context-menu-item___1M1Z0 {
   height: 100%;
   overflow: hidden;
   white-space: nowrap; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+.DatePickerContainer__datePickerContainer___3tKu3 {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+  width: 200px;
+  padding: 0px;
+  height: 6rem;
+  background: white;
+  border-top-right-radius: 2px; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
