@@ -90,7 +90,6 @@ export default class MapWrapperCesium extends MapWrapper {
     initObjects(container, options) {
         this.map = this.createMap(container, options);
 
-        console.log(this.map);
 
         // Only continue if map was created
         if (this.map) {
