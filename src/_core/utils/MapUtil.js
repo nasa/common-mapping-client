@@ -12,10 +12,10 @@ import Qty from "js-quantities";
 import turfCentroid from "turf-centroid";
 import proj4js from "proj4";
 import { GreatCircle } from "assets/arc/arc";
-import Ol_Format_WMTSCapabilities from "ol/format/wmtscapabilities";
-import Ol_Source_WMTS from "ol/source/wmts";
-import Ol_Proj from "ol/proj";
-import Ol_Proj_Projection from "ol/proj/projection";
+import Ol_Format_WMTSCapabilities from "ol/format/WMTSCapabilities";
+import { optionsFromCapabilities } from "ol/source/WMTS";
+import * as Ol_Proj from "ol/proj";
+import { register as Ol_Proj4_register } from "ol/proj/proj4";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MiscUtil from "_core/utils/MiscUtil";
@@ -193,10 +193,7 @@ export default class MapUtil {
      */
     static getWmtsOptions(options) {
         try {
-            let parseOptions = Ol_Source_WMTS.optionsFromCapabilities(
-                options.capabilities,
-                options.options
-            );
+            let parseOptions = optionsFromCapabilities(options.capabilities, options.options);
             return {
                 url: parseOptions.urls[0],
                 layer: options.options.layer,
@@ -238,8 +235,8 @@ export default class MapUtil {
      * @memberof MapUtil
      */
     static prepProjection(projectionList = appConfig.DEFAULT_AVAILABLE_PROJECTIONS) {
-        // assign the proj4js instance to openlayers
-        Ol_Proj.setProj4(proj4js);
+        // initially assign the proj4js instance to openlayers
+        Ol_Proj4_register(proj4js);
 
         // make sure we're using a list
         if (!(projectionList instanceof Array)) {
@@ -251,9 +248,10 @@ export default class MapUtil {
             let projection = projectionList[i];
 
             // add configured projection
-            let projDef = proj4js.defs(projection.code);
+            let proj4Def = proj4js.defs(projection.code);
             if (typeof proj4Def === "undefined") {
                 proj4js.defs(projection.code, projection.proj4Def);
+                Ol_Proj4_register(proj4js); // catch registry updates
                 Ol_Proj.get(projection.code).setExtent(projection.extent);
             }
 
@@ -261,6 +259,7 @@ export default class MapUtil {
             if (typeof projection.aliases !== "undefined") {
                 for (let i = 0; i < projection.aliases.length; ++i) {
                     proj4js.defs(projection.aliases[i], proj4js.defs(projection.code));
+                    Ol_Proj4_register(proj4js); // catch registry updates
                 }
             }
         }

@@ -5,38 +5,35 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import Immutable from "immutable";
 import moment from "moment";
-import Ol_Map from "ol/map";
-import Ol_View from "ol/view";
-import Ol_Layer_Vector from "ol/layer/vector";
-import Ol_Layer_Tile from "ol/layer/tile";
-import Ol_Source_WMTS from "ol/source/wmts";
-import Ol_Source_Cluster from "ol/source/cluster";
-import Ol_Source_Vector from "ol/source/vector";
-import Ol_Source_XYZ from "ol/source/xyz";
-import Ol_Tilegrid_WMTS from "ol/tilegrid/wmts";
-import Ol_Style_Fill from "ol/style/fill";
-import Ol_Style from "ol/style/style";
-import Ol_Style_Circle from "ol/style/circle";
-import Ol_Style_Stroke from "ol/style/stroke";
-import Ol_Proj from "ol/proj";
-import Ol_Proj_Projection from "ol/proj/projection";
-import Ol_Interaction from "ol/interaction";
-import Ol_Interaction_Draw from "ol/interaction/draw";
-import Ol_Interaction_DoubleClickZoom from "ol/interaction/doubleclickzoom";
-import Ol_Overlay from "ol/overlay";
-import Ol_Feature from "ol/feature";
-import Ol_Geom_Circle from "ol/geom/circle";
-import Ol_Geom_Linestring from "ol/geom/linestring";
-import Ol_Geom_Polygon from "ol/geom/polygon";
-import Ol_Geom_Point from "ol/geom/point";
-import OL_Geom_GeometryType from "ol/geom/geometrytype";
-import Ol_Format_GeoJSON from "ol/format/geojson";
-import Ol_Format_TopoJSON from "ol/format/topojson";
-import Ol_Format_KML from "ol/format/kml";
-import Ol_Easing from "ol/easing";
-import proj4js from "proj4";
+import Ol_Map from "ol/Map";
+import Ol_View from "ol/View";
+import Ol_Layer_Vector from "ol/layer/Vector";
+import Ol_Layer_Tile from "ol/layer/Tile";
+import Ol_Source_WMTS from "ol/source/WMTS";
+import Ol_Source_Cluster from "ol/source/Cluster";
+import Ol_Source_Vector from "ol/source/Vector";
+import Ol_Source_XYZ from "ol/source/XYZ";
+import Ol_Tilegrid_WMTS from "ol/tilegrid/WMTS";
+import Ol_Style_Fill from "ol/style/Fill";
+import Ol_Style from "ol/style/Style";
+import Ol_Style_Circle from "ol/style/Circle";
+import Ol_Style_Stroke from "ol/style/Stroke";
+import * as Ol_Proj from "ol/proj";
+import { defaults as Ol_Interaction_Defaults } from "ol/interaction";
+import Ol_Interaction_Draw, { createBox } from "ol/interaction/Draw";
+import Ol_Interaction_DoubleClickZoom from "ol/interaction/DoubleClickZoom";
+import Ol_Overlay from "ol/Overlay";
+import Ol_Feature from "ol/Feature";
+import Ol_Geom_Circle from "ol/geom/Circle";
+import Ol_Geom_Linestring from "ol/geom/LineString";
+import Ol_Geom_Polygon from "ol/geom/Polygon";
+import Ol_Geom_Point from "ol/geom/Point";
+import OL_Geom_GeometryType from "ol/geom/GeometryType";
+import Ol_Format_GeoJSON from "ol/format/GeoJSON";
+import Ol_Format_TopoJSON from "ol/format/TopoJSON";
+import Ol_Format_KML from "ol/format/KML";
+import * as Ol_Easing from "ol/easing";
 import * as appStrings from "_core/constants/appStrings";
 import appConfig from "constants/appConfig";
 import MapWrapper from "_core/utils/MapWrapper";
@@ -144,11 +141,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             // get the view options for the map
             let viewOptions = options.get("view").toJS();
             let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
-            let center = viewOptions.center;
 
             return new Ol_Map({
                 target: container,
-                renderer: ["canvas", "dom"],
                 layers: [vectorLayer],
                 view: new Ol_View({
                     maxZoom: viewOptions.maxZoom,
@@ -157,7 +152,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     maxResolution: viewOptions.maxResolution
                 }),
                 controls: [],
-                interactions: Ol_Interaction.defaults({
+                interactions: Ol_Interaction_Defaults({
                     altShiftDragRotate: false,
                     pinchRotate: false,
                     shiftDragZoom: false,
@@ -1182,8 +1177,6 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             let mapProjection = Ol_Proj.get(appConfig.DEFAULT_PROJECTION.code);
             if (mapLayer) {
                 let measureDistGeom = (coords, opt_geom) => {
-                    let geom = opt_geom ? opt_geom : new Ol_Geom_Linestring();
-
                     // remove duplicates
                     let newCoords = coords.reduce((acc, coord, i) => {
                         let prev = acc[i - 1];
@@ -1206,13 +1199,14 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     let transformedOriginalCoords = newCoords.map(coords =>
                         Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
                     );
+
+                    let geom = opt_geom ? opt_geom : new Ol_Geom_Linestring(transformedLineCoords);
                     geom.setCoordinates(transformedLineCoords);
                     geom.set("originalCoordinates", transformedOriginalCoords, true);
                     return geom;
                 };
                 let measureAreaGeom = (coords, opt_geom) => {
                     coords = coords[0]; // TODO: find case where this isn't what we want
-                    let geom = opt_geom ? opt_geom : new Ol_Geom_Polygon();
 
                     // remove duplicates
                     let newCoords = coords.reduce((acc, coord, i) => {
@@ -1241,6 +1235,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     let transformedOriginalCoords = newCoords.map(coords =>
                         Ol_Proj.transform(coords, appStrings.PROJECTIONS.latlon.code, mapProjection)
                     );
+                    let geom = opt_geom ? opt_geom : new Ol_Geom_Polygon([transformedLineCoords]);
                     geom.setCoordinates([transformedLineCoords]);
                     geom.set("originalCoordinates", transformedOriginalCoords, true);
                     return geom;
@@ -1274,7 +1269,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                         additionalDrawOptions.maxPoints = 2;
                     } else if (geometryType === appStrings.GEOMETRY_BOX) {
                         shapeType = appStrings.SHAPE_AREA;
-                        geometryFunction = Ol_Interaction_Draw.createBox();
+                        geometryFunction = createBox();
                     }
                 }
                 let drawStyle = (feature, resolution) => {

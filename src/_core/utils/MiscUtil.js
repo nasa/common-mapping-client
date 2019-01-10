@@ -336,7 +336,9 @@ export default class MiscUtil {
         let protocol = a.protocol;
 
         a.href = url;
+        /* eslint-disable no-self-assign */
         a.href = a.href; // IE only absolutizes href on get, not set
+        /* eslint-enable no-self-assign */
 
         return protocol !== a.protocol || host !== a.host;
     }

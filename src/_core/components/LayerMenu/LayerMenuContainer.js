@@ -37,6 +37,7 @@ export class LayerMenuContainer extends Component {
         // css classes
         let layerMenuClasses = MiscUtil.generateStringFromSet({
             [styles.layerMenu]: true,
+            [styles.open]: this.props.layerMenuOpen,
             [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
             [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
             [this.props.className]: typeof this.props.className !== "undefined"
@@ -52,7 +53,7 @@ export class LayerMenuContainer extends Component {
                 <Paper elevation={1}>
                     <div className={styles.layerHeaderRow}>
                         <div className={styles.layerHeader}>
-                            <Typography variant="subheading" color="inherit">
+                            <Typography variant="subtitle1" color="inherit">
                                 Map Layers
                             </Typography>
                         </div>
@@ -123,4 +124,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayerMenuContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LayerMenuContainer);

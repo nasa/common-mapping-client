@@ -8,7 +8,7 @@
 @import "~styles/colors";
 
 .title {
-    composes: fontRobotoMono from "_core/styles/text.scss";
+    composes: fontRobotoMono from "../../styles/text.scss";
     display: inline-block;
     color: $color-light;
     font-size: 1.4rem;
@@ -17,7 +17,7 @@
 }
 
 .version {
-    composes: fontRobotoMono from "_core/styles/text.scss";
+    composes: fontRobotoMono from "../../styles/text.scss";
     display: inline-block;
     color: $color-medium-light;
     letter-spacing: -0.16em;

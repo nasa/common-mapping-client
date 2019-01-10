@@ -9,7 +9,7 @@ import React from "react";
 import pure from "recompose/pure";
 import SvgIcon from "@material-ui/core/SvgIcon";
 
-let OpacityIcon0 = props => (
+const OpacityIcon0 = props => (
     <SvgIcon {...props}>
         <svg className="material-icons" viewBox="1.5 -1 22 25" style={{ height: "93%" }}>
             <path
@@ -20,9 +20,8 @@ let OpacityIcon0 = props => (
     </SvgIcon>
 );
 OpacityIcon0.muiName = "SvgIcon";
-export { OpacityIcon0 };
 
-let OpacityIcon25 = props => (
+const OpacityIcon25 = props => (
     <SvgIcon {...props}>
         <svg className="material-icons" viewBox="1.5 -1 22 25" style={{ height: "93%" }}>
             <path
@@ -33,9 +32,8 @@ let OpacityIcon25 = props => (
     </SvgIcon>
 );
 OpacityIcon25.muiName = "SvgIcon";
-export { OpacityIcon25 };
 
-let OpacityIcon50 = props => (
+const OpacityIcon50 = props => (
     <SvgIcon {...props}>
         <svg className="material-icons" viewBox="1.5 -1 22 25" style={{ height: "93%" }}>
             <path
@@ -46,9 +44,8 @@ let OpacityIcon50 = props => (
     </SvgIcon>
 );
 OpacityIcon50.muiName = "SvgIcon";
-export { OpacityIcon50 };
 
-let OpacityIcon75 = props => (
+const OpacityIcon75 = props => (
     <SvgIcon {...props}>
         <svg className="material-icons" viewBox="1.5 -1 22 25" style={{ height: "93%" }}>
             <path
@@ -59,9 +56,8 @@ let OpacityIcon75 = props => (
     </SvgIcon>
 );
 OpacityIcon75.muiName = "SvgIcon";
-export { OpacityIcon75 };
 
-let OpacityIcon100 = props => (
+const OpacityIcon100 = props => (
     <SvgIcon {...props}>
         <svg className="material-icons" viewBox="1.5 -1 22 25" style={{ height: "93%" }}>
             <path
@@ -72,9 +68,8 @@ let OpacityIcon100 = props => (
     </SvgIcon>
 );
 OpacityIcon100.muiName = "SvgIcon";
-export { OpacityIcon100 };
 
-let LayerIconTop = props => (
+const LayerIconTop = props => (
     <SvgIcon {...props}>
         <svg viewBox="-1 1 38 35" style={{ height: "93%" }}>
             <path
@@ -85,9 +80,8 @@ let LayerIconTop = props => (
     </SvgIcon>
 );
 LayerIconTop.muiName = "SvgIcon";
-export { LayerIconTop };
 
-let LayerIconMiddle = props => (
+const LayerIconMiddle = props => (
     <SvgIcon {...props}>
         <svg viewBox="-1 1 38 35" style={{ height: "93%" }}>
             <path
@@ -98,9 +92,8 @@ let LayerIconMiddle = props => (
     </SvgIcon>
 );
 LayerIconMiddle.muiName = "SvgIcon";
-export { LayerIconMiddle };
 
-let LayerIconBottom = pure(props => (
+const LayerIconBottom = pure(props => (
     <SvgIcon {...props}>
         <svg viewBox="-1 1 38 35" style={{ height: "93%" }}>
             <path
@@ -111,9 +104,8 @@ let LayerIconBottom = pure(props => (
     </SvgIcon>
 ));
 LayerIconBottom.muiName = "SvgIcon";
-export { LayerIconBottom };
 
-let DrawLineIcon = pure(props => (
+const DrawLineIcon = pure(props => (
     <SvgIcon {...props}>
         <svg viewBox="0 0 24 24" style={{ height: "93%" }}>
             <path
@@ -124,4 +116,27 @@ let DrawLineIcon = pure(props => (
     </SvgIcon>
 ));
 DrawLineIcon.muiName = "SvgIcon";
-export { DrawLineIcon };
+
+export {
+    OpacityIcon0,
+    OpacityIcon25,
+    OpacityIcon50,
+    OpacityIcon75,
+    OpacityIcon100,
+    LayerIconTop,
+    LayerIconMiddle,
+    LayerIconBottom,
+    DrawLineIcon
+};
+
+export default {
+    OpacityIcon0,
+    OpacityIcon25,
+    OpacityIcon50,
+    OpacityIcon75,
+    OpacityIcon100,
+    LayerIconTop,
+    LayerIconMiddle,
+    LayerIconBottom,
+    DrawLineIcon
+};

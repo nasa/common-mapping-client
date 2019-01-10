@@ -5,5 +5,5 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-export { default as TimelineContainer } from "_core/components/Timeline/TimelineContainer.js";
 export { default as ResolutionStep } from "_core/components/Timeline/ResolutionStep.js";
+export { default as TimelineContainer } from "_core/components/Timeline/TimelineContainer.js";

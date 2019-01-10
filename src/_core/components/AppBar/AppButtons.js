@@ -28,12 +28,7 @@ export class AppButtons extends Component {
 
         return (
             <div className={rootClasses} {...other}>
-                <EnhancedTooltip
-                    disableTriggerFocus
-                    title="Help"
-                    placement="bottom"
-                    className={styles.btnWrapper}
-                >
+                <EnhancedTooltip title="Help" placement="bottom" className={styles.btnWrapper}>
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
@@ -42,12 +37,7 @@ export class AppButtons extends Component {
                         <HelpIcon />
                     </IconButtonSmall>
                 </EnhancedTooltip>
-                <EnhancedTooltip
-                    disableTriggerFocus
-                    title="Share"
-                    placement="bottom"
-                    className={styles.btnWrapper}
-                >
+                <EnhancedTooltip title="Share" placement="bottom" className={styles.btnWrapper}>
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
@@ -56,12 +46,7 @@ export class AppButtons extends Component {
                         <ShareIcon />
                     </IconButtonSmall>
                 </EnhancedTooltip>
-                <EnhancedTooltip
-                    disableTriggerFocus
-                    title="Settings"
-                    placement="bottom"
-                    className={styles.btnWrapper}
-                >
+                <EnhancedTooltip title="Settings" placement="bottom" className={styles.btnWrapper}>
                     <IconButtonSmall
                         color="inherit"
                         className={styles.btn}
@@ -71,7 +56,6 @@ export class AppButtons extends Component {
                     </IconButtonSmall>
                 </EnhancedTooltip>
                 <EnhancedTooltip
-                    disableTriggerFocus
                     title="Fullscreen"
                     placement="bottom"
                     className={styles.btnWrapper}
@@ -94,4 +78,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(AppButtons);
+export default connect(
+    null,
+    mapDispatchToProps
+)(AppButtons);

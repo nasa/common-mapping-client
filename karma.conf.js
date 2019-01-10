@@ -9,6 +9,8 @@
 const webpack = require("webpack");
 const path = require("path");
 
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 const webpackConfig = require("./webpack/webpack.config.helper")({
     isProduction: false,
     node_env: "test",
@@ -110,15 +112,7 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: process.env.npm_config_nowebgl === "true" ? ["PhantomJS"] : ["Chrome"],
-
-        // Custom launcher for headless CI testing (Travis)
-        customLaunchers: {
-            Chrome_travis_ci: {
-                base: "Chrome",
-                flags: ["--no-sandbox", "--enable-webgl", "--ignore-gpu-blacklist"]
-            }
-        },
+        browsers: process.env.npm_config_nowebgl === "true" ? ["ChromeHeadless"] : ["Chrome"],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

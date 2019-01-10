@@ -74,11 +74,10 @@ View our [live demo](https://nasa.github.io/common-mapping-client/branches/maste
 
 ##### Test
 * `npm run test`: Single run of tests
-* `npm run test:watch`: Run tests with code watch
-* `npm run test:cover`: Single run of tests with coverage report
 * flags
   * `--includecoretests`: Include cmc-core tests as well
   * `--nowebgl`: Run tests in phantomJS and skip tests that require webgl
+  * `--watch`: Run tests with code watch
 
 ### Contributing to the Project
 

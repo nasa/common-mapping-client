@@ -6,7 +6,7 @@
  */
 
 /*global INCLUDE_CORE_TESTS*/
-import "babel-polyfill";
+import "@babel/polyfill";
 import TestUtil from "_core/tests/TestUtil";
 import { CacheSpec } from "_core/tests/Cache.spec";
 import { MapUtilSpec } from "_core/tests/MapUtil.spec";

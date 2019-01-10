@@ -90,6 +90,7 @@ export default class MapWrapperCesium extends MapWrapper {
     initObjects(container, options) {
         this.map = this.createMap(container, options);
 
+
         // Only continue if map was created
         if (this.map) {
             // Create cesium-draw-helper
@@ -176,15 +177,15 @@ export default class MapWrapperCesium extends MapWrapper {
                     layers: 0
                 })
             });
-            // Depth testing
-            // Seems to be causing issues with vector rendering. Removing.
-            // map.scene.globe.depthTestAgainstTerrain = true;
 
             // Terrain
-            let terrainProvider = new this.cesium.CesiumTerrainProvider({
-                url: "//assets.agi.com/stk-terrain/world"
-            });
-            let defaultTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.flatTerrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            let terrainProvider = this.flatTerrainProvider;
+            if (appConfig.DEFAULT_TERRAIN_ENABLED) {
+                terrainProvider = new this.cesium.CesiumTerrainProvider({
+                    url: appConfig.DEFAULT_TERRAIN_ENDPOINT
+                });
+            }
             map.terrainProvider = terrainProvider;
 
             // remove sun and moon
@@ -204,7 +205,11 @@ export default class MapWrapperCesium extends MapWrapper {
             // disable right click zoom weirdness
             map.scene.screenSpaceCameraController.zoomEventTypes = this.cesium.CameraEventType.WHEEL;
 
+            // set base color
             map.scene.globe.baseColor = this.cesium.Color.BLACK;
+
+            // remove ground atmosphere
+            map.scene.globe.showGroundAtmosphere = false;
 
             //remove all preloaded earth layers
             map.scene.globe.imageryLayers.removeAll();
@@ -250,8 +255,8 @@ export default class MapWrapperCesium extends MapWrapper {
         this.map.scene._terrainExaggeration = terrainExaggeration;
 
         // Force re-render if terrain is currently enabled
-        if (this.map.terrainProvider !== new this.cesium.EllipsoidTerrainProvider()) {
-            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+        if (this.map.terrainProvider !== this.flatTerrainProvider) {
+            this.map.terrainProvider = this.flatTerrainProvider;
             this.map.terrainProvider = new this.cesium.CesiumTerrainProvider({
                 url: appConfig.DEFAULT_TERRAIN_ENDPOINT
             });
@@ -272,7 +277,7 @@ export default class MapWrapperCesium extends MapWrapper {
                 url: appConfig.DEFAULT_TERRAIN_ENDPOINT
             });
         } else {
-            this.map.terrainProvider = new this.cesium.EllipsoidTerrainProvider();
+            this.map.terrainProvider = this.flatTerrainProvider;
         }
         return true;
     }
@@ -389,12 +394,12 @@ export default class MapWrapperCesium extends MapWrapper {
             let verticalDegrees = 0;
             if (this.cesium.defined(viewRect)) {
                 horizontalDegrees =
-                    horizontalDegreesAmt *
-                    this.cesium.Math.toDegrees(viewRect.east - viewRect.west) /
+                    (horizontalDegreesAmt *
+                        this.cesium.Math.toDegrees(viewRect.east - viewRect.west)) /
                     360.0;
                 verticalDegrees =
-                    verticalDegreesAmt *
-                    this.cesium.Math.toDegrees(viewRect.north - viewRect.south) /
+                    (verticalDegreesAmt *
+                        this.cesium.Math.toDegrees(viewRect.north - viewRect.south)) /
                     180.0;
             }
             let currPosition = this.map.scene.camera.positionCartographic;

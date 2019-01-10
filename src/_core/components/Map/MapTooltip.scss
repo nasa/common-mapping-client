@@ -8,8 +8,8 @@
 @import "~styles/colors";
 
 .tooltip {
-    composes: fontRobotoMono from "_core/styles/text.scss";
-    composes: light from "_core/styles/shadow.scss";
+    composes: fontRobotoMono from "../../styles/text.scss";
+    composes: light from "../../styles/shadow.scss";
     position: relative;
     background: white;
     border-radius: 2px;

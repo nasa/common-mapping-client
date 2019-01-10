@@ -13,11 +13,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
-import InfoOutlineIcon from "@material-ui/icons/InfoOutline";
 import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 import Grow from "@material-ui/core/Grow";
 import Popover from "@material-ui/core/Popover";
+import InfoOutlineIcon from "mdi-material-ui/InformationOutline";
 import { Manager, Target, Popper } from "react-popper";
 import {
     EnhancedSwitch,
@@ -189,7 +189,7 @@ export class LayerControlContainer extends Component {
         });
 
         return (
-            <span className={styles.layerControlIconRow}>
+            <div className={styles.layerControlIconRow}>
                 <Manager style={{ display: "inline-block" }}>
                     <ClickAwayListener
                         wrap={true}
@@ -281,7 +281,7 @@ export class LayerControlContainer extends Component {
                         <InfoOutlineIcon />
                     </IconButtonSmall>
                 </EnhancedTooltip>
-            </span>
+            </div>
         );
     }
 
@@ -312,4 +312,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(LayerControlContainer);
+export default connect(
+    null,
+    mapDispatchToProps
+)(LayerControlContainer);

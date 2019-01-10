@@ -55,8 +55,7 @@ module.exports = options => {
                 modules: enableModules,
                 importLoaders: 2,
                 localIdentName: "[name]__[local]___[hash:base64:5]",
-                sourceMap: !options.isProduction,
-                minimize: options.isProduction
+                sourceMap: !options.isProduction
             }
         };
     };
@@ -107,7 +106,11 @@ module.exports = options => {
 
     // define the webpack config
     let webpackConfig = {
+        mode: options.isProduction ? "production" : "development",
         devtool: options.devtool, // what kind of sourcemap to use
+        optimization: {
+            minimize: options.isProduction
+        },
         entry: {
             index:
                 typeof options.entry != "undefined"
@@ -134,7 +137,8 @@ module.exports = options => {
                 isProduction: options.isProduction,
                 excludeChunks: ["inlineStyles"], // Don't include inlineStyles for templating purposes, we'll take care of that separately with our StyleExtHtmlWebpackPlugin
                 hash: true // Append a query string + the webpack build hash onto the output js and css files for cache busting
-            }), //
+            }),
+            new webpack.NoEmitOnErrorsPlugin(), // do not attempt to produce a bundle if there was an error
             ExtractStyles // All imported styles are separated out from bundle and moved into a styles.css file which can be loaded in parallel with JS bundle during app load (see https://github.com/webpack/extract-text-webpack-plugin/blob/webpack-1/README.md)
         ],
         resolve: {
@@ -146,7 +150,6 @@ module.exports = options => {
         },
         module: {
             unknownContextCritical: false, // Tells webpack to ignore some warnings due to the way Cesium dynamically builds module paths - https://cesiumjs.org/2016/01/26/Cesium-and-Webpack/
-            noParse: [path.join(BASE_DIR, "node_modules/proj4/dist/proj4.js")], // Tells webpack not to parse these files and expects these fles will have no require, define, or similar, but can use exports and module.exports. See https://webpack.github.io/docs/configuration.html#module-noparse
             rules: [
                 {
                     // Standard ES6 compilation of JS through Babel
@@ -202,8 +205,7 @@ module.exports = options => {
                         {
                             loader: "css-loader",
                             options: {
-                                sourceMap: !options.isProduction,
-                                minimize: options.isProduction
+                                sourceMap: !options.isProduction
                             }
                         }
                     ]
@@ -228,35 +230,27 @@ module.exports = options => {
                 {
                     // Load all markdown using the raw-loader
                     test: /\.md|\.json$/,
+                    exclude: [path.join(BASE_DIR, "node_modules/")],
                     use: "raw-loader"
                 },
                 {
                     // visjs loader
                     test: /node_modules[\\\/]vis[\\\/].*\.js$/,
-                    loader: "babel-loader",
-                    query: {
-                        cacheDirectory: true,
-                        presets: ["babel-preset-es2015"].map(require.resolve),
-                        plugins: [
-                            "transform-es3-property-literals", // #2452
-                            "transform-es3-member-expression-literals", // #2566
-                            "transform-runtime" // #2566
-                        ]
-                    }
+                    loader: "babel-loader"
                 }
             ]
         }
     };
 
-    if (options.isProduction) {
+    // optimize production build
+    if (options.node_env === "production") {
+        webpackConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
+    }
+
+    // enable tools for dev
+    if (options.node_env === "development") {
         webpackConfig.plugins.push(
-            new webpack.optimize.UglifyJsPlugin(), // Minimize scripts and css in output
-            new webpack.optimize.OccurrenceOrderPlugin()
-        );
-    } else {
-        webpackConfig.plugins.push(
-            new webpack.HotModuleReplacementPlugin(), // Used for Browsersync
-            new webpack.NoEmitOnErrorsPlugin() // do not attempt to produce a bundle if there was an error
+            new webpack.HotModuleReplacementPlugin() // Used for Browsersync
         );
     }
 

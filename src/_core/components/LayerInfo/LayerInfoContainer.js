@@ -72,12 +72,12 @@ export class LayerInfoContainer extends Component {
                         <div className={errorClasses}>
                             <div className={styles.errorContent}>
                                 <ErrorOutlineIcon />
-                                <Typography variant="subheading" color="default">
+                                <Typography variant="subtitle1" color="default">
                                     No Metadata Available
                                 </Typography>
                             </div>
                         </div>
-                        <Typography variant="headline" color="inherit">
+                        <Typography variant="h5" color="inherit">
                             {metadata.get("title")}
                         </Typography>
                         <List>
@@ -114,10 +114,10 @@ export class LayerInfoContainer extends Component {
                             </ListItem>
                         </List>
                         <Divider className={styles.divider} />
-                        <Typography gutterBottom variant="subheading">
+                        <Typography gutterBottom variant="subtitle1">
                             Description
                         </Typography>
-                        <Typography variant={"body1"}>{metadata.get("description")}</Typography>
+                        <Typography variant="body2">{metadata.get("description")}</Typography>
                     </div>
                 </DialogContent>
             </Dialog>
@@ -151,4 +151,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayerInfoContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LayerInfoContainer);

@@ -25,11 +25,11 @@ export class AlertGroup extends Component {
 
         return (
             <div className={containerClasses}>
-                <Typography variant="title">{title}</Typography>
+                <Typography variant="h6">{title}</Typography>
                 {this.props.alerts.map((alert, alertIndex) => (
                     <Typography
                         key={"alert" + alert.get("severity") + "_ " + alertIndex}
-                        variant="body1"
+                        variant="body2"
                     >
                         {alert.get("body")}
                     </Typography>

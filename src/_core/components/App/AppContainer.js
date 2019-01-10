@@ -41,10 +41,18 @@ import displayStyles from "_core/styles/display.scss";
 
 const theme = createMuiTheme({
     typography: {
+        useNextVariants: true,
         htmlFontSize: 10
     },
     palette: {
         primary: pink
+    },
+    overrides: {
+        MuiPaper: {
+            rounded: {
+                borderRadius: "2px"
+            }
+        }
     }
 });
 
@@ -179,4 +187,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppContainer);
