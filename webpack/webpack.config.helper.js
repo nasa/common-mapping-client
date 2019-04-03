@@ -229,7 +229,7 @@ module.exports = options => {
                 },
                 {
                     // Load all markdown using the raw-loader
-                    test: /\.md|\.json$/,
+                    test: /\.(md)$/,
                     exclude: [path.join(BASE_DIR, "node_modules/")],
                     use: "raw-loader"
                 },
