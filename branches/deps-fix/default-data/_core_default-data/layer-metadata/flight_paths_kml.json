@@ -1,0 +1,7 @@
+{
+	"title": "Flight Paths",
+    "description": "A sample KML vector file that displays flight tracks. This layer demonstrates CMC's ability to handle KML vector formats. The data was taken from openflights.org.",
+    "dateRange": "Unknown",
+    "platform": "openflights.org",
+    "spatialResolution": "Unknown"
+}

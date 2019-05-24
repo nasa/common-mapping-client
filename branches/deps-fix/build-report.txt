@@ -1,0 +1,293 @@
+[34mGenerating minified bundle for production via Webpack. This will take a moment...[39m
+Webpack stats: Hash: a64d7c0e3733d94d380c
+Version: webpack 4.28.3
+Time: 55203ms
+Built at: 2019-05-24 00:27:13
+                                            Asset       Size  Chunks                    Chunk Names
+                   b5633a510d4f4c3238a2.worker.js   4.12 KiB          [emitted]         
+                                       bundle.css   45.4 KiB       0  [emitted]         index
+                                  img/7994970.png    821 KiB          [emitted]  [big]  
+    img/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png   1.03 MiB          [emitted]  [big]  
+          img/ASTER_GDEM_Color_Shaded_Relief.jpeg   18.9 KiB          [emitted]         
+      img/BlueMarble_ShadedRelief_Bathymetry.jpeg   36.1 KiB          [emitted]         
+                      img/ESRI_World_Imagery.jpeg   36.1 KiB          [emitted]         
+  img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png    871 KiB          [emitted]  [big]  
+   img/MODIS_Terra_Brightness_Temp_Band31_Day.png    937 KiB          [emitted]  [big]  
+                       img/OSM_Land_Water_Map.png   17.9 KiB          [emitted]         
+img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png    967 KiB          [emitted]  [big]  
+                         img/apple-touch-icon.png   6.25 KiB          [emitted]         
+                            img/favicon-16x16.png  999 bytes          [emitted]         
+                            img/favicon-32x32.png   1.69 KiB          [emitted]         
+                                  img/favicon.ico   14.7 KiB          [emitted]         
+                         img/flight_paths_kml.png    917 KiB          [emitted]  [big]  
+                                  img/no_tile.png   21.2 KiB          [emitted]         
+                        img/safari-pinned-tab.svg    8.8 KiB          [emitted]         
+                img/us_state_outline_topojson.png    541 KiB          [emitted]  [big]  
+                                       index.html   10.4 KiB          [emitted]         
+                                         index.js    4.8 MiB       0  [emitted]  [big]  index
+                                  inlineStyles.js  966 bytes       1  [emitted]         inlineStyles
+Entrypoint index [big] = index.js bundle.css
+Entrypoint inlineStyles = inlineStyles.js
+  [0] ./node_modules/react/index.js 190 bytes {0} [built]
+ [34] ./node_modules/react-dom/index.js 1.33 KiB {0} [built]
+[458] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+[527] ./src/store/configureStore.js 362 bytes {0} [built]
+[577] multi ./src/index 28 bytes {0} [built]
+[578] ./node_modules/@babel/polyfill/lib/index.js 893 bytes {0} [built]
+[971] ./src/_core/styles/resources/img/apple-touch-icon.png 70 bytes {0} [built]
+[972] ./src/_core/styles/resources/img/favicon-32x32.png 67 bytes {0} [built]
+[973] ./src/_core/styles/resources/img/favicon-16x16.png 67 bytes {0} [built]
+[974] ./src/_core/styles/resources/img/safari-pinned-tab.svg 71 bytes {0} [built]
+[975] ./src/_core/styles/resources/img/favicon.ico 61 bytes {0} [built]
+[976] ./src/_core/styles/resources/img/7994970.png 61 bytes {0} [built]
+[977] ./src/_core/styles/resources/img/layer_thumbnails/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png 91 bytes {0} [built]
+[987] ./src/styles/inlineStyles.js 238 bytes {1} [built]
+[989] ./src/index.js + 178 modules 608 KiB {0} [built]
+      | ./src/index.js 2.35 KiB [built]
+      | ./node_modules/react-redux/es/index.js 270 bytes [built]
+      | ./src/_core/components/App/index.js 281 bytes [built]
+      | ./node_modules/react-redux/es/components/Context.js 118 bytes [built]
+      | ./node_modules/react-redux/es/components/Provider.js 2.29 KiB [built]
+      | ./node_modules/react-redux/es/components/connectAdvanced.js 8.26 KiB [built]
+      | ./node_modules/react-redux/es/connect/connect.js 4.83 KiB [built]
+      | ./src/_core/components/App/AppContainer.js 8.38 KiB [built]
+      | ./node_modules/react-redux/node_modules/@babel/runtime/helpers/esm/inheritsLoose.js 204 bytes [built]
+      | ./node_modules/react-redux/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js 192 bytes [built]
+      | ./node_modules/react-redux/node_modules/@babel/runtime/helpers/esm/extends.js 397 bytes [built]
+      | ./node_modules/react-redux/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js 350 bytes [built]
+      | ./node_modules/react-redux/es/utils/shallowEqual.js 676 bytes [built]
+      | ./node_modules/react-redux/es/connect/mapDispatchToProps.js 915 bytes [built]
+      | ./node_modules/react-redux/es/connect/mapStateToProps.js 504 bytes [built]
+      |     + 164 hidden modules
+    + 1022 hidden modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  img/7994970.png (821 KiB)
+  img/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png (1.03 MiB)
+  img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png (871 KiB)
+  img/MODIS_Terra_Brightness_Temp_Band31_Day.png (937 KiB)
+  img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png (967 KiB)
+  img/flight_paths_kml.png (917 KiB)
+  img/us_state_outline_topojson.png (541 KiB)
+  index.js (4.8 MiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  index (4.84 MiB)
+      index.js
+      bundle.css
+
+
+WARNING in webpack performance recommendations: 
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--6-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/styles/inlineStyles.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/styles/inlineStyles.scss 8.23 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertGroup.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Alerts/AlertGroup.scss 755 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertLevel.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Alerts/AlertLevel.scss 1.32 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Alerts/AlertsContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Alerts/AlertsContainer.scss 486 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/App/AppContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/App/AppContainer.scss 1.49 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppBarContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/AppBar/AppBarContainer.scss 1.17 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppButtons.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/AppBar/AppButtons.scss 659 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AppBar/AppTitle.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/text.scss 923 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/AppBar/AppTitle.scss 2.03 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/AsyncImage/AsyncImage.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/AsyncImage/AsyncImage.scss 855 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Colorbar/Colorbar.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/text.scss 923 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Colorbar/Colorbar.scss 3.63 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/DatePicker.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/DatePicker/DatePicker.scss 1.28 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/DatePickerContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/shadow.scss 688 bytes {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/DatePicker/DatePickerContainer.scss 1.38 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/IncrementButton.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/DatePicker/IncrementButton.scss 680 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/DatePicker/IncrementIcon.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/DatePicker/IncrementIcon.scss 498 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Help/HelpContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Help/HelpContainer.scss 1.05 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerInfo/LayerInfoContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerInfo/LayerInfoContainer.scss 3.07 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerControlContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerControlContainer.scss 1.86 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerControlLabel.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerControlLabel.scss 934 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerMenuContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/shadow.scss 688 bytes {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerMenuContainer.scss 3.99 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerOpacityControl.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/text.scss 923 bytes {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerOpacityControl.scss 3.06 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerPositionControl.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerPositionControl.scss 768 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/LayerMenu/LayerPositionIcon.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/LayerMenu/LayerPositionIcon.scss 1.24 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/BasemapPicker.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Map/BasemapPicker.scss 1.2 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/CoordinateTracker.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Map/CoordinateTracker.scss 1.14 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Map/MapContainer.scss 1.42 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapControlsContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Map/MapControlsContainer.scss 2.02 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Map/MapTooltip.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/text.scss 923 bytes {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/shadow.scss 688 bytes {0} [built]
+    [3] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Map/MapTooltip.scss 2.46 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/ModalMenu/ModalMenu.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/ModalMenu/ModalMenu.scss 1.07 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/MouseFollower/DrawingTooltip.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/MouseFollower/DrawingTooltip.scss 833 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/MouseFollower/MouseFollowerContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/shadow.scss 688 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/MouseFollower/MouseFollowerContainer.scss 2.6 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/ClickAwayListener.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/ClickAwayListener.scss 287 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/ContextMenuSubMenu.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js?{"url":false,"modules":true,"importLoaders":2,"localIdentName":"[name]__[local]___[hash:base64:5]","sourceMap":false}!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/MapToolsMenu.scss 910 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+    [2] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/ContextMenuSubMenu.scss 2.29 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/EnhancedSwitch.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/EnhancedSwitch.scss 1.02 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/IconButtonSmall.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/IconButtonSmall.scss 737 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MapButton.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/MapButton.scss 1.11 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MapToolsMenu.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/MapToolsMenu.scss 910 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Reusables/MarkdownPage.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Reusables/MarkdownPage.scss 3 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Settings/BaseMapList.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Settings/BaseMapList.scss 1.23 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Share/ShareContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Share/ShareContainer.scss 944 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Timeline/ResolutionStep.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Timeline/ResolutionStep.scss 2.49 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/components/Timeline/TimelineContainer.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/components/Timeline/TimelineContainer.scss 8.52 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/display.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/display.scss 2.76 KiB {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child extract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/dist/cjs.js??ref--7-1!node_modules/postcss-loader/src/index.js??postcss!node_modules/sass-loader/lib/loader.js??sass!src/_core/styles/text.scss:
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--7-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??sass!./src/_core/styles/text.scss 923 bytes {0} [built]
+    [1] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+Child html-webpack-plugin for "index.html":
+         Asset     Size  Chunks  Chunk Names
+    index.html  535 KiB       0  
+    Entrypoint undefined = index.html
+    [0] ./node_modules/html-webpack-plugin/lib/loader.js!./src/index_template.html 3.18 KiB {0} [built]
+    [1] ./node_modules/lodash/lodash.js 527 KiB {0} [built]
+    [2] (webpack)/buildin/global.js 472 bytes {0} [built]
+    [3] (webpack)/buildin/module.js 497 bytes {0} [built]
+Child worker:
+                             Asset      Size  Chunks             Chunk Names
+    b5633a510d4f4c3238a2.worker.js  4.12 KiB       0  [emitted]  main
+    Entrypoint main = b5633a510d4f4c3238a2.worker.js
+    [0] ./node_modules/@babel/runtime/helpers/defineProperty.js 289 bytes {0} [built]
+    [1] ./node_modules/@babel/runtime/helpers/classCallCheck.js 196 bytes {0} [built]
+    [2] ./node_modules/@babel/runtime/helpers/createClass.js 596 bytes {0} [built]
+    [3] ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js 343 bytes {0} [built]
+    [4] ./node_modules/@babel/runtime/helpers/getPrototypeOf.js 267 bytes {0} [built]
+    [5] ./node_modules/@babel/runtime/helpers/inherits.js 505 bytes {0} [built]
+    [6] ./node_modules/@babel/runtime/helpers/typeof.js 817 bytes {0} [built]
+    [7] ./node_modules/@babel/runtime/helpers/assertThisInitialized.js 219 bytes {0} [built]
+    [8] ./node_modules/@babel/runtime/helpers/setPrototypeOf.js 237 bytes {0} [built]
+    [9] ./node_modules/babel-loader/lib??ref--4-0!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js + 3 modules 13 KiB {0} [built]
+        | ./node_modules/babel-loader/lib??ref--4-0!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js 1.54 KiB [built]
+        | ./src/_core/constants/appStrings.js 7.81 KiB [built]
+        | ./src/utils/WebWorker.js 1.67 KiB [built]
+        | ./src/_core/utils/WebWorker.js 1.95 KiB [built]
+[32mYour app has been compiled in production mode and written to /dist. It's ready to roll![39m
