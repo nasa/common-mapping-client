@@ -10,10 +10,12 @@ import Ol_Map from "ol/Map";
 import Ol_View from "ol/View";
 import Ol_Layer_Vector from "ol/layer/Vector";
 import Ol_Layer_Tile from "ol/layer/Tile";
+import Ol_Layer_Image from "ol/layer/Image";
 import Ol_Source_WMTS from "ol/source/WMTS";
 import Ol_Source_Cluster from "ol/source/Cluster";
 import Ol_Source_Vector from "ol/source/Vector";
 import Ol_Source_XYZ from "ol/source/XYZ";
+import Ol_Source_WMS from "ol/source/ImageWMS";
 import Ol_Tilegrid_WMTS from "ol/tilegrid/WMTS";
 import Ol_Style_Fill from "ol/style/Fill";
 import Ol_Style from "ol/style/Style";
@@ -376,6 +378,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             case appStrings.LAYER_XYZ_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
+            case appStrings.LAYER_WMS_RASTER:
+                mapLayer = this.createWMSLayer(layer, fromCache);
+                break;
             case appStrings.LAYER_VECTOR_GEOJSON:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
@@ -416,6 +421,39 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             return true;
         } catch (err) {
             console.warn("Error in MapWrapperOpenlayers.setLayerRefInfo: ", err);
+            return false;
+        }
+    }
+
+    /**
+     * create an openlayers wms raster layer
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {boolean} [fromCache=true] true if the layer may be pulled from the cache
+     * @returns {object|boolean} openlayers layer wms layer object or false if it fails
+     * @memberof MapWrapperOpenlayers
+     */
+    createWMSLayer(layer, fromCache) {
+        try {
+            if (layer && layer.get("mappingOptions")) {
+                let options = layer.get("mappingOptions").toJS();
+                let layerSource = this.createLayerSource(layer, options, fromCache);
+
+                let mapLayer = new Ol_Layer_Image({
+                    opacity: layer.get("opacity"),
+                    visible: layer.get("isActive"),
+                    source: layerSource,
+                    extent: appConfig.DEFAULT_MAP_EXTENT
+                });
+
+                // TODO - make work
+                // this.setWMSLayerOverrides(layerSource, layer, mapLayer);
+
+                return mapLayer;
+            }
+            return false;
+        } catch (err) {
+            console.warn("Error in MapWrapperOpenlayers.createWMSLayer:", err);
             return false;
         }
     }
@@ -1760,6 +1798,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     [
                         appStrings.LAYER_GIBS_RASTER,
                         appStrings.LAYER_WMTS_RASTER,
+                        appStrings.LAYER_WMS_RASTER,
                         appStrings.LAYER_XYZ_RASTER
                     ].indexOf(layer.get("handleAs")) !== -1
                 ) {
@@ -2184,6 +2223,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                 return this.createWMTSSource(layer, options);
             case appStrings.LAYER_XYZ_RASTER:
                 return this.createXYZSource(layer, options);
+            case appStrings.LAYER_WMS_RASTER:
+                return this.createWMSSource(layer, options);
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorGeojsonSource(layer, options);
             case appStrings.LAYER_VECTOR_TOPOJSON:
@@ -2237,6 +2278,28 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             transition: appConfig.DEFAULT_TILE_TRANSITION_TIME,
             crossOrigin: "anonymous",
             wrapX: true
+        });
+    }
+
+    /**
+     * creates an openlayers wms layer source
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} options raster imagery options for layer from redux state
+     * - url - {string} base url for this layer
+     * - layer - {string} layer identifier
+     * - projection - {string} projection string
+     * - extents - {array} bounding box extents for this layer
+     * @returns {object} openlayers source object
+     * @memberof MapWrapperOpenlayers
+     */
+    createWMSSource(layer, options) {
+        return new Ol_Source_WMS({
+            url: options.url,
+            params: {
+                LAYERS: options.layer
+            },
+            crossOrigin: "anonymous"
         });
     }
 
