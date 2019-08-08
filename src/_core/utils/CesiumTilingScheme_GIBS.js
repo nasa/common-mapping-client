@@ -16,7 +16,7 @@ import "assets/cesium/Cesium.js";
  * @extends {window.Cesium.GeographicTilingScheme}
  */
 export default class CesiumTilingScheme_GIBS extends window.Cesium.GeographicTilingScheme {
-    constructor(options, wmtsOptions = {}) {
+    constructor(options, mappingOptions = {}) {
         super(options);
 
         let tilePixels = 512;

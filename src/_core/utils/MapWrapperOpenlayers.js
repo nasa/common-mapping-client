@@ -430,8 +430,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      */
     createWMTSLayer(layer, fromCache = true) {
         try {
-            if (layer && layer.get("wmtsOptions")) {
-                let options = layer.get("wmtsOptions").toJS();
+            if (layer && layer.get("mappingOptions")) {
+                let options = layer.get("mappingOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options, fromCache);
 
                 // set up wrap around extents
@@ -1773,7 +1773,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     let source = this.layerCache.get(cacheHash);
                     if (!source) {
                         // create a new source
-                        let options = layer.get("wmtsOptions").toJS();
+                        let options = layer.get("mappingOptions").toJS();
                         source = this.createLayerSource(layer, options, false);
 
                         this.setWMTSLayerOverrides(source, layer, mapLayer);
@@ -2085,9 +2085,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
         origFunc
     ) {
         try {
-            let origUrl = layer.getIn(["wmtsOptions", "url"]);
+            let origUrl = layer.getIn(["mappingOptions", "url"]);
             let customUrlFunction = this.tileHandler.getUrlFunction(
-                layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D])
+                layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_2D])
             );
             let tileMatrixIds =
                 typeof layerSource.getTileGrid === "function" &&
@@ -2127,7 +2127,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     handleTileLoad(layer, mapLayer, tile, url, origFunc) {
         try {
             let customTileFunction = this.tileHandler.getTileFunction(
-                layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D])
+                layer.getIn(["mappingOptions", "tileFunctions", appStrings.MAP_LIB_2D])
             );
             if (typeof customTileFunction === "function") {
                 return customTileFunction({

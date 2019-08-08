@@ -90,7 +90,6 @@ export default class MapWrapperCesium extends MapWrapper {
     initObjects(container, options) {
         this.map = this.createMap(container, options);
 
-
         // Only continue if map was created
         if (this.map) {
             // Create cesium-draw-helper
@@ -1491,7 +1490,7 @@ export default class MapWrapperCesium extends MapWrapper {
     createWMTSLayer(layer) {
         try {
             let _context = this;
-            let options = layer.get("wmtsOptions").toJS();
+            let options = layer.get("mappingOptions").toJS();
             let imageryProvider = this.createImageryProvider(layer, options);
             if (imageryProvider) {
                 let mapLayer = new this.cesium.ImageryLayer(imageryProvider, {
@@ -2068,12 +2067,12 @@ export default class MapWrapperCesium extends MapWrapper {
      * @memberof MapWrapperCesium
      */
     handleTileLoad(layer, mapLayer, x, y, level, request, context) {
-        let url = layer.getIn(["wmtsOptions", "url"]);
+        let url = layer.getIn(["mappingOptions", "url"]);
         let customUrlFunction = this.tileHandler.getUrlFunction(
-            layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_3D])
+            layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
         );
         let customTileFunction = this.tileHandler.getTileFunction(
-            layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_3D])
+            layer.getIn(["mappingOptions", "tileFunctions", appStrings.MAP_LIB_3D])
         );
 
         // have to override url to override tile load
@@ -2092,7 +2091,7 @@ export default class MapWrapperCesium extends MapWrapper {
                 let tileUrl = customUrlFunction({
                     layer: layer,
                     mapLayer: mapLayer,
-                    origUrl: layer.getIn(["wmtsOptions", "url"]),
+                    origUrl: layer.getIn(["mappingOptions", "url"]),
                     tileCoord: [level, x, y],
                     context: appStrings.MAP_LIB_3D
                 });

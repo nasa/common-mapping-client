@@ -134,10 +134,10 @@ export default class TileHandler {
     static _defaultKVPUrl(options) {
         let layer = options.layer;
         let url = this.mapUtil.buildTileUrl({
-            layerId: layer.getIn(["wmtsOptions", "layer"]),
+            layerId: layer.getIn(["mappingOptions", "layer"]),
             url: options.origUrl,
-            tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
-            format: layer.getIn(["wmtsOptions", "format"]),
+            tileMatrixSet: layer.getIn(["mappingOptions", "matrixSet"]),
+            format: layer.getIn(["mappingOptions", "format"]),
             col: options.tileCoord[1],
             row: options.tileCoord[2],
             level:
@@ -206,7 +206,7 @@ export default class TileHandler {
      */
     static _catsInterceptUrl(options) {
         let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
-        // let tileSize = options.layer.getIn(["wmtsOptions", "tileGrid", "tileSize"]);
+        // let tileSize = options.layer.getIn(["mappingOptions", "tileGrid", "tileSize"]);
         return "http://placekitten.com/g/" + tileSize + "/" + tileSize;
     }
 

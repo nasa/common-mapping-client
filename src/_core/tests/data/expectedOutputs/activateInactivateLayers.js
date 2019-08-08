@@ -5,7 +5,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 2,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -40,7 +40,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -75,7 +75,7 @@ export const ACTIVE_LAYERS = {
             max: 32,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -135,7 +135,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -190,7 +190,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -243,7 +243,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -292,7 +292,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -327,7 +327,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -362,7 +362,7 @@ export const INACTIVE_LAYERS = {
             max: 32,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -422,7 +422,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -477,7 +477,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -530,7 +530,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
