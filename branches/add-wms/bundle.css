@@ -364,58 +364,6 @@
  */
 /* colors */
 /* neutrals */
-.MapControlsContainer__mapControlsContainer___3pI3k {
-  position: absolute;
-  bottom: 125px;
-  right: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: column wrap;
-  align-content: flex-start;
-  align-items: flex-end; }
-
-.MapControlsContainer__mapToolsMenu___3Oz3O {
-  overflow: visible;
-  margin-left: -32px; }
-
-.MapControlsContainer__buttonGroup___2muez {
-  width: 29px;
-  margin-top: 10px; }
-
-.MapControlsContainer__firstButton___1ziil {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px; }
-
-.MapControlsContainer__lineButton___4iVuD {
-  margin-bottom: 1px; }
-  .MapControlsContainer__lineButton___4iVuD:after {
-    content: " ";
-    border-bottom: 1px solid #e5e5df;
-    width: 21px;
-    position: absolute;
-    height: 0px;
-    bottom: -1px; }
-
-.MapControlsContainer__lastButton___3dArK {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px; }
-
-.MapControlsContainer__singleButton___3RIy8 {
-  border-radius: 2px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/* colors */
-/* neutrals */
 .BaseMapList__preview___1IJ7y {
   width: 50px;
   height: 50px;
@@ -454,6 +402,58 @@
 
 .DrawingTooltip__endHint___3M-m_ {
   font-weight: 300; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/* colors */
+/* neutrals */
+.MapControlsContainer__mapControlsContainer___3pI3k {
+  position: absolute;
+  bottom: 125px;
+  right: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  align-items: flex-end; }
+
+.MapControlsContainer__mapToolsMenu___3Oz3O {
+  overflow: visible;
+  margin-left: -32px; }
+
+.MapControlsContainer__buttonGroup___2muez {
+  width: 29px;
+  margin-top: 10px; }
+
+.MapControlsContainer__firstButton___1ziil {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px; }
+
+.MapControlsContainer__lineButton___4iVuD {
+  margin-bottom: 1px; }
+  .MapControlsContainer__lineButton___4iVuD:after {
+    content: " ";
+    border-bottom: 1px solid #e5e5df;
+    width: 21px;
+    position: absolute;
+    height: 0px;
+    bottom: -1px; }
+
+.MapControlsContainer__lastButton___3dArK {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px; }
+
+.MapControlsContainer__singleButton___3RIy8 {
+  border-radius: 2px; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -624,6 +624,23 @@
  * This source code is licensed under the APACHE 2.0 license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+.AlertGroup__root___xBv9z {
+  margin: 0px 1.5rem 2.5rem 1.5rem;
+  padding-top: 1.5rem; }
+
+.AlertGroup__title___vMoh8 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333333; }
+
+.AlertGroup__body___3Nj4G {
+  margin: 0.3rem 0px 0px 1.5rem; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -646,23 +663,6 @@
           user-select: text;
   background: #fafafa;
   padding: 5px 10px; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-.AlertGroup__root___xBv9z {
-  margin: 0px 1.5rem 2.5rem 1.5rem;
-  padding-top: 1.5rem; }
-
-.AlertGroup__title___vMoh8 {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #333333; }
-
-.AlertGroup__body___3Nj4G {
-  margin: 0.3rem 0px 0px 1.5rem; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
@@ -1129,6 +1129,29 @@
  */
 /* colors */
 /* neutrals */
+.LayerControlLabel__controlLabel___Je-Ud {
+  background: #e91e63;
+  padding: 5px;
+  font-size: 1.2rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px; }
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/**
+ * Copyright 2017 California Institute of Technology.
+ *
+ * This source code is licensed under the APACHE 2.0 license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+/* colors */
+/* neutrals */
 .LayerPositionIcon__orderLabel___1hp-N {
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -1150,29 +1173,6 @@
 
 .LayerPositionIcon__primary___g2563 {
   color: #e91e63; }
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/**
- * Copyright 2017 California Institute of Technology.
- *
- * This source code is licensed under the APACHE 2.0 license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-/* colors */
-/* neutrals */
-.LayerControlLabel__controlLabel___Je-Ud {
-  background: #e91e63;
-  padding: 5px;
-  font-size: 1.2rem;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.05rem;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px; }
 /**
  * Copyright 2017 California Institute of Technology.
  *
