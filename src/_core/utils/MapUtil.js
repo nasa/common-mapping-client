@@ -349,7 +349,7 @@ export default class MapUtil {
      * @returns {string} a url string for the WMTS tile
      * @memberof MapUtil
      */
-    static buildTileUrl(options) {
+    static buildWmtsTileUrl(options) {
         let layerId = options.layerId;
         let url = options.url;
         let tileMatrixSet = options.tileMatrixSet;

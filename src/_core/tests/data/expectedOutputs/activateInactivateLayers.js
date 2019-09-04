@@ -79,7 +79,7 @@ export const ACTIVE_LAYERS = {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
-                urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
+                urlFunctions: { openlayers: "kvpTimeParam_wmts", cesium: "kvpTimeParam_wmts" },
                 tileFunctions: {},
                 url:
                     "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/GHRSST_L4_G1SST_Sea_Surface_Temperature/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
@@ -248,7 +248,7 @@ export const ACTIVE_LAYERS = {
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
-                tileFunctions: { openlayers: "catsTile" },
+                tileFunctions: {},
                 url:
                     "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
                 projection: "EPSG:4326",
@@ -366,7 +366,7 @@ export const INACTIVE_LAYERS = {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
-                urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
+                urlFunctions: { openlayers: "kvpTimeParam_wmts", cesium: "kvpTimeParam_wmts" },
                 tileFunctions: {},
                 url:
                     "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/GHRSST_L4_G1SST_Sea_Surface_Temperature/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
@@ -535,7 +535,7 @@ export const INACTIVE_LAYERS = {
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
-                tileFunctions: { openlayers: "catsTile" },
+                tileFunctions: {},
                 url:
                     "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
                 projection: "EPSG:4326",

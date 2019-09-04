@@ -52,9 +52,11 @@ export const FILE_TYPE_XML = "xml";
 export const FILE_TYPE_TEXT = "xml";
 
 // tile URL function
-export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
+export const DEFAULT_URL_FUNC_WMTS = "DEFAULT_URL_FUNC_WMTS";
+export const DEFAULT_URL_FUNC_WMS = "DEFAULT_URL_FUNC_WMS";
 export const ESRI_CUSTOM_512 = "esriCustom512";
-export const KVP_TIME_PARAM = "kvpTimeParam";
+export const KVP_TIME_PARAM_WMTS = "kvpTimeParam_wmts";
+export const KVP_TIME_PARAM_WMS = "kvpTimeParam_wms";
 export const CATS_URL = "catsUrl";
 
 // tile load function

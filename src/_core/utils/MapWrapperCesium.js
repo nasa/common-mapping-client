@@ -1505,7 +1505,7 @@ export default class MapWrapperCesium extends MapWrapper {
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
                 mapLayer.imageryProvider._origTileLoadFunc = origTileLoadFunc;
                 mapLayer.imageryProvider.requestImage = function(x, y, level, request) {
-                    return _context.handleTileLoad(layer, mapLayer, x, y, level, request, this);
+                    return _context.handleWMTSTileLoad(layer, mapLayer, x, y, level, request, this);
                 };
 
                 return mapLayer;
@@ -1540,8 +1540,17 @@ export default class MapWrapperCesium extends MapWrapper {
                 // override the tile loading for this layer
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
                 mapLayer.imageryProvider._origTileLoadFunc = origTileLoadFunc;
-                mapLayer.imageryProvider.requestImage = function(x, y, level, request) {
-                    return _context.handleTileLoad(layer, mapLayer, x, y, level, request, this);
+                mapLayer.imageryProvider.requestImage = function(x, y, level, request, interval) {
+                    return _context.handleWMSTileLoad(
+                        layer,
+                        mapLayer,
+                        x,
+                        y,
+                        level,
+                        request,
+                        interval,
+                        this
+                    );
                 };
 
                 return mapLayer;
@@ -1878,7 +1887,7 @@ export default class MapWrapperCesium extends MapWrapper {
         ) {
             return new this.cesium.WebMercatorTilingScheme();
         }
-        return false;
+        return new this.cesium.GeographicTilingScheme();
     }
 
     /**
@@ -2141,12 +2150,66 @@ export default class MapWrapperCesium extends MapWrapper {
      * @param {number} y y grid value
      * @param {number} level z grid value
      * @param {object} request cesium request object
+     * @param {object} interval cesium request params object
      * @param {object} context wrapper context for this call
      * @returns {Promise} for tile request
      * @memberof MapWrapperCesium
      */
-    handleTileLoad(layer, mapLayer, x, y, level, request, context) {
+    handleWMSTileLoad(layer, mapLayer, x, y, level, request, interval, context) {
         let url = layer.getIn(["mappingOptions", "url"]);
+
+        let customUrlFunction = this.tileHandler.getUrlFunction(
+            layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
+        );
+
+        if (typeof customUrlFunction === "function") {
+            // get the customized url
+            let tileUrl = customUrlFunction({
+                layer: layer,
+                mapLayer: mapLayer,
+                origUrl: layer.getIn(["mappingOptions", "url"]),
+                defaultUrl: url,
+                tileCoord: [level, x, y],
+                context: appStrings.MAP_LIB_3D
+            });
+
+            const getParams = function(url) {
+                let params = {};
+                let parser = document.createElement("a");
+                parser.href = url;
+                let query = parser.search.substring(1);
+                let vars = query.split("&");
+                for (let i = 0; i < vars.length; i++) {
+                    let pair = vars[i].split("=");
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                }
+                return params;
+            };
+
+            const customParams = Object.assign({}, interval, getParams(tileUrl));
+            mapLayer.imageryProvider._tileProvider._resource.setQueryParameters(customParams);
+        }
+        return mapLayer.imageryProvider._origTileLoadFunc(x, y, level, request);
+    }
+
+    /**
+     * Handle loading a tile for a tile raster layer
+     * This is used to override url creation and
+     * data loading for raster layers.
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer cesium layer object
+     * @param {number} x x grid value
+     * @param {number} y y grid value
+     * @param {number} level z grid value
+     * @param {object} request cesium request object
+     * @param {object} context wrapper context for this call
+     * @returns {Promise} for tile request
+     * @memberof MapWrapperCesium
+     */
+    handleWMTSTileLoad(layer, mapLayer, x, y, level, request, context) {
+        let url = layer.getIn(["mappingOptions", "url"]);
+
         let customUrlFunction = this.tileHandler.getUrlFunction(
             layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
         );
@@ -2156,8 +2219,21 @@ export default class MapWrapperCesium extends MapWrapper {
 
         // have to override url to override tile load
         if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
-            customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC);
+            customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC_WMTS);
         }
+        // if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
+        //     if (layer.get("handleAs") === appStrings.LAYER_WMTS_RASTER) {
+        //         customUrlFunction = this.tileHandler.getUrlFunction(
+        //             appStrings.DEFAULT_URL_FUNC_WMTS
+        //         );
+        //     } else if (layer.get("handleAs") === appStrings.LAYER_WMS_RASTER) {
+        //         customUrlFunction = this.tileHandler.getUrlFunction(
+        //             appStrings.DEFAULT_URL_FUNC_WMS
+        //         );
+        //     } else {
+        //         customUrlFunction = () => url;
+        //     }
+        // }
 
         if (typeof customUrlFunction === "function") {
             let tileFunc = () => {
@@ -2171,6 +2247,7 @@ export default class MapWrapperCesium extends MapWrapper {
                     layer: layer,
                     mapLayer: mapLayer,
                     origUrl: layer.getIn(["mappingOptions", "url"]),
+                    defaultUrl: url,
                     tileCoord: [level, x, y],
                     context: appStrings.MAP_LIB_3D
                 });
