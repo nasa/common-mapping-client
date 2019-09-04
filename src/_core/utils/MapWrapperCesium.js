@@ -2221,19 +2221,6 @@ export default class MapWrapperCesium extends MapWrapper {
         if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
             customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC_WMTS);
         }
-        // if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
-        //     if (layer.get("handleAs") === appStrings.LAYER_WMTS_RASTER) {
-        //         customUrlFunction = this.tileHandler.getUrlFunction(
-        //             appStrings.DEFAULT_URL_FUNC_WMTS
-        //         );
-        //     } else if (layer.get("handleAs") === appStrings.LAYER_WMS_RASTER) {
-        //         customUrlFunction = this.tileHandler.getUrlFunction(
-        //             appStrings.DEFAULT_URL_FUNC_WMS
-        //         );
-        //     } else {
-        //         customUrlFunction = () => url;
-        //     }
-        // }
 
         if (typeof customUrlFunction === "function") {
             let tileFunc = () => {
