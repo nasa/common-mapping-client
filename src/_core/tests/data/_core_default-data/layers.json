@@ -7,10 +7,10 @@
         "min": 2.0,
         "max": 32.0,
         "units": "˚C",
-        "wmtsOptions": {
+        "mappingOptions": {
             "urlFunctions": {
-                "openlayers": "kvpTimeParam",
-                "cesium": "kvpTimeParam"
+                "openlayers": "kvpTimeParam_wmts",
+                "cesium": "kvpTimeParam_wmts"
             }
         },
         "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=GHRSST_L4_G1SST_Sea_Surface_Temperature&tilematrixset=1km&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=2&TileCol=0&TileRow=1&TIME=2015-05-20",
@@ -45,7 +45,7 @@
         "thumbnailImage": "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?layer=BlueMarble_ShadedRelief_Bathymetry&tilematrixset=500m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix=2&TileCol=1&TileRow=1&TIME=2016-05-22",
         "isDefault": true,
         "handleAs": "xyz",
-        "wmtsOptions": {
+        "mappingOptions": {
             "projection": "EPSG:4326",
             "layer": "ESRI_World_Imagery",
             "url": "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
@@ -56,9 +56,6 @@
             },
             "urlFunctions": {
                 "openlayers": "esriCustom512"
-            },
-            "tileFunctions": {
-                "openlayers": "catsTile"
             }
         }
     }, {

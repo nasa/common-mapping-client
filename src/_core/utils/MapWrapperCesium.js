@@ -90,7 +90,6 @@ export default class MapWrapperCesium extends MapWrapper {
     initObjects(container, options) {
         this.map = this.createMap(container, options);
 
-
         // Only continue if map was created
         if (this.map) {
             // Create cesium-draw-helper
@@ -1444,6 +1443,8 @@ export default class MapWrapperCesium extends MapWrapper {
                 return this.createWMTSLayer(layer);
             case appStrings.LAYER_XYZ_RASTER:
                 return this.createWMTSLayer(layer);
+            case appStrings.LAYER_WMS_RASTER:
+                return this.createWMSLayer(layer);
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorLayer(layer);
             case appStrings.LAYER_VECTOR_TOPOJSON:
@@ -1491,7 +1492,7 @@ export default class MapWrapperCesium extends MapWrapper {
     createWMTSLayer(layer) {
         try {
             let _context = this;
-            let options = layer.get("wmtsOptions").toJS();
+            let options = layer.get("mappingOptions").toJS();
             let imageryProvider = this.createImageryProvider(layer, options);
             if (imageryProvider) {
                 let mapLayer = new this.cesium.ImageryLayer(imageryProvider, {
@@ -1504,7 +1505,52 @@ export default class MapWrapperCesium extends MapWrapper {
                 let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
                 mapLayer.imageryProvider._origTileLoadFunc = origTileLoadFunc;
                 mapLayer.imageryProvider.requestImage = function(x, y, level, request) {
-                    return _context.handleTileLoad(layer, mapLayer, x, y, level, request, this);
+                    return _context.handleWMTSTileLoad(layer, mapLayer, x, y, level, request, this);
+                };
+
+                return mapLayer;
+            }
+            return false;
+        } catch (err) {
+            console.warn("Error in MapWrapperCesium.createWMTSLayer:", err);
+            return false;
+        }
+    }
+
+    /**
+     * create a wms cesium layer corresponding
+     * to the given layer
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @returns {object|boolean} cesium layer object or false if it fails
+     * @memberof MapWrapperCesium
+     */
+    createWMSLayer(layer) {
+        try {
+            let _context = this;
+            let options = layer.get("mappingOptions").toJS();
+            let imageryProvider = this.createImageryProvider(layer, options);
+            if (imageryProvider) {
+                let mapLayer = new this.cesium.ImageryLayer(imageryProvider, {
+                    alpha: layer.get("opacity"),
+                    show: layer.get("isActive")
+                });
+                this.setLayerRefInfo(layer, mapLayer);
+
+                // override the tile loading for this layer
+                let origTileLoadFunc = mapLayer.imageryProvider.requestImage;
+                mapLayer.imageryProvider._origTileLoadFunc = origTileLoadFunc;
+                mapLayer.imageryProvider.requestImage = function(x, y, level, request, interval) {
+                    return _context.handleWMSTileLoad(
+                        layer,
+                        mapLayer,
+                        x,
+                        y,
+                        level,
+                        request,
+                        interval,
+                        this
+                    );
                 };
 
                 return mapLayer;
@@ -1800,6 +1846,8 @@ export default class MapWrapperCesium extends MapWrapper {
                 return this.createGIBSWMTSProvider(layer, options);
             case appStrings.LAYER_WMTS_RASTER:
                 return this.createGenericWMTSProvider(layer, options);
+            case appStrings.LAYER_WMS_RASTER:
+                return this.createGenericWMSProvider(layer, options);
             case appStrings.LAYER_XYZ_RASTER:
                 return this.createGenericXYZProvider(layer, options);
             default:
@@ -1839,7 +1887,7 @@ export default class MapWrapperCesium extends MapWrapper {
         ) {
             return new this.cesium.WebMercatorTilingScheme();
         }
-        return false;
+        return new this.cesium.GeographicTilingScheme();
     }
 
     /**
@@ -1930,6 +1978,45 @@ export default class MapWrapperCesium extends MapWrapper {
                     tileMatrixSetID: options.matrixSet,
                     minimumLevel: options.tileGrid.minZoom,
                     maximumLevel: options.tileGrid.maxZoom,
+                    tilingScheme: this.createTilingScheme(
+                        {
+                            handleAs: layer.get("handleAs"),
+                            projection: options.projection
+                        },
+                        options
+                    )
+                });
+            }
+            return false;
+        } catch (err) {
+            console.warn("Error in MapWrapperCesium.createGenericWMTSProvider:", err);
+            return false;
+        }
+    }
+
+    /**
+     * create wms imagery provider
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} options wmts layer options
+     * - url - {string} base url for this layer
+     * - layer - {string} layer identifier
+     * - projection - {string} projection string
+     * - extents - {array} bounding box extents for this layer
+     * @returns {object} cesium imagery provider
+     * @memberof MapWrapperCesium
+     */
+    createGenericWMSProvider(layer, options) {
+        try {
+            if (typeof options !== "undefined") {
+                let west = this.cesium.Math.toRadians(options.extents[0]);
+                let south = this.cesium.Math.toRadians(options.extents[1]);
+                let east = this.cesium.Math.toRadians(options.extents[2]);
+                let north = this.cesium.Math.toRadians(options.extents[3]);
+                return new this.cesium.WebMapServiceImageryProvider({
+                    url: options.url,
+                    layers: options.layer,
+                    // rectangle: new this.cesium.Rectangle(west, south, east, north),
                     tilingScheme: this.createTilingScheme(
                         {
                             handleAs: layer.get("handleAs"),
@@ -2063,22 +2150,76 @@ export default class MapWrapperCesium extends MapWrapper {
      * @param {number} y y grid value
      * @param {number} level z grid value
      * @param {object} request cesium request object
+     * @param {object} interval cesium request params object
      * @param {object} context wrapper context for this call
      * @returns {Promise} for tile request
      * @memberof MapWrapperCesium
      */
-    handleTileLoad(layer, mapLayer, x, y, level, request, context) {
-        let url = layer.getIn(["wmtsOptions", "url"]);
+    handleWMSTileLoad(layer, mapLayer, x, y, level, request, interval, context) {
+        let url = layer.getIn(["mappingOptions", "url"]);
+
         let customUrlFunction = this.tileHandler.getUrlFunction(
-            layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_3D])
+            layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
+        );
+
+        if (typeof customUrlFunction === "function") {
+            // get the customized url
+            let tileUrl = customUrlFunction({
+                layer: layer,
+                mapLayer: mapLayer,
+                origUrl: layer.getIn(["mappingOptions", "url"]),
+                defaultUrl: url,
+                tileCoord: [level, x, y],
+                context: appStrings.MAP_LIB_3D
+            });
+
+            const getParams = function(url) {
+                let params = {};
+                let parser = document.createElement("a");
+                parser.href = url;
+                let query = parser.search.substring(1);
+                let vars = query.split("&");
+                for (let i = 0; i < vars.length; i++) {
+                    let pair = vars[i].split("=");
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                }
+                return params;
+            };
+
+            const customParams = Object.assign({}, interval, getParams(tileUrl));
+            mapLayer.imageryProvider._tileProvider._resource.setQueryParameters(customParams);
+        }
+        return mapLayer.imageryProvider._origTileLoadFunc(x, y, level, request);
+    }
+
+    /**
+     * Handle loading a tile for a tile raster layer
+     * This is used to override url creation and
+     * data loading for raster layers.
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer cesium layer object
+     * @param {number} x x grid value
+     * @param {number} y y grid value
+     * @param {number} level z grid value
+     * @param {object} request cesium request object
+     * @param {object} context wrapper context for this call
+     * @returns {Promise} for tile request
+     * @memberof MapWrapperCesium
+     */
+    handleWMTSTileLoad(layer, mapLayer, x, y, level, request, context) {
+        let url = layer.getIn(["mappingOptions", "url"]);
+
+        let customUrlFunction = this.tileHandler.getUrlFunction(
+            layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
         );
         let customTileFunction = this.tileHandler.getTileFunction(
-            layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_3D])
+            layer.getIn(["mappingOptions", "tileFunctions", appStrings.MAP_LIB_3D])
         );
 
         // have to override url to override tile load
         if (typeof customTileFunction === "function" && typeof customUrlFunction !== "function") {
-            customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC);
+            customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC_WMTS);
         }
 
         if (typeof customUrlFunction === "function") {
@@ -2092,7 +2233,8 @@ export default class MapWrapperCesium extends MapWrapper {
                 let tileUrl = customUrlFunction({
                     layer: layer,
                     mapLayer: mapLayer,
-                    origUrl: layer.getIn(["wmtsOptions", "url"]),
+                    origUrl: layer.getIn(["mappingOptions", "url"]),
+                    defaultUrl: url,
                     tileCoord: [level, x, y],
                     context: appStrings.MAP_LIB_3D
                 });
@@ -2205,6 +2347,8 @@ export default class MapWrapperCesium extends MapWrapper {
             case appStrings.LAYER_GIBS_RASTER:
                 return this.map.imageryLayers;
             case appStrings.LAYER_WMTS_RASTER:
+                return this.map.imageryLayers;
+            case appStrings.LAYER_WMS_RASTER:
                 return this.map.imageryLayers;
             case appStrings.LAYER_XYZ_RASTER:
                 return this.map.imageryLayers;

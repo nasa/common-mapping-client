@@ -80,7 +80,7 @@ export const layerModel = Immutable.fromJS({
     timeFormat: "YYYY-MM-DD",
     type: "",
     isDefault: false,
-    wmtsOptions: {
+    mappingOptions: {
         urlFunctions: {},
         tileFunctions: {},
         url: "",

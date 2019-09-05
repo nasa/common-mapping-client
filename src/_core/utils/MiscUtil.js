@@ -433,6 +433,8 @@ export default class MiscUtil {
                                 return response.json();
                             case appStrings.LAYER_CONFIG_WMTS_XML:
                                 return response.text();
+                            case appStrings.LAYER_CONFIG_WMS_XML:
+                                return response.text();
                             case appStrings.FILE_TYPE_TEXT:
                                 return response.text();
                             default:

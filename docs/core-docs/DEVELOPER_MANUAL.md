@@ -737,14 +737,14 @@ map: {
                 id: "example_layer_id_1",
                 title: "Layer Title - JSON - 1",
                 type: "data",
-                wmtsOptions: "(wmts options parsed from xml config)",
+                mappingOptions: "(wmts options parsed from xml config)",
                 ...
             },
             layer_id_2: {
                 id: "example_layer_id_2",
                 title: "Layer Title - JSON - 2",
                 type: "data",
-                wmtsOptions: "(default wmts options in layer model)",
+                mappingOptions: "(default wmts options in layer model)",
                 ...
             }
         }
@@ -764,14 +764,14 @@ map: {
                 id: "example_layer_id_1",
                 title: "Layer Title - JSON - 1",
                 type: "data",
-                wmtsOptions: "(wmts options parsed from xml config)",
+                mappingOptions: "(wmts options parsed from xml config)",
                 ...
             },
             layer_id_2: {
                 id: "example_layer_id_2",
                 title: "Layer Title - JSON - 2",
                 type: "data",
-                wmtsOptions: "(default wmts options in layer model)",
+                mappingOptions: "(default wmts options in layer model)",
                 ...
             }
         },
@@ -780,7 +780,7 @@ map: {
                 id: "example_layer_id_3",
                 title: "Layer Title - XML - 1",
                 type: "",
-                wmtsOptions: "(wmts options parsed from xml config)",
+                mappingOptions: "(wmts options parsed from xml config)",
                 ...
             }
         ]

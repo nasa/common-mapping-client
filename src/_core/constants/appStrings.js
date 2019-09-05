@@ -29,10 +29,12 @@ export const LAYER_GROUP_TYPE_PARTIAL = "partial";
 // layer config formats
 export const LAYER_CONFIG_JSON = "json";
 export const LAYER_CONFIG_WMTS_XML = "wmts/xml";
+export const LAYER_CONFIG_WMS_XML = "wms/xml";
 
 // layer handler types
 export const LAYER_GIBS_RASTER = "GIBS_raster";
 export const LAYER_WMTS_RASTER = "wmts_raster";
+export const LAYER_WMS_RASTER = "wms_raster";
 export const LAYER_XYZ_RASTER = "xyz_raster";
 export const LAYER_VECTOR_GEOJSON = "vector_geojson";
 export const LAYER_VECTOR_TOPOJSON = "vector_topojson";
@@ -50,9 +52,11 @@ export const FILE_TYPE_XML = "xml";
 export const FILE_TYPE_TEXT = "xml";
 
 // tile URL function
-export const DEFAULT_URL_FUNC = "DEFAULT_URL_FUNC";
+export const DEFAULT_URL_FUNC_WMTS = "DEFAULT_URL_FUNC_WMTS";
+export const DEFAULT_URL_FUNC_WMS = "DEFAULT_URL_FUNC_WMS";
 export const ESRI_CUSTOM_512 = "esriCustom512";
-export const KVP_TIME_PARAM = "kvpTimeParam";
+export const KVP_TIME_PARAM_WMTS = "kvpTimeParam_wmts";
+export const KVP_TIME_PARAM_WMS = "kvpTimeParam_wms";
 export const CATS_URL = "catsUrl";
 
 // tile load function
@@ -113,14 +117,14 @@ export const PROJECTIONS = {
         proj4Def:
             "+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
         extent: [-4194304, -4194304, 4194304, 4194304],
-        aliases: ["urn:ogc:def:crs:EPSG::3413"]
+        aliases: ["northpolar", "urn:ogc:def:crs:EPSG::3413"]
     },
     southpolar: {
         code: "EPSG:3031",
         proj4Def:
             "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
         extent: [-4194304, -4194304, 4194304, 4194304],
-        aliases: ["urn:ogc:def:crs:EPSG::3031"]
+        aliases: ["southpolar", "urn:ogc:def:crs:EPSG::3031"]
     },
     webmercator: {
         code: "EPSG:3857",
@@ -128,6 +132,7 @@ export const PROJECTIONS = {
             "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs",
         extent: [-20026376.39, -20048966.1, 20026376.39, 20048966.1],
         aliases: [
+            "webmercator",
             "EPSG:102100",
             "EPSG:102113",
             "EPSG:900913",
@@ -141,6 +146,7 @@ export const PROJECTIONS = {
         proj4Def: "+proj=longlat +datum=WGS84 +no_defs",
         extent: [-180, -90, 180, 90],
         aliases: [
+            "latlon",
             "CRS:84",
             "urn:ogc:def:crs:EPSG::4326",
             "urn:ogc:def:crs:EPSG:6.6:4326",
