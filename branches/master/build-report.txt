@@ -1,10 +1,10 @@
 [34mGenerating minified bundle for production via Webpack. This will take a moment...[39m
-Webpack stats: Hash: 1b13ed8b1414eddf1566
+Webpack stats: Hash: 6dd5a01be299cd25e598
 Version: webpack 4.28.3
-Time: 52860ms
-Built at: 2019-05-30 19:45:01
+Time: 56985ms
+Built at: 2019-09-05 15:42:37
                                             Asset       Size  Chunks                    Chunk Names
-                   b5633a510d4f4c3238a2.worker.js   4.12 KiB          [emitted]         
+                   4e5befde06a75d1dd084.worker.js   4.12 KiB          [emitted]         
                                        bundle.css   45.4 KiB       0  [emitted]         index
                                   img/7994970.png    821 KiB          [emitted]  [big]  
     img/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png   1.03 MiB          [emitted]  [big]  
@@ -24,25 +24,25 @@ img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png    967 KiB          [emitted] 
                         img/safari-pinned-tab.svg    8.8 KiB          [emitted]         
                 img/us_state_outline_topojson.png    541 KiB          [emitted]  [big]  
                                        index.html   10.4 KiB          [emitted]         
-                                         index.js    4.8 MiB       0  [emitted]  [big]  index
+                                         index.js   4.82 MiB       0  [emitted]  [big]  index
                                   inlineStyles.js  966 bytes       1  [emitted]         inlineStyles
 Entrypoint index [big] = index.js bundle.css
 Entrypoint inlineStyles = inlineStyles.js
   [0] ./node_modules/react/index.js 190 bytes {0} [built]
  [34] ./node_modules/react-dom/index.js 1.33 KiB {0} [built]
-[458] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
-[527] ./src/store/configureStore.js 362 bytes {0} [built]
-[577] multi ./src/index 28 bytes {0} [built]
-[578] ./node_modules/@babel/polyfill/lib/index.js 893 bytes {0} [built]
-[971] ./src/_core/styles/resources/img/apple-touch-icon.png 70 bytes {0} [built]
-[972] ./src/_core/styles/resources/img/favicon-32x32.png 67 bytes {0} [built]
-[973] ./src/_core/styles/resources/img/favicon-16x16.png 67 bytes {0} [built]
-[974] ./src/_core/styles/resources/img/safari-pinned-tab.svg 71 bytes {0} [built]
-[975] ./src/_core/styles/resources/img/favicon.ico 61 bytes {0} [built]
-[976] ./src/_core/styles/resources/img/7994970.png 61 bytes {0} [built]
-[977] ./src/_core/styles/resources/img/layer_thumbnails/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png 91 bytes {0} [built]
-[987] ./src/styles/inlineStyles.js 238 bytes {1} [built]
-[989] ./src/index.js + 178 modules 608 KiB {0} [built]
+[461] ./node_modules/css-loader/dist/runtime/api.js 2.35 KiB {0} [built]
+[530] ./src/store/configureStore.js 362 bytes {0} [built]
+[580] multi ./src/index 28 bytes {0} [built]
+[581] ./node_modules/@babel/polyfill/lib/index.js 893 bytes {0} [built]
+[974] ./src/_core/styles/resources/img/apple-touch-icon.png 70 bytes {0} [built]
+[975] ./src/_core/styles/resources/img/favicon-32x32.png 67 bytes {0} [built]
+[976] ./src/_core/styles/resources/img/favicon-16x16.png 67 bytes {0} [built]
+[977] ./src/_core/styles/resources/img/safari-pinned-tab.svg 71 bytes {0} [built]
+[978] ./src/_core/styles/resources/img/favicon.ico 61 bytes {0} [built]
+[979] ./src/_core/styles/resources/img/7994970.png 61 bytes {0} [built]
+[980] ./src/_core/styles/resources/img/layer_thumbnails/AMSR2_Sea_Ice_Brightness_Temp_6km_89H.png 91 bytes {0} [built]
+[990] ./src/styles/inlineStyles.js 238 bytes {1} [built]
+[992] ./src/index.js + 178 modules 608 KiB {0} [built]
       | ./src/index.js 2.35 KiB [built]
       | ./node_modules/react-redux/es/index.js 270 bytes [built]
       | ./src/_core/components/App/index.js 281 bytes [built]
@@ -59,7 +59,7 @@ Entrypoint inlineStyles = inlineStyles.js
       | ./node_modules/react-redux/es/connect/mapDispatchToProps.js 915 bytes [built]
       | ./node_modules/react-redux/es/connect/mapStateToProps.js 504 bytes [built]
       |     + 164 hidden modules
-    + 1022 hidden modules
+    + 1025 hidden modules
 
 WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
 This can impact web performance.
@@ -71,11 +71,11 @@ Assets:
   img/VIIRS_SNPP_CorrectedReflectance_TrueColor.png (967 KiB)
   img/flight_paths_kml.png (917 KiB)
   img/us_state_outline_topojson.png (541 KiB)
-  index.js (4.8 MiB)
+  index.js (4.82 MiB)
 
 WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
 Entrypoints:
-  index (4.84 MiB)
+  index (4.86 MiB)
       index.js
       bundle.css
 
@@ -274,8 +274,8 @@ Child html-webpack-plugin for "index.html":
     [3] (webpack)/buildin/module.js 497 bytes {0} [built]
 Child worker:
                              Asset      Size  Chunks             Chunk Names
-    b5633a510d4f4c3238a2.worker.js  4.12 KiB       0  [emitted]  main
-    Entrypoint main = b5633a510d4f4c3238a2.worker.js
+    4e5befde06a75d1dd084.worker.js  4.12 KiB       0  [emitted]  main
+    Entrypoint main = 4e5befde06a75d1dd084.worker.js
     [0] ./node_modules/@babel/runtime/helpers/defineProperty.js 289 bytes {0} [built]
     [1] ./node_modules/@babel/runtime/helpers/classCallCheck.js 196 bytes {0} [built]
     [2] ./node_modules/@babel/runtime/helpers/createClass.js 596 bytes {0} [built]
@@ -285,9 +285,9 @@ Child worker:
     [6] ./node_modules/@babel/runtime/helpers/typeof.js 817 bytes {0} [built]
     [7] ./node_modules/@babel/runtime/helpers/assertThisInitialized.js 219 bytes {0} [built]
     [8] ./node_modules/@babel/runtime/helpers/setPrototypeOf.js 237 bytes {0} [built]
-    [9] ./node_modules/babel-loader/lib??ref--4-0!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js + 3 modules 13 KiB {0} [built]
+    [9] ./node_modules/babel-loader/lib??ref--4-0!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js + 3 modules 13.3 KiB {0} [built]
         | ./node_modules/babel-loader/lib??ref--4-0!./node_modules/eslint-loader!./src/_core/utils/WebWorkerWrapper.js 1.54 KiB [built]
-        | ./src/_core/constants/appStrings.js 7.81 KiB [built]
+        | ./src/_core/constants/appStrings.js 8.08 KiB [built]
         | ./src/utils/WebWorker.js 1.67 KiB [built]
         | ./src/_core/utils/WebWorker.js 1.95 KiB [built]
 [32mYour app has been compiled in production mode and written to /dist. It's ready to roll![39m
