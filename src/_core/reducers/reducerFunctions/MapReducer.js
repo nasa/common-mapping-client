@@ -535,14 +535,21 @@ export default class MapReducer {
     static ingestLayerConfig(state, action) {
         if (action.options.type === appStrings.LAYER_CONFIG_JSON) {
             let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
-            let newPartials = this.generatePartialsListFromJson(action.config);
+            let newPartials = this.generatePartialsListFromJson(action.config, action.options);
             return state.setIn(
                 ["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL],
                 currPartials.concat(newPartials)
             );
         } else if (action.options.type === appStrings.LAYER_CONFIG_WMTS_XML) {
             let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
-            let newPartials = this.generatePartialsListFromWmtsXml(action.config);
+            let newPartials = this.generatePartialsListFromWmtsXml(action.config, action.options);
+            return state.setIn(
+                ["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL],
+                currPartials.concat(newPartials)
+            );
+        } else if (action.options.type === appStrings.LAYER_CONFIG_WMS_XML) {
+            let currPartials = state.getIn(["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL]);
+            let newPartials = this.generatePartialsListFromWmsXml(action.config, action.options);
             return state.setIn(
                 ["layers", appStrings.LAYER_GROUP_TYPE_PARTIAL],
                 currPartials.concat(newPartials)
@@ -1247,30 +1254,59 @@ export default class MapReducer {
         });
     }
 
-    static generatePartialsListFromJson(config) {
+    static generatePartialsListFromJson(config, options) {
         return config.layers.map(layer => {
             let newLayer = Immutable.fromJS(layer);
             return newLayer.set("fromJson", true);
         });
     }
 
-    static generatePartialsListFromWmtsXml(config) {
-        let capabilities = this.mapUtil.parseCapabilities(config);
+    static generatePartialsListFromWmtsXml(config, options) {
+        let capabilities = this.mapUtil.parseWMTSCapabilities(config);
         if (capabilities) {
-            let wmtsLayers = capabilities.Contents.Layer;
-            let newLayers = wmtsLayers.map(layer => {
-                let wmtsOptions = this.mapUtil.getWmtsOptions({
+            let layers = capabilities.Contents.Layer;
+            let newLayers = layers.map(layer => {
+                let mappingOptions = this.mapUtil.getWmtsOptions({
                     capabilities: capabilities,
                     options: {
                         layer: layer.Identifier,
                         matrixSet: layer.TileMatrixSetLink[0].TileMatrixSet
-                    }
+                    },
+                    requestOptions: options
                 });
                 return {
                     id: layer.Identifier,
                     title: layer.Title,
                     fromJson: false,
-                    wmtsOptions: wmtsOptions
+                    handleAs: appStrings.LAYER_WMTS_RASTER,
+                    mappingOptions: mappingOptions
+                };
+            });
+            return Immutable.fromJS(newLayers);
+        }
+        return [];
+    }
+
+    static generatePartialsListFromWmsXml(config, options) {
+        let capabilities = this.mapUtil.parseWMSCapabilities(config);
+        // console.log(capabilities, options);
+        if (capabilities) {
+            let layers = capabilities.Capability.Layer.Layer;
+            let newLayers = layers.map(layer => {
+                let id = layer.Identifier || layer.Name;
+                let wmsOptions = this.mapUtil.getWmsOptions({
+                    capabilities: capabilities,
+                    options: {
+                        layer: id
+                    },
+                    requestOptions: options
+                });
+                return {
+                    id: id,
+                    title: layer.Title,
+                    fromJson: false,
+                    handleAs: appStrings.LAYER_WMS_RASTER,
+                    mappingOptions: wmsOptions
                 };
             });
             return Immutable.fromJS(newLayers);

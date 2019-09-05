@@ -195,7 +195,7 @@ export const MapUtilSpec = {
                 });
             }
         },
-        buildTileUrl: {
+        buildWmtsTileUrl: {
             test1: () => {
                 it("takes in a set WMTS url params and returns a valid WMTS tile url.", () => {
                     let varIn1 = {
@@ -225,8 +225,8 @@ export const MapUtilSpec = {
                         "http://fakeTile.com/getTile?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=layerId&STYLE=&TILEMATRIXSET=tileMatrixSet&TILEMATRIX=0&TILEROW=0&TILECOL=0&FORMAT=format";
 
                     //assert
-                    expect(MapUtil.buildTileUrl(varIn1)).to.equal(varOut1);
-                    expect(MapUtil.buildTileUrl(varIn2)).to.equal(varOut2);
+                    expect(MapUtil.buildWmtsTileUrl(varIn1)).to.equal(varOut1);
+                    expect(MapUtil.buildWmtsTileUrl(varIn2)).to.equal(varOut2);
                 });
             },
             test2: () => {
@@ -244,7 +244,7 @@ export const MapUtilSpec = {
                     let varOut = "http://fakeTile.com/getTile/tileMatrixSetStr/0/0/0";
 
                     //assert
-                    expect(MapUtil.buildTileUrl(varIn)).to.equal(varOut);
+                    expect(MapUtil.buildWmtsTileUrl(varIn)).to.equal(varOut);
                 });
             }
         },
@@ -252,15 +252,15 @@ export const MapUtilSpec = {
             test1: () => {
                 it("takes a function string and returns a function associated with it", () => {
                     //assert
-                    expect(typeof TileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC)).to.equal(
-                        "function"
-                    );
+                    expect(
+                        typeof TileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC_WMTS)
+                    ).to.equal("function");
                     expect(typeof TileHandler.getUrlFunction(appStrings.ESRI_CUSTOM_512)).to.equal(
                         "function"
                     );
-                    expect(typeof TileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM)).to.equal(
-                        "function"
-                    );
+                    expect(
+                        typeof TileHandler.getUrlFunction(appStrings.KVP_TIME_PARAM_WMTS)
+                    ).to.equal("function");
                     expect(typeof TileHandler.getUrlFunction(appStrings.CATS_URL)).to.equal(
                         "function"
                     );

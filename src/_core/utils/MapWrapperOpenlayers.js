@@ -10,10 +10,12 @@ import Ol_Map from "ol/Map";
 import Ol_View from "ol/View";
 import Ol_Layer_Vector from "ol/layer/Vector";
 import Ol_Layer_Tile from "ol/layer/Tile";
+import Ol_Layer_Image from "ol/layer/Image";
 import Ol_Source_WMTS from "ol/source/WMTS";
 import Ol_Source_Cluster from "ol/source/Cluster";
 import Ol_Source_Vector from "ol/source/Vector";
 import Ol_Source_XYZ from "ol/source/XYZ";
+import Ol_Source_WMS from "ol/source/ImageWMS";
 import Ol_Tilegrid_WMTS from "ol/tilegrid/WMTS";
 import Ol_Style_Fill from "ol/style/Fill";
 import Ol_Style from "ol/style/Style";
@@ -376,6 +378,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             case appStrings.LAYER_XYZ_RASTER:
                 mapLayer = this.createWMTSLayer(layer, fromCache);
                 break;
+            case appStrings.LAYER_WMS_RASTER:
+                mapLayer = this.createWMSLayer(layer, fromCache);
+                break;
             case appStrings.LAYER_VECTOR_GEOJSON:
                 mapLayer = this.createVectorLayer(layer, fromCache);
                 break;
@@ -421,6 +426,38 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     }
 
     /**
+     * create an openlayers wms raster layer
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {boolean} [fromCache=true] true if the layer may be pulled from the cache
+     * @returns {object|boolean} openlayers layer wms layer object or false if it fails
+     * @memberof MapWrapperOpenlayers
+     */
+    createWMSLayer(layer, fromCache) {
+        try {
+            if (layer && layer.get("mappingOptions")) {
+                let options = layer.get("mappingOptions").toJS();
+                let layerSource = this.createLayerSource(layer, options, fromCache);
+
+                let mapLayer = new Ol_Layer_Image({
+                    opacity: layer.get("opacity"),
+                    visible: layer.get("isActive"),
+                    source: layerSource,
+                    extent: appConfig.DEFAULT_MAP_EXTENT
+                });
+
+                this.setWMSLayerOverrides(layer, mapLayer, layerSource);
+
+                return mapLayer;
+            }
+            return false;
+        } catch (err) {
+            console.warn("Error in MapWrapperOpenlayers.createWMSLayer:", err);
+            return false;
+        }
+    }
+
+    /**
      * create an openlayers wmts raster layer
      *
      * @param {ImmutableJS.Map} layer layer object from map state in redux
@@ -430,8 +467,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
      */
     createWMTSLayer(layer, fromCache = true) {
         try {
-            if (layer && layer.get("wmtsOptions")) {
-                let options = layer.get("wmtsOptions").toJS();
+            if (layer && layer.get("mappingOptions")) {
+                let options = layer.get("mappingOptions").toJS();
                 let layerSource = this.createLayerSource(layer, options, fromCache);
 
                 // set up wrap around extents
@@ -444,7 +481,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     extent: appConfig.DEFAULT_MAP_EXTENT
                 });
 
-                this.setWMTSLayerOverrides(layerSource, layer, mapLayer);
+                this.setWMTSLayerOverrides(layer, mapLayer, layerSource);
 
                 return mapLayer;
             }
@@ -456,16 +493,45 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     }
 
     /**
+     * override the url generation function and tile/image loading
+     * functions for an openlayers layer in order to customize urls
+     * and tile/image load handling
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer openlayers layer
+     * @param {object} layerSource openlayers layer source
+     * @memberof MapWrapperOpenlayers
+     */
+    setLayerOverrides(layer, mapLayer, source) {
+        switch (layer.get("handleAs")) {
+            case appStrings.LAYER_GIBS_RASTER:
+                this.setWMTSLayerOverrides(layer, mapLayer, source);
+                break;
+            case appStrings.LAYER_WMTS_RASTER:
+                this.setWMTSLayerOverrides(layer, mapLayer, source);
+                break;
+            case appStrings.LAYER_XYZ_RASTER:
+                this.setWMTSLayerOverrides(layer, mapLayer, source);
+                break;
+            case appStrings.LAYER_WMS_RASTER:
+                this.setWMSLayerOverrides(layer, mapLayer, source);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
      * override the url generation function and tile loading functions
      * for an openlayers wmts layer in order to customize urls and
      * tile load handling
      *
-     * @param {object} layerSource openlayers wmts layer source
      * @param {ImmutableJS.Map} layer layer object from map state in redux
      * @param {object} mapLayer openlayers wmts layer
+     * @param {object} layerSource openlayers wmts layer source
      * @memberof MapWrapperOpenlayers
      */
-    setWMTSLayerOverrides(layerSource, layer, mapLayer) {
+    setWMTSLayerOverrides(layer, mapLayer, layerSource) {
         // make sure we have these set
         if (
             typeof layerSource.get("_defaultUrlFunc") === "undefined" &&
@@ -491,6 +557,28 @@ export default class MapWrapperOpenlayers extends MapWrapper {
         });
         layerSource.setTileLoadFunction((tile, url) => {
             return this.handleTileLoad(layer, mapLayer, tile, url, origTileLoadFunc);
+        });
+    }
+
+    /**
+     * override the url generation function and image loading functions
+     * for an openlayers wms layer in order to customize urls and
+     * image load handling
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer openlayers wms layer
+     * @param {object} layerSource openlayers wms layer source
+     * @memberof MapWrapperOpenlayers
+     */
+    setWMSLayerOverrides(layer, mapLayer, layerSource) {
+        if (typeof layerSource.get("_defaultImgLoadFunc") === "undefined") {
+            layerSource.set("_defaultImgLoadFunc", layerSource.getImageLoadFunction());
+        }
+
+        layerSource.setImageLoadFunction((image, src) => {
+            const url = this.generateWMSImageUrl(layer, mapLayer, layerSource, src);
+
+            return this.handleImageLoad(layer, mapLayer, layerSource, image, url);
         });
     }
 
@@ -1760,6 +1848,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     [
                         appStrings.LAYER_GIBS_RASTER,
                         appStrings.LAYER_WMTS_RASTER,
+                        appStrings.LAYER_WMS_RASTER,
                         appStrings.LAYER_XYZ_RASTER
                     ].indexOf(layer.get("handleAs")) !== -1
                 ) {
@@ -1773,11 +1862,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                     let source = this.layerCache.get(cacheHash);
                     if (!source) {
                         // create a new source
-                        let options = layer.get("wmtsOptions").toJS();
+                        let options = layer.get("mappingOptions").toJS();
                         source = this.createLayerSource(layer, options, false);
 
-                        this.setWMTSLayerOverrides(source, layer, mapLayer);
-                    } else if (appConfig.DEFAULT_TILE_TRANSITION_TIME !== 0) {
+                        this.setLayerOverrides(layer, mapLayer, source);
+                        // this.setWMTSLayerOverrides(layer, mapLayer, source);
+                    } else if (
+                        appConfig.DEFAULT_TILE_TRANSITION_TIME !== 0 &&
+                        typeof source.getTileCacheForProjection === "function"
+                    ) {
                         // reset the transition tracking for the tiles to enable crossfade
                         let tileCache = source.getTileCacheForProjection(source.getProjection());
                         tileCache.forEach(tile => {
@@ -2063,6 +2156,38 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     /* functions for openlayers only */
 
     /**
+     * generate a url for a wms raster layer
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer openlayers layer object
+     * @param {object} layerSource openlayers layer source object
+     * @param {string} defaultUrl the url coming out of openlayers for this image
+     * @returns {string} url for this tile
+     * @memberof MapWrapperOpenlayers
+     */
+    generateWMSImageUrl(layer, mapLayer, layerSource, defaultUrl) {
+        try {
+            let origUrl = layer.getIn(["mappingOptions", "url"]);
+            let customUrlFunction = this.tileHandler.getUrlFunction(
+                layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_2D])
+            );
+            if (typeof customUrlFunction === "function") {
+                return customUrlFunction({
+                    layer,
+                    mapLayer,
+                    defaultUrl,
+                    origUrl,
+                    context: appStrings.MAP_LIB_2D
+                });
+            }
+            return defaultUrl;
+        } catch (err) {
+            console.warn("Error in MapWrapperOpenlayers.generateWMSImageUrl:", err);
+            return false;
+        }
+    }
+
+    /**
      * generate a url for a tile for a wmts raster layer
      *
      * @param {ImmutableJS.Map} layer layer object from map state in redux
@@ -2085,9 +2210,9 @@ export default class MapWrapperOpenlayers extends MapWrapper {
         origFunc
     ) {
         try {
-            let origUrl = layer.getIn(["wmtsOptions", "url"]);
+            let origUrl = layer.getIn(["mappingOptions", "url"]);
             let customUrlFunction = this.tileHandler.getUrlFunction(
-                layer.getIn(["wmtsOptions", "urlFunctions", appStrings.MAP_LIB_2D])
+                layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_2D])
             );
             let tileMatrixIds =
                 typeof layerSource.getTileGrid === "function" &&
@@ -2127,7 +2252,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
     handleTileLoad(layer, mapLayer, tile, url, origFunc) {
         try {
             let customTileFunction = this.tileHandler.getTileFunction(
-                layer.getIn(["wmtsOptions", "tileFunctions", appStrings.MAP_LIB_2D])
+                layer.getIn(["mappingOptions", "tileFunctions", appStrings.MAP_LIB_2D])
             );
             if (typeof customTileFunction === "function") {
                 return customTileFunction({
@@ -2143,6 +2268,42 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             return origFunc(tile, url);
         } catch (err) {
             console.warn("Error in MapWrapperOpenlayers.handleTileLoad:", err);
+            return false;
+        }
+    }
+
+    /**
+     * load in a wms raster image
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} mapLayer openlayers layer object
+     * @param {object} layerSource openlayers source object
+     * @param {object} image openlayers image object
+     * @param {string} url url for this image raster
+     * @returns undefined
+     * @memberof MapWrapperOpenlayers
+     */
+    handleImageLoad(layer, mapLayer, layerSource, image, url) {
+        try {
+            let customImageFunction = this.tileHandler.getTileFunction(
+                layer.getIn(["mappingOptions", "tileFunctions", appStrings.MAP_LIB_2D])
+            );
+            const defaultFunc = () => {
+                image.getImage().src = url;
+            };
+            if (typeof customImageFunction === "function") {
+                return customImageFunction({
+                    layer,
+                    mapLayer,
+                    layerSource,
+                    image,
+                    url,
+                    defaultFunc
+                });
+            }
+            defaultFunc();
+        } catch (err) {
+            console.warn("Error in MapWrapperOpenlayers.handleImageLoad:", err);
             return false;
         }
     }
@@ -2184,6 +2345,8 @@ export default class MapWrapperOpenlayers extends MapWrapper {
                 return this.createWMTSSource(layer, options);
             case appStrings.LAYER_XYZ_RASTER:
                 return this.createXYZSource(layer, options);
+            case appStrings.LAYER_WMS_RASTER:
+                return this.createWMSSource(layer, options);
             case appStrings.LAYER_VECTOR_GEOJSON:
                 return this.createVectorGeojsonSource(layer, options);
             case appStrings.LAYER_VECTOR_TOPOJSON:
@@ -2237,6 +2400,28 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             transition: appConfig.DEFAULT_TILE_TRANSITION_TIME,
             crossOrigin: "anonymous",
             wrapX: true
+        });
+    }
+
+    /**
+     * creates an openlayers wms layer source
+     *
+     * @param {ImmutableJS.Map} layer layer object from map state in redux
+     * @param {object} options raster imagery options for layer from redux state
+     * - url - {string} base url for this layer
+     * - layer - {string} layer identifier
+     * - projection - {string} projection string
+     * - extents - {array} bounding box extents for this layer
+     * @returns {object} openlayers source object
+     * @memberof MapWrapperOpenlayers
+     */
+    createWMSSource(layer, options) {
+        return new Ol_Source_WMS({
+            url: options.url,
+            params: {
+                LAYERS: options.layer
+            },
+            crossOrigin: "anonymous"
         });
     }
 

@@ -5,7 +5,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 2,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -40,7 +40,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -75,11 +75,11 @@ export const ACTIVE_LAYERS = {
             max: 32,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
-                urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
+                urlFunctions: { openlayers: "kvpTimeParam_wmts", cesium: "kvpTimeParam_wmts" },
                 tileFunctions: {},
                 url:
                     "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/GHRSST_L4_G1SST_Sea_Surface_Temperature/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
@@ -135,7 +135,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -190,7 +190,7 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -243,12 +243,12 @@ export const ACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
-                tileFunctions: { openlayers: "catsTile" },
+                tileFunctions: {},
                 url:
                     "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
                 projection: "EPSG:4326",
@@ -292,7 +292,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -327,7 +327,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
@@ -362,11 +362,11 @@ export const INACTIVE_LAYERS = {
             max: 32,
             isDisabled: false,
             displayIndex: 1,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "1km",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
-                urlFunctions: { openlayers: "kvpTimeParam", cesium: "kvpTimeParam" },
+                urlFunctions: { openlayers: "kvpTimeParam_wmts", cesium: "kvpTimeParam_wmts" },
                 tileFunctions: {},
                 url:
                     "http://gibs.earthdata.nasa.gov/wmts/epsg4326/best/GHRSST_L4_G1SST_Sea_Surface_Temperature/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
@@ -422,7 +422,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "250m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -477,7 +477,7 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: "500m",
                 requestEncoding: "REST",
                 extents: [-180, -90, 180, 90],
@@ -530,12 +530,12 @@ export const INACTIVE_LAYERS = {
             max: 0,
             isDisabled: false,
             displayIndex: 0,
-            wmtsOptions: {
+            mappingOptions: {
                 matrixSet: undefined,
                 requestEncoding: "KVP",
                 extents: [-180, -90, 180, 90],
                 urlFunctions: { openlayers: "esriCustom512" },
-                tileFunctions: { openlayers: "catsTile" },
+                tileFunctions: {},
                 url:
                     "http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
                 projection: "EPSG:4326",

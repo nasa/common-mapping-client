@@ -59,17 +59,25 @@ export default class TileHandler {
      */
     static getUrlFunction(functionString = "") {
         switch (functionString) {
-            case appStrings.DEFAULT_URL_FUNC:
+            case appStrings.DEFAULT_URL_FUNC_WMTS:
                 return options => {
-                    return this._defaultKVPUrl(options);
+                    return this._defaultKVPUrlWmts(options);
+                };
+            case appStrings.DEFAULT_URL_FUNC_WMS:
+                return options => {
+                    return this._defaultKVPUrlWms(options);
                 };
             case appStrings.ESRI_CUSTOM_512:
                 return options => {
                     return this._esriCustom512Url(options);
                 };
-            case appStrings.KVP_TIME_PARAM:
+            case appStrings.KVP_TIME_PARAM_WMTS:
                 return options => {
-                    return this._kvpTimeParamUrl(options);
+                    return this._kvpTimeParamUrlWmts(options);
+                };
+            case appStrings.KVP_TIME_PARAM_WMS:
+                return options => {
+                    return this._kvpTimeParamUrlWms(options);
                 };
             case appStrings.CATS_URL:
                 return options => {
@@ -131,13 +139,13 @@ export default class TileHandler {
      * @returns {string} tile url
      * @memberof TileHandler
      */
-    static _defaultKVPUrl(options) {
+    static _defaultKVPUrlWmts(options) {
         let layer = options.layer;
-        let url = this.mapUtil.buildTileUrl({
-            layerId: layer.getIn(["wmtsOptions", "layer"]),
+        let url = this.mapUtil.buildWmtsTileUrl({
+            layerId: layer.getIn(["mappingOptions", "layer"]),
             url: options.origUrl,
-            tileMatrixSet: layer.getIn(["wmtsOptions", "matrixSet"]),
-            format: layer.getIn(["wmtsOptions", "format"]),
+            tileMatrixSet: layer.getIn(["mappingOptions", "matrixSet"]),
+            format: layer.getIn(["mappingOptions", "format"]),
             col: options.tileCoord[1],
             row: options.tileCoord[2],
             level:
@@ -149,6 +157,18 @@ export default class TileHandler {
         });
 
         return url;
+    }
+
+    /**
+     * constuct a wmts kvp format url
+     *
+     * @static
+     * @param {object} options tile url function options
+     * @returns {string} tile url
+     * @memberof TileHandler
+     */
+    _defaultKVPUrlWms(options) {
+        return options.defaultUrl;
     }
 
     /**
@@ -179,9 +199,9 @@ export default class TileHandler {
      * @returns {string} tile url
      * @memberof TileHandler
      */
-    static _kvpTimeParamUrl(options) {
+    static _kvpTimeParamUrlWmts(options) {
         let mapLayer = options.mapLayer;
-        let url = this._defaultKVPUrl(options);
+        let url = this._defaultKVPUrlWmts(options);
 
         let timeStr =
             typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
@@ -190,6 +210,34 @@ export default class TileHandler {
                 url = url.replace("{Time}", timeStr);
             } else {
                 url = url + "&TIME=" + timeStr;
+            }
+        }
+
+        return url;
+    }
+
+    /**
+     * constuct a wms kvp format url with an additional time parameter
+     *
+     * @static
+     * @param {object} options image url function options
+     * @returns {string} image url
+     * @memberof ImageHandler
+     */
+    static _kvpTimeParamUrlWms(options) {
+        const { mapLayer, defaultUrl } = options;
+        let url = defaultUrl;
+
+        // add query string section
+        const first = defaultUrl.indexOf("?") === -1;
+
+        let timeStr =
+            typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
+        if (typeof timeStr !== "undefined") {
+            if (defaultUrl.indexOf("{") >= 0) {
+                url = defaultUrl.replace("{Time}", timeStr);
+            } else {
+                url = defaultUrl + (first ? "?" : "&") + "TIME=" + timeStr;
             }
         }
 
@@ -206,7 +254,7 @@ export default class TileHandler {
      */
     static _catsInterceptUrl(options) {
         let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
-        // let tileSize = options.layer.getIn(["wmtsOptions", "tileGrid", "tileSize"]);
+        // let tileSize = options.layer.getIn(["mappingOptions", "tileGrid", "tileSize"]);
         return "http://placekitten.com/g/" + tileSize + "/" + tileSize;
     }
 
