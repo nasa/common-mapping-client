@@ -2016,6 +2016,14 @@ export default class MapWrapperCesium extends MapWrapper {
                 return new this.cesium.WebMapServiceImageryProvider({
                     url: options.url,
                     layers: options.layer,
+                    parameters: Object.assign(
+                        {},
+                        this.cesium.WebMapServiceImageryProvider.DefaultParameters,
+                        {
+                            format: options.format,
+                            transparent: true
+                        }
+                    ),
                     // rectangle: new this.cesium.Rectangle(west, south, east, north),
                     tilingScheme: this.createTilingScheme(
                         {
