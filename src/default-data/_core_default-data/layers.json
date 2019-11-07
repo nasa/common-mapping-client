@@ -67,6 +67,35 @@
             "thumbnailImage": "img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png"
         },
         {
+            "id": "GHRSST_L4_G1SST_Sea_Surface_Temperature_png_colorbar",
+            "title": "Sea Surface Temperature (PNG colorbar)",
+            "type": "data",
+            "handleAs": "GIBS_raster",
+            "mappingOptions": {
+                "matrixSet": "1km",
+                "url": "https://gibs-c.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi",
+                "projection": "EPSG:4326",
+                "layer": "GHRSST_L4_MUR_Sea_Surface_Temperature",
+                "tileGrid": {
+                    "matrixIds": [0, 1, 2, 3, 4, 5],
+                    "tileSize": 512
+                },
+                "urlFunctions": {
+                    "openlayers": "kvpTimeParam_wmts",
+                    "cesium": "kvpTimeParam_wmts"
+                }
+            },
+            "metadata": {
+                "url": "default-data/_core_default-data/layer-metadata/GHRSST_L4_G1SST_Sea_Surface_Temperature.json",
+                "handleAs": "json"
+            },
+            "palette": {
+                "handleAs": "image",
+                "url": "_core/styles/resources/img/demo_sst_colorbar.png"
+            },
+            "thumbnailImage": "img/GHRSST_L4_G1SST_Sea_Surface_Temperature.png"
+        },
+        {
             "id": "MODIS_Terra_Brightness_Temp_Band31_Day",
             "title": "Brightness Temperature",
             "type": "data",
