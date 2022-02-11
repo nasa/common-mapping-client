@@ -70,7 +70,7 @@
         "immutable": "3.8.2",
         "isomorphic-fetch": "2.2.1",
         "js-quantities": "1.7.3",
-        "karma": "4.1.0",
+        "karma": "6.3.14",
         "karma-chai": "0.1.0",
         "karma-chrome-launcher": "2.2.0",
         "karma-cli": "2.0.0",
