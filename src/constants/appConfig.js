@@ -15,30 +15,7 @@ const CORE_CONFIG = Immutable.fromJS(coreConfig);
 const OPS_CONFIG = Immutable.fromJS(window.APPLICATION_CONFIG);
 
 // define your overrides for Core config here
-const APP_CONFIG = Immutable.fromJS({
-    URLS: {
-        layerConfig: [
-            {
-                url: "default-data/_core_default-data/capabilities.xml",
-                type: "wmts/xml"
-            },
-            {
-                url: "default-data/_core_default-data/layers.json",
-                type: "json"
-            }
-        ],
-        paletteConfig: "default-data/_core_default-data/palettes.json"
-    },
-    DATA_DIRECTORY: "default-data/_core_default-data",
-    ABOUT_MARKDOWN: require("default-data/_core_default-data/help/about.md"),
-    FAQ_MARKDOWN: require("default-data/_core_default-data/help/about.md"),
-    SYSTEM_REQS_MARKDOWN: require("default-data/_core_default-data/help/about.md"),
-    /* MAP */
-    VERTICAL_PROFILE_FILL_COLOR: "rgba(255,200,68, 1)",
-    VERTICAL_PROFILE_STROKE_COLOR: "rgba(48, 48, 48, 1)",
-    VERTICAL_PROFILE_STROKE_WEIGHT: 1.25,
-    VERTICAL_PROFILE_OUTLINE_COLOR: "rgba(0, 0, 0, 1)"
-});
+const APP_CONFIG = Immutable.fromJS({});
 
 // define and export the final config
 const appConfig = CORE_CONFIG.mergeDeep(APP_CONFIG)

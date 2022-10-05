@@ -39,43 +39,4 @@ APPLICATION_CONFIG = {
 
 */
 
-/* DEFAULT */
 APPLICATION_CONFIG = {};
-
-/* EOSC */
-// APPLICATION_CONFIG = {
-//     APP_TITLE: "Argo Marine data discovery",
-//     APP_LOGO: "img/eosc-future.svg",
-//     URLS: {
-//         layerConfig: [
-//             {
-//                 url: "default-data/_core_default-data/capabilities.xml",
-//                 type: "wmts/xml"
-//             },
-//             {
-//                 url: "default-data/eosc-data/layers.json",
-//                 type: "json"
-//             }
-//         ],
-//         paletteConfig: "default-data/eosc-data/palettes.json"
-//     }
-// };
-
-/* IFREMER */
-// APPLICATION_CONFIG = {
-//     APP_TITLE: "Ifremer various marine data discovery",
-//     APP_LOGO: "img/logo_Ifremer.svg",
-//     URLS: {
-//         layerConfig: [
-//             {
-//                 url: "default-data/_core_default-data/capabilities.xml",
-//                 type: "wmts/xml"
-//             },
-//             {
-//                 url: "default-data/ifremer-data/layers.json",
-//                 type: "json"
-//             }
-//         ],
-//         paletteConfig: "default-data/ifremer-data/palettes.json"
-//     }
-// };
