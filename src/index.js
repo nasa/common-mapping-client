@@ -20,7 +20,7 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import configureStore from "store/configureStore";
-import { AppContainer } from "_core/components/App"; // Replace this with your own non-core version src/components/AppContainer/AppContainer.js
+import { AppContainer } from "components/App";
 require("_core/styles/resources/img/apple-touch-icon.png");
 require("_core/styles/resources/img/favicon-32x32.png");
 require("_core/styles/resources/img/favicon-16x16.png");
@@ -37,6 +37,19 @@ require("_core/styles/resources/img/layer_thumbnails/ESRI_World_Imagery.jpeg");
 require("_core/styles/resources/img/layer_thumbnails/BlueMarble_ShadedRelief_Bathymetry.jpeg");
 require("_core/styles/resources/img/layer_thumbnails/OSM_Land_Water_Map.png");
 require("_core/styles/resources/img/layer_thumbnails/ASTER_GDEM_Color_Shaded_Relief.jpeg");
+require("styles/resources/img/layer_thumbnails/argo_discovery_thumbnail.png");
+require("styles/resources/img/layer_thumbnails/argo_eosc_thumbnail.png");
+require("styles/resources/img/layer_thumbnails/odyssea_thumbnail.png");
+require("styles/resources/img/NRTOA_TEMP_colorbar.png");
+require("styles/resources/img/NRTOA_PSAL_colorbar.png");
+require("styles/resources/img/IFR-L4-SSTfnd-ODYSSEA-GLOB_010_colorbar.png");
+require("styles/resources/img/logo/eosc-hub-web.png");
+require("styles/resources/img/logo/eosc-hub-web_33x120.png");
+require("styles/resources/img/logo/eosc-hub-web_favicon.png");
+require("styles/resources/img/logo/logo_Ifremer_43x120.png");
+require("styles/resources/img/logo/logo_Ifremer.png");
+require("styles/resources/img/logo/in2p3_120x120.jpg");
+require("styles/resources/img/logo/eosc-future.svg");
 
 const store = configureStore();
 

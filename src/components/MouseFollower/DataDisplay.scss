@@ -1,0 +1,60 @@
+@import "~styles/colors";
+
+.root {
+    padding: 0;
+    margin: 0;
+}
+
+.color {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+.titleContainer {
+    padding: 8px 12px;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.contrastTextColor {
+    color: white;
+}
+.middleContent,
+.bottomContent {
+    padding: 8px 12px;
+}
+.middleContent {
+    border-bottom: 1px solid $color-medium-light;
+    background: #f5f5f5;
+}
+.dateLabel,
+.mouseCoordinatesRoot {
+    font-weight: 500;
+}
+.dateLabel {
+    display: inline-block;
+}
+.mouseCoordinatesRoot {
+    margin-left: 20px;
+    display: inline-block;
+}
+.valueLabel {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.valueContainer {
+    display: inline-block;
+    margin-right: 40px;
+}
