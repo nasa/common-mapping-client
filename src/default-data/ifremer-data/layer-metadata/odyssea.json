@@ -1,0 +1,6 @@
+{
+	"title": "Odyssea GHRSST Analysis",
+    "description": "ODYSSEA is the CERSAT product line for high resolution Sea Surface Temperature (SST) analyses (L4) analyses. The quality of ODYSSEA products is monitored through comparisons with verious sources and are updated daily. The bias and standard deviation of these differences are presented here as time series plots with interactive features.",
+    "dateRange": "2010/08/30 – Present",
+    "platform": "http://cersat.ifremer.fr/data/products/cal-val/quality-monitoring-of-odyssea-analysis"
+}

@@ -1,0 +1,74 @@
+@import "~styles/colors";
+
+.root {
+    padding: 0;
+    margin: 0;
+}
+
+.tableRow {
+    padding: auto 2px;
+    height: auto;
+}
+
+.color {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+.titleContainer {
+    padding: 8px 12px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.contrastTextColor {
+    color: white;
+}
+.middleContent,
+.bottomContent {
+    padding: 8px 12px;
+}
+.middleContent {
+    border-top: 1px solid $color-medium-light;
+}
+.bottomContent {
+    background: #f5f5f5;
+    border-top: 1px solid $color-medium-light;
+}
+.dateLabel,
+.clickCoordinatesRoot {
+    font-weight: 500;
+}
+.dateLabel {
+    display: inline-block;
+}
+.valueLabel {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.valueText {
+    font-size: 1.1rem;
+}
+.valueContainer {
+    margin-right: 40px;
+}
+.fullh {
+    height: 100%;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}

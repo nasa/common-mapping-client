@@ -1,0 +1,6 @@
+{
+	"title": "NRTOA",
+    "description": "For the Global Ocean- Gridded objective analysis fields of temperature and salinity using profiles from the in-situ near real time database are produced monthly. Objective analysis is based on a statistical estimation method that allows presenting a synthesis and a validation of the dataset, providing a support for localized experience (cruises), providing a validation source for operational models, observing seasonal cycle and inter-annual variability.",
+    "dateRange": "2013/03/05 – Present",
+    "platform": "http://www.argo.ucsd.edu"
+}
