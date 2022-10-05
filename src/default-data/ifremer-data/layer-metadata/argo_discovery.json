@@ -1,6 +1,0 @@
-{
-	"title": "Argo discovery",
-    "description": "Argo is an international collaboration that collects high-quality temperature and salinity profiles from the upper 2000m of the ice-free global ocean and currents from intermediate depths. The data come from battery-powered autonomous floats that spend most of their life drifting at depth where they are stabilised by being neutrally buoyant at the \"parking depth\" pressure by having a density equal to the ambient pressure and a compressibility that is less than that of sea water. At present there are several models of profiling float used in Argo. All work in a similar fashion but differ somewhat in their design characteristics. At typically 10-day intervals, the floats pump fluid into an external bladder and rise to the surface over about 6 hours while measuring temperature and salinity. Satellites or GPS determine the position of the floats when they surface, and the floats transmit their data to the satellites. The bladder then deflates and the float returns to its original density and sinks to drift until the cycle is repeated. Floats are designed to make about 150 such cycles.",
-    "dateRange": "2001/01/01 – Present",
-    "platform": "http://www.argo.ucsd.edu"
-}
