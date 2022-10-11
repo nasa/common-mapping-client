@@ -29,6 +29,10 @@ import MiscUtil from "_core/utils/MiscUtil";
 import styles from "_core/components/Help/HelpContainer.scss";
 import displayStyles from "_core/styles/display.scss";
 
+import txt_about from "default-data/_core_default-data/help/about.md";
+import txt_faq from "default-data/_core_default-data/help/faq.md";
+import txt_sys_reqs from "default-data/_core_default-data/help/systemReqs.md";
+
 export class HelpContainer extends Component {
     constructor(props) {
         super(props);
@@ -42,18 +46,18 @@ export class HelpContainer extends Component {
             ABOUT: {
                 key: "ABOUT",
                 label: "About",
-                content: cvt.makeHtml(require("default-data/_core_default-data/help/about.md"))
+                content: cvt.makeHtml(txt_about),
             },
             FAQ: {
                 key: "FAQ",
                 label: "FAQ",
-                content: cvt.makeHtml(require("default-data/_core_default-data/help/faq.md"))
+                content: cvt.makeHtml(txt_faq),
             },
             SYS_REQ: {
                 key: "SYS_REQ",
                 label: "System Requirements",
-                content: cvt.makeHtml(require("default-data/_core_default-data/help/systemReqs.md"))
-            }
+                content: cvt.makeHtml(txt_sys_reqs),
+            },
         };
     }
 
@@ -64,14 +68,14 @@ export class HelpContainer extends Component {
         let listClasses = MiscUtil.generateStringFromSet({
             [styles.menu]: true,
             [displayStyles.hidden]: this.props.helpPage !== "",
-            [this.props.className]: typeof this.props.className !== "undefined"
+            [this.props.className]: typeof this.props.className !== "undefined",
         });
         let pageClasses = MiscUtil.generateStringFromSet({
-            [displayStyles.hidden]: this.props.helpPage === ""
+            [displayStyles.hidden]: this.props.helpPage === "",
         });
         let versionClasses = MiscUtil.generateStringFromSet({
             [styles.versionTagContainer]: true,
-            [displayStyles.hidden]: this.props.helpPage !== ""
+            [displayStyles.hidden]: this.props.helpPage !== "",
         });
         return (
             <ModalMenu
@@ -153,19 +157,19 @@ HelpContainer.propTypes = {
     appActions: PropTypes.object.isRequired,
     helpOpen: PropTypes.bool.isRequired,
     helpPage: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
 };
 
 function mapStateToProps(state) {
     return {
         helpOpen: state.help.get("isOpen"),
-        helpPage: state.help.get("helpPage")
+        helpPage: state.help.get("helpPage"),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        appActions: bindActionCreators(appActions, dispatch),
     };
 }
 

@@ -9,7 +9,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Modernizr from "modernizr";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
 import * as appActions from "_core/actions/appActions";
@@ -54,7 +53,7 @@ export class FullscreenButton extends Component {
         let { className, isFullscreen, appActions, ...other } = this.props;
 
         let rootClasses = MiscUtil.generateStringFromSet({
-            [className]: typeof className !== "undefined"
+            [className]: typeof className !== "undefined",
         });
 
         return (
@@ -73,18 +72,18 @@ export class FullscreenButton extends Component {
 FullscreenButton.propTypes = {
     appActions: PropTypes.object.isRequired,
     isFullscreen: PropTypes.bool.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
 };
 
 function mapStateToProps(state) {
     return {
-        isFullscreen: state.view.get("isFullscreen")
+        isFullscreen: state.view.get("isFullscreen"),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        appActions: bindActionCreators(appActions, dispatch)
+        appActions: bindActionCreators(appActions, dispatch),
     };
 }
 

@@ -176,7 +176,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MapContainer3D);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer3D);

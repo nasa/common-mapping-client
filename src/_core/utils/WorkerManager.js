@@ -9,7 +9,7 @@
 
 import Immutable from "immutable";
 import * as appStrings from "_core/constants/appStrings";
-import WebWorker from "worker-loader?inline!_core/utils/WebWorkerWrapper.js";
+import WebWorker from "worker-loader?inline=fallback!_core/utils/WebWorkerWrapper.js";
 
 /**
  * Class for managing a pool of workers and dispatching jobs to them
@@ -47,7 +47,7 @@ export default class WorkerManager {
             let worker = new WebWorker();
             let workerId = this.getWorkerId();
 
-            worker.addEventListener("message", event => {
+            worker.addEventListener("message", (event) => {
                 let workerId = event.data.workerId;
                 let callbacks = this.callbackMap.get(workerId);
                 let resolve = callbacks.resolve;
@@ -69,7 +69,7 @@ export default class WorkerManager {
                 workerId,
                 Immutable.Map({
                     worker: worker,
-                    isActive: false
+                    isActive: false,
                 })
             );
 
@@ -84,9 +84,9 @@ export default class WorkerManager {
      * @memberof WorkerManager
      */
     clearWorkers() {
-        this.workerMap.forEach(workerEntry => {
+        this.workerMap.forEach((workerEntry) => {
             workerEntry.get("worker").postMessage({
-                operation: appStrings.WORKER_TASK_CLOSE
+                operation: appStrings.WORKER_TASK_CLOSE,
             });
         });
         this.workerMap = this.workerMap.clear();
@@ -216,7 +216,7 @@ export default class WorkerManager {
      * @memberof WorkerManager
      */
     workersAvailable() {
-        return this.workerMap.filter(workerEntry => {
+        return this.workerMap.filter((workerEntry) => {
             return !workerEntry.get("isActive");
         }).size;
     }

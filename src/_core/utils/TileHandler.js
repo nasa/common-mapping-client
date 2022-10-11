@@ -60,27 +60,27 @@ export default class TileHandler {
     static getUrlFunction(functionString = "") {
         switch (functionString) {
             case appStrings.DEFAULT_URL_FUNC_WMTS:
-                return options => {
+                return (options) => {
                     return this._defaultKVPUrlWmts(options);
                 };
             case appStrings.DEFAULT_URL_FUNC_WMS:
-                return options => {
+                return (options) => {
                     return this._defaultKVPUrlWms(options);
                 };
             case appStrings.ESRI_CUSTOM_512:
-                return options => {
+                return (options) => {
                     return this._esriCustom512Url(options);
                 };
             case appStrings.KVP_TIME_PARAM_WMTS:
-                return options => {
+                return (options) => {
                     return this._kvpTimeParamUrlWmts(options);
                 };
             case appStrings.KVP_TIME_PARAM_WMS:
-                return options => {
+                return (options) => {
                     return this._kvpTimeParamUrlWms(options);
                 };
             case appStrings.CATS_URL:
-                return options => {
+                return (options) => {
                     return this._catsInterceptUrl(options);
                 };
             default:
@@ -119,11 +119,11 @@ export default class TileHandler {
     static getTileFunction(functionString = "") {
         switch (functionString) {
             case appStrings.CATS_TILE_OL:
-                return options => {
+                return (options) => {
                     return this._catsInterceptTile_OL(options);
                 };
             case appStrings.CATS_TILE_CS:
-                return options => {
+                return (options) => {
                     return this._catsInterceptTile_CS(options);
                 };
             default:
@@ -153,7 +153,7 @@ export default class TileHandler {
                 typeof options.tileMatrixIds[options.tileCoord[0]] !== "undefined"
                     ? options.tileMatrixIds[options.tileCoord[0]]
                     : options.tileCoord[0],
-            context: options.context
+            context: options.context,
         });
 
         return url;
@@ -226,18 +226,18 @@ export default class TileHandler {
      */
     static _kvpTimeParamUrlWms(options) {
         const { mapLayer, defaultUrl } = options;
-        let url = defaultUrl;
+        let url = decodeURI(defaultUrl);
 
         // add query string section
-        const first = defaultUrl.indexOf("?") === -1;
+        const first = url.indexOf("?") === -1;
 
         let timeStr =
             typeof mapLayer.get === "function" ? mapLayer.get("_layerTime") : mapLayer._layerTime;
         if (typeof timeStr !== "undefined") {
-            if (defaultUrl.indexOf("{") >= 0) {
-                url = defaultUrl.replace("{Time}", timeStr);
+            if (url.indexOf("{") >= 0) {
+                url = url.replace("{Time}", timeStr);
             } else {
-                url = defaultUrl + (first ? "?" : "&") + "TIME=" + timeStr;
+                url = url + (first ? "?" : "&") + "TIME=" + timeStr;
             }
         }
 
@@ -276,7 +276,7 @@ export default class TileHandler {
 
             let tileSize = CAT_SIZES[Math.floor(Math.random() * (CAT_SIZES.length - 1)) + 1];
             let url = "http://placekitten.com/g/" + tileSize + "/" + tileSize;
-            tile.getImage = function(optContext) {
+            tile.getImage = function (optContext) {
                 let node = tile._origGetImageFunc(optContext);
                 node.src = url;
                 return node;
@@ -303,7 +303,7 @@ export default class TileHandler {
         imgTile.onload = () => {
             options.success(imgTile);
         };
-        imgTile.onerror = err => {
+        imgTile.onerror = (err) => {
             options.fail(err);
         };
         if (this.miscUtil.urlIsCrossorigin(url)) {

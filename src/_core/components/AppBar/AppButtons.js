@@ -78,7 +78,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(AppButtons);
+export default connect(null, mapDispatchToProps)(AppButtons);

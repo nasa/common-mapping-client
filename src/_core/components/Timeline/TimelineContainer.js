@@ -11,8 +11,8 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
-import { DataSet, Timeline } from "vis/index-timeline-graph2d";
-import "vis/dist/vis-timeline-graph2d.min.css";
+import { DataSet, Timeline } from "vis-timeline/standalone";
+import "vis-timeline/dist/vis-timeline-graph2d.min.css";
 import { ResolutionStep } from "_core/components/Timeline";
 import * as mapActions from "_core/actions/mapActions";
 import * as appStrings from "_core/constants/appStrings";
@@ -33,7 +33,7 @@ const BIN_SIZES_MS = {
     hours: DAY_IN_MS / 48,
     days: DAY_IN_MS,
     months: DAY_IN_MS * 15,
-    years: DAY_IN_MS * 150
+    years: DAY_IN_MS * 150,
 };
 
 // Mapping from date resolution values from config to scale values
@@ -44,7 +44,7 @@ const VIS_SCALE_SIZES = {
     hours: "hour",
     days: "day",
     months: "month",
-    years: "year"
+    years: "year",
 };
 
 // Offset of the item when scrolling an item into view
@@ -78,7 +78,7 @@ export class TimelineContainer extends Component {
         this.initializeTimelineListeners();
 
         // Listen window resize events and trigger resize of timeline
-        window.onresize = evt => {
+        window.onresize = (evt) => {
             this.handleWindowResize(evt);
         };
     }
@@ -99,15 +99,15 @@ export class TimelineContainer extends Component {
 
         // If date resolution has changed, configure timeline for the new resolution
         if (prevRes !== currRes) {
-            // Calculate new start, end window, set new timeAxis values
+            // set the new axis resolution value and the start and end time
             let { start, end } = this.calculateTimelineRange(moment(currDate));
             this.timeline.setOptions({
                 timeAxis: {
                     scale: VIS_SCALE_SIZES[currRes],
-                    step: 1
+                    step: 1,
                 },
                 start: start,
-                end: end
+                end: end,
             });
 
             // Focus on appDate to account for possibility of new resolution
@@ -128,10 +128,10 @@ export class TimelineContainer extends Component {
             type: "point",
             showCurrentTime: false,
             zoomable: false,
-            template: this.getTimelineTooltipFunc(),
+            tooltipOnItemUpdateTime: { template: this.getTimelineTooltipFunc() },
             itemsAlwaysDraggable: true,
             editable: {
-                updateTime: true
+                updateTime: true,
             },
             snap: this.getItemSnappingFunc(),
             onMove: this.getItemDragFunc(),
@@ -144,11 +144,11 @@ export class TimelineContainer extends Component {
             width: "100%",
             timeAxis: {
                 scale: VIS_SCALE_SIZES[dateResolution],
-                step: 1
+                step: 1,
             },
             onInitialDrawComplete: () => {
                 this.handleInitialDraw();
-            }
+            },
         };
     }
 
@@ -157,15 +157,15 @@ export class TimelineContainer extends Component {
     }
 
     initializeTimelineListeners() {
-        this.timeline.on("click", props => {
+        this.timeline.on("click", (props) => {
             this.handleTimelineClick(props);
         });
 
-        this.timeline.on("rangechange", props => {
+        this.timeline.on("rangechange", (props) => {
             this.handleTimelineDragging(props);
         });
 
-        this.timeline.on("rangechanged", props => {
+        this.timeline.on("rangechanged", (props) => {
             this.handleTimelineDrag(props);
         });
     }
@@ -175,7 +175,6 @@ export class TimelineContainer extends Component {
     }
 
     getDefaultTimelineItems() {
-        //
         let appDate = moment(this.props.date);
         let currentDateItem = { id: CURR_DATE_ITEM_ID, start: appDate };
         return new DataSet([currentDateItem]);
@@ -191,7 +190,7 @@ export class TimelineContainer extends Component {
             // Focus on appDate item
             this.focusOnItem(CURR_DATE_ITEM_ID);
 
-            this.timeline.redraw();
+            // this.timeline.redraw();
         });
     }
 
@@ -329,7 +328,7 @@ export class TimelineContainer extends Component {
     }
 
     getTimelineTooltipFunc() {
-        return (item, element, data) => {
+        return (data) => {
             // Create tooltip by adding an element to item content
             let classes = data.moving ? styles.dotTooltip : styles.dotTooltipHidden;
 
@@ -346,8 +345,7 @@ export class TimelineContainer extends Component {
             );
 
             let label = maskedDate.format(this.props.dateSliderTimeResolution.get("format"));
-
-            return `<div class='${classes}'>${label}</div>`;
+            return label;
         };
     }
 
@@ -387,7 +385,7 @@ export class TimelineContainer extends Component {
 
     bringItemIntoView(itemId, options = {}) {
         this.checkItemInView(itemId, options).then(
-            data => {
+            (data) => {
                 let duration = typeof options.duration !== "undefined" ? options.duration : 0;
                 let item = this.timeline.itemsData.get(itemId);
                 if (item) {
@@ -400,7 +398,7 @@ export class TimelineContainer extends Component {
                         );
                         let newEnd = newStart.clone().add(windowSizeMs, "milliseconds");
                         this.timeline.setWindow(newStart, newEnd, {
-                            animation: duration === 0 ? false : { duration: duration }
+                            animation: duration === 0 ? false : { duration: duration },
                         });
                     } else if (data.right) {
                         let newEnd = moment(item.start).add(
@@ -409,7 +407,7 @@ export class TimelineContainer extends Component {
                         );
                         let newStart = newEnd.clone().subtract(windowSizeMs, "milliseconds");
                         this.timeline.setWindow(newStart, newEnd, {
-                            animation: duration === 0 ? false : { duration: duration }
+                            animation: duration === 0 ? false : { duration: duration },
                         });
                     }
                 } else {
@@ -419,14 +417,17 @@ export class TimelineContainer extends Component {
                     );
                 }
             },
-            err => {
+            (err) => {
                 console.warn("Error in TimelineContainer.bringItemIntoView: ", err);
             }
         );
     }
 
     focusOnItem(itemId, duration = 0) {
-        this.timeline.focus(itemId, { animation: duration === 0 ? false : { duration: duration } });
+        this.timeline.focus(itemId, {
+            animation: duration === 0 ? false : { duration: duration },
+            zoom: false,
+        });
     }
 
     resizeTimeline() {
@@ -531,8 +532,7 @@ export class TimelineContainer extends Component {
         let end = start
             .clone()
             .add(
-                this.timelineContainerWidth /
-                    binWidth *
+                (this.timelineContainerWidth / binWidth) *
                     BIN_SIZES_MS[this.props.dateSliderTimeResolution.get("resolution")]
             );
         return { start: start, end: end };
@@ -549,11 +549,11 @@ export class TimelineContainer extends Component {
             [styles.elementsContainer]: true,
             [displayStyles.hiddenFadeIn]: !this.props.distractionFreeMode,
             [displayStyles.hiddenFadeOut]: this.props.distractionFreeMode,
-            [this.props.className]: typeof this.props.className !== "undefined"
+            [this.props.className]: typeof this.props.className !== "undefined",
         });
         let timelineClasses = MiscUtil.generateStringFromSet({
             [styles.timeline]: true,
-            [stepSizeClass]: true
+            [stepSizeClass]: true,
         });
         return (
             <div className={containerClasses}>
@@ -561,7 +561,7 @@ export class TimelineContainer extends Component {
                     <div className={styles.container}>
                         <div
                             className={timelineClasses}
-                            ref={ref => (this.timelineContainerRef = ref)}
+                            ref={(ref) => (this.timelineContainerRef = ref)}
                         />
                     </div>
                     <ResolutionStep />
@@ -576,20 +576,20 @@ TimelineContainer.propTypes = {
     mapActions: PropTypes.object.isRequired,
     distractionFreeMode: PropTypes.bool.isRequired,
     dateSliderTimeResolution: PropTypes.object.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
 };
 
 function mapStateToProps(state) {
     return {
         date: state.map.get("date"),
         distractionFreeMode: state.view.get("distractionFreeMode"),
-        dateSliderTimeResolution: state.dateSlider.get("resolution")
+        dateSliderTimeResolution: state.dateSlider.get("resolution"),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        mapActions: bindActionCreators(mapActions, dispatch)
+        mapActions: bindActionCreators(mapActions, dispatch),
     };
 }
 
