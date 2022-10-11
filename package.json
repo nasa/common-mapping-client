@@ -92,7 +92,7 @@
         "object-assign": "4.1.1",
         "ol": "5.3.0",
         "phantomjs-prebuilt": "2.1.16",
-        "postcss": "8.4.5",
+        "postcss": "8.4.6",
         "postcss-cssnext": "3.1.1",
         "postcss-import": "14.0.2",
         "postcss-load-config": "3.1.0",
