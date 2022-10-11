@@ -131,7 +131,7 @@ export default class MapUtil {
 
             if (referenceLineEnd[0] <= 0) {
                 if (lineStart[0] >= 0) {
-                    let shiftedLine = line.map(coords => {
+                    let shiftedLine = line.map((coords) => {
                         let shiftedCoords = coords.slice(0, coords.length);
                         shiftedCoords[0] -= 360;
                         return shiftedCoords;
@@ -145,7 +145,7 @@ export default class MapUtil {
                 }
             } else {
                 if (lineStart[0] <= 0) {
-                    let shiftedLine = line.map(coords => {
+                    let shiftedLine = line.map((coords) => {
                         let shiftedCoords = coords.slice(0, coords.length);
                         shiftedCoords[0] += 360;
                         return shiftedCoords;
@@ -226,14 +226,14 @@ export default class MapUtil {
                 tileGrid: {
                     origin: [
                         parseOptions.projection.getExtent()[0],
-                        parseOptions.projection.getExtent()[3]
+                        parseOptions.projection.getExtent()[3],
                     ],
                     resolutions: parseOptions.tileGrid.getResolutions(),
                     matrixIds: parseOptions.tileGrid.getMatrixIds(),
                     minZoom: parseOptions.tileGrid.getMinZoom(),
                     maxZoom: parseOptions.tileGrid.getMaxZoom(),
-                    tileSize: parseOptions.tileGrid.getTileSize(0)
-                }
+                    tileSize: parseOptions.tileGrid.getTileSize(0),
+                },
             };
         } catch (err) {
             console.warn("Error in MapUtil.getWmtsOptions:", err);
@@ -261,9 +261,16 @@ export default class MapUtil {
         const url = requestOptions.url.split("?")[0].split("#")[0];
         const layerId = layerOptions.layer;
 
-        const layerData = capabilities.Capability.Layer.Layer.find(layer => layerId === layer.Name);
+        const layers = capabilities.Capability.Layer.Layer.reduce((acc, el) => {
+            // max three deep: Layer.Layer[].Layer[]
+            if (el.Layer) {
+                return acc.concat(el.Layer);
+            }
+            return acc.concat([el]);
+        }, []);
+        const layerData = layers.find((layer) => layerId === layer.Name);
         if (layerData) {
-            const bb = layerData.BoundingBox.find(b => Ol_Proj.get(b.crs));
+            const bb = layerData.BoundingBox.find((b) => Ol_Proj.get(b.crs));
             if (bb) {
                 const extents = bb.extent;
                 const proj = Ol_Proj.get(bb.crs).getCode();
@@ -273,7 +280,7 @@ export default class MapUtil {
                     url: url,
                     layer: layerId,
                     projection: proj,
-                    extents: extents
+                    extents: extents,
                 };
             } else {
                 console.warn("Error in MapUtil.getWmsOptions: Failed to projection layer", options);
@@ -387,7 +394,7 @@ export default class MapUtil {
                 TILEMATRIX: tileMatrix,
                 TILEROW: row,
                 TILECOL: col,
-                FORMAT: encodeURIComponent(format)
+                FORMAT: encodeURIComponent(format),
             });
 
             let queryStr = this.miscUtil.objectToUrlParams(queryOptions);
@@ -574,7 +581,7 @@ export default class MapUtil {
     static calculatePolylineDistance(coords, proj) {
         try {
             // Reproject from source to EPSG:4326
-            let newCoords = coords.map(coord =>
+            let newCoords = coords.map((coord) =>
                 proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
             );
             // Calculate line distance
@@ -584,8 +591,8 @@ export default class MapUtil {
                     properties: {},
                     geometry: {
                         type: "LineString",
-                        coordinates: newCoords
-                    }
+                        coordinates: newCoords,
+                    },
                 },
                 "meters"
             );
@@ -607,7 +614,7 @@ export default class MapUtil {
      */
     static calculatePolygonArea(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord =>
+        let newCoords = coords.map((coord) =>
             proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
         );
         // Calculate line distance
@@ -617,8 +624,8 @@ export default class MapUtil {
                 properties: {},
                 geometry: {
                     type: "Polygon",
-                    coordinates: [newCoords]
-                }
+                    coordinates: [newCoords],
+                },
             },
             "meters"
         );
@@ -636,7 +643,7 @@ export default class MapUtil {
      */
     static calculatePolygonCenter(coords, proj) {
         // Reproject from source to EPSG:4326
-        let newCoords = coords.map(coord =>
+        let newCoords = coords.map((coord) =>
             proj4js(proj, appStrings.PROJECTIONS.latlon.code, coord)
         );
         // Calculate center
@@ -649,10 +656,10 @@ export default class MapUtil {
                         properties: {},
                         geometry: {
                             type: "Polygon",
-                            coordinates: [newCoords]
-                        }
-                    }
-                ]
+                            coordinates: [newCoords],
+                        },
+                    },
+                ],
             },
             "meters"
         ).geometry.coordinates;
@@ -688,7 +695,7 @@ export default class MapUtil {
                 if (lineCoords[lineCoords.length - 1][0] < 0) {
                     initialShift = -1;
                 }
-                arcLines = arcLines.map(arc => {
+                arcLines = arcLines.map((arc) => {
                     let refCoord = arc.coords[0];
                     let shift = initialShift;
                     if (refCoord[0] <= 0) {
@@ -704,14 +711,14 @@ export default class MapUtil {
                             shift = 0;
                         }
                     }
-                    return arc.coords.map(coord => {
+                    return arc.coords.map((coord) => {
                         coord = coord.slice(0, coord.length);
                         coord[0] += 360 * shift;
                         return coord;
                     });
                 });
             } else {
-                arcLines = arcLines.map(arc => {
+                arcLines = arcLines.map((arc) => {
                     return arc.coords;
                 });
             }
@@ -749,7 +756,7 @@ export default class MapUtil {
             );
             return false;
         }
-        let coords = geometry.coordinates.map(x =>
+        let coords = geometry.coordinates.map((x) =>
             proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [x.lon, x.lat])
         );
         coords = this.generateGeodesicArcsForLineString(coords);
@@ -827,11 +834,11 @@ export default class MapUtil {
                 // Convert from geometry proj to latlon so we can constrain coords
                 let latLonLastCoord = proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [
                     lastCoord.lon,
-                    lastCoord.lat
+                    lastCoord.lat,
                 ]);
                 let constrainedLastCoord = this.constrainCoordinates([
                     latLonLastCoord[0],
-                    latLonLastCoord[1]
+                    latLonLastCoord[1],
                 ]);
                 // Convert from latlon back to geometry proj
                 return proj4js(
@@ -847,7 +854,7 @@ export default class MapUtil {
             }
         } else if (geometry.type === appStrings.GEOMETRY_POLYGON) {
             // Convert from geometry proj to latlon
-            let coords = geometry.coordinates.map(x =>
+            let coords = geometry.coordinates.map((x) =>
                 proj4js(geometry.proj, appStrings.PROJECTIONS.latlon.code, [x.lon, x.lat])
             );
 

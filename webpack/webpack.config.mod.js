@@ -5,19 +5,22 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-"use strict";
+ "use strict";
 
-// modify this file to add/remove/change
-// the cmc-core webpack config
+ // modify this file to add/remove/change
+ // the cmc-core webpack config
 
-module.exports = config => {
-    // EXAMPLE: to add a new loader
-    /*
-    config.module.rules.push({
-        test: /\.ts$/,
-        use: ["babel-loader", "eslint-loader"]
-    });
-    */
+ const path = require("path");
+ const BASE_DIR = path.resolve("./");
 
-    return config;
-};
+ module.exports = config => {
+     // EXAMPLE: to add a new loader
+     /*
+     config.module.rules.push({
+         test: /\.ts$/,
+         use: ["babel-loader", "eslint-loader"]
+     });
+     */
+
+     return config;
+ };

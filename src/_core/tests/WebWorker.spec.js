@@ -59,7 +59,7 @@ export const WebWorkerSpec = {
                     let numWorkers = 2;
                     let numTasks = 200;
                     let delay = 200;
-                    this.timeout((numTasks * delay) / numWorkers + 500); // add buffer to expected execution time
+                    this.timeout(numTasks * delay / numWorkers + 500); // add buffer to expected execution time
 
                     let manager = webWorkerState.get("workerManager");
                     manager.createWorkers(numWorkers);

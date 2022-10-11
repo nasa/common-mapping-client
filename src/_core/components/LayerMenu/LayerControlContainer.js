@@ -312,7 +312,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(LayerControlContainer);
+export default connect(null, mapDispatchToProps)(LayerControlContainer);

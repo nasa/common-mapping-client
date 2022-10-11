@@ -9,7 +9,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Modernizr from "modernizr";
 import Earth from "mdi-material-ui/Earth";
 import Eye from "mdi-material-ui/Eye";
 import EyeOff from "mdi-material-ui/EyeOff";
@@ -97,7 +96,7 @@ export class MapControlsContainer extends Component {
             [displayStyles.hiddenFadeIn]:
                 !this.props.mapControlsHidden && this.props.distractionFreeMode,
             [this.props.className]: typeof this.props.className !== "undefined",
-            [styles.mapControlsContainer]: true
+            [styles.mapControlsContainer]: true,
         });
         return (
             <div
@@ -111,7 +110,6 @@ export class MapControlsContainer extends Component {
                         placement="right"
                     >
                         <MapButton
-                            disabled={!Modernizr.webgl && !this.props.in3DMode ? true : false}
                             onClick={() => this.setViewMode()}
                             aria-label={
                                 this.props.in3DMode ? "Switch to 2D map" : "Switch to 3D map"
@@ -147,7 +145,7 @@ export class MapControlsContainer extends Component {
                     <MapToolsButton
                         isOpen={this.props.mapControlsToolsOpen}
                         className={styles.lineButton}
-                        setOpen={isOpen => this.props.appActions.setMapControlsToolsOpen(isOpen)}
+                        setOpen={(isOpen) => this.props.appActions.setMapControlsToolsOpen(isOpen)}
                     />
                     <MapLabelsButton />
                 </Paper>
@@ -198,7 +196,7 @@ MapControlsContainer.propTypes = {
     mapControlsToolsOpen: PropTypes.bool.isRequired,
     mapActions: PropTypes.object.isRequired,
     appActions: PropTypes.object.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -206,14 +204,14 @@ function mapStateToProps(state) {
         in3DMode: state.map.getIn(["view", "in3DMode"]),
         distractionFreeMode: state.view.get("distractionFreeMode"),
         mapControlsToolsOpen: state.view.get("mapControlsToolsOpen"),
-        mapControlsHidden: state.view.get("mapControlsHidden")
+        mapControlsHidden: state.view.get("mapControlsHidden"),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         mapActions: bindActionCreators(mapActions, dispatch),
-        appActions: bindActionCreators(appActions, dispatch)
+        appActions: bindActionCreators(appActions, dispatch),
     };
 }
 

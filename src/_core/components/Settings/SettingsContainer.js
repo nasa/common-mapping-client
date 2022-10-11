@@ -49,7 +49,7 @@ export class SettingsContainer extends Component {
                 <List className={containerClasses}>
                     <ListSubheader disableSticky>Map Display</ListSubheader>
                     <ListItem>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth={true}>
                             <InputLabel htmlFor="scale-units-select">Scale Units</InputLabel>
                             <Select
                                 value={this.props.mapSettings.get("selectedScaleUnits")}
@@ -68,7 +68,7 @@ export class SettingsContainer extends Component {
                         </FormControl>
                     </ListItem>
                     <ListItem>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth={true}>
                             <InputLabel htmlFor="terrain-exaggeration-select">
                                 Terrain Exaggeration
                             </InputLabel>
@@ -181,4 +181,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SettingsContainer);

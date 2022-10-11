@@ -151,7 +151,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LayerInfoContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LayerInfoContainer);

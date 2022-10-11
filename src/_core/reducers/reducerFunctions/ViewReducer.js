@@ -5,7 +5,6 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import Modernizr from "modernizr";
 import MiscUtil from "_core/utils/MiscUtil";
 import * as appStrings from "_core/constants/appStrings";
 import { alert } from "_core/reducers/models/alert";
@@ -22,36 +21,36 @@ export default class ViewReducer {
         // want to alert the user about. Note, Modernizr checks are used elsewhere
         // but those are not intended to inform the user that functionality is missing
         let alerts = state.get("alerts");
-        if (!Modernizr.fullscreen) {
-            alerts = alerts.push(
-                alert.merge({
-                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
-                    body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
-                        .replace("{FUNCTIONALITY}", "Fullscreen")
-                        .replace(
-                            "{SYMPTOM}",
-                            "This application will not be able to enter fullscreen mode"
-                        ),
-                    severity: 2,
-                    time: new Date()
-                })
-            );
-        }
-        if (!Modernizr.webgl) {
-            alerts = alerts.push(
-                alert.merge({
-                    title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
-                    body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
-                        .replace("{FUNCTIONALITY}", "WebGL")
-                        .replace(
-                            "{SYMPTOM}",
-                            "This application will not be able to use the 3D map"
-                        ),
-                    severity: 3,
-                    time: new Date()
-                })
-            );
-        }
+        // if (!Modernizr.fullscreen) {
+        //     alerts = alerts.push(
+        //         alert.merge({
+        //             title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+        //             body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
+        //                 .replace("{FUNCTIONALITY}", "Fullscreen")
+        //                 .replace(
+        //                     "{SYMPTOM}",
+        //                     "This application will not be able to enter fullscreen mode"
+        //                 ),
+        //             severity: 2,
+        //             time: new Date()
+        //         })
+        //     );
+        // }
+        // if (!Modernizr.webgl) {
+        //     alerts = alerts.push(
+        //         alert.merge({
+        //             title: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.title,
+        //             body: appStrings.ALERTS.BROWSER_FUNCTIONALITY_MISSING.formatString
+        //                 .replace("{FUNCTIONALITY}", "WebGL")
+        //                 .replace(
+        //                     "{SYMPTOM}",
+        //                     "This application will not be able to use the 3D map"
+        //                 ),
+        //             severity: 3,
+        //             time: new Date()
+        //         })
+        //     );
+        // }
         return state.set("alerts", alerts);
     }
 
@@ -67,7 +66,7 @@ export default class ViewReducer {
         let remAlert = action.alert;
         return state.set(
             "alerts",
-            state.get("alerts").filter(alert => {
+            state.get("alerts").filter((alert) => {
                 return alert !== remAlert;
             })
         );
