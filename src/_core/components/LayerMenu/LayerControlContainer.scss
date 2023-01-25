@@ -5,13 +5,13 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-.layerControl {
+ .layerControl {
     position: relative;
     width: 100%;
     margin: 0px;
 }
 .layerControlContent {
-    padding: 0px 13px;
+    padding: 0px 0px 0px 13px;
     height: 38px;
 }
 
@@ -28,6 +28,9 @@
     position: relative;
     display: inline-block;
     vertical-align: top;
+    width: calc(100% - 26rem);
+    text-align: right;
+    padding-right: 0.7rem;
 }
 
 .colorbar {
@@ -37,6 +40,7 @@
 
 .popover {
     z-index: 1;
+    text-align: left;
 }
 
 .positionPopover {

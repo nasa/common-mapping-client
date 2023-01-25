@@ -161,7 +161,7 @@ export function setCurrentMetadata(layer, data) {
 }
 
 export function loadLayerMetadata(layer) {
-    return dispatch => {
+    return (dispatch) => {
         // signal loading
         dispatch(setLayerMetadataLoadingAsync(true, false));
         // open the display
@@ -170,15 +170,15 @@ export function loadLayerMetadata(layer) {
             // fetch the metadata
             return MiscUtil.asyncFetch({
                 url: layer.getIn(["metadata", "url"]),
-                handleAs: layer.getIn(["metadata", "handleAs"])
+                handleAs: layer.getIn(["metadata", "handleAs"]),
             }).then(
-                data => {
+                (data) => {
                     // store the data for display
                     dispatch(setCurrentMetadata(layer, data));
                     // signal loading complete
                     dispatch(setLayerMetadataLoadingAsync(false, false));
                 },
-                err => {
+                (err) => {
                     console.warn("Error in mapActions.openLayerInfo:", err);
                     // signal loading failed
                     dispatch(setLayerMetadataLoadingAsync(false, true));
@@ -191,7 +191,7 @@ export function loadLayerMetadata(layer) {
                                 .split("{LAYER}")
                                 .join(layer.get("title")),
                             severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
-                            time: new Date()
+                            time: new Date(),
                         })
                     );
                 }
@@ -208,7 +208,7 @@ export function loadLayerMetadata(layer) {
                         .split("{LAYER}")
                         .join(layer.get("title")),
                     severity: appStrings.ALERTS.FETCH_METADATA_FAILED.severity,
-                    time: new Date()
+                    time: new Date(),
                 })
             );
         }
@@ -216,7 +216,7 @@ export function loadLayerMetadata(layer) {
 }
 
 export function loadInitialData(callback = null) {
-    return dispatch => {
+    return (dispatch) => {
         // Set flag that initial layer data has begun loading
         dispatch(setInitialDataLoadingAsync(true, false));
         // Fetch all initial layer data
@@ -228,14 +228,14 @@ export function loadInitialData(callback = null) {
                     callback.call(this);
                 }
             },
-            err => {
+            (err) => {
                 console.warn("Error in mapActions.loadInitialData:", err);
                 dispatch(
                     alertActions.addAlert({
                         title: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.title,
                         body: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.formatString,
                         severity: appStrings.ALERTS.INITIAL_DATA_LOAD_FAILED.severity,
-                        time: new Date()
+                        time: new Date(),
                     })
                 );
                 dispatch(setInitialDataLoadingAsync(false, true));
@@ -248,32 +248,49 @@ export function loadInitialData(callback = null) {
 }
 
 export function loadPaletteData() {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(setPaletteDataLoadingAsync(true, false));
 
-        return MiscUtil.asyncFetch({
-            url: appConfig.URLS.paletteConfig,
-            handleAs: appStrings.FILE_TYPE_JSON,
-            options: { credentials: "same-origin" }
-        }).then(
-            data => {
-                dispatch(ingestLayerPalettes(data));
+        let urls = appConfig.URLS.paletteConfig;
+        if (!Array.isArray(urls)) urls = [urls];
+
+        return Promise.all(
+            urls.map((url) => {
+                return MiscUtil.asyncFetch({
+                    url: url,
+                    handleAs: appStrings.FILE_TYPE_JSON,
+                    options: { credentials: "same-origin" },
+                });
+            })
+        )
+            .then((dataArr) => {
+                const mergedList = dataArr.reduce(
+                    (acc, data) => {
+                        if (data.paletteArray) {
+                            acc.paletteArray = acc.paletteArray.concat(data.paletteArray);
+                        } else if (data.name && data.values) {
+                            acc.paletteArray.push(data);
+                        }
+                        return acc;
+                    },
+                    { paletteArray: [] }
+                );
+                dispatch(ingestLayerPalettes(mergedList));
                 dispatch(setPaletteDataLoadingAsync(false, false));
-            },
-            err => {
+            })
+            .catch((err) => {
                 console.warn("Error in mapActions.loadPaletteData:", err);
                 throw err;
-            }
-        );
+            });
     };
 }
 
 export function loadLayerData() {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(setLayerDataLoadingAsync(true, false));
 
         return Promise.all(
-            appConfig.URLS.layerConfig.map(el => {
+            appConfig.URLS.layerConfig.map((el) => {
                 return dispatch(loadSingleLayerSource(el));
             })
         ).then(
@@ -281,7 +298,7 @@ export function loadLayerData() {
                 dispatch({ type: types.MERGE_LAYERS });
                 dispatch(setLayerDataLoadingAsync(false, false));
             },
-            err => {
+            (err) => {
                 dispatch(setLayerDataLoadingAsync(false, true));
                 console.warn("Error in mapActions.loadLayerData:", err);
                 throw err;
@@ -291,16 +308,16 @@ export function loadLayerData() {
 }
 
 export function loadSingleLayerSource(options) {
-    return dispatch => {
+    return (dispatch) => {
         return MiscUtil.asyncFetch({
             url: options.url,
             handleAs: options.type,
-            options: { credentials: "same-origin" }
+            options: { credentials: "same-origin" },
         }).then(
-            data => {
+            (data) => {
                 dispatch(ingestLayerConfig(data, options));
             },
-            err => {
+            (err) => {
                 console.warn("Error in mapActions.loadSingleLayerSource: ", err);
                 throw err;
             }
@@ -312,28 +329,28 @@ export function loadSingleLayerSource(options) {
 function setInitialDataLoadingAsync(loading, failed) {
     return asyncActions.setAsyncLoadingState("initialDataAsync", {
         loading: loading,
-        failed: failed
+        failed: failed,
     });
 }
 
 function setPaletteDataLoadingAsync(loading, failed) {
     return asyncActions.setAsyncLoadingState("layerPalettesAsync", {
         loading: loading,
-        failed: failed
+        failed: failed,
     });
 }
 
 function setLayerDataLoadingAsync(loading, failed) {
     return asyncActions.setAsyncLoadingState("layerSourcesAsync", {
         loading: loading,
-        failed: failed
+        failed: failed,
     });
 }
 
 function setLayerMetadataLoadingAsync(loading, failed) {
     return asyncActions.setAsyncLoadingState("layerMetadataAsync", {
         loading: loading,
-        failed: failed
+        failed: failed,
     });
 }
 

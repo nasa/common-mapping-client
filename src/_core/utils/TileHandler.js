@@ -168,7 +168,7 @@ export default class TileHandler {
      * @memberof TileHandler
      */
     _defaultKVPUrlWms(options) {
-        return options.defaultUrl;
+        return options.defaultUrl || options.origUrl;
     }
 
     /**

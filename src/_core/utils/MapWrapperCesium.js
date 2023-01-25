@@ -1932,6 +1932,7 @@ export default class MapWrapperCesium extends MapWrapper {
                     format: options.format,
                     style: "",
                     tileMatrixSetID: options.matrixSet,
+                    tileMatrixLabels: options.tileGrid.matrixIds,
                     tileWidth: options.tileGrid.tileSize,
                     tileHeight: options.tileGrid.tileSize,
                     minimumLevel: options.tileGrid.minZoom,
@@ -1985,6 +1986,7 @@ export default class MapWrapperCesium extends MapWrapper {
                     format: options.format,
                     style: "",
                     tileMatrixSetID: options.matrixSet,
+                    tileMatrixLabels: options.tileGrid.matrixIds,
                     minimumLevel: options.tileGrid.minZoom,
                     maximumLevel: options.tileGrid.maxZoom,
                     tilingScheme: this.createTilingScheme(
@@ -2225,7 +2227,7 @@ export default class MapWrapperCesium extends MapWrapper {
      * @memberof MapWrapperCesium
      */
     handleWMTSTileLoad(layer, mapLayer, x, y, level, request, context) {
-        let url = layer.getIn(["mappingOptions", "url"]);
+        const url = layer.getIn(["mappingOptions", "url"]) || mapLayer.imageryProvider.url;
 
         let customUrlFunction = this.tileHandler.getUrlFunction(
             layer.getIn(["mappingOptions", "urlFunctions", appStrings.MAP_LIB_3D])
@@ -2239,6 +2241,9 @@ export default class MapWrapperCesium extends MapWrapper {
             customUrlFunction = this.tileHandler.getUrlFunction(appStrings.DEFAULT_URL_FUNC_WMTS);
         }
 
+        level = mapLayer.imageryProvider._tileMatrixLabels
+            ? mapLayer.imageryProvider._tileMatrixLabels[level]
+            : level;
         if (typeof customUrlFunction === "function") {
             let tileFunc = () => {
                 // use cesium's promise library
@@ -2250,7 +2255,7 @@ export default class MapWrapperCesium extends MapWrapper {
                 let tileUrl = customUrlFunction({
                     layer: layer,
                     mapLayer: mapLayer,
-                    origUrl: layer.getIn(["mappingOptions", "url"]),
+                    origUrl: url,
                     defaultUrl: url,
                     tileCoord: [level, x, y],
                     context: appStrings.MAP_LIB_3D,
