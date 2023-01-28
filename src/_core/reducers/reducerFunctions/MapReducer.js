@@ -1264,7 +1264,7 @@ export default class MapReducer {
     static generatePartialsListFromWmtsXml(config, options) {
         let capabilities = this.mapUtil.parseWMTSCapabilities(config);
         if (capabilities) {
-            let layers = capabilities.Contents.Layer;
+            let layers = capabilities.Contents.Layer || [];
             let newLayers = layers.map((layer) => {
                 let mappingOptions = this.mapUtil.getWmtsOptions({
                     capabilities: capabilities,
@@ -1290,7 +1290,7 @@ export default class MapReducer {
     static generatePartialsListFromWmsXml(config, options) {
         let capabilities = this.mapUtil.parseWMSCapabilities(config);
         if (capabilities) {
-            let layers = capabilities.Capability.Layer.Layer.reduce((acc, el) => {
+            let layers = (capabilities.Capability.Layer.Layer || []).reduce((acc, el) => {
                 // max three deep: Layer.Layer[].Layer[]
                 if (el.Layer) {
                     return acc.concat(el.Layer);
