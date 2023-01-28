@@ -17,8 +17,15 @@ const OPS_CONFIG = Immutable.fromJS(window.APPLICATION_CONFIG);
 // define your overrides for Core config here
 const APP_CONFIG = Immutable.fromJS({});
 
+const isList = Immutable.List.isList;
+function merger(a, b) {
+    if (a && a.mergeWith && !isList(a) && !isList(b)) {
+        return a.mergeWith(merger, b);
+    }
+    return b;
+}
+
 // define and export the final config
-const appConfig = CORE_CONFIG.mergeDeep(APP_CONFIG)
-    .mergeDeep(OPS_CONFIG)
-    .toJS();
+const appConfig = merger(CORE_CONFIG.mergeDeep(APP_CONFIG), OPS_CONFIG).toJS();
+window._MERGED_APPLICATION_CONFIG = appConfig;
 export default appConfig;
