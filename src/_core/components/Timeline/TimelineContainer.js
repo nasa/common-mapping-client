@@ -564,7 +564,7 @@ export class TimelineContainer extends Component {
                             ref={(ref) => (this.timelineContainerRef = ref)}
                         />
                     </div>
-                    <ResolutionStep />
+                    {appConfig.DATE_SLIDER_RESOLUTIONS.length > 1 ? <ResolutionStep /> : null}
                 </div>
             </div>
         );
