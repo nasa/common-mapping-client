@@ -234,6 +234,7 @@ export default class MapUtil {
                     maxZoom: parseOptions.tileGrid.getMaxZoom(),
                     tileSize: parseOptions.tileGrid.getTileSize(0),
                 },
+                parsedTileGrid: parseOptions.tileGrid, // sometimes the parser knows better
             };
         } catch (err) {
             console.warn("Error in MapUtil.getWmtsOptions:", err);

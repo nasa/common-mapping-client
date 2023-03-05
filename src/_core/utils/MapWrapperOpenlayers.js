@@ -2371,13 +2371,15 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             requestEncoding: options.requestEncoding,
             matrixSet: options.matrixSet,
             projection: options.projection,
-            tileGrid: new Ol_Tilegrid_WMTS({
-                extent: options.extents,
-                origin: options.tileGrid.origin,
-                resolutions: options.tileGrid.resolutions,
-                matrixIds: options.tileGrid.matrixIds,
-                tileSize: options.tileGrid.tileSize,
-            }),
+            tileGrid:
+                options.parsedTileGrid || // use the Openlayers parsed tilegrid if available
+                new Ol_Tilegrid_WMTS({
+                    extent: options.extents,
+                    origin: options.tileGrid.origin,
+                    resolutions: options.tileGrid.resolutions,
+                    matrixIds: options.tileGrid.matrixIds,
+                    tileSize: options.tileGrid.tileSize,
+                }),
             transition: appConfig.DEFAULT_TILE_TRANSITION_TIME,
             crossOrigin: "anonymous",
             wrapX: true,
