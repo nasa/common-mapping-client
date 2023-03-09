@@ -2372,7 +2372,7 @@ export default class MapWrapperOpenlayers extends MapWrapper {
             matrixSet: options.matrixSet,
             projection: options.projection,
             tileGrid:
-                options.parsedTileGrid || // use the Openlayers parsed tilegrid if available
+                options.parsedTileGrid ||
                 new Ol_Tilegrid_WMTS({
                     extent: options.extents,
                     origin: options.tileGrid.origin,
