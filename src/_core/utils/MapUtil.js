@@ -215,6 +215,15 @@ export default class MapUtil {
     static getWmtsOptions(options) {
         try {
             let parseOptions = optionsFromCapabilities(options.capabilities, options.options);
+
+            // build out non-ol specific tile grid sizes
+            const tileGridSizes = [];
+            const maxZ = parseOptions.tileGrid.getMaxZoom();
+            for (let i = 0; i <= maxZ; ++i) {
+                const tg = parseOptions.tileGrid.getFullTileRange(i);
+                tileGridSizes.push({ width: tg.maxX - tg.minX + 1, height: tg.maxY - tg.minY + 1 });
+            }
+
             return {
                 url: parseOptions.urls[0],
                 layer: options.options.layer,
@@ -233,8 +242,9 @@ export default class MapUtil {
                     minZoom: parseOptions.tileGrid.getMinZoom(),
                     maxZoom: parseOptions.tileGrid.getMaxZoom(),
                     tileSize: parseOptions.tileGrid.getTileSize(0),
+                    tileGridSizes,
                 },
-                parsedTileGrid: parseOptions.tileGrid, // sometimes the parser knows better
+                parsedTileGrid: parseOptions.tileGrid,
             };
         } catch (err) {
             console.warn("Error in MapUtil.getWmtsOptions:", err);
